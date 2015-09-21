@@ -2,11 +2,42 @@
 <html>
     <head>
         <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        
         <title>{% block title %}It's Going To Be{% endblock %}</title>
+
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
+
+        <!--[if lte IE 8]>
+            <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/grids-responsive-old-ie-min.css">
+        <![endif]-->
+        <!--[if gt IE 8]><!-->
+            <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/grids-responsive-min.css">
+        <!--<![endif]-->
+
+        <!--[if lt IE 9]>
+            <script src="http://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.js"></script>
+        <![endif]-->
+
+        <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+
+        {% if app.debug %}
+            <link rel="stylesheet" href="{{ asset('/css/itsgoingtobe.css') }}"></script>
+        {% else %}
+            <link rel="stylesheet" href="{{ asset('/css/itsgoingtobe.min.css') }}"></script>
+        {% endif %}
+
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
         {% block body %}{% endblock %}
+
+        {% if app.debug %}
+            <script src="{{ asset('/js/itsgoingtobe.js') }}"></script>
+        {% else %}
+            <script src="{{ asset('/js/itsgoingtobe.min.js') }}"></script>
+        {% endif %}
+
         {% block javascripts %}{% endblock %}
     </body>
 </html>
