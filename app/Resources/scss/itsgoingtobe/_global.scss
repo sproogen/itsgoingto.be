@@ -1,0 +1,40 @@
+body {
+	background: $background;
+	font-family: Roboto, sans-serif;
+}
+
+.container {
+	@include outer-container;
+
+	position: relative;
+
+	&.header-container {
+		margin-top: 200px;
+	}
+}
+
+.center-text {
+	text-align:center;
+}
+
+.header {
+	h1 {
+		font-size: 4em;
+    	letter-spacing: -1px;
+    	font-weight: 300;
+    	color: $text-color;
+
+    	font-family: $base-font-family;
+
+    	.rw-words span {
+    		font-weight:500;
+    		right: 60%;
+    		padding-right: 16px;
+    	}
+
+    	span.header-right {
+    		position: absolute;
+    		left:40%;
+    	}
+	}
+}
