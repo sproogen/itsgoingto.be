@@ -1,2 +1,2 @@
 # itsgoingto.be
-Angular site behind itsgoingto.be
+Symfony site behind itsgoingto.be
