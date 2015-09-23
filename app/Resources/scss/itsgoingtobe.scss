@@ -1,7 +1,11 @@
 @import "bourbon";
 @import "base/base";
 @import "neat";
+
 @import "itsgoingtobe/variables";
-@import "itsgoingtobe/global";
 @import "itsgoingtobe/word-switch";
 @import "itsgoingtobe/input";
+@import "itsgoingtobe/button";
+
+@import "itsgoingtobe/global";
+@import "itsgoingtobe/question-page";

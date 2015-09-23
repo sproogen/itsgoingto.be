@@ -1,21 +1,36 @@
 body {
 	background: $background;
 	font-family: Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
 }
 
 .container {
 	@include outer-container;
 
+    /* Temporary fixed width untill responsive is implemented */
+    width: 68em;
+
 	position: relative;
 
 	&.header-container {
-		margin-top: 200px;
+		margin-top: 100px;
         margin-bottom:50px;
 	}
 }
 
 .center-text {
 	text-align:center;
+}
+
+.hideable {
+    /* A horrific hack to allow the labels to change opacity while moving */
+    opacity: .999;
+
+    @include transition(opacity 0.3s ease);
+
+    &.gone {
+        opacity: 0;
+    }
 }
 
 .header {
