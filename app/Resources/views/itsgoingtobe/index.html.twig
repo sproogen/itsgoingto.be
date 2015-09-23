@@ -3,7 +3,6 @@
 {% block body %}
 
     <div class="container header-container">
-
     	<div class="header">
     		<h1>
     			<span class="rw-words rw-words-1">
@@ -13,8 +12,24 @@
 					<span>Who</span>
 				</span>
 				<span class="header-right"> is it going to be?</span></h1>
-    	<div>
+    	</div>
+    </div>
 
+    <div class="container">
+    	<form autocomplete="off">
+    		<span class="input input-question">
+    			<label class="input-label input-label-question" for="question">Ask a question</label>
+    			<textarea class="input-field input-field-question js-auto-size" rows="1" id="question"></textarea>
+    		</span>
+    	</form>
     </div>
     
+{% endblock %}
+
+{% block javascripts %}
+
+	<script>
+		$('textarea').textareaAutoSize();
+	</script>
+
 {% endblock %}

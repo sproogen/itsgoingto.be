@@ -1,0 +1,46 @@
+input[type="color"]:focus, input[type="date"]:focus, input[type="datetime"]:focus, input[type="datetime-local"]:focus, input[type="email"]:focus, input[type="month"]:focus, input[type="number"]:focus, input[type="password"]:focus, input[type="search"]:focus, input[type="tel"]:focus, input[type="text"]:focus, input[type="time"]:focus, input[type="url"]:focus, input[type="week"]:focus, textarea:focus, select[multiple=multiple]:focus {
+    border: none;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.06), 0 0 5px #D4D4D4;
+}
+input,textarea {
+	line-height: normal;
+	&:focus {
+		outline: none;
+	}
+
+	&.input-field {
+		position: relative;
+	    display: block;
+	    float: right;
+	    padding: 0.8em;
+	    width: 60%;
+	    border: none;
+	    border-radius: 0;
+	    color: $text-color;
+	    font-weight: 400;
+	    font-family: "Avenir Next", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	    -webkit-appearance: none;
+
+	    width: 100%;
+	    background: #DEDEDE;
+	    padding: 0.5em;
+	    z-index: 100;
+	    margin-bottom:0px;
+	}
+
+	&.input-field-question {
+		font-size: 3em;
+	}
+}
+textarea {
+	resize: none;
+	overflow-x: hidden;
+	box-sizing: border-box;
+}
+.input-label {
+	display: inline-block;
+    padding: 0 1em;
+    color: #9E9E9E;
+    font-weight: bold;
+    -webkit-font-smoothing: antialiased;
+}

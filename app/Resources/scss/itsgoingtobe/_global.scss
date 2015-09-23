@@ -10,6 +10,7 @@ body {
 
 	&.header-container {
 		margin-top: 200px;
+        margin-bottom:50px;
 	}
 }
 
@@ -18,11 +19,16 @@ body {
 }
 
 .header {
+    margin-bottom:20px;
+
 	h1 {
 		font-size: 4em;
+        height: 1.2em;
     	letter-spacing: -1px;
     	font-weight: 300;
     	color: $text-color;
+
+        margin-bottom:0px;
 
     	font-family: $base-font-family;
 
