@@ -67,7 +67,7 @@ $(function() // execute once the DOM has loaded
 		$('.answers .input-answer:eq('+num+') input').removeAttr("disabled");
 
 		var newNum = num + 2;
-		$('.answers').append('<span class="input input-answer input-disabled"><label class="input-label input-label-answer" for="answer-'+newNum+'">'+newNum+'</label><input class="input-field input-field-answer" disabled type="text" id="answer-'+newNum+'"></textarea></span>');
+		$('.answers').append('<span class="input input-answer input-disabled"><label class="input-label input-label-answer" for="answer-'+newNum+'">'+newNum+'</label><input class="input-field input-field-answer" disabled type="text" id="answer-'+newNum+'" name="answer-'+newNum+'"></textarea></span>');
 		$('input.input-field-answer').bind('input', answerUpdated);
 	}
 

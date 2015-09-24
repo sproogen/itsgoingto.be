@@ -17,23 +17,23 @@
   	
 
 	<div class="container question-container">
-		<form autocomplete="off">
+		<form action="{{ path('question-post') }}" method="post" autocomplete="off">
 
 	 		<span class="input input-question">
 	   			<label class="input-label input-label-question" for="question">Ask a question</label>
-	   			<textarea class="input-field input-field-question js-auto-size" rows="1" id="question"></textarea>
+	   			<textarea class="input-field input-field-question js-auto-size" rows="1" id="question" name="question"></textarea>
 	   		</span>
 
 			<div class="answers hideable gone">
 
 				<span class="input input-answer">
 					<label class="input-label input-label-answer" for="answer-1">1</label>
-		   			<input class="input-field input-field-answer" type="text" id="answer-1"></textarea>
+		   			<input class="input-field input-field-answer" type="text" id="answer-1" name="answer-1"></textarea>
 		   		</span>
 
 		   		<span class="input input-answer input-disabled">
 		   			<label class="input-label input-label-answer" for="answer-2">2</label>
-		   			<input class="input-field input-field-answer" disabled type="text" id="answer-2"></textarea>
+		   			<input class="input-field input-field-answer" disabled type="text" id="answer-2" name="answer-2"></textarea>
 		   		</span>
 
 			</div>
