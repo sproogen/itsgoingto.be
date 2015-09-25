@@ -35,18 +35,27 @@ class Question
     protected $answers;
 
     /**
+     * @ORM\OneToMany(targetEntity="UserResponse", mappedBy="question")
+     */
+    protected $responses;
+
+    /**
      * @ORM\Column(type="datetime")
      */
     protected $created_at;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    protected $updated_at;
+
     public function __construct()
     {
         $this->answers = new ArrayCollection();
+        $this->responses = new ArrayCollection();
     }
 
     /**
-     * Now we tell doctrine that before we persist or update we call the updatedTimestamps() function.
-     *
      * @ORM\PrePersist
      * @ORM\PreUpdate
      */
@@ -56,8 +65,8 @@ class Question
         {
             $this->setCreatedAt(new \DateTime(date('Y-m-d H:i:s')));
         }
+        $this->setUpdatedAt(new \DateTime(date('Y-m-d H:i:s')));
     }
-
 
     /**
      * Get id
@@ -173,5 +182,63 @@ class Question
     public function getCreatedAt()
     {
         return $this->created_at;
+    }
+
+    /**
+     * Set updatedAt
+     *
+     * @param \DateTime $updatedAt
+     *
+     * @return Question
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updated_at = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get updatedAt
+     *
+     * @return \DateTime
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updated_at;
+    }
+
+    /**
+     * Add response
+     *
+     * @param \ItsGoingToBeBundle\Entity\UserResponse $response
+     *
+     * @return Question
+     */
+    public function addResponse(\ItsGoingToBeBundle\Entity\UserResponse $response)
+    {
+        $this->responses[] = $response;
+
+        return $this;
+    }
+
+    /**
+     * Remove response
+     *
+     * @param \ItsGoingToBeBundle\Entity\UserResponse $response
+     */
+    public function removeResponse(\ItsGoingToBeBundle\Entity\UserResponse $response)
+    {
+        $this->responses->removeElement($response);
+    }
+
+    /**
+     * Get responses
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getResponses()
+    {
+        return $this->responses;
     }
 }

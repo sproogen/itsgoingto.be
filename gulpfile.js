@@ -9,6 +9,7 @@ var rename = require('gulp-rename');
 var watch = require('gulp-watch');
 var sass = require('gulp-sass');
 var minifyCSS = require('gulp-minify-css');
+var shell = require('gulp-shell');
 
 /*
  * These are the commands to be run on command line
@@ -60,3 +61,11 @@ gulp.task('continuous-build', function() {
 		gulp.start('ng:sass');
 	});
 });
+
+gulp.task('doctrine-generate', shell.task([
+	'php app/console doctrine:generate:entities ItsGoingToBeBundle'
+]));
+
+gulp.task('doctrine-update', shell.task([
+	'php app/console doctrine:schema:update --force'
+]));

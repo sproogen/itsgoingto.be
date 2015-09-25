@@ -1,0 +1,9 @@
+.answer-container{
+	text-align: center;
+
+	.input-options {
+		display: inline-block;
+	    text-align: left;
+	    @include clearfix;
+	}
+}

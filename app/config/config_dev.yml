@@ -5,6 +5,9 @@ framework:
     router:
         resource: "%kernel.root_dir%/config/routing_dev.yml"
         strict_requirements: true
+    session:
+        handler_id:  session.handler.native_file
+        cookie_lifetime: 31536000
     profiler: { only_exceptions: false }
 
 web_profiler:

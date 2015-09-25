@@ -8,7 +8,9 @@
   "scripts": {
     "postinstall": "gulp build"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "gulp-shell": "^0.4.3"
+  },
   "dependencies": {
     "gulp": "^3.9.0",
     "gulp-clean": "^0.3.1",

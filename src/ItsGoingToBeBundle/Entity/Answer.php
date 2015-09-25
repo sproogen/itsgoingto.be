@@ -24,9 +24,19 @@ class Answer
     protected $question;
 
     /**
+     * @ORM\OneToMany(targetEntity="UserResponse", mappedBy="answer")
+     */
+    protected $responses;
+
+    /**
      * @ORM\Column(type="text")
      */
     protected $answer;
+
+    public function __construct()
+    {
+        $this->responses = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -84,5 +94,39 @@ class Answer
     public function getAnswer()
     {
         return $this->answer;
+    }
+
+    /**
+     * Add response
+     *
+     * @param \ItsGoingToBeBundle\Entity\UserResponse $response
+     *
+     * @return Answer
+     */
+    public function addResponse(\ItsGoingToBeBundle\Entity\UserResponse $response)
+    {
+        $this->responses[] = $response;
+
+        return $this;
+    }
+
+    /**
+     * Remove response
+     *
+     * @param \ItsGoingToBeBundle\Entity\UserResponse $response
+     */
+    public function removeResponse(\ItsGoingToBeBundle\Entity\UserResponse $response)
+    {
+        $this->responses->removeElement($response);
+    }
+
+    /**
+     * Get responses
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getResponses()
+    {
+        return $this->responses;
     }
 }

@@ -2,10 +2,30 @@
 
 {% block body %}
 
-	<div class="content-wrapper">
-	    <div class="content">
-	        <h2 class="content-head is-center">Found - {{ questionModel.question }}</h2>
-	    </div>
-	</div>
-    
+	<div class="container header-container hideable">
+    	<div class="header center-text">
+    		<h2>
+    			{{ questionModel.question }}
+    		</h2>
+    	</div>
+    </div>
+
+    <div class="container answer-container">
+    	<form name="answers" action="{{ path('answer-post' , {'identifier' : identifier}) }}" method="post" autocomplete="off">
+    		<span class="input input-options">
+	    		{% for answer in questionModel.answers %}
+	    			<input type="radio" class="input-radio input-radio-options" name="answer" value="{{ answer.id }}"
+                    {% if answerModel is defined and answerModel.id == answer.id %}
+                        checked
+                    {% endif %}
+                    > {{ answer.answer }}
+			        </br>
+			    {% endfor %}
+			</span>
+			<div class="">
+				<button class="btn">Submit</button>
+			</div>
+    	</form>
+    </div>
+
 {% endblock %}

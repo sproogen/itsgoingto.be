@@ -392,6 +392,14 @@ body {
     .header h1 span.header-right {
       position: absolute;
       left: 40%; }
+  .header h2 {
+    font-size: 3em;
+    height: 1.2em;
+    letter-spacing: -1px;
+    font-weight: 300;
+    color: #4C4C4C;
+    margin-bottom: 0px;
+    font-family: Roboto, sans-serif; }
 
 .input-question {
   margin-bottom: 30px; }
@@ -423,3 +431,13 @@ label.input-label-answer {
   top: 0px; }
   .question-container.move-up {
     top: -180px; }
+
+.answer-container {
+  text-align: center; }
+  .answer-container .input-options {
+    display: inline-block;
+    text-align: left; }
+    .answer-container .input-options::after {
+      clear: both;
+      content: "";
+      display: table; }

@@ -6,10 +6,12 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 use ItsGoingToBeBundle\Entity\Question;
 use ItsGoingToBeBundle\Entity\Answer;
+use ItsGoingToBeBundle\Entity\UserResponse;
 
 class ItsGoingToBeController extends Controller
 {
@@ -52,7 +54,7 @@ class ItsGoingToBeController extends Controller
         }
 
         //We have a valid question and answers
-        
+
         //Generate a random identifier
         $identifier = null;
         do {
@@ -63,7 +65,7 @@ class ItsGoingToBeController extends Controller
             if ($duplicateQuestion != null) $identifier = null;
         } while ($identifier == null);
 
-        $em = $this->getDoctrine()->getManager();    
+        $em = $this->getDoctrine()->getManager();
 
         $questionModel = new Question();
         $questionModel->setIdentifier($identifier);
@@ -78,26 +80,118 @@ class ItsGoingToBeController extends Controller
         }
 
         $em->flush();
-        
+
         return $this->redirectToRoute('answer', array('identifier' => $identifier));
     }
 
     /**
      * @Route("/{identifier}", name="answer")
      */
-    public function answerAction($identifier)
+    public function answerAction(Request $request, $identifier)
     {
 
         $questionModel = $this->getDoctrine()
             ->getRepository('ItsGoingToBeBundle:Question')
             ->findOneByIdentifier($identifier);
 
-        if($questionModel == null){
+        if(!$questionModel){
             return $this->redirectToRoute('question', array());
+        }
+
+        //Check if the user has already answered the question
+        $responseModel = $this->getDoctrine()
+            ->getRepository('ItsGoingToBeBundle:UserResponse')
+            ->findOneBy(array('userSessionID' => $this->getSessionID($request), 'question' => $questionModel->getId()));
+        if($responseModel){
+            $answerModel = $responseModel->getAnswer();
+        }else{
+            $answerModel = null;
         }
 
         return $this->render('itsgoingtobe/answer.html.twig', array(
             'questionModel' => $questionModel,
+            'identifier' => $identifier,
+            'answerModel' => $answerModel,
         ));
+    }
+
+    /**
+     * @Route("/{identifier}/answer", name="answer-post")
+     * @Method("POST")
+     */
+    public function answerPostAction(Request $request, $identifier)
+    {
+        //Check if the question exists
+        $questionModel = $this->getDoctrine()
+            ->getRepository('ItsGoingToBeBundle:Question')
+            ->findOneByIdentifier($identifier);
+        if(!$questionModel){
+            if($request->isXmlHttpRequest()) {
+                // @TODO - Return question not found json error.
+            } else {
+                return $this->redirectToRoute('question', array());
+            }
+        }
+
+        //Check if the answer exists
+        $answer = $request->request->get('answer');
+        if(!$answer){
+            if($request->isXmlHttpRequest()) {
+                // @TODO - Return no answer selected.
+            } else {
+                return $this->redirectToRoute('answer', array('identifier' => $identifier));
+            }
+        }
+        //Check if the answer is for the question
+        $answerModel = $this->getDoctrine()
+            ->getRepository('ItsGoingToBeBundle:Answer')
+            ->findOneBy(array('id' => $answer, 'question' => $questionModel->getId()));
+        if(!$answerModel){
+            if($request->isXmlHttpRequest()) {
+                // @TODO - Return answer not found json error.
+            } else {
+                return $this->redirectToRoute('answer', array('identifier' => $identifier));
+            }
+        }
+
+        //Check if the user has already answered the question
+        $responseModel = $this->getDoctrine()
+            ->getRepository('ItsGoingToBeBundle:UserResponse')
+            ->findOneBy(array('userSessionID' => $this->getSessionID($request), 'question' => $questionModel->getId()));
+        if($responseModel){
+            //User has already answered the question, update the response
+            $em = $this->getDoctrine()->getManager();
+
+            $responseModel->setAnswer($answerModel);
+
+            $em->persist($responseModel);
+            $em->flush();
+        }else{
+            $em = $this->getDoctrine()->getManager();
+
+            $responseModel = new UserResponse();
+            $responseModel->setQuestion($questionModel);
+            $responseModel->setAnswer($answerModel);
+            $responseModel->setUserSessionID($this->getSessionID($request));
+            $responseModel->setUserIP($request->server->get('REMOTE_ADDR'));
+
+            $em->persist($responseModel);
+            $em->flush();
+        }
+
+        if($request->isXmlHttpRequest()) {
+            // @TODO - Return success json.
+        } else {
+            return $this->redirectToRoute('answer', array('identifier' => $identifier));
+        }
+    }
+
+    private function getSessionID($request){
+        $session = $request->getSession();
+        if(!$session instanceof Session){
+            $session = new Session();
+            $session->start();
+        }
+        return $session->getId();
     }
 }

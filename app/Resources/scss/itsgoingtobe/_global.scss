@@ -58,4 +58,18 @@ body {
     		left:40%;
     	}
 	}
+
+    h2 {
+
+        font-size: 3em;
+        height: 1.2em;
+        letter-spacing: -1px;
+        font-weight: 300;
+        color: $text-color;
+
+        margin-bottom:0px;
+
+        font-family: $base-font-family;
+
+    }
 }
