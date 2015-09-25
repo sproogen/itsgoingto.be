@@ -8,6 +8,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
+use ItsGoingToBeBundle\Entity\Question;
+use ItsGoingToBeBundle\Entity\Answer;
+
 class ItsGoingToBeController extends Controller
 {
     /**
@@ -51,32 +54,50 @@ class ItsGoingToBeController extends Controller
         //We have a valid question and answers
         
         //Generate a random identifier
-        $identifier = substr(chr( mt_rand( 97 ,122 ) ) .substr( md5( time( ) ) ,1 ),0,8);
-        // @TODO - Check the identifier is random + move to the question model. 
+        $identifier = null;
+        do {
+            $identifier = substr(chr( mt_rand( 97 ,122 ) ) .substr( md5( time( ) ) ,1 ),0,8);
+            $duplicateQuestion = $this->getDoctrine()
+                ->getRepository('ItsGoingToBeBundle:Question')
+                ->findOneByIdentifier($identifier);
+            if ($duplicateQuestion != null) $identifier = null;
+        } while ($identifier == null);
 
-        var_dump($identifier);
-        var_dump($question);
-        var_dump($answers);
+        $em = $this->getDoctrine()->getManager();    
 
-        die();
+        $questionModel = new Question();
+        $questionModel->setIdentifier($identifier);
+        $questionModel->setQuestion($question);
+        $em->persist($questionModel);
 
-        // @TODO save question to db.
+        foreach ($answers as $answer) {
+            $answerModel = new Answer();
+            $answerModel->setAnswer($answer);
+            $answerModel->setQuestion($questionModel);
+            $em->persist($answerModel);
+        }
 
-        //return $this->redirectToRoute('question', array());
+        $em->flush();
+        
+        return $this->redirectToRoute('answer', array('identifier' => $identifier));
     }
 
     /**
-     * @Route("/{id}", name="answer")
+     * @Route("/{identifier}", name="answer")
      */
-    public function answerAction($id)
+    public function answerAction($identifier)
     {
 
-        if(true){
+        $questionModel = $this->getDoctrine()
+            ->getRepository('ItsGoingToBeBundle:Question')
+            ->findOneByIdentifier($identifier);
+
+        if($questionModel == null){
             return $this->redirectToRoute('question', array());
         }
 
         return $this->render('itsgoingtobe/answer.html.twig', array(
-            'id' => $id,
+            'questionModel' => $questionModel,
         ));
     }
 }
