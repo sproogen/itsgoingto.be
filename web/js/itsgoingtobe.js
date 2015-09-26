@@ -38,6 +38,7 @@ $(function() // execute once the DOM has loaded
 	});
 
 	$('input.input-field-answer').bind('input', answerUpdated);
+	$('input.input-field-answer').bind('keydown', keyPressed);
 
 	function answerUpdated(){
 		var inputID = this.id;
@@ -56,11 +57,59 @@ $(function() // execute once the DOM has loaded
 			if(answerNum == answers){
 				answers = getMaxAnswer();
 				removeAnswer(answers+1);
+				focusOnAnswer(answers+1);
 			}
 			if(getAnswerCount() < 2){
 				$('button.btn-question').addClass('disabled');
 			}
 		}
+	}
+
+	function keyPressed(){
+		var inputID = this.id;
+		var arr = 0;
+		var answerNum = 0;
+
+		var key = event.keyCode || event.charCode;
+
+		//Stop enter key submitting form
+		if ( key == 13) event.preventDefault();
+
+		if(!this.value.length){
+			//Back and delete key go back to previous question only when answer is empty
+		    if( key == 8 || key == 46 ){
+				arr = inputID.split('-');
+				answerNum = parseInt(arr[1]);
+
+				if(answerNum != 1){
+					if(answerNum > answers){
+						event.preventDefault();
+						focusOnAnswer(answerNum-1);
+					}
+				}
+		    }
+		}else{
+			// Enter key to go down only when some characters have been entered.
+			if ( key == 13) {
+				arr = inputID.split('-');
+				answerNum = parseInt(arr[1]);
+				focusOnAnswer(answerNum+1);
+		    }
+		}
+		// Up and down arrow keys to move up and down answers
+		if ( key == 38) {
+	    	arr = inputID.split('-');
+			answerNum = parseInt(arr[1]);
+			focusOnAnswer(answerNum-1);
+	    } else if ( key == 40) {
+	    	arr = inputID.split('-');
+			answerNum = parseInt(arr[1]);
+			focusOnAnswer(answerNum+1);
+	    }
+	}
+
+	function focusOnAnswer(answer){
+		$('input[name="answer-'+answer+'"]').focus();
 	}
 
 	function getMaxAnswer(){
@@ -90,6 +139,7 @@ $(function() // execute once the DOM has loaded
 		var newNum = num + 2;
 		$('.answers').append('<span class="input input-answer input-disabled"><label class="input-label input-label-answer" for="answer-'+newNum+'">'+newNum+'</label><input class="input-field input-field-answer" disabled type="text" id="answer-'+newNum+'" name="answer-'+newNum+'"></textarea></span>');
 		$('input.input-field-answer').bind('input', answerUpdated);
+		$('input.input-field-answer').bind('keydown', keyPressed);
 	}
 
 	function removeAnswer(num){
