@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        
+
         <title>{% block title %}It's Going To Be{% endblock %}</title>
 
         <link href='https://fonts.googleapis.com/css?family=Roboto:100,300,400,700,500,500italic,400italic,300italic,100italic,700italic' rel='stylesheet' type='text/css'>
@@ -35,14 +35,13 @@
         {% block body %}{% endblock %}
 
         <script src="//code.jquery.com/jquery-2.1.0.min.js"></script>
-        <script src="{{ asset('/js/jquery.textarea_autosize.min.js') }}"></script>
+
+        {% block javascripts %}{% endblock %}
 
         {% if app.debug %}
             <script src="{{ asset('/js/itsgoingtobe.js') }}"></script>
         {% else %}
             <script src="{{ asset('/js/itsgoingtobe.min.js') }}"></script>
         {% endif %}
-
-        {% block javascripts %}{% endblock %}
     </body>
 </html>

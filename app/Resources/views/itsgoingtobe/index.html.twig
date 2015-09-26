@@ -14,7 +14,6 @@
 				<span class="header-right"> is it going to be?</span></h1>
     	</div>
     </div>
-  	
 
 	<div class="container question-container">
 		<form action="{{ path('question-post') }}" method="post" autocomplete="off">
@@ -43,11 +42,12 @@
 			</div>
 		</form>
 	</div>
-    
+
 {% endblock %}
 
 {% block javascripts %}
 
+	<script src="{{ asset('/js/jquery.textarea_autosize.min.js') }}"></script>
 	<script>
 		$('textarea').textareaAutoSize();
 	</script>

@@ -308,6 +308,55 @@ textarea {
 .input-disabled .input-label {
   color: #DEDEDE; }
 
+/* Radio and Checkbox Styles */
+.input-radio, .input-checkbox {
+  opacity: 0;
+  position: absolute; }
+
+.input-radio, .input-checkbox, .input-radio-label, .input-checkbox-label {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 5px;
+  cursor: pointer; }
+
+.input-radio-label, .input-checkbox-label {
+  position: relative;
+  font-weight: 300;
+  font-size: 1.6em; }
+
+.input-radio + .input-radio-label:before, .input-checkbox + .input-checkbox-label:before {
+  content: '';
+  background: #fff;
+  border: 2px solid #9E9E9E;
+  display: inline-block;
+  vertical-align: middle;
+  width: 25px;
+  height: 25px;
+  padding: 2px;
+  margin-right: 10px;
+  font-size: 1rem;
+  line-height: 1.1rem;
+  text-align: center; }
+
+.input-radio:checked + .input-radio-label, .input-checkbox:checked + .input-checkbox-label {
+  color: #4C4C4C; }
+
+.input-radio:checked + .input-radio-label:before, .input-checkbox:checked + .input-checkbox-label:before {
+  border: 2px solid #4C4C4C; }
+
+.input-checkbox:checked + .input-checkbox-label:before {
+  content: "\f00c";
+  font-family: 'FontAwesome';
+  color: #4C4C4C; }
+
+.input-radio + .input-radio-label:before {
+  border-radius: 50%; }
+
+.input-radio:checked + .input-radio-label:before {
+  content: "\f00c";
+  font-family: 'FontAwesome';
+  color: #4C4C4C; }
+
 .btn {
   border: none;
   font-family: inherit;
@@ -348,6 +397,9 @@ body {
   font-family: Roboto, sans-serif;
   -webkit-font-smoothing: antialiased; }
 
+input, h1, h2, h3, h4, h5, p, label {
+  font-family: Roboto, sans-serif; }
+
 .container {
   max-width: 68em;
   margin-left: auto;
@@ -383,8 +435,7 @@ body {
     letter-spacing: -1px;
     font-weight: 300;
     color: #4C4C4C;
-    margin-bottom: 0px;
-    font-family: Roboto, sans-serif; }
+    margin-bottom: 0px; }
     .header h1 .rw-words span {
       font-weight: 500;
       right: 60%;
@@ -398,8 +449,7 @@ body {
     letter-spacing: -1px;
     font-weight: 300;
     color: #4C4C4C;
-    margin-bottom: 0px;
-    font-family: Roboto, sans-serif; }
+    margin-bottom: 0px; }
 
 .input-question {
   margin-bottom: 30px; }
@@ -434,10 +484,74 @@ label.input-label-answer {
 
 .answer-container {
   text-align: center; }
-  .answer-container .input-options {
+  .answer-container .options {
     display: inline-block;
     text-align: left; }
-    .answer-container .input-options::after {
+    .answer-container .options::after {
       clear: both;
       content: "";
       display: table; }
+  .answer-container .input-radio-label::after {
+    position: absolute;
+    top: 0px;
+    left: 17px;
+    /*margin: -35px 0 0 -35px;*/
+    width: 43px;
+    height: 43px;
+    border-radius: 50%;
+    content: '';
+    opacity: 0;
+    pointer-events: none;
+    border: 2px solid rgba(0, 0, 0, 0.5);
+    box-shadow: inset 0 0 0 35px transparent; }
+  .answer-container .input-radio-label.input-radio-label--click::after {
+    -webkit-animation: anim-effect-radomir 0.5s ease-out forwards;
+    animation: anim-effect-radomir 0.5s ease-out forwards; }
+
+@-webkit-keyframes anim-effect-jelena {
+  0% {
+    opacity: 1;
+    -webkit-transform: scale3d(0.5, 0.5, 1);
+    transform: scale3d(0.5, 0.5, 1); }
+  to {
+    opacity: 0;
+    -webkit-transform: scale3d(1.2, 1.2, 1);
+    transform: scale3d(1.2, 1.2, 1); } }
+
+@keyframes anim-effect-jelena {
+  0% {
+    opacity: 1;
+    -webkit-transform: scale3d(0.5, 0.5, 1);
+    transform: scale3d(0.5, 0.5, 1); }
+  to {
+    opacity: 0;
+    -webkit-transform: scale3d(1.2, 1.2, 1);
+    transform: scale3d(1.2, 1.2, 1); } }
+
+@-webkit-keyframes anim-effect-radomir {
+  0% {
+    opacity: 1;
+    -webkit-transform: scale3d(0.4, 0.4, 1);
+    transform: scale3d(0.4, 0.4, 1); }
+  80% {
+    box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.8);
+    opacity: 0.1; }
+  100% {
+    box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.8);
+    opacity: 0;
+    -webkit-transform: scale3d(1.2, 1.2, 1);
+    transform: scale3d(1.2, 1.2, 1); } }
+
+@keyframes anim-effect-radomir {
+  0% {
+    opacity: 1;
+    -webkit-transform: scale3d(0.4, 0.4, 1);
+    transform: scale3d(0.4, 0.4, 1); }
+  80% {
+    box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.8);
+    opacity: 0.1; }
+  100% {
+    box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.8);
+    opacity: 0;
+    -webkit-transform: scale3d(1.2, 1.2, 1);
+    transform: scale3d(1.2, 1.2, 1); } }

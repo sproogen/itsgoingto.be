@@ -10,13 +10,13 @@ $(function() // execute once the DOM has loaded
 	        $.ajax({
 			    type: "POST",
 			    url: $( 'form[name="answers"]' ).attr( 'action' ),
-			    data: dataString,
-			    success: function() {
-			      
+			    data: $('form[name="answers"]').serialize(),
+			    success: function(response) {
+			    	console.log(response);
 			    }
-			  });
+			});
 	    }
-	);   
+	);
 
 });
 $(function() // execute once the DOM has loaded

@@ -5,6 +5,7 @@ namespace ItsGoingToBeBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -121,13 +122,15 @@ class ItsGoingToBeController extends Controller
      */
     public function answerPostAction(Request $request, $identifier)
     {
+        // @TODO - Add error responses
+
         //Check if the question exists
         $questionModel = $this->getDoctrine()
             ->getRepository('ItsGoingToBeBundle:Question')
             ->findOneByIdentifier($identifier);
         if(!$questionModel){
             if($request->isXmlHttpRequest()) {
-                // @TODO - Return question not found json error.
+                return new JsonResponse(array('result' => 'error'));
             } else {
                 return $this->redirectToRoute('question', array());
             }
@@ -137,7 +140,7 @@ class ItsGoingToBeController extends Controller
         $answer = $request->request->get('answer');
         if(!$answer){
             if($request->isXmlHttpRequest()) {
-                // @TODO - Return no answer selected.
+                return new JsonResponse(array('result' => 'error'));
             } else {
                 return $this->redirectToRoute('answer', array('identifier' => $identifier));
             }
@@ -148,7 +151,7 @@ class ItsGoingToBeController extends Controller
             ->findOneBy(array('id' => $answer, 'question' => $questionModel->getId()));
         if(!$answerModel){
             if($request->isXmlHttpRequest()) {
-                // @TODO - Return answer not found json error.
+                return new JsonResponse(array('result' => 'error'));
             } else {
                 return $this->redirectToRoute('answer', array('identifier' => $identifier));
             }
@@ -180,7 +183,7 @@ class ItsGoingToBeController extends Controller
         }
 
         if($request->isXmlHttpRequest()) {
-            // @TODO - Return success json.
+            return new JsonResponse(array('result' => 'success'));
         } else {
             return $this->redirectToRoute('answer', array('identifier' => $identifier));
         }
