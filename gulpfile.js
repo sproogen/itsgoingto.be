@@ -15,7 +15,7 @@ var shell = require('gulp-shell');
  * These are the commands to be run on command line
  */
 gulp.task('default', ['build']);
-gulp.task('build', ['ng:js', 'ng:sass']);
+gulp.task('build', ['ng:js', 'ng:sass','doctrine-update']);
 gulp.task('develop', ['continuous-build']);
 
 /*

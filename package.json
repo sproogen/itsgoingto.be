@@ -9,7 +9,6 @@
     "postinstall": "gulp build"
   },
   "devDependencies": {
-    "gulp-shell": "^0.4.3"
   },
   "dependencies": {
     "gulp": "^3.9.0",
@@ -24,6 +23,7 @@
     "gulp-watch": "^4.3.5",
     "jshint-stylish": "^2.0.1",
     "node-bourbon": "^4.2.3",
-    "node-neat": "^1.7.2"
+    "node-neat": "^1.7.2",
+    "gulp-shell": "^0.4.3"
   }
 }
