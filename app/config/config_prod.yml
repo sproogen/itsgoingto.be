@@ -1,6 +1,7 @@
 imports:
+    - { resource: parameters_heroku.yml }
+    - { resource: parameters_heroku_db.php }
     - { resource: config.yml }
-    - { resource: parameters_heroku.php }
 
 #framework:
 #    validation:
