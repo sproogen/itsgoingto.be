@@ -4,4 +4,4 @@ parameters:
     database_name: itsgoingtobe
     database_user: root
     database_password: null
-    secret: 799a3dee41fdec877f7b14c77cc64df41f5555ac
+    secret: 18ff1ed748eee920580f8ce22f9c7071f6f52ec6
