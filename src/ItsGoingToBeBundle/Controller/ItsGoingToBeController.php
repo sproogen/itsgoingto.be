@@ -108,11 +108,11 @@ class ItsGoingToBeController extends Controller
         }else{
             $answerModel = null;
         }
-
+        
         return $this->render('itsgoingtobe/answer.html.twig', array(
             'questionModel' => $questionModel,
             'identifier' => $identifier,
-            'answerModel' => $answerModel,
+            'answerModel' => $answerModel
         ));
     }
 

@@ -491,6 +491,39 @@ label.input-label-answer {
       clear: both;
       content: "";
       display: table; }
+    .answer-container .options .input-options {
+      position: relative;
+      margin-left: 0px;
+      -webkit-transition: margin 0.4s ease;
+      -moz-transition: margin 0.4s ease;
+      transition: margin 0.4s ease; }
+      .answer-container .options .input-options .result-wrapper {
+        width: 600px;
+        height: 90%;
+        opacity: 0;
+        -webkit-transition: opacity 0.4s ease;
+        -moz-transition: opacity 0.4s ease;
+        transition: opacity 0.4s ease;
+        margin-top: 2px;
+        position: absolute;
+        top: 5%;
+        left: 15px;
+        z-index: -1;
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.06), 0 0 5px #D4D4D4;
+        background: #EAEAEA; }
+        .answer-container .options .input-options .result-wrapper .result {
+          position: absolute;
+          height: 100%;
+          width: 0%;
+          -webkit-transition: width 0.3s ease;
+          -moz-transition: width 0.3s ease;
+          transition: width 0.3s ease;
+          background: #BBBBBB;
+          box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.06), 0 0 5px #D4D4D4; }
+    .answer-container .options.show-results .input-options {
+      margin-left: -300px; }
+      .answer-container .options.show-results .input-options .result-wrapper {
+        opacity: 1; }
   .answer-container .input-radio-label::after {
     position: absolute;
     top: 0px;
