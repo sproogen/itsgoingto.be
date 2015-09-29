@@ -1,5 +1,7 @@
 <?php
 
+error_reporting(-1);
+
 use Symfony\Component\ClassLoader\ApcClassLoader;
 use Symfony\Component\HttpFoundation\Request;
 
