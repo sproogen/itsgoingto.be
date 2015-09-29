@@ -19,7 +19,11 @@
                     <span class="input input-options">
                         <span class="result-wrapper">
                             {% set answerResponses = answer.responses|length %}
-                            {% set answerPercentage = (answerResponses / totalResponses)*100 %}
+                            {% if totalResponses != 0 %}
+                                {% set answerPercentage = (answerResponses / totalResponses)*100 %}
+                            {% else %}
+                                {% set answerPercentage = 0 %}
+                            {% endif %}
                             <span class="result" name="answer-{{ answer.id }}" style="width:{{ answerPercentage }}%" responses="{{ answerResponses }}"></span>
                         </span>
                         <input id="answer-{{ answer.id }}" class="input-radio input-radio-options" name="answer" type="radio" value="{{ answer.id }}" {% if answerModel is not null and answerModel.id == answer.id %} checked{% endif %}>

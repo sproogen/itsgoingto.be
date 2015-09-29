@@ -211,11 +211,11 @@ class Question
     /**
      * Add response
      *
-     * @param \ItsGoingToBeBundle\Entity\Response $response
+     * @param \ItsGoingToBeBundle\Entity\UserResponse $response
      *
      * @return Question
      */
-    public function addResponse(\ItsGoingToBeBundle\Entity\Response $response)
+    public function addResponse(\ItsGoingToBeBundle\Entity\UserResponse $response)
     {
         $this->responses[] = $response;
 
@@ -225,9 +225,9 @@ class Question
     /**
      * Remove response
      *
-     * @param \ItsGoingToBeBundle\Entity\Response $response
+     * @param \ItsGoingToBeBundle\Entity\UserResponse $response
      */
-    public function removeResponse(\ItsGoingToBeBundle\Entity\Response $response)
+    public function removeResponse(\ItsGoingToBeBundle\Entity\UserResponse $response)
     {
         $this->responses->removeElement($response);
     }

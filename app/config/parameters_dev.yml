@@ -1,7 +1,7 @@
 parameters:
     database_host: localhost
-    database_port: null
+    database_port: ~
     database_name: itsgoingtobe
     database_user: root
-    database_password: null
+    database_password: root
     secret: 18ff1ed748eee920580f8ce22f9c7071f6f52ec6

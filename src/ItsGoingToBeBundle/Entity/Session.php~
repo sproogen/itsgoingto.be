@@ -1,0 +1,34 @@
+<?php
+
+namespace ItsGoingToBeBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="sessions")
+ */
+class Session
+{
+	/**
+     * @ORM\Column(type="string")
+     * @ORM\Id
+     */
+    protected $sess_id;
+
+
+    /**
+     * @ORM\Column(type="blob")
+     */
+    protected $sess_data;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    protected $sess_time;
+
+    /**
+     * @ORM\Column(type="bigint")
+     */
+    protected $sess_lifetime;
+}

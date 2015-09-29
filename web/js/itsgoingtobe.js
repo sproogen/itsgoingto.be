@@ -19,6 +19,7 @@ $(function() // execute once the DOM has loaded
 	        var category = $(this).filter(':checked').val();
 
 			var totalResponses = parseInt($('.options').attr('responses'));
+			// @TODO - Think about making this stronger, not just using show-results as users could spoof this, not that is really matters, it would only affect the UI.
 			if(!$('.options').hasClass('show-results')){
 				totalResponses += 1;
 				$('.options').attr('responses', totalResponses);

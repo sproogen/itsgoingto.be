@@ -3,6 +3,7 @@
 namespace ItsGoingToBeBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity
@@ -99,11 +100,11 @@ class Answer
     /**
      * Add response
      *
-     * @param \ItsGoingToBeBundle\Entity\Response $response
+     * @param \ItsGoingToBeBundle\Entity\UserResponse $response
      *
      * @return Answer
      */
-    public function addResponse(\ItsGoingToBeBundle\Entity\Response $response)
+    public function addResponse(\ItsGoingToBeBundle\Entity\UserResponse $response)
     {
         $this->responses[] = $response;
 
@@ -113,9 +114,9 @@ class Answer
     /**
      * Remove response
      *
-     * @param \ItsGoingToBeBundle\Entity\Response $response
+     * @param \ItsGoingToBeBundle\Entity\UserResponse $response
      */
-    public function removeResponse(\ItsGoingToBeBundle\Entity\Response $response)
+    public function removeResponse(\ItsGoingToBeBundle\Entity\UserResponse $response)
     {
         $this->responses->removeElement($response);
     }
