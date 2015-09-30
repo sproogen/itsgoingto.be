@@ -192,6 +192,15 @@ class ItsGoingToBeController extends Controller
     private function getSessionID($request){
         $session = $request->getSession();
 
+
+        var_dump($session);
+
+        var_dump($request);
+
+        var_dump(session_id());
+
+        die();
+
         $logger = $this->get('logger');
 
         if(!$session instanceof Session){
