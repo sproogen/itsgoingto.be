@@ -21,6 +21,13 @@ input, h1, h2, h3, h4, h5, p, label {
 	}
 }
 
+.footer-container {
+    position: fixed;
+    bottom: 0;
+    left:0;
+    right:0;
+}
+
 .center-text {
 	text-align:center;
 }
@@ -69,5 +76,29 @@ input, h1, h2, h3, h4, h5, p, label {
         color: $text-color;
 
         margin-bottom:0px;
+    }
+}
+
+.contact {
+    a {
+        line-height: 50px;
+        margin-left: 30px;
+        color:$dark-grey;
+        @include transition(color 0.4s ease);
+        &:hover {
+            color:$text-color;
+        }
+    }
+}
+
+.jwg_logo {
+    float: right;
+    margin-right: 30px;
+    a {
+        opacity:0.4;
+        @include transition(opacity 0.4s ease);
+        &:hover {
+            opacity:1;
+        }
     }
 }

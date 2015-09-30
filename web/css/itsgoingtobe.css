@@ -415,6 +415,12 @@ input, h1, h2, h3, h4, h5, p, label {
     margin-top: 100px;
     margin-bottom: 50px; }
 
+.footer-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0; }
+
 .center-text {
   text-align: center; }
 
@@ -450,6 +456,27 @@ input, h1, h2, h3, h4, h5, p, label {
     font-weight: 300;
     color: #4C4C4C;
     margin-bottom: 0px; }
+
+.contact a {
+  line-height: 50px;
+  margin-left: 30px;
+  color: #BBBBBB;
+  -webkit-transition: color 0.4s ease;
+  -moz-transition: color 0.4s ease;
+  transition: color 0.4s ease; }
+  .contact a:hover {
+    color: #4C4C4C; }
+
+.jwg_logo {
+  float: right;
+  margin-right: 30px; }
+  .jwg_logo a {
+    opacity: 0.4;
+    -webkit-transition: opacity 0.4s ease;
+    -moz-transition: opacity 0.4s ease;
+    transition: opacity 0.4s ease; }
+    .jwg_logo a:hover {
+      opacity: 1; }
 
 .input-question {
   margin-bottom: 30px; }
