@@ -192,28 +192,20 @@ class ItsGoingToBeController extends Controller
     private function getSessionID($request){
         $session = $request->getSession();
 
-
-        var_dump($session);
-
-        var_dump($request);
-
-        var_dump(session_id());
-
-        die();
-
         $logger = $this->get('logger');
 
         if(!$session instanceof Session){
             $logger->info('Session Not Found');
-            $logger->error('Session Not Found');
             $session = new Session();
             $session->start();
         }else{
+            if(!$session->isStarted()){
+                $logger->info('Session Started');
+                $session->start();
+            }
             $logger->info('Session Found = '.$session->getId());
-            $logger->error('Session Found = '.$session->getId());
         }
         $logger->info('Session ID = '.$session->getId());
-        $logger->error('Session ID = '.$session->getId());
         return $session->getId();
     }
 }
