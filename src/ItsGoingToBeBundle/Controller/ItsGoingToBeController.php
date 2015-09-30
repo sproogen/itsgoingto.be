@@ -16,6 +16,11 @@ use ItsGoingToBeBundle\Entity\UserResponse;
 
 class ItsGoingToBeController extends Controller
 {
+    public function showException()
+    {
+        return $this->render('itsgoingtobe/index.html.twig');
+    }
+
     /**
      * @Route("/", name="question")
      */
@@ -96,7 +101,7 @@ class ItsGoingToBeController extends Controller
             ->findOneByIdentifier($identifier);
 
         if(!$questionModel){
-            return $this->redirectToRoute('question', array());
+            throw $this->createNotFoundException('The question could not be found');
         }
 
         //Check if the user has already answered the question
@@ -108,7 +113,7 @@ class ItsGoingToBeController extends Controller
         }else{
             $answerModel = null;
         }
-        
+
         return $this->render('itsgoingtobe/answer.html.twig', array(
             'questionModel' => $questionModel,
             'identifier' => $identifier,
@@ -132,7 +137,7 @@ class ItsGoingToBeController extends Controller
             if($request->isXmlHttpRequest()) {
                 return new JsonResponse(array('result' => 'error'));
             } else {
-                return $this->redirectToRoute('question', array());
+                throw $this->createNotFoundException('The question could not be found');
             }
         }
 

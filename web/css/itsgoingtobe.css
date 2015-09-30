@@ -478,6 +478,9 @@ input, h1, h2, h3, h4, h5, p, label {
     .jwg_logo a:hover {
       opacity: 1; }
 
+.error-message {
+  margin-top: 80px; }
+
 .input-question {
   margin-bottom: 30px; }
 
