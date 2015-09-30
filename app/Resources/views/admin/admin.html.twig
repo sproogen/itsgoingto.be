@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block meta %}
+    <meta name="robots" CONTENT="NOINDEX, FOLLOW">
+{% endblock %}
+
+{% block body %}
+
+    <div class="container top-container">
+        <div class="header center-text">
+            <h1>Admin</h1>
+        </div>
+    </div>
+
+    <div class="container admin-container">
+        {# total items count #}
+        <div class="count">
+            {{ pagination.getTotalItemCount }}
+        </div>
+        <table>
+        <tr>
+        {# sorting of properties based on query components #}
+            <th>ID</th>
+            <th>Identifier</th>
+            <th>Question</th>
+            <th>Created At</th>
+        </tr>
+
+        {# table body #}
+        {% for question in pagination %}
+        <tr {% if loop.index is odd %}class="color"{% endif %}>
+            <td>{{ question.id }}</td>
+            <td>{{ question.identifier }}</td>
+            <td>{{ question.question }}</td>
+            <td>{{ question.createdAt | date('Y-m-d H:i:s') }}</td>
+        </tr>
+        {% endfor %}
+        </table>
+        {# display navigation #}
+        <div class="navigation">
+            {{ knp_pagination_render(pagination) }}
+        </div>
+    </div>
+
+{% endblock %}

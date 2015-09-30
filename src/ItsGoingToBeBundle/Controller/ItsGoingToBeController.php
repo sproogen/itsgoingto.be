@@ -16,11 +16,6 @@ use ItsGoingToBeBundle\Entity\UserResponse;
 
 class ItsGoingToBeController extends Controller
 {
-    public function showException()
-    {
-        return $this->render('itsgoingtobe/index.html.twig');
-    }
-
     /**
      * @Route("/", name="question")
      */
@@ -91,7 +86,7 @@ class ItsGoingToBeController extends Controller
     }
 
     /**
-     * @Route("/{identifier}", name="answer")
+     * @Route("/{identifier}", name="answer", requirements={"identifier":"^(?!admin).*$"})
      */
     public function answerAction(Request $request, $identifier)
     {
