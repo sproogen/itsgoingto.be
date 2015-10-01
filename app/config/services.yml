@@ -10,3 +10,21 @@ services:
         arguments:
             - "mysql:host=%database_host%;dbname=%database_name%"
             - { db_table: sessions, db_username: %database_user%, db_password: %database_password% }
+
+    # authentication failure event listener
+    ItsGoingToBe.security.authentication_failure_event_listener:
+        class: ItsGoingToBeBundle\Service\AuthenticationListener
+        arguments:
+            - @doctrine.orm.entity_manager
+            - @request_stack
+        tags:
+            - { name: kernel.event_listener, event: security.authentication.failure, method: onAuthenticationFailure }
+
+    # authentication success event listener
+    ItsGoingToBe.security.interactive_login_listener:
+        class: ItsGoingToBeBundle\Service\AuthenticationListener
+        arguments:
+            - @doctrine.orm.entity_manager
+            - @request_stack
+        tags:
+            - { name: kernel.event_listener, event: security.interactive_login, method: onAuthenticationSuccess }

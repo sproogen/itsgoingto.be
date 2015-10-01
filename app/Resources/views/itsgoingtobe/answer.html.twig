@@ -16,7 +16,7 @@
     <div class="container answer-container">
     	<form name="answers" action="{{ path('answer-post' , {'identifier' : identifier}) }}" method="post" autocomplete="off">
             {% set totalResponses = questionModel.responses|length %}
-    		<div class="options{% if answerModel is not null %} show-results{% endif %}" currentResponse="{% if answerModel is not null %}{{ answerModel.id }}{% endif %}" responses="{{ totalResponses }}">
+    		<div class="options{% if answerModel is not null or app.user %} show-results{% endif %}" currentResponse="{% if answerModel is not null %}{{ answerModel.id }}{% endif %}" responses="{{ totalResponses }}">
 	    		{% for answer in questionModel.answers %}
 
                     <span class="input input-options">
@@ -29,7 +29,7 @@
                             {% endif %}
                             <span class="result" name="answer-{{ answer.id }}" style="width:{{ answerPercentage }}%" responses="{{ answerResponses }}"></span>
                         </span>
-                        <input id="answer-{{ answer.id }}" class="input-radio input-radio-options" name="answer" type="radio" value="{{ answer.id }}" {% if answerModel is not null and answerModel.id == answer.id %} checked{% endif %}>
+                        <input id="answer-{{ answer.id }}" class="input-radio input-radio-options" name="answer" type="radio" value="{{ answer.id }}" {% if answerModel is not null and answerModel.id == answer.id %} checked{% endif %} {% if app.user %} disabled {% endif %}>
                         <label for="answer-{{ answer.id }}" class="input-label input-radio-label input-label-options">{{ answer.answer }}</label>
                     </span>
 

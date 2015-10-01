@@ -90,10 +90,16 @@ class ItsGoingToBeController extends Controller
      */
     public function answerAction(Request $request, $identifier)
     {
-
-        $questionModel = $this->getDoctrine()
-            ->getRepository('ItsGoingToBeBundle:Question')
-            ->findOneByIdentifier($identifier);
+        $securityContext = $this->container->get('security.context');
+        if ($securityContext->isGranted('ROLE_ADMIN')) {
+            $questionModel = $this->getDoctrine()
+                ->getRepository('ItsGoingToBeBundle:Question')
+                ->findOneBy(array('identifier' => $identifier));
+        }else{
+            $questionModel = $this->getDoctrine()
+                ->getRepository('ItsGoingToBeBundle:Question')
+                ->findOneBy(array('identifier' => $identifier, 'deleted' => FALSE));
+        }
 
         if(!$questionModel){
             throw $this->createNotFoundException('The question could not be found');
@@ -127,7 +133,7 @@ class ItsGoingToBeController extends Controller
         //Check if the question exists
         $questionModel = $this->getDoctrine()
             ->getRepository('ItsGoingToBeBundle:Question')
-            ->findOneByIdentifier($identifier);
+            ->findOneBy(array('identifier' => $identifier, 'deleted' => FALSE));
         if(!$questionModel){
             if($request->isXmlHttpRequest()) {
                 return new JsonResponse(array('result' => 'error'));

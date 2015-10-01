@@ -415,6 +415,9 @@ input, h1, h2, h3, h4, h5, p, label {
     margin-top: 100px;
     margin-bottom: 50px; }
 
+.login-container {
+  width: 20em; }
+
 .footer-container {
   position: fixed;
   bottom: 0;
@@ -480,6 +483,19 @@ input, h1, h2, h3, h4, h5, p, label {
 
 .error-message {
   margin-top: 80px; }
+
+.login-container form {
+  text-align: center; }
+
+.login-container .input-login {
+  margin-bottom: 20px;
+  text-align: left; }
+
+.btn-logout {
+  position: fixed;
+  top: 0;
+  right: 0;
+  padding: 6px 20px; }
 
 .input-question {
   margin-bottom: 30px; }
@@ -631,3 +647,45 @@ label.input-label-answer {
     opacity: 0;
     -webkit-transform: scale3d(1.2, 1.2, 1);
     transform: scale3d(1.2, 1.2, 1); } }
+
+.admin-container {
+  margin-bottom: 100px; }
+  .admin-container table {
+    table-layout: auto;
+    text-align: center; }
+    .admin-container table th {
+      text-align: center; }
+  .admin-container a.icon {
+    color: #4C4C4C; }
+  .admin-container .navigation {
+    text-align: center;
+    color: #4C4C4C; }
+    .admin-container .navigation a {
+      color: #4C4C4C; }
+    .admin-container .navigation .page a {
+      position: relative;
+      width: 25px;
+      display: inline-block;
+      line-height: 25px; }
+      .admin-container .navigation .page a:after {
+        content: '';
+        background: #fff;
+        border: 2px solid #9E9E9E;
+        display: inline-block;
+        vertical-align: middle;
+        width: 25px;
+        height: 25px;
+        padding: 2px;
+        margin-right: 10px;
+        font-size: 1rem;
+        line-height: 1.1rem;
+        text-align: center;
+        border-radius: 50%;
+        position: absolute;
+        left: 0px;
+        z-index: -1; }
+    .admin-container .navigation .current {
+      font-weight: 600;
+      width: 25px;
+      display: inline-block;
+      line-height: 25px; }

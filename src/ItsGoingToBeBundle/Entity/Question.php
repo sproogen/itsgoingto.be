@@ -40,6 +40,11 @@ class Question
     protected $responses;
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    protected $deleted = false;
+
+    /**
      * @ORM\Column(type="datetime")
      */
     protected $created_at;
@@ -240,5 +245,29 @@ class Question
     public function getResponses()
     {
         return $this->responses;
+    }
+
+    /**
+     * Set deleted
+     *
+     * @param boolean $deleted
+     *
+     * @return Question
+     */
+    public function setDeleted($deleted)
+    {
+        $this->deleted = $deleted;
+
+        return $this;
+    }
+
+    /**
+     * Get deleted
+     *
+     * @return boolean
+     */
+    public function getDeleted()
+    {
+        return $this->deleted;
     }
 }

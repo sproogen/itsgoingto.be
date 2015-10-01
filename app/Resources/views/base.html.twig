@@ -24,11 +24,15 @@
             <link rel="stylesheet" href="{{ asset('/css/itsgoingtobe.min.css') }}"></script>
         {% endif %}
 
-        <link rel="icon" 
-          type="image/png" 
+        <link rel="icon"
+          type="image/png"
           href="{{ asset('favicon.png') }}">
     </head>
     <body>
+        {% if app.user %}
+            <a href="{{ path('logout') }}" class="btn btn-logout">Logout</a>
+        {% endif %}
+
         {% block body %}{% endblock %}
 
         <div class="footer-container">

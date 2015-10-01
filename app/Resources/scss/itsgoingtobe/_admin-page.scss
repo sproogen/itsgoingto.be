@@ -1,0 +1,62 @@
+.admin-container {
+    margin-bottom: 100px;
+
+    table {
+        table-layout: auto;
+        text-align: center;
+
+        th {
+            text-align: center;
+        }
+    }
+
+    a.icon {
+        color:$text-color;
+    }
+
+    .navigation {
+        text-align: center;
+        color:$text-color;
+
+        a {
+            color:$text-color;
+        }
+
+        .page {
+            a {
+                position: relative;
+                width: 25px;
+                display: inline-block;
+                line-height: 25px;
+
+                &:after{
+                    content: '';
+                    background: #fff;
+                    border: 2px solid #9E9E9E;
+                    display: inline-block;
+                    vertical-align: middle;
+                    width: 25px;
+                    height: 25px;
+                    padding: 2px;
+                    margin-right: 10px;
+                    font-size: 1rem;
+                    line-height: 1.1rem;
+                    text-align: center;
+                    border-radius: 50%;
+
+                    position: absolute;
+                    left: 0px;
+
+                    z-index: -1;
+                }
+            }
+        }
+
+        .current {
+            font-weight: 600;
+            width: 25px;
+            display: inline-block;
+            line-height: 25px;
+        }
+    }
+}

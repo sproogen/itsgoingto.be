@@ -19,11 +19,18 @@
         {% endif %}
 
         <form action="{{ path('login_check') }}" method="post">
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="_username" value="{{ last_username }}" />
 
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="_password" />
+            <span class="input input-login">
+                <label class="input-label input-label-login" for="username">Username</label>
+                <input class="input-field input-field-login" type="text" id="username" name="_username" value="{{ last_username }}" />
+            </span>
+
+            <span class="input input-login">
+                <label class="input-label input-label-login" for="password">Password</label>
+                <input class="input-field input-field-login" type="password" id="password" name="_password" />
+            </span>
+
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
             {#
                 If you want to control the URL the user
@@ -31,7 +38,7 @@
                 <input type="hidden" name="_target_path" value="/account" />
             #}
 
-            <button type="submit">login</button>
+            <button class="btn btn-login" type="submit">Login</button>
         </form>
     </div>
 

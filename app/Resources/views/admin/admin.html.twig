@@ -18,7 +18,7 @@
             Total Questions : {{ pagination.getTotalItemCount }}
         </div>
         <table>
-        <tr>
+        <tr class="center-text">
         {# sorting of properties based on query components #}
             <th>ID</th>
             <th>Identifier</th>
@@ -34,7 +34,13 @@
             <td><a target="_blank" href="{{ path('answer' , {'identifier' : question.identifier}) }}">{{ question.identifier }}</a></td>
             <td>{{ question.question }}</td>
             <td>{{ question.createdAt | date('Y-m-d H:i:s') }}</td>
-            <td></td>
+            <td>
+                {% if question.deleted == false %}
+                    <a href="{{ path('admin_delete' , {'identifier' : question.identifier, 'returnToPage': currentPage}) }}" class="icon"><i class="fa fa-times"></i></a>
+                {% else %}
+                    Deleted
+                {% endif %}
+            </td>
         </tr>
         {% endfor %}
         </table>

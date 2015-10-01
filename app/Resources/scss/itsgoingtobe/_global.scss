@@ -21,6 +21,10 @@ input, h1, h2, h3, h4, h5, p, label {
 	}
 }
 
+.login-container {
+    width: 20em;
+}
+
 .footer-container {
     position: fixed;
     bottom: 0;
@@ -105,4 +109,24 @@ input, h1, h2, h3, h4, h5, p, label {
 
 .error-message {
     margin-top:80px;
+}
+
+.login-container {
+
+    form {
+        text-align: center;
+    }
+
+    .input-login {
+        margin-bottom:20px;
+        text-align: left;
+    }
+
+}
+
+.btn-logout {
+    position: fixed;
+    top: 0;
+    right: 0;
+    padding: 6px 20px;
 }
