@@ -497,6 +497,13 @@ input, h1, h2, h3, h4, h5, p, label {
   right: 0;
   padding: 6px 20px; }
 
+.error-message {
+  background: #C10202;
+  text-align: center;
+  color: #fff;
+  padding: 3px;
+  margin-bottom: 20px; }
+
 .input-question {
   margin-bottom: 30px; }
 
