@@ -15,7 +15,7 @@
     <div class="container admin-container">
         {# total items count #}
         <div class="count">
-            {{ pagination.getTotalItemCount }}
+            Total Questions : {{ pagination.getTotalItemCount }}
         </div>
         <table>
         <tr>
@@ -24,15 +24,17 @@
             <th>Identifier</th>
             <th>Question</th>
             <th>Created At</th>
+            <th>Options</th>
         </tr>
 
         {# table body #}
         {% for question in pagination %}
         <tr {% if loop.index is odd %}class="color"{% endif %}>
             <td>{{ question.id }}</td>
-            <td>{{ question.identifier }}</td>
+            <td><a target="_blank" href="{{ path('answer' , {'identifier' : question.identifier}) }}">{{ question.identifier }}</a></td>
             <td>{{ question.question }}</td>
             <td>{{ question.createdAt | date('Y-m-d H:i:s') }}</td>
+            <td></td>
         </tr>
         {% endfor %}
         </table>
