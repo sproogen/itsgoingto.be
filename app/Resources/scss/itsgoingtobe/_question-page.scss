@@ -14,12 +14,16 @@ input.input-field-answer {
     font-size: 1.5em;
     display: inline-block;
     width:75%;
+    position: absolute;
+    left:55px;
 }
 
 label.input-label-answer {
 	font-size: 1.3em;
 	display: inline-block;
 	width:50px;
+    line-height: 52px;
+    margin-bottom: 0;
 }
 
 .btn-question {
