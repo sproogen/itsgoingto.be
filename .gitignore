@@ -14,7 +14,6 @@
 /app/config/parameters.yml
 /app/config/parameters.ini
 /app/config/parameters_dev.yml
-/app/config/parameters_heroku.yml
 
 # Managed by Composer
 /app/bootstrap.php.cache
