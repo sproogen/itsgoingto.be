@@ -86,7 +86,7 @@ class ItsGoingToBeController extends Controller
     }
 
     /**
-     * @Route("/{identifier}", name="answer", requirements={"identifier":"^(?!admin).*$"})
+     * @Route("/{identifier}", name="answer")
      */
     public function answerAction(Request $request, $identifier)
     {
@@ -100,7 +100,6 @@ class ItsGoingToBeController extends Controller
                 ->getRepository('ItsGoingToBeBundle:Question')
                 ->findOneBy(array('identifier' => $identifier, 'deleted' => FALSE));
         }
-
         if(!$questionModel){
             throw $this->createNotFoundException('The question could not be found');
         }
