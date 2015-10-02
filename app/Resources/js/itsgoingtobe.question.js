@@ -18,7 +18,7 @@ $(function() // execute once the DOM has loaded
 
 	$('input.input-field-answer').bind('input', answerUpdated);
 	$('input.input-field-answer').bind('keydown', keyPressed);
-	$('.ui-datepicker-trigger').click(showDatePopup);
+	$('.input-field-datepicker-trigger').click(showDatePopup);
 
 	function answerUpdated(){
 		var inputID = this.id;
@@ -117,9 +117,10 @@ $(function() // execute once the DOM has loaded
 		$('.answers .input-answer:eq('+num+') input').removeAttr("disabled");
 
 		var newNum = num + 2;
-		$('.answers').append('<span class="input input-answer input-disabled"><label class="input-label input-label-answer" for="answer-'+newNum+'">'+newNum+'</label><input class="input-field input-field-answer" disabled type="text" id="answer-'+newNum+'" name="answer-'+newNum+'"></textarea></span>');
-		$('input.input-field-answer').bind('input', answerUpdated);
-		$('input.input-field-answer').bind('keydown', keyPressed);
+		$('.answers').append('<span class="input input-answer input-disabled"><label class="input-label input-label-answer" for="answer-'+newNum+'">'+newNum+'</label><input class="input-field input-field-answer" disabled type="text" id="answer-'+newNum+'" name="answer-'+newNum+'"><i class="input-field-datepicker-trigger" for="answer-'+newNum+'"></i></span>');
+		$('#answer-'+newNum).bind('input', answerUpdated);
+		$('#answer-'+newNum).bind('keydown', keyPressed);
+		$('.input-field-datepicker-trigger').click(showDatePopup);
 	}
 
 	function removeAnswer(num){
@@ -146,21 +147,33 @@ $(function() // execute once the DOM has loaded
 		}
 	});
 
+	var answer = "";
+
 	$('#datepicker').datepicker({
 		inline: true,
 		dateFormat: "dd/mm/yy",
 		onSelect: function(date) {
-            //alert(date);
+            $('#'+answer).val(date);
+            $('#'+answer).trigger("input");
             hideDatePopup();
         }
     });
     $('#datepicker').css("display", "none");
 
     function showDatePopup(){
-    	$('#datepicker').css("display", "block");
+    	if(!$(this).parent().hasClass('input-disabled')){
+	    	answer = $(this).attr('for');
+	    	$('#datepicker').css("display", "block");
+	    	$('#datepicker-overlay').css("display", "block");
+
+	    	$("#datepicker-overlay").click(function(event) {
+				hideDatePopup();
+			});
+	    }
     }
 
     function hideDatePopup(){
     	$('#datepicker').css("display", "none");
+    	$('#datepicker-overlay').css("display", "none");
     }
 });

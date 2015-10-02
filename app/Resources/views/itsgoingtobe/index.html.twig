@@ -29,17 +29,16 @@
 
 			<div class="answers hideable gone">
 
-				<div id="datepicker"></div>
-
 				<span class="input input-answer">
 					<label class="input-label input-label-answer" for="answer-1">1</label>
 		   			<input class="input-field input-field-answer" type="text" id="answer-1" name="answer-1"></textarea>
-		   			<img class="ui-datepicker-trigger" src="/images/calendar.png" alt="Select date" title="Select date">
+		   			<i class="input-field-datepicker-trigger" for="answer-1"></i>
 		   		</span>
 
 		   		<span class="input input-answer input-disabled">
 		   			<label class="input-label input-label-answer" for="answer-2">2</label>
 		   			<input class="input-field input-field-answer" disabled type="text" id="answer-2" name="answer-2"></textarea>
+		   			<i class="input-field-datepicker-trigger" for="answer-2"></i>
 		   		</span>
 
 			</div>
@@ -49,6 +48,9 @@
 			</div>
 		</form>
 	</div>
+
+	<div id="datepicker"></div>
+	<div id="datepicker-overlay" style="display:none"></div>
 
 {% endblock %}
 

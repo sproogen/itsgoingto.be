@@ -112,3 +112,27 @@ textarea {
     font-family: 'FontAwesome';
     color: $text-color;
 }
+
+.input-field-datepicker-trigger {
+    padding-left: 15px;
+    top: 10px;
+    display: inline-block;
+    position: relative;
+    width: 50px;
+    cursor:pointer;
+
+    background: url(/images/calendar.png);
+    height: 35px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: contain;
+
+    .input-disabled & {
+        background: url(/images/calendar_disabled.png);
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: contain;
+
+        cursor: default;
+    }
+}
