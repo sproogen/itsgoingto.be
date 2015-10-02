@@ -18,6 +18,7 @@ $(function() // execute once the DOM has loaded
 
 	$('input.input-field-answer').bind('input', answerUpdated);
 	$('input.input-field-answer').bind('keydown', keyPressed);
+	$('.ui-datepicker-trigger').click(showDatePopup);
 
 	function answerUpdated(){
 		var inputID = this.id;
@@ -141,7 +142,25 @@ $(function() // execute once the DOM has loaded
 	$("button.btn-question").click(function(event) {
 		if(getAnswerCount() < 2){
 			event.preventDefault();
-			// @TODO - PLEASE ENTER AT LEAST 2 ANSWERS ERROR
+			// @TODO - PLEASE ENTER AT LEAST 2 ANSWERS HOVER
 		}
 	});
+
+	$('#datepicker').datepicker({
+		inline: true,
+		dateFormat: "dd/mm/yy",
+		onSelect: function(date) {
+            //alert(date);
+            hideDatePopup();
+        }
+    });
+    $('#datepicker').css("display", "none");
+
+    function showDatePopup(){
+    	$('#datepicker').css("display", "block");
+    }
+
+    function hideDatePopup(){
+    	$('#datepicker').css("display", "none");
+    }
 });

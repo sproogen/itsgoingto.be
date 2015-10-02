@@ -29,9 +29,12 @@
 
 			<div class="answers hideable gone">
 
+				<div id="datepicker"></div>
+
 				<span class="input input-answer">
 					<label class="input-label input-label-answer" for="answer-1">1</label>
 		   			<input class="input-field input-field-answer" type="text" id="answer-1" name="answer-1"></textarea>
+		   			<img class="ui-datepicker-trigger" src="/images/calendar.png" alt="Select date" title="Select date">
 		   		</span>
 
 		   		<span class="input input-answer input-disabled">
@@ -50,6 +53,8 @@
 {% endblock %}
 
 {% block javascripts %}
+
+	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 
 	<script src="{{ asset('/js/jquery.textarea_autosize.min.js') }}"></script>
 	<script>
