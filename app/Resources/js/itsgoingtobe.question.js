@@ -16,6 +16,35 @@ $(function() // execute once the DOM has loaded
 	      }
 	});
 
+	var placeholder = ["What film should we watch?",
+					   "What should we do this weekend?",
+					   "Who is going to win the league?",
+					   "Where should we go for drinks?"];
+	var timeOut;
+	var char = 0;
+	var placeholderNum = Math.round(Math.random() * placeholder.length);
+	alert(placeholderNum);
+	$('textarea.input-field-question').attr('placeholder', '|');
+	(function typeIt(wait) {
+	    timeOut = setTimeout(function () {
+	        char++;
+	        var type = placeholder[placeholderNum].substring(0, char);
+	        $('textarea.input-field-question').attr('placeholder', type + '|');
+
+	        if (char == placeholder[placeholderNum].length) {
+	            $('textarea.input-field-question').attr('placeholder', $('textarea.input-field-question').attr('placeholder').slice(0, -1));
+	            char = 0;
+	            placeholderNum++;
+	            if(placeholderNum >= placeholder.length) placeholderNum = 0;
+	            typeIt(1000);
+	        }else{
+	        	var humanize = Math.round(Math.random() * (150 - 30)) + 30;
+	        	typeIt(humanize);
+	        }
+
+	    }, wait);
+	}());
+
 	$('input.input-field-answer').bind('input', answerUpdated);
 	$('input.input-field-answer').bind('keydown', keyPressed);
 	$('.input-field-datepicker-trigger').click(showDatePopup);
