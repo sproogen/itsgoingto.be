@@ -194,6 +194,28 @@ class ItsGoingToBeController extends Controller
         }
     }
 
+    /**
+     * @Route("/{identifier}/responses", name="responses")
+     */
+    public function responsesAction(Request $request, $identifier)
+    {
+        $questionModel = $this->getDoctrine()
+            ->getRepository('ItsGoingToBeBundle:Question')
+            ->findOneBy(array('identifier' => $identifier));
+
+        if(!$questionModel){
+            return new JsonResponse(array('result' => 'error'));
+        }
+        
+        $results = array();
+
+        foreach($questionModel->getAnswers() as $answer){
+            $results[] = array('id' => $answer->getId(), 'count' => count($answer->getResponses()));
+        }
+
+        return new JsonResponse(array('result' => 'success', 'totalResponses' => count($questionModel->getResponses()), 'results' => $results));
+    }
+
     private function getSessionID($request){
         $session = $request->getSession();
 
