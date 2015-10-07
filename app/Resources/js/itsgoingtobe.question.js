@@ -23,7 +23,6 @@ $(function() // execute once the DOM has loaded
 	var timeOut;
 	var char = 0;
 	var placeholderNum = Math.round(Math.random() * placeholder.length);
-	alert(placeholderNum);
 	$('textarea.input-field-question').attr('placeholder', '|');
 	(function typeIt(wait) {
 	    timeOut = setTimeout(function () {
