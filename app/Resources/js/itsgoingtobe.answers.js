@@ -5,50 +5,47 @@ $(function() // execute once the DOM has loaded
 	  //event.preventDefault();
 	});
 
-	$('input:radio[name="answer"]').change(
-	    function(){
-	        $.ajax({
-			    type: "POST",
-			    url: $( 'form[name="answers"]' ).attr( 'action' ),
-			    data: $('form[name="answers"]').serialize(),
-			    success: function(response) {
-			    	console.log(response);
-			    }
-			});
+	$('input:radio[name="answer"]').change(function() {
+        $.ajax({
+		    type: "POST",
+		    url: $( 'form[name="answers"]' ).attr( 'action' ),
+		    data: $('form[name="answers"]').serialize(),
+		    success: function(response) {
+		    	console.log(response);
+		    }
+		});
 
-	        var category = $(this).filter(':checked').val();
+        var category = $(this).filter(':checked').val();
 
-			var totalResponses = parseInt($('.options').attr('responses'));
-			// @TODO - Think about making this stronger, not just using show-results as users could spoof this, not that is really matters, it would only affect the UI.
-			if(!$('.options').hasClass('show-results')){
-				totalResponses += 1;
-				$('.options').attr('responses', totalResponses);
-			}else{
-				var previousResponseID = $('.options').attr('currentResponse');
-				var previousResponse = parseInt($('.result[name=answer-'+previousResponseID+']').attr('responses')) - 1;
-				$('.result[name=answer-'+previousResponseID+']').attr('responses',previousResponse);
-			}
+		var totalResponses = parseInt($('.options').attr('responses'));
+		// @TODO - Think about making this stronger, not just using show-results as users could spoof this, not that is really matters, it would only affect the UI.
+		if(!$('.options').hasClass('show-results')){
+			totalResponses += 1;
+			$('.options').attr('responses', totalResponses);
+		}else{
+			var previousResponseID = $('.options').attr('currentResponse');
+			var previousResponse = parseInt($('.result[name=answer-'+previousResponseID+']').attr('responses')) - 1;
+			$('.result[name=answer-'+previousResponseID+']').attr('responses',previousResponse);
+		}
 
-			var currentResponses = parseInt($('.result[name=answer-'+category+']').attr('responses')) + 1;
-			$('.result[name=answer-'+category+']').attr('responses', currentResponses);
-			$('.options').attr('currentResponse', category);
+		var currentResponses = parseInt($('.result[name=answer-'+category+']').attr('responses')) + 1;
+		$('.result[name=answer-'+category+']').attr('responses', currentResponses);
+		$('.options').attr('currentResponse', category);
 
-			$('.result').each(function( index ) {
-			 	var responses = parseInt($(this).attr('responses'));
+		$('.result').each(function( index ) {
+		 	var responses = parseInt($(this).attr('responses'));
 
-			 	var percentage = (responses / totalResponses)*100;
-			 	
-			 	$(this).css("width",percentage+'%');
-			});
+		 	var percentage = (responses / totalResponses)*100;
+		 	
+		 	$(this).css("width",percentage+'%');
+		});
 
-			$('.options').addClass('show-results');
-	    }
-	);
+		$('.options').addClass('show-results');
+    });
 
 	var pathname = window.location.pathname;
 	(function answerRefresh() {
 	    answerRefreshTimeout = setTimeout(function () {
-
 	    	$.ajax({
 			    type: "GET",
 			    url: pathname + '/responses',
@@ -70,7 +67,6 @@ $(function() // execute once the DOM has loaded
 					});
 			    }
 			});
-	        answerRefresh();
 	    }, 2000);
 	}());
 
