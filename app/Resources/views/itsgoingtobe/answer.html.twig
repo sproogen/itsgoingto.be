@@ -4,10 +4,13 @@
     <meta name="robots" CONTENT="NOINDEX, FOLLOW">
 {% endblock %}
 
-{% block description %}{{ questionModel.question }}{% endblock %}
-{% block ogdescription %}{{ questionModel.question }}{% endblock %}
-
 {% block title %}{{ questionModel.question }} | It's Going To Be{% endblock %}
+{% block twittertitle %}{{ questionModel.question }}{% endblock %}
+{% block ogtitle %}{{ questionModel.question }}{% endblock %}
+
+{% block description %}Join in the vote and answer this poll at itsgoingto.be{% endblock %}
+{% block twitterdescription %}Join in the vote and answer this poll at itsgoingto.be{% endblock %}
+{% block ogdescription %}Join in the vote and answer this poll at itsgoingto.be{% endblock %}
 
 {% block body %}
 
