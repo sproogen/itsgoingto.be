@@ -14,10 +14,10 @@
         <meta name="twitter:description" content="{% block twitterdescription %}Wondering where to go or what to see? Start a vote and share it with your friends or colleagues.{% endblock %}" />
         <meta name="twitter:image" content="{{ app.request.getSchemeAndHttpHost() ~ asset('/images/itsgoingtobe-logo.png') }}" />
 
-        <meta name="og:url" content="{{ app.request.uri }}" />
-        <meta name="og:title" content="{% block ogtitle %}It's Going To Be{% endblock %}" />
-        <meta name="og:description" content="{% block ogdescription %}Wondering where to go or what to see? Start a vote and share it with your friends or colleagues.{% endblock %}" />
-        <meta name="og:image" content="{{ app.request.getSchemeAndHttpHost() ~ asset('/images/itsgoingtobe-logo.png') }}" />
+        <meta property="og:url" content="{{ app.request.uri }}" />
+        <meta property="og:title" content="{% block ogtitle %}It's Going To Be{% endblock %}" />
+        <meta property="og:description" content="{% block ogdescription %}Wondering where to go or what to see? Start a vote and share it with your friends or colleagues.{% endblock %}" />
+        <meta property="og:image" content="{{ app.request.getSchemeAndHttpHost() ~ asset('/images/itsgoingtobe-logo.png') }}" />
 
         <title>{% block title %}It's Going To Be{% endblock %}</title>
 
