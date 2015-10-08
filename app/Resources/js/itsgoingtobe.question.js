@@ -190,14 +190,13 @@ $(function() // execute once the DOM has loaded
 	            hideDatePopup();
 	        }
 	    });
-	    $('#datepicker').css("display", "none");
 	}
 
     function showDatePopup(){
     	if(!$(this).parent().hasClass('input-disabled')){
 	    	answer = $(this).attr('for');
-	    	$('#datepicker').css("display", "block");
-	    	$('#datepicker-overlay').css("display", "block");
+	    	$('#datepicker').addClass("show");
+	    	$('#datepicker-overlay').addClass("show");
 
 	    	$("#datepicker-overlay").click(function(event) {
 				hideDatePopup();
@@ -206,7 +205,7 @@ $(function() // execute once the DOM has loaded
     }
 
     function hideDatePopup(){
-    	$('#datepicker').css("display", "none");
-    	$('#datepicker-overlay').css("display", "none");
+    	$('#datepicker').removeClass("show");
+	    	$('#datepicker-overlay').removeClass("show");
     }
 });

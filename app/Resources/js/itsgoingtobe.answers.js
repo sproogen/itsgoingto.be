@@ -43,31 +43,33 @@ $(function() // execute once the DOM has loaded
 		$('.options').addClass('show-results');
     });
 
-	var pathname = window.location.pathname;
-	(function answerRefresh() {
-	    answerRefreshTimeout = setTimeout(function () {
-	    	$.ajax({
-			    type: "GET",
-			    url: pathname + '/responses',
-			    success: function(response) {
-			    	var totalResponses = response.totalResponses;
-			    	$('.options').attr('responses', totalResponses);
+	if($( 'form[name="answers"]' ).length){
+		var pathname = window.location.pathname;
+		(function answerRefresh() {
+		    answerRefreshTimeout = setTimeout(function () {
+		    	$.ajax({
+				    type: "GET",
+				    url: pathname + '/responses',
+				    success: function(response) {
+				    	var totalResponses = response.totalResponses;
+				    	$('.options').attr('responses', totalResponses);
 
-			    	$.each( response.results, function( index, value ){
-			    		console.log(value.count);
-					    $('.result[name=answer-'+value.id+']').attr('responses', value.count);
-					});
+				    	$.each( response.results, function( index, value ){
+						    $('.result[name=answer-'+value.id+']').attr('responses', value.count);
+						});
 
-					$('.result').each(function( index ) {
-					 	var responses = parseInt($(this).attr('responses'));
+						$('.result').each(function( index ) {
+						 	var responses = parseInt($(this).attr('responses'));
 
-					 	var percentage = (responses / totalResponses)*100;
-					 	
-					 	$(this).css("width",percentage+'%');
-					});
-			    }
-			});
-	    }, 2000);
-	}());
+						 	var percentage = (responses / totalResponses)*100;
+						 	
+						 	$(this).css("width",percentage+'%');
+						});
+				    }
+				});
+				answerRefresh();
+		    }, 2000);
+		}());
+	}
 
 });
