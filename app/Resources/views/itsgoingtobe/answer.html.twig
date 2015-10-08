@@ -4,6 +4,11 @@
     <meta name="robots" CONTENT="NOINDEX, FOLLOW">
 {% endblock %}
 
+{% block description %}{{ questionModel.question }}{% endblock %}
+{% block ogdescription %}{{ questionModel.question }}{% endblock %}
+
+{% block title %}{{ questionModel.question }} | It's Going To Be{% endblock %}
+
 {% block body %}
 
 	<div class="container header-container hideable">

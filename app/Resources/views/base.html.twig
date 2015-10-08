@@ -5,8 +5,19 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         {% block meta %}{% endblock %}
-        <meta name="description" content="Ask a question and share the link to people to vote on an answer.">
+        <meta name="description" content="Wondering where to go or what to see? Start a vote and share it with your friends or colleagues.">
         <meta name="keywords" content="question vote poll result">
+
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:site" content="@sproogen" />
+        <meta name="twitter:title" content="It's Going To Be" />
+        <meta name="twitter:description" content="{% block description %}Wondering where to go or what to see? Start a vote and share it with your friends or colleagues.{% endblock %}" />
+        <meta name="twitter:image" content="{{ app.request.getSchemeAndHttpHost() ~ asset('/images/itsgoingtobe-logo.png') }}" />
+
+        <meta name="og:url" content="{{ app.request.uri }}" />
+        <meta name="og:title" content="It's Going To Be" />
+        <meta name="og:description" content="{% block ogdescription %}Wondering where to go or what to see? Start a vote and share it with your friends or colleagues.{% endblock %}" />
+        <meta name="og:image" content="{{ app.request.getSchemeAndHttpHost() ~ asset('/images/itsgoingtobe-logo.png') }}" />
 
         <title>{% block title %}It's Going To Be{% endblock %}</title>
 
