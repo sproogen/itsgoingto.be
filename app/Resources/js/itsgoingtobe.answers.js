@@ -1,11 +1,17 @@
 $(function() // execute once the DOM has loaded
 {
+	var ajaxRefresh;
+	var ajaxRefreshStatus = 0;
+
 	//Prevent the form from being submitted
 	$( 'form[name="answers"]' ).submit(function( event ) {
 	  //event.preventDefault();
 	});
 
 	$('input:radio[name="answer"]').change(function() {
+		if(ajaxRefreshStatus === 1){
+			ajaxRefresh.abort();
+		}
         $.ajax({
 		    type: "POST",
 		    url: $( 'form[name="answers"]' ).attr( 'action' ),
@@ -49,9 +55,12 @@ $(function() // execute once the DOM has loaded
 		var pathname = window.location.pathname;
 		(function answerRefresh() {
 		    answerRefreshTimeout = setTimeout(function () {
-		    	$.ajax({
+		    	ajaxRefresh = $.ajax({
 				    type: "GET",
 				    url: pathname + '/responses',
+				    beforeSend: function(){
+				    	ajaxRefreshStatus = 1;
+				   	},
 				    success: function(response) {
 				    	var totalResponses = response.totalResponses;
 				    	$('.options').attr('responses', totalResponses);
@@ -69,9 +78,12 @@ $(function() // execute once the DOM has loaded
 
 						 	$('.input-label-votes[for='+$(this).attr('name')+']').text(responses + " votes");
 						});
+				    },
+				    complete: function() {
+				    	ajaxRefreshStatus = 0;
+				    	answerRefresh();
 				    }
 				});
-				answerRefresh();
 		    }, 5000);
 		}());
 	}
