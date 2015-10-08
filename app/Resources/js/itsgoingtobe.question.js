@@ -1,20 +1,20 @@
+$('textarea.input-field-question').bind('input', function() {
+      if(this.value.length){
+        $('.header-container').addClass('gone');
+        $('.question-container').addClass('move-up');
+        $('.answers').removeClass('gone');
+        $('.options').removeClass('gone');
+      }else{
+      	$('.header-container').removeClass('gone');
+      	$('.question-container').removeClass('move-up');
+      	$('.answers').addClass('gone');
+      	$('.options').addClass('gone');
+      }
+});
+
 $(function() // execute once the DOM has loaded
 {
 	var answers = 0;
-
-	$('textarea.input-field-question').bind('input', function() {
-	      if(this.value.length){
-	        $('.header-container').addClass('gone');
-	        $('.question-container').addClass('move-up');
-	        $('.answers').removeClass('gone');
-	        $('.options').removeClass('gone');
-	      }else{
-	      	$('.header-container').removeClass('gone');
-	      	$('.question-container').removeClass('move-up');
-	      	$('.answers').addClass('gone');
-	      	$('.options').addClass('gone');
-	      }
-	});
 
 	if($('textarea.input-field-question').length){
 
@@ -183,7 +183,7 @@ $(function() // execute once the DOM has loaded
 	if($('#datepicker').length) {
 		$('#datepicker').datepicker({
 			inline: true,
-			dateFormat: "dd/mm/yy",
+			dateFormat: "DD, d MM, yy",
 			onSelect: function(date) {
 	            $('#'+answer).val(date);
 	            $('#'+answer).trigger("input");
