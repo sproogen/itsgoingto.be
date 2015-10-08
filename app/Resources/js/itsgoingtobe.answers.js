@@ -17,7 +17,7 @@ $(function() // execute once the DOM has loaded
 		    url: $( 'form[name="answers"]' ).attr( 'action' ),
 		    data: $('form[name="answers"]').serialize(),
 		    success: function(response) {
-		    	console.log(response);
+		    	//console.log(response);
 		    }
 		});
 
