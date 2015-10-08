@@ -56,11 +56,25 @@
 		    }
 		}
 
+		.input-label-votes {
+		    position: absolute;
+		    line-height: 48px;
+		    top: 4px;
+		    right: -50px;
+		    color:$label-text-color;
+		    opacity: 0;
+		    @include transition(opacity 0.3s ease);
+		}
+
 		&.show-results {
 			.input-options {
 				min-width:800px;
 
 				.result-wrapper {
+					opacity: 1;
+				}
+
+				.input-label-votes {
 					opacity: 1;
 				}
 			}

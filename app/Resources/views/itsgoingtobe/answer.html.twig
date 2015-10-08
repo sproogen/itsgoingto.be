@@ -31,6 +31,7 @@
                         </span>
                         <input id="answer-{{ answer.id }}" class="input-radio input-radio-options" name="answer" type="radio" value="{{ answer.id }}" {% if answerModel is not null and answerModel.id == answer.id %} checked{% endif %} {% if app.user %} disabled {% endif %}>
                         <label for="answer-{{ answer.id }}" class="input-label input-radio-label input-label-options">{{ answer.answer }}</label>
+                        <span for="answer-{{ answer.id }}" class="input-label-votes input-radio-label-votes">{{ answerResponses }} votes</span>
                     </span>
 
 			    {% endfor %}

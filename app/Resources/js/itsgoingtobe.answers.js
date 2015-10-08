@@ -38,6 +38,8 @@ $(function() // execute once the DOM has loaded
 		 	var percentage = (responses / totalResponses)*100;
 		 	
 		 	$(this).css("width",percentage+'%');
+
+		 	$('.input-label-votes[for='+$(this).attr('name')+']').text(responses + " votes");
 		});
 
 		$('.options').addClass('show-results');
@@ -64,6 +66,8 @@ $(function() // execute once the DOM has loaded
 						 	var percentage = (responses / totalResponses)*100;
 						 	
 						 	$(this).css("width",percentage+'%');
+
+						 	$('.input-label-votes[for='+$(this).attr('name')+']').text(responses + " votes");
 						});
 				    }
 				});
