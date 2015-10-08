@@ -68,7 +68,7 @@ $(function() // execute once the DOM has loaded
 				    }
 				});
 				answerRefresh();
-		    }, 2000);
+		    }, 5000);
 		}());
 	}
 
