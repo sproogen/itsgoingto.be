@@ -6,8 +6,8 @@
 	opacity: 0;
 	overflow: hidden;
 	-webkit-animation: rotateWord 12s cubic-bezier(0.47, 0.04, 0.41, 0.93) infinite 0s;
-	//-ms-animation: rotateWord 12s cubic-bezier(0.47, 0.04, 0.41, 0.93) infinite 0s;
-	//animation: rotateWord 12s cubic-bezier(0.47, 0.04, 0.41, 0.93) infinite 0s;
+	-ms-animation: rotateWord 12s cubic-bezier(0.47, 0.04, 0.41, 0.93) infinite 0s;
+	animation: rotateWord 12s cubic-bezier(0.47, 0.04, 0.41, 0.93) infinite 0s;
 }
 .rw-words-1 span:nth-child(2) { 
     -webkit-animation-delay: 3s; 
@@ -43,7 +43,7 @@
 	80% { opacity: 0; }
     100% { opacity: 0; }
 }
-/*@-ms-keyframes rotateWord {
+@-ms-keyframes rotateWord {
     0% { opacity: 0; }
     2% { opacity: 0; -ms-transform: translateY(-30px); }
 	5% { opacity: 1; -ms-transform: translateY(0px);}
@@ -60,4 +60,4 @@
 	20% { opacity: 0; -webkit-transform: translateY(30px); transform: translateY(30px); }
 	80% { opacity: 0; }
     100% { opacity: 0; }
-}*/
+}
