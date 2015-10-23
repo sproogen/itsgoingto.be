@@ -1,5 +1,5 @@
 # itsgoingto.be
-Symfony site behind itsgoingto.be
+Symfony magic behind itsgoingto.be
 
 Copyright
 -------------
