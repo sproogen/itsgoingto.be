@@ -47,6 +47,22 @@ $(document).ready(function() // execute once the DOM has loaded
 		}());
 	}
 
+	$('textarea.input-field-question').bind('keydown', questionKeyPressed);
+
+	function questionKeyPressed(){
+
+		var key = event.keyCode || event.charCode;
+
+		//Stop enter key submitting form
+		if ( key == 13) event.preventDefault();
+
+		if(this.value.length){
+			if ( key == 13 || key == 40 ) {
+				focusOnAnswer('1');
+		    }
+		}
+	}
+
 	$('input.input-field-answer').bind('input', answerUpdated);
 	$('input.input-field-answer').bind('keydown', keyPressed);
 	$('.input-field-datepicker-trigger').click(showDatePopup);
@@ -92,11 +108,15 @@ $(document).ready(function() // execute once the DOM has loaded
 				arr = inputID.split('-');
 				answerNum = parseInt(arr[1]);
 
-				if(answerNum != 1){
+				console.log(answerNum);
+				if(answerNum > 1){
 					if(answerNum > answers){
 						event.preventDefault();
 						focusOnAnswer(answerNum-1);
 					}
+				}else{
+					event.preventDefault();
+					focusOnQuestion();
 				}
 		    }
 		}else{
@@ -108,15 +128,37 @@ $(document).ready(function() // execute once the DOM has loaded
 		    }
 		}
 		// Up and down arrow keys to move up and down answers
-		if ( key == 38) {
+		if ( key == 38 ) {
 	    	arr = inputID.split('-');
 			answerNum = parseInt(arr[1]);
-			focusOnAnswer(answerNum-1);
-	    } else if ( key == 40) {
+			if(answerNum > 1){
+				focusOnAnswer(answerNum-1);
+			}else{
+				focusOnQuestion();
+			}
+	    } else if ( key == 40 ) {
 	    	arr = inputID.split('-');
 			answerNum = parseInt(arr[1]);
 			focusOnAnswer(answerNum+1);
 	    }
+	}
+
+	function focusOnQuestion(){
+		var input = $('textarea.input-field-question');
+		if(!input.attr( "disabled" )){
+			input.focus();
+			setTimeout((function() {
+				if(input[0]){
+			        var strLength = input[0].value.length;
+			        return function() {
+			            if(input[0].setSelectionRange !== undefined) {
+			                input[0].setSelectionRange(strLength, strLength);
+			            } else {
+			                $(input[0]).val(input[0].value);
+			            }
+			    };
+		    }}(this)), 0);
+		}
 	}
 
 	function focusOnAnswer(answer){
