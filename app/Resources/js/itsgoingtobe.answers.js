@@ -1,5 +1,27 @@
+function SelectText(element) {
+    var doc = document,
+    	text = doc.getElementById(element),
+    	range,
+    	selection;
+    if (doc.body.createTextRange) {
+        range = document.body.createTextRange();
+        range.moveToElementText(text);
+        range.select();
+    } else if (window.getSelection) {
+        selection = window.getSelection();
+        range = document.createRange();
+        range.selectNodeContents(text);
+        selection.removeAllRanges();
+        selection.addRange(range);
+    }
+}
+
 $(function() // execute once the DOM has loaded
 {
+	$( "#shareLink" ).click(function() {
+	 	SelectText('shareLink');
+	});
+
 	var ajaxRefresh;
 	var ajaxRefreshStatus = 0;
 
@@ -42,7 +64,7 @@ $(function() // execute once the DOM has loaded
 		 	var responses = parseInt($(this).attr('responses'));
 
 		 	var percentage = (responses / totalResponses)*100;
-		 	
+
 		 	$(this).css("width",percentage+'%');
 
 		 	$('.input-label-votes[for='+$(this).attr('name')+']').text(responses + " votes");
@@ -73,7 +95,7 @@ $(function() // execute once the DOM has loaded
 						 	var responses = parseInt($(this).attr('responses'));
 
 						 	var percentage = (responses / totalResponses)*100;
-						 	
+
 						 	$(this).css("width",percentage+'%');
 
 						 	$('.input-label-votes[for='+$(this).attr('name')+']').text(responses + " votes");
