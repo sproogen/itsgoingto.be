@@ -24,7 +24,7 @@ $(document).ready(function() // execute once the DOM has loaded
 						   "Where should we go for drinks?"];
 		var timeOut;
 		var char = 0;
-		var placeholderNum = Math.round(Math.random() * placeholder.length);
+		var placeholderNum = Math.round(Math.random() * (placeholder.length-1));
 		$('textarea.input-field-question').attr('placeholder', '|');
 		(function typeIt(wait) {
 		    timeOut = setTimeout(function () {
