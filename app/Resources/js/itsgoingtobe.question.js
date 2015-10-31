@@ -12,18 +12,6 @@ $('textarea.input-field-question').bind('input', function() {
       }
 });
 
-$('input').focus(function() {
-    setTimeout((function(el) {
-        var strLength = el.value.length;
-        return function() {
-            if(el.setSelectionRange !== undefined) {
-                el.setSelectionRange(strLength, strLength);
-            } else {
-                $(el).val(el.value);
-            }
-    };}(this)), 0);
-});
-
 $(document).ready(function() // execute once the DOM has loaded
 {
 	var answers = 0;
@@ -133,7 +121,20 @@ $(document).ready(function() // execute once the DOM has loaded
 
 	function focusOnAnswer(answer){
 		var input = $('input[name="answer-'+answer+'"]');
-		input.focus();
+		if(!input.attr( "disabled" )){
+			input.focus();
+			setTimeout((function() {
+				if(input[0]){
+			        var strLength = input[0].value.length;
+			        return function() {
+			            if(input[0].setSelectionRange !== undefined) {
+			                input[0].setSelectionRange(strLength, strLength);
+			            } else {
+			                $(input[0]).val(input[0].value);
+			            }
+			    };
+		    }}(this)), 0);
+		}
 	}
 
 	function getMaxAnswer(){
@@ -165,17 +166,6 @@ $(document).ready(function() // execute once the DOM has loaded
 		$('#answer-'+newNum).bind('input', answerUpdated);
 		$('#answer-'+newNum).bind('keydown', keyPressed);
 		$('.input-field-datepicker-trigger').click(showDatePopup);
-		$('#answer-'+newNum).focus(function() {
-		    setTimeout((function(el) {
-		        var strLength = el.value.length;
-		        return function() {
-		            if(el.setSelectionRange !== undefined) {
-		                el.setSelectionRange(strLength, strLength);
-		            } else {
-		                $(el).val(el.value);
-		            }
-		    };}(this)), 0);
-});
 	}
 
 	function removeAnswer(num){
