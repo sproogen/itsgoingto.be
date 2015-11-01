@@ -1,4 +1,4 @@
-# itsgoingto.be
+# itsgoingto.be [![Build Status](https://travis-ci.org/sproogen/itsgoingto.be.svg)](https://travis-ci.org/sproogen/itsgoingto.be)
 Symfony magic behind itsgoingto.be
 
 Copyright
