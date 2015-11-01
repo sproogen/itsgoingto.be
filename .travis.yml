@@ -3,6 +3,10 @@ language: php
 php:
     - 5.5
 
+branches:
+  only:
+    - master
+
 before_script:
   - cp app/config/parameters.yml.travis app/config/parameters.yml
   - cp app/config/parameters.yml.travis app/config/parameters_dev.yml
