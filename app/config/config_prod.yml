@@ -1,5 +1,6 @@
 imports:
     - { resource: parameters.yml }
+    - { resource: parameters.php.heroku }
     - { resource: config.yml }
 
 #framework:

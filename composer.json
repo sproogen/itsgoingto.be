@@ -47,8 +47,6 @@
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::prepareDeploymentTarget"
         ],
         "compile": [
-            "cp app/config/parameters.yml.heroku app/config/parameters.yml",
-            "cp app/config/parameters.php.heroku app/config/parameters.php",
             "php app/console doctrine:schema:update --force",
             "rm web/app_dev.php"
         ]
