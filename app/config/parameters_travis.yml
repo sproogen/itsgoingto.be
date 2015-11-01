@@ -1,0 +1,4 @@
+parameters:
+    database_user: travis
+    database_password: ~
+    secret: 0c165270a6aa5e54d2ab2fc7f3d09b144a4f7829
