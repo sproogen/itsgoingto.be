@@ -16,7 +16,9 @@
     -webkit-transition: all 0.3s;
     -moz-transition: all 0.3s;
     transition: all 0.3s;
-    border-radius: 0;
+
+    border-radius: 4px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.06);
 
     background: $light-grey;
     color: $text-color;
@@ -37,6 +39,7 @@
 
     &.disabled {
         background: $disabled-grey;
+        box-shadow: none;
         color: #9E9E9E;
         cursor: default;
         top:0px;
