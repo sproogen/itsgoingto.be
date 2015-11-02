@@ -13,7 +13,9 @@ textarea.input-field-question {
 input.input-field-answer {
     font-size: 1.5em;
     display: inline-block;
-    width:75%;
+    width: -webkit-calc(100% - 55px);
+    width: -moz-calc(100% - 55px);
+    width: calc(100% - 55px);
     position: absolute;
     left:55px;
 }

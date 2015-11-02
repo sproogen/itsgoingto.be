@@ -32,19 +32,30 @@
 				<span class="input input-answer">
 					<label class="input-label input-label-answer" for="answer-1">1</label>
 		   			<input class="input-field input-field-answer" type="text" id="answer-1" name="answer-1"></textarea>
-		   			<i class="input-field-datepicker-trigger" for="answer-1"></i>
+		   			<span class="input-field-datepicker-trigger" for="answer-1"><i class="fa fa-calendar"></i></span>
 		   		</span>
 
 		   		<span class="input input-answer input-disabled">
 		   			<label class="input-label input-label-answer" for="answer-2">2</label>
 		   			<input class="input-field input-field-answer" disabled type="text" id="answer-2" name="answer-2"></textarea>
-		   			<i class="input-field-datepicker-trigger" for="answer-2"></i>
+		   			<span class="input-field-datepicker-trigger" for="answer-2"><i class="fa fa-calendar"></i></span>
 		   		</span>
 
 			</div>
 
+			<div class="md-modal" id="advanced-settings">
+				<div class="md-content">
+					<h3>Advanced Settings</h3>
+					<div>
+						<p>Configure advanced settings for your poll.</p>
+						<button class="md-close">Save</button>
+					</div>
+				</div>
+			</div>
+
 			<div class="options hideable gone">
-				<button class="btn btn-question disabled">Submit</button>
+				<button class="btn btn-options">Advanced Settings</button>
+				<button class="btn btn-question disabled">Create Poll</button>
 			</div>
 		</form>
 	</div>

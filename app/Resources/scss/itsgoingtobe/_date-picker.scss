@@ -1,31 +1,48 @@
 #datepicker {
 
 	position: fixed;
-	top:-350px;
+	top:0px;
 	left: 50%;
     margin-left: -160px;
-	z-index:200;
-	background: $white-color;
-	padding:3px;
+	z-index:2000;
+	visibility: hidden;
 
-	box-shadow: 0 12px 36px 16px rgba(0, 0, 0, 0.24);
+	-webkit-backface-visibility: hidden; /* Chrome, Safari, Opera */
+   	backface-visibility: hidden;
+
 	border-radius: 0px;
-
-	@include transition(top 0.3s cubic-bezier(0.34, 1.01, 0.76, 1));
-
-	&.show {
-		top:0px;
-	}
 
 	.ui-datepicker {
 		font-size: 90%;
+
+		-webkit-transform: translateY(-200%);
+	    -moz-transform: translateY(-200%);
+	    -ms-transform: translateY(-200%);
+	    transform: translateY(-200%);
+	    -webkit-transition: all .3s;
+	    -moz-transition: all .3s;
+	    transition: all .3s;
+	    opacity: 0;
+	}
+
+	&.show {
+		visibility: visible;
+
+		.ui-datepicker {
+			-webkit-transform: translateY(0%);
+		    -moz-transform: translateY(0%);
+		    -ms-transform: translateY(0%);
+		    transform: translateY(0%);
+		    border-radius: 0 0 3px 3px;
+		    opacity: 1;
+		}
 	}
 
 	.ui-widget {
 		font-family: "Lucida Grande", "Lucida Sans Unicode", Helvetica, Arial, Verdana, sans-serif;
 		background: $white-color;
 		border: none;
-		border-radius: 0;
+		border-radius: 3px;
 		-webkit-border-radius: 0;
 		-moz-border-radius: 0;
 		width: 22em;

@@ -35,6 +35,7 @@ textarea {
 }
 .input {
 	display: block;
+    position: relative;
 }
 .input-label {
     padding: 0 1em;
@@ -115,26 +116,18 @@ textarea {
 }
 
 .input-field-datepicker-trigger {
-    padding-left: 15px;
-    top: 10px;
-    left: 76%;
+    right:10px;
     display: inline-block;
-    position: relative;
-    width: 50px;
+    position: absolute;
     cursor:pointer;
 
-    background: url(/images/calendar.png);
-    height: 35px;
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: contain;
+    font-size: 2rem;
+    line-height: 52px;
+
+    color:#999;
 
     .input-disabled & {
-        background: url(/images/calendar_disabled.png);
-        background-repeat: no-repeat;
-        background-position: center center;
-        background-size: contain;
-
         cursor: default;
+        color:#d4d4d4;
     }
 }
