@@ -17,7 +17,12 @@
 	<div class="container header-container hideable">
     	<div class="header center-text">
             <h2>{{ questionModel.question }}</h2>
-            <h3 id="shareLink" class="share-link">{{ app.request.httpHost ~ app.request.requestUri }}</h3>
+            <h3>
+                <span id="shareLink" class="share-link">{{ app.request.httpHost ~ app.request.requestUri }}</span>
+                <a class="shareButton twitter" target="_blank" href="https://twitter.com/home?status={{ questionModel.question }} - Answer this poll at http://{{ app.request.httpHost ~ app.request.requestUri }}"><i class="fa fa-twitter"></i></a>
+                <a class="shareButton facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://{{ app.request.httpHost ~ app.request.requestUri }}"><i class="fa fa-facebook"></i></a>
+                <a class="shareButton" target="_blank" href="mailto:?&subject={{ questionModel.question }}&body=Answer%20this%20poll%20at%20http://{{ app.request.httpHost ~ app.request.requestUri }}"><i class="fa fa-envelope"></i></a>
+            </h3>
     	</div>
     </div>
 

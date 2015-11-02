@@ -10,6 +10,28 @@
 	    padding: 5px 15px;
 	    display: inline-block;
 	}
+	.shareButton {
+		display: inline-block;
+		width:35px;
+		padding: 5px 5px;
+		border-radius: 30px;
+		font-size: 1.3rem;
+		margin-left: 5px;
+
+		background: #EAEAEA;
+		box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.06), 0 0 5px #D4D4D4;
+		color: $text-color;
+
+		&.twitter {
+			background:#55acee;
+			color: $white-color;
+		}
+
+		&.facebook {
+			background:#3B5998;
+			color: $white-color;
+		}
+	}
 }
 .answer-container{
 	text-align: center;
