@@ -91,11 +91,6 @@ class ItsGoingToBeController extends Controller
      */
     public function answerAction(Request $request, $identifier)
     {
-
-        var_dump($this->getCustomUserID($request));
-
-        die();
-
         $securityContext = $this->container->get('security.context');
         if ($securityContext->isGranted('ROLE_ADMIN')) {
             $questionModel = $this->getDoctrine()
@@ -113,7 +108,12 @@ class ItsGoingToBeController extends Controller
         //Check if the user has already answered the question
         $responseModel = $this->getDoctrine()
             ->getRepository('ItsGoingToBeBundle:UserResponse')
-            ->findOneBy(array('userSessionID' => $this->getSessionID($request), 'question' => $questionModel->getId()));
+            ->findOneBy(array('customUserID' => $this->getCustomUserID($request), 'question' => $questionModel->getId()));
+        if(!$responseModel){
+            $responseModel = $this->getDoctrine()
+                ->getRepository('ItsGoingToBeBundle:UserResponse')
+                ->findOneBy(array('userSessionID' => $this->getSessionID($request), 'question' => $questionModel->getId()));
+        }
         if($responseModel){
             $answerModel = $responseModel->getAnswer();
         }else{
@@ -171,12 +171,19 @@ class ItsGoingToBeController extends Controller
         //Check if the user has already answered the question
         $responseModel = $this->getDoctrine()
             ->getRepository('ItsGoingToBeBundle:UserResponse')
-            ->findOneBy(array('userSessionID' => $this->getSessionID($request), 'question' => $questionModel->getId()));
+            ->findOneBy(array('customUserID' => $this->getCustomUserID($request), 'question' => $questionModel->getId()));
+        if(!$responseModel){
+            $responseModel = $this->getDoctrine()
+                ->getRepository('ItsGoingToBeBundle:UserResponse')
+                ->findOneBy(array('userSessionID' => $this->getSessionID($request), 'question' => $questionModel->getId()));
+        }
         if($responseModel){
             //User has already answered the question, update the response
             $em = $this->getDoctrine()->getManager();
 
             $responseModel->setAnswer($answerModel);
+            $responseModel->setCustomUserID($this->getCustomUserID($request));
+            $responseModel->setUserSessionID($this->getSessionID($request));
 
             $em->persist($responseModel);
             $em->flush();
@@ -186,6 +193,7 @@ class ItsGoingToBeController extends Controller
             $responseModel = new UserResponse();
             $responseModel->setQuestion($questionModel);
             $responseModel->setAnswer($answerModel);
+            $responseModel->setCustomUserID($this->getCustomUserID($request));
             $responseModel->setUserSessionID($this->getSessionID($request));
             $responseModel->setUserIP($request->server->get('REMOTE_ADDR'));
 
@@ -250,7 +258,7 @@ class ItsGoingToBeController extends Controller
         if(!$userID){
             $logger->info('Custom User ID Not Found');
 
-            $userID = openssl_random_pseudo_bytes(16);
+            $userID = openssl_random_pseudo_bytes(32);
             $cookie = new Cookie('USERID', $userID, time() + (3600 * 24 * 7));
             $response = new Response();
             $response->headers->setCookie($cookie);

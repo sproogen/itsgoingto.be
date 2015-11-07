@@ -43,7 +43,7 @@ class UserResponse
     /**
      * @ORM\Column(type="string", length=100)
      */
-    protected $customSessionID = "";
+    protected $customUserID = "";
 
     /**
      * @ORM\Column(type="datetime")

@@ -43,7 +43,7 @@ class UserResponse
     /**
      * @ORM\Column(type="string", length=100)
      */
-    protected $customSessionID = "";
+    protected $customUserID = "";
 
     /**
      * @ORM\Column(type="datetime")
@@ -223,26 +223,26 @@ class UserResponse
     }
 
     /**
-     * Set customSessionID
+     * Set customUserID
      *
-     * @param string $customSessionID
+     * @param string $customUserID
      *
      * @return UserResponse
      */
-    public function setCustomSessionID($customSessionID)
+    public function setCustomUserID($customUserID)
     {
-        $this->customSessionID = $customSessionID;
+        $this->customUserID = $customUserID;
 
         return $this;
     }
 
     /**
-     * Get customSessionID
+     * Get customUserID
      *
      * @return string
      */
-    public function getCustomSessionID()
+    public function getCustomUserID()
     {
-        return $this->customSessionID;
+        return $this->customUserID;
     }
 }
