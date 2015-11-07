@@ -41,6 +41,11 @@ class UserResponse
     protected $userSessionID;
 
     /**
+     * @ORM\Column(type="string", length=100)
+     */
+    protected $customSessionID = "";
+
+    /**
      * @ORM\Column(type="datetime")
      */
     protected $created_at;
@@ -215,5 +220,29 @@ class UserResponse
     public function getAnswer()
     {
         return $this->answer;
+    }
+
+    /**
+     * Set customSessionID
+     *
+     * @param string $customSessionID
+     *
+     * @return UserResponse
+     */
+    public function setCustomSessionID($customSessionID)
+    {
+        $this->customSessionID = $customSessionID;
+
+        return $this;
+    }
+
+    /**
+     * Get customSessionID
+     *
+     * @return string
+     */
+    public function getCustomSessionID()
+    {
+        return $this->customSessionID;
     }
 }

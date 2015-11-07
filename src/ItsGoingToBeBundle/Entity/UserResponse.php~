@@ -41,6 +41,11 @@ class UserResponse
     protected $userSessionID;
 
     /**
+     * @ORM\Column(type="string", length=100)
+     */
+    protected $customSessionID = "";
+
+    /**
      * @ORM\Column(type="datetime")
      */
     protected $created_at;

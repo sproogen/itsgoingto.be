@@ -42,7 +42,7 @@ class Question
     /**
      * @ORM\Column(type="boolean")
      */
-    protected $deleted = false;
+    protected $deleted = FALSE;
 
     /**
      * @ORM\Column(type="datetime")

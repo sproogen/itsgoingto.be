@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
@@ -90,6 +91,11 @@ class ItsGoingToBeController extends Controller
      */
     public function answerAction(Request $request, $identifier)
     {
+
+        var_dump($this->getCustomUserID($request));
+
+        die();
+
         $securityContext = $this->container->get('security.context');
         if ($securityContext->isGranted('ROLE_ADMIN')) {
             $questionModel = $this->getDoctrine()
@@ -206,7 +212,7 @@ class ItsGoingToBeController extends Controller
         if(!$questionModel){
             return new JsonResponse(array('result' => 'error'));
         }
-        
+
         $results = array();
 
         foreach($questionModel->getAnswers() as $answer){
@@ -234,5 +240,24 @@ class ItsGoingToBeController extends Controller
         }
         $logger->info('Session ID = '.$session->getId());
         return $session->getId();
+    }
+
+    private function getCustomUserID($request){
+        $userID = $request->cookies->get('USERID');
+
+        $logger = $this->get('logger');
+
+        if(!$userID){
+            $logger->info('Custom User ID Not Found');
+
+            $userID = openssl_random_pseudo_bytes(16);
+            $cookie = new Cookie('USERID', $userID, time() + (3600 * 24 * 7));
+            $response = new Response();
+            $response->headers->setCookie($cookie);
+            $response->sendHeaders();
+
+        }
+        $logger->info('Custom User ID = '.$userID);
+        return $userID;
     }
 }
