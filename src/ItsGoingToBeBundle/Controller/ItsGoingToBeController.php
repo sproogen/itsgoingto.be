@@ -115,6 +115,11 @@ class ItsGoingToBeController extends Controller
                 ->findOneBy(array('userSessionID' => $this->getSessionID($request), 'question' => $questionModel->getId()));
         }
         if($responseModel){
+            $em = $this->getDoctrine()->getManager();
+            $responseModel->setCustomUserID($this->getCustomUserID($request));
+            $responseModel->setUserSessionID($this->getSessionID($request));
+            $em->persist($responseModel);
+
             $answerModel = $responseModel->getAnswer();
         }else{
             $answerModel = null;
@@ -259,7 +264,7 @@ class ItsGoingToBeController extends Controller
             $logger->info('Custom User ID Not Found');
 
             $userID = openssl_random_pseudo_bytes(32);
-            $cookie = new Cookie('USERID', $userID, time() + (3600 * 24 * 7));
+            $cookie = new Cookie('USERID', $userID, time() + (3600 * 24 * 1825));
             $response = new Response();
             $response->headers->setCookie($cookie);
             $response->sendHeaders();
