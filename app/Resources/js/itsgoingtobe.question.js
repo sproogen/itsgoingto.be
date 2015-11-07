@@ -87,7 +87,6 @@ function keyPressed(){
 			arr = inputID.split('-');
 			answerNum = parseInt(arr[1]);
 
-			console.log(answerNum);
 			if(answerNum > 1){
 				if(answerNum > answers){
 					event.preventDefault();

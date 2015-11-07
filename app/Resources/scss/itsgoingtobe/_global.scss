@@ -2,6 +2,10 @@ body {
 	background: $background;
 	font-family: $base-font-family;
     -webkit-font-smoothing: antialiased;
+
+    @include media(max-width 68em) {
+        font-size: 0.7em;
+    }
 }
 input, h1, h2, h3, h4, h5, p, label {
     font-family: $base-font-family;
@@ -10,8 +14,12 @@ input, h1, h2, h3, h4, h5, p, label {
 .container {
 	@include outer-container;
 
+    @include media(max-width 48em) {
+        max-width: 100%;
+    }
+
     /* Temporary fixed width untill responsive is implemented */
-    width: 68em;
+    width: 100%;
 
 	position: relative;
 
