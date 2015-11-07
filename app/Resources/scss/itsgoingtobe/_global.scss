@@ -138,3 +138,25 @@ input, h1, h2, h3, h4, h5, p, label {
     padding: 3px;
     margin-bottom: 20px;
 }
+
+.back-container {
+    position: absolute;
+    width: auto;
+    top: 0px;
+    left: 0px;
+    .back-button {
+        a {
+            line-height: 50px;
+            margin-left: 30px;
+            color: #BBBBBB;
+            font-size: 1.1em;
+            -webkit-transition: color 0.4s ease;
+            -moz-transition: color 0.4s ease;
+            transition: color 0.4s ease;
+
+            &:hover {
+                color: #4C4C4C;
+            }
+        }
+    }
+}

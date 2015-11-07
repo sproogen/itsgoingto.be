@@ -14,6 +14,12 @@
 
 {% block body %}
 
+    <div class="container back-container">
+        <div class="back-button">
+            <a href="{{ path('question') }}"><i class="fa fa-arrow-left"></i> New Poll</a>
+        </div>
+    </div>
+
 	<div class="container header-container hideable">
     	<div class="header center-text">
             <h2>{{ questionModel.question }}</h2>
