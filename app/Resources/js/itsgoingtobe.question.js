@@ -243,6 +243,11 @@ function hideAdvancedOptions(){
 
 $(document).ready(function() // execute once the DOM has loaded
 {
+
+	$( window ).resize(function() {
+		$('textarea.input-field-question').trigger('input');
+	});
+
 	if($('textarea.input-field-question').length){
 
 		var placeholder = ["What film should we watch?",

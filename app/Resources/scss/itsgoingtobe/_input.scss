@@ -32,6 +32,7 @@ textarea {
 	resize: none;
 	overflow-x: hidden;
 	box-sizing: border-box;
+    min-height: 2.125em;
 }
 .input {
 	display: block;
@@ -65,7 +66,7 @@ textarea {
 .input-radio, .input-checkbox, .input-radio-label, .input-checkbox-label {
     display: inline-block;
     vertical-align: middle;
-    margin: 5px;
+    margin: 0.2em;
     cursor: pointer;
 }
 
@@ -73,7 +74,7 @@ textarea {
     position: relative;
     font-weight: 300;
     font-size: 1.6em;
-    line-height: 44px;
+    line-height: 1.75em;
 }
 
 .input-radio + .input-radio-label:before, .input-checkbox + .input-checkbox-label:before {
@@ -116,13 +117,13 @@ textarea {
 }
 
 .input-field-datepicker-trigger {
-    right:10px;
+    right:0.3125em;
     display: inline-block;
     position: absolute;
     cursor:pointer;
 
-    font-size: 2rem;
-    line-height: 52px;
+    font-size: 2em;
+    line-height: 1.625em;
 
     color:#999;
 
