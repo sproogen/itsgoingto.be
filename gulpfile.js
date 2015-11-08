@@ -10,6 +10,7 @@ var watch = require('gulp-watch');
 var sass = require('gulp-sass');
 var minifyCSS = require('gulp-minify-css');
 var shell = require('gulp-shell');
+var browserSync = require('browser-sync').create();
 
 /*
  * These are the commands to be run on command line
@@ -38,9 +39,11 @@ gulp.task('ng:js', ['ng:clean'], function() {
 	    	.on('error', gutil.log);
 });
 
+gulp.task('ng:js-reload', ['ng:js'], browserSync.reload);
+
 gulp.task('ng:sass', function() {
 	gulp.src('app/Resources/scss/itsgoingtobe.scss')
-    	.pipe(sass({includePaths: require('node-neat').includePaths}))
+    	.pipe(sass({includePaths: require('node-neat').includePaths.concat('app/Resources/scss')}))
     	.pipe(rename('itsgoingtobe.css'))
     	.pipe(gulp.dest('web/css'))
     	.pipe(minifyCSS())
@@ -48,18 +51,26 @@ gulp.task('ng:sass', function() {
     	.pipe(gulp.dest('web/css'));
 });
 
+gulp.task('ng:sass-reload', ['ng:sass'], browserSync.reload);
+
 gulp.task('continuous-build', function() {
 	// js
 	gulp.start('ng:js');
 	gulp.watch(['app/Resources/js/**/*.js'], function(files) {
-		gulp.start('ng:js');
+		gulp.start('ng:js-reload');
 	});
 
 	// sass
 	gulp.start('ng:sass');
 	gulp.watch(['app/Resources/scss/**/*.scss'], function(files) {
-		gulp.start('ng:sass');
+		gulp.start('ng:sass-reload');
 	});
+
+    gulp.watch("app/Resources/views/**/*.twig").on('change', browserSync.reload);
+
+    browserSync.init({
+        proxy: "itsgoingtobe.local/app_dev.php"
+    });
 });
 
 gulp.task('doctrine-generate', shell.task([
