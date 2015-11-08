@@ -74,22 +74,27 @@ textarea {
     position: relative;
     font-weight: 300;
     font-size: 1.6em;
-    line-height: 1.75em;
+    line-height: 1.875em;
+    margin-bottom: 0px;
 }
 
 .input-radio + .input-radio-label:before, .input-checkbox + .input-checkbox-label:before {
     content: '';
     background: #fff;
-    border: 2px solid $label-text-color;
+    border: 0.125em solid $label-text-color;
     display: inline-block;
     vertical-align: middle;
-    width: 25px;
-    height: 25px;
-    padding: 2px;
-    margin-right: 10px;
+    width: 1.5625em;
+    height: 1.5625em;
+    padding: 0.125em;
+    margin-right: 0.625em;
     font-size: 1rem;
+    @include media(max-width 68em) {
+        font-size: 0.9rem;
+    }
     line-height: 1.1rem;
     text-align: center;
+    margin-top: -0.25em;
 }
 
 .input-radio:checked + .input-radio-label, .input-checkbox:checked + .input-checkbox-label {

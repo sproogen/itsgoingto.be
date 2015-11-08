@@ -113,6 +113,9 @@ input, h1, h2, h3, h4, h5, p, label {
         margin-left: 1.875em;
         color:$dark-grey;
         font-size: 1em;
+        @include media(max-width 68em) {
+            font-size: 1.1em;
+        }
         @include transition(color 0.4s ease);
         &:hover {
             color:$text-color;
@@ -179,6 +182,9 @@ input, h1, h2, h3, h4, h5, p, label {
             margin-left: 30px;
             color: #BBBBBB;
             font-size: 1.1em;
+            @include media(max-width 68em) {
+                font-size: 1.3em;
+            }
             -webkit-transition: color 0.4s ease;
             -moz-transition: color 0.4s ease;
             transition: color 0.4s ease;
