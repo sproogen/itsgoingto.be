@@ -10,7 +10,7 @@ var watch = require('gulp-watch');
 var sass = require('gulp-sass');
 var minifyCSS = require('gulp-minify-css');
 var shell = require('gulp-shell');
-var browserSync = require('browser-sync').create();
+var browserSync;
 
 /*
  * These are the commands to be run on command line
@@ -40,7 +40,9 @@ gulp.task('ng:js', ['ng:clean'], function() {
 	    	.on('error', gutil.log);
 });
 
-gulp.task('ng:js-reload', ['ng:js'], browserSync.reload);
+gulp.task('ng:js-reload', ['ng:js'], function() {
+    browserSync.reload;
+});
 
 gulp.task('ng:sass', function() {
 	gulp.src('app/Resources/scss/itsgoingtobe.scss')
@@ -52,7 +54,9 @@ gulp.task('ng:sass', function() {
     	.pipe(gulp.dest('web/css'));
 });
 
-gulp.task('ng:sass-reload', ['ng:sass'], browserSync.reload);
+gulp.task('ng:sass-reload', ['ng:sass'], function() {
+    browserSync.reload;
+});
 
 gulp.task('continuous-build', function() {
 	// js
@@ -70,6 +74,9 @@ gulp.task('continuous-build', function() {
 });
 
 gulp.task('continuous-build-browserSync', function() {
+
+    browserSync = require('browser-sync').create();
+
     // js
     gulp.start('ng:js');
     gulp.watch(['app/Resources/js/**/*.js'], function(files) {
