@@ -6,6 +6,7 @@ php:
 branches:
   only:
     - master
+    - develop
 
 before_script:
   - cp app/config/parameters.yml.travis app/config/parameters.yml
