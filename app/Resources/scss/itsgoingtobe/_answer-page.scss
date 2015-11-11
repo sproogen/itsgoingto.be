@@ -60,6 +60,7 @@
 }
 .answer-container{
 	text-align: center;
+	margin-bottom: 10em;
 	@include media(max-width $medium-breakpoint) {
         font-size:1.4em;
     }
