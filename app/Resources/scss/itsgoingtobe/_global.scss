@@ -14,8 +14,11 @@ body {
     position: relative;
     padding-bottom: 60px;
 
-    @include media(max-width 68em) {
+    @include media(max-width $large-breakpoint) {
         font-size: 0.7em;
+    }
+    @include media(max-width $medium-breakpoint) {
+        font-size: 0.5em;
     }
 }
 input, h1, h2, h3, h4, h5, p, label {
@@ -25,11 +28,11 @@ input, h1, h2, h3, h4, h5, p, label {
 .container {
 	@include outer-container;
 
-    @include media(max-width 48em) {
-        //max-width: 100%;
+    @include media(max-width $medium-breakpoint) {
+        max-width:100%;
     }
 
-    width:68em;
+    width:100%;
 
     padding:0px 1em;
 
@@ -46,6 +49,9 @@ input, h1, h2, h3, h4, h5, p, label {
 }
 
 .footer-container {
+    @include media(max-width $medium-breakpoint) {
+        font-size:1.4em;
+    }
     position: fixed;
     bottom: 0;
     left:0;
@@ -74,6 +80,9 @@ input, h1, h2, h3, h4, h5, p, label {
 
 	h1 {
 		font-size: 4em;
+        @include media(max-width $medium-breakpoint) {
+            font-size: 3em;
+        }
         line-height: 1.2em;
         min-height: 1.2em;
     	letter-spacing: -1px;
@@ -84,13 +93,19 @@ input, h1, h2, h3, h4, h5, p, label {
 
     	.rw-words span {
     		font-weight:500;
-    		right: 60%;
-    		padding-right: 16px;
+    		right: 61%;
+            @include media(max-width $medium-breakpoint) {
+                right: 64%;
+            }
+    		padding-right: 0.25em;
     	}
 
     	span.header-right {
     		position: absolute;
-    		left:40%;
+    		left:39%;
+            @include media(max-width $medium-breakpoint) {
+                left: 36%;
+            }
     	}
 	}
 
@@ -171,6 +186,9 @@ input, h1, h2, h3, h4, h5, p, label {
 }
 
 .back-container {
+    @include media(max-width $medium-breakpoint) {
+        font-size:1.4em;
+    }
     position: absolute;
     width: auto;
     top: 0px;

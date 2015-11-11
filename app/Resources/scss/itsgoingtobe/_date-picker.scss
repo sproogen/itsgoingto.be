@@ -4,6 +4,10 @@
 	top:0px;
 	left: 50%;
     margin-left: -160px;
+    @include media(max-width $medium-breakpoint) {
+        margin-left: -130px;
+        font-size: 0.8em;
+    }
 	z-index:2000;
 	visibility: hidden;
 
@@ -46,6 +50,9 @@
 		-webkit-border-radius: 0;
 		-moz-border-radius: 0;
 		width: 320px;
+		@include media(max-width $medium-breakpoint) {
+	        width: 260px;
+	    }
 	}
 
 	.ui-datepicker {

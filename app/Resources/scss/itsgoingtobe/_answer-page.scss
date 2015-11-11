@@ -1,14 +1,26 @@
 .header-container{
+	&.answer-header-container .header {
+    	margin-bottom: 0px;
+	}
 	.share-link {
 		margin: 0px;
 	    font-weight: 300;
 	    font-size: 1.25rem;
+	    @include media(max-width $medium-breakpoint) {
+	        font-size:1.0rem;
+	    }
 	    margin-top: 15px;
 	    border-radius: 30px;
 	    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.06), 0 0 5px #D4D4D4;
 	    background: #EAEAEA;
 	    padding: 0.25em 0.75em;
 	    display: inline-block;
+	}
+	h3 {
+		@include media(max-width $medium-breakpoint) {
+			position: relative;
+			height: 90px;
+		}
 	}
 	.shareButton {
 		display: inline-block;
@@ -22,22 +34,41 @@
 		box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.06), 0 0 5px #D4D4D4;
 		color: $text-color;
 
+		@include media(max-width $medium-breakpoint) {
+			position: absolute;
+			top:55px;
+			left:50%;
+			margin-left:22.5px;
+		}
+
 		&.twitter {
 			background:#55acee;
 			color: $white-color;
+			@include media(max-width $medium-breakpoint) {
+				margin-left:-57.5px;
+			}
 		}
 
 		&.facebook {
 			background:#3B5998;
 			color: $white-color;
+			@include media(max-width $medium-breakpoint) {
+				margin-left:-17.5px;
+			}
 		}
 	}
 }
 .answer-container{
 	text-align: center;
+	@include media(max-width $medium-breakpoint) {
+        font-size:1.4em;
+    }
 
 	.options {
 		display: inline-block;
+		@include media(max-width $medium-breakpoint) {
+			display: block;
+		}
 	    text-align: left;
 	    @include clearfix;
 
@@ -91,6 +122,10 @@
 		&.show-results {
 			.input-options {
 				min-width:48em;
+				@include media(max-width $medium-breakpoint) {
+					min-width: 0px;
+					width: 100%;
+				}
 
 				.result-wrapper {
 					opacity: 1;

@@ -1,13 +1,16 @@
 .input-question {
-	margin-bottom:30px;
+	margin-bottom:1.875em;
 }
 
 .input-answer {
-	margin-bottom: 15px;
+	margin-bottom: 1em;
 }
 
 textarea.input-field-question {
     font-size: 2.5em;
+     @include media(max-width $medium-breakpoint) {
+        font-size: 1.8em;
+    }
 }
 
 input.input-field-answer {

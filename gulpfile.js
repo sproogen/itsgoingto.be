@@ -18,6 +18,7 @@ var browserSync = require('browser-sync').create();
 gulp.task('default', ['build']);
 gulp.task('build', ['ng:js', 'ng:sass']);
 gulp.task('develop', ['continuous-build']);
+gulp.task('sync', ['continuous-build-browserSync']);
 
 /*
  * These are to helper tasks.
@@ -57,14 +58,29 @@ gulp.task('continuous-build', function() {
 	// js
 	gulp.start('ng:js');
 	gulp.watch(['app/Resources/js/**/*.js'], function(files) {
-		gulp.start('ng:js-reload');
+		gulp.start('ng:js');
 	});
 
 	// sass
 	gulp.start('ng:sass');
 	gulp.watch(['app/Resources/scss/**/*.scss'], function(files) {
-		gulp.start('ng:sass-reload');
+		gulp.start('ng:sass');
 	});
+
+});
+
+gulp.task('continuous-build-browserSync', function() {
+    // js
+    gulp.start('ng:js');
+    gulp.watch(['app/Resources/js/**/*.js'], function(files) {
+        gulp.start('ng:js-reload');
+    });
+
+    // sass
+    gulp.start('ng:sass');
+    gulp.watch(['app/Resources/scss/**/*.scss'], function(files) {
+        gulp.start('ng:sass-reload');
+    });
 
     gulp.watch("app/Resources/views/**/*.twig").on('change', browserSync.reload);
 
