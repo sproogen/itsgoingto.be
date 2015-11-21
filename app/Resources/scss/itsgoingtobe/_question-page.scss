@@ -49,3 +49,16 @@ label.input-label-advanced {
 		top:-11.25em;
 	}
 }
+
+#advanced-settings {
+    @include media(max-width $large-breakpoint) {
+        .input-radio + .input-label-options:before, .input-checkbox + .input-label-options:before {
+            font-size: 0.8rem;
+        }
+    }
+    @include media(max-width $medium-breakpoint) {
+        .input-radio + .input-label-options:before, .input-checkbox + .input-label-options:before {
+            font-size: 0.6rem;
+        }
+    }
+}
