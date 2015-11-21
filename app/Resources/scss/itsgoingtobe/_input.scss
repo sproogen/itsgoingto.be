@@ -63,14 +63,14 @@ textarea {
     position: absolute;
 }
 
-.input-radio, .input-checkbox, .input-radio-label, .input-checkbox-label {
+.input-radio, .input-checkbox, .input-label-options {
     display: inline-block;
     vertical-align: middle;
     margin: 0.2em;
     cursor: pointer;
 }
 
-.input-radio-label, .input-checkbox-label {
+.input-label-options {
     position: relative;
     font-weight: 300;
     font-size: 1.6em;
@@ -78,7 +78,7 @@ textarea {
     margin-bottom: 0px;
 }
 
-.input-radio + .input-radio-label:before, .input-checkbox + .input-checkbox-label:before {
+.input-radio + .input-label-options:before, .input-checkbox + .input-label-options:before {
     content: '';
     background: #fff;
     border: 0.125em solid $label-text-color;
@@ -97,25 +97,25 @@ textarea {
     margin-top: -0.25em;
 }
 
-.input-radio:checked + .input-radio-label, .input-checkbox:checked + .input-checkbox-label {
+.input-radio:checked + .input-label-options, .input-checkbox:checked + .input-label-options {
 	color: $text-color;
 }
 
-.input-radio:checked + .input-radio-label:before, .input-checkbox:checked + .input-checkbox-label:before {
+.input-radio:checked + .input-label-options:before, .input-checkbox:checked + .input-label-options:before {
 	border: 2px solid $text-color;
 }
 
-.input-checkbox:checked + .input-checkbox-label:before {
+.input-checkbox:checked + .input-label-options:before {
     content: "\f00c";
     font-family: 'FontAwesome';
     color: $text-color;
 }
 
-.input-radio + .input-radio-label:before {
+.input-radio + .input-label-options:before {
     border-radius: 50%;
 }
 
-.input-radio:checked + .input-radio-label:before {
+.input-radio:checked + .input-label-options:before {
     content: "\f00c";
     font-family: 'FontAwesome';
     color: $text-color;

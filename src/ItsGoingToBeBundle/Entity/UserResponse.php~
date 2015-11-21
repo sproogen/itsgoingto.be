@@ -221,4 +221,28 @@ class UserResponse
     {
         return $this->answer;
     }
+
+    /**
+     * Set customUserID
+     *
+     * @param string $customUserID
+     *
+     * @return UserResponse
+     */
+    public function setCustomUserID($customUserID)
+    {
+        $this->customUserID = $customUserID;
+
+        return $this;
+    }
+
+    /**
+     * Get customUserID
+     *
+     * @return string
+     */
+    public function getCustomUserID()
+    {
+        return $this->customUserID;
+    }
 }

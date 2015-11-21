@@ -43,10 +43,10 @@ $(function() // execute once the DOM has loaded
 		    }
 		});
 
-        var category = $(this).filter(':checked').val();
+        var answerID = $(this).val();
 
 		var totalResponses = parseInt($('.options').attr('responses'));
-		// @TODO - Think about making this stronger, not just using show-results as users could spoof this, not that is really matters, it would only affect the UI.
+
 		if(!$('.options').hasClass('show-results')){
 			totalResponses += 1;
 			$('.options').attr('responses', totalResponses);
@@ -56,9 +56,9 @@ $(function() // execute once the DOM has loaded
 			$('.result[name=answer-'+previousResponseID+']').attr('responses',previousResponse);
 		}
 
-		var currentResponses = parseInt($('.result[name=answer-'+category+']').attr('responses')) + 1;
-		$('.result[name=answer-'+category+']').attr('responses', currentResponses);
-		$('.options').attr('currentResponse', category);
+		var currentResponses = parseInt($('.result[name=answer-'+answerID+']').attr('responses')) + 1;
+		$('.result[name=answer-'+answerID+']').attr('responses', currentResponses);
+		$('.options').attr('currentResponse', answerID);
 
 		$('.result').each(function( index ) {
 		 	var responses = parseInt($(this).attr('responses'));
@@ -71,6 +71,49 @@ $(function() // execute once the DOM has loaded
 		});
 
 		$('.options').addClass('show-results');
+    });
+
+    $('input:checkbox[name="answer[]"]').change(function() {
+        if(ajaxRefreshStatus === 1){
+            ajaxRefresh.abort();
+        }
+        $.ajax({
+            type: "POST",
+            url: $( 'form[name="answers"]' ).attr( 'action' ),
+            data: $('form[name="answers"]').serialize(),
+            success: function(response) {
+                //console.log(response);
+            }
+        });
+
+        var answerID = $(this).val();
+        var checked = $(this).is(':checked');
+
+        var totalResponses = parseInt($('.options').attr('responses'));
+
+        var responses = parseInt($('.result[name=answer-'+answerID+']').attr('responses'));
+
+        if(checked){
+            totalResponses += 1;
+            responses += 1;
+        }else{
+            totalResponses -= 1;
+            responses -= 1;
+        }
+        $('.options').attr('responses', totalResponses);
+        $('.result[name=answer-'+answerID+']').attr('responses',responses);
+
+        $('.result').each(function( index ) {
+            var responses = parseInt($(this).attr('responses'));
+
+            var percentage = (responses / totalResponses)*100;
+
+            $(this).css("width",percentage+'%');
+
+            $('.input-label-votes[for='+$(this).attr('name')+']').text(responses + " votes");
+        });
+
+        $('.options').addClass('show-results');
     });
 
 	if($( 'form[name="answers"]' ).length){

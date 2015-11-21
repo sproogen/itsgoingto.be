@@ -69,9 +69,13 @@ class ItsGoingToBeController extends Controller
 
         $em = $this->getDoctrine()->getManager();
 
+        $multipleChoice = $request->request->get('multiple', false);
+        if($multipleChoice === "1") $multipleChoice = true;
+
         $questionModel = new Question();
         $questionModel->setIdentifier($identifier);
         $questionModel->setQuestion($question);
+        $questionModel->setMultipleChoice($multipleChoice);
         $em->persist($questionModel);
 
         foreach ($answers as $answer) {
@@ -105,24 +109,49 @@ class ItsGoingToBeController extends Controller
             throw $this->createNotFoundException('The question could not be found');
         }
 
-        //Check if the user has already answered the question
-        $responseModel = $this->getDoctrine()
-            ->getRepository('ItsGoingToBeBundle:UserResponse')
-            ->findOneBy(array('customUserID' => $this->getCustomUserID($request), 'question' => $questionModel->getId()));
-        if(!$responseModel){
+        if(!$questionModel->getMultipleChoice()){
+
+            //Check if the user has already answered the question
             $responseModel = $this->getDoctrine()
                 ->getRepository('ItsGoingToBeBundle:UserResponse')
-                ->findOneBy(array('userSessionID' => $this->getSessionID($request), 'question' => $questionModel->getId()));
-        }
-        if($responseModel){
-            $em = $this->getDoctrine()->getManager();
-            $responseModel->setCustomUserID($this->getCustomUserID($request));
-            $responseModel->setUserSessionID($this->getSessionID($request));
-            $em->persist($responseModel);
+                ->findOneBy(array('customUserID' => $this->getCustomUserID($request), 'question' => $questionModel->getId()));
+            if(!$responseModel){
+                $responseModel = $this->getDoctrine()
+                    ->getRepository('ItsGoingToBeBundle:UserResponse')
+                    ->findOneBy(array('userSessionID' => $this->getSessionID($request), 'question' => $questionModel->getId()));
+            }
+            if($responseModel){
+                $em = $this->getDoctrine()->getManager();
+                $responseModel->setCustomUserID($this->getCustomUserID($request));
+                $responseModel->setUserSessionID($this->getSessionID($request));
+                $em->persist($responseModel);
 
-            $answerModel = $responseModel->getAnswer();
+                $answerModel = $responseModel->getAnswer();
+            }else{
+                $answerModel = null;
+            }
         }else{
-            $answerModel = null;
+            //Check if the user has already answered the question
+            $responseModels = $this->getDoctrine()
+                ->getRepository('ItsGoingToBeBundle:UserResponse')
+                ->findBy(array('customUserID' => $this->getCustomUserID($request), 'question' => $questionModel->getId()));
+            if(!$responseModels){
+                $responseModels = $this->getDoctrine()
+                    ->getRepository('ItsGoingToBeBundle:UserResponse')
+                    ->findBy(array('userSessionID' => $this->getSessionID($request), 'question' => $questionModel->getId()));
+            }
+            if($responseModels){
+                foreach($responseModels as $responseModel){
+                    $em = $this->getDoctrine()->getManager();
+                    $responseModel->setCustomUserID($this->getCustomUserID($request));
+                    $responseModel->setUserSessionID($this->getSessionID($request));
+                    $em->persist($responseModel);
+
+                    $answerModel[$responseModel->getAnswer()->getId()] = $responseModel->getAnswer();
+                }
+            }else{
+                $answerModel = null;
+            }
         }
 
         return $this->render('itsgoingtobe/answer.html.twig', array(
@@ -138,8 +167,6 @@ class ItsGoingToBeController extends Controller
      */
     public function answerPostAction(Request $request, $identifier)
     {
-        // @TODO - Add error responses
-
         //Check if the question exists
         $questionModel = $this->getDoctrine()
             ->getRepository('ItsGoingToBeBundle:Question')
@@ -152,58 +179,117 @@ class ItsGoingToBeController extends Controller
             }
         }
 
-        //Check if the answer exists
-        $answer = $request->request->get('answer');
-        if(!$answer){
-            if($request->isXmlHttpRequest()) {
-                return new JsonResponse(array('result' => 'error'));
-            } else {
-                return $this->redirectToRoute('answer', array('identifier' => $identifier));
-            }
-        }
-        //Check if the answer is for the question
-        $answerModel = $this->getDoctrine()
-            ->getRepository('ItsGoingToBeBundle:Answer')
-            ->findOneBy(array('id' => $answer, 'question' => $questionModel->getId()));
-        if(!$answerModel){
-            if($request->isXmlHttpRequest()) {
-                return new JsonResponse(array('result' => 'error'));
-            } else {
-                return $this->redirectToRoute('answer', array('identifier' => $identifier));
-            }
-        }
+        if(!$questionModel->getMultipleChoice()){
 
-        //Check if the user has already answered the question
-        $responseModel = $this->getDoctrine()
-            ->getRepository('ItsGoingToBeBundle:UserResponse')
-            ->findOneBy(array('customUserID' => $this->getCustomUserID($request), 'question' => $questionModel->getId()));
-        if(!$responseModel){
+            //Check if the answer exists
+            $answer = $request->request->get('answer');
+            if(!$answer){
+                if($request->isXmlHttpRequest()) {
+                    return new JsonResponse(array('result' => 'error'));
+                } else {
+                    return $this->redirectToRoute('answer', array('identifier' => $identifier));
+                }
+            }
+            //Check if the answer is for the question
+            $answerModel = $this->getDoctrine()
+                ->getRepository('ItsGoingToBeBundle:Answer')
+                ->findOneBy(array('id' => $answer, 'question' => $questionModel->getId()));
+            if(!$answerModel){
+                if($request->isXmlHttpRequest()) {
+                    return new JsonResponse(array('result' => 'error'));
+                } else {
+                    return $this->redirectToRoute('answer', array('identifier' => $identifier));
+                }
+            }
+
+            //Check if the user has already answered the question
             $responseModel = $this->getDoctrine()
                 ->getRepository('ItsGoingToBeBundle:UserResponse')
-                ->findOneBy(array('userSessionID' => $this->getSessionID($request), 'question' => $questionModel->getId()));
-        }
-        if($responseModel){
-            //User has already answered the question, update the response
-            $em = $this->getDoctrine()->getManager();
+                ->findOneBy(array('customUserID' => $this->getCustomUserID($request), 'question' => $questionModel->getId()));
+            if(!$responseModel){
+                $responseModel = $this->getDoctrine()
+                    ->getRepository('ItsGoingToBeBundle:UserResponse')
+                    ->findOneBy(array('userSessionID' => $this->getSessionID($request), 'question' => $questionModel->getId()));
+            }
+            if($responseModel){
+                //User has already answered the question, update the response
+                $em = $this->getDoctrine()->getManager();
 
-            $responseModel->setAnswer($answerModel);
-            $responseModel->setCustomUserID($this->getCustomUserID($request));
-            $responseModel->setUserSessionID($this->getSessionID($request));
+                $responseModel->setAnswer($answerModel);
+                $responseModel->setCustomUserID($this->getCustomUserID($request));
+                $responseModel->setUserSessionID($this->getSessionID($request));
 
-            $em->persist($responseModel);
-            $em->flush();
+                $em->persist($responseModel);
+                $em->flush();
+            }else{
+                $em = $this->getDoctrine()->getManager();
+
+                $responseModel = new UserResponse();
+                $responseModel->setQuestion($questionModel);
+                $responseModel->setAnswer($answerModel);
+                $responseModel->setCustomUserID($this->getCustomUserID($request));
+                $responseModel->setUserSessionID($this->getSessionID($request));
+                $responseModel->setUserIP($request->server->get('REMOTE_ADDR'));
+
+                $em->persist($responseModel);
+                $em->flush();
+            }
         }else{
-            $em = $this->getDoctrine()->getManager();
 
-            $responseModel = new UserResponse();
-            $responseModel->setQuestion($questionModel);
-            $responseModel->setAnswer($answerModel);
-            $responseModel->setCustomUserID($this->getCustomUserID($request));
-            $responseModel->setUserSessionID($this->getSessionID($request));
-            $responseModel->setUserIP($request->server->get('REMOTE_ADDR'));
+            $answers = $request->request->get('answer', array());
 
-            $em->persist($responseModel);
-            $em->flush();
+            $responseModels = $this->getDoctrine()
+                ->getRepository('ItsGoingToBeBundle:UserResponse')
+                ->findBy(array('customUserID' => $this->getCustomUserID($request), 'question' => $questionModel->getId()));
+            if(!$responseModels){
+                $responseModels = $this->getDoctrine()
+                    ->getRepository('ItsGoingToBeBundle:UserResponse')
+                    ->findBy(array('userSessionID' => $this->getSessionID($request), 'question' => $questionModel->getId()));
+            }
+            if($responseModels){
+                foreach($responseModels as $responseModel){
+                    if( !in_array( $responseModel->getAnswer()->getId(), $answers ) ){
+                        $em = $this->getDoctrine()->getManager();
+
+                        $em->remove($responseModel);
+                        $em->flush();
+                    }
+                }
+            }
+
+            foreach($answers as $answer) {
+                //Check if the answer is for the question
+                $answerModel = $this->getDoctrine()
+                    ->getRepository('ItsGoingToBeBundle:Answer')
+                    ->findOneBy(array('id' => $answer, 'question' => $questionModel->getId()));
+                if($answerModel){
+
+                    //Check if the user has already answered the question
+                    $responseModel = $this->getDoctrine()
+                        ->getRepository('ItsGoingToBeBundle:UserResponse')
+                        ->findOneBy(array('customUserID' => $this->getCustomUserID($request), 'question' => $questionModel->getId(), 'answer' => $answerModel->getId()));
+                    if(!$responseModel){
+                        $responseModel = $this->getDoctrine()
+                            ->getRepository('ItsGoingToBeBundle:UserResponse')
+                            ->findOneBy(array('userSessionID' => $this->getSessionID($request), 'question' => $questionModel->getId(), 'answer' => $answerModel->getId()));
+                    }
+                    if(!$responseModel){
+                        $em = $this->getDoctrine()->getManager();
+
+                        $responseModel = new UserResponse();
+                        $responseModel->setQuestion($questionModel);
+                        $responseModel->setAnswer($answerModel);
+                        $responseModel->setCustomUserID($this->getCustomUserID($request));
+                        $responseModel->setUserSessionID($this->getSessionID($request));
+                        $responseModel->setUserIP($request->server->get('REMOTE_ADDR'));
+
+                        $em->persist($responseModel);
+                        $em->flush();
+                    }
+                }
+            }
+
+
         }
 
         if($request->isXmlHttpRequest()) {

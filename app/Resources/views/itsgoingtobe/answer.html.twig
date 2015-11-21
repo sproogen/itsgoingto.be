@@ -35,7 +35,7 @@
     <div class="container answer-container">
     	<form name="answers" action="{{ path('answer-post' , {'identifier' : identifier}) }}" method="post" autocomplete="off">
             {% set totalResponses = questionModel.responses|length %}
-    		<div class="options{% if answerModel is not null or app.user %} show-results{% endif %}" currentResponse="{% if answerModel is not null %}{{ answerModel.id }}{% endif %}" responses="{{ totalResponses }}">
+    		<div class="options{% if answerModel is not null or app.user %} show-results{% endif %}" currentResponse="{% if answerModel is not null and answerModel is not iterable %}{{ answerModel.id }}{% endif %}" responses="{{ totalResponses }}">
 	    		{% for answer in questionModel.answers %}
 
                     <span class="input input-options">
@@ -48,9 +48,16 @@
                             {% endif %}
                             <span class="result" name="answer-{{ answer.id }}" style="width:{{ answerPercentage }}%" responses="{{ answerResponses }}"></span>
                         </span>
-                        <input id="answer-{{ answer.id }}" class="input-radio input-radio-options" name="answer" type="radio" value="{{ answer.id }}" {% if answerModel is not null and answerModel.id == answer.id %} checked{% endif %} {% if app.user %} disabled {% endif %}>
-                        <label for="answer-{{ answer.id }}" class="input-label input-radio-label input-label-options">{{ answer.answer }}</label>
-                        <span for="answer-{{ answer.id }}" class="input-label-votes input-radio-label-votes">{{ answerResponses }} votes</span>
+
+                        {% if questionModel.multipleChoice == false %}
+                            <input id="answer-{{ answer.id }}" class="input-radio input-radio-options" name="answer" type="radio" value="{{ answer.id }}" {% if answerModel is not null and answerModel.id == answer.id %} checked{% endif %} {% if app.user %} disabled {% endif %}>
+                        {% else %}
+                            <input id="answer-{{ answer.id }}" class="input-checkbox input-checkbox-options" name="answer[]" type="checkbox" value="{{ answer.id }}" {% if answerModel is not null and answer.id in answerModel|keys %} checked{% endif %} {% if app.user %} disabled {% endif %}>
+                        {% endif %}
+
+
+                        <label for="answer-{{ answer.id }}" class="input-label input-label-options">{{ answer.answer }}</label>
+                        <span for="answer-{{ answer.id }}" class="input-label-votes">{{ answerResponses }} votes</span>
                     </span>
 
 			    {% endfor %}
@@ -93,11 +100,11 @@
                 },
                 eventtype = mobilecheck() ? 'touchstart' : 'click';
 
-            [].slice.call( document.querySelectorAll( '.input-radio-label' ) ).forEach( function( el ) {
+            [].slice.call( document.querySelectorAll( '.input-label-options' ) ).forEach( function( el ) {
                 el.addEventListener( eventtype, function( ev ) {
-                    classie.add( el, 'input-radio-label--click' );
+                    classie.add( el, 'input-label-options--click' );
                     onEndAnimation( classie.has( el, 'cbutton--complex' ) ? el.querySelector( '.cbutton__helper' ) : el, function() {
-                        classie.remove( el, 'input-radio-label--click' );
+                        classie.remove( el, 'input-label-options--click' );
                     } );
                 } );
             } );

@@ -42,6 +42,11 @@ class Question
     /**
      * @ORM\Column(type="boolean")
      */
+    protected $multiple_choice;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
     protected $deleted = FALSE;
 
     /**

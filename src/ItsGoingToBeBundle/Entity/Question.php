@@ -42,6 +42,11 @@ class Question
     /**
      * @ORM\Column(type="boolean")
      */
+    protected $multiple_choice;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
     protected $deleted = FALSE;
 
     /**
@@ -269,5 +274,29 @@ class Question
     public function getDeleted()
     {
         return $this->deleted;
+    }
+
+    /**
+     * Set multipleChoice
+     *
+     * @param boolean $multipleChoice
+     *
+     * @return Question
+     */
+    public function setMultipleChoice($multipleChoice)
+    {
+        $this->multiple_choice = $multipleChoice;
+
+        return $this;
+    }
+
+    /**
+     * Get multipleChoice
+     *
+     * @return boolean
+     */
+    public function getMultipleChoice()
+    {
+        return $this->multiple_choice;
     }
 }
