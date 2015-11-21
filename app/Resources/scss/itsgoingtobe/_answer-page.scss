@@ -110,11 +110,17 @@
 		    }
 		}
 
+		.input-label-options {
+			word-break: break-word;
+    		padding-right: 3.6em;
+		}
+
 		.input-label-votes {
 		    position: absolute;
 		    line-height: 3em;
 		    margin-top:4px;
 		    right: 2em;
+		    top:0;
 		    color:$label-text-color;
 		    opacity: 0;
 		    @include transition(opacity 0.3s ease);
