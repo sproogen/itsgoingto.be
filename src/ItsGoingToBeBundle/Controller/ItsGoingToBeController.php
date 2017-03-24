@@ -349,7 +349,7 @@ class ItsGoingToBeController extends Controller
         if(!$userID){
             $logger->info('Custom User ID Not Found');
 
-            $userID = openssl_random_pseudo_bytes(32);
+            $userID = bin2hex(openssl_random_pseudo_bytes(32));
             $cookie = new Cookie('USERID', $userID, time() + (3600 * 24 * 1825));
             $response = new Response();
             $response->headers->setCookie($cookie);
