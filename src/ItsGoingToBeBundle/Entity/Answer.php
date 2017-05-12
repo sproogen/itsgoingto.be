@@ -4,6 +4,8 @@ namespace ItsGoingToBeBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use ItsGoingToBeBundle\Entity\Question;
+use ItsGoingToBeBundle\Entity\UserResponse;
 
 /**
  * @ORM\Entity
@@ -52,11 +54,11 @@ class Answer
     /**
      * Set question
      *
-     * @param \ItsGoingToBeBundle\Entity\Question $question
+     * @param Question $question
      *
      * @return Answer
      */
-    public function setQuestion(\ItsGoingToBeBundle\Entity\Question $question = null)
+    public function setQuestion(Question $question = null)
     {
         $this->question = $question;
 
@@ -66,7 +68,7 @@ class Answer
     /**
      * Get question
      *
-     * @return \ItsGoingToBeBundle\Entity\Question
+     * @return Question
      */
     public function getQuestion()
     {
@@ -100,11 +102,11 @@ class Answer
     /**
      * Add response
      *
-     * @param \ItsGoingToBeBundle\Entity\UserResponse $response
+     * @param UserResponse $response
      *
      * @return Answer
      */
-    public function addResponse(\ItsGoingToBeBundle\Entity\UserResponse $response)
+    public function addResponse(UserResponse $response)
     {
         $this->responses[] = $response;
 
@@ -114,9 +116,9 @@ class Answer
     /**
      * Remove response
      *
-     * @param \ItsGoingToBeBundle\Entity\UserResponse $response
+     * @param UserResponse $response
      */
-    public function removeResponse(\ItsGoingToBeBundle\Entity\UserResponse $response)
+    public function removeResponse(UserResponse $response)
     {
         $this->responses->removeElement($response);
     }
