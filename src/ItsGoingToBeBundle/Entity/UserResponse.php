@@ -3,71 +3,94 @@
 namespace ItsGoingToBeBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Event\LifecycleEventArgs;
 use ItsGoingToBeBundle\Entity\Answer;
 use ItsGoingToBeBundle\Entity\Question;
 
 /**
- * @ORM\Entity
- * @ORM\HasLifecycleCallbacks
- * @ORM\Table(name="response")
+ * Entity to store an answer for a users response.
  */
 class UserResponse
 {
 	/**
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * The id of this Entity.
+     *
+     * @var integer
      */
     protected $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Question", inversedBy="responses")
-     * @ORM\JoinColumn(name="question_id", referencedColumnName="id")
+     * The question for this response.
+     *
+     * @var  Question
      */
     protected $question;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Answer", inversedBy="responses")
-     * @ORM\JoinColumn(name="answer_id", referencedColumnName="id")
+     * The answer for this response.
+     *
+     * @var  Answer
      */
     protected $answer;
 
     /**
-     * @ORM\Column(type="string", length=100)
+     * The ip of the user for the response.
+     *
+     * @var  string
      */
     protected $userIP;
 
     /**
-     * @ORM\Column(type="string", length=100)
+     * The session id of the user for the response.
+     *
+     * @var  string
      */
     protected $userSessionID;
 
     /**
-     * @ORM\Column(type="string", length=100)
+     * A custom id for the user for the response.
+     *
+     * @var  string
      */
     protected $customUserID = "";
 
     /**
-     * @ORM\Column(type="datetime")
+     * When this Entity was created.
+     *
+     * @var \DateTime
      */
-    protected $created_at;
+    protected $created;
 
     /**
-     * @ORM\Column(type="datetime")
+     * When this Entity was last updated.
+     *
+     * @var \DateTime
      */
-    protected $updated_at;
+    protected $updated;
 
     /**
-     * @ORM\PrePersist
-     * @ORM\PreUpdate
+     * Lifecycle callback method for the 'prePersist' event.
+     *
+     * Sets the $created and $updated dates to now.
+     *
+     * @param LifecycleEventArgs $args Args for this Lifecycle event, passed in by Doctrine.
      */
-    public function updateTimestamps()
+    public function prePersist(LifecycleEventArgs $args)
     {
-        if($this->getCreatedAt() == null)
-        {
-            $this->setCreatedAt(new \DateTime(date('Y-m-d H:i:s')));
-        }
-        $this->setUpdatedAt(new \DateTime(date('Y-m-d H:i:s')));
+        $this->setCreated();
+        $this->setUpdated();
+    }
+
+    /**
+     * Lifecycle callback method for the 'preUpdate' event.
+     *
+     * Sets the $updated date to now.
+     *
+     * @param LifecycleEventArgs $args Args for this Lifecycle event, passed in by Doctrine.
+     */
+    public function preUpdate(LifecycleEventArgs $args)
+    {
+        $this->setUpdated();
     }
 
     /**
@@ -201,50 +224,59 @@ class UserResponse
     }
 
     /**
-     * Set createdAt
+     * Get when this Entity was created.
      *
-     * @param \DateTime $createdAt
-     *
-     * @return UserResponse
+     * @return \DateTime
      */
-    public function setCreatedAt($createdAt)
+    public function getCreated()
     {
-        $this->created_at = $createdAt;
+        return $this->created;
+    }
 
+    /**
+     * Set when this Entity was created.
+     *
+     * Sets it to now if no $created value is passed.
+     *
+     * @param \DateTime $created When this Entity was created.
+     *
+     * @return Entity
+     */
+    public function setCreated($created = null)
+    {
+        if (is_null($created)) {
+            $created = new \DateTime();
+        }
+
+        $this->created = $created;
         return $this;
     }
 
     /**
-     * Get createdAt
+     * Get when this Entity was last updated.
      *
      * @return \DateTime
      */
-    public function getCreatedAt()
+    public function getUpdated()
     {
-        return $this->created_at;
+        return $this->updated;
     }
 
     /**
-     * Set updatedAt
+     * Set when this Entity was last updated.
      *
-     * @param \DateTime $updatedAt
+     * Sets it to now if no $updated value is passed.
      *
-     * @return UserResponse
+     * @param \DateTime $updated When this Entity was last updated.
+     *
+     * @return Entity
      */
-    public function setUpdatedAt($updatedAt)
+    public function setUpdated($updated = null)
     {
-        $this->updated_at = $updatedAt;
+        if (is_null($updated)) {
+            $updated = new \DateTime();
+        }
 
-        return $this;
-    }
-
-    /**
-     * Get updatedAt
-     *
-     * @return \DateTime
-     */
-    public function getUpdatedAt()
-    {
-        return $this->updated_at;
+        $this->updated = $updated;
     }
 }

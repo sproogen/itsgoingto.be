@@ -3,59 +3,67 @@
 namespace ItsGoingToBeBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * @ORM\Entity
- * @ORM\HasLifecycleCallbacks
- * @ORM\Table(name="login_attempt")
+ * Entity to store login attempts
  */
 class LoginAttempt
 {
 	/**
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * The id of this Entity.
+     *
+     * @var integer
      */
     protected $id;
 
     /**
-     * @ORM\Column(type="text")
+     * The id of this Entity.
+     *
+     * @var integer
      */
     protected $ip;
 
     /**
-     * @ORM\Column(type="boolean")
+     * Whether the login attempt was succesful.
+     *
+     * @var boolean
      */
     protected $succesful;
 
     /**
-     * @ORM\Column(type="text")
+     * The username used for the login.
+     *
+     * @var string
      */
     protected $username;
 
     /**
-     * @ORM\Column(type="text")
+     * The password used for the login, empty string if login was succesful.
+     *
+     * @var string
      */
     protected $password = "";
 
     /**
-     * @ORM\Column(type="datetime")
+     * When this Entity was created.
+     *
+     * @var \DateTime
      */
-    protected $created_at;
+    protected $created;
 
     /**
-     * @ORM\PrePersist
-     * @ORM\PreUpdate
+     * Lifecycle callback method for the 'prePersist' event.
+     *
+     * Sets the $created dates to now.
+     *
+     * @param LifecycleEventArgs $args Args for this Lifecycle event, passed in by Doctrine.
      */
-    public function updateTimestamps()
+    public function prePersist(LifecycleEventArgs $args)
     {
-        if($this->getCreatedAt() == null)
-        {
-            $this->setCreatedAt(new \DateTime(date('Y-m-d H:i:s')));
-        }
+        $this->setCreated();
     }
-
 
     /**
      * Get id
@@ -164,26 +172,31 @@ class LoginAttempt
     }
 
     /**
-     * Set createdAt
-     *
-     * @param \DateTime $createdAt
-     *
-     * @return LoginAttempt
-     */
-    public function setCreatedAt($createdAt)
-    {
-        $this->created_at = $createdAt;
-
-        return $this;
-    }
-
-    /**
-     * Get createdAt
+     * Get when this Entity was created.
      *
      * @return \DateTime
      */
-    public function getCreatedAt()
+    public function getCreated()
     {
-        return $this->created_at;
+        return $this->created;
+    }
+
+    /**
+     * Set when this Entity was created.
+     *
+     * Sets it to now if no $created value is passed.
+     *
+     * @param \DateTime $created When this Entity was created.
+     *
+     * @return Entity
+     */
+    public function setCreated($created = null)
+    {
+        if (is_null($created)) {
+            $created = new \DateTime();
+        }
+
+        $this->created = $created;
+        return $this;
     }
 }

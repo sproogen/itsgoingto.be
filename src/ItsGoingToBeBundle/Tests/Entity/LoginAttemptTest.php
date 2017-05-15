@@ -2,6 +2,7 @@
 
 namespace ItsGoingToBeBundle\Tests\Entity;
 
+use Doctrine\ORM\Event\LifecycleEventArgs;
 use ItsGoingToBeBundle\Tests\AbstractTests\BaseEntityTest;
 use ItsGoingToBeBundle\Entity\LoginAttempt;
 
@@ -41,17 +42,22 @@ class LoginAttemptTest extends BaseEntityTest
         self::assertEquals('password', $this->entity->getPassword());
     }
 
-    public function testGetSetCreatedAt()
+    public function testGetSetCreated()
     {
-        $now = new \DateTime(date('Y-m-d H:i:s'));
-        $this->entity->setCreatedAt($now);
-        self::assertEquals($now, $this->entity->getCreatedAt());
+        $now = new \DateTime();
+        $this->entity->setCreated();
+        self::assertEquals($now, $this->entity->getCreated());
+        $now->modify('+1 day');
+        $this->entity->setCreated($now);
+        self::assertEquals($now, $this->entity->getCreated());
     }
 
-    public function testUpdateTimestamps()
+    public function testPrePersist()
     {
-        self::assertEquals(null, $this->entity->getCreatedAt());
-        $this->entity->updateTimestamps();
-        self::assertInstanceOf(\DateTime::class, $this->entity->getCreatedAt());
+        self::assertEquals(null, $this->entity->getCreated());
+        $lifecycleEventArgs = $this->prophesize(LifecycleEventArgs::class);
+        $this->entity->prePersist($lifecycleEventArgs->reveal());
+        self::assertInstanceOf(\DateTime::class, $this->entity->getCreated());
+        self::assertEquals(new \DateTime(), $this->entity->getCreated());
     }
 }

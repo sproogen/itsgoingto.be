@@ -1,0 +1,35 @@
+ItsGoingToBeBundle\Entity\Question:
+    type: entity
+    table: question
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        identifier:
+            type: string
+            column: identifier
+        question:
+            type: text
+            column: question
+        multipleChoice:
+            type: boolean
+            column: multiple_choice
+        deleted:
+            type: boolean
+            column: deleted
+        created:
+            type: datetime
+        updated:
+            type: datetime
+    oneToMany:
+        answers:
+            targetEntity: ItsGoingToBeBundle\Entity\Answer
+            mappedBy: question
+        responses:
+            targetEntity: ItsGoingToBeBundle\Entity\UserResponse
+            mappedBy: question
+    lifecycleCallbacks:
+        prePersist: [ prePersist ]
+        preUpdate: [ preUpdate ]

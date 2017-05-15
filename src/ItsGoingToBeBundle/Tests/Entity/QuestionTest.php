@@ -3,6 +3,7 @@
 namespace ItsGoingToBeBundle\Tests\Entity;
 
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Event\LifecycleEventArgs;
 use ItsGoingToBeBundle\Tests\AbstractTests\BaseEntityTest;
 use ItsGoingToBeBundle\Entity\Question;
 use ItsGoingToBeBundle\Entity\Answer;
@@ -104,33 +105,44 @@ class QuestionTest extends BaseEntityTest
         self::assertEquals(true, $this->entity->getDeleted());
     }
 
-    public function testGetSetCreatedAt()
+    public function testGetSetCreated()
     {
-        $now = new \DateTime(date('Y-m-d H:i:s'));
-        $this->entity->setCreatedAt($now);
-        self::assertEquals($now, $this->entity->getCreatedAt());
+        $now = new \DateTime();
+        $this->entity->setCreated();
+        self::assertEquals($now, $this->entity->getCreated());
+        $now->modify('+1 day');
+        $this->entity->setCreated($now);
+        self::assertEquals($now, $this->entity->getCreated());
     }
 
-    public function testGetSetUpdatedAt()
+    public function testGetSetUpdated()
     {
-        $now = new \DateTime(date('Y-m-d H:i:s'));
-        $this->entity->setUpdatedAt($now);
-        self::assertEquals($now, $this->entity->getUpdatedAt());
+        $now = new \DateTime();
+        $this->entity->setUpdated();
+        self::assertEquals($now, $this->entity->getUpdated());
+        $now->modify('+1 day');
+        $this->entity->setUpdated($now);
+        self::assertEquals($now, $this->entity->getUpdated());
     }
 
-    public function testUpdateTimestamps()
+    public function testPrePersist()
     {
-        self::assertEquals(null, $this->entity->getCreatedAt());
-        self::assertEquals(null, $this->entity->getUpdatedAt());
-        $this->entity->updateTimestamps();
-        self::assertInstanceOf(\DateTime::class, $this->entity->getCreatedAt());
-        self::assertInstanceOf(\DateTime::class, $this->entity->getUpdatedAt());
+        self::assertEquals(null, $this->entity->getCreated());
+        self::assertEquals(null, $this->entity->getUpdated());
+        $lifecycleEventArgs = $this->prophesize(LifecycleEventArgs::class);
+        $this->entity->prePersist($lifecycleEventArgs->reveal());
+        self::assertInstanceOf(\DateTime::class, $this->entity->getCreated());
+        self::assertEquals(new \DateTime(), $this->entity->getCreated());
+        self::assertInstanceOf(\DateTime::class, $this->entity->getUpdated());
+        self::assertEquals(new \DateTime(), $this->entity->getUpdated());
+    }
 
-        $this->entity->setCreatedAt('SomeDate');
-        $this->entity->setUpdatedAt('SomeDate');
-        $this->entity->updateTimestamps();
-        self::assertEquals('SomeDate', $this->entity->getCreatedAt());
-        self::assertNotEquals('SomeDate', $this->entity->getUpdatedAt());
-        self::assertInstanceOf(\DateTime::class, $this->entity->getUpdatedAt());
+    public function testPreUpdate()
+    {
+        self::assertEquals(null, $this->entity->getUpdated());
+        $lifecycleEventArgs = $this->prophesize(LifecycleEventArgs::class);
+        $this->entity->preUpdate($lifecycleEventArgs->reveal());
+        self::assertInstanceOf(\DateTime::class, $this->entity->getUpdated());
+        self::assertEquals(new \DateTime(), $this->entity->getUpdated());
     }
 }

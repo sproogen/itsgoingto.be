@@ -3,64 +3,82 @@
 namespace ItsGoingToBeBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\Common\Collections\ArrayCollection;
 use ItsGoingToBeBundle\Entity\Answer;
 use ItsGoingToBeBundle\Entity\UserResponse;
 
 /**
- * @ORM\Entity
- * @ORM\HasLifecycleCallbacks
- * @ORM\Table(name="question")
+ * Entity to store a question.
  */
 class Question
 {
     /**
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * The id of this Entity.
+     *
+     * @var integer
      */
     protected $id;
 
     /**
-     * @ORM\Column(type="string", length=100)
+     * A unique identifier for this question.
+     *
+     * @var  string
      */
     protected $identifier;
 
     /**
-     * @ORM\Column(type="text")
+     * The question text.
+     *
+     * @var  string
      */
     protected $question;
 
     /**
-     * @ORM\OneToMany(targetEntity="Answer", mappedBy="question")
+     * The answers for this question.
+     *
+     * @var  Answer[]
      */
     protected $answers;
 
     /**
-     * @ORM\OneToMany(targetEntity="UserResponse", mappedBy="question")
+     * The responses for this question.
+     *
+     * @var  Response[]
      */
     protected $responses;
 
     /**
-     * @ORM\Column(type="boolean")
+     * Is the question multiple choice.
+     *
+     * @var  boolean
      */
-    protected $multiple_choice;
+    protected $multipleChoice;
 
     /**
-     * @ORM\Column(type="boolean")
+     * Has the question been deleted
+     *
+     * @var  boolean
      */
     protected $deleted = FALSE;
 
     /**
-     * @ORM\Column(type="datetime")
+     * When this Entity was created.
+     *
+     * @var \DateTime
      */
-    protected $created_at;
+    protected $created;
 
     /**
-     * @ORM\Column(type="datetime")
+     * When this Entity was last updated.
+     *
+     * @var \DateTime
      */
-    protected $updated_at;
+    protected $updated;
 
+    /**
+     * Question constructor
+     */
     public function __construct()
     {
         $this->answers = new ArrayCollection();
@@ -68,16 +86,28 @@ class Question
     }
 
     /**
-     * @ORM\PrePersist
-     * @ORM\PreUpdate
+     * Lifecycle callback method for the 'prePersist' event.
+     *
+     * Sets the $created and $updated dates to now.
+     *
+     * @param LifecycleEventArgs $args Args for this Lifecycle event, passed in by Doctrine.
      */
-    public function updateTimestamps()
+    public function prePersist(LifecycleEventArgs $args)
     {
-        if($this->getCreatedAt() == null)
-        {
-            $this->setCreatedAt(new \DateTime(date('Y-m-d H:i:s')));
-        }
-        $this->setUpdatedAt(new \DateTime(date('Y-m-d H:i:s')));
+        $this->setCreated();
+        $this->setUpdated();
+    }
+
+    /**
+     * Lifecycle callback method for the 'preUpdate' event.
+     *
+     * Sets the $updated date to now.
+     *
+     * @param LifecycleEventArgs $args Args for this Lifecycle event, passed in by Doctrine.
+     */
+    public function preUpdate(LifecycleEventArgs $args)
+    {
+        $this->setUpdated();
     }
 
     /**
@@ -255,50 +285,59 @@ class Question
     }
 
     /**
-     * Set createdAt
+     * Get when this Entity was created.
      *
-     * @param \DateTime $createdAt
-     *
-     * @return Question
+     * @return \DateTime
      */
-    public function setCreatedAt($createdAt)
+    public function getCreated()
     {
-        $this->created_at = $createdAt;
+        return $this->created;
+    }
 
+    /**
+     * Set when this Entity was created.
+     *
+     * Sets it to now if no $created value is passed.
+     *
+     * @param \DateTime $created When this Entity was created.
+     *
+     * @return Entity
+     */
+    public function setCreated($created = null)
+    {
+        if (is_null($created)) {
+            $created = new \DateTime();
+        }
+
+        $this->created = $created;
         return $this;
     }
 
     /**
-     * Get createdAt
+     * Get when this Entity was last updated.
      *
      * @return \DateTime
      */
-    public function getCreatedAt()
+    public function getUpdated()
     {
-        return $this->created_at;
+        return $this->updated;
     }
 
     /**
-     * Set updatedAt
+     * Set when this Entity was last updated.
      *
-     * @param \DateTime $updatedAt
+     * Sets it to now if no $updated value is passed.
      *
-     * @return Question
+     * @param \DateTime $updated When this Entity was last updated.
+     *
+     * @return Entity
      */
-    public function setUpdatedAt($updatedAt)
+    public function setUpdated($updated = null)
     {
-        $this->updated_at = $updatedAt;
+        if (is_null($updated)) {
+            $updated = new \DateTime();
+        }
 
-        return $this;
-    }
-
-    /**
-     * Get updatedAt
-     *
-     * @return \DateTime
-     */
-    public function getUpdatedAt()
-    {
-        return $this->updated_at;
+        $this->updated = $updated;
     }
 }

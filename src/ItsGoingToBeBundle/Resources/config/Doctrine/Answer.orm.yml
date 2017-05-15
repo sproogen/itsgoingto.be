@@ -1,0 +1,23 @@
+ItsGoingToBeBundle\Entity\Answer:
+    type: entity
+    table: answer
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        answer:
+            type: text
+            column: answer
+    manyToOne:
+        question:
+            targetEntity: ItsGoingToBeBundle\Entity\Question
+            inversedBy: answers
+            joinColumns:
+                question_id:
+                    referencedColumnName: id
+    oneToMany:
+        responses:
+            targetEntity: ItsGoingToBeBundle\Entity\UserResponse
+            mappedBy: answer
