@@ -11,7 +11,9 @@ class SecurityController extends Controller
 {
 
     /**
-     * @Route("/admin/login", name="login_route")
+     * Action for the admin login page
+     *
+     * Matches /admin/login route exactly.
      */
     public function loginAction(Request $request)
     {
@@ -34,7 +36,9 @@ class SecurityController extends Controller
     }
 
     /**
-     * @Route("/admin/login_check", name="login_check")
+     * Action for the admin login check action
+     *
+     * Matches /admin/login-check route exactly.
      */
     public function loginCheckAction()
     {

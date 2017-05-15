@@ -1,0 +1,16 @@
+admin_page:
+    path:     /
+    defaults: { _controller: ItsGoingToBeBundle:Admin:index }
+
+admin_delete:
+    path:     /delete/{identifier}
+    defaults: { _controller: ItsGoingToBeBundle:Admin:delete }
+    methods: ['POST']
+
+admin_login_page:
+    path:     /login
+    defaults: { _controller: ItsGoingToBeBundle:Security:login }
+
+admin_login_check:
+    path:     /login-check
+    defaults: { _controller: ItsGoingToBeBundle:Security:loginCheck }

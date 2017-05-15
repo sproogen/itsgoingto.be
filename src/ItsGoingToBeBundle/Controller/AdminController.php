@@ -10,13 +10,16 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class AdminController extends Controller
 {
-
     /**
-     * @Route("/admin", name="admin")
-     * @Security("has_role('ROLE_ADMIN')")
+     * Action for the admin index page
+     *
+     * Matches /admin route exactly.
+     * Only accessable to uses with the 'ROLE_ADMIN' role.
      */
-    public function adminAction(Request $request)
+    public function indexAction(Request $request)
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'Unable to access this page!');
+
         $em = $this->get('doctrine.orm.entity_manager');
         $dql = "SELECT q FROM ItsGoingToBeBundle:Question q ORDER BY q.id DESC";
         $query = $em->createQuery($dql);
@@ -32,11 +35,15 @@ class AdminController extends Controller
     }
 
     /**
-     * @Route("/admin/delete/{identifier}", name="admin_delete")
-     * @Security("has_role('ROLE_ADMIN')")
+     * Action for the admin delete route
+     *
+     * Matches /admin route exactly.
+     * Only accessable to uses with the 'ROLE_ADMIN' role.
      */
     public function adminDeleteAction(Request $request, $identifier)
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'Unable to access this page!');
+
         $questionModel = $this->getDoctrine()
             ->getRepository('ItsGoingToBeBundle:Question')
             ->findOneByIdentifier($identifier);

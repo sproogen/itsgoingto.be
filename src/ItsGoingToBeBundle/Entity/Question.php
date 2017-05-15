@@ -245,7 +245,7 @@ class Question
      */
     public function setMultipleChoice($multipleChoice)
     {
-        $this->multiple_choice = $multipleChoice;
+        $this->multipleChoice = $multipleChoice;
 
         return $this;
     }
@@ -257,7 +257,7 @@ class Question
      */
     public function getMultipleChoice()
     {
-        return $this->multiple_choice;
+        return $this->multipleChoice;
     }
 
     /**

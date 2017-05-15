@@ -16,7 +16,7 @@
 
     <div class="container back-container">
         <div class="back-button">
-            <a href="{{ path('question') }}"><i class="fa fa-arrow-left"></i> New Poll</a>
+            <a href="{{ path('index_page') }}"><i class="fa fa-arrow-left"></i> New Poll</a>
         </div>
     </div>
 
@@ -33,7 +33,7 @@
     </div>
 
     <div class="container answer-container">
-    	<form name="answers" action="{{ path('answer-post' , {'identifier' : identifier}) }}" method="post" autocomplete="off">
+    	<form name="answers" action="{{ path('answer_post' , {'identifier' : identifier}) }}" method="post" autocomplete="off">
             {% set totalResponses = questionModel.responses|length %}
     		<div class="options{% if answerModel is not null or app.user %} show-results{% endif %}" currentResponse="{% if answerModel is not null and answerModel is not iterable %}{{ answerModel.id }}{% endif %}" responses="{{ totalResponses }}">
 	    		{% for answer in questionModel.answers %}

@@ -1,0 +1,22 @@
+index_page:
+    path:     /
+    defaults: { _controller: ItsGoingToBeBundle:ItsGoingToBe:index }
+
+question_post:
+    path:     /question
+    defaults: { _controller: ItsGoingToBeBundle:ItsGoingToBe:questionPost }
+    methods: ['POST']
+
+answer_page:
+    path:     /{identifier}
+    defaults: { _controller: ItsGoingToBeBundle:ItsGoingToBe:answer }
+
+answer_post:
+    path:     /{identifier}/answer
+    defaults: { _controller: ItsGoingToBeBundle:ItsGoingToBe:answerPost }
+    methods: ['POST']
+
+responses:
+    path:     /{identifier}/responses
+    defaults: { _controller: ItsGoingToBeBundle:ItsGoingToBe:responses }
+    methods: ['GET']

@@ -10,15 +10,23 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-
 use ItsGoingToBeBundle\Entity\Question;
 use ItsGoingToBeBundle\Entity\Answer;
 use ItsGoingToBeBundle\Entity\UserResponse;
 
+/**
+ * Class ItsGoingToBeController
+ * @package ItsGoingToBeBundle\ObjectiveBundle\Controller
+ *
+ * Controller for the app UI.
+ */
 class ItsGoingToBeController extends Controller
 {
+
     /**
-     * @Route("/", name="question")
+     * Action for the index page
+     *
+     * Matches / route exactly
      */
     public function indexAction()
     {
@@ -26,8 +34,9 @@ class ItsGoingToBeController extends Controller
     }
 
     /**
-     * @Route("/question", name="question-post")
-     * @Method("POST")
+     * Action for adding a new question
+     *
+     * Matches /question POST route exactly
      */
     public function questionPostAction()
     {
@@ -91,7 +100,9 @@ class ItsGoingToBeController extends Controller
     }
 
     /**
-     * @Route("/{identifier}", name="answer")
+     * Action for the answer page
+     *
+     * Matches /{identifier} route
      */
     public function answerAction(Request $request, $identifier)
     {
@@ -162,8 +173,9 @@ class ItsGoingToBeController extends Controller
     }
 
     /**
-     * @Route("/{identifier}/answer", name="answer-post")
-     * @Method("POST")
+     * Action for adding a new answer
+     *
+     * Matches /{identifier}/answer POST route
      */
     public function answerPostAction(Request $request, $identifier)
     {
@@ -288,8 +300,6 @@ class ItsGoingToBeController extends Controller
                     }
                 }
             }
-
-
         }
 
         if($request->isXmlHttpRequest()) {
@@ -300,7 +310,9 @@ class ItsGoingToBeController extends Controller
     }
 
     /**
-     * @Route("/{identifier}/responses", name="responses")
+     * Action for getting responses
+     *
+     * Matches /{identifier}/responses POST route
      */
     public function responsesAction(Request $request, $identifier)
     {
@@ -321,6 +333,12 @@ class ItsGoingToBeController extends Controller
         return new JsonResponse(array('result' => 'success', 'totalResponses' => count($questionModel->getResponses()), 'results' => $results));
     }
 
+    /**
+     * Get the session ID for the user
+     *
+     * @param  $request
+     * @return string Session id
+     */
     private function getSessionID($request){
         $session = $request->getSession();
 
@@ -341,6 +359,12 @@ class ItsGoingToBeController extends Controller
         return $session->getId();
     }
 
+    /**
+     * Get or generate a custom user id
+     *
+     * @param  $request
+     * @return string   Custom user ID
+     */
     private function getCustomUserID($request){
         $userID = $request->cookies->get('USERID');
 
