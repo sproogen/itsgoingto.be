@@ -4,6 +4,8 @@ namespace ItsGoingToBeBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use ItsGoingToBeBundle\Entity\Answer;
+use ItsGoingToBeBundle\Entity\UserResponse;
 
 /**
  * @ORM\Entity
@@ -69,7 +71,7 @@ class Question
      * @ORM\PrePersist
      * @ORM\PreUpdate
      */
-    public function updatedTimestamps()
+    public function updateTimestamps()
     {
         if($this->getCreatedAt() == null)
         {
@@ -139,11 +141,11 @@ class Question
     /**
      * Add answer
      *
-     * @param \ItsGoingToBeBundle\Entity\Answer $answer
+     * @param Answer $answer
      *
      * @return Question
      */
-    public function addAnswer(\ItsGoingToBeBundle\Entity\Answer $answer)
+    public function addAnswer(Answer $answer)
     {
         $this->answers[] = $answer;
 
@@ -153,9 +155,9 @@ class Question
     /**
      * Remove answer
      *
-     * @param \ItsGoingToBeBundle\Entity\Answer $answer
+     * @param Answer $answer
      */
-    public function removeAnswer(\ItsGoingToBeBundle\Entity\Answer $answer)
+    public function removeAnswer(Answer $answer)
     {
         $this->answers->removeElement($answer);
     }
@@ -168,6 +170,88 @@ class Question
     public function getAnswers()
     {
         return $this->answers;
+    }
+
+    /**
+     * Add response
+     *
+     * @param UserResponse $response
+     *
+     * @return Question
+     */
+    public function addResponse(UserResponse $response)
+    {
+        $this->responses[] = $response;
+
+        return $this;
+    }
+
+    /**
+     * Remove response
+     *
+     * @param UserResponse $response
+     */
+    public function removeResponse(UserResponse $response)
+    {
+        $this->responses->removeElement($response);
+    }
+
+    /**
+     * Get responses
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getResponses()
+    {
+        return $this->responses;
+    }
+
+    /**
+     * Set multipleChoice
+     *
+     * @param boolean $multipleChoice
+     *
+     * @return Question
+     */
+    public function setMultipleChoice($multipleChoice)
+    {
+        $this->multiple_choice = $multipleChoice;
+
+        return $this;
+    }
+
+    /**
+     * Get multipleChoice
+     *
+     * @return boolean
+     */
+    public function getMultipleChoice()
+    {
+        return $this->multiple_choice;
+    }
+
+    /**
+     * Set deleted
+     *
+     * @param boolean $deleted
+     *
+     * @return Question
+     */
+    public function setDeleted($deleted)
+    {
+        $this->deleted = $deleted;
+
+        return $this;
+    }
+
+    /**
+     * Get deleted
+     *
+     * @return boolean
+     */
+    public function getDeleted()
+    {
+        return $this->deleted;
     }
 
     /**
@@ -216,87 +300,5 @@ class Question
     public function getUpdatedAt()
     {
         return $this->updated_at;
-    }
-
-    /**
-     * Add response
-     *
-     * @param \ItsGoingToBeBundle\Entity\UserResponse $response
-     *
-     * @return Question
-     */
-    public function addResponse(\ItsGoingToBeBundle\Entity\UserResponse $response)
-    {
-        $this->responses[] = $response;
-
-        return $this;
-    }
-
-    /**
-     * Remove response
-     *
-     * @param \ItsGoingToBeBundle\Entity\UserResponse $response
-     */
-    public function removeResponse(\ItsGoingToBeBundle\Entity\UserResponse $response)
-    {
-        $this->responses->removeElement($response);
-    }
-
-    /**
-     * Get responses
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getResponses()
-    {
-        return $this->responses;
-    }
-
-    /**
-     * Set deleted
-     *
-     * @param boolean $deleted
-     *
-     * @return Question
-     */
-    public function setDeleted($deleted)
-    {
-        $this->deleted = $deleted;
-
-        return $this;
-    }
-
-    /**
-     * Get deleted
-     *
-     * @return boolean
-     */
-    public function getDeleted()
-    {
-        return $this->deleted;
-    }
-
-    /**
-     * Set multipleChoice
-     *
-     * @param boolean $multipleChoice
-     *
-     * @return Question
-     */
-    public function setMultipleChoice($multipleChoice)
-    {
-        $this->multiple_choice = $multipleChoice;
-
-        return $this;
-    }
-
-    /**
-     * Get multipleChoice
-     *
-     * @return boolean
-     */
-    public function getMultipleChoice()
-    {
-        return $this->multiple_choice;
     }
 }

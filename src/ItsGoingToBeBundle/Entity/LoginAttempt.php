@@ -48,7 +48,7 @@ class LoginAttempt
      * @ORM\PrePersist
      * @ORM\PreUpdate
      */
-    public function updatedTimestamps()
+    public function updateTimestamps()
     {
         if($this->getCreatedAt() == null)
         {

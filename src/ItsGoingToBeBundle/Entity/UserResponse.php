@@ -3,6 +3,8 @@
 namespace ItsGoingToBeBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use ItsGoingToBeBundle\Entity\Answer;
+use ItsGoingToBeBundle\Entity\Question;
 
 /**
  * @ORM\Entity
@@ -59,7 +61,7 @@ class UserResponse
      * @ORM\PrePersist
      * @ORM\PreUpdate
      */
-    public function updatedTimestamps()
+    public function updateTimestamps()
     {
         if($this->getCreatedAt() == null)
         {
@@ -79,11 +81,59 @@ class UserResponse
     }
 
     /**
+     * Set question
+     *
+     * @param Question $question
+     *
+     * @return UserResponse
+     */
+    public function setQuestion(Question $question = null)
+    {
+        $this->question = $question;
+
+        return $this;
+    }
+
+    /**
+     * Get question
+     *
+     * @return Question
+     */
+    public function getQuestion()
+    {
+        return $this->question;
+    }
+
+    /**
+     * Set answer
+     *
+     * @param Answer $answer
+     *
+     * @return UserResponse
+     */
+    public function setAnswer(Answer $answer = null)
+    {
+        $this->answer = $answer;
+
+        return $this;
+    }
+
+    /**
+     * Get answer
+     *
+     * @return Answer
+     */
+    public function getAnswer()
+    {
+        return $this->answer;
+    }
+
+    /**
      * Set userIP
      *
      * @param string $userIP
      *
-     * @return Response
+     * @return UserResponse
      */
     public function setUserIP($userIP)
     {
@@ -107,7 +157,7 @@ class UserResponse
      *
      * @param string $userSessionID
      *
-     * @return Response
+     * @return UserResponse
      */
     public function setUserSessionID($userSessionID)
     {
@@ -124,102 +174,6 @@ class UserResponse
     public function getUserSessionID()
     {
         return $this->userSessionID;
-    }
-
-    /**
-     * Set createdAt
-     *
-     * @param \DateTime $createdAt
-     *
-     * @return Response
-     */
-    public function setCreatedAt($createdAt)
-    {
-        $this->created_at = $createdAt;
-
-        return $this;
-    }
-
-    /**
-     * Get createdAt
-     *
-     * @return \DateTime
-     */
-    public function getCreatedAt()
-    {
-        return $this->created_at;
-    }
-
-    /**
-     * Set updatedAt
-     *
-     * @param \DateTime $updatedAt
-     *
-     * @return Response
-     */
-    public function setUpdatedAt($updatedAt)
-    {
-        $this->updated_at = $updatedAt;
-
-        return $this;
-    }
-
-    /**
-     * Get updatedAt
-     *
-     * @return \DateTime
-     */
-    public function getUpdatedAt()
-    {
-        return $this->updated_at;
-    }
-
-    /**
-     * Set question
-     *
-     * @param \ItsGoingToBeBundle\Entity\Question $question
-     *
-     * @return Response
-     */
-    public function setQuestion(\ItsGoingToBeBundle\Entity\Question $question = null)
-    {
-        $this->question = $question;
-
-        return $this;
-    }
-
-    /**
-     * Get question
-     *
-     * @return \ItsGoingToBeBundle\Entity\Question
-     */
-    public function getQuestion()
-    {
-        return $this->question;
-    }
-
-    /**
-     * Set answer
-     *
-     * @param \ItsGoingToBeBundle\Entity\Answer $answer
-     *
-     * @return Response
-     */
-    public function setAnswer(\ItsGoingToBeBundle\Entity\Answer $answer = null)
-    {
-        $this->answer = $answer;
-
-        return $this;
-    }
-
-    /**
-     * Get answer
-     *
-     * @return \ItsGoingToBeBundle\Entity\Answer
-     */
-    public function getAnswer()
-    {
-        return $this->answer;
     }
 
     /**
@@ -244,5 +198,53 @@ class UserResponse
     public function getCustomUserID()
     {
         return $this->customUserID;
+    }
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     *
+     * @return UserResponse
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->created_at = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->created_at;
+    }
+
+    /**
+     * Set updatedAt
+     *
+     * @param \DateTime $updatedAt
+     *
+     * @return UserResponse
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updated_at = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get updatedAt
+     *
+     * @return \DateTime
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updated_at;
     }
 }

@@ -9,7 +9,7 @@ use ItsGoingToBeBundle\Entity\Question;
 use ItsGoingToBeBundle\Entity\UserResponse;
 
 /**
- * Test for ItsGoingToBeBundle\Entity\Answer
+ * Test for Answer
  */
 class AnswerTest extends BaseEntityTest
 {
