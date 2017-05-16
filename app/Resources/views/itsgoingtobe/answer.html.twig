@@ -33,7 +33,7 @@
     </div>
 
     <div class="container answer-container">
-    	<form name="answers" action="{{ path('answer_post' , {'identifier' : identifier}) }}" method="post" autocomplete="off">
+    	<form name="answers" action="{{ path('api_answer' , {'identifier' : identifier}) }}" method="post" autocomplete="off">
             {% set totalResponses = questionModel.responses|length %}
     		<div class="options{% if answerModel is not null or app.user %} show-results{% endif %}" currentResponse="{% if answerModel is not null and answerModel is not iterable %}{{ answerModel.id }}{% endif %}" responses="{{ totalResponses }}">
 	    		{% for answer in questionModel.answers %}

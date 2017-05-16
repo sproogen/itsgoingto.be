@@ -1,0 +1,17 @@
+services:
+    itsgoingtobe.identifier_service:
+        class: ItsGoingToBeBundle\Service\IdentifierService
+        calls:
+            - [ setLogger, ["@logger"]]
+
+    itsgoingtobe.api_controller:
+        class: ItsGoingToBeBundle\Controller\ApiController
+        calls:
+            - [ setContainer, ["@service_container"] ]
+            - [ setIdentifierService, ["@itsgoingtobe.identifier_service"]]
+
+    itsgoingtobe.itsgoingtobe_controller:
+        class: ItsGoingToBeBundle\Controller\ItsGoingToBeController
+        calls:
+            - [ setContainer, ["@service_container"] ]
+            - [ setIdentifierService, ["@itsgoingtobe.identifier_service"]]

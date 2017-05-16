@@ -4,9 +4,6 @@ namespace ItsGoingToBeBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\HttpFoundation\Response;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class AdminController extends Controller
 {
@@ -38,30 +35,38 @@ class AdminController extends Controller
     }
 
     /**
-     * Action for the admin delete route
+     * Action for the admin login page
      *
-     * Matches /admin route exactly.
-     * Only accessable to uses with the 'ROLE_ADMIN' role.
+     * Matches /admin/login route exactly.
      */
-    public function adminDeleteAction(Request $request, $identifier)
+    public function loginAction(Request $request)
     {
-        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'Unable to access this page!');
+        $authenticationUtils = $this->get('security.authentication_utils');
 
-        $questionModel = $this->getDoctrine()
-            ->getRepository('ItsGoingToBeBundle:Question')
-            ->findOneByIdentifier($identifier);
+        // get the login error if there is one
+        $error = $authenticationUtils->getLastAuthenticationError();
 
-        if (!$questionModel) {
-            throw $this->createNotFoundException('The question could not be found');
-        }
+        // last username entered by the user
+        $lastUsername = $authenticationUtils->getLastUsername();
 
-        $em = $this->getDoctrine()->getManager();
+        return $this->render(
+            'admin/login.html.twig',
+            array(
+                // last username entered by the user
+                'last_username' => $lastUsername,
+                'error'         => $error,
+            )
+        );
+    }
 
-        $questionModel->setDeleted(true);
-
-        $em->persist($questionModel);
-        $em->flush();
-
-        return $this->redirectToRoute('admin', array('page'=>$request->query->getInt('returnToPage', 1)));
+    /**
+     * Action for the admin login check action
+     *
+     * Matches /admin/login-check route exactly.
+     */
+    public function loginCheckAction()
+    {
+        // this controller will not be executed,
+        // as the route is handled by the Security system
     }
 }
