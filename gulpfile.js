@@ -102,7 +102,9 @@ gulp.task('doctrine-update', shell.task([
 ]));
 
 gulp.task('php-lint', shell.task([
-    'bin/phpcs src', 'bin/phpcbf src'
+    'bin/phpcbf --standard=PSR2 src',
+    'bin/phpcs --standard=PSR2 src',
+    'bin/phplint src'
 ]));
 
 gulp.task('phpunit', shell.task([

@@ -31,7 +31,10 @@ class AdminController extends Controller
             10/*limit per page*/
         );
 
-        return $this->render('admin/admin.html.twig', array('pagination' => $pagination, 'currentPage'=>$request->query->getInt('page', 1)));
+        return $this->render('admin/admin.html.twig', array(
+            'pagination' => $pagination,
+            'currentPage'=>$request->query->getInt('page', 1))
+        );
     }
 
     /**
@@ -48,7 +51,7 @@ class AdminController extends Controller
             ->getRepository('ItsGoingToBeBundle:Question')
             ->findOneByIdentifier($identifier);
 
-        if(!$questionModel) {
+        if (!$questionModel) {
             throw $this->createNotFoundException('The question could not be found');
         }
 
@@ -60,8 +63,5 @@ class AdminController extends Controller
         $em->flush();
 
         return $this->redirectToRoute('admin', array('page'=>$request->query->getInt('returnToPage', 1)));
-
-
     }
-
 }

@@ -9,12 +9,15 @@ use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\RequestStack;
 use ItsGoingToBeBundle\Entity\LoginAttempt;
 
+/**
+ * ItsGoingToBeBundle\Service\AuthenticationListener
+ */
 class AuthenticationListener
 {
     protected $em;
     private $requestStack;
 
-    function __construct(EntityManager $em, RequestStack $requestStack)
+    public function __construct(EntityManager $em, RequestStack $requestStack)
     {
         $this->requestStack = $requestStack;
         $this->em = $em;
@@ -24,7 +27,7 @@ class AuthenticationListener
      *
      * @param AuthenticationFailureEvent $event
      */
-    public function onAuthenticationFailure( AuthenticationFailureEvent $event )
+    public function onAuthenticationFailure(AuthenticationFailureEvent $event)
     {
         // executes on failed login
         $request = $this->requestStack->getCurrentRequest();
@@ -49,7 +52,7 @@ class AuthenticationListener
      *
      * @param InteractiveLoginEvent $event
      */
-    public function onAuthenticationSuccess( InteractiveLoginEvent $event )
+    public function onAuthenticationSuccess(InteractiveLoginEvent $event)
     {
         // executes on successful login
         $request = $this->requestStack->getCurrentRequest();

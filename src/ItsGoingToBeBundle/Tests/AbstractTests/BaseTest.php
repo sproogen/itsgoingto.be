@@ -4,6 +4,7 @@ namespace ItsGoingToBeBundle\Tests\AbstractTests;
 
 use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+
 //use Simitive\TestBundle\Database\DummyEntityController;
 
 // use Simitive\TaxonomyBundle\Entity\Taxonomy;

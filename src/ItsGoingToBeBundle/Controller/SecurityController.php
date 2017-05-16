@@ -6,7 +6,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
-
 class SecurityController extends Controller
 {
 
@@ -45,5 +44,4 @@ class SecurityController extends Controller
         // this controller will not be executed,
         // as the route is handled by the Security system
     }
-
 }
