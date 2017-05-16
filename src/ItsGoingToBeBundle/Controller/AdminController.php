@@ -48,7 +48,7 @@ class AdminController extends Controller
             ->getRepository('ItsGoingToBeBundle:Question')
             ->findOneByIdentifier($identifier);
 
-        if(!$questionModel){
+        if(!$questionModel) {
             throw $this->createNotFoundException('The question could not be found');
         }
 

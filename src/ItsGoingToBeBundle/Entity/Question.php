@@ -23,44 +23,44 @@ class Question
     /**
      * A unique identifier for this question.
      *
-     * @var  string
+     * @var string
      */
     protected $identifier;
 
     /**
      * The question text.
      *
-     * @var  string
+     * @var string
      */
     protected $question;
 
     /**
      * The answers for this question.
      *
-     * @var  Answer[]
+     * @var Answer[]
      */
     protected $answers;
 
     /**
      * The responses for this question.
      *
-     * @var  Response[]
+     * @var Response[]
      */
     protected $responses;
 
     /**
      * Is the question multiple choice.
      *
-     * @var  boolean
+     * @var boolean
      */
     protected $multipleChoice;
 
     /**
      * Has the question been deleted
      *
-     * @var  boolean
+     * @var boolean
      */
-    protected $deleted = FALSE;
+    protected $deleted = false;
 
     /**
      * When this Entity was created.

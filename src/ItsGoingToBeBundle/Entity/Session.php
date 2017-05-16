@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Session
 {
-	/**
+    /**
      * The session id.
      *
      * @var string

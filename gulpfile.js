@@ -16,6 +16,7 @@ var browserSync;
  * These are the commands to be run on command line
  */
 gulp.task('default', ['build']);
+gulp.task('test', ['php-lint', 'phpunit']);
 gulp.task('build', ['ng:js', 'ng:sass']);
 gulp.task('develop', ['continuous-build']);
 gulp.task('sync', ['continuous-build-browserSync']);
@@ -96,10 +97,14 @@ gulp.task('continuous-build-browserSync', function() {
     });
 });
 
-gulp.task('doctrine-generate', shell.task([
-	'php app/console doctrine:generate:entities ItsGoingToBeBundle'
-]));
-
 gulp.task('doctrine-update', shell.task([
 	'php app/console doctrine:schema:update --force'
+]));
+
+gulp.task('php-lint', shell.task([
+    'bin/phpcs src', 'bin/phpcbf src'
+]));
+
+gulp.task('phpunit', shell.task([
+    'bin/phpunit -c app'
 ]));

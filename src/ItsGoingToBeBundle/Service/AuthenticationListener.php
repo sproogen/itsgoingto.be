@@ -22,7 +22,7 @@ class AuthenticationListener
     /**
      * onAuthenticationFailure
      *
-     * @param   AuthenticationFailureEvent $event
+     * @param AuthenticationFailureEvent $event
      */
     public function onAuthenticationFailure( AuthenticationFailureEvent $event )
     {
@@ -30,7 +30,7 @@ class AuthenticationListener
         $request = $this->requestStack->getCurrentRequest();
 
         $loginModel = new LoginAttempt();
-        $loginModel->setSuccesful(FALSE);
+        $loginModel->setSuccesful(false);
         $loginModel->setIp($request->server->get('REMOTE_ADDR'));
         $loginModel->setUsername($question = $request->request->get('_username', ''));
         $loginModel->setPassword($question = $request->request->get('_password', ''));
@@ -47,7 +47,7 @@ class AuthenticationListener
     /**
      * onAuthenticationSuccess
      *
-     * @param   InteractiveLoginEvent $event
+     * @param InteractiveLoginEvent $event
      */
     public function onAuthenticationSuccess( InteractiveLoginEvent $event )
     {
@@ -55,7 +55,7 @@ class AuthenticationListener
         $request = $this->requestStack->getCurrentRequest();
 
         $loginModel = new LoginAttempt();
-        $loginModel->setSuccesful(TRUE);
+        $loginModel->setSuccesful(true);
         $loginModel->setIp($request->server->get('REMOTE_ADDR'));
         $loginModel->setUsername($question = $request->request->get('_username', ''));
         $this->em->persist($loginModel);

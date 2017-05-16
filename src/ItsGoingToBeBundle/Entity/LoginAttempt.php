@@ -11,7 +11,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class LoginAttempt
 {
-	/**
+    /**
      * The id of this Entity.
      *
      * @var integer

@@ -12,7 +12,7 @@ use ItsGoingToBeBundle\Entity\Question;
  */
 class UserResponse
 {
-	/**
+    /**
      * The id of this Entity.
      *
      * @var integer
@@ -22,35 +22,35 @@ class UserResponse
     /**
      * The question for this response.
      *
-     * @var  Question
+     * @var Question
      */
     protected $question;
 
     /**
      * The answer for this response.
      *
-     * @var  Answer
+     * @var Answer
      */
     protected $answer;
 
     /**
      * The ip of the user for the response.
      *
-     * @var  string
+     * @var string
      */
     protected $userIP;
 
     /**
      * The session id of the user for the response.
      *
-     * @var  string
+     * @var string
      */
     protected $userSessionID;
 
     /**
      * A custom id for the user for the response.
      *
-     * @var  string
+     * @var string
      */
     protected $customUserID = "";
 

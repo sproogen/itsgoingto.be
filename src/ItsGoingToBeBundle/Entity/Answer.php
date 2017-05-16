@@ -12,7 +12,7 @@ use ItsGoingToBeBundle\Entity\UserResponse;
  */
 class Answer
 {
-	/**
+    /**
      * The id of this Entity.
      *
      * @var integer
@@ -22,21 +22,21 @@ class Answer
     /**
      * The answer text.
      *
-     * @var  string
+     * @var string
      */
     protected $answer;
 
     /**
      * The question for this answer.
      *
-     * @var  Question
+     * @var Question
      */
     protected $question;
 
     /**
      * The responses for this answer
      *
-     * @var  UserResponse[]
+     * @var UserResponse[]
      */
     protected $responses;
 
