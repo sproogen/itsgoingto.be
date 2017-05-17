@@ -7,9 +7,6 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 //use Simitive\TestBundle\Database\DummyEntityController;
 
-// use Simitive\TaxonomyBundle\Entity\Taxonomy;
-// use Simitive\SolrBundle\Model\SearchTerm;
-
 abstract class BaseTest extends WebTestCase
 {
     /**
@@ -35,8 +32,6 @@ abstract class BaseTest extends WebTestCase
 
         $this->container = self::$kernel->getContainer();
         $this->em        = $this->container->get('doctrine')->getManager();
-        //var_dump($this->em);
-        //die();
         $this->now       = new \DateTime();
     }
 
