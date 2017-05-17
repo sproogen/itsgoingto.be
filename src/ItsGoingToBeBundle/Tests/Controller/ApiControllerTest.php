@@ -48,6 +48,8 @@ class ApiControllerTest extends BaseTest
     {
         $this->client->request('GET', 'api/questions');
 
+        //THIS MIGHT BE VERY USEFUL https://jtreminio.com/2013/03/unit-testing-tutorial-part-5-mock-methods-and-overriding-constructors/
+
         $result = $this->controller->questionAction($this->client->getRequest(), 0);
 
         self::assertInstanceOf(JsonResponse::class, $result);
