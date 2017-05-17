@@ -111,6 +111,17 @@ class Question
     }
 
     /**
+     * Extract the data for the question
+     *
+     * @return []
+     */
+    public function extract()
+    {
+        // TODO : Implement this and the tests for it.
+        return [];
+    }
+
+    /**
      * Get id
      *
      * @return integer

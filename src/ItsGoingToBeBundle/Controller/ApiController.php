@@ -2,11 +2,13 @@
 
 namespace ItsGoingToBeBundle\Controller;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use ItsGoingToBeBundle\Entity\Question;
 use ItsGoingToBeBundle\Entity\Answer;
 use ItsGoingToBeBundle\Entity\UserResponse;
@@ -20,11 +22,37 @@ class ApiController extends Controller
     protected $identifierService;
 
     /**
+     * @var EntityManager
+     */
+    protected $em;
+
+    /**
+     * @var AuthorizationChecker
+     */
+    protected $authorizationChecker;
+
+    /**
      * @param IdentifierService $identifierService
      */
     public function setIdentifierService(IdentifierService $identifierService)
     {
         $this->identifierService = $identifierService;
+    }
+
+    /**
+     * @param EntityManagerInterface $entityManager
+     */
+    public function setEntityManager(EntityManagerInterface $em)
+    {
+        $this->em = $em;
+    }
+
+    /**
+     * @param AuthorizationCheckerInterface $authorizationChecker
+     */
+    public function setAuthorizationChecker(AuthorizationCheckerInterface $authorizationChecker)
+    {
+        $this->authorizationChecker = $authorizationChecker;
     }
 
     /**
@@ -35,14 +63,19 @@ class ApiController extends Controller
      *
      * @return JsonResponse        The API response
      */
-    public function questionAction(Request $request, $id)
+    public function questionAction(Request $request, $identifier)
     {
         switch ($request->getMethod()) {
             case 'GET':
                 // If GET is used and a non-zero ID is passed, call the retrieve method.
-                if ($id) {
-                    // TODO : Retrieve a question
-                    $response = new JsonResponse();
+                if ($identifier) {
+                    $question = $this->getQuestion($identifier);
+                    if ($question) {
+                        // TODO : Get responses and current users response
+                        $response = new JsonResponse($question->extract());
+                    } else {
+                        $response = new JsonResponse([], 404);
+                    }
                 } // Without an ID ($id is 0), call index
                 else {
                     // TODO : Index a question
@@ -65,5 +98,21 @@ class ApiController extends Controller
         }
 
         return $response;
+    }
+
+    /**
+     * Get a question given the identifier
+     * @param  String $identifier
+     * @return Question | null
+     */
+    protected function getQuestion($identifier)
+    {
+        $findOneBy = array('identifier' => $identifier);
+        if (!$this->authorizationChecker->isGranted('ROLE_ADMIN')) {
+            $findOneBy['deleted'] = false;
+        }
+        $question = $this->em->getRepository('ItsGoingToBeBundle:Question')
+            ->findOneBy($findOneBy);
+        return $question;
     }
 }

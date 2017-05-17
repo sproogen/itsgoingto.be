@@ -7,7 +7,9 @@ services:
     itsgoingtobe.api_controller:
         class: ItsGoingToBeBundle\Controller\ApiController
         calls:
-            - [ setContainer, ["@service_container"] ]
+            - [ setContainer, ["@service_container"]]
+            - [ setEntityManager, ["@doctrine.orm.default_entity_manager"]]
+            - [ setAuthorizationChecker, ["@security.authorization_checker"]]
             - [ setIdentifierService, ["@itsgoingtobe.identifier_service"]]
 
     itsgoingtobe.itsgoingtobe_controller:
