@@ -71,8 +71,13 @@ class ApiController extends Controller
                 if ($identifier) {
                     $question = $this->getQuestion($identifier);
                     if ($question) {
-                        // TODO : Get responses and current users response
-                        $response = new JsonResponse($question->extract());
+                        $extractedQuestion = $question->extract();
+                        $extractedQuestion['answers'] = [];
+                        foreach ($question->getAnswers() as $answer) {
+                            $extractedQuestion['answers'][] = $answer->extract();
+                        }
+                        // TODO : Add Users Response
+                        $response = new JsonResponse($extractedQuestion);
                     } else {
                         $response = new JsonResponse([], 404);
                     }

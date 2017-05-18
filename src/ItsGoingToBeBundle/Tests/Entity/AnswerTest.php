@@ -20,6 +20,32 @@ class AnswerTest extends BaseEntityTest
      */
     protected $entityClass = Answer::class;
 
+    public function testExtract()
+    {
+        $this->entity->setAnswer('Answer Text');
+        $question = new Question();
+        $this->entity->setQuestion($question);
+        $response = new UserResponse();
+        $this->entity->addResponse($response);
+
+        $extractedData = $this->entity->extract();
+        self::assertArrayHasKey('id', $extractedData);
+        self::assertArrayHasKey('answer', $extractedData);
+        self::assertArrayHasKey('question', $extractedData);
+        self::assertArrayHasKey('responses', $extractedData);
+
+        self::assertEquals('Answer Text', $extractedData['answer']);
+        $question = $extractedData['question'];
+        self::assertArrayHasKey('type', $question);
+        self::assertArrayHasKey('id', $question);
+        self::assertEquals('question', $question['type']);
+        $responses = $extractedData['responses'];
+        self::assertCount(1, $responses);
+        self::assertArrayHasKey('type', $responses[0]);
+        self::assertArrayHasKey('id', $responses[0]);
+        self::assertEquals('userResponse', $responses[0]['type']);
+    }
+
     public function testGetSetAnswer()
     {
         $this->entity->setAnswer('Answer Text');

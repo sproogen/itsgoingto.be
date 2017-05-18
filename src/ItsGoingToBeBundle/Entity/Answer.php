@@ -49,6 +49,32 @@ class Answer
     }
 
     /**
+     * Extract the data for the question
+     *
+     * @return []
+     */
+    public function extract()
+    {
+        $data = [
+            'id'     => $this->getId(),
+            'answer' => $this->getAnswer(),
+        ];
+        $data['question'] = [
+            'type' => 'question',
+            'id'   => $this->getQuestion()->getId()
+        ];
+        $responses = [];
+        foreach ($this->getResponses() as $response) {
+            $responses[] = [
+                'type' => 'userResponse',
+                'id'   => $response->getId()
+            ];
+        }
+        $data['responses'] = $responses;
+        return $data;
+    }
+
+    /**
      * Get id
      *
      * @return integer

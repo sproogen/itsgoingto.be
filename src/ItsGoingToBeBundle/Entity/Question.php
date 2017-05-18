@@ -118,29 +118,29 @@ class Question
     public function extract()
     {
         $data = [
-            'id' => $this->getId(),
-            'identifier' => $this->getIdentifier(),
-            'question' => $this->getQuestion(),
+            'id'             => $this->getId(),
+            'identifier'     => $this->getIdentifier(),
+            'question'       => $this->getQuestion(),
             'multipleChoice' => $this->getMultipleChoice(),
-            'deleted' => $this->getDeleted(),
-            'created' => $this->getCreated(),
-            'updated' => $this->getUpdated()
+            'deleted'        => $this->getDeleted(),
+            'created'        => $this->getCreated(),
+            'updated'        => $this->getUpdated()
         ];
         $answers = [];
         foreach ($this->getAnswers() as $answer) {
             $answers[] = [
                 'type' => 'answer',
-                'id' => $answer->getId()
+                'id'   => $answer->getId()
             ];
         }
+        $data['answers'] = $answers;
         $responses = [];
         foreach ($this->getResponses() as $response) {
             $responses[] = [
                 'type' => 'userResponse',
-                'id' => $response->getId()
+                'id'   => $response->getId()
             ];
         }
-        $data['answers'] = $answers;
         $data['responses'] = $responses;
         return $data;
     }

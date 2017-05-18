@@ -45,6 +45,7 @@ class ApiControllerTest extends BaseTest
             'multipleChoice' => false,
             'deleted'        => false,
         ]);
+        $this->question->getAnswers()->willReturn([]);
 
         $this->entityManager = $this->prophesize(EntityManager::class);
         $this->questionRepository = $this->prophesize(EntityRepository::class);
@@ -71,7 +72,7 @@ class ApiControllerTest extends BaseTest
     {
         $this->client->request('GET', 'api/questions');
 
-        $response = $this->controller->questionAction($this->client->getRequest(), 0);
+        $response = $this->controller->questionsAction($this->client->getRequest(), 0);
 
         self::assertInstanceOf(JsonResponse::class, $response);
     }
@@ -83,10 +84,13 @@ class ApiControllerTest extends BaseTest
     {
         $this->client->request('GET', 'api/questions/gf56dg');
 
-        $response = $this->controller->questionAction($this->client->getRequest(), 'gf56dg');
+        $response = $this->controller->questionsAction($this->client->getRequest(), 'gf56dg');
 
         $this->questionRepository->findOneBy(array('identifier'=>'gf56dg', 'deleted' => false))
-                        ->shouldHaveBeenCalledTimes(1);
+            ->shouldHaveBeenCalledTimes(2);
+
+        $this->question->getAnswers()
+            ->shouldHaveBeenCalledTimes(2);
 
         self::assertInstanceOf(JsonResponse::class, $response);
         self::assertEquals(200, $response->getStatusCode());
@@ -107,7 +111,7 @@ class ApiControllerTest extends BaseTest
         $authorizationChecker->isGranted('ROLE_ADMIN')->willReturn(true);
         $this->controller->setAuthorizationChecker($authorizationChecker->reveal());
 
-        $response = $this->controller->questionAction($this->client->getRequest(), 'gf56dg');
+        $response = $this->controller->questionsAction($this->client->getRequest(), 'gf56dg');
 
         $this->questionRepository->findOneBy(array('identifier'=>'gf56dg'))
                         ->shouldHaveBeenCalledTimes(1);
@@ -136,7 +140,7 @@ class ApiControllerTest extends BaseTest
             ->with('gf56dg')
             ->will($this->returnValue(null));
 
-        $response = $this->controller->questionAction($this->client->getRequest(), 'gf56dg');
+        $response = $this->controller->questionsAction($this->client->getRequest(), 'gf56dg');
 
         self::assertInstanceOf(JsonResponse::class, $response);
         self::assertEquals(404, $response->getStatusCode());
@@ -149,7 +153,7 @@ class ApiControllerTest extends BaseTest
     {
         $this->client->request('POST', 'api/questions/');
 
-        $response = $this->controller->questionAction($this->client->getRequest(), 0);
+        $response = $this->controller->questionsAction($this->client->getRequest(), 0);
 
         self::assertInstanceOf(JsonResponse::class, $response);
     }
@@ -161,7 +165,7 @@ class ApiControllerTest extends BaseTest
     {
         $this->client->request('DELETE', 'api/questions/gf56dg');
 
-        $response = $this->controller->questionAction($this->client->getRequest(), 'gf56dg');
+        $response = $this->controller->questionsAction($this->client->getRequest(), 'gf56dg');
 
         self::assertInstanceOf(JsonResponse::class, $response);
     }
@@ -173,7 +177,7 @@ class ApiControllerTest extends BaseTest
     {
         $this->client->request('OPTIONS', 'api/questions/');
 
-        $response = $this->controller->questionAction($this->client->getRequest(), 0);
+        $response = $this->controller->questionsAction($this->client->getRequest(), 0);
 
         $this->assertEquals(
             new Response(),
@@ -191,6 +195,6 @@ class ApiControllerTest extends BaseTest
         $this->expectException(HttpException::class);
         $this->expectExceptionMessage('Method not allowed.');
 
-        $this->controller->questionAction($this->client->getRequest(), 0);
+        $this->controller->questionsAction($this->client->getRequest(), 0);
     }
 }
