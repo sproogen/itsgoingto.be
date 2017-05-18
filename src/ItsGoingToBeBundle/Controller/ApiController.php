@@ -63,7 +63,7 @@ class ApiController extends Controller
      *
      * @return JsonResponse        The API response
      */
-    public function questionAction(Request $request, $identifier)
+    public function questionsAction(Request $request, $identifier)
     {
         switch ($request->getMethod()) {
             case 'GET':

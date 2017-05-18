@@ -21,6 +21,46 @@ class QuestionTest extends BaseEntityTest
      */
     protected $entityClass = Question::class;
 
+    public function testExtract()
+    {
+        $this->entity->setIdentifier('sdf4er');
+        $this->entity->setQuestion('WHAT?');
+        $answer = new Answer();
+        $this->entity->addAnswer($answer);
+        $response = new UserResponse();
+        $this->entity->addResponse($response);
+        $this->entity->setMultipleChoice(true);
+        $this->entity->setDeleted(true);
+        $this->entity->setCreated();
+        $this->entity->setUpdated();
+
+        $extractedData = $this->entity->extract();
+        self::assertArrayHasKey('id', $extractedData);
+        self::assertArrayHasKey('identifier', $extractedData);
+        self::assertArrayHasKey('question', $extractedData);
+        self::assertArrayHasKey('answers', $extractedData);
+        self::assertArrayHasKey('responses', $extractedData);
+        self::assertArrayHasKey('multipleChoice', $extractedData);
+        self::assertArrayHasKey('deleted', $extractedData);
+        self::assertArrayHasKey('created', $extractedData);
+        self::assertArrayHasKey('updated', $extractedData);
+
+        self::assertEquals('sdf4er', $extractedData['identifier']);
+        self::assertEquals('WHAT?', $extractedData['question']);
+        $answers = $extractedData['answers'];
+        self::assertCount(1, $answers);
+        self::assertArrayHasKey('type', $answers[0]);
+        self::assertArrayHasKey('id', $answers[0]);
+        self::assertEquals('answer', $answers[0]['type']);
+        $responses = $extractedData['responses'];
+        self::assertCount(1, $responses);
+        self::assertArrayHasKey('type', $responses[0]);
+        self::assertArrayHasKey('id', $responses[0]);
+        self::assertEquals('userResponse', $responses[0]['type']);
+        self::assertEquals(true, $extractedData['multipleChoice']);
+        self::assertEquals(true, $extractedData['deleted']);
+    }
+
     public function testGetSetIdentifier()
     {
         $this->entity->setIdentifier('sdf4er');

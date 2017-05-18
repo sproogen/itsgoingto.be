@@ -2,6 +2,11 @@ index_page:
     path:     /
     defaults: { _controller: ItsGoingToBeBundle:ItsGoingToBe:index }
 
+question_post:
+    path:     /question
+    defaults: { _controller: itsgoingtobe.itsgoingtobe_controller:questionAction }
+    methods: ['POST']
+
 answer_page:
     path:     /{identifier}
     defaults: { _controller: itsgoingtobe.itsgoingtobe_controller:answerAction }
@@ -9,11 +14,6 @@ answer_page:
 delete:
     path:     /delete/{identifier}
     defaults: { _controller: itsgoingtobe.itsgoingtobe_controller:deleteAction }
-    methods: ['POST']
-
-question:
-    path:     /question
-    defaults: { _controller: itsgoingtobe.itsgoingtobe_controller:questionAction }
     methods: ['POST']
 
 answer:
