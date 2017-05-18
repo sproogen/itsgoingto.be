@@ -17,6 +17,13 @@ use ItsGoingToBeBundle\Service\IdentifierService;
 class ApiController extends Controller
 {
     /**
+     * Number of entities to return per page.
+     *
+     * @var integer
+     */
+    protected $pageSize = 1;
+
+    /**
      * @var IdentifierService
      */
     protected $identifierService;
@@ -69,22 +76,10 @@ class ApiController extends Controller
             case 'GET':
                 // If GET is used and a non-zero ID is passed, call the retrieve method.
                 if ($identifier) {
-                    $question = $this->getQuestion($identifier);
-                    if ($question) {
-                        $extractedQuestion = $question->extract();
-                        $extractedQuestion['answers'] = [];
-                        foreach ($question->getAnswers() as $answer) {
-                            $extractedQuestion['answers'][] = $answer->extract();
-                        }
-                        // TODO : Add Users Response
-                        $response = new JsonResponse($extractedQuestion);
-                    } else {
-                        $response = new JsonResponse([], 404);
-                    }
+                    return $this->retrieveQuestion($identifier);
                 } // Without an ID ($id is 0), call index
                 else {
-                    // TODO : Index a question
-                    $response = new JsonResponse();
+                    return $this->indexQuestions($request->query->all());
                 }
                 break;
             case 'POST':
@@ -108,9 +103,9 @@ class ApiController extends Controller
     /**
      * Get a question given the identifier
      * @param  String $identifier
-     * @return Question | null
+     * @return JsonResponse
      */
-    protected function getQuestion($identifier)
+    protected function retrieveQuestion($identifier)
     {
         $findOneBy = array('identifier' => $identifier);
         if (!$this->authorizationChecker->isGranted('ROLE_ADMIN')) {
@@ -118,6 +113,84 @@ class ApiController extends Controller
         }
         $question = $this->em->getRepository('ItsGoingToBeBundle:Question')
             ->findOneBy($findOneBy);
-        return $question;
+
+        if ($question) {
+            $extractedQuestion = $question->extract();
+            $extractedQuestion['answers'] = [];
+            foreach ($question->getAnswers() as $answer) {
+                $extractedQuestion['answers'][] = $answer->extract();
+            }
+            // TODO : Add Users Response
+            $response = new JsonResponse($extractedQuestion);
+        } else {
+            $response = new JsonResponse([], 404);
+        }
+
+        return $response;
+    }
+
+    /**
+     * Get the questions with parameters
+     * @param  String $parameters
+     * @return Questions[]
+     */
+    protected function indexQuestions($parameters)
+    {
+        $pageSize = 1;
+
+        $findBy = array();
+        if (!$this->authorizationChecker->isGranted('ROLE_ADMIN')) {
+            $findBy['deleted'] = false;
+        }
+        $queryBuilder = $this->em->getRepository('ItsGoingToBeBundle:Question')
+            ->createQueryBuilder('a')
+            ->where('1 = 1');
+
+        $count = $this->countResults($queryBuilder);
+
+        $this->applyPage($queryBuilder, $parameters);
+        $questions = $queryBuilder->getQuery()->getResult();
+
+        $extractedQuestions = [];
+        foreach ($questions as $question) {
+            $extractedQuestions[] = $question->extract();
+        }
+
+        return new JsonResponse([
+            'count' => count($extractedQuestions),
+            'total' => (integer) $count,
+            'entities' => $extractedQuestions,
+        ]);
+    }
+
+    /**
+     * Get a count of the results.
+     *
+     * @param object $queryBuilder Query builder.
+     *
+     * @return mixed
+     */
+    protected function countResults($queryBuilder)
+    {
+        $countQuery = clone($queryBuilder);
+        $countQuery->select('COUNT(a.id)');
+
+        return $countQuery->getQuery()->getSingleScalarResult();
+    }
+
+    /**
+     * Applies the page to the get query.
+     *
+     * @param object $queryBuilder Query builder.
+     * @param array $parameters GET parameters.
+     */
+    protected function applyPage($queryBuilder, $parameters)
+    {
+        $page = isset($parameters['page']) ? ($parameters['page']-1) : 0;
+
+        $pageSize = isset($parameters['pageSize']) ? $parameters['pageSize'] : $this->pageSize;
+
+        $queryBuilder->setFirstResult($page * $pageSize);
+        $queryBuilder->setMaxResults($pageSize);
     }
 }
