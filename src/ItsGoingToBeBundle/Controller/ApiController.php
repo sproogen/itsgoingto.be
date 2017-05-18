@@ -138,13 +138,13 @@ class ApiController extends Controller
     {
         $pageSize = 1;
 
-        $findBy = array();
-        if (!$this->authorizationChecker->isGranted('ROLE_ADMIN')) {
-            $findBy['deleted'] = false;
-        }
         $queryBuilder = $this->em->getRepository('ItsGoingToBeBundle:Question')
             ->createQueryBuilder('a')
             ->where('1 = 1');
+
+        if (!$this->authorizationChecker->isGranted('ROLE_ADMIN')) {
+            $queryBuilder->andWhere('a.deleted = false');
+        }
 
         $count = $this->countResults($queryBuilder);
 
