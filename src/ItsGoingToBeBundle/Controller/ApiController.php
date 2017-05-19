@@ -83,7 +83,6 @@ class ApiController extends Controller
                 }
                 break;
             case 'POST':
-                // TODO : Create a new question
                 $response = $this->createQuestion($this->getData($request));
                 break;
             case 'DELETE':
@@ -95,7 +94,6 @@ class ApiController extends Controller
             default:
                 throw new HttpException('405', 'Method not allowed.');
         }
-
         return $response;
     }
 
@@ -186,7 +184,7 @@ class ApiController extends Controller
         $multipleChoice = isset($data['multipleChoice']) ? $data['multipleChoice'] : false;
         $answers = [];
         foreach (isset($data['answers'])? $data['answers']: [] as $answer) {
-             if (strlen(trim($answer)) !== 0) {
+            if (strlen(trim($answer)) !== 0) {
                 $answers[] = $answer;
             }
         }
@@ -205,7 +203,6 @@ class ApiController extends Controller
             $question->setMultipleChoice($multipleChoice);
 
             foreach ($answers as $answerText) {
-                // TODO : Add cascade persist for answers
                 $answer = new Answer();
                 $answer->setAnswer($answerText);
                 $question->addAnswer($answer);
@@ -215,11 +212,12 @@ class ApiController extends Controller
             $this->em->flush();
 
             $extractedQuestion = $question->extract();
+            $extractedQuestion['answers'] = [];
             foreach ($question->getAnswers() as $answer) {
                 $extractedQuestion['answers'][] = $answer->extract();
             }
             $response = new JsonResponse($extractedQuestion);
-        } else{
+        } else {
             $response = new JsonResponse(['errors' => $errors], 400);
         }
 

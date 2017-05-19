@@ -212,6 +212,7 @@ class Question
      */
     public function addAnswer(Answer $answer)
     {
+        $answer->setQuestion($this);
         $this->answers[] = $answer;
 
         return $this;

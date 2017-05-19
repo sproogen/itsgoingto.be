@@ -91,7 +91,7 @@ class Answer
      *
      * @return Answer
      */
-    public function setQuestion(Question $question = null)
+    public function setQuestion(Question $question)
     {
         $this->question = $question;
 

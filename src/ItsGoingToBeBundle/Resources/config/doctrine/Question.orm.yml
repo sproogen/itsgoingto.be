@@ -27,6 +27,7 @@ ItsGoingToBeBundle\Entity\Question:
         answers:
             targetEntity: ItsGoingToBeBundle\Entity\Answer
             mappedBy: question
+            cascade: ["persist", "remove"]
         responses:
             targetEntity: ItsGoingToBeBundle\Entity\UserResponse
             mappedBy: question
