@@ -21,7 +21,7 @@ class ApiController extends Controller
      *
      * @var integer
      */
-    protected $pageSize = 1;
+    protected $pageSize = 20;
 
     /**
      * @var IdentifierService
@@ -76,10 +76,10 @@ class ApiController extends Controller
             case 'GET':
                 // If GET is used and a non-zero ID is passed, call the retrieve method.
                 if ($identifier) {
-                    return $this->retrieveQuestion($identifier);
+                    $response = $this->retrieveQuestion($identifier);
                 } // Without an ID ($id is 0), call index
                 else {
-                    return $this->indexQuestions($request->query->all());
+                    $response = $this->indexQuestions($request->query->all());
                 }
                 break;
             case 'POST':
@@ -87,8 +87,7 @@ class ApiController extends Controller
                 $response = new JsonResponse();
                 break;
             case 'DELETE':
-                // TODO : Delete a question
-                $response = new JsonResponse();
+                $response = $this->deleteQuestion($identifier);
                 break;
             case 'OPTIONS':
                 $response = new Response();
@@ -132,7 +131,7 @@ class ApiController extends Controller
     /**
      * Get the questions with parameters
      * @param  String $parameters
-     * @return Questions[]
+     * @return JsonResponse
      */
     protected function indexQuestions($parameters)
     {
@@ -164,6 +163,33 @@ class ApiController extends Controller
     }
 
     /**
+     * Delete the question given the identifier
+     * @param  String $identifier
+     * @return JsonResponse
+     */
+    protected function deleteQuestion($identifier)
+    {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'Unable to access this page!');
+
+        $question = $this->em->getRepository('ItsGoingToBeBundle:Question')
+            ->findOneBy(array('identifier' => $identifier));
+
+        if ($question) {
+            $questionModel->setDeleted(true);
+
+            $this->em->persist($questionModel);
+            $this->em->flush();
+
+            $extractedQuestion = $question->extract();
+            $response = new JsonResponse($extractedQuestion);
+        } else {
+            $response = new JsonResponse([], 404);
+        }
+
+        return $response;
+    }
+
+    /**
      * Get a count of the results.
      *
      * @param object $queryBuilder Query builder.
@@ -172,7 +198,7 @@ class ApiController extends Controller
      */
     protected function countResults($queryBuilder)
     {
-        $countQuery = clone($queryBuilder);
+        $countQuery = clone $queryBuilder;
         $countQuery->select('COUNT(a.id)');
 
         return $countQuery->getQuery()->getSingleScalarResult();

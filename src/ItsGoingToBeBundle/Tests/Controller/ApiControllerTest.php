@@ -4,11 +4,14 @@ namespace ItsGoingToBeBundle\Tests\Controller;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\AbstractQuery;
+use Doctrine\ORM\QueryBuilder;
 use Prophecy\Argument;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use ItsGoingToBeBundle\Tests\AbstractTests\BaseTest;
 use ItsGoingToBeBundle\Entity\Question;
 
@@ -47,10 +50,28 @@ class ApiControllerTest extends BaseTest
         ]);
         $this->question->getAnswers()->willReturn([]);
 
+        //Maybe look at using this - https://github.com/michaelmoussa/doctrine-qbmocker
+
         $this->entityManager = $this->prophesize(EntityManager::class);
         $this->questionRepository = $this->prophesize(EntityRepository::class);
         $this->questionRepository->findOneBy(Argument::any())->willReturn($this->question->reveal());
+
+        $this->queryBuilder = $this->prophesize(QueryBuilder::class);
+        $this->queryBuilder->where(Argument::any())->willReturn($this->queryBuilder->reveal());
+        $this->queryBuilder->andWhere(Argument::any())->willReturn($this->queryBuilder->reveal());
+        $this->queryBuilder->select(Argument::any())->willReturn($this->queryBuilder->reveal());
+        $this->queryBuilder->setFirstResult(Argument::any())->willReturn($this->queryBuilder->reveal());
+        $this->queryBuilder->setMaxResults(Argument::any())->willReturn($this->queryBuilder->reveal());
+
+        $this->query = $this->prophesize(AbstractQuery::class);
+        $this->query->getResult()->willReturn([$this->question->reveal()]);
+        $this->queryBuilder->getQuery(Argument::any())->willReturn($this->query->reveal());
+        $this->questionRepository->createQueryBuilder(Argument::any())->willReturn($this->queryBuilder->reveal());
+
         $this->entityManager->getRepository('ItsGoingToBeBundle:Question')->willReturn($this->questionRepository->reveal());
+
+        $this->authorizationChecker = $this->prophesize(AuthorizationCheckerInterface::class);
+        $this->authorizationChecker->isGranted('ROLE_ADMIN')->willReturn(false);
 
         $this->controller = $this->container->get('itsgoingtobe.api_controller');
         $this->controller->setEntityManager($this->entityManager->reveal());
@@ -70,11 +91,63 @@ class ApiControllerTest extends BaseTest
      */
     public function testIndexRequestReturnsJson()
     {
+        $this->controller = $this->getMockBuilder('ItsGoingToBeBundle\Controller\ApiController')
+            ->setMethods(array('countResults'))
+            ->getMock();
+        $this->controller->setEntityManager($this->entityManager->reveal());
+        $this->controller->setAuthorizationChecker($this->authorizationChecker->reveal());
         $this->client->request('GET', 'api/questions');
+
+        $this->controller
+            ->expects($this->once())
+            ->method('countResults')
+            ->with($this->queryBuilder->reveal())
+            ->will($this->returnValue(1));
 
         $response = $this->controller->questionsAction($this->client->getRequest(), 0);
 
+        $this->entityManager->getRepository('ItsGoingToBeBundle:Question')
+            ->shouldHaveBeenCalledTimes(2);
+
+        $this->question->extract()
+            ->shouldHaveBeenCalledTimes(1);
+
         self::assertInstanceOf(JsonResponse::class, $response);
+        self::assertEquals(200, $response->getStatusCode());
+
+        $data = json_decode($response->getContent(), true);
+        self::assertArrayHasKey('count', $data);
+        self::assertArrayHasKey('total', $data);
+        self::assertArrayHasKey('entities', $data);
+        self::assertEquals(1, $data['count']);
+        self::assertEquals(1, $data['total']);
+        self::assertCount(1, $data['entities']);
+    }
+
+    /**
+     * Test that if a GET request is made, a JsonResponse is returned.
+     */
+    public function testIndexApplysPagination()
+    {
+        $this->controller = $this->getMockBuilder('ItsGoingToBeBundle\Controller\ApiController')
+            ->setMethods(array('countResults'))
+            ->getMock();
+        $this->controller->setEntityManager($this->entityManager->reveal());
+        $this->controller->setAuthorizationChecker($this->authorizationChecker->reveal());
+        $this->client->request('GET', 'api/questions');
+
+        $response = $this->controller->questionsAction($this->client->getRequest(), 0);
+        $this->queryBuilder->setFirstResult(0)
+            ->shouldHaveBeenCalledTimes(1);
+        $this->queryBuilder->setMaxResults(20)
+            ->shouldHaveBeenCalledTimes(1);
+
+        $this->client->request('GET', 'api/questions?page=3&pageSize=30');
+        $response = $this->controller->questionsAction($this->client->getRequest(), 0);
+        $this->queryBuilder->setFirstResult(60)
+            ->shouldHaveBeenCalledTimes(1);
+        $this->queryBuilder->setMaxResults(30)
+            ->shouldHaveBeenCalledTimes(1);
     }
 
     /**
@@ -107,9 +180,8 @@ class ApiControllerTest extends BaseTest
     {
         $this->client->request('GET', 'api/questions/gf56dg');
 
-        $authorizationChecker = $this->prophesize(AuthorizationCheckerInterface::class);
-        $authorizationChecker->isGranted('ROLE_ADMIN')->willReturn(true);
-        $this->controller->setAuthorizationChecker($authorizationChecker->reveal());
+        $this->authorizationChecker->isGranted('ROLE_ADMIN')->willReturn(true);
+        $this->controller->setAuthorizationChecker($this->authorizationChecker->reveal());
 
         $response = $this->controller->questionsAction($this->client->getRequest(), 'gf56dg');
 
@@ -129,16 +201,8 @@ class ApiControllerTest extends BaseTest
      */
     public function testRetrieveRequestReturns404()
     {
-        $this->controller = $this->getMockBuilder('ItsGoingToBeBundle\Controller\ApiController')
-            ->setMethods(array('getQuestion'))
-            ->getMock();
+        $this->questionRepository->findOneBy(Argument::any())->willReturn(null);
         $this->client->request('GET', 'api/questions/gf56dg');
-
-        $this->controller
-            ->expects($this->once())
-            ->method('getQuestion')
-            ->with('gf56dg')
-            ->will($this->returnValue(null));
 
         $response = $this->controller->questionsAction($this->client->getRequest(), 'gf56dg');
 
@@ -159,12 +223,13 @@ class ApiControllerTest extends BaseTest
     }
 
     /**
-     * Test that if a DELETE request is made with an identifier, a JsonResponse is returned.
+     * Test that DELETE thows an exception if not admin.
      */
-    public function testDeleteRequestReturnsJson()
+    public function testDeleteRequestReturnsException()
     {
         $this->client->request('DELETE', 'api/questions/gf56dg');
 
+        self::setExpectedException(AccessDeniedException::class);
         $response = $this->controller->questionsAction($this->client->getRequest(), 'gf56dg');
 
         self::assertInstanceOf(JsonResponse::class, $response);
