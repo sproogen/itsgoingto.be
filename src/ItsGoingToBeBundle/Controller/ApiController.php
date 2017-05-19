@@ -84,7 +84,7 @@ class ApiController extends Controller
                 break;
             case 'POST':
                 // TODO : Create a new question
-                $response = new JsonResponse();
+                $response = $this->createQuestion($this->getData($request));
                 break;
             case 'DELETE':
                 $response = $this->deleteQuestion($identifier);
@@ -97,6 +97,18 @@ class ApiController extends Controller
         }
 
         return $response;
+    }
+
+    /**
+     * Fetches the POST data.
+     *
+     * @return array POST data.
+     */
+    protected function getData(Request $request)
+    {
+        $data = (array) json_decode($request->getContent(), true);
+        $data += $request->request->all();
+        return $data;
     }
 
     /**
@@ -163,21 +175,89 @@ class ApiController extends Controller
     }
 
     /**
+     * Create a question given the data
+     * @param  String $request
+     * @return JsonResponse
+     */
+    protected function createQuestion($data)
+    {
+        $errors = [];
+        $questionText = isset($data['question']) ? $data['question'] : null;
+        $multipleChoice = isset($data['multipleChoice']) ? $data['multipleChoice'] : false;
+        $answers = [];
+        foreach (isset($data['answers'])? $data['answers']: [] as $answer) {
+             if (strlen(trim($answer)) !== 0) {
+                $answers[] = $answer;
+            }
+        }
+
+        if (strlen(trim($questionText)) === 0) {
+            $errors[] = 'No question has been provided';
+        }
+        if (count($answers) === 0) {
+            $errors[] = 'No answers have been provided';
+        }
+
+        if (empty($errors)) {
+            $question = new Question();
+            $question->setIdentifier($this->generateIdentifier());
+            $question->setQuestion($questionText);
+            $question->setMultipleChoice($multipleChoice);
+
+            foreach ($answers as $answerText) {
+                // TODO : Add cascade persist for answers
+                $answer = new Answer();
+                $answer->setAnswer($answerText);
+                $question->addAnswer($answer);
+            }
+
+            $this->em->persist($question);
+            $this->em->flush();
+
+            $extractedQuestion = $question->extract();
+            foreach ($question->getAnswers() as $answer) {
+                $extractedQuestion['answers'][] = $answer->extract();
+            }
+            $response = new JsonResponse($extractedQuestion);
+        } else{
+            $response = new JsonResponse(['errors' => $errors], 400);
+        }
+
+        return $response;
+    }
+
+    protected function generateIdentifier()
+    {
+        $identifier = null;
+        do {
+            $identifier = substr(chr(mt_rand(97, 122)) .substr(md5(time()), 1), 0, 8);
+            $duplicateQuestion = $this->em->getRepository('ItsGoingToBeBundle:Question')
+                ->findOneBy(array('identifier' => $identifier));
+            if ($duplicateQuestion != null) {
+                $identifier = null;
+            }
+        } while ($identifier == null);
+        return $identifier;
+    }
+
+    /**
      * Delete the question given the identifier
      * @param  String $identifier
      * @return JsonResponse
      */
     protected function deleteQuestion($identifier)
     {
-        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'Unable to access this page!');
+        if (!$this->authorizationChecker->isGranted('ROLE_ADMIN')) {
+            return new JsonResponse([], 401);
+        }
 
         $question = $this->em->getRepository('ItsGoingToBeBundle:Question')
             ->findOneBy(array('identifier' => $identifier));
 
         if ($question) {
-            $questionModel->setDeleted(true);
+            $question->setDeleted(true);
 
-            $this->em->persist($questionModel);
+            $this->em->persist($question);
             $this->em->flush();
 
             $extractedQuestion = $question->extract();

@@ -36,7 +36,7 @@
             <td>{{ question.created | date('Y-m-d H:i:s') }}</td>
             <td>
                 {% if question.deleted == false %}
-                    <a href="{{ path('api_delete' , {'identifier' : question.identifier, 'returnToPage': currentPage}) }}" class="icon"><i class="fa fa-times"></i></a>
+                    <a href="{{ path('delete' , {'identifier' : question.identifier, 'returnToPage': currentPage}) }}" class="icon"><i class="fa fa-times"></i></a>
                 {% else %}
                     Deleted
                 {% endif %}
