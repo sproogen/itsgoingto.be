@@ -68,7 +68,8 @@ class ApiControllerTest extends BaseTest
         $this->queryBuilder->getQuery(Argument::any())->willReturn($this->query->reveal());
         $this->questionRepository->createQueryBuilder(Argument::any())->willReturn($this->queryBuilder->reveal());
 
-        $this->entityManager->getRepository('ItsGoingToBeBundle:Question')->willReturn($this->questionRepository->reveal());
+        $this->entityManager->getRepository('ItsGoingToBeBundle:Question')
+            ->willReturn($this->questionRepository->reveal());
 
         $this->authorizationChecker = $this->prophesize(AuthorizationCheckerInterface::class);
         $this->authorizationChecker->isGranted('ROLE_ADMIN')->willReturn(false);
@@ -127,7 +128,7 @@ class ApiControllerTest extends BaseTest
     /**
      * Test that if a GET request is made, a JsonResponse is returned.
      */
-    public function testIndexApplysPagination()
+    public function testIndexAppliesPagination()
     {
         $this->controller = $this->getMockBuilder('ItsGoingToBeBundle\Controller\ApiController')
             ->setMethods(array('countResults'))
