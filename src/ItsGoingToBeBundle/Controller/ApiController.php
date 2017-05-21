@@ -333,12 +333,17 @@ class ApiController extends Controller
     {
         $errors = [];
         $answers = [];
-        foreach (isset($data['answers']) ? is_array($data['answers'])? $data['answers'] : [$data['answers']] : [] as $answer) {
+        foreach (isset($data['answers']) ?
+                 is_array($data['answers']) ? $data['answers'] : [$data['answers']] :
+                 [] as $answer) {
             if (is_int($answer)) {
                 $answer = $this->em->getRepository('ItsGoingToBeBundle:Answer')
                     ->findOneBy(array('id' => $answer, 'question' => $question->getId()));
                 if ($answer) {
                     $answers[] = $answer;
+                    if (!$question->getMultipleChoice()) {
+                        break;
+                    }
                 }
             }
         }
@@ -348,14 +353,23 @@ class ApiController extends Controller
         }
 
         if (empty($errors)) {
-            $userResponse = new UserResponse();
-            $userResponse->setQuestion($question);
-            $userResponse->setAnswer($answers[0]);
-            $userResponse->setCustomUserID($this->identifierService->getCustomUserID($request));
-            $userResponse->setUserSessionID($this->identifierService->getSessionID($request));
-            $userResponse->setUserIP($request->server->get('REMOTE_ADDR'));
+            if ($question->getMultipleChoice()) {
+                $this->removeResponsesNotInAnswersForUser($question, $answers, $request);
+            }
 
-            $this->em->persist($userResponse);
+            foreach ($answers as $answer) {
+                $userResponse = $this->getResponseForUser($question, $answer, $request);
+                if (!$userResponse) {
+                    $userResponse = new UserResponse();
+                    $userResponse->setQuestion($question);
+                }
+                $userResponse->setAnswer($answer);
+                $userResponse->setCustomUserID($this->identifierService->getCustomUserID($request));
+                $userResponse->setUserSessionID($this->identifierService->getSessionID($request));
+                $userResponse->setUserIP($request->server->get('REMOTE_ADDR'));
+
+                $this->em->persist($userResponse);
+            }
             $this->em->flush();
 
             $response = $this->indexResponses($question);
@@ -415,5 +429,75 @@ class ApiController extends Controller
 
         $queryBuilder->setFirstResult($page * $pageSize);
         $queryBuilder->setMaxResults($pageSize);
+    }
+
+    /**
+     * Get a response for the current user
+     *
+     * @param  Question $question
+     * @param  Answer   $answer
+     * @param  Request  $request
+     *
+     * @return  UserResponse | null
+     */
+    protected function getResponseForUser(Question $question, Answer $answer, Request $request)
+    {
+        $userResponseRepository = $this->em->getRepository('ItsGoingToBeBundle:UserResponse');
+        $findOneBy = [
+            'question' => $question->getId(),
+            'customUserID' => $this->identifierService->getCustomUserID($request)
+        ];
+        if ($question->getMultipleChoice()) {
+            $findOneBy['answer'] = $answer->getId();
+        }
+        $userResponse = $userResponseRepository->findOneBy($findOneBy);
+        if (!$userResponse) {
+            unset($findOneBy['customUserID']);
+            $findOneBy['userSessionID'] = $this->identifierService->getSessionID($request);
+            $userResponse = $userResponseRepository->findOneBy($findOneBy);
+        }
+        return $userResponse;
+    }
+
+    /**
+     * Remove responses for a user
+     *
+     * @param  Question $question
+     * @param  array    $answers
+     * @param  Request  $request
+     */
+    protected function removeResponsesNotInAnswersForUser(Question $question, $answers, Request $request)
+    {
+        $userResponseRepository = $this->em->getRepository('ItsGoingToBeBundle:UserResponse');
+        $userResponses = $userResponseRepository->findBy([
+            'customUserID' => $this->identifierService->getCustomUserID($request),
+            'question' => $question->getId()
+        ]);
+        if (!$userResponses) {
+            $userResponses = $userResponseRepository->findBy([
+                'userSessionID' => $this->identifierService->getSessionID($request),
+                'question' => $question->getId()
+            ]);
+        }
+        if ($userResponses) {
+            foreach ($userResponses as $userResponse) {
+                if (!in_array($userResponse->getAnswer()->getId(), array_map([$this, 'mapIds'], $answers))) {
+                    $this->em->remove($userResponse);
+                }
+            }
+            $this->em->flush();
+        }
+    }
+
+    /**
+     * Map function to get entity ids
+     *
+     * @param $entity
+     *
+     * @param integer $id
+     */
+    public function mapIds($entity)
+    {
+        return $entity->getId();
     }
 }

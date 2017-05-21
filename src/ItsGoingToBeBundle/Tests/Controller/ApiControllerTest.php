@@ -48,6 +48,7 @@ class ApiControllerTest extends BaseTest
 
         $this->question = $this->prophesize(Question::class);
         $this->question->getId()->willReturn(2);
+        $this->question->getMultipleChoice()->willReturn(false);
         $this->question->extract()->willReturn([
             'id'             => 2,
             'identifier'     => 'lkjas79h',
@@ -65,6 +66,10 @@ class ApiControllerTest extends BaseTest
 
         $this->answerRepository = $this->prophesize(EntityRepository::class);
         $this->answerRepository->findOneBy(Argument::any())->willReturn($this->answer->reveal());
+
+        $this->userResponseRepository = $this->prophesize(EntityRepository::class);
+        $this->userResponseRepository->findOneBy(Argument::any())->willReturn(null);
+        $this->userResponseRepository->findBy(Argument::any())->willReturn(null);
 
         $this->questionRepository = $this->prophesize(EntityRepository::class);
         $this->questionRepository->findOneBy(Argument::any())->willReturn($this->question->reveal());
@@ -86,7 +91,11 @@ class ApiControllerTest extends BaseTest
             ->willReturn($this->answerRepository->reveal());
         $this->entityManager->getRepository('ItsGoingToBeBundle:Question')
             ->willReturn($this->questionRepository->reveal());
+        $this->entityManager->getRepository('ItsGoingToBeBundle:UserResponse')
+            ->willReturn($this->userResponseRepository->reveal());
         $this->entityManager->persist(Argument::any())
+            ->willReturn(true);
+        $this->entityManager->remove(Argument::any())
             ->willReturn(true);
         $this->entityManager->flush(Argument::any())
             ->willReturn(true);
@@ -448,10 +457,11 @@ class ApiControllerTest extends BaseTest
 
         $response = $this->controller->responsesAction($request, 'gf56dg');
 
-        self::assertInstanceOf(JsonResponse::class, $response);
-        self::assertEquals(200, $response->getStatusCode());
-
         $this->answerRepository->findOneBy(array('id' => 5, 'question' => 2))
+            ->shouldHaveBeenCalledTimes(1);
+        $this->userResponseRepository->findOneBy(array('customUserID' => '9873fdanba8qge9dfsaq39', 'question' => 2))
+            ->shouldHaveBeenCalledTimes(1);
+        $this->userResponseRepository->findOneBy(array('userSessionID' => '12354321897467', 'question' => 2))
             ->shouldHaveBeenCalledTimes(1);
 
         $userResponse = new UserResponse();
@@ -465,6 +475,143 @@ class ApiControllerTest extends BaseTest
 
         $this->entityManager->flush()
             ->shouldHaveBeenCalledTimes(1);
+
+        self::assertInstanceOf(JsonResponse::class, $response);
+        self::assertEquals(200, $response->getStatusCode());
+
+        $data = json_decode($response->getContent(), true);
+        self::assertArrayHasKey('responsesCount', $data);
+        self::assertArrayHasKey('answers', $data);
+    }
+
+    /**
+     * Test that if a POST request is made a UserResponse is persisted
+     */
+    public function testPostResponsesRequestPersists1Entity()
+    {
+        $requestContent = json_encode([
+            'answers' => [5,6]
+        ]);
+        $request = Request::create('/api/questions/gf56dg/responses', 'POST', [], [], [], [], $requestContent);
+
+        $response = $this->controller->responsesAction($request, 'gf56dg');
+
+        $this->answerRepository->findOneBy(array('id' => 5, 'question' => 2))
+            ->shouldHaveBeenCalledTimes(1);
+        $this->answerRepository->findOneBy(array('id' => 6, 'question' => 2))
+            ->shouldHaveBeenCalledTimes(0);
+
+        $this->entityManager->persist(Argument::type(UserResponse::class))
+            ->shouldHaveBeenCalledTimes(1);
+        $this->entityManager->flush()
+            ->shouldHaveBeenCalledTimes(1);
+
+        self::assertInstanceOf(JsonResponse::class, $response);
+        self::assertEquals(200, $response->getStatusCode());
+    }
+
+    /**
+     * Test that if a POST request is made a UserResponse is updated
+     */
+    public function testPostResponsesRequestUpdatesEntity()
+    {
+        $userResponse = $this->prophesize(UserResponse::class);
+        $this->userResponseRepository->findOneBy(Argument::any())->willReturn($userResponse->reveal());
+
+        $this->answer->getId()->willReturn(6);
+
+        $requestContent = json_encode([
+            'answers' => 6
+        ]);
+        $request = Request::create('/api/questions/gf56dg/responses', 'POST', [], [], [], [], $requestContent);
+
+        $response = $this->controller->responsesAction($request, 'gf56dg');
+
+        $this->answerRepository->findOneBy(array('id' => 6, 'question' => 2))
+            ->shouldHaveBeenCalledTimes(1);
+        $this->userResponseRepository->findOneBy(array('customUserID' => '9873fdanba8qge9dfsaq39', 'question' => 2))
+            ->shouldHaveBeenCalledTimes(1);
+        $this->userResponseRepository->findOneBy(array('userSessionID' => '12354321897467', 'question' => 2))
+            ->shouldHaveBeenCalledTimes(0);
+
+        $userResponse->setAnswer($this->answer->reveal())
+            ->shouldHaveBeenCalledTimes(1);
+
+        $this->entityManager->persist($userResponse->reveal())
+            ->shouldHaveBeenCalledTimes(1);
+
+        $this->entityManager->flush()
+            ->shouldHaveBeenCalledTimes(1);
+
+        self::assertInstanceOf(JsonResponse::class, $response);
+        self::assertEquals(200, $response->getStatusCode());
+
+        $data = json_decode($response->getContent(), true);
+        self::assertArrayHasKey('responsesCount', $data);
+        self::assertArrayHasKey('answers', $data);
+    }
+
+    /**
+     * Test that if a POST request is made a UserResponse is persisted
+     */
+    public function testPostResponsesRequestPersistsMultipleEntities()
+    {
+        $this->question->getMultipleChoice()->willReturn(true);
+        $answer2 = $this->prophesize(Answer::class);
+        $answer2->getId()->willReturn(6);
+        $answer3 = $this->prophesize(Answer::class);
+        $answer3->getId()->willReturn(7);
+        $userResponse2 = $this->prophesize(UserResponse::class);
+        $userResponse2->getAnswer()->willReturn($answer2->reveal());
+        $userResponse3 = $this->prophesize(UserResponse::class);
+        $userResponse3->getAnswer()->willReturn($answer3->reveal());
+        $this->answerRepository->findOneBy(array('id' => 6, 'question' => 2))->willReturn($answer2->reveal());
+
+        $this->userResponseRepository->findBy(array('userSessionID' => '12354321897467', 'question' => 2))
+            ->willReturn([$userResponse2->reveal(), $userResponse3->reveal()]);
+
+        $requestContent = json_encode([
+            'answers' => [5, 6]
+        ]);
+        $request = Request::create('/api/questions/gf56dg/responses', 'POST', [], [], [], [], $requestContent);
+
+        $response = $this->controller->responsesAction($request, 'gf56dg');
+
+        $this->answerRepository->findOneBy(array('id' => 5, 'question' => 2))
+            ->shouldHaveBeenCalledTimes(1);
+        $this->answerRepository->findOneBy(array('id' => 6, 'question' => 2))
+            ->shouldHaveBeenCalledTimes(1);
+
+        $this->entityManager->remove($userResponse3->reveal())
+            ->shouldHaveBeenCalledTimes(1);
+
+        $this->userResponseRepository->findBy(array('customUserID' => '9873fdanba8qge9dfsaq39', 'question' => 2))
+            ->shouldHaveBeenCalledTimes(1);
+        $this->userResponseRepository->findBy(array('userSessionID' => '12354321897467', 'question' => 2))
+            ->shouldHaveBeenCalledTimes(1);
+
+        $this->userResponseRepository
+            ->findOneBy(array('customUserID' => '9873fdanba8qge9dfsaq39', 'question' => 2, 'answer' => 5))
+            ->shouldHaveBeenCalledTimes(1);
+        $this->userResponseRepository
+            ->findOneBy(array('customUserID' => '9873fdanba8qge9dfsaq39', 'question' => 2, 'answer' => 6))
+            ->shouldHaveBeenCalledTimes(1);
+
+        $userResponse = new UserResponse();
+        $userResponse->setQuestion($this->question->reveal());
+        $userResponse->setAnswer($this->answer->reveal());
+        $userResponse->setCustomUserID('9873fdanba8qge9dfsaq39');
+        $userResponse->setUserSessionID('12354321897467');
+        $userResponse->setUserIP($request->server->get('REMOTE_ADDR'));
+        $this->entityManager->persist($userResponse)
+            ->shouldHaveBeenCalledTimes(1);
+
+        $userResponse->setAnswer($answer2->reveal());
+        $this->entityManager->persist($userResponse)
+            ->shouldHaveBeenCalledTimes(1);
+
+        $this->entityManager->flush()
+            ->shouldHaveBeenCalledTimes(2);
 
         self::assertInstanceOf(JsonResponse::class, $response);
         self::assertEquals(200, $response->getStatusCode());
