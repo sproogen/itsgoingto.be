@@ -119,7 +119,7 @@ class ApiController extends Controller
                     $response = $this->indexResponses($question);
                     break;
                 case 'POST':
-                    $response = $this->createResponse($question, $this->getData($request));
+                    $response = $this->createResponse($question, $request, $this->getData($request));
                     break;
                 case 'OPTIONS':
                     $response = new Response();
@@ -301,7 +301,6 @@ class ApiController extends Controller
 
     /**
      * Get the responses for a question
-     * TODO : Test this
      *
      * @param  Question $question
      *
@@ -325,15 +324,44 @@ class ApiController extends Controller
      * Create a question given the data
      *
      * @param  Question $question
+     * @param  Request  $request
      * @param  array    $data
      *
      * @return JsonResponse
      */
-    protected function createResponse($question, $data)
+    protected function createResponse(Question $question, Request $request, $data)
     {
-        // TODO : Implement this
+        $errors = [];
+        $answers = [];
+        foreach (isset($data['answers']) ? is_array($data['answers'])? $data['answers'] : [$data['answers']] : [] as $answer) {
+            if (is_int($answer)) {
+                $answer = $this->em->getRepository('ItsGoingToBeBundle:Answer')
+                    ->findOneBy(array('id' => $answer, 'question' => $question->getId()));
+                if ($answer) {
+                    $answers[] = $answer;
+                }
+            }
+        }
 
-        $response = new JsonResponse();
+        if (count($answers) === 0) {
+            $errors[] = 'No answers have been provided';
+        }
+
+        if (empty($errors)) {
+            $userResponse = new UserResponse();
+            $userResponse->setQuestion($question);
+            $userResponse->setAnswer($answers[0]);
+            $userResponse->setCustomUserID($this->identifierService->getCustomUserID($request));
+            $userResponse->setUserSessionID($this->identifierService->getSessionID($request));
+            $userResponse->setUserIP($request->server->get('REMOTE_ADDR'));
+
+            $this->em->persist($userResponse);
+            $this->em->flush();
+
+            $response = $this->indexResponses($question);
+        } else {
+            $response = new JsonResponse(['errors' => $errors], 400);
+        }
 
         return $response;
     }

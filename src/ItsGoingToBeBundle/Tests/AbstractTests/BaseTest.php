@@ -5,8 +5,6 @@ namespace ItsGoingToBeBundle\Tests\AbstractTests;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-//use Simitive\TestBundle\Database\DummyEntityController;
-
 abstract class BaseTest extends WebTestCase
 {
     /**
@@ -40,10 +38,11 @@ abstract class BaseTest extends WebTestCase
      */
     protected function tearDown()
     {
-        //DummyEntityController::purgeEntities($this->em);
-        $this->em->getConnection()->close();
-        $this->em->close();
-        $this->em = null;
+        if ($this->em) {
+            $this->em->getConnection()->close();
+            $this->em->close();
+            $this->em = null;
+        }
 
         gc_collect_cycles();
     }

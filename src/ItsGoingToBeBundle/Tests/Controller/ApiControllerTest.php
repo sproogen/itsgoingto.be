@@ -15,6 +15,9 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use ItsGoingToBeBundle\Tests\AbstractTests\BaseTest;
 use ItsGoingToBeBundle\Entity\Question;
+use ItsGoingToBeBundle\Entity\Answer;
+use ItsGoingToBeBundle\Entity\UserResponse;
+use ItsGoingToBeBundle\Service\IdentifierService;
 
 /**
  * Tests for ItsGoingToBeBundle\Controller\ApiController
@@ -39,7 +42,12 @@ class ApiControllerTest extends BaseTest
     {
         parent::setUp();
 
+        $this->answer = $this->prophesize(Answer::class);
+        $this->answer->getId()->willReturn(5);
+        $this->answer->getResponses()->willReturn([new UserResponse()]);
+
         $this->question = $this->prophesize(Question::class);
+        $this->question->getId()->willReturn(2);
         $this->question->extract()->willReturn([
             'id'             => 2,
             'identifier'     => 'lkjas79h',
@@ -49,12 +57,15 @@ class ApiControllerTest extends BaseTest
             'multipleChoice' => false,
             'deleted'        => false,
         ]);
-        $this->question->getAnswers()->willReturn([]);
+        $this->question->getResponses()->willReturn([new UserResponse(), new UserResponse()]);
+        $this->question->getAnswers()->willReturn([$this->answer->reveal(), $this->answer->reveal()]);
         $this->question->setDeleted(Argument::any())->willReturn($this->question->reveal());
 
         //Maybe look at using this - https://github.com/michaelmoussa/doctrine-qbmocker
 
-        $this->entityManager = $this->prophesize(EntityManager::class);
+        $this->answerRepository = $this->prophesize(EntityRepository::class);
+        $this->answerRepository->findOneBy(Argument::any())->willReturn($this->answer->reveal());
+
         $this->questionRepository = $this->prophesize(EntityRepository::class);
         $this->questionRepository->findOneBy(Argument::any())->willReturn($this->question->reveal());
 
@@ -70,6 +81,9 @@ class ApiControllerTest extends BaseTest
         $this->queryBuilder->getQuery(Argument::any())->willReturn($this->query->reveal());
         $this->questionRepository->createQueryBuilder(Argument::any())->willReturn($this->queryBuilder->reveal());
 
+        $this->entityManager = $this->prophesize(EntityManager::class);
+        $this->entityManager->getRepository('ItsGoingToBeBundle:Answer')
+            ->willReturn($this->answerRepository->reveal());
         $this->entityManager->getRepository('ItsGoingToBeBundle:Question')
             ->willReturn($this->questionRepository->reveal());
         $this->entityManager->persist(Argument::any())
@@ -80,9 +94,14 @@ class ApiControllerTest extends BaseTest
         $this->authorizationChecker = $this->prophesize(AuthorizationCheckerInterface::class);
         $this->authorizationChecker->isGranted('ROLE_ADMIN')->willReturn(false);
 
+        $this->identifierService = $this->prophesize(IdentifierService::class);
+        $this->identifierService->getCustomUserID(Argument::any())->willReturn('9873fdanba8qge9dfsaq39');
+        $this->identifierService->getSessionID(Argument::any())->willReturn('12354321897467');
+
         $this->controller = $this->container->get('itsgoingtobe.api_controller');
         $this->controller->setEntityManager($this->entityManager->reveal());
         $this->controller->setAuthorizationChecker($this->authorizationChecker->reveal());
+        $this->controller->setIdentifierService($this->identifierService->reveal());
 
         $this->client = static::$kernel->getContainer()->get('test.client');
     }
@@ -97,7 +116,7 @@ class ApiControllerTest extends BaseTest
     /**
      * Test that if a GET request is made, a JsonResponse is returned.
      */
-    public function testIndexRequestReturnsJson()
+    public function testIndexQuestionsRequestReturnsQuestions()
     {
         $this->controller = $this->getMockBuilder('ItsGoingToBeBundle\Controller\ApiController')
             ->setMethods(array('countResults'))
@@ -135,7 +154,7 @@ class ApiControllerTest extends BaseTest
     /**
      * Test that if a GET request is made, a JsonResponse is returned.
      */
-    public function testIndexAppliesPagination()
+    public function testIndexQuestionsAppliesPagination()
     {
         $this->controller = $this->getMockBuilder('ItsGoingToBeBundle\Controller\ApiController')
             ->setMethods(array('countResults'))
@@ -161,7 +180,7 @@ class ApiControllerTest extends BaseTest
     /**
      * Test that if a GET request is made with and identifier, a JsonResponse with a question is returned.
      */
-    public function testRetrieveRequestReturnsQuestion()
+    public function testRetrieveQuestionRequestReturnsQuestion()
     {
         $request = Request::create('api/questions/gf56dg', 'GET');
         $response = $this->controller->questionsAction($request, 'gf56dg');
@@ -183,7 +202,7 @@ class ApiControllerTest extends BaseTest
     /**
      * Test that admins are able to access deleted questions
      */
-    public function testRetrieveRequestReturnsDeletedQuestionForAdmin()
+    public function testRetrieveQuestionRequestReturnsDeletedQuestionForAdmin()
     {
         $request = Request::create('api/questions/gf56dg', 'GET');
 
@@ -205,7 +224,7 @@ class ApiControllerTest extends BaseTest
     /**
      * Test that if a question can not be found a 404 is returned.
      */
-    public function testRetrieveRequestReturns404()
+    public function testRetrieveQuestionRequestReturns404()
     {
         $this->questionRepository->findOneBy(Argument::any())->willReturn(null);
         $request = Request::create('api/questions/gf56dg', 'GET');
@@ -219,7 +238,7 @@ class ApiControllerTest extends BaseTest
     /**
      * Test that if a POST request is made without params an error is thrown
      */
-    public function testPostRequestReturnsErrors()
+    public function testPostQuestionRequestReturnsErrors()
     {
         $request = Request::create('/api/questions', 'POST');
         $response = $this->controller->questionsAction($request, 0);
@@ -238,7 +257,7 @@ class ApiControllerTest extends BaseTest
     /**
      * Test that if a POST request is made a question is persisted
      */
-    public function testPostRequestPersistsEntity()
+    public function testPostQuestionRequestPersistsEntity()
     {
         $requestContent = json_encode([
             'question' => 'This is just a question?',
@@ -292,7 +311,7 @@ class ApiControllerTest extends BaseTest
     /**
      * Test that DELETE returns a 401 if not admin.
      */
-    public function testDeleteRequestReturns401()
+    public function testDeleteQuestionRequestReturns401()
     {
         $request = Request::create('/api/questions/gf56dg', 'DELETE');
 
@@ -305,7 +324,7 @@ class ApiControllerTest extends BaseTest
     /**
      * Test that DELETE updates the deleted field.
      */
-    public function testDeleteRequestSetsDeleted()
+    public function testDeleteQuestionRequestSetsDeleted()
     {
         $request = Request::create('/api/questions/gf56dg', 'DELETE');
 
@@ -332,7 +351,7 @@ class ApiControllerTest extends BaseTest
     /**
      * Test that if an OPTIONS request is made, a Response is returned.
      */
-    public function testOptionsRequestReturnsResponse()
+    public function testQuestionOptionsRequestReturnsResponse()
     {
         $request = Request::create('/api/questions', 'OPTIONS');
 
@@ -347,7 +366,7 @@ class ApiControllerTest extends BaseTest
     /**
      * Test that if a request with an unsupported method is made, a HTTP Exception is thrown.
      */
-    public function testHeadRequestReturnsHttpException()
+    public function testQuestionHeadRequestReturnsHttpException()
     {
         $request = Request::create('/api/questions', 'HEAD');
 
@@ -355,5 +374,131 @@ class ApiControllerTest extends BaseTest
         $this->expectExceptionMessage('Method not allowed.');
 
         $this->controller->questionsAction($request, 0);
+    }
+
+    /**
+     * Test that if a question can not be found a 404 is returned.
+     */
+    public function testIndexResponsesRequestReturns404()
+    {
+        $this->questionRepository->findOneBy(Argument::any())->willReturn(null);
+        $request = Request::create('api/questions/gf56dg/responses', 'GET');
+
+        $response = $this->controller->responsesAction($request, 'gf56dg');
+
+        self::assertInstanceOf(JsonResponse::class, $response);
+        self::assertEquals(404, $response->getStatusCode());
+    }
+
+    /**
+     * Test that if a GET request is made, a JsonResponse is returned.
+     */
+    public function testIndexResponsesRequestReturnsResponses()
+    {
+        $request = Request::create('/api/questions/gf56dg/responses', 'GET');
+
+        $response = $this->controller->responsesAction($request, 'gf56dg');
+
+        $this->entityManager->getRepository('ItsGoingToBeBundle:Question')
+            ->shouldHaveBeenCalledTimes(1);
+        $this->questionRepository->findOneBy(array('identifier'=>'gf56dg', 'deleted'=>false))
+                        ->shouldHaveBeenCalledTimes(1);
+
+        self::assertInstanceOf(JsonResponse::class, $response);
+        self::assertEquals(200, $response->getStatusCode());
+
+        $data = json_decode($response->getContent(), true);
+        self::assertArrayHasKey('responsesCount', $data);
+        self::assertArrayHasKey('answers', $data);
+
+        self::assertEquals(2, $data['responsesCount']);
+        self::assertCount(2, $data['answers']);
+
+        self::assertArrayHasKey('id', $data['answers'][0]);
+        self::assertArrayHasKey('responsesCount', $data['answers'][0]);
+        self::assertEquals(5, $data['answers'][0]['id']);
+        self::assertEquals(1, $data['answers'][0]['responsesCount']);
+    }
+
+    /**
+     * Test that if a POST request is made without params an error is thrown
+     */
+    public function testPostResponsesRequestReturnsErrors()
+    {
+        $request = Request::create('/api/questions/gf56dg/responses', 'POST');
+        $response = $this->controller->responsesAction($request, 'gf56dg');
+
+        self::assertInstanceOf(JsonResponse::class, $response);
+        self::assertEquals(400, $response->getStatusCode());
+
+        $data = json_decode($response->getContent(), true);
+        self::assertCount(1, $data['errors']);
+        self::assertContains('No answers have been provided', $data['errors']);
+    }
+
+    /**
+     * Test that if a POST request is made a UserResponse is persisted
+     */
+    public function testPostResponsesRequestPersistsEntity()
+    {
+        $requestContent = json_encode([
+            'answers' => 5
+        ]);
+        $request = Request::create('/api/questions/gf56dg/responses', 'POST', [], [], [], [], $requestContent);
+
+        $response = $this->controller->responsesAction($request, 'gf56dg');
+
+        self::assertInstanceOf(JsonResponse::class, $response);
+        self::assertEquals(200, $response->getStatusCode());
+
+        $this->answerRepository->findOneBy(array('id' => 5, 'question' => 2))
+            ->shouldHaveBeenCalledTimes(1);
+
+        $userResponse = new UserResponse();
+        $userResponse->setQuestion($this->question->reveal());
+        $userResponse->setAnswer($this->answer->reveal());
+        $userResponse->setCustomUserID('9873fdanba8qge9dfsaq39');
+        $userResponse->setUserSessionID('12354321897467');
+        $userResponse->setUserIP($request->server->get('REMOTE_ADDR'));
+        $this->entityManager->persist($userResponse)
+            ->shouldHaveBeenCalledTimes(1);
+
+        $this->entityManager->flush()
+            ->shouldHaveBeenCalledTimes(1);
+
+        self::assertInstanceOf(JsonResponse::class, $response);
+        self::assertEquals(200, $response->getStatusCode());
+
+        $data = json_decode($response->getContent(), true);
+        self::assertArrayHasKey('responsesCount', $data);
+        self::assertArrayHasKey('answers', $data);
+    }
+
+    /**
+     * Test that if an OPTIONS request is made, a Response is returned.
+     */
+    public function testResponsesOptionsRequestReturnsResponse()
+    {
+        $request = Request::create('/api/questions/gf56dg/responses', 'OPTIONS');
+
+        $response = $this->controller->responsesAction($request, 'gf56dg');
+
+        $this->assertEquals(
+            new Response(),
+            $response
+        );
+    }
+
+    /**
+     * Test that if a request with an unsupported method is made, a HTTP Exception is thrown.
+     */
+    public function testResponsesHeadRequestReturnsHttpException()
+    {
+        $request = Request::create('/api/questions/gf56dg/responses', 'HEAD');
+
+        $this->expectException(HttpException::class);
+        $this->expectExceptionMessage('Method not allowed.');
+
+        $this->controller->responsesAction($request, 'gf56dg');
     }
 }

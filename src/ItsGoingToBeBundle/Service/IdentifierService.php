@@ -28,8 +28,10 @@ class IdentifierService
 
     /**
      * Get the session ID for the user
+     * TODO : Test this
      *
-     * @param  $request
+     * @param  Request $request
+     *
      * @return string Session id
      */
     public function getSessionID(Request $request)
@@ -53,8 +55,10 @@ class IdentifierService
 
     /**
      * Get or generate a custom user id
+     * TODO : Test this
      *
-     * @param  $request
+     * @param  Request $request
+     *
      * @return string   Custom user ID
      */
     public function getCustomUserID(Request $request)
@@ -65,7 +69,7 @@ class IdentifierService
             $this->logger->info('Custom User ID Not Found');
 
             $userID = bin2hex(openssl_random_pseudo_bytes(32));
-            $cookie = new Cookie('USERID', $userID, time() + (3600 * 24 * 1825));
+            $cookie = new Cookie('USERID', $userID, time() + 315360000);
             $response = new Response();
             $response->headers->setCookie($cookie);
             $response->sendHeaders();
