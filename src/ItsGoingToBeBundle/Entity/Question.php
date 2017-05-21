@@ -134,14 +134,7 @@ class Question
             ];
         }
         $data['answers'] = $answers;
-        $responses = [];
-        foreach ($this->getResponses() as $response) {
-            $responses[] = [
-                'type' => 'userResponse',
-                'id'   => $response->getId()
-            ];
-        }
-        $data['responses'] = $responses;
+        $data['responsesCount'] = count($this->getResponses());
         return $data;
     }
 

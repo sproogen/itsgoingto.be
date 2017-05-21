@@ -32,18 +32,14 @@ class AnswerTest extends BaseEntityTest
         self::assertArrayHasKey('id', $extractedData);
         self::assertArrayHasKey('answer', $extractedData);
         self::assertArrayHasKey('question', $extractedData);
-        self::assertArrayHasKey('responses', $extractedData);
+        self::assertArrayHasKey('responsesCount', $extractedData);
 
         self::assertEquals('Answer Text', $extractedData['answer']);
         $question = $extractedData['question'];
         self::assertArrayHasKey('type', $question);
         self::assertArrayHasKey('id', $question);
         self::assertEquals('question', $question['type']);
-        $responses = $extractedData['responses'];
-        self::assertCount(1, $responses);
-        self::assertArrayHasKey('type', $responses[0]);
-        self::assertArrayHasKey('id', $responses[0]);
-        self::assertEquals('userResponse', $responses[0]['type']);
+        self::assertEquals(1, $extractedData['responsesCount']);
     }
 
     public function testGetSetAnswer()

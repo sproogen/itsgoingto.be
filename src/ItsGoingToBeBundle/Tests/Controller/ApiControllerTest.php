@@ -45,7 +45,7 @@ class ApiControllerTest extends BaseTest
             'identifier'     => 'lkjas79h',
             'question'       => 'Question text?',
             'answers'        => [],
-            'responses'      => [],
+            'responsesCount' => 1,
             'multipleChoice' => false,
             'deleted'        => false,
         ]);
@@ -268,6 +268,7 @@ class ApiControllerTest extends BaseTest
         self::assertArrayHasKey('identifier', $data);
         self::assertArrayHasKey('question', $data);
         self::assertArrayHasKey('answers', $data);
+        self::assertArrayHasKey('responsesCount', $data);
         self::assertArrayHasKey('multipleChoice', $data);
         self::assertArrayHasKey('deleted', $data);
 
@@ -285,6 +286,7 @@ class ApiControllerTest extends BaseTest
         self::assertArrayHasKey('id', $data['answers'][1]);
         self::assertArrayHasKey('answer', $data['answers'][1]);
         self::assertEquals('Answer B', $data['answers'][1]['answer']);
+        self::assertEquals(0, $data['responsesCount']);
     }
 
     /**

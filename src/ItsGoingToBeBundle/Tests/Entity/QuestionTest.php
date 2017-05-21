@@ -39,7 +39,7 @@ class QuestionTest extends BaseEntityTest
         self::assertArrayHasKey('identifier', $extractedData);
         self::assertArrayHasKey('question', $extractedData);
         self::assertArrayHasKey('answers', $extractedData);
-        self::assertArrayHasKey('responses', $extractedData);
+        self::assertArrayHasKey('responsesCount', $extractedData);
         self::assertArrayHasKey('multipleChoice', $extractedData);
         self::assertArrayHasKey('deleted', $extractedData);
         self::assertArrayHasKey('created', $extractedData);
@@ -52,11 +52,7 @@ class QuestionTest extends BaseEntityTest
         self::assertArrayHasKey('type', $answers[0]);
         self::assertArrayHasKey('id', $answers[0]);
         self::assertEquals('answer', $answers[0]['type']);
-        $responses = $extractedData['responses'];
-        self::assertCount(1, $responses);
-        self::assertArrayHasKey('type', $responses[0]);
-        self::assertArrayHasKey('id', $responses[0]);
-        self::assertEquals('userResponse', $responses[0]['type']);
+        self::assertEquals(1, $extractedData['responsesCount']);
         self::assertEquals(true, $extractedData['multipleChoice']);
         self::assertEquals(true, $extractedData['deleted']);
     }

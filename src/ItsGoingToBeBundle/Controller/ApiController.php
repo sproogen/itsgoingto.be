@@ -14,6 +14,9 @@ use ItsGoingToBeBundle\Entity\Answer;
 use ItsGoingToBeBundle\Entity\UserResponse;
 use ItsGoingToBeBundle\Service\IdentifierService;
 
+/**
+ *  Api Controller to manage all the requests for the apiy goodness.
+ */
 class ApiController extends Controller
 {
     /**
@@ -65,8 +68,8 @@ class ApiController extends Controller
     /**
      * Uses the HTTP method to decide which action to perform.
      *
-     * @param  Request   $request   The request object.
-     * @param  int       $id        An ID to retrieve, 0 by default.
+     * @param  Request   $request    The request object.
+     * @param  mixed     $identifier An identifier for a question, 0 by default.
      *
      * @return JsonResponse        The API response
      */
@@ -98,7 +101,42 @@ class ApiController extends Controller
     }
 
     /**
+     * Uses the HTTP method to decide which action to perform.
+     *
+     * @param  Request   $request    The request object.
+     * @param  mixed     $identifier An identifier for a question, 0 by default.
+     *
+     * @return JsonResponse        The API response
+     */
+    public function responsesAction(Request $request, $identifier)
+    {
+        $question = $this->em->getRepository('ItsGoingToBeBundle:Question')
+            ->findOneBy(array('identifier' => $identifier, 'deleted' => false));
+
+        if ($question) {
+            switch ($request->getMethod()) {
+                case 'GET':
+                    $response = $this->indexResponses($question);
+                    break;
+                case 'POST':
+                    $response = $this->createResponse($question, $this->getData($request));
+                    break;
+                case 'OPTIONS':
+                    $response = new Response();
+                    break;
+                default:
+                    throw new HttpException('405', 'Method not allowed.');
+            }
+        } else {
+            $response = new JsonResponse([], 404);
+        }
+        return $response;
+    }
+
+    /**
      * Fetches the POST data.
+     *
+     * @param Request $request
      *
      * @return array POST data.
      */
@@ -111,7 +149,9 @@ class ApiController extends Controller
 
     /**
      * Get a question given the identifier
-     * @param  String $identifier
+     *
+     * @param  string $identifier
+     *
      * @return JsonResponse
      */
     protected function retrieveQuestion($identifier)
@@ -140,7 +180,9 @@ class ApiController extends Controller
 
     /**
      * Get the questions with parameters
-     * @param  String $parameters
+     *
+     * @param  array $parameters
+     *
      * @return JsonResponse
      */
     protected function indexQuestions($parameters)
@@ -174,7 +216,9 @@ class ApiController extends Controller
 
     /**
      * Create a question given the data
-     * @param  String $request
+     *
+     * @param  array $data
+     *
      * @return JsonResponse
      */
     protected function createQuestion($data)
@@ -224,23 +268,11 @@ class ApiController extends Controller
         return $response;
     }
 
-    protected function generateIdentifier()
-    {
-        $identifier = null;
-        do {
-            $identifier = substr(chr(mt_rand(97, 122)) .substr(md5(time()), 1), 0, 8);
-            $duplicateQuestion = $this->em->getRepository('ItsGoingToBeBundle:Question')
-                ->findOneBy(array('identifier' => $identifier));
-            if ($duplicateQuestion != null) {
-                $identifier = null;
-            }
-        } while ($identifier == null);
-        return $identifier;
-    }
-
     /**
      * Delete the question given the identifier
-     * @param  String $identifier
+     *
+     * @param  string $identifier
+     *
      * @return JsonResponse
      */
     protected function deleteQuestion($identifier)
@@ -265,6 +297,65 @@ class ApiController extends Controller
         }
 
         return $response;
+    }
+
+    /**
+     * Get the responses for a question
+     * TODO : Test this
+     *
+     * @param  Question $question
+     *
+     * @return JsonResponse
+     */
+    protected function indexResponses($question)
+    {
+        $responses = [];
+        $responses['responsesCount'] = count($question->getResponses());
+        $responses['answers'] = [];
+        foreach ($question->getAnswers() as $answer) {
+            $responses['answers'][] = [
+                'id'             => $answer->getId(),
+                'responsesCount' => count($answer->getResponses())
+            ];
+        }
+        return new JsonResponse($responses);
+    }
+
+    /**
+     * Create a question given the data
+     *
+     * @param  Question $question
+     * @param  array    $data
+     *
+     * @return JsonResponse
+     */
+    protected function createResponse($question, $data)
+    {
+        // TODO : Implement this
+
+        $response = new JsonResponse();
+
+        return $response;
+    }
+
+    /**
+     * Generate an identifier for a question
+     * IDEA : This could be moved to the perPersist hook.
+     *
+     * @return questionIdentifier identifier
+     */
+    protected function generateIdentifier()
+    {
+        $identifier = null;
+        do {
+            $identifier = substr(chr(mt_rand(97, 122)) .substr(md5(time()), 1), 0, 8);
+            $duplicateQuestion = $this->em->getRepository('ItsGoingToBeBundle:Question')
+                ->findOneBy(array('identifier' => $identifier));
+            if ($duplicateQuestion != null) {
+                $identifier = null;
+            }
+        } while ($identifier == null);
+        return $identifier;
     }
 
     /**
