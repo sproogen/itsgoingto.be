@@ -127,9 +127,9 @@ $(function() // execute once the DOM has loaded
 		(function answerRefresh() {
 		    answerRefreshTimeout = setTimeout(function () {
 		    	ajaxRefresh = $.ajax({
-				    type: "GET",
-				    url: apiRoute,
-				    beforeSend: function(){
+                                    type: "GET",
+                                    url: apiRoute,
+                                    beforeSend: function(){
 				    	ajaxRefreshStatus = 1;
 				   	},
 				    success: function(response) {
