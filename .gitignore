@@ -32,6 +32,9 @@
 /app/phpunit.xml
 /phpunit.xml
 
+# Phplint
+.phplint-cache
+
 # Build data
 /build/
 

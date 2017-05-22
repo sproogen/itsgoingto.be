@@ -2,39 +2,34 @@
 
 namespace ItsGoingToBeBundle\Service;
 
-use Symfony\Component\Security\Core\Event\AuthenticationFailureEvent;
-use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
-
 use Symfony\Component\HttpFoundation\Response;
-
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\RequestStack;
-
 use ItsGoingToBeBundle\Entity\LoginAttempt;
 
+/**
+ * ItsGoingToBeBundle\Service\AuthenticationListener
+ */
 class AuthenticationListener
 {
     protected $em;
     private $requestStack;
 
-    function __construct(EntityManager $em, RequestStack $requestStack)
+    public function __construct(EntityManager $em, RequestStack $requestStack)
     {
         $this->requestStack = $requestStack;
         $this->em = $em;
     }
     /**
      * onAuthenticationFailure
-     *
-     * @author  Joe Sexton <joe@webtipblog.com>
-     * @param   AuthenticationFailureEvent $event
      */
-    public function onAuthenticationFailure( AuthenticationFailureEvent $event )
+    public function onAuthenticationFailure()
     {
         // executes on failed login
         $request = $this->requestStack->getCurrentRequest();
 
         $loginModel = new LoginAttempt();
-        $loginModel->setSuccesful(FALSE);
+        $loginModel->setSuccesful(false);
         $loginModel->setIp($request->server->get('REMOTE_ADDR'));
         $loginModel->setUsername($question = $request->request->get('_username', ''));
         $loginModel->setPassword($question = $request->request->get('_password', ''));
@@ -50,17 +45,14 @@ class AuthenticationListener
 
     /**
      * onAuthenticationSuccess
-     *
-     * @author  Joe Sexton <joe@webtipblog.com>
-     * @param   InteractiveLoginEvent $event
      */
-    public function onAuthenticationSuccess( InteractiveLoginEvent $event )
+    public function onAuthenticationSuccess()
     {
         // executes on successful login
         $request = $this->requestStack->getCurrentRequest();
 
         $loginModel = new LoginAttempt();
-        $loginModel->setSuccesful(TRUE);
+        $loginModel->setSuccesful(true);
         $loginModel->setIp($request->server->get('REMOTE_ADDR'));
         $loginModel->setUsername($question = $request->request->get('_username', ''));
         $this->em->persist($loginModel);

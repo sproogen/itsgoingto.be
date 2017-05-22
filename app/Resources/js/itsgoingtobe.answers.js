@@ -118,12 +118,18 @@ $(function() // execute once the DOM has loaded
 
 	if($( 'form[name="answers"]' ).length){
 		var pathname = window.location.pathname;
+        var apiRoute = pathname.split('/');
+        if (apiRoute.length === 2) {
+            apiRoute = '/api/'+apiRoute[1]+'/responses';
+        } else {
+            apiRoute = '/'+apiRoute[1]+'/api/'+apiRoute[2]+'/responses';
+        }
 		(function answerRefresh() {
 		    answerRefreshTimeout = setTimeout(function () {
 		    	ajaxRefresh = $.ajax({
-				    type: "GET",
-				    url: pathname + '/responses',
-				    beforeSend: function(){
+                                    type: "GET",
+                                    url: apiRoute,
+                                    beforeSend: function(){
 				    	ajaxRefreshStatus = 1;
 				   	},
 				    success: function(response) {

@@ -4,10 +4,6 @@ namespace ItsGoingToBeBundle\Tests\AbstractTests;
 
 use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-//use Simitive\TestBundle\Database\DummyEntityController;
-
-// use Simitive\TaxonomyBundle\Entity\Taxonomy;
-// use Simitive\SolrBundle\Model\SearchTerm;
 
 abstract class BaseTest extends WebTestCase
 {
@@ -34,8 +30,6 @@ abstract class BaseTest extends WebTestCase
 
         $this->container = self::$kernel->getContainer();
         $this->em        = $this->container->get('doctrine')->getManager();
-        //var_dump($this->em);
-        //die();
         $this->now       = new \DateTime();
     }
 
@@ -44,10 +38,11 @@ abstract class BaseTest extends WebTestCase
      */
     protected function tearDown()
     {
-        //DummyEntityController::purgeEntities($this->em);
-        $this->em->getConnection()->close();
-        $this->em->close();
-        $this->em = null;
+        if ($this->em) {
+            $this->em->getConnection()->close();
+            $this->em->close();
+            $this->em = null;
+        }
 
         gc_collect_cycles();
     }

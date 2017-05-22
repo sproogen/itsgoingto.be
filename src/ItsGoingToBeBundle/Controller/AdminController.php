@@ -4,20 +4,19 @@ namespace ItsGoingToBeBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\HttpFoundation\Response;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-
 
 class AdminController extends Controller
 {
-
     /**
-     * @Route("/admin", name="admin")
-     * @Security("has_role('ROLE_ADMIN')")
+     * Action for the admin index page
+     *
+     * Matches /admin route exactly.
+     * Only accessable to uses with the 'ROLE_ADMIN' role.
      */
-    public function adminAction(Request $request)
+    public function indexAction(Request $request)
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'Unable to access this page!');
+
         $em = $this->get('doctrine.orm.entity_manager');
         $dql = "SELECT q FROM ItsGoingToBeBundle:Question q ORDER BY q.id DESC";
         $query = $em->createQuery($dql);
@@ -29,33 +28,45 @@ class AdminController extends Controller
             10/*limit per page*/
         );
 
-        return $this->render('admin/admin.html.twig', array('pagination' => $pagination, 'currentPage'=>$request->query->getInt('page', 1)));
+        return $this->render('admin/admin.html.twig', array(
+            'pagination' => $pagination,
+            'currentPage'=>$request->query->getInt('page', 1))
+        );
     }
 
     /**
-     * @Route("/admin/delete/{identifier}", name="admin_delete")
-     * @Security("has_role('ROLE_ADMIN')")
+     * Action for the admin login page
+     *
+     * Matches /admin/login route exactly.
      */
-    public function adminDeleteAction(Request $request, $identifier)
+    public function loginAction()
     {
-        $questionModel = $this->getDoctrine()
-            ->getRepository('ItsGoingToBeBundle:Question')
-            ->findOneByIdentifier($identifier);
+        $authenticationUtils = $this->get('security.authentication_utils');
 
-        if(!$questionModel){
-            throw $this->createNotFoundException('The question could not be found');
-        }
+        // get the login error if there is one
+        $error = $authenticationUtils->getLastAuthenticationError();
 
-        $em = $this->getDoctrine()->getManager();
+        // last username entered by the user
+        $lastUsername = $authenticationUtils->getLastUsername();
 
-        $questionModel->setDeleted(true);
-
-        $em->persist($questionModel);
-        $em->flush();
-
-        return $this->redirectToRoute('admin', array('page'=>$request->query->getInt('returnToPage', 1)));
-
-
+        return $this->render(
+            'admin/login.html.twig',
+            array(
+                // last username entered by the user
+                'last_username' => $lastUsername,
+                'error'         => $error,
+            )
+        );
     }
 
+    /**
+     * Action for the admin login check action
+     *
+     * Matches /admin/login-check route exactly.
+     */
+    public function loginCheckAction()
+    {
+        // this controller will not be executed,
+        // as the route is handled by the Security system
+    }
 }

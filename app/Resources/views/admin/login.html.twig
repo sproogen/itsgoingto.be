@@ -18,7 +18,7 @@
             <div class="error-message">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
         {% endif %}
 
-        <form action="{{ path('login_check') }}" method="post">
+        <form action="{{ path('admin_login_check') }}" method="post">
 
             <span class="input input-login">
                 <label class="input-label input-label-login" for="username">Username</label>

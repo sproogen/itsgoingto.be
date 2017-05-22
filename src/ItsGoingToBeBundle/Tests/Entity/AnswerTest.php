@@ -9,7 +9,7 @@ use ItsGoingToBeBundle\Entity\Question;
 use ItsGoingToBeBundle\Entity\UserResponse;
 
 /**
- * Test for ItsGoingToBeBundle\Entity\Answer
+ * Test for Answer
  */
 class AnswerTest extends BaseEntityTest
 {
@@ -19,6 +19,28 @@ class AnswerTest extends BaseEntityTest
      * @var string
      */
     protected $entityClass = Answer::class;
+
+    public function testExtract()
+    {
+        $this->entity->setAnswer('Answer Text');
+        $question = new Question();
+        $this->entity->setQuestion($question);
+        $response = new UserResponse();
+        $this->entity->addResponse($response);
+
+        $extractedData = $this->entity->extract();
+        self::assertArrayHasKey('id', $extractedData);
+        self::assertArrayHasKey('answer', $extractedData);
+        self::assertArrayHasKey('question', $extractedData);
+        self::assertArrayHasKey('responsesCount', $extractedData);
+
+        self::assertEquals('Answer Text', $extractedData['answer']);
+        $question = $extractedData['question'];
+        self::assertArrayHasKey('type', $question);
+        self::assertArrayHasKey('id', $question);
+        self::assertEquals('question', $question['type']);
+        self::assertEquals(1, $extractedData['responsesCount']);
+    }
 
     public function testGetSetAnswer()
     {

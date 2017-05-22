@@ -5,30 +5,36 @@ namespace ItsGoingToBeBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
- * @ORM\Table(name="sessions")
+ * Entity to store a session.
  */
 class Session
 {
-	/**
-     * @ORM\Column(type="string")
-     * @ORM\Id
+    /**
+     * The session id.
+     *
+     * @var string
      */
     protected $sess_id;
 
 
     /**
-     * @ORM\Column(type="blob")
+     * The session data.
+     *
+     * @var blob
      */
     protected $sess_data;
 
     /**
-     * @ORM\Column(type="integer")
+     * The session time.
+     *
+     * @var integer
      */
     protected $sess_time;
 
     /**
-     * @ORM\Column(type="bigint")
+     * The session lifetime.
+     *
+     * @var bigint
      */
     protected $sess_lifetime;
 

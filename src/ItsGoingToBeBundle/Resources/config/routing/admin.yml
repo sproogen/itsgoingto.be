@@ -1,0 +1,11 @@
+admin_page:
+    path:     /
+    defaults: { _controller: ItsGoingToBeBundle:Admin:index }
+
+admin_login_page:
+    path:     /login
+    defaults: { _controller: ItsGoingToBeBundle:Admin:login }
+
+admin_login_check:
+    path:     /login-check
+    defaults: { _controller: ItsGoingToBeBundle:Admin:loginCheck }
