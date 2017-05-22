@@ -39,7 +39,7 @@ class AdminController extends Controller
      *
      * Matches /admin/login route exactly.
      */
-    public function loginAction(Request $request)
+    public function loginAction()
     {
         $authenticationUtils = $this->get('security.authentication_utils');
 

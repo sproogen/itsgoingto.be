@@ -2,8 +2,6 @@
 
 namespace ItsGoingToBeBundle\Service;
 
-use Symfony\Component\Security\Core\Event\AuthenticationFailureEvent;
-use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 use Symfony\Component\HttpFoundation\Response;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -24,10 +22,8 @@ class AuthenticationListener
     }
     /**
      * onAuthenticationFailure
-     *
-     * @param AuthenticationFailureEvent $event
      */
-    public function onAuthenticationFailure(AuthenticationFailureEvent $event)
+    public function onAuthenticationFailure()
     {
         // executes on failed login
         $request = $this->requestStack->getCurrentRequest();
@@ -49,10 +45,8 @@ class AuthenticationListener
 
     /**
      * onAuthenticationSuccess
-     *
-     * @param InteractiveLoginEvent $event
      */
-    public function onAuthenticationSuccess(InteractiveLoginEvent $event)
+    public function onAuthenticationSuccess()
     {
         // executes on successful login
         $request = $this->requestStack->getCurrentRequest();

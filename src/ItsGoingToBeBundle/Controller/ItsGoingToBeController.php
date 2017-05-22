@@ -65,7 +65,7 @@ class ItsGoingToBeController extends Controller
             throw $this->createNotFoundException('The question could not be found');
         }
 
-        if (!$questionModel->getMultipleChoice()) {
+        if (!$questionModel->isMultipleChoice()) {
             //Check if the user has already answered the question
             $responseModel = $this->getDoctrine()
                 ->getRepository('ItsGoingToBeBundle:UserResponse')
@@ -245,7 +245,7 @@ class ItsGoingToBeController extends Controller
             }
         }
 
-        if (!$questionModel->getMultipleChoice()) {
+        if (!$questionModel->isMultipleChoice()) {
             //Check if the answer exists
             $answer = $request->request->get('answer');
             if (!$answer) {

@@ -57,7 +57,7 @@ class ApiControllerTest extends BaseTest
 
         $this->question = $this->prophesize(Question::class);
         $this->question->getId()->willReturn(2);
-        $this->question->getMultipleChoice()->willReturn(false);
+        $this->question->isMultipleChoice()->willReturn(false);
         $this->question->extract()->willReturn([
             'id'             => 2,
             'identifier'     => 'lkjas79h',
@@ -563,7 +563,7 @@ class ApiControllerTest extends BaseTest
      */
     public function testPostResponsesRequestPersistsMultipleEntities()
     {
-        $this->question->getMultipleChoice()->willReturn(true);
+        $this->question->isMultipleChoice()->willReturn(true);
         $answer2 = $this->prophesize(Answer::class);
         $answer2->getId()->willReturn(6);
         $answer3 = $this->prophesize(Answer::class);

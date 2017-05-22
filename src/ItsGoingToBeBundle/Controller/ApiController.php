@@ -173,7 +173,7 @@ class ApiController extends Controller
 
             // TODO : Test the following
             $extractedQuestion['responses'] = null;
-            if (!$question->getMultipleChoice()) {
+            if (!$question->isMultipleChoice()) {
                 $userResponse = $this->getResponseForUser($question, null, $request);
                 $extractedQuestion['responses'][] = $userResponse ? $userResponse->getAnswer()->getId() : null;
             } else {
@@ -202,8 +202,6 @@ class ApiController extends Controller
      */
     protected function indexQuestions($parameters)
     {
-        $pageSize = 1;
-
         $queryBuilder = $this->em->getRepository('ItsGoingToBeBundle:Question')
             ->createQueryBuilder('a')
             ->where('1 = 1');
@@ -356,7 +354,7 @@ class ApiController extends Controller
                     ->findOneBy(array('id' => $answer, 'question' => $question->getId()));
                 if ($answer) {
                     $answers[] = $answer;
-                    if (!$question->getMultipleChoice()) {
+                    if (!$question->isMultipleChoice()) {
                         break;
                     }
                 }
@@ -368,7 +366,7 @@ class ApiController extends Controller
         }
 
         if (empty($errors)) {
-            if ($question->getMultipleChoice()) {
+            if ($question->isMultipleChoice()) {
                 $userResponses = $this->getResponsesForUser($question, $request);
                 if ($userResponses) {
                     foreach ($userResponses as $userResponse) {
@@ -465,19 +463,19 @@ class ApiController extends Controller
      */
     protected function getResponseForUser(Question $question, $answer, Request $request)
     {
-        $userResponseRepository = $this->em->getRepository('ItsGoingToBeBundle:UserResponse');
+        $responseRepository = $this->em->getRepository('ItsGoingToBeBundle:UserResponse');
         $findOneBy = [
             'question' => $question->getId(),
             'customUserID' => $this->identifierService->getCustomUserID($request)
         ];
-        if ($question->getMultipleChoice() && $answer !== null) {
+        if ($question->isMultipleChoice() && $answer !== null) {
             $findOneBy['answer'] = $answer->getId();
         }
-        $userResponse = $userResponseRepository->findOneBy($findOneBy);
+        $userResponse = $responseRepository->findOneBy($findOneBy);
         if (!$userResponse) {
             unset($findOneBy['customUserID']);
             $findOneBy['userSessionID'] = $this->identifierService->getSessionID($request);
-            $userResponse = $userResponseRepository->findOneBy($findOneBy);
+            $userResponse = $responseRepository->findOneBy($findOneBy);
         }
         return $userResponse;
     }
@@ -492,13 +490,13 @@ class ApiController extends Controller
      */
     protected function getResponsesForUser(Question $question, Request $request)
     {
-        $userResponseRepository = $this->em->getRepository('ItsGoingToBeBundle:UserResponse');
-        $userResponses = $userResponseRepository->findBy([
+        $responseRepository = $this->em->getRepository('ItsGoingToBeBundle:UserResponse');
+        $userResponses = $responseRepository->findBy([
             'customUserID' => $this->identifierService->getCustomUserID($request),
             'question' => $question->getId()
         ]);
         if (!$userResponses) {
-            $userResponses = $userResponseRepository->findBy([
+            $userResponses = $responseRepository->findBy([
                 'userSessionID' => $this->identifierService->getSessionID($request),
                 'question' => $question->getId()
             ]);

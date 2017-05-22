@@ -121,7 +121,7 @@ class Question
             'id'             => $this->getId(),
             'identifier'     => $this->getIdentifier(),
             'question'       => $this->getQuestion(),
-            'multipleChoice' => $this->getMultipleChoice(),
+            'multipleChoice' => $this->isMultipleChoice(),
             'deleted'        => $this->getDeleted(),
             'created'        => $this->getCreated(),
             'updated'        => $this->getUpdated()
@@ -284,7 +284,7 @@ class Question
      *
      * @return boolean
      */
-    public function getMultipleChoice()
+    public function isMultipleChoice()
     {
         return $this->multipleChoice;
     }

@@ -132,7 +132,7 @@ class QuestionTest extends BaseEntityTest
     public function testGetSetMultipleChoice()
     {
         $this->entity->setMultipleChoice(true);
-        self::assertEquals(true, $this->entity->getMultipleChoice());
+        self::assertEquals(true, $this->entity->isMultipleChoice());
     }
 
     public function testGetSetDeleted()
