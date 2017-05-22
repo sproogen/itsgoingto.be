@@ -3,6 +3,18 @@ Symfony magic behind itsgoingto.be
 
 API
 -------------
+Retrieve Questions: [```GET /api/questions```](#retrieve-questions)
+
+Retrieve a Question: [```GET /api/questions/:identifier```](#retrieve-a-question)
+
+Create a Question: [```POST /api/questions```](#create-a-question)
+
+Delete a Question: [```DELETE /api/questions/:identifier```](#delete-a-question)
+
+Retrieve responses info: [```GET /api/questions/:identifier/responses```](#retrieve-responses-info)
+
+Submit/Change  users response: [```POST /api/questions/:identifier/responses```](#submitchange-a-user-response)
+
 #### Retrieve Questions
 Only returns non deleted questions unless the user has `ROLE_ADMIN`
 ```
@@ -171,7 +183,7 @@ DELETE /api/questions/:identifier
 }
 ```
 
-#### Retrieve the responses info
+#### Retrieve responses info
 Only returns non deleted question's responses unless the user has `ROLE_ADMIN`
 ```
 GET /api/questions/:identifier/responses
