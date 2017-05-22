@@ -1,3 +1,4 @@
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/95ef266848d44348a421142d2ed6f8cb)](https://www.codacy.com/app/sproogen/itsgoingto.be?utm_source=github.com&utm_medium=referral&utm_content=sproogen/itsgoingto.be&utm_campaign=badger)
 # itsgoingto.be [![Build Status](https://travis-ci.org/sproogen/itsgoingto.be.svg)](https://travis-ci.org/sproogen/itsgoingto.be)
 Symfony magic behind itsgoingto.be
 
