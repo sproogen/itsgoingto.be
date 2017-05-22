@@ -79,7 +79,7 @@ class ApiController extends Controller
             case 'GET':
                 // If GET is used and a non-zero ID is passed, call the retrieve method.
                 if ($identifier) {
-                    $response = $this->retrieveQuestion($identifier);
+                    $response = $this->retrieveQuestion($identifier, $request);
                 } // Without an ID ($id is 0), call index
                 else {
                     $response = $this->indexQuestions($request->query->all());
@@ -151,10 +151,11 @@ class ApiController extends Controller
      * Get a question given the identifier
      *
      * @param  string $identifier
+     * @param  Request $request
      *
      * @return JsonResponse
      */
-    protected function retrieveQuestion($identifier)
+    protected function retrieveQuestion($identifier, Request $request)
     {
         $findOneBy = array('identifier' => $identifier);
         if (!$this->authorizationChecker->isGranted('ROLE_ADMIN')) {
@@ -169,7 +170,21 @@ class ApiController extends Controller
             foreach ($question->getAnswers() as $answer) {
                 $extractedQuestion['answers'][] = $answer->extract();
             }
-            // TODO : Add Users Response
+
+            // TODO : Test the following
+            $extractedQuestion['responses'] = null;
+            if (!$question->getMultipleChoice()) {
+                $userResponse = $this->getResponseForUser($question, null, $request);
+                $extractedQuestion['responses'][] = $userResponse ? $userResponse->getAnswer()->getId() : null;
+            } else {
+                $userResponses = $this->getResponsesForUser($question, $request);
+                if ($userResponses) {
+                    foreach ($userResponses as $userResponse) {
+                        $extractedQuestion['responses'][] = $userResponse->getAnswer()->getId();
+                    }
+                }
+            }
+
             $response = new JsonResponse($extractedQuestion);
         } else {
             $response = new JsonResponse([], 404);
@@ -354,7 +369,15 @@ class ApiController extends Controller
 
         if (empty($errors)) {
             if ($question->getMultipleChoice()) {
-                $this->removeResponsesNotInAnswersForUser($question, $answers, $request);
+                $userResponses = $this->getResponsesForUser($question, $request);
+                if ($userResponses) {
+                    foreach ($userResponses as $userResponse) {
+                        if (!in_array($userResponse->getAnswer()->getId(), array_map([$this, 'mapIds'], $answers))) {
+                            $this->em->remove($userResponse);
+                        }
+                    }
+                    $this->em->flush();
+                }
             }
 
             foreach ($answers as $answer) {
@@ -435,19 +458,19 @@ class ApiController extends Controller
      * Get a response for the current user
      *
      * @param  Question $question
-     * @param  Answer   $answer
+     * @param  Answer|null   $answer
      * @param  Request  $request
      *
      * @return  UserResponse | null
      */
-    protected function getResponseForUser(Question $question, Answer $answer, Request $request)
+    protected function getResponseForUser(Question $question, $answer, Request $request)
     {
         $userResponseRepository = $this->em->getRepository('ItsGoingToBeBundle:UserResponse');
         $findOneBy = [
             'question' => $question->getId(),
             'customUserID' => $this->identifierService->getCustomUserID($request)
         ];
-        if ($question->getMultipleChoice()) {
+        if ($question->getMultipleChoice() && $answer !== null) {
             $findOneBy['answer'] = $answer->getId();
         }
         $userResponse = $userResponseRepository->findOneBy($findOneBy);
@@ -460,13 +483,14 @@ class ApiController extends Controller
     }
 
     /**
-     * Remove responses for a user
+     * Get all responses for the current user
      *
      * @param  Question $question
-     * @param  array    $answers
      * @param  Request  $request
+     *
+     * @return  array | null
      */
-    protected function removeResponsesNotInAnswersForUser(Question $question, $answers, Request $request)
+    protected function getResponsesForUser(Question $question, Request $request)
     {
         $userResponseRepository = $this->em->getRepository('ItsGoingToBeBundle:UserResponse');
         $userResponses = $userResponseRepository->findBy([
@@ -479,14 +503,7 @@ class ApiController extends Controller
                 'question' => $question->getId()
             ]);
         }
-        if ($userResponses) {
-            foreach ($userResponses as $userResponse) {
-                if (!in_array($userResponse->getAnswer()->getId(), array_map([$this, 'mapIds'], $answers))) {
-                    $this->em->remove($userResponse);
-                }
-            }
-            $this->em->flush();
-        }
+        return $userResponses;
     }
 
     /**

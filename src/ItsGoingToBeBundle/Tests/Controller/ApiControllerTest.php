@@ -45,6 +45,15 @@ class ApiControllerTest extends BaseTest
         $this->answer = $this->prophesize(Answer::class);
         $this->answer->getId()->willReturn(5);
         $this->answer->getResponses()->willReturn([new UserResponse()]);
+        $this->answer->extract()->willReturn([
+            'id'             => 5,
+            'answer'         => 'Answer A',
+            'question'       => [
+                'type' => 'question',
+                'id'   => 2
+            ],
+            'responsesCount' => 1,
+        ]);
 
         $this->question = $this->prophesize(Question::class);
         $this->question->getId()->willReturn(2);
@@ -54,7 +63,7 @@ class ApiControllerTest extends BaseTest
             'identifier'     => 'lkjas79h',
             'question'       => 'Question text?',
             'answers'        => [],
-            'responsesCount' => 1,
+            'responsesCount' => 2,
             'multipleChoice' => false,
             'deleted'        => false,
         ]);
@@ -251,8 +260,6 @@ class ApiControllerTest extends BaseTest
     {
         $request = Request::create('/api/questions', 'POST');
         $response = $this->controller->questionsAction($request, 0);
-
-        // TODO : Add check when answers isn't an array.
 
         self::assertInstanceOf(JsonResponse::class, $response);
         self::assertEquals(400, $response->getStatusCode());
