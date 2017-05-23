@@ -26,19 +26,19 @@ gulp.task('sync', ['continuous-build-browserSync']);
  */
 gulp.task('ng:clean', function () {
     gulp.src(['web/js/itsgoingtobe.js','web/js/itsgoingtobe.min.js'], {read: false})
-    	.pipe(clean({force: true}));
+        .pipe(clean({force: true}));
 });
 
 gulp.task('ng:js', ['ng:clean'], function() {
-	gulp.src('app/Resources/js/**/*.js')
-	 	.pipe(jshint())
-	 	.pipe(jshint.reporter(stylish))
-	 	.pipe(concat('itsgoingtobe.js'))
-	 	.pipe(gulp.dest('web/js/'))
-	    	.pipe(uglify())
-	    	.pipe(rename('itsgoingtobe.min.js'))
-	    	.pipe(gulp.dest('web/js/'))
-	    	.on('error', gutil.log);
+    gulp.src('app/Resources/js/**/*.js')
+        .pipe(jshint())
+        .pipe(jshint.reporter(stylish))
+        .pipe(concat('itsgoingtobe.js'))
+        .pipe(gulp.dest('web/js/'))
+        .pipe(uglify())
+        .pipe(rename('itsgoingtobe.min.js'))
+        .pipe(gulp.dest('web/js/'))
+        .on('error', gutil.log);
 });
 
 gulp.task('ng:js-reload', ['ng:js'], function() {
@@ -46,13 +46,13 @@ gulp.task('ng:js-reload', ['ng:js'], function() {
 });
 
 gulp.task('ng:sass', function() {
-	gulp.src('app/Resources/scss/itsgoingtobe.scss')
-    	.pipe(sass({includePaths: require('node-neat').includePaths.concat('app/Resources/scss')}))
-    	.pipe(rename('itsgoingtobe.css'))
-    	.pipe(gulp.dest('web/css'))
-    	.pipe(minifyCSS())
-    	.pipe(rename('itsgoingtobe.min.css'))
-    	.pipe(gulp.dest('web/css'));
+    gulp.src('app/Resources/scss/itsgoingtobe.scss')
+        .pipe(sass({includePaths: require('node-neat').includePaths.concat('app/Resources/scss')}))
+        .pipe(rename('itsgoingtobe.css'))
+        .pipe(gulp.dest('web/css'))
+        .pipe(minifyCSS())
+        .pipe(rename('itsgoingtobe.min.css'))
+        .pipe(gulp.dest('web/css'));
 });
 
 gulp.task('ng:sass-reload', ['ng:sass'], function() {
@@ -60,22 +60,21 @@ gulp.task('ng:sass-reload', ['ng:sass'], function() {
 });
 
 gulp.task('continuous-build', function() {
-	// js
-	gulp.start('ng:js');
-	gulp.watch(['app/Resources/js/**/*.js'], function(files) {
-		gulp.start('ng:js');
-	});
+    // js
+    gulp.start('ng:js');
+    gulp.watch(['app/Resources/js/**/*.js'], function(files) {
+        gulp.start('ng:js');
+    });
 
-	// sass
-	gulp.start('ng:sass');
-	gulp.watch(['app/Resources/scss/**/*.scss'], function(files) {
-		gulp.start('ng:sass');
-	});
+    // sass
+    gulp.start('ng:sass');
+    gulp.watch(['app/Resources/scss/**/*.scss'], function(files) {
+        gulp.start('ng:sass');
+    });
 
 });
 
 gulp.task('continuous-build-browserSync', function() {
-
     browserSync = require('browser-sync').create();
 
     // js
@@ -90,15 +89,15 @@ gulp.task('continuous-build-browserSync', function() {
         gulp.start('ng:sass-reload');
     });
 
-    gulp.watch("app/Resources/views/**/*.twig").on('change', browserSync.reload);
+    gulp.watch('app/Resources/views/**/*.twig').on('change', browserSync.reload);
 
     browserSync.init({
-        proxy: "itsgoingtobe.local/app_dev.php"
+        proxy: 'itsgoingtobe.local/app_dev.php'
     });
 });
 
 gulp.task('doctrine-update', shell.task([
-	'php app/console doctrine:schema:update --force'
+  'php app/console doctrine:schema:update --force'
 ]));
 
 gulp.task('php-lint', shell.task([

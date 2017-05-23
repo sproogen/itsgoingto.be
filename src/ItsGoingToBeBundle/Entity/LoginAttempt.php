@@ -118,7 +118,7 @@ class LoginAttempt
      *
      * @return boolean
      */
-    public function getSuccesful()
+    public function isSuccesful()
     {
         return $this->succesful;
     }
