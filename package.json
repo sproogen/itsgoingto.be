@@ -9,7 +9,9 @@
     "postinstall": "gulp build"
   },
   "devDependencies": {
-    "browser-sync": "^2.9.12",
+    "browser-sync": "^2.9.12"
+  },
+  "dependencies": {
     "gulp": "^3.9.0",
     "gulp-clean": "^0.3.1",
     "gulp-concat": "^2.6.0",
