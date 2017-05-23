@@ -38,7 +38,7 @@ $(function() // execute once the DOM has loaded
             type: 'POST',
             url: $( 'form[name="answers"]' ).attr( 'action' ),
             data: $('form[name="answers"]').serialize(),
-            success: function(response) {
+            success(response) {
                 //console.log(response);
             }
         });
@@ -125,11 +125,11 @@ $(function() // execute once the DOM has loaded
             apiRoute = '/'+apiRoute[1]+'/'+apiRoute[2]+'/responses';
         }
         (function answerRefresh() {
-            answerRefreshTimeout = setTimeout(function () {
+            var answerRefreshTimeout = setTimeout(function () {
                 ajaxRefresh = $.ajax({
-                                    type: 'GET',
-                                    url: apiRoute,
-                                    beforeSend: function(){
+                    type: 'GET',
+                    url: apiRoute,
+                    beforeSend() {
                         ajaxRefreshStatus = 1;
                     },
                     success: function(response) {
@@ -150,7 +150,7 @@ $(function() // execute once the DOM has loaded
                             $('.input-label-votes[for='+$(this).attr('name')+']').text(responses + ' votes');
                         });
                     },
-                    complete: function() {
+                    complete() {
                         ajaxRefreshStatus = 0;
                         answerRefresh();
                     }
