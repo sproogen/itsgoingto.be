@@ -52,7 +52,8 @@ gulp.task('ng:sass', function() {
         .pipe(gulp.dest('web/css'))
         .pipe(minifyCSS())
         .pipe(rename('itsgoingtobe.min.css'))
-        .pipe(gulp.dest('web/css'));
+        .pipe(gulp.dest('web/css'))
+        .on('error', gutil.log);
 });
 
 gulp.task('ng:sass-reload', ['ng:sass'], function() {
