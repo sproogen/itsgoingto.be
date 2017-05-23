@@ -31,8 +31,8 @@ class AuthenticationListener
         $loginModel = new LoginAttempt();
         $loginModel->setSuccesful(false);
         $loginModel->setIp($request->server->get('REMOTE_ADDR'));
-        $loginModel->setUsername($question = $request->request->get('_username', ''));
-        $loginModel->setPassword($question = $request->request->get('_password', ''));
+        $loginModel->setUsername($request->request->get('_username', ''));
+        $loginModel->setPassword($request->request->get('_password', ''));
         $this->em->persist($loginModel);
 
         $this->em->flush();
@@ -54,7 +54,7 @@ class AuthenticationListener
         $loginModel = new LoginAttempt();
         $loginModel->setSuccesful(true);
         $loginModel->setIp($request->server->get('REMOTE_ADDR'));
-        $loginModel->setUsername($question = $request->request->get('_username', ''));
+        $loginModel->setUsername($request->request->get('_username', ''));
         $this->em->persist($loginModel);
 
         $this->em->flush();
