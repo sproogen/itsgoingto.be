@@ -21,7 +21,9 @@ function questionKeyPressed(){
     var key = event.keyCode || event.charCode;
 
     //Stop enter key submitting form
-    if ( key === 13) event.preventDefault();
+    if ( key === 13) {
+        event.preventDefault();
+    }
 
     if(this.value.length){
         if ( key === 13 || key === 40 ) {
