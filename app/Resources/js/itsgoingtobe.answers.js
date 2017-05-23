@@ -120,9 +120,9 @@ $(function() // execute once the DOM has loaded
 		var pathname = window.location.pathname;
         var apiRoute = pathname.split('/');
         if (apiRoute.length === 2) {
-            apiRoute = '/api/'+apiRoute[1]+'/responses';
+            apiRoute = '/'+apiRoute[1]+'/responses';
         } else {
-            apiRoute = '/'+apiRoute[1]+'/api/'+apiRoute[2]+'/responses';
+            apiRoute = '/'+apiRoute[1]+'/'+apiRoute[2]+'/responses';
         }
 		(function answerRefresh() {
 		    answerRefreshTimeout = setTimeout(function () {
