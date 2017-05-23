@@ -174,13 +174,13 @@ class ItsGoingToBeController extends Controller
 
         //Check the answers
         $answers = array();
-        $x = 1;
+        $answerNum = 1;
         do {
-            $answer = $request->request->get('answer-'.$x, false);
+            $answer = $request->request->get('answer-'.$answerNum, false);
             if ($answer !== false && strlen(trim($answer)) > 0) {
                 $answers[] = $answer;
             }
-            $x++;
+            $answerNum++;
         } while ($answer !== false);
         if (count($answers) < 2) {
             //ERROR - NOT ENOUGH ANSWERS GIVEN

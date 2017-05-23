@@ -27,7 +27,7 @@ class LoginAttemptTest extends BaseEntityTest
     public function testGetSetSuccesful()
     {
         $this->entity->setSuccesful(true);
-        self::assertEquals(true, $this->entity->getSuccesful());
+        self::assertEquals(true, $this->entity->isSuccesful());
     }
 
     public function testGetSetUsername()
