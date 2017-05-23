@@ -9,7 +9,8 @@ class AutoLinkTwigExtension extends \Twig_Extension
      */
     public function getFilters()
     {
-        return array('auto_link_text' => new \Twig_Filter_Method($this, 'auto_link_text', array('is_safe' => array('html'))),
+        return array(
+            'auto_link_text' => new \Twig_Filter_Method($this, 'autoLinkText', array('is_safe' => array('html'))),
         );
     }
 
@@ -28,7 +29,7 @@ class AutoLinkTwigExtension extends \Twig_Extension
      *
      * @return string
      */
-    static public function auto_link_text($string)
+    public static function autoLinkText($string)
     {
 
         $regexp = "/(<a.*?>)?(https?:\/\/)?(\w+\.)?(\w+)\.(\w+)(<\/a.*?>)?/i";
