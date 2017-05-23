@@ -201,30 +201,31 @@ function removeAnswer(num){
     //$('.answers .input-answer:eq('+removeNum+')').remove();
 }
 
-function clearAnswers(){
-    // @TODO - Clear out all answers and disable submit button
+function hideDatePopup(){
+    $('#datepicker').removeClass('show');
+    $('#datepicker-overlay').removeClass('show');
 }
 
 function showDatePopup(){
     if(!$(this).parent().hasClass('input-disabled')){
         answer = $(this).attr('for');
-        $('#datepicker').addClass("show");
-        $('#datepicker-overlay').addClass("show");
+        $('#datepicker').addClass('show');
+        $('#datepicker-overlay').addClass('show');
 
-        $("#datepicker-overlay").click(function(event) {
+        $('#datepicker-overlay').click(function(event) {
             hideDatePopup();
         });
     }
 }
 
-function hideDatePopup(){
-    $('#datepicker').removeClass("show");
-    $('#datepicker-overlay').removeClass("show");
+function hideAdvancedOptions(){
+    $('#advanced-settings').removeClass('show');
+    $('#datepicker-overlay').removeClass('show');
 }
 
 function showAdvancedOptions(){
-    $('#advanced-settings').addClass("show");
-    $('#datepicker-overlay').addClass("show");
+    $('#advanced-settings').addClass('show');
+    $('#datepicker-overlay').addClass('show');
 
     $("#datepicker-overlay").click(function(event) {
         hideAdvancedOptions();
@@ -236,11 +237,6 @@ function showAdvancedOptions(){
     });
 }
 
-function hideAdvancedOptions(){
-    $('#advanced-settings').removeClass("show");
-    $('#datepicker-overlay').removeClass("show");
-}
-
 $(document).ready(function() // execute once the DOM has loaded
 {
 
@@ -250,10 +246,10 @@ $(document).ready(function() // execute once the DOM has loaded
 
     if($('textarea.input-field-question').length){
 
-        var placeholder = ["What film should we watch?",
-                           "What should we do this weekend?",
-                           "Who is going to win the league?",
-                           "Where should we go for drinks?"];
+        var placeholder = ['What film should we watch?',
+                           'What should we do this weekend?',
+                           'Who is going to win the league?',
+                           'Where should we go for drinks?'];
         var timeOut;
         var char = 0;
         var placeholderNum = Math.round(Math.random() * (placeholder.length-1));
@@ -264,13 +260,15 @@ $(document).ready(function() // execute once the DOM has loaded
                 var type = placeholder[placeholderNum].substring(0, char);
                 $('textarea.input-field-question').attr('placeholder', type + '|');
 
-                if (char == placeholder[placeholderNum].length) {
+                if (char === placeholder[placeholderNum].length) {
                     $('textarea.input-field-question').attr('placeholder', $('textarea.input-field-question').attr('placeholder').slice(0, -1));
                     char = 0;
                     placeholderNum++;
-                    if(placeholderNum >= placeholder.length) placeholderNum = 0;
+                    if (placeholderNum >= placeholder.length) {
+                        placeholderNum = 0;
+                    }
                     typeIt(1000);
-                }else{
+                } else {
                     var humanize = Math.round(Math.random() * (150 - 30)) + 30;
                     typeIt(humanize);
                 }
@@ -286,7 +284,7 @@ $(document).ready(function() // execute once the DOM has loaded
     $('.input-field-datepicker-trigger').click(showDatePopup);
 
 
-    $("button.btn-question").click(function(event) {
+    $('button.btn-question').click(function(event) {
         if(!canSubmitQuestion()){
             event.preventDefault();
         }
@@ -295,10 +293,10 @@ $(document).ready(function() // execute once the DOM has loaded
     if($('#datepicker').length) {
         $('#datepicker').datepicker({
             inline: true,
-            dateFormat: "DD, d MM, yy",
-            onSelect: function(date) {
+            dateFormat: 'DD, d MM, yy',
+            onSelect(date) {
                 $('#'+answer).val(date);
-                $('#'+answer).trigger("input");
+                $('#'+answer).trigger('input');
                 hideDatePopup();
             }
         });
