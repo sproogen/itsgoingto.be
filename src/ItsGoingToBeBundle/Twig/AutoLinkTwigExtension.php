@@ -31,7 +31,6 @@ class AutoLinkTwigExtension extends \Twig_Extension
      */
     public static function autoLinkText($string)
     {
-
         $regexp = "/(<a.*?>)?(https?:\/\/)?(\w+\.)?(\w+)\.(\w+)(<\/a.*?>)?/i";
         $anchorMarkup = "<a href=\"%s%s\" target=\"_blank\" >%s</a>";
 
