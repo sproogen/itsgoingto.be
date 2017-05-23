@@ -14,13 +14,13 @@ before_install:
   - cp app/config/parameters.yml.travis app/config/parameters_dev.yml
 
 install:
+  - phpenv config-rm xdebug.ini
   - composer install
   - npm install
 
 before_script:
   - php app/console doctrine:database:create --env=test
   - php app/console doctrine:schema:create --env=test
-  - gulp build
 
 script:
   - bin/phpcs --standard=PSR2 src/

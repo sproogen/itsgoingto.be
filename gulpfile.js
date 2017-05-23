@@ -5,6 +5,7 @@ var stylish = require('jshint-stylish');
 var clean = require('gulp-clean');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
+var babel  = require('gulp-babel');
 var rename = require('gulp-rename');
 var watch = require('gulp-watch');
 var sass = require('gulp-sass');
@@ -34,6 +35,7 @@ gulp.task('ng:js', ['ng:clean'], function() {
         .pipe(jshint())
         .pipe(jshint.reporter(stylish))
         .pipe(concat('itsgoingtobe.js'))
+        .pipe(babel({presets: ['es2015']}))
         .pipe(gulp.dest('web/js/'))
         .pipe(uglify())
         .pipe(rename('itsgoingtobe.min.js'))
