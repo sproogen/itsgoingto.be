@@ -17,3 +17,9 @@ services:
         calls:
             - [ setContainer, ["@service_container"] ]
             - [ setIdentifierService, ["@itsgoingtobe.identifier_service"]]
+
+    app.twig_extension:
+        class: ItsGoingToBeBundle\Twig\AutoLinkTwigExtension
+        public: false
+        tags:
+            - { name: twig.extension }
