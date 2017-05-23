@@ -22,7 +22,7 @@
 
 	<div class="container header-container answer-header-container hideable">
     	<div class="header center-text">
-            <h2>{{ questionModel.question }}</h2>
+            <h2>{{ questionModel.question|auto_link_text }}</h2>
             <h3>
                 <span id="shareLink" class="share-link">{{ app.request.httpHost ~ app.request.requestUri }}</span>
                 <a class="shareButton twitter" target="_blank" href="https://twitter.com/home?status={{ questionModel.question }} - Answer this poll at http://{{ app.request.httpHost ~ app.request.requestUri }}"><i class="fa fa-twitter"></i></a>
@@ -56,7 +56,7 @@
                         {% endif %}
 
 
-                        <label for="answer-{{ answer.id }}" class="input-label input-label-options">{{ answer.answer }}</label>
+                        <label for="answer-{{ answer.id }}" class="input-label input-label-options">{{ answer.answer|auto_link_text }}</label>
                         <span for="answer-{{ answer.id }}" class="input-label-votes">{{ answerResponses }} votes</span>
                     </span>
 
