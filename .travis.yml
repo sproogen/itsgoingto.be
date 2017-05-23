@@ -9,16 +9,20 @@ branches:
     - develop
     - f/#51-long-questions-answes
 
-before_script:
+before_install:
   - cp app/config/parameters.yml.travis app/config/parameters.yml
   - cp app/config/parameters.yml.travis app/config/parameters_dev.yml
+
+install:
   - composer install
+  - npm install
+
+before_script:
   - php app/console doctrine:database:create --env=test
   - php app/console doctrine:schema:create --env=test
-#  - php app/console doctrine:fixtures:load -n --env=test
+  - gulp build
 
 script:
-  - gulp build
   - bin/phpcs --standard=PSR2 src/
   - bin/phplint src
   - bin/phpunit -c app
