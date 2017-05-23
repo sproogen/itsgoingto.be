@@ -9,4 +9,3 @@ itsgoingtobe_api:
 itsgoingtobe_pages:
     resource: "@ItsGoingToBeBundle/Resources/config/routing/pages.yml"
     prefix: /
-    

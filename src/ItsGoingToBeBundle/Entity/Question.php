@@ -122,7 +122,7 @@ class Question
             'identifier'     => $this->getIdentifier(),
             'question'       => $this->getQuestion(),
             'multipleChoice' => $this->isMultipleChoice(),
-            'deleted'        => $this->getDeleted(),
+            'deleted'        => $this->isDeleted(),
             'created'        => $this->getCreated(),
             'updated'        => $this->getUpdated()
         ];
@@ -308,7 +308,7 @@ class Question
      *
      * @return boolean
      */
-    public function getDeleted()
+    public function isDeleted()
     {
         return $this->deleted;
     }

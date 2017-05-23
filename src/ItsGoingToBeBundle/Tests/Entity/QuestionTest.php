@@ -138,7 +138,7 @@ class QuestionTest extends BaseEntityTest
     public function testGetSetDeleted()
     {
         $this->entity->setDeleted(true);
-        self::assertEquals(true, $this->entity->getDeleted());
+        self::assertEquals(true, $this->entity->isDeleted());
     }
 
     public function testGetSetCreated()

@@ -25,4 +25,3 @@ responses:
     path:     /{identifier}/responses
     defaults: { _controller: itsgoingtobe.itsgoingtobe_controller:responsesAction }
     methods: ['GET']
-    
