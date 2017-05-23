@@ -7,7 +7,6 @@ branches:
   only:
     - master
     - develop
-    - f/#51-long-questions-answes
 
 before_install:
   - cp app/config/parameters.yml.travis app/config/parameters.yml
