@@ -1,6 +1,6 @@
 <?php
-if(isset($_ENV['CLEARDB_DATABASE_URL'])){
-    $db = parse_url($_ENV['CLEARDB_DATABASE_URL']);
+if(isset($_ENV['JAWSDB_URL'])){
+    $db = parse_url($_ENV['JAWSDB_URL']);
     $container->setParameter('database_driver', 'pdo_mysql');
     $container->setParameter('database_host', $db['host']);
     $container->setParameter('database_port', '~');

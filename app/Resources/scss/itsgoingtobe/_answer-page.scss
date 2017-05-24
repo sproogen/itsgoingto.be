@@ -1,6 +1,13 @@
-.header-container{
+.header-container {
 	&.answer-header-container .header {
     	margin-bottom: 0px;
+    	max-width: 55em;
+    	margin-left: auto;
+    	margin-right: auto;
+
+        .slabtext {
+            line-height: 0.9em;
+    	}
 	}
 	.share-link {
 		margin: 0px;
