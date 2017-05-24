@@ -1,5 +1,6 @@
 var gulp = require('gulp');
 var gutil = require('gulp-util');
+//var jscs = require('gulp-jscs');
 var jshint = require('gulp-jshint');
 var stylish = require('jshint-stylish');
 var clean = require('gulp-clean');
@@ -32,6 +33,8 @@ gulp.task('ng:clean', function () {
 
 gulp.task('ng:js', ['ng:clean'], function() {
     gulp.src('app/Resources/js/**/*.js')
+        //.pipe(jscs())
+        //.pipe(jscs.reporter())
         .pipe(jshint())
         .pipe(jshint.reporter(stylish))
         .pipe(concat('itsgoingtobe.js'))

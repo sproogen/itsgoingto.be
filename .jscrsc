@@ -1,0 +1,3 @@
+"excludeFiles": [
+  "app/Resources/js/includes/**"
+]
