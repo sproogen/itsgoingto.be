@@ -1,5 +1,5 @@
 logout:
     path: /admin/logout
 app:
-    resource: "@ItsGoingToBeBundle/Controller/"
-    type:     annotation
+    resource: "@ItsGoingToBeBundle/Resources/config/routing.yml"
+    prefix:   /

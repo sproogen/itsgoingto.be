@@ -1,0 +1,7 @@
+api_question:
+    path:     /questions/{identifier}
+    defaults: { _controller: itsgoingtobe.api_controller:questionsAction, identifier: 0 }
+
+api_question_responses:
+    path:     /questions/{identifier}/responses
+    defaults: { _controller: itsgoingtobe.api_controller:responsesAction, identifier: 0 }

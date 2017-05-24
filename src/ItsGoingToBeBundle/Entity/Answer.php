@@ -4,39 +4,67 @@ namespace ItsGoingToBeBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use ItsGoingToBeBundle\Entity\Question;
+use ItsGoingToBeBundle\Entity\UserResponse;
 
 /**
- * @ORM\Entity
- * @ORM\Table(name="answer")
+ * Entity to store an answer for a question.
  */
 class Answer
 {
-	/**
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+    /**
+     * The id of this Entity.
+     *
+     * @var integer
      */
     protected $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Question", inversedBy="answers")
-     * @ORM\JoinColumn(name="question_id", referencedColumnName="id")
+     * The answer text.
+     *
+     * @var string
+     */
+    protected $answer;
+
+    /**
+     * The question for this answer.
+     *
+     * @var Question
      */
     protected $question;
 
     /**
-     * @ORM\OneToMany(targetEntity="UserResponse", mappedBy="answer")
+     * The responses for this answer
+     *
+     * @var UserResponse[]
      */
     protected $responses;
 
     /**
-     * @ORM\Column(type="text")
+     * Answer constructor
      */
-    protected $answer;
-
     public function __construct()
     {
         $this->responses = new ArrayCollection();
+    }
+
+    /**
+     * Extract the data for the question
+     *
+     * @return []
+     */
+    public function extract()
+    {
+        $data = [
+            'id'     => $this->getId(),
+            'answer' => $this->getAnswer(),
+        ];
+        $data['question'] = [
+            'type' => 'question',
+            'id'   => $this->getQuestion()->getId()
+        ];
+        $data['responsesCount'] = count($this->getResponses());
+        return $data;
     }
 
     /**
@@ -52,11 +80,11 @@ class Answer
     /**
      * Set question
      *
-     * @param \ItsGoingToBeBundle\Entity\Question $question
+     * @param Question $question
      *
      * @return Answer
      */
-    public function setQuestion(\ItsGoingToBeBundle\Entity\Question $question = null)
+    public function setQuestion(Question $question)
     {
         $this->question = $question;
 
@@ -66,7 +94,7 @@ class Answer
     /**
      * Get question
      *
-     * @return \ItsGoingToBeBundle\Entity\Question
+     * @return Question
      */
     public function getQuestion()
     {
@@ -100,11 +128,11 @@ class Answer
     /**
      * Add response
      *
-     * @param \ItsGoingToBeBundle\Entity\UserResponse $response
+     * @param UserResponse $response
      *
      * @return Answer
      */
-    public function addResponse(\ItsGoingToBeBundle\Entity\UserResponse $response)
+    public function addResponse(UserResponse $response)
     {
         $this->responses[] = $response;
 
@@ -114,9 +142,9 @@ class Answer
     /**
      * Remove response
      *
-     * @param \ItsGoingToBeBundle\Entity\UserResponse $response
+     * @param UserResponse $response
      */
-    public function removeResponse(\ItsGoingToBeBundle\Entity\UserResponse $response)
+    public function removeResponse(UserResponse $response)
     {
         $this->responses->removeElement($response);
     }

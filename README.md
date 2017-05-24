@@ -1,5 +1,235 @@
-# itsgoingto.be [![Build Status](https://travis-ci.org/sproogen/itsgoingto.be.svg)](https://travis-ci.org/sproogen/itsgoingto.be)
+# itsgoingto.be [![Build Status](https://travis-ci.org/sproogen/itsgoingto.be.svg)](https://travis-ci.org/sproogen/itsgoingto.be) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/95ef266848d44348a421142d2ed6f8cb)](https://www.codacy.com/app/sproogen/itsgoingto.be?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=sproogen/itsgoingto.be&amp;utm_campaign=Badge_Grade)
 Symfony magic behind itsgoingto.be
+
+API
+-------------
+Retrieve Questions: [```GET /api/questions```](#retrieve-questions)
+
+Retrieve a Question: [```GET /api/questions/:identifier```](#retrieve-a-question)
+
+Create a Question: [```POST /api/questions```](#create-a-question)
+
+Delete a Question: [```DELETE /api/questions/:identifier```](#delete-a-question)
+
+Retrieve responses info: [```GET /api/questions/:identifier/responses```](#retrieve-responses-info)
+
+Submit/Change  users response: [```POST /api/questions/:identifier/responses```](#submitchange-a-user-response)
+
+#### Retrieve Questions
+Only returns non deleted questions unless the user has `ROLE_ADMIN`
+```
+GET /api/questions
+```
+###### Parameters
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| page | integer | The page to return. Default: 1 |
+| pageSize | integer | The ammount of results to retur per page. Default: 20 |
+###### Response
+```
+{
+  'count': 20,
+  'total': 100,
+  'entities':[
+    {
+      "id": 1,
+      "identifier": "v90034d6",
+      "question": "Is this a question?",
+      "multipleChoice": false,
+      "deleted": false,
+      "created": {
+        "date": "2017-05-18 13:45:37.000000",
+        "timezone_type": 3,
+        "timezone": "Europe/London"
+      },
+      "updated": {
+        "date": "2017-05-18 13:45:37.000000",
+        "timezone_type": 3,
+        "timezone": "Europe/London"
+      },
+      "answers": [
+        {
+          "type": "answer",
+          "id": 1
+        },
+        {
+          "type": "answer",
+          "id": 2
+        }
+      ],
+      "responsesCount": 5
+    },
+    ...
+  ]
+}
+```
+
+#### Retrieve a Question
+Only returns a non deleted question unless the user has `ROLE_ADMIN`
+```
+GET /api/questions/:identifier
+```
+###### Response
+```
+{
+  "id": 1,
+  "identifier": "v90034d6",
+  "question": "Is this a question?",
+  "multipleChoice": false,
+  "deleted": false,
+  "created": {
+    "date": "2017-05-18 13:45:37.000000",
+    "timezone_type": 3,
+    "timezone": "Europe/London"
+  },
+  "updated": {
+    "date": "2017-05-18 13:45:37.000000",
+    "timezone_type": 3,
+    "timezone": "Europe/London"
+  },
+  "answers": [
+    {
+      "type": "answer",
+      "id": 1
+    },
+    {
+      "type": "answer",
+      "id": 2
+    }
+  ],
+  "responses" : [
+    2
+  ]
+  "responsesCount": 5
+}
+```
+
+#### Create a Question
+```
+POST /api/questions
+```
+###### Input
+| Name | Type | Required | Description |
+| ---- | ---- | -------- | ----------- |
+| question | string | true | The question text.
+| answers | array | true | Array of answers for the question. Each answer should be a string |
+| multipleChoice | boolean | false | Is the question multiple choice. Default: false |
+###### Response
+```
+{
+  "id": 1,
+  "identifier": "v90034d6",
+  "question": "Is this a question?",
+  "multipleChoice": false,
+  "deleted": false,
+  "created": {
+    "date": "2017-05-18 13:45:37.000000",
+    "timezone_type": 3,
+    "timezone": "Europe/London"
+  },
+  "updated": {
+    "date": "2017-05-18 13:45:37.000000",
+    "timezone_type": 3,
+    "timezone": "Europe/London"
+  },
+  "answers": [
+    {
+      "type": "answer",
+      "id": 1
+    },
+    {
+      "type": "answer",
+      "id": 2
+    }
+  ],
+  "responsesCount": 0
+}
+```
+
+#### Delete a Question
+Sets the deleted flag to true. Can only be accessed by `ROLE_ADMIN`
+```
+DELETE /api/questions/:identifier
+```
+###### Response
+```
+{
+  "id": 1,
+  "identifier": "v90034d6",
+  "question": "Is this a question?",
+  "multipleChoice": false,
+  "deleted": true,
+  "created": {
+    "date": "2017-05-18 13:45:37.000000",
+    "timezone_type": 3,
+    "timezone": "Europe/London"
+  },
+  "updated": {
+    "date": "2017-05-18 13:45:37.000000",
+    "timezone_type": 3,
+    "timezone": "Europe/London"
+  },
+  "answers": [
+    {
+      "type": "answer",
+      "id": 1
+    },
+    {
+      "type": "answer",
+      "id": 2
+    }
+  ],
+  "responsesCount": 5
+}
+```
+
+#### Retrieve responses info
+Only returns non deleted question's responses unless the user has `ROLE_ADMIN`
+```
+GET /api/questions/:identifier/responses
+```
+###### Response
+```
+{
+  "responsesCount": 5
+  "answers": [
+    {
+      "id": 1,
+      "responsesCount": 2
+    },
+    {
+      "id": 2,
+      "responsesCount": 3
+    }
+  ],
+}
+```
+
+#### Submit/Change a user response
+```
+POST /api/questions/:identifier/responses
+```
+###### Input
+| Name | Type | Required | Description |
+| ---- | ---- | -------- | ----------- |
+| answers | array | true | Array of answer ids the user has selected. If the question is not multiple choice only the first will be used. |
+###### Response
+```
+{
+  "responsesCount": 6
+  "answers": [
+    {
+      "id": 1,
+      "responsesCount": 3
+    },
+    {
+      "id": 2,
+      "responsesCount": 3
+    }
+  ],
+}
+```
+
 
 Copyright
 -------------

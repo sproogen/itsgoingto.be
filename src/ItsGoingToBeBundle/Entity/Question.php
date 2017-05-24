@@ -3,62 +3,82 @@
 namespace ItsGoingToBeBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\Common\Collections\ArrayCollection;
+use ItsGoingToBeBundle\Entity\Answer;
+use ItsGoingToBeBundle\Entity\UserResponse;
 
 /**
- * @ORM\Entity
- * @ORM\HasLifecycleCallbacks
- * @ORM\Table(name="question")
+ * Entity to store a question.
  */
 class Question
 {
     /**
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * The id of this Entity.
+     *
+     * @var integer
      */
     protected $id;
 
     /**
-     * @ORM\Column(type="string", length=100)
+     * A unique identifier for this question.
+     *
+     * @var string
      */
     protected $identifier;
 
     /**
-     * @ORM\Column(type="text")
+     * The question text.
+     *
+     * @var string
      */
     protected $question;
 
     /**
-     * @ORM\OneToMany(targetEntity="Answer", mappedBy="question")
+     * The answers for this question.
+     *
+     * @var Answer[]
      */
     protected $answers;
 
     /**
-     * @ORM\OneToMany(targetEntity="UserResponse", mappedBy="question")
+     * The responses for this question.
+     *
+     * @var Response[]
      */
     protected $responses;
 
     /**
-     * @ORM\Column(type="boolean")
+     * Is the question multiple choice.
+     *
+     * @var boolean
      */
-    protected $multiple_choice;
+    protected $multipleChoice;
 
     /**
-     * @ORM\Column(type="boolean")
+     * Has the question been deleted
+     *
+     * @var boolean
      */
-    protected $deleted = FALSE;
+    protected $deleted = false;
 
     /**
-     * @ORM\Column(type="datetime")
+     * When this Entity was created.
+     *
+     * @var \DateTime
      */
-    protected $created_at;
+    protected $created;
 
     /**
-     * @ORM\Column(type="datetime")
+     * When this Entity was last updated.
+     *
+     * @var \DateTime
      */
-    protected $updated_at;
+    protected $updated;
 
+    /**
+     * Question constructor
+     */
     public function __construct()
     {
         $this->answers = new ArrayCollection();
@@ -66,16 +86,56 @@ class Question
     }
 
     /**
-     * @ORM\PrePersist
-     * @ORM\PreUpdate
+     * Lifecycle callback method for the 'prePersist' event.
+     *
+     * Sets the $created and $updated dates to now.
+     *
+     * @param LifecycleEventArgs $args Args for this Lifecycle event, passed in by Doctrine.
      */
-    public function updatedTimestamps()
+    public function prePersist(LifecycleEventArgs $args)
     {
-        if($this->getCreatedAt() == null)
-        {
-            $this->setCreatedAt(new \DateTime(date('Y-m-d H:i:s')));
+        $this->setCreated();
+        $this->setUpdated();
+    }
+
+    /**
+     * Lifecycle callback method for the 'preUpdate' event.
+     *
+     * Sets the $updated date to now.
+     *
+     * @param LifecycleEventArgs $args Args for this Lifecycle event, passed in by Doctrine.
+     */
+    public function preUpdate(LifecycleEventArgs $args)
+    {
+        $this->setUpdated();
+    }
+
+    /**
+     * Extract the data for the question
+     *
+     * @return []
+     */
+    public function extract()
+    {
+        $data = [
+            'id'             => $this->getId(),
+            'identifier'     => $this->getIdentifier(),
+            'question'       => $this->getQuestion(),
+            'multipleChoice' => $this->isMultipleChoice(),
+            'deleted'        => $this->isDeleted(),
+            'created'        => $this->getCreated(),
+            'updated'        => $this->getUpdated()
+        ];
+        $answers = [];
+        foreach ($this->getAnswers() as $answer) {
+            $answers[] = [
+                'type' => 'answer',
+                'id'   => $answer->getId()
+            ];
         }
-        $this->setUpdatedAt(new \DateTime(date('Y-m-d H:i:s')));
+        $data['answers'] = $answers;
+        $data['responsesCount'] = count($this->getResponses());
+        return $data;
     }
 
     /**
@@ -139,12 +199,13 @@ class Question
     /**
      * Add answer
      *
-     * @param \ItsGoingToBeBundle\Entity\Answer $answer
+     * @param Answer $answer
      *
      * @return Question
      */
-    public function addAnswer(\ItsGoingToBeBundle\Entity\Answer $answer)
+    public function addAnswer(Answer $answer)
     {
+        $answer->setQuestion($this);
         $this->answers[] = $answer;
 
         return $this;
@@ -153,9 +214,9 @@ class Question
     /**
      * Remove answer
      *
-     * @param \ItsGoingToBeBundle\Entity\Answer $answer
+     * @param Answer $answer
      */
-    public function removeAnswer(\ItsGoingToBeBundle\Entity\Answer $answer)
+    public function removeAnswer(Answer $answer)
     {
         $this->answers->removeElement($answer);
     }
@@ -171,61 +232,13 @@ class Question
     }
 
     /**
-     * Set createdAt
-     *
-     * @param \DateTime $createdAt
-     *
-     * @return Question
-     */
-    public function setCreatedAt($createdAt)
-    {
-        $this->created_at = $createdAt;
-
-        return $this;
-    }
-
-    /**
-     * Get createdAt
-     *
-     * @return \DateTime
-     */
-    public function getCreatedAt()
-    {
-        return $this->created_at;
-    }
-
-    /**
-     * Set updatedAt
-     *
-     * @param \DateTime $updatedAt
-     *
-     * @return Question
-     */
-    public function setUpdatedAt($updatedAt)
-    {
-        $this->updated_at = $updatedAt;
-
-        return $this;
-    }
-
-    /**
-     * Get updatedAt
-     *
-     * @return \DateTime
-     */
-    public function getUpdatedAt()
-    {
-        return $this->updated_at;
-    }
-
-    /**
      * Add response
      *
-     * @param \ItsGoingToBeBundle\Entity\UserResponse $response
+     * @param UserResponse $response
      *
      * @return Question
      */
-    public function addResponse(\ItsGoingToBeBundle\Entity\UserResponse $response)
+    public function addResponse(UserResponse $response)
     {
         $this->responses[] = $response;
 
@@ -235,9 +248,9 @@ class Question
     /**
      * Remove response
      *
-     * @param \ItsGoingToBeBundle\Entity\UserResponse $response
+     * @param UserResponse $response
      */
-    public function removeResponse(\ItsGoingToBeBundle\Entity\UserResponse $response)
+    public function removeResponse(UserResponse $response)
     {
         $this->responses->removeElement($response);
     }
@@ -250,6 +263,30 @@ class Question
     public function getResponses()
     {
         return $this->responses;
+    }
+
+    /**
+     * Set multipleChoice
+     *
+     * @param boolean $multipleChoice
+     *
+     * @return Question
+     */
+    public function setMultipleChoice($multipleChoice)
+    {
+        $this->multipleChoice = $multipleChoice;
+
+        return $this;
+    }
+
+    /**
+     * Get multipleChoice
+     *
+     * @return boolean
+     */
+    public function isMultipleChoice()
+    {
+        return $this->multipleChoice;
     }
 
     /**
@@ -271,32 +308,65 @@ class Question
      *
      * @return boolean
      */
-    public function getDeleted()
+    public function isDeleted()
     {
         return $this->deleted;
     }
 
     /**
-     * Set multipleChoice
+     * Get when this Entity was created.
      *
-     * @param boolean $multipleChoice
-     *
-     * @return Question
+     * @return \DateTime
      */
-    public function setMultipleChoice($multipleChoice)
+    public function getCreated()
     {
-        $this->multiple_choice = $multipleChoice;
+        return $this->created;
+    }
 
+    /**
+     * Set when this Entity was created.
+     *
+     * Sets it to now if no $created value is passed.
+     *
+     * @param \DateTime $created When this Entity was created.
+     *
+     * @return Entity
+     */
+    public function setCreated($created = null)
+    {
+        if (is_null($created)) {
+            $created = new \DateTime();
+        }
+
+        $this->created = $created;
         return $this;
     }
 
     /**
-     * Get multipleChoice
+     * Get when this Entity was last updated.
      *
-     * @return boolean
+     * @return \DateTime
      */
-    public function getMultipleChoice()
+    public function getUpdated()
     {
-        return $this->multiple_choice;
+        return $this->updated;
+    }
+
+    /**
+     * Set when this Entity was last updated.
+     *
+     * Sets it to now if no $updated value is passed.
+     *
+     * @param \DateTime $updated When this Entity was last updated.
+     *
+     * @return Entity
+     */
+    public function setUpdated($updated = null)
+    {
+        if (is_null($updated)) {
+            $updated = new \DateTime();
+        }
+
+        $this->updated = $updated;
     }
 }

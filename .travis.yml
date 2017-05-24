@@ -1,23 +1,30 @@
 language: php
 
 php:
-    - 5.5
+    - 5.6
 
 branches:
   only:
     - master
     - develop
 
-before_script:
+before_install:
   - cp app/config/parameters.yml.travis app/config/parameters.yml
   - cp app/config/parameters.yml.travis app/config/parameters_dev.yml
+
+install:
+  - phpenv config-rm xdebug.ini
   - composer install
+  - npm install
+
+before_script:
   - php app/console doctrine:database:create --env=test
   - php app/console doctrine:schema:create --env=test
-#  - php app/console doctrine:fixtures:load -n --env=test
 
 script:
-  - phpunit -c app
+  - bin/phpcs --standard=PSR2 src/
+  - bin/phplint src
+  - bin/phpunit -c app
 
 notifications:
   email:
