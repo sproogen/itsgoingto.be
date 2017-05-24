@@ -114,6 +114,11 @@
 		.input-label-options {
 			word-break: break-word;
     		padding-right: 3.6em;
+    		padding-top: 0.2em;
+    		padding-bottom: 0.2em;
+    		line-height: 1.6em;
+    		text-indent: -32px;
+    		padding-left: calc(1em + 32px);
 		}
 
 		.input-label-votes {

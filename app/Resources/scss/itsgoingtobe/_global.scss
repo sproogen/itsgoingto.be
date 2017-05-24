@@ -110,15 +110,10 @@ input, h1, h2, h3, h4, h5, p, label {
 	}
 
     h2 {
-
         font-size: 3em;
-        line-height: 1.2em;
-        min-height: 1.2em;
         letter-spacing: -1px;
-        font-weight: 300;
         color: $text-color;
-
-        margin-bottom:0px;
+        line-height: 3em;
     }
 }
 
@@ -212,4 +207,22 @@ input, h1, h2, h3, h4, h5, p, label {
             }
         }
     }
+}
+
+.slabtexted .slabtext {
+    display: -moz-inline-box;
+    display: inline-block;
+    white-space: nowrap;
+}
+.slabtextinactive .slabtext {
+    display: inline;
+    white-space: normal;
+    font-size: 1em !important;
+    letter-spacing: inherit !important;
+    word-spacing: inherit !important;
+    *letter-spacing: normal !important;
+    *word-spacing: normal !important;
+}
+.slabtextdone .slabtext {
+    display: block;
 }

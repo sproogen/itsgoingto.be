@@ -22,6 +22,11 @@ $(function() // execute once the DOM has loaded
         selectText('shareLink');
     });
 
+    $('.header h2').slabText({
+        'viewportBreakpoint': 768,
+        'maxFontSize': 250
+    });
+
     var ajaxRefresh;
     var ajaxRefreshStatus = 0;
 
