@@ -20,6 +20,6 @@ class ReactController extends Controller
      */
     public function indexAction()
     {
-        return $this->render('itsgoingtobe/react.html');
+        return $this->render('react/dev.html');
     }
 }
