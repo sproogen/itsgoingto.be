@@ -1,4 +1,4 @@
-itsgoingtobe_pages:
+itsgoingtobe_react:
     pattern: /react/{url}
     defaults: { _controller: ItsGoingToBeBundle:React:index, url: null }
     requirements:

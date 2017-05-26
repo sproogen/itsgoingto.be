@@ -32,6 +32,11 @@ const compile = () => Promise.resolve()
   .then(() => logger.info('Target application environment: ' + chalk.bold(project.env)))
   .then(() => runWebpackCompiler(webpackConfig))
   .then((stats) => {
+    logger.info(`Copying index.html from ./${project.outDir} to ./${project.indexDir}.`)
+    fs.createReadStream(path.resolve(project.basePath, project.outDir, 'index.html')).pipe(fs.createWriteStream(path.resolve(project.basePath, project.indexDir, 'react.html')));
+    return stats
+  })
+  .then((stats) => {
     logger.info(`Copying static assets from ./public to ./${project.outDir}.`)
     fs.copySync(
       path.resolve(project.basePath, 'public'),

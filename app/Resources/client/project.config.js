@@ -10,9 +10,11 @@ module.exports = {
   /** The file name of the application's entry point */
   main: 'main',
   /** The name of the directory in which to emit compiled assets */
-  outDir: 'dist',
+  outDir: '../../../web/client',
+  /** The name of the directory in which to emit compiled template */
+  indexDir: '../views/itsgoingtobe',
   /** The base path for all projects assets (relative to the website root) */
-  publicPath: '/',
+  publicPath: '/client/',
   /** Whether to generate sourcemaps */
   sourcemaps: true,
   /** A hash map of keys that the compiler should treat as external to the project */

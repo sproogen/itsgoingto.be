@@ -2,6 +2,8 @@
 
 namespace ItsGoingToBeBundle\Controller;
 
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+
 /**
  * Class ReactController
  *
@@ -18,6 +20,6 @@ class ReactController extends Controller
      */
     public function indexAction()
     {
-        return $this->render('itsgoingtobe/index.html.twig');
+        return $this->render('itsgoingtobe/react.html');
     }
 }
