@@ -1,3 +1,9 @@
+itsgoingtobe_pages:
+    pattern: /react/{url}
+    defaults: { _controller: ItsGoingToBeBundle:React:index, url: null }
+    requirements:
+        url: .*
+
 itsgoingtobe_admin:
     resource: "@ItsGoingToBeBundle/Resources/config/routing/admin.yml"
     prefix: /admin
