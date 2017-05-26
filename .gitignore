@@ -55,3 +55,7 @@ node_modules
 /web/js/itsgoingtobe.min.js
 /web/css/itsgoingtobe.css
 /web/css/itsgoingtobe.min.css
+
+#React Files
+/web/client/
+/app/Resources/views/react/index.html
