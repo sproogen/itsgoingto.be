@@ -20,6 +20,6 @@ class ReactController extends Controller
      */
     public function indexAction()
     {
-        return $this->render('react/dev.html');
+        return $this->render('react/dev.html.twig');
     }
 }
