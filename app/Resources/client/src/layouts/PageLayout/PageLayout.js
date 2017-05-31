@@ -4,7 +4,7 @@ import Footer from '../../components/Footer/Footer'
 import './PageLayout.scss'
 
 export const PageLayout = ({ children }) => (
-  <div className='container text-center'>
+  <div className='container'>
     <div className='page-layout__viewport'>
       {children}
     </div>

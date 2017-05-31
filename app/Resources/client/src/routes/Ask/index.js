@@ -1,4 +1,4 @@
-import AskView from './components/AskView'
+import AskView from './AskView'
 
 // Sync route definition
 export default {

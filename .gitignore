@@ -59,3 +59,4 @@ node_modules
 #React Files
 /web/client/
 /app/Resources/views/react/index.html
+/client/

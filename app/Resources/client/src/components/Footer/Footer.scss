@@ -2,10 +2,6 @@
 @import "neat";
 @import "variables";
 
-.page-layout__viewport {
-  padding-top: 4rem;
-}
-
 .footer-container {
     @media (max-width: $medium-breakpoint) {
         font-size:1.4em;

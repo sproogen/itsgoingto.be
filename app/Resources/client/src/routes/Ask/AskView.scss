@@ -1,0 +1,25 @@
+@import "bourbon";
+@import "neat";
+@import "variables";
+
+.header {
+    margin-bottom:2em;
+
+    h1 {
+        font-size: 4em;
+        @media (max-width: $medium-breakpoint) {
+            font-size: 3em;
+        }
+        line-height: 1.2em;
+        min-height: 1.2em;
+        letter-spacing: -1px;
+        font-weight: 300;
+        color: $text-color;
+
+        margin-bottom:0px;
+
+        span {
+            font-weight:500;
+        }
+    }
+}
