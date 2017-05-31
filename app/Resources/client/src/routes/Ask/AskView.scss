@@ -2,24 +2,48 @@
 @import "neat";
 @import "variables";
 
+.header-container {
+    padding-top: 6.25em;
+    margin-bottom:3.125em;
+}
+
 .header {
     margin-bottom:2em;
 
     h1 {
         font-size: 4em;
-        @media (max-width: $medium-breakpoint) {
+        @media (min-width: $screen-md-min) {
             font-size: 3em;
         }
         line-height: 1.2em;
         min-height: 1.2em;
         letter-spacing: -1px;
         font-weight: 300;
-        color: $text-color;
+        color: $base-font-color;
 
         margin-bottom:0px;
 
         span {
             font-weight:500;
+        }
+    }
+}
+
+.question-container {
+    @include transition(top 0.4s ease);
+    top:0px;
+    &.move-up {
+        top:-11.25em;
+    }
+
+    .input-question {
+        margin-bottom:1.875em;
+
+        textarea.input-field-question {
+            font-size: 2.5em;
+             @media (min-width: $screen-md-min) {
+                font-size: 1.8em;
+            }
         }
     }
 }

@@ -1,63 +1,39 @@
 @import "bourbon";
-@import 'base/base';
 @import "neat";
+
 @import "variables";
+@import 'base/base';
+
+@import "components/input";
 
 html {
     overflow: hidden;
     height: 100%;
-    box-sizing: border-box;
 }
 
 *,
-*:before,
-*:after {
-  box-sizing: inherit;
+*:after,
+*:before {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 body {
     height: 100%;
     overflow: auto;
 
-    background: $background;
-    font-family: $base-font-family;
+    background: $base-background-color;
     -webkit-font-smoothing: antialiased;
 
     margin:0px;
     position: relative;
     padding-bottom: 60px;
 
-    @media screen and (max-width: $large-breakpoint) {
+    @media screen and (max-width: $screen-md-max) {
         font-size: 0.7em;
     }
-    @media screen and (max-width: $medium-breakpoint) {
+    @media screen and (max-width: $screen-sm-max) {
         font-size: 0.5em;
     }
-}
-
-input, h1, h2, h3, h4, h5, p, label {
-    font-family: $base-font-family;
-}
-
-.container {
-    @include grid-container;
-
-    @media (max-width: $medium-breakpoint) {
-        max-width:100%;
-    }
-
-    width:100%;
-
-    padding:0px 1em;
-
-    position: relative;
-
-    &.header-container {
-        padding-top: 6.25em;
-        margin-bottom:3.125em;
-    }
-}
-
-.center-text {
-    text-align:center;
 }

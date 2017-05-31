@@ -22,6 +22,10 @@ p {
   margin: 0 0 $small-spacing;
 }
 
+input, p, label {
+    font-family: $base-font-family;
+}
+
 a {
   color: $action-color;
   text-decoration: none;
@@ -46,4 +50,8 @@ img,
 picture {
   margin: 0;
   max-width: 100%;
+}
+
+.center-text {
+    text-align:center;
 }

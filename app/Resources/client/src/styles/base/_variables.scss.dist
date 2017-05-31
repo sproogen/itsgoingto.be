@@ -15,6 +15,24 @@ $base-spacing: $base-line-height * 1em;
 $small-spacing: $base-spacing / 2;
 $base-z-index: 0;
 
+$gutter-width:         30px !default;
+
+// Media Breakpoints
+// Small screen / tablet
+$screen-sm-min:              768px !default;
+// Medium screen / desktop
+$screen-md-min:              992px !default;
+// Large screen / wide desktop
+$screen-lg-min:              1200px !default;
+
+// Container Sizes
+// Small screen / tablet
+$container-sm:                 (720px + $gutter-width) !default;
+// Medium screen / desktop
+$container-md:                 (940px + $gutter-width) !default;
+// Large screen / wide desktop
+$container-lg:                 (1140px + $gutter-width) !default;
+
 // Colors
 $blue: #477dca;
 $dark-gray: #333;

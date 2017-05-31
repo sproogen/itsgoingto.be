@@ -26,7 +26,7 @@ input, h1, h2, h3, h4, h5, p, label {
 }
 
 .container {
-	@include outer-container;
+	@include grid-container;
 
     @include media(max-width $medium-breakpoint) {
         max-width:100%;
