@@ -30,6 +30,7 @@
     .jwg_logo {
         float: right;
         margin-right: 1.875em;
+        line-height: 1em;
         a {
             opacity:0.4;
             @include transition(opacity 0.4s ease);
