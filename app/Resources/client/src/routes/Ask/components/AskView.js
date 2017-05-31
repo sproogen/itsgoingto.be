@@ -1,12 +1,12 @@
 import React from 'react'
 import DuckImage from '../assets/Duck.jpg'
-import './HomeView.scss'
+import './AskView.scss'
 
-export const HomeView = () => (
+export const AskView = () => (
   <div>
-    <h4>Welcome!</h4>
+    <h4>Ask a question!</h4>
     <img alt='This is a duck, because Redux!' className='duck' src={DuckImage} />
   </div>
 )
 
-export default HomeView
+export default AskView

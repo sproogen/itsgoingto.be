@@ -1,0 +1,50 @@
+@import "bourbon";
+@import "neat";
+@import "variables";
+
+.page-layout__viewport {
+  padding-top: 4rem;
+}
+
+.footer-container {
+    @media (max-width: $medium-breakpoint) {
+        font-size:1.4em;
+    }
+    position: fixed;
+    bottom: 0;
+    left:0;
+    right:0;
+    background: $background;
+    background:rgba(245, 250, 250, 0.6);
+
+    .contact {
+        a {
+            line-height: 3.125em;
+            margin-left: 1.875em;
+            color:$dark-grey;
+            font-size: 1em;
+            @media (max-width: 68em) {
+                font-size: 1.1em;
+            }
+            @include transition(color 0.4s ease);
+            &:hover {
+                color:$text-color;
+            }
+        }
+    }
+
+    .jwg_logo {
+        float: right;
+        margin-right: 1.875em;
+        a {
+            opacity:0.4;
+            @include transition(opacity 0.4s ease);
+            &:hover {
+                opacity:1;
+            }
+            img {
+                height:3.125em;
+            }
+        }
+    }
+}

@@ -2,6 +2,8 @@ const path = require('path')
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const bourbon = require('bourbon')
+const bourbonNeat = require('bourbon-neat')
 const project = require('../project.config')
 
 const inProject = path.resolve.bind(path, project.basePath)
@@ -36,6 +38,11 @@ const config = {
   externals: project.externals,
   module: {
     rules: [],
+  },
+  devServer:{
+    hot: __DEV__,
+    inline: true,
+    headers: { "Access-Control-Allow-Origin": "http://itsgoingtobe.local:3000", "Access-Control-Allow-Credentials": "true" }
   },
   plugins: [
     new webpack.DefinePlugin(Object.assign({
@@ -127,6 +134,8 @@ config.module.rules.push({
         options: {
           sourceMap: project.sourcemaps,
           includePaths: [
+            bourbon.includePaths,
+            bourbonNeat.includePaths,
             inProjectSrc('styles'),
           ],
         },
