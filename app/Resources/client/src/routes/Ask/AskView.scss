@@ -12,9 +12,6 @@
 
     h1 {
         font-size: 4em;
-        @media (min-width: $screen-md-min) {
-            font-size: 3em;
-        }
         line-height: 1.2em;
         min-height: 1.2em;
         letter-spacing: -1px;
@@ -40,10 +37,7 @@
         margin-bottom:1.875em;
 
         textarea.input-field-question {
-            font-size: 2.5em;
-             @media (min-width: $screen-md-min) {
-                font-size: 1.8em;
-            }
+            font-size: 2em;
         }
     }
 }
