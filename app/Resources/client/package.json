@@ -9,8 +9,6 @@
     "build": "npm run clean && cross-env NODE_ENV=production npm run compile",
     "build-dev": "npm run clean && cross-env NODE_ENV=development npm run compile",
     "start": "cross-env NODE_ENV=server node build/scripts/start",
-    "test": "cross-env NODE_ENV=test karma start build/karma.config",
-    "test:watch": "npm test -- --watch",
     "lint": "eslint .",
     "lint:fix": "npm run lint -- --fix"
   },
