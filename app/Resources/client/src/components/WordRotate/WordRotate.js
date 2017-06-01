@@ -1,14 +1,55 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {compose, nth, split} from 'ramda';
+import { __, compose, nth, split, ifElse, add, subtract, equals, length } from 'ramda'
+import './WordRotate.scss'
 
-export const WordRotate = ({ words }) => {
-  const getWord = (index) => compose(nth(index), split(','))(words)
-  let currentWord = 0
+class WordRotate extends React.Component {
+  constructor (props) {
+    super(props)
+    this.state = { currentWord: 0 }
+  }
 
-  return (
+  getWord = (index) => compose(nth(index), split(','))(this.props.words)
+  updateWord = () => {
+    this.setState((prevState, props) => ({
+      currentWord: ifElse(
+        equals(compose(subtract(__, 1), length, split(','))(props.words)),
+        () => 0,
+        add(1)
+      )(prevState.currentWord)
+    }))
+  }
+
+  componentDidMount = () => {
+    this.wordUpdater = setInterval(
+      this.updateWord,
+      2000
+    )
+  }
+
+  componentWillUpdate = (nextProps, nextState) => {
+    this.refs.current.animate([
+      { transform: 'translate(0, -1em)', opacity: 0 },
+      { transform: 'translate(0)', opacity: 1 }
+    ], 500, 'easeInOutQuart')
+    this.refs.previous.animate([
+      { transform: 'translate(0)', opacity: 1 },
+      { transform: 'translate(0, 1em)', opacity: 0 }
+    ], 500, 'easeInOutQuart')
+  }
+
+  componentWillUnmount = () => {
+    clearInterval(this.wordUpdater)
+  }
+
+  render = () => (
     <span className='word-rotate'>
-      { getWord(currentWord) }
+      <span className='word-rotate_word' ref='current'>
+        { this.getWord(this.state.currentWord) }
+      </span>
+      <span className='word-rotate_word word-rotate_word--previous' ref='previous'>
+        { this.getWord(subtract(this.state.currentWord, 1)) }
+      </span>
     </span>
   )
 }

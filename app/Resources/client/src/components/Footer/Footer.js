@@ -6,10 +6,10 @@ export const Footer = () => (
   <div className='footer-container'>
     <div className='footer'>
       <span className='contact'>
-        <a href="mailto:itsgoingtobe@jwgmedia.co.uk" target="_top">itsgoingtobe@jwgmedia.co.uk</a>
+        <a href='mailto:itsgoingtobe@jwgmedia.co.uk' target='_top'>itsgoingtobe@jwgmedia.co.uk</a>
       </span>
       <span className='jwg_logo'>
-        <a href="http://jwgmedia.co.uk" target="_blank"><img src={JWGMediaImage} /></a>
+        <a href='http://jwgmedia.co.uk' target='_blank'><img src={JWGMediaImage} /></a>
       </span>
     </div>
   </div>

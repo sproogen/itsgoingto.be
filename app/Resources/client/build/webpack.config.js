@@ -42,7 +42,10 @@ const config = {
   devServer:{
     hot: __DEV__,
     inline: true,
-    headers: { "Access-Control-Allow-Origin": "http://itsgoingtobe.local:3000", "Access-Control-Allow-Credentials": "true" }
+    headers: {
+      'Access-Control-Allow-Origin': 'http://itsgoingtobe.local:3000',
+      'Access-Control-Allow-Credentials': 'true'
+    }
   },
   plugins: [
     new webpack.DefinePlugin(Object.assign({
