@@ -1,4 +1,3 @@
-//import AskView from './AskView'
 import { injectReducer } from '../../store/reducers'
 
 export default (store) => ({
@@ -10,15 +9,15 @@ export default (store) => ({
       /*  Webpack - use require callback to define
           dependencies for bundling   */
       const Ask = require('./containers/AskContainer').default
-      const reducer = require('../Counter/modules/counter').default
+      const reducer = require('./modules/AskModule').default
 
       /*  Add the reducer to the store on key 'counter'  */
-      injectReducer(store, { key: 'counter', reducer })
+      injectReducer(store, { key: 'ask', reducer })
 
       /*  Return getComponent   */
       cb(null, Ask)
 
     /* Webpack named bundle   */
-    }, 'counter')
+    }, 'ask')
   }
 })
