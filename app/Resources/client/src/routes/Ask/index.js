@@ -1,6 +1,24 @@
-import AskView from './AskView'
+//import AskView from './AskView'
+import { injectReducer } from '../../store/reducers'
 
-// Sync route definition
-export default {
-  component : AskView
-}
+export default (store) => ({
+  /*  Async getComponent is only invoked when route matches   */
+  getComponent (nextState, cb) {
+    /*  Webpack - use 'require.ensure' to create a split point
+        and embed an async module loader (jsonp) when bundling   */
+    require.ensure([], (require) => {
+      /*  Webpack - use require callback to define
+          dependencies for bundling   */
+      const Ask = require('./containers/AskContainer').default
+      const reducer = require('../Counter/modules/counter').default
+
+      /*  Add the reducer to the store on key 'counter'  */
+      injectReducer(store, { key: 'counter', reducer })
+
+      /*  Return getComponent   */
+      cb(null, Ask)
+
+    /* Webpack named bundle   */
+    }, 'counter')
+  }
+})

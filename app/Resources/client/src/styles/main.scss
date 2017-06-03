@@ -37,3 +37,14 @@ body {
         font-size: 0.5em;
     }
 }
+
+.hideable {
+    /* A horrific hack to allow the labels to change opacity while moving */
+    opacity: .999;
+
+    @include transition(opacity 0.3s ease);
+
+    &.gone {
+        opacity: 0;
+    }
+}

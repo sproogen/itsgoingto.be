@@ -10,6 +10,7 @@ class WordRotate extends React.Component {
   }
 
   getWord = (index) => compose(nth(index), split(','))(this.props.words)
+
   updateWord = () => {
     this.setState((prevState, props) => ({
       currentWord: ifElse(
@@ -27,15 +28,15 @@ class WordRotate extends React.Component {
     )
   }
 
-  componentWillUpdate = (nextProps, nextState) => {
+  componentWillUpdate = () => {
     this.refs.current.animate([
-      { transform: 'translate(0, -1em)', opacity: 0 },
+      { transform: 'translate(0, -0.8em)', opacity: 0 },
       { transform: 'translate(0)', opacity: 1 }
     ], 500, 'easeInOutQuart')
     this.refs.previous.animate([
       { transform: 'translate(0)', opacity: 1 },
-      { transform: 'translate(0, 1em)', opacity: 0 }
-    ], 500, 'easeInOutQuart')
+      { transform: 'translate(0, 0.6em)', opacity: 0 }
+    ], 350, 'easeInOutQuart')
   }
 
   componentWillUnmount = () => {
