@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { updateQuestion } from '../modules/ask'
+import { updateQuestion, questionSelector, hasQuestionSelector } from '../modules/AskModule'
 import Ask from '../components/Ask'
 
 const mapDispatchToProps = (dispatch) => ({
@@ -10,7 +10,8 @@ const mapDispatchToProps = (dispatch) => ({
 
 const mapStateToProps = (state) => {
   return{
-    question : state.ask.question
+    question    : questionSelector(state.ask),
+    hasQuestion : hasQuestionSelector(state.ask)
   }
 }
 

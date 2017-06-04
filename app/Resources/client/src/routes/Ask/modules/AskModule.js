@@ -1,3 +1,6 @@
+import { createSelector } from 'reselect'
+import { compose, not, equals, length } from 'ramda'
+
 // ------------------------------------
 // Constants
 // ------------------------------------
@@ -14,6 +17,16 @@ export const updateQuestion = (value = '') => ({
 export const actions = {
   updateQuestion
 }
+
+// ------------------------------------
+// Selectors
+// ------------------------------------
+export const questionSelector = (state) => state.question
+
+export const hasQuestionSelector = createSelector(
+  questionSelector,
+  question => compose(not, equals(0), length)(question)
+)
 
 // ------------------------------------
 // Action Handlers
