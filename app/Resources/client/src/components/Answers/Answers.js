@@ -1,8 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import '../styles/Ask.scss'
+import { connect } from 'react-redux'
+import { hasQuestionSelector } from '../../store/question'
+import './Answers.scss'
 
-const Answers = ({ hasQuestion }) => {
+export const Answers = ({ hasQuestion }) => {
   return (
     <div className={"answers hideable" + (hasQuestion ? '' : ' gone')}>
       <div className="input input-answer">
@@ -12,8 +14,15 @@ const Answers = ({ hasQuestion }) => {
     </div>
   )
 }
+
 Answers.propTypes = {
   hasQuestion: PropTypes.bool.isRequired,
 }
 
-export default Answers
+const mapStateToProps = (state) => {
+  return{
+    hasQuestion : hasQuestionSelector(state)
+  }
+}
+
+export default connect(mapStateToProps)(Answers)

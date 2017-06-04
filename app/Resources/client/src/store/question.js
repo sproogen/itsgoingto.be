@@ -7,6 +7,16 @@ import { compose, not, equals, length } from 'ramda'
 export const QUESTION_CHANGE = 'QUESTION_CHANGE'
 
 // ------------------------------------
+// Selectors
+// ------------------------------------
+export const questionSelector = (state) => state.question.question
+
+export const hasQuestionSelector = createSelector(
+  questionSelector,
+  question => compose(not, equals(0), length)(question)
+)
+
+// ------------------------------------
 // Actions
 // ------------------------------------
 export const updateQuestion = (value = '') => ({
@@ -17,16 +27,6 @@ export const updateQuestion = (value = '') => ({
 export const actions = {
   updateQuestion
 }
-
-// ------------------------------------
-// Selectors
-// ------------------------------------
-export const questionSelector = (state) => state.question
-
-export const hasQuestionSelector = createSelector(
-  questionSelector,
-  question => compose(not, equals(0), length)(question)
-)
 
 // ------------------------------------
 // Action Handlers

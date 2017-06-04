@@ -8,11 +8,7 @@ export default (store) => ({
     require.ensure([], (require) => {
       /*  Webpack - use require callback to define
           dependencies for bundling   */
-      const Ask = require('./containers/AskContainer').default
-      const reducer = require('./modules/AskModule').default
-
-      /*  Add the reducer to the store on key 'counter'  */
-      injectReducer(store, { key: 'ask', reducer })
+      const Ask = require('./Ask').default
 
       /*  Return getComponent   */
       cb(null, Ask)
