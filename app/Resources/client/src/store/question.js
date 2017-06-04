@@ -1,15 +1,16 @@
 import { createSelector } from 'reselect'
 import { compose, not, equals, length } from 'ramda'
+import { addAnswer, removeAnswers } from './answers'
 
 // ------------------------------------
 // Constants
 // ------------------------------------
-export const QUESTION_CHANGE = 'QUESTION_CHANGE'
+export const QUESTION_UPDATE = 'QUESTION_UPDATE'
 
 // ------------------------------------
 // Selectors
 // ------------------------------------
-export const questionSelector = (state) => state.question.question
+export const questionSelector = (state) => state.question
 
 export const hasQuestionSelector = createSelector(
   questionSelector,
@@ -19,10 +20,20 @@ export const hasQuestionSelector = createSelector(
 // ------------------------------------
 // Actions
 // ------------------------------------
-export const updateQuestion = (value = '') => ({
-  type    : QUESTION_CHANGE,
-  payload : value
-})
+export const updateQuestion = (value = '') => (dispatch, getState) => {
+  let hadQuestion = hasQuestionSelector(getState())
+  dispatch ({
+    type    : QUESTION_UPDATE,
+    payload : value
+  })
+  let hasQuestion = hasQuestionSelector(getState())
+
+  if (hasQuestion && !hadQuestion) {
+    dispatch (addAnswer())
+  } else if (hadQuestion && !hasQuestion) {
+    dispatch (removeAnswers())
+  }
+}
 
 export const actions = {
   updateQuestion
@@ -32,14 +43,14 @@ export const actions = {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [QUESTION_CHANGE] : (previousState, action) => ({ question: action.payload })
+  [QUESTION_UPDATE] : (previousState, action) => action.payload
 }
 
 // ------------------------------------
 // Reducer
 // ------------------------------------
-const initialState = { question: '' }
-export default function askReducer (state = initialState, action) {
+const initialState = ''
+export default function questionReducer (state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
 
   return handler ? handler(state, action) : state
