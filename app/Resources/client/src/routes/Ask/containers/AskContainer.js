@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import { updateQuestion } from '../modules/ask'
-import AskView from '../components/AskView'
+import Ask from '../components/Ask'
 
 const mapDispatchToProps = (dispatch) => ({
   onQuestionChange : (value) => {
@@ -14,4 +14,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AskView)
+export default connect(mapStateToProps, mapDispatchToProps)(Ask)

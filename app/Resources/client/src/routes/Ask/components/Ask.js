@@ -1,10 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import WordRotate from '../../../components/WordRotate/WordRotate'
 import { compose, not, equals, length } from 'ramda'
-import './AskView.scss'
+import WordRotate from '../../../components/WordRotate/WordRotate'
+import '../styles/Ask.scss'
 
-const AskView = ({ question, onQuestionChange }) => {
+const Ask = ({ question, onQuestionChange }) => {
   const hasQuestion = () => {
     return compose(not, equals(0), length)(question)
   }
@@ -41,9 +41,9 @@ const AskView = ({ question, onQuestionChange }) => {
     </div>
   )
 }
-AskView.propTypes = {
+Ask.propTypes = {
   question: PropTypes.string.isRequired,
   onQuestionChange: PropTypes.func.isRequired
 }
 
-export default AskView
+export default Ask
