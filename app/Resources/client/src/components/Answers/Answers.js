@@ -4,36 +4,8 @@ import { connect } from 'react-redux'
 import { length } from 'ramda'
 import { hasQuestionSelector } from '../../store/question'
 import { answersSelector } from '../../store/answers'
+import Answer from './Answer'
 import './Answers.scss'
-
-export const Answer = ({ index, text, disabled }) => {
-  return (
-    <div className={'input input-answer'  + (disabled ? ' input-disabled' : '')}>
-      <label
-        className='input-label input-label-answer'
-        htmlFor={'answer-'+index}>
-          {index+1}
-      </label>
-      <input
-        className='input-field input-field-answer'
-        type='text'
-        id={'answer-'+index}
-        name={'answer-'+index}
-        value={text}
-        disabled={disabled} />
-    </div>
-  )
-}
-
-Answer.propTypes = {
-  index    : PropTypes.number.isRequired,
-  text     : PropTypes.string,
-  disabled : PropTypes.bool,
-}
-Answer.defaultProps  = {
-  text     : '',
-  disabled : false,
-}
 
 export const Answers = ({ hasQuestion, answers }) => {
   return (
