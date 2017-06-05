@@ -24,7 +24,7 @@ export const updateQuestion = (value = '') => (dispatch, getState) => {
   let hadQuestion = hasQuestionSelector(getState())
   dispatch ({
     type    : QUESTION_UPDATE,
-    payload : value
+    text : value
   })
   let hasQuestion = hasQuestionSelector(getState())
 
@@ -43,7 +43,7 @@ export const actions = {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [QUESTION_UPDATE] : (previousState, action) => action.payload
+  [QUESTION_UPDATE] : (previousState, action) => action.text
 }
 
 // ------------------------------------

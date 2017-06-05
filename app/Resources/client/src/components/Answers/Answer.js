@@ -1,7 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { updateAnswer } from '../../store/answers'
 
-export const Answer = ({ index, text, disabled }) => {
+export const Answer = ({ index, text, disabled, onAnswerChange }) => {
+  const handleChange = (event) => {
+    onAnswerChange(index, event.target.value)
+  }
+
   return (
     <div className={'input input-answer'  + (disabled ? ' input-disabled' : '')}>
       <label
@@ -15,6 +21,7 @@ export const Answer = ({ index, text, disabled }) => {
         id={'answer-'+index}
         name={'answer-'+index}
         value={text}
+        onChange={handleChange}
         disabled={disabled} />
     </div>
   )
@@ -30,4 +37,10 @@ Answer.defaultProps  = {
   disabled : false,
 }
 
-export default Answer
+const mapDispatchToProps = (dispatch) => ({
+  onAnswerChange : (index, value) => {
+    dispatch(updateAnswer(index, value))
+  }
+})
+
+export default connect(null, mapDispatchToProps)(Answer)
