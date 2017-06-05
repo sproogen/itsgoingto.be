@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect'
-import { compose, not, equals, length } from 'ramda'
+import { prop, compose, not, equals, length } from 'ramda'
 import { addAnswer, clearAnswers } from './answers'
 
 // ------------------------------------
@@ -10,7 +10,7 @@ export const QUESTION_UPDATE = 'QUESTION_UPDATE'
 // ------------------------------------
 // Selectors
 // ------------------------------------
-export const questionSelector = (state) => state.question
+export const questionSelector = (state) => prop('question')(state)
 
 export const hasQuestionSelector = createSelector(
   questionSelector,

@@ -1,4 +1,5 @@
-import { adjust, nth, compose, not, equals, length, remove, isEmpty, slice } from 'ramda'
+import { createSelector } from 'reselect'
+import { prop, adjust, nth, compose, not, equals, length, remove, isEmpty, slice, findLastIndex } from 'ramda'
 
 // ------------------------------------
 // Constants
@@ -12,24 +13,16 @@ export const ANSWERS_CLEAR        = 'ANSWERS_CLEAR'
 // ------------------------------------
 // Selectors
 // ------------------------------------
-export const answersSelector = (state) => state.answers
+export const answersSelector = (state) => prop('answers')(state)
 
-export const answerSelector = (state, index) => nth(index, answersSelector(state))
+export const maxAnswerSelector = createSelector(
+  answersSelector,
+  answers => findLastIndex(compose(not, isEmpty))(answers)
+)
 
-export const maxAnswerSelector = (state) => {
-  let maxAnswer = -1
-  answersSelector(state).forEach((answer, index) => {
-    if (compose(not, isEmpty)(answer)) {
-      maxAnswer = index
-    }
-  })
-  return maxAnswer
-}
+export const answerSelector = (state, index) => compose(nth(index), answersSelector)(state)
 
-export const hasAnswerSelector = (state, index) => {
-  let answer = answerSelector(state, index)
-  return compose(not, equals(0), length)(answer)
-}
+export const hasAnswerSelector = (state, index) => compose(not, equals(0), length, answerSelector)(state, index)
 
 // ------------------------------------
 // Actions
