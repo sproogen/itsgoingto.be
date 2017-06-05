@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect'
 import { compose, not, equals, length } from 'ramda'
-import { addAnswer, removeAnswers } from './answers'
+import { addAnswer, clearAnswers } from './answers'
 
 // ------------------------------------
 // Constants
@@ -22,16 +22,16 @@ export const hasQuestionSelector = createSelector(
 // ------------------------------------
 export const updateQuestion = (value = '') => (dispatch, getState) => {
   let hadQuestion = hasQuestionSelector(getState())
-  dispatch ({
+  dispatch({
     type    : QUESTION_UPDATE,
     text : value
   })
   let hasQuestion = hasQuestionSelector(getState())
 
   if (hasQuestion && !hadQuestion) {
-    dispatch (addAnswer())
+    dispatch(addAnswer())
   } else if (hadQuestion && !hasQuestion) {
-    dispatch (removeAnswers())
+    dispatch(clearAnswers())
   }
 }
 
