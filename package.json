@@ -12,6 +12,7 @@
     "browser-sync": "^2.9.12"
   },
   "dependencies": {
+    "autosize": "^3.0.21",
     "babel-preset-es2015": "^6.24.1",
     "fbemitter": "^2.1.1",
     "gulp": "^3.9.0",

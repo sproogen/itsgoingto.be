@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import autosize from 'autosize'
 import EventBus from '../EventBus'
 import { questionSelector, hasQuestionSelector, updateQuestion } from '../../store/question'
 import Answers from '../Answers/Answers'
@@ -34,10 +35,12 @@ class Question extends React.Component {
         this.refs.question.focus()
       }
     })
+    autosize(this.refs.question)
   }
 
   componentWillUnmount = () => {
     this.eventListener.remove()
+    autosize.destroy(this.refs.question)
   }
 
   render = () => (
