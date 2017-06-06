@@ -1,26 +1,58 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import EventBus from '../EventBus'
 import { questionSelector, hasQuestionSelector, updateQuestion } from '../../store/question'
 import Answers from '../Answers/Answers'
 import './Question.scss'
 
-export const Question = ({ question, hasQuestion, onQuestionChange }) => {
-  const handleChange = (event) => {
-    onQuestionChange(event.target.value)
+const KEY_DOWN_ARROW = 40
+const KEY_ENTER = 13
+
+class Question extends React.Component {
+  handleChange = (event) => {
+    this.props.onQuestionChange(event.target.value)
   }
 
-  return (
-    <div className={'container question-container' + (hasQuestion ? ' move-up' : '')}>
+  handleKeyPress = (event) => {
+    event = event || window.event;
+    const key = event.keyCode || event.charCode
+
+    switch(key) {
+      case KEY_DOWN_ARROW:
+      case KEY_ENTER:
+        event.preventDefault()
+        this.eventBus.emit('focus', 0)
+        break
+    }
+  }
+
+  componentDidMount = () => {
+    this.eventBus = EventBus.getEventBus()
+    this.eventListener = this.eventBus.addListener('focus', (index) => {
+      if (index === -1) {
+        this.refs.question.focus()
+      }
+    })
+  }
+
+  componentWillUnmount = () => {
+    this.eventListener.remove()
+  }
+
+  render = () => (
+    <div className={'container question-container' + (this.props.hasQuestion ? ' move-up' : '')}>
       <div className='input input-question'>
         <label className='input-label input-label-question' htmlFor='question'>Ask a question</label>
         <textarea
           className='input-field input-field-question js-auto-size'
-          value={question}
-          onChange={handleChange}
+          value={this.props.question}
+          onChange={this.handleChange}
+          onKeyDown={this.handleKeyPress}
           rows='1'
           id='question'
-          name='question' />
+          name='question'
+          ref='question' />
       </div>
       <Answers />
     </div>

@@ -2,55 +2,71 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import {compose, equals, length } from 'ramda'
+import EventBus from '../EventBus'
 import { updateAnswer, removeAnswer } from '../../store/answers'
 
-export const Answer = ({ index, text, disabled, onAnswerChange, onRemoveAnswer }) => {
-  const handleChange = (event) => {
-    onAnswerChange(index, event.target.value)
+const KEY_UP_ARROW   = 38
+const KEY_DOWN_ARROW = 40
+const KEY_BACKSPACE  = 8
+const KEY_DELETE     = 46
+
+class Answer extends React.Component {
+  handleChange = (event) => {
+    this.props.onAnswerChange(this.props.index, event.target.value)
   }
 
-  const KEY_UP_ARROW   = 38
-  const KEY_DOWN_ARROW = 40
-  const KEY_BACKSPACE  = 8
-  const KEY_DELETE     = 46
-  const handleKeyPress = (event) => {
+  handleKeyPress = (event) => {
     event = event || window.event;
     const key = event.keyCode || event.charCode
 
     switch(key) {
       case KEY_UP_ARROW:
-        // TODO : Focus on previous answer
+        this.eventBus.emit('focus', this.props.index -1)
         break
       case KEY_DOWN_ARROW:
-        // TODO : Focus on next answer
+        this.eventBus.emit('focus', this.props.index + 1)
         break
       case KEY_BACKSPACE:
       case KEY_DELETE:
-        if (compose(equals(0), length)(text)) {
+        if (compose(equals(0), length)(this.props.text)) {
           event.preventDefault()
-          onRemoveAnswer(index)
-          // TODO : Focus on previous answer
+          this.props.onRemoveAnswer(this.props.index)
+          this.eventBus.emit('focus', this.props.index -1)
         }
         break
     }
   }
 
-  return (
-    <div className={'input input-answer'  + (disabled ? ' input-disabled' : '')}>
+  componentDidMount = () => {
+    this.eventBus = EventBus.getEventBus()
+    this.eventListener = this.eventBus.addListener('focus', (index) => {
+      if (index === this.props.index) {
+        this.refs.answer.focus()
+      }
+    })
+  }
+
+  componentWillUnmount = () => {
+    this.eventListener.remove()
+  }
+
+  render = () => (
+    <div className={'input input-answer'  + (this.props.disabled ? ' input-disabled' : '')}>
       <label
         className='input-label input-label-answer'
-        htmlFor={'answer-'+index}>
-          {index+1}
+        htmlFor={'answer-' + this.props.index}>
+          {this.props.index + 1}
       </label>
       <input
         className='input-field input-field-answer'
         type='text'
-        id={'answer-'+index}
-        name={'answer-'+index}
-        value={text}
-        onChange={handleChange}
-        onKeyDown={handleKeyPress}
-        disabled={disabled} />
+        id={'answer-' + this.props.index}
+        name={'answer-' + this.props.index}
+        ref='answer'
+        value={this.props.text}
+        onChange={this.handleChange}
+        onKeyDown={this.handleKeyPress}
+        disabled={this.props.disabled} />
     </div>
   )
 }

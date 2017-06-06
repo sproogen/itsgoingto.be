@@ -76,11 +76,7 @@ export const actions = {
 const ACTION_HANDLERS = {
   [ANSWERS_ADD]          : (previousState, action) => [...previousState, ''],
   [ANSWERS_UPDATE]       : (previousState, action) => adjust(() => action.text, action.index, previousState),
-  [ANSWERS_REMOVE]       : (previousState, action) => {
-    console.log(action.index, compose(subtract(__, 1), length)(previousState), compose(not, equals(action.index), subtract(__, 1), length)(previousState))
-    return when(compose(not, equals(action.index), subtract(__, 1), length), remove(action.index, 1))(previousState)
-    //return remove(action.index, 1, previousState)
-  },
+  [ANSWERS_REMOVE]       : (previousState, action) => when(compose(not, equals(action.index), subtract(__, 1), length), remove(action.index, 1))(previousState),
   [ANSWERS_REMOVE_AFTER] : (previousState, action) => slice(0, action.index + 1, previousState),
   [ANSWERS_CLEAR]        : (previousState, action) => []
 }
