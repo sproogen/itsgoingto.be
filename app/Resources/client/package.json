@@ -19,8 +19,10 @@
   "author": "David Zukowski <david@zuko.me> (http://zuko.me)",
   "license": "MIT",
   "dependencies": {
+    "autosize": "^3.0.21",
     "compression": "^1.6.2",
     "express": "^4.14.0",
+    "fbemitter": "^2.1.1",
     "object-assign": "^4.1.1",
     "promise": "^7.1.1",
     "prop-types": "^15.5.10",
