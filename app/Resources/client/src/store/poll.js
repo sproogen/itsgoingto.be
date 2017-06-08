@@ -1,16 +1,19 @@
 import { createSelector } from 'reselect'
-import { prop, compose, not, equals, length } from 'ramda'
-import { addAnswer, clearAnswers } from './answers'
+import { path, compose, not, equals, length, pick, omit } from 'ramda'
+import { addAnswer, clearAnswers, updateAnswers } from './answers'
 
 // ------------------------------------
 // Constants
 // ------------------------------------
+export const POLL_UPDATE     = 'POLL_UPDATE'
 export const QUESTION_UPDATE = 'QUESTION_UPDATE'
 
 // ------------------------------------
 // Selectors
 // ------------------------------------
-export const questionSelector = (state) => prop('question')(state)
+export const pollSelector = (state) => path(['poll'])(state)
+
+export const questionSelector = (state) => path(['poll', 'question'])(state)
 
 export const hasQuestionSelector = createSelector(
   questionSelector,
@@ -20,11 +23,21 @@ export const hasQuestionSelector = createSelector(
 // ------------------------------------
 // Actions
 // ------------------------------------
+export const updatePoll = (poll) => (dispatch, getState) => {
+  dispatch({
+    type : POLL_UPDATE,
+    poll : omit(['answers', 'responsesCount'])(poll)
+  })
+
+  let answers = path(['answers'])(poll)
+  dispatch(updateAnswers(answers))
+}
+
 export const updateQuestion = (value = '') => (dispatch, getState) => {
   let hadQuestion = hasQuestionSelector(getState())
   dispatch({
-    type : QUESTION_UPDATE,
-    text : value
+    type     : QUESTION_UPDATE,
+    question : value
   })
   let hasQuestion = hasQuestionSelector(getState())
 
@@ -36,6 +49,7 @@ export const updateQuestion = (value = '') => (dispatch, getState) => {
 }
 
 export const actions = {
+  updatePoll,
   updateQuestion
 }
 
@@ -43,15 +57,16 @@ export const actions = {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [QUESTION_UPDATE] : (previousState, action) => action.text
+  [POLL_UPDATE]     : (previousState, action) => action.poll,
+  [QUESTION_UPDATE] : (previousState, action) => ({ question : action.question })
 }
 
 // ------------------------------------
 // Reducer
 // ------------------------------------
-const initialState = ''
+const initialState = { question: '' }
 
-export default function questionReducer (state = initialState, action) {
+export default function pollReducer (state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
   return handler ? handler(state, action) : state
 }

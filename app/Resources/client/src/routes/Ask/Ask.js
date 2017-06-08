@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { hasQuestionSelector } from '../../store/question'
+import { hasQuestionSelector } from '../../store/poll'
 import WordRotate from '../../components/WordRotate/WordRotate'
 import Question from '../../components/Question/Question'
 import './Ask.scss'

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { hasQuestionSelector } from '../../store/question'
+import { hasQuestionSelector } from '../../store/poll'
 import { canSubmitPollSelector } from '../../store/answers'
 import { postPoll } from '../../store/apiActions'
 import Button from '../Button/Button'

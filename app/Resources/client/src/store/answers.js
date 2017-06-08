@@ -4,9 +4,10 @@ import { prop, adjust, nth, compose, not, equals, length, remove, isEmpty, slice
 // ------------------------------------
 // Constants
 // ------------------------------------
-export const ANSWERS_ADD          = 'ANSWERS_ADD'
+export const ANSWER_ADD           = 'ANSWER_ADD'
+export const ANSWER_UPDATE        = 'ANSWER_UPDATE'
 export const ANSWERS_UPDATE       = 'ANSWERS_UPDATE'
-export const ANSWERS_REMOVE       = 'ANSWERS_REMOVE'
+export const ANSWER_REMOVE        = 'ANSWERS_REMOVE'
 export const ANSWERS_REMOVE_AFTER = 'ANSWERS_REMOVE_AFTER'
 export const ANSWERS_CLEAR        = 'ANSWERS_CLEAR'
 
@@ -30,13 +31,13 @@ export const canSubmitPollSelector = (state) => compose(gt(__, 2), length, answe
 // Actions
 // ------------------------------------
 export const addAnswer = () => ({
-  type : ANSWERS_ADD
+  type : ANSWER_ADD
 })
 
 export const updateAnswer = (index, value = '') => (dispatch, getState) => {
   let hadAnswer = hasAnswerSelector(getState(), index)
   dispatch({
-    type  : ANSWERS_UPDATE,
+    type  : ANSWER_UPDATE,
     index : index,
     text  : value
   })
@@ -50,8 +51,15 @@ export const updateAnswer = (index, value = '') => (dispatch, getState) => {
   }
 }
 
+export const updateAnswers = (answers) => (dispatch, getState) => {
+  dispatch({
+    type  : ANSWERS_UPDATE,
+    answers
+  })
+}
+
 export const removeAnswer = (index) => ({
-  type  : ANSWERS_REMOVE,
+  type  : ANSWER_REMOVE,
   index : index
 })
 
@@ -67,6 +75,7 @@ export const clearAnswers = () => ({
 export const actions = {
   addAnswer,
   updateAnswer,
+  updateAnswers,
   removeAnswer,
   removeAfterAnswer,
   clearAnswers
@@ -76,9 +85,10 @@ export const actions = {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [ANSWERS_ADD]          : (previousState, action) => [...previousState, ''],
-  [ANSWERS_UPDATE]       : (previousState, action) => adjust(() => action.text, action.index, previousState),
-  [ANSWERS_REMOVE]       : (previousState, action) => when(compose(not, equals(action.index), subtract(__, 1), length), remove(action.index, 1))(previousState),
+  [ANSWER_ADD]           : (previousState, action) => [...previousState, ''],
+  [ANSWER_UPDATE]        : (previousState, action) => adjust(() => action.text, action.index, previousState),
+  [ANSWERS_UPDATE]       : (previousState, action) => action.answers,
+  [ANSWER_REMOVE]        : (previousState, action) => when(compose(not, equals(action.index), subtract(__, 1), length), remove(action.index, 1))(previousState),
   [ANSWERS_REMOVE_AFTER] : (previousState, action) => slice(0, action.index + 1, previousState),
   [ANSWERS_CLEAR]        : (previousState, action) => []
 }
