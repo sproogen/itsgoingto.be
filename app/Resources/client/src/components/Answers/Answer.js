@@ -9,6 +9,7 @@ const KEY_UP_ARROW   = 38
 const KEY_DOWN_ARROW = 40
 const KEY_BACKSPACE  = 8
 const KEY_DELETE     = 46
+const KEY_ENTER      = 13
 
 class Answer extends React.Component {
   handleChange = (event) => {
@@ -24,6 +25,7 @@ class Answer extends React.Component {
         this.eventBus.emit('focus', this.props.index -1)
         break
       case KEY_DOWN_ARROW:
+      case KEY_ENTER:
         this.eventBus.emit('focus', this.props.index + 1)
         break
       case KEY_BACKSPACE:
