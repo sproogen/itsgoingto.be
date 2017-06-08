@@ -8,7 +8,7 @@ const EventBus = {
       instance = new EventEmitter()
     }
     return instance
-  },
+  }
 }
 
 export default EventBus

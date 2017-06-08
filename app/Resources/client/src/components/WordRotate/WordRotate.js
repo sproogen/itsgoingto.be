@@ -54,6 +54,7 @@ class WordRotate extends React.Component {
     </span>
   )
 }
+
 WordRotate.propTypes = {
   words: PropTypes.string.isRequired
 }

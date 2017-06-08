@@ -19,15 +19,13 @@ export const Answers = ({ hasQuestion, answers }) => {
 }
 
 Answers.propTypes = {
-  hasQuestion: PropTypes.bool.isRequired,
-  answers: PropTypes.array.isRequired,
+  hasQuestion : PropTypes.bool.isRequired,
+  answers     : PropTypes.array.isRequired
 }
 
-const mapStateToProps = (state) => {
-  return{
-    hasQuestion : hasQuestionSelector(state),
-    answers     : answersSelector(state)
-  }
-}
+const mapStateToProps = (state) => ({
+  hasQuestion : hasQuestionSelector(state),
+  answers     : answersSelector(state)
+})
 
 export default connect(mapStateToProps)(Answers)

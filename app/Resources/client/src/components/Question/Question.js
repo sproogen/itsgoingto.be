@@ -5,6 +5,7 @@ import autosize from 'autosize'
 import EventBus from '../EventBus'
 import { questionSelector, hasQuestionSelector, updateQuestion } from '../../store/question'
 import Answers from '../Answers/Answers'
+import Actions from '../Actions/Actions'
 import './Question.scss'
 
 const KEY_DOWN_ARROW = 40
@@ -58,27 +59,24 @@ class Question extends React.Component {
           ref='question' />
       </div>
       <Answers />
+      <Actions />
     </div>
   )
 }
 
 Question.propTypes = {
-  question: PropTypes.string.isRequired,
-  hasQuestion: PropTypes.bool.isRequired,
-  onQuestionChange: PropTypes.func.isRequired
+  question         : PropTypes.string.isRequired,
+  hasQuestion      : PropTypes.bool.isRequired,
+  onQuestionChange : PropTypes.func.isRequired
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  onQuestionChange : (value) => {
-    dispatch(updateQuestion(value))
-  }
+  onQuestionChange : (value) => dispatch(updateQuestion(value))
 })
 
-const mapStateToProps = (state) => {
-  return{
-    question    : questionSelector(state),
-    hasQuestion : hasQuestionSelector(state)
-  }
-}
+const mapStateToProps = (state) => ({
+  question    : questionSelector(state),
+  hasQuestion : hasQuestionSelector(state)
+})
 
 export default connect(mapStateToProps, mapDispatchToProps)(Question)

@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect'
-import { prop, adjust, nth, compose, not, equals, length, remove, isEmpty, slice, findLastIndex, when, subtract, __ } from 'ramda'
+import { prop, adjust, nth, compose, not, equals, length, remove, isEmpty, slice, findLastIndex, when, subtract, __, gt, trim } from 'ramda'
 
 // ------------------------------------
 // Constants
@@ -17,12 +17,14 @@ export const answersSelector = (state) => prop('answers')(state)
 
 export const maxAnswerSelector = createSelector(
   answersSelector,
-  answers => findLastIndex(compose(not, isEmpty))(answers)
+  answers => findLastIndex(compose(not, isEmpty, trim))(answers)
 )
 
 export const answerSelector = (state, index) => compose(nth(index), answersSelector)(state)
 
-export const hasAnswerSelector = (state, index) => compose(not, equals(0), length, answerSelector)(state, index)
+export const hasAnswerSelector = (state, index) => compose(not, equals(0), length, trim, answerSelector)(state, index)
+
+export const canSubmitPollSelector = (state) => compose(gt(__, 2), length, answersSelector)(state)
 
 // ------------------------------------
 // Actions
@@ -85,8 +87,8 @@ const ACTION_HANDLERS = {
 // Reducer
 // ------------------------------------
 const initialState = []
+
 export default function answersReducer (state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
-
   return handler ? handler(state, action) : state
 }

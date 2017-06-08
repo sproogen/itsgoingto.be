@@ -23,7 +23,7 @@ export const hasQuestionSelector = createSelector(
 export const updateQuestion = (value = '') => (dispatch, getState) => {
   let hadQuestion = hasQuestionSelector(getState())
   dispatch({
-    type    : QUESTION_UPDATE,
+    type : QUESTION_UPDATE,
     text : value
   })
   let hasQuestion = hasQuestionSelector(getState())
@@ -50,8 +50,8 @@ const ACTION_HANDLERS = {
 // Reducer
 // ------------------------------------
 const initialState = ''
+
 export default function questionReducer (state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
-
   return handler ? handler(state, action) : state
 }

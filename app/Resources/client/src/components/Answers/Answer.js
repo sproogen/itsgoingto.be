@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import {compose, equals, length } from 'ramda'
+import { compose, equals, length, trim } from 'ramda'
 import EventBus from '../EventBus'
 import { updateAnswer, removeAnswer } from '../../store/answers'
 
@@ -28,7 +28,7 @@ class Answer extends React.Component {
         break
       case KEY_BACKSPACE:
       case KEY_DELETE:
-        if (compose(equals(0), length)(this.props.text)) {
+        if (compose(equals(0), length, trim)(this.props.text)) {
           event.preventDefault()
           this.props.onRemoveAnswer(this.props.index)
           this.eventBus.emit('focus', this.props.index -1)
@@ -76,18 +76,15 @@ Answer.propTypes = {
   text     : PropTypes.string,
   disabled : PropTypes.bool,
 }
-Answer.defaultProps  = {
+
+Answer.defaultProps = {
   text     : '',
   disabled : false,
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  onAnswerChange : (index, value) => {
-    dispatch(updateAnswer(index, value))
-  },
-  onRemoveAnswer : (index) => {
-    dispatch(removeAnswer(index))
-  }
+  onAnswerChange : (index, value) => dispatch(updateAnswer(index, value)),
+  onRemoveAnswer : (index) => dispatch(removeAnswer(index))
 })
 
 export default connect(null, mapDispatchToProps)(Answer)

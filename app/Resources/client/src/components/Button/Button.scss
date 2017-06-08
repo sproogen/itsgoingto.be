@@ -1,0 +1,52 @@
+@import "bourbon";
+@import "neat";
+@import "variables";
+
+.btn {
+    border: none;
+    font-family: inherit;
+    font-size: inherit;
+    -webkit-font-smoothing: antialiased;
+    color: inherit;
+    background: none;
+    cursor: pointer;
+    padding: 0.9375em 3.125em;
+    display: inline-block;
+    margin: 0.9375em 1.875em;
+    text-transform: uppercase;
+    letter-spacing: 0.0625em;
+    font-weight: 700;
+    outline: none;
+    position: relative;
+    user-select: none;
+    vertical-align: middle;
+    white-space: nowrap;
+    text-decoration: none;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    transition: all 0.3s;
+
+    border-radius: 0;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.06);
+
+    background: $light-grey;
+    color: $base-font-color;
+
+    &:focus {
+        background: $light-grey;
+        color: $base-font-color;
+    }
+
+    &:hover {
+        background: #CCCCCC;
+        color: $base-font-color;
+    }
+
+    &.disabled {
+        background: $disabled-grey;
+        box-shadow: none;
+        color: #9E9E9E;
+        cursor: default;
+        top:0px;
+    }
+}
