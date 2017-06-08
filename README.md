@@ -1,5 +1,10 @@
 # itsgoingto.be [![Build Status](https://travis-ci.org/sproogen/itsgoingto.be.svg)](https://travis-ci.org/sproogen/itsgoingto.be) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/95ef266848d44348a421142d2ed6f8cb)](https://www.codacy.com/app/sproogen/itsgoingto.be?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=sproogen/itsgoingto.be&amp;utm_campaign=Badge_Grade)
-Symfony magic behind itsgoingto.be
+
+Symfony and React magic behind itsgoingto.be
+
+The root of this project contains the Symfony app.
+
+The React app can be found at app/Resources/client. This can been loaded through symfony for developing or compiled into the web folder for prodcution builds.
 
 API
 -------------
