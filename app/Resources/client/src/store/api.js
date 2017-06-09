@@ -45,10 +45,8 @@ export const postPoll = () => (dispatch, getState) => {
   })
   .then(extractResponse)
   .then((response) => {
-    console.log(response)
     dispatch(updatePoll(response))
-    // TODO : Redirect to the question page
-    return true
+    return response
   })
   .catch(onError)
 }

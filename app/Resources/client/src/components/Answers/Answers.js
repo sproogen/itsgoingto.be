@@ -11,7 +11,7 @@ export const Answers = ({ hasQuestion, answers }) => {
   return (
     <div className={'answers hideable' + (hasQuestion ? '' : ' gone')}>
       {answers.map((answer, index) =>
-        <Answer key={index} index={index} text={answer} />
+        <Answer key={index} index={index} text={answer.answer ? answer.answer : answer} />
       )}
       <Answer key={length(answers)} index={length(answers)} disabled={true} />
     </div>

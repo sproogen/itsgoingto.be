@@ -1,13 +1,20 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { mergeAll } from 'ramda'
 import { hasQuestionSelector } from '../../store/poll'
 import { canSubmitPollSelector } from '../../store/answers'
-import { postPoll } from '../../store/apiActions'
+import { postPoll } from '../../store/api'
+import { browserHistory } from 'react-router'
 import Button from '../Button/Button'
 
 class Actions extends React.Component {
   submit = () => this.props.postPoll()
+  .then((response) => {
+    if (response !== false) {
+      browserHistory.push('/react/' + response.identifier)
+    }
+  })
 
   render = () => (
     <div className={'actions hideable' + (this.props.hasQuestion ? '' : ' gone')}>

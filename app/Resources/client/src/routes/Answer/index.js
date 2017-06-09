@@ -1,5 +1,5 @@
 export default (store) => ({
-  path: '',
+  path : ':identifier',
   /*  Async getComponent is only invoked when route matches   */
   getComponent (nextState, cb) {
     /*  Webpack - use 'require.ensure' to create a split point
@@ -7,12 +7,12 @@ export default (store) => ({
     require.ensure([], (require) => {
       /*  Webpack - use require callback to define
           dependencies for bundling   */
-      const Ask = require('./Ask').default
+      const Answer = require('./Answer').default
 
       /*  Return getComponent   */
-      cb(null, Ask)
+      cb(null, Answer)
 
     /* Webpack named bundle   */
-    }, 'ask')
+    }, 'answer')
   }
 })

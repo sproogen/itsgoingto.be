@@ -29,8 +29,7 @@ export const updatePoll = (poll) => (dispatch, getState) => {
     poll : omit(['answers', 'responsesCount'])(poll)
   })
 
-  let answers = path(['answers'])(poll)
-  dispatch(updateAnswers(answers))
+  dispatch(updateAnswers(path(['answers'])(poll)))
 }
 
 export const updateQuestion = (value = '') => (dispatch, getState) => {
