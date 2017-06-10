@@ -35,8 +35,8 @@ const onError = (error) => {
 // ------------------------------------
 // Actions
 // ------------------------------------
-export const postPoll = () => (dispatch, getState) => {
-  return fetch(ROUTE_QUESTION, {
+export const postPoll = () => (dispatch, getState) =>
+  fetch(ROUTE_QUESTION, {
     method: 'POST',
     body: JSON.stringify({
       question: questionSelector(getState()),
@@ -49,14 +49,12 @@ export const postPoll = () => (dispatch, getState) => {
     return response
   })
   .catch(onError)
-}
 
-export const fetchPoll = (identifier) => (dispatch, getState) => {
-  return fetch(ROUTE_QUESTION + '/' + identifier)
+export const fetchPoll = (identifier) => (dispatch, getState) =>
+  fetch(ROUTE_QUESTION + '/' + identifier)
   .then(extractResponse)
   .then((response) => {
     dispatch(updatePoll(response))
     return response
   })
   .catch(onError)
-}

@@ -45,10 +45,12 @@ body {
 .hideable {
     /* A horrific hack to allow the labels to change opacity while moving */
     opacity: .999;
+    visibility:visible;
 
-    transition: opacity 0.3s ease;
+    transition: visibility 0s linear 0.3s, opacity 0.3s ease;
 
     &.gone {
         opacity: 0;
+        visibility: hidden;
     }
 }
