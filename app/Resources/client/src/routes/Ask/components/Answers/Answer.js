@@ -2,8 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { compose, equals, length, trim } from 'ramda'
-import EventBus from '../EventBus'
-import { updateAnswer, removeAnswer } from '../../store/answers'
+import EventBus from '../../../../components/EventBus'
+import { updateAnswer, removeAnswer } from '../../../../store/answers'
 
 const KEY_UP_ARROW   = 38
 const KEY_DOWN_ARROW = 40

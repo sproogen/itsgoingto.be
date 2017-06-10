@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { hasQuestionSelector } from '../../store/poll'
 import WordRotate from '../../components/WordRotate/WordRotate'
-import Question from '../../components/Question/Question'
+import Question from './components/Question/Question'
 import './Ask.scss'
 
 export const Ask = ({ hasQuestion }) => (
