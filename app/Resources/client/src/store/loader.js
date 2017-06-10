@@ -32,8 +32,19 @@ const ACTION_HANDLERS = {
 // ------------------------------------
 // Reducer
 // ------------------------------------
+/**
+ * Initial state for this store component
+ */
 const initialState = false
 
+/**
+ * The reducer for this store component
+ *
+ * @param  {State} state   The current state
+ * @param  {object} action The action to perform on the state
+ *
+ * @return {State}         The modified state
+ */
 export default function loaderReducer (state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
   return handler ? handler(state, action) : state

@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect'
-import { prop, compose, not, equals, length, omit, when, find, propEq, adjust, set, lensProp, findIndex, update, ifElse, path } from 'ramda'
+import { prop, compose, not, equals, length, omit, when, find, propEq,
+         adjust, set, lensProp, findIndex, update, ifElse, path } from 'ramda'
 import { addAnswer, clearAnswers, updateAnswers } from './answers'
 
 // ------------------------------------
@@ -16,6 +17,14 @@ export const initialPoll = {
 // ------------------------------------
 // Selectors
 // ------------------------------------
+/**
+ * Get the poll with the given identifier
+ *
+ * @param  {State}  state      App state
+ * @param  {string} identifier Poll identifier
+ *
+ * @return {Poll}            The question text for the poll
+ */
 export const pollSelector = (state, identifier = '') =>
   when(
     equals(undefined),
@@ -23,15 +32,36 @@ export const pollSelector = (state, identifier = '') =>
   )
   (find(propEq('identifier', identifier))(prop('poll')(state)))
 
+/**
+ * Get the question text from a poll with the given identifier
+ *
+ * @param  {State}  state      App state
+ * @param  {string} identifier Poll identifier
+ *
+ * @return {string}            The question text for the poll
+ */
 export const questionSelector = (state, identifier = '') =>
   prop('question')(pollSelector(state, identifier))
 
+/**
+ * Returns true if the poll for the identifier has any question text
+ *
+ * @param  {State}  state      App state
+ * @param  {string} identifier Poll identifier
+ *
+ * @return {bool}
+ */
 export const hasQuestionSelector = (state, identifier = '') =>
   compose(not, equals(0), length)(questionSelector(state, identifier))
 
 // ------------------------------------
 // Actions
 // ------------------------------------
+/**
+ * Update the poll in the state then dispatch to update the answers
+ *
+ * @param  {Poll} poll The poll to add/update the state with
+ */
 export const updatePoll = (poll) => (dispatch, getState) => {
   dispatch({
     type : POLL_UPDATE,
@@ -41,6 +71,13 @@ export const updatePoll = (poll) => (dispatch, getState) => {
   dispatch(updateAnswers(prop('answers')(poll)))
 }
 
+/**
+ * Update the question text in the state for a given poll
+ * Dispatch to insert or clear the answers appropriately
+ *
+ * @param  {string} text       The question text
+ * @param  {string} identifier The poll identifier to update
+ */
 export const updateQuestion = (text = '', identifier = '') => (dispatch, getState) => {
   let hadQuestion = hasQuestionSelector(getState(), identifier)
   dispatch({
@@ -66,6 +103,7 @@ export const actions = {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
+  // Insert the poll if it doesn't exist in the state else update the exisitng poll in the state
   [POLL_UPDATE]     : (previousState, action) =>
     ifElse(
       compose(
@@ -78,6 +116,7 @@ const ACTION_HANDLERS = {
         action.poll
       )
     )(previousState),
+  // Update the question for a poll in the state if it exists else insert a blank poll with the question
   [QUESTION_UPDATE] : (previousState, action) =>
     ifElse(
       compose(
@@ -98,8 +137,19 @@ const ACTION_HANDLERS = {
 // ------------------------------------
 // Reducer
 // ------------------------------------
+/**
+ * Initial state for this store component
+ */
 const initialState = []
 
+/**
+ * The reducer for this store component
+ *
+ * @param  {State} state   The current state
+ * @param  {object} action The action to perform on the state
+ *
+ * @return {State}         The modified state
+ */
 export default function pollReducer (state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
   return handler ? handler(state, action) : state
