@@ -25,7 +25,7 @@ if (project.env === 'development') {
     lazy        : false,
     stats       : 'normal',
     headers     : {
-      'Access-Control-Allow-Origin': 'http://itsgoingtobe.local:3000',
+      'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Credentials': 'true'
     }
   }))

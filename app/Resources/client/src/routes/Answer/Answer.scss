@@ -1,0 +1,23 @@
+@import "bourbon";
+@import "neat";
+@import "variables";
+
+.answer-header-container .header {
+  margin-bottom: 0px;
+
+  h2 {
+    font-size: 3em;
+    font-weight: 300;
+    letter-spacing: -1px;
+  }
+}
+
+.slabtexted {
+  h2.slabtextdone {
+    line-height: 3em;
+
+    .slabtext {
+      line-height: 0.9em;
+    }
+  }
+}

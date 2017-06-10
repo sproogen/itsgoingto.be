@@ -37,13 +37,18 @@ const config = {
   },
   externals: project.externals,
   module: {
-    rules: [],
+    rules: [
+      {
+        test: /\.(ttf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
+        loader: 'file-loader?name=fonts/[name].[ext]'
+      }
+    ],
   },
   devServer:{
     hot: __DEV__,
     inline: true,
     headers: {
-      'Access-Control-Allow-Origin': 'http://itsgoingtobe.local:3000',
+      'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Credentials': 'true'
     }
   },
@@ -142,7 +147,7 @@ config.module.rules.push({
             inProjectSrc('styles'),
           ],
         },
-      }
+      },
     ],
   })
 })
@@ -161,10 +166,8 @@ config.module.rules.push({
 // Fonts
 // ------------------------------------
 ;[
-  ['woff', 'application/font-woff'],
   ['woff2', 'application/font-woff2'],
   ['otf', 'font/opentype'],
-  ['ttf', 'application/octet-stream'],
   ['eot', 'application/vnd.ms-fontobject'],
   ['svg', 'image/svg+xml'],
 ].forEach((font) => {

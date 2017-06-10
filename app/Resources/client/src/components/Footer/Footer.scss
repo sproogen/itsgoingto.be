@@ -20,7 +20,7 @@
             line-height: 3.125em;
             margin-left: 1.875em;
             color:$dark-grey;
-            @include transition(color 0.4s ease);
+            transition: color 0.4s ease;
             &:hover {
                 color:$base-font-color;
             }
@@ -33,7 +33,7 @@
         line-height: 1em;
         a {
             opacity:0.4;
-            @include transition(opacity 0.4s ease);
+            transition: opacity 0.4s ease;
             &:hover {
                 opacity:1;
             }

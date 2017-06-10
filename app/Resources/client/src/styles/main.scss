@@ -4,7 +4,11 @@
 @import "variables";
 @import 'base/base';
 
+$fa-font-path: "~font-awesome/fonts";
+@import "~font-awesome/scss/font-awesome.scss";
+
 @import "components/input";
+@import "components/header";
 
 html {
     overflow: hidden;
@@ -42,7 +46,7 @@ body {
     /* A horrific hack to allow the labels to change opacity while moving */
     opacity: .999;
 
-    @include transition(opacity 0.3s ease);
+    transition: opacity 0.3s ease;
 
     &.gone {
         opacity: 0;

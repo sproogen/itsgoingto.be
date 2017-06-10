@@ -14,7 +14,7 @@ export const ANSWERS_CLEAR        = 'ANSWERS_CLEAR'
 // ------------------------------------
 // Selectors
 // ------------------------------------
-export const answersSelector = (state) => prop('answers')(state)
+export const answersSelector = (state, identifier = '') => prop('answers')(state)
 
 export const maxAnswerSelector = createSelector(
   answersSelector,

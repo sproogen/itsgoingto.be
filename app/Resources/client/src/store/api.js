@@ -50,3 +50,13 @@ export const postPoll = () => (dispatch, getState) => {
   })
   .catch(onError)
 }
+
+export const fetchPoll = (identifier) => (dispatch, getState) => {
+  return fetch(ROUTE_QUESTION + '/' + identifier)
+  .then(extractResponse)
+  .then((response) => {
+    dispatch(updatePoll(response))
+    return response
+  })
+  .catch(onError)
+}
