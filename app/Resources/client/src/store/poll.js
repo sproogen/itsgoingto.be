@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect'
-import { prop, compose, not, equals, length, pick, omit, when } from 'ramda'
+import { prop, compose, not, equals, length, omit, when, find, propEq, adjust, set, lensProp, findIndex, update, ifElse } from 'ramda'
 import { addAnswer, clearAnswers, updateAnswers } from './answers'
 
 // ------------------------------------
@@ -13,10 +13,10 @@ export const QUESTION_UPDATE = 'QUESTION_UPDATE'
 // ------------------------------------
 export const pollSelector = (state, identifier = '') =>
   when(
-    compose(not, equals(identifier), prop('identifier')),
-    () => initialState
-  )(prop('poll')(state))
-
+    equals(undefined),
+    () => initialQuestion
+  )
+  (find(propEq('identifier', identifier))(prop('poll')(state)))
 
 export const questionSelector = (state, identifier = '') =>
   prop('question')(pollSelector(state, identifier))
@@ -30,19 +30,20 @@ export const hasQuestionSelector = (state, identifier = '') =>
 export const updatePoll = (poll) => (dispatch, getState) => {
   dispatch({
     type : POLL_UPDATE,
-    poll : omit(['answers', 'responsesCount'])(poll)
+    poll : omit(['answers'])(poll)
   })
 
   dispatch(updateAnswers(prop('answers')(poll)))
 }
 
-export const updateQuestion = (value = '') => (dispatch, getState) => {
-  let hadQuestion = hasQuestionSelector(getState())
+export const updateQuestion = (text = '', identifier = '') => (dispatch, getState) => {
+  let hadQuestion = hasQuestionSelector(getState(), identifier)
   dispatch({
-    type     : QUESTION_UPDATE,
-    question : value
+    type       : QUESTION_UPDATE,
+    question   : text,
+    identifier : identifier
   })
-  let hasQuestion = hasQuestionSelector(getState())
+  let hasQuestion = hasQuestionSelector(getState(), identifier)
 
   if (hasQuestion && !hadQuestion) {
     dispatch(addAnswer())
@@ -60,16 +61,41 @@ export const actions = {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [POLL_UPDATE]     : (previousState, action) => action.poll,
-  [QUESTION_UPDATE] : (previousState, action) => ({ ...previousState, question : action.question })
+  [POLL_UPDATE]     : (previousState, action) => {
+    console.log(findIndex(propEq('identifier', action.identifier))(previousState))
+    return ifElse(
+      compose(
+        equals(-1),
+        findIndex(propEq('identifier', action.identifier))
+      ),
+      () => [...previousState, action.poll],
+      update(
+        findIndex(propEq('identifier', action.identifier))(previousState),
+        action.poll
+      )
+    )(previousState)
+    },
+  [QUESTION_UPDATE] : (previousState, action) =>
+    ifElse(
+      compose(
+        equals(-1),
+        findIndex(propEq('identifier', action.identifier))
+      ),
+      () => [...previousState, compose(
+        set(lensProp('question'), action.question)
+      )(initialQuestion)],
+      adjust(
+        set(lensProp('question'), action.question),
+        findIndex(propEq('identifier', action.identifier))(previousState)
+      )
+    )(previousState)
 }
 
 // ------------------------------------
 // Reducer
 // ------------------------------------
-
-// TODO : Make this state an array of polls and fetching the current poll by identifier from the array
-const initialState = {
+const initialState = []
+const initialQuestion = {
   question : '',
   identifier: ''
 }
