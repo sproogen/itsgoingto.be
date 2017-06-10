@@ -7,6 +7,11 @@ import { addAnswer, clearAnswers, updateAnswers } from './answers'
 // ------------------------------------
 export const POLL_UPDATE     = 'POLL_UPDATE'
 export const QUESTION_UPDATE = 'QUESTION_UPDATE'
+export const initialPoll = {
+  question : '',
+  identifier: '',
+  answers: []
+}
 
 // ------------------------------------
 // Selectors
@@ -14,7 +19,7 @@ export const QUESTION_UPDATE = 'QUESTION_UPDATE'
 export const pollSelector = (state, identifier = '') =>
   when(
     equals(undefined),
-    () => initialQuestion
+    () => omit(['answers'])(initialPoll)
   )
   (find(propEq('identifier', identifier))(prop('poll')(state)))
 
@@ -80,8 +85,9 @@ const ACTION_HANDLERS = {
         findIndex(propEq('identifier', action.identifier))
       ),
       () => [...previousState, compose(
+        omit(['answers']),
         set(lensProp('question'), action.question)
-      )(initialQuestion)],
+      )(initialPoll)],
       adjust(
         set(lensProp('question'), action.question),
         findIndex(propEq('identifier', action.identifier))(previousState)
@@ -93,10 +99,6 @@ const ACTION_HANDLERS = {
 // Reducer
 // ------------------------------------
 const initialState = []
-const initialQuestion = {
-  question : '',
-  identifier: ''
-}
 
 export default function pollReducer (state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]

@@ -23,6 +23,7 @@ class Answer extends React.Component {
     }
     props.fetchPoll(props.identifier).then(() => props.setLoading(false))
   }
+
   render = () => (
     <div>
       <Back />
@@ -44,7 +45,6 @@ Answer.propTypes = {
 const mapStateToProps = (state, props) => ({
   poll    : pollSelector(state, props.params.identifier),
   hasPoll : hasQuestionSelector(state, props.params.identifier),
-  // TODO : Update answers to be objects and fetch by identifier
   answers : answersSelector(state, props.params.identifier)
 })
 

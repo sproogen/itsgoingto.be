@@ -1,6 +1,8 @@
 import { createSelector } from 'reselect'
 import { prop, adjust, nth, compose, not, equals, length, remove, isEmpty, slice, findLastIndex, when, subtract, __, gt, trim } from 'ramda'
 
+// TODO : Update answers to reference by identifier and index
+
 // ------------------------------------
 // Constants
 // ------------------------------------
