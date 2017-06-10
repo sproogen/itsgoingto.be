@@ -65,7 +65,7 @@ export const hasQuestionSelector = (state, identifier = '') =>
 export const updatePoll = (poll) => (dispatch, getState) => {
   dispatch({
     type : POLL_UPDATE,
-    poll : omit(['answers'])(poll)
+    poll : omit(['answers', 'responses'])(poll)
   })
 
   dispatch(updateAnswers(prop('answers')(poll)))
