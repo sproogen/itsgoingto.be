@@ -67,6 +67,8 @@ const ACTION_HANDLERS = {
 // ------------------------------------
 // Reducer
 // ------------------------------------
+
+// TODO : Make this state an array of polls and fetching the current poll by identifier from the array
 const initialState = {
   question : '',
   identifier: ''
