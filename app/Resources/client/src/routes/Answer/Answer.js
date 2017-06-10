@@ -7,13 +7,12 @@ import { answersSelector } from '../../store/answers'
 import { fetchPoll } from '../../store/api'
 import { setLoading } from '../../store/loader'
 import Sharing from './components/Sharing/Sharing'
+import Back from './components/Back/Back'
 import './Answer.scss'
 
 /**
  * TODO :
- *   Loading indicator / overlay before question loads
  *   Answers
- *   Stop fontawesome loading woff2
  */
 
 class Answer extends React.Component {
@@ -26,6 +25,7 @@ class Answer extends React.Component {
   }
   render = () => (
     <div>
+      <Back />
       <div className='container header-container answer-header-container'>
         <div className='header center-text'>
           <h2>{ this.props.poll.question }</h2>
