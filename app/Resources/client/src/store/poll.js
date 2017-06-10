@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect'
-import { prop, compose, not, equals, length, omit, when, find, propEq, adjust, set, lensProp, findIndex, update, ifElse } from 'ramda'
+import { prop, compose, not, equals, length, omit, when, find, propEq, adjust, set, lensProp, findIndex, update, ifElse, path } from 'ramda'
 import { addAnswer, clearAnswers, updateAnswers } from './answers'
 
 // ------------------------------------
@@ -61,20 +61,18 @@ export const actions = {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [POLL_UPDATE]     : (previousState, action) => {
-    console.log(findIndex(propEq('identifier', action.identifier))(previousState))
-    return ifElse(
+  [POLL_UPDATE]     : (previousState, action) =>
+    ifElse(
       compose(
         equals(-1),
-        findIndex(propEq('identifier', action.identifier))
+        findIndex(propEq('identifier', path(['poll', 'identifier'])(action)))
       ),
       () => [...previousState, action.poll],
       update(
-        findIndex(propEq('identifier', action.identifier))(previousState),
+        findIndex(propEq('identifier', path(['poll', 'identifier'])(action)))(previousState),
         action.poll
       )
-    )(previousState)
-    },
+    )(previousState),
   [QUESTION_UPDATE] : (previousState, action) =>
     ifElse(
       compose(
