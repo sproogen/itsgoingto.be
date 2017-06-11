@@ -4,8 +4,7 @@ import { connect } from 'react-redux'
 import { length } from 'ramda'
 import { hasQuestionSelector } from '../../../../store/poll'
 import { answersSelector } from '../../../../store/answers'
-import Answer from './Answer'
-import './Answers.scss'
+import Answer from '../Answer/Answer'
 
 export const Answers = ({ hasQuestion, answers }) => {
   return (
