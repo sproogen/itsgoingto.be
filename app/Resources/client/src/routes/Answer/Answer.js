@@ -8,11 +8,13 @@ import { fetchPoll } from '../../store/api'
 import { setLoading } from '../../store/loader'
 import Sharing from './components/Sharing/Sharing'
 import Back from './components/Back/Back'
+import Answers from './components/Answers/Answers'
 import './Answer.scss'
 
 /**
  * TODO :
  *   Answers
+ *   Auto link URLs
  */
 
 class Answer extends React.Component {
@@ -33,6 +35,7 @@ class Answer extends React.Component {
           <Sharing poll={ this.props.poll } />
         </div>
       </div>
+      <Answers />
     </div>
   )
 }

@@ -1,14 +1,12 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import { pollSelector } from '../../../../store/poll'
 import './Sharing.scss'
 
-class Sharing extends React.Component {
-  constructor (props) {
-    super(props)
-  }
-
+export const Sharing = ({ poll }) => {
   // Select the text contents from target of the given event
-  selectText = (event) => {
+  const selectText = (event) => {
     var doc = document,
       text = event.target,
       range,
@@ -27,41 +25,41 @@ class Sharing extends React.Component {
   }
 
   // Generate link for sharing to twitter
-  twitterLink = () =>
-    'https://twitter.com/home?status=' + this.props.poll.question + ' - Answer this poll at ' + window.location.href
+  const twitterLink = () =>
+    'https://twitter.com/home?status=' + poll.question + ' - Answer this poll at ' + window.location.href
 
   // Generate link for sharing to facebook
-  facebookLink = () =>
+  const facebookLink = () =>
     'https://www.facebook.com/sharer/sharer.php?u=' + window.location.href
 
   // Generate link for sharing via email
-  emailLink = () =>
-    'mailto:?&subject=' + this.props.poll.question + '&body=Answer%20this%20poll%20at%20' + window.location.href
+  const emailLink = () =>
+    'mailto:?&subject=' + poll.question + '&body=Answer%20this%20poll%20at%20' + window.location.href
 
-  render = () => (
+  return (
     <div>
       <h3>
         <span
           className='share-link'
-          onClick={ this.selectText }>
+          onClick={ selectText }>
           { window.location.href.replace(/(^\w+:|^)\/\//, '') }
         </span>
         <a
           className='shareButton twitter'
           target='_blank'
-          href={ this.twitterLink() }>
+          href={ twitterLink() }>
           <i className="fa fa-twitter" />
         </a>
         <a
           className='shareButton facebook'
           target='_blank'
-          href={ this.facebookLink() }>
+          href={ facebookLink() }>
           <i className='fa fa-facebook' />
         </a>
         <a
           className='shareButton email'
           target='_blank'
-          href={ this.emailLink() }>
+          href={ emailLink() }>
           <i className='fa fa-envelope' />
         </a>
       </h3>
@@ -70,7 +68,11 @@ class Sharing extends React.Component {
 }
 
 Sharing.propTypes = {
-  poll : PropTypes.object.isRequired
+  poll : PropTypes.object.isRequired,
 }
 
-export default Sharing
+const mapStateToProps = (state, props) => ({
+  poll : pollSelector(state, props.identifier),
+})
+
+export default connect(mapStateToProps)(Sharing)

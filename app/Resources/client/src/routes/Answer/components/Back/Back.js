@@ -2,15 +2,15 @@ import React from 'react'
 import { browserHistory } from 'react-router'
 import './Back.scss'
 
-class Back extends React.Component {
-  submit = () => {
+export const Back = () => {
+  const submit = () => {
     browserHistory.push('/react')
   }
 
-  render = () => (
+  return (
     <div className="container back-container">
       <div className="back-button">
-        <a onClick={ this.submit }>
+        <a onClick={ submit }>
           <i className="fa fa-arrow-left"></i> New Poll
         </a>
       </div>
