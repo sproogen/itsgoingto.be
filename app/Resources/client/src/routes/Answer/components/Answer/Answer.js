@@ -2,6 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import './Answer.scss'
 
+// TODO : Clicky anomation on checkbox
+
 export const Answer = ({ index, text }) => {
   return (
     <span className='input input-options'>
