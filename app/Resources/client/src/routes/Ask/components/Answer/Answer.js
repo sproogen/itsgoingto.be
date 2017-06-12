@@ -18,12 +18,12 @@ class Answer extends React.Component {
   }
 
   handleKeyPress = (event) => {
-    event = event || window.event;
+    event = event || window.event
     const key = event.keyCode || event.charCode
 
-    switch(key) {
+    switch (key) {
       case KEY_UP_ARROW:
-        this.eventBus.emit('focus', this.props.index -1)
+        this.eventBus.emit('focus', this.props.index - 1)
         break
       case KEY_DOWN_ARROW:
       case KEY_ENTER:
@@ -34,7 +34,7 @@ class Answer extends React.Component {
         if (compose(equals(0), length, trim)(this.props.text)) {
           event.preventDefault()
           this.props.onRemoveAnswer(this.props.index)
-          this.eventBus.emit('focus', this.props.index -1)
+          this.eventBus.emit('focus', this.props.index - 1)
         }
         break
     }
@@ -54,11 +54,11 @@ class Answer extends React.Component {
   }
 
   render = () => (
-    <div className={'input input-answer'  + (this.props.disabled ? ' input-disabled' : '')}>
+    <div className={'input input-answer' + (this.props.disabled ? ' input-disabled' : '')}>
       <label
         className='input-label input-label-answer'
         htmlFor={'answer-' + this.props.index}>
-          {this.props.index + 1}
+        {this.props.index + 1}
       </label>
       <input
         className='input-field input-field-answer'
@@ -75,9 +75,11 @@ class Answer extends React.Component {
 }
 
 Answer.propTypes = {
-  index    : PropTypes.number.isRequired,
-  text     : PropTypes.string,
-  disabled : PropTypes.bool,
+  index          : PropTypes.number.isRequired,
+  text           : PropTypes.string,
+  disabled       : PropTypes.bool,
+  onAnswerChange : PropTypes.func.isRequired,
+  onRemoveAnswer : PropTypes.func.isRequired
 }
 
 Answer.defaultProps = {

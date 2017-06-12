@@ -9,6 +9,14 @@ export const ROUTE_QUESTION = '/api/questions'
 // ------------------------------------
 // Helpers
 // ------------------------------------
+const APIError = (details) => {
+  this.name = 'APIError'
+  this.details = details
+  this.stack = (new Error()).stack
+}
+APIError.prototype = Object.create(Error.prototype)
+APIError.prototype.constructor = APIError
+
 // Extract the json response. Rejects if the response is not 200
 const extractResponse = (response) => {
   if (response.status === 200) {
@@ -16,11 +24,13 @@ const extractResponse = (response) => {
   } else {
     return response.json()
     .then((error) => {
-      return Promise.reject({
-        status     : response.status,
-        statusText : response.statusText,
-        error
-      })
+      return Promise.reject(
+        new APIError({
+          status     : response.status,
+          statusText : response.statusText,
+          error
+        })
+      )
     })
   }
 }
@@ -28,7 +38,7 @@ const extractResponse = (response) => {
 // Parse an error and displays a suitible message to the user.
 const onError = (error) => {
   // TODO : Display an error message to the user
-  console.error('There was an error', error)
+  console.error('There was an error', error.details)
   return false
 }
 

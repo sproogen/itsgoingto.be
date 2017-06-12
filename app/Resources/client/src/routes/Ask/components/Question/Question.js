@@ -17,10 +17,10 @@ class Question extends React.Component {
   }
 
   handleKeyPress = (event) => {
-    event = event || window.event;
+    event = event || window.event
     const key = event.keyCode || event.charCode
 
-    switch(key) {
+    switch (key) {
       case KEY_DOWN_ARROW:
       case KEY_ENTER:
         event.preventDefault()

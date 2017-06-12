@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect'
-import { prop, adjust, nth, compose, not, equals, length, remove, isEmpty, slice, findLastIndex, when, subtract, __, gt, trim } from 'ramda'
+import { prop, adjust, nth, compose, not, equals, length, remove,
+         isEmpty, slice, findLastIndex, when, subtract, __, gt, trim } from 'ramda'
 
 // TODO : Update answers to reference by identifier and index
 
@@ -90,7 +91,11 @@ const ACTION_HANDLERS = {
   [ANSWER_ADD]           : (previousState, action) => [...previousState, ''],
   [ANSWER_UPDATE]        : (previousState, action) => adjust(() => action.text, action.index, previousState),
   [ANSWERS_UPDATE]       : (previousState, action) => action.answers,
-  [ANSWER_REMOVE]        : (previousState, action) => when(compose(not, equals(action.index), subtract(__, 1), length), remove(action.index, 1))(previousState),
+  [ANSWER_REMOVE]        : (previousState, action) =>
+    when(
+      compose(not, equals(action.index), subtract(__, 1), length),
+      remove(action.index, 1)
+    )(previousState),
   [ANSWERS_REMOVE_AFTER] : (previousState, action) => slice(0, action.index + 1, previousState),
   [ANSWERS_CLEAR]        : (previousState, action) => []
 }

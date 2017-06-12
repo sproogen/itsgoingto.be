@@ -25,7 +25,8 @@ class Ask extends React.Component {
 }
 
 Ask.propTypes = {
-  hasQuestion : PropTypes.bool.isRequired
+  hasQuestion : PropTypes.bool.isRequired,
+  clearPoll   : PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state) => ({

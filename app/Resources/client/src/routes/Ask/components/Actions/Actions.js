@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { mergeAll } from 'ramda'
 import { hasQuestionSelector } from '../../../../store/poll'
 import { canSubmitPollSelector } from '../../../../store/answers'
 import { postPoll } from '../../../../store/api'
@@ -24,17 +23,18 @@ class Actions extends React.Component {
 }
 
 Actions.propTypes = {
-  hasQuestion : PropTypes.bool.isRequired,
-  postPoll    : PropTypes.func.isRequired
+  hasQuestion   : PropTypes.bool.isRequired,
+  canSubmitPoll : PropTypes.bool.isRequired,
+  postPoll      : PropTypes.func.isRequired
 }
-
-const mapDispatchToProps = (dispatch) => ({
-  postPoll : () => dispatch(postPoll())
-})
 
 const mapStateToProps = (state) => ({
   hasQuestion   : hasQuestionSelector(state),
   canSubmitPoll : canSubmitPollSelector(state)
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  postPoll : () => dispatch(postPoll())
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Actions)

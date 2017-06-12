@@ -7,8 +7,8 @@ import './Loader.scss'
 export const Loader = ({ isLoading }) => (
   <div className={'loader-container hideable' + (isLoading ? '' : ' gone')}>
     <div className='loader'>
-      <p className="loader__label">?</p>
-      <div className="loader__figure"></div>
+      <p className='loader__label'>?</p>
+      <div className='loader__figure' />
     </div>
   </div>
 )

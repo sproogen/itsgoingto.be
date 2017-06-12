@@ -1,4 +1,4 @@
-import { prop, compose, not, equals, length, pick, omit, when } from 'ramda'
+import { prop } from 'ramda'
 
 // ------------------------------------
 // Constants

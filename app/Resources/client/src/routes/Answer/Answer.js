@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { mergeAll } from 'ramda'
 import { pollSelector, hasQuestionSelector } from '../../store/poll'
-import { answersSelector } from '../../store/answers'
 import { fetchPoll } from '../../store/api'
 import { setLoading } from '../../store/loader'
 import Sharing from './components/Sharing/Sharing'
@@ -32,7 +31,7 @@ class Answer extends React.Component {
       <div className='container header-container answer-header-container'>
         <div className='header center-text'>
           <h2>{ this.props.poll.question }</h2>
-          <Sharing poll={ this.props.poll } />
+          <Sharing poll={this.props.poll} />
         </div>
       </div>
       <Answers />
@@ -42,13 +41,15 @@ class Answer extends React.Component {
 
 Answer.propTypes = {
   identifier : PropTypes.string.isRequired,
-  poll       : PropTypes.object.isRequired
+  poll       : PropTypes.object.isRequired,
+  hasPoll    : PropTypes.bool.isRequired,
+  fetchPoll  : PropTypes.func.isRequired,
+  setLoading : PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state, props) => ({
   poll    : pollSelector(state, props.params.identifier),
   hasPoll : hasQuestionSelector(state, props.params.identifier),
-  answers : answersSelector(state, props.params.identifier)
 })
 
 const mapDispatchToProps = (dispatch) => ({

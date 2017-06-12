@@ -7,10 +7,11 @@ import './Sharing.scss'
 export const Sharing = ({ poll }) => {
   // Select the text contents from target of the given event
   const selectText = (event) => {
-    var doc = document,
-      text = event.target,
-      range,
-      selection
+    let doc = document
+    let text = event.target
+    let range
+    let selection
+
     if (doc.body.createTextRange) {
       range = document.body.createTextRange()
       range.moveToElementText(text)
@@ -41,25 +42,25 @@ export const Sharing = ({ poll }) => {
       <h3>
         <span
           className='share-link'
-          onClick={ selectText }>
+          onClick={selectText}>
           { window.location.href.replace(/(^\w+:|^)\/\//, '') }
         </span>
         <a
           className='shareButton twitter'
           target='_blank'
-          href={ twitterLink() }>
-          <i className="fa fa-twitter" />
+          href={twitterLink()}>
+          <i className='fa fa-twitter' />
         </a>
         <a
           className='shareButton facebook'
           target='_blank'
-          href={ facebookLink() }>
+          href={facebookLink()}>
           <i className='fa fa-facebook' />
         </a>
         <a
           className='shareButton email'
           target='_blank'
-          href={ emailLink() }>
+          href={emailLink()}>
           <i className='fa fa-envelope' />
         </a>
       </h3>

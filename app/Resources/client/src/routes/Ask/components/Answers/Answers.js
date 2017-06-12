@@ -12,7 +12,7 @@ export const Answers = ({ hasQuestion, answers }) => {
       {answers.map((answer, index) =>
         <Answer key={index} index={index} text={answer.answer ? answer.answer : answer} />
       )}
-      <Answer key={length(answers)} index={length(answers)} disabled={true} />
+      <Answer key={length(answers)} index={length(answers)} disabled='disabled' />
     </div>
   )
 }

@@ -1,4 +1,3 @@
-import { createSelector } from 'reselect'
 import { prop, compose, not, equals, length, omit, when, find, propEq,
          adjust, set, lensProp, findIndex, update, ifElse, path } from 'ramda'
 import { addAnswer, clearAnswers, updateAnswers } from './answers'
@@ -29,8 +28,7 @@ export const pollSelector = (state, identifier = '') =>
   when(
     equals(undefined),
     () => omit(['answers'])(initialPoll)
-  )
-  (find(propEq('identifier', identifier))(prop('poll')(state)))
+  )(find(propEq('identifier', identifier))(prop('poll')(state)))
 
 /**
  * Get the question text from a poll with the given identifier
