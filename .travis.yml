@@ -33,6 +33,7 @@ script:
   - bin/phplint src
   - bin/phpunit -c app
   - npm run lint --prefix app/Resources/client/
+  - npm run test --prefix app/Resources/client/
 
 notifications:
   email:

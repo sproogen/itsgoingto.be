@@ -1,23 +1,23 @@
 {
-  "name": "react-redux-starter-kit",
-  "version": "3.0.1",
-  "description": "Get started with React, Redux, and React-Router!",
+  "name": "itsgoingtobe-react",
+  "version": "0.0.1",
+  "description": "It's Going To Be front-end with React, Redux, and React-Router!",
   "main": "index.js",
   "scripts": {
-    "clean": "rimraf web/client/dist",
+    "clean": "rimraf ../../../web/client/dist",
     "compile": "node build/scripts/compile",
     "build": "npm run clean && cross-env NODE_ENV=production npm run compile",
     "build-dev": "npm run clean && cross-env NODE_ENV=development npm run compile",
     "start": "cross-env NODE_ENV=server node build/scripts/start",
-    "lint": "eslint .",
-    "lint:fix": "npm run lint -- --fix"
+    "test": "cross-env NODE_ENV=test karma start build/karma.config",
+    "lint": "eslint ."
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/davezuko/react-redux-starter-kit.git"
+    "url": "git+https://github.com/sproogen/itsgoingto.be"
   },
   "author": "James Grant <james@jwgmedia.co.uk> (http://jameswgrant.co.uk)",
-  "license": "MIT",
+  "license": "GPLv3",
   "dependencies": {
     "autosize": "^3.0.21",
     "compression": "^1.6.2",
@@ -93,9 +93,6 @@
     "sinon-chai": "^2.10.0",
     "style-loader": "^0.17.0",
     "url-loader": "^0.5.8",
-    "webpack": "^2.5.1",
-    "webpack-dev-middleware": "^1.8.4",
-    "webpack-hot-middleware": "^2.13.2",
-    "yargs": "^8.0.1"
+    "webpack": "^2.5.1"
   }
 }
