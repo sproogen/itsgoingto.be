@@ -59,6 +59,8 @@ export const hasQuestionSelector = (state, identifier = '') =>
  * Update the poll in the state then dispatch to update the answers
  *
  * @param  {Poll} poll The poll to add/update the state with
+ *
+ * @return {Function}
  */
 export const updatePoll = (poll) => (dispatch, getState) => {
   dispatch({
@@ -75,6 +77,8 @@ export const updatePoll = (poll) => (dispatch, getState) => {
  *
  * @param  {string} text       The question text
  * @param  {string} identifier The poll identifier to update
+ *
+ * @return {Function}
  */
 export const updateQuestion = (text = '', identifier = '') => (dispatch, getState) => {
   let hadQuestion = hasQuestionSelector(getState(), identifier)
