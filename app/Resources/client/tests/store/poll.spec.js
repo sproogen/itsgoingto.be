@@ -1,5 +1,6 @@
 import {
   POLL_UPDATE,
+  QUESTION_UPDATE,
   initialPoll,
   default as pollReducer
 } from 'store/poll'
@@ -7,6 +8,16 @@ import {
 describe('(Store) Poll', () => {
   it('Should export a constant POLL_UPDATE.', () => {
     expect(POLL_UPDATE).to.equal('POLL_UPDATE')
+  })
+  it('Should export a constant QUESTION_UPDATE.', () => {
+    expect(QUESTION_UPDATE).to.equal('QUESTION_UPDATE')
+  })
+  it('Should export a constant initialPoll.', () => {
+    expect(initialPoll).to.deep.equal({
+      question : '',
+      identifier: '',
+      answers: []
+    })
   })
 
   describe('(Reducer)', () => {
