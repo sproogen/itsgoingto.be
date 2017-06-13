@@ -1,5 +1,6 @@
 import {
   LOADING_UPDATE,
+  isLoadingSelector,
   setLoading,
   default as loaderReducer
 } from 'store/loader'
@@ -24,17 +25,20 @@ describe('(Store) Loader', () => {
       state = loaderReducer(state, { type: '@@@@@@@' })
       expect(state).to.equal(false)
 
-      const loaderState = true
-      state = loaderReducer(state, setLoading(loaderState))
-      expect(state).to.equal(loaderState)
-      expect(state).to.equal(true)
+      state = true
       state = loaderReducer(state, { type: '@@@@@@@' })
-      expect(state).to.equal(loaderState)
       expect(state).to.equal(true)
     })
   })
 
-  describe('(Action) setLoading', () => {
+  describe('(Selector) isLoadingSelector', () => {
+    it('Should return the loader value from the global state.', () => {
+      const globalState = {loader : true}
+      expect(isLoadingSelector(globalState)).to.equal(true)
+    })
+  })
+
+  describe('(Action Creator) setLoading', () => {
     it('Should be exported as a function.', () => {
       expect(setLoading).to.be.a('function')
     })
@@ -53,5 +57,14 @@ describe('(Store) Loader', () => {
     })
   })
 
-  // TODO : Test Action Handler
+  describe('(Action Handler) LOADING_UPDATE', () => {
+    it('Should update the state to the loading property', () => {
+      let state = false
+      expect(state).to.equal(false)
+      state = loaderReducer(state, {type : LOADING_UPDATE, loading : true})
+      expect(state).to.equal(true)
+      state = loaderReducer(state, {type : LOADING_UPDATE, loading : false})
+      expect(state).to.equal(false)
+    })
+  })
 })
