@@ -54,12 +54,10 @@ export const updateAnswer = (index, value = '') => (dispatch, getState) => {
   }
 }
 
-export const updateAnswers = (answers) => (dispatch, getState) => {
-  dispatch({
-    type  : ANSWERS_UPDATE,
-    answers
-  })
-}
+export const updateAnswers = (answers) => ({
+  type  : ANSWERS_UPDATE,
+  answers
+})
 
 export const removeAnswer = (index) => ({
   type  : ANSWER_REMOVE,

@@ -6,8 +6,11 @@ import {
   pollSelector,
   questionSelector,
   hasQuestionSelector,
+  updatePoll,
+  updateQuestion,
   default as pollReducer
 } from 'store/poll'
+import { addAnswer, updateAnswers, clearAnswers } from 'store/answers'
 
 describe('(Store) Poll', () => {
   it('Should export a constant POLL_UPDATE.', () => {
@@ -88,7 +91,131 @@ describe('(Store) Poll', () => {
     })
   })
 
-  // TODO : Test Action Creators
+  describe('(Action Creator) updatePoll', () => {
+    let _globalState
+    let _dispatchSpy
+    let _getStateSpy
+
+    beforeEach(() => {
+      _globalState = {
+        poll : pollReducer(undefined, {})
+      }
+      _dispatchSpy = sinon.spy((action) => {
+        _globalState = {
+          ..._globalState,
+          poll : pollReducer(_globalState.poll, action)
+        }
+      })
+      _getStateSpy = sinon.spy(() => {
+        return _globalState
+      })
+    })
+
+    it('Should be exported as a function.', () => {
+      expect(updatePoll).to.be.a('function')
+    })
+
+    it('Should return a function (is a thunk).', () => {
+      expect(updatePoll(initialPoll)).to.be.a('function')
+    })
+
+    it('Should return a promise from that thunk that gets fulfilled.', () => {
+      return updatePoll(initialPoll)(_dispatchSpy, _getStateSpy).should.eventually.be.fulfilled
+    })
+
+    it('Should call dispatch exactly twice.', () => {
+      return updatePoll(initialPoll)(_dispatchSpy, _getStateSpy)
+        .then(() => {
+          _dispatchSpy.should.have.been.calledTwice()
+        })
+    })
+
+    it('Should dispatch POLL_UPDATE with data omitting answers and responses.', () => {
+      return updatePoll({ question : '', identifier : '', answers: [], responses: 5})(_dispatchSpy, _getStateSpy)
+        .then(() => {
+          _dispatchSpy.should.have.been.calledWith({
+            type : POLL_UPDATE,
+            poll : { question : '', identifier : ''}
+          })
+        })
+    })
+
+    it('Should dispatch updateAnswers with answers.', () => {
+      return updatePoll({ question : '', identifier : '', answers: []})(_dispatchSpy, _getStateSpy)
+        .then(() => {
+          _dispatchSpy.should.have.been.calledWith(updateAnswers([]))
+        })
+    })
+  })
+
+  describe('(Action Creator) updateQuestion', () => {
+    let _globalState
+    let _dispatchSpy
+    let _getStateSpy
+
+    beforeEach(() => {
+      _globalState = {
+        poll : pollReducer(undefined, {})
+      }
+      _dispatchSpy = sinon.spy((action) => {
+        _globalState = {
+          ..._globalState,
+          poll : pollReducer(_globalState.poll, action)
+        }
+      })
+      _getStateSpy = sinon.spy(() => {
+        return _globalState
+      })
+    })
+
+    it('Should be exported as a function.', () => {
+      expect(updateQuestion).to.be.a('function')
+    })
+
+    it('Should return a function (is a thunk).', () => {
+      expect(updateQuestion()).to.be.a('function')
+    })
+
+    it('Should return a promise from that thunk that gets fulfilled.', () => {
+      return updateQuestion()(_dispatchSpy, _getStateSpy).should.eventually.be.fulfilled
+    })
+
+    it('Should call dispatch exactly once and get state twice.', () => {
+      return updateQuestion()(_dispatchSpy, _getStateSpy)
+        .then(() => {
+          _dispatchSpy.should.have.been.calledOnce()
+          _getStateSpy.should.have.been.calledTwice()
+        })
+    })
+
+    it('Should call dispatch with QUESTION_UPDATE.', () => {
+      return updateQuestion('Question Text', 'hf0sd8fhoas')(_dispatchSpy, _getStateSpy)
+        .then(() => {
+          _dispatchSpy.should.have.been.calledWith({
+            type       : QUESTION_UPDATE,
+            question   : 'Question Text',
+            identifier : 'hf0sd8fhoas'
+          })
+        })
+    })
+
+    it('Should dispatch addAnswer() if now has question.', () => {
+      return updateQuestion('Question Text', '')(_dispatchSpy, _getStateSpy)
+        .then(() => {
+          _dispatchSpy.should.have.been.calledWith(addAnswer())
+        })
+    })
+
+    it('Should dispatch clearAnswers() if now doesn\'t have question.', () => {
+      _globalState = {
+        poll : [{question : 'Question Text', identifier : 'hf0sd8fhoas'}]
+      }
+      return updateQuestion('', 'hf0sd8fhoas')(_dispatchSpy, _getStateSpy)
+        .then(() => {
+          _dispatchSpy.should.have.been.calledWith(clearAnswers())
+        })
+    })
+  })
 
   describe('(Action Handler) POLL_UPDATE', () => {
     it('Should update the poll with identifier', () => {

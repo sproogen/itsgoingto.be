@@ -69,6 +69,8 @@ export const updatePoll = (poll) => (dispatch, getState) => {
   })
 
   dispatch(updateAnswers(prop('answers')(poll)))
+
+  return Promise.resolve()
 }
 
 /**
@@ -94,6 +96,8 @@ export const updateQuestion = (text = '', identifier = '') => (dispatch, getStat
   } else if (hadQuestion && !hasQuestion) {
     dispatch(clearAnswers())
   }
+
+  return Promise.resolve()
 }
 
 export const actions = {
