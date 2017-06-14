@@ -5,6 +5,17 @@ import {
   ANSWER_REMOVE,
   ANSWERS_REMOVE_AFTER,
   ANSWERS_CLEAR,
+  answersSelector,
+  maxAnswerSelector,
+  answerSelector,
+  hasAnswerSelector,
+  canSubmitPollSelector,
+  addAnswer,
+  updateAnswer,
+  updateAnswers,
+  removeAnswer,
+  removeAfterAnswer,
+  clearAnswers,
   default as answersReducer
 } from 'store/answers'
 
@@ -47,5 +58,89 @@ describe('(Store) Answers', () => {
       state = answersReducer(state, { type: '@@@@@@@' })
       expect(state).to.deep.equal([{}])
     })
+  })
+
+  describe('(Selector) answersSelector', () => {
+    it('Should be exported as a function.', () => {
+      expect(answersSelector).to.be.a('function')
+    })
+  })
+
+  describe('(Selector) maxAnswerSelector', () => {
+    it('Should be exported as a function.', () => {
+      expect(maxAnswerSelector).to.be.a('function')
+    })
+  })
+
+  describe('(Selector) answerSelector', () => {
+    it('Should be exported as a function.', () => {
+      expect(answerSelector).to.be.a('function')
+    })
+  })
+
+  describe('(Selector) hasAnswerSelector', () => {
+    it('Should be exported as a function.', () => {
+      expect(hasAnswerSelector).to.be.a('function')
+    })
+  })
+
+  describe('(Selector) canSubmitPollSelector', () => {
+    it('Should be exported as a function.', () => {
+      expect(canSubmitPollSelector).to.be.a('function')
+    })
+  })
+
+  describe('(Action Creator) addAnswer', () => {
+    it('Should be exported as a function.', () => {
+      expect(addAnswer).to.be.a('function')
+    })
+  })
+
+  describe('(Action Creator) updateAnswer', () => {
+    it('Should be exported as a function.', () => {
+      expect(updateAnswer).to.be.a('function')
+    })
+  })
+
+  describe('(Action Creator) updateAnswers', () => {
+    it('Should be exported as a function.', () => {
+      expect(updateAnswers).to.be.a('function')
+    })
+  })
+
+  describe('(Action Creator) removeAnswer', () => {
+    it('Should be exported as a function.', () => {
+      expect(removeAnswer).to.be.a('function')
+    })
+  })
+
+  describe('(Action Creator) removeAfterAnswer', () => {
+    it('Should be exported as a function.', () => {
+      expect(removeAfterAnswer).to.be.a('function')
+    })
+  })
+
+  describe('(Action Creator) clearAnswers', () => {
+    it('Should be exported as a function.', () => {
+      expect(clearAnswers).to.be.a('function')
+    })
+  })
+
+  describe('(Action Handler) ANSWER_ADD', () => {
+  })
+
+  describe('(Action Handler) ANSWER_UPDATE', () => {
+  })
+
+  describe('(Action Handler) ANSWERS_UPDATE', () => {
+  })
+
+  describe('(Action Handler) ANSWER_REMOVE', () => {
+  })
+
+  describe('(Action Handler) ANSWERS_REMOVE_AFTER', () => {
+  })
+
+  describe('(Action Handler) ANSWERS_CLEAR', () => {
   })
 })

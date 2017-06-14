@@ -26,4 +26,25 @@ describe('(Store) createStore', () => {
       expect(store.getState().location).to.deep.equal(location)
     })
   })
+
+  describe('(Loader)', () => {
+    it('store should be initialized with Loader state', () => {
+      const loader = false
+      expect(store.getState().loader).to.deep.equal(loader)
+    })
+  })
+
+  describe('(Poll)', () => {
+    it('store should be initialized with Poll state', () => {
+      const poll = []
+      expect(store.getState().poll).to.deep.equal(poll)
+    })
+  })
+
+  describe('(Answers)', () => {
+    it('store should be initialized with Answers state', () => {
+      const answers = []
+      expect(store.getState().answers).to.deep.equal(answers)
+    })
+  })
 })

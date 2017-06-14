@@ -56,6 +56,10 @@ describe('(Store) Poll', () => {
   }
 
   describe('(Selector) pollSelector', () => {
+    it('Should be exported as a function.', () => {
+      expect(pollSelector).to.be.a('function')
+    })
+
     it('Should return a poll with an identifier from the state global state.', () => {
       expect(pollSelector(globalState, 'hf0sd8fhoas')).to.deep.equal({
         question   : 'Question',
@@ -76,6 +80,10 @@ describe('(Store) Poll', () => {
   })
 
   describe('(Selector) questionSelector', () => {
+    it('Should be exported as a function.', () => {
+      expect(questionSelector).to.be.a('function')
+    })
+
     it('Should return the question text from a poll with an identifier in the state global state.', () => {
       expect(questionSelector(globalState, 'hf0sd8fhoas')).to.equal('Question')
     })
