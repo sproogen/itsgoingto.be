@@ -4,7 +4,7 @@ import {
   onError,
 } from 'store/api'
 
-describe('(Store) Poll', () => {
+describe('(Store) API', () => {
   it('Should export a constant ROUTE_QUESTION.', () => {
     expect(ROUTE_QUESTION).to.equal('/api/questions')
   })
