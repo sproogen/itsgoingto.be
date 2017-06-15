@@ -133,7 +133,7 @@ describe('(Store) Poll', () => {
 
     it('Should call dispatch exactly twice.', () => {
       return updatePoll(initialPoll)(_dispatchSpy, _getStateSpy)
-        .then(() => {
+        .then((response) => {
           _dispatchSpy.should.have.been.calledTwice()
         })
     })

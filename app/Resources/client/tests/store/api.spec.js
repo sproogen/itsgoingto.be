@@ -5,7 +5,6 @@ import {
   postPoll,
   fetchPoll
 } from 'store/api'
-//import { updatePoll } from 'store/poll'
 import * as poll from 'store/poll';
 
 const jsonOk = (body) => {
@@ -50,22 +49,18 @@ describe('(Store) API', () => {
     let _globalState
     let _dispatchSpy
     let _getStateSpy
-    let _updatePoll
 
     beforeEach(function() {
       sinon.stub(window, 'fetch')
       window.fetch.returns(jsonOk({}))
-
-      _updatePoll = sinon.stub(poll, 'updatePoll')
-      _updatePoll.returns({})
 
       _globalState = {
         poll    : [{question : 'Question', identifier : ''}],
         answers : ['Answer']
       }
       _dispatchSpy = sinon.spy((action) => {
-        _globalState = {
-          ..._globalState
+        if (typeof action === "function") {
+          return action(_dispatchSpy, _getStateSpy)
         }
       })
       _getStateSpy = sinon.spy(() => {
@@ -75,7 +70,6 @@ describe('(Store) API', () => {
 
     afterEach(() => {
       window.fetch.restore()
-      _updatePoll.restore()
     })
 
     describe('(Action Creator) postPoll', () => {
@@ -98,6 +92,13 @@ describe('(Store) API', () => {
         })
       })
 
+      it('Should return a promise with the response.', () => {
+        window.fetch.returns(jsonOk({question : 'Question', identifier: 'hf0sd8fhoas'}))
+        return fetchPoll('hf0sd8fhoas')(_dispatchSpy, _getStateSpy).then((response) => {
+          expect(response).to.deep.equal({question : 'Question', identifier: 'hf0sd8fhoas'})
+        })
+      })
+
       it('Should catch error.', () => {
         window.fetch.returns(jsonError(404, {message: 'There was an error'}))
         return postPoll()(_dispatchSpy, _getStateSpy).then((response) => {
@@ -107,11 +108,16 @@ describe('(Store) API', () => {
 
       it('Should dispatch updatePoll().', () => {
         window.fetch.returns(jsonOk({question : 'Question', identifier: 'hf0sd8fhoas'}))
+        let _updatePoll = sinon.stub(poll, 'updatePoll')
+        _updatePoll.returns({})
+
         return postPoll()(_dispatchSpy, _getStateSpy).then((response) => {
           _updatePoll.should.have.been.calledOnce()
           _updatePoll.should.have.been.calledWith({question : 'Question', identifier: 'hf0sd8fhoas'})
           _dispatchSpy.should.have.been.calledOnce()
           _dispatchSpy.should.have.been.calledWith(_updatePoll({question : 'Question', identifier: 'hf0sd8fhoas'}))
+
+          _updatePoll.restore()
         })
       })
     })
@@ -152,11 +158,16 @@ describe('(Store) API', () => {
 
       it('Should dispatch updatePoll().', () => {
         window.fetch.returns(jsonOk({question : 'Question', identifier: 'hf0sd8fhoas'}))
+        let _updatePoll = sinon.stub(poll, 'updatePoll')
+        _updatePoll.returns({})
+
         return fetchPoll('hf0sd8fhoas')(_dispatchSpy, _getStateSpy).then((response) => {
           _updatePoll.should.have.been.calledOnce()
           _updatePoll.should.have.been.calledWith({question : 'Question', identifier: 'hf0sd8fhoas'})
           _dispatchSpy.should.have.been.calledOnce()
           _dispatchSpy.should.have.been.calledWith(_updatePoll({question : 'Question', identifier: 'hf0sd8fhoas'}))
+
+          _updatePoll.restore()
         })
       })
     })

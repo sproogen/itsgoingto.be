@@ -64,7 +64,6 @@ export const fetchPoll = (identifier) => (dispatch, getState) =>
   fetch(ROUTE_QUESTION + '/' + identifier)
   .then(extractResponse)
   .then((response) => {
-    dispatch(updatePoll(response))
-    return response
+    return dispatch(updatePoll(response))
   })
   .catch(onError)

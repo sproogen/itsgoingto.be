@@ -63,14 +63,13 @@ export const hasQuestionSelector = (state, identifier = '') =>
  * @return {Function}
  */
 export const updatePoll = (poll) => (dispatch, getState) => {
-  dispatch({
-    type : POLL_UPDATE,
-    poll : omit(['answers', 'responses'])(poll)
-  })
-
-  dispatch(updateAnswers(prop('answers')(poll)))
-
-  return poll
+  return Promise.all([
+    dispatch({
+      type : POLL_UPDATE,
+      poll : omit(['answers', 'responses'])(poll)
+    }),
+    dispatch(updateAnswers(prop('answers')(poll)))
+  ]).then(() => poll)
 }
 
 /**
