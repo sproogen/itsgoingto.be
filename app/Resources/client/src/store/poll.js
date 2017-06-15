@@ -70,7 +70,7 @@ export const updatePoll = (poll) => (dispatch, getState) => {
 
   dispatch(updateAnswers(prop('answers')(poll)))
 
-  return Promise.resolve()
+  return poll
 }
 
 /**
