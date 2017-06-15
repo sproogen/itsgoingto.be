@@ -54,10 +54,7 @@ export const postPoll = () => (dispatch, getState) =>
     })
   })
   .then(extractResponse)
-  .then((response) => {
-    dispatch(updatePoll(response))
-    return response
-  })
+  .then((response) => dispatch(updatePoll(response)))
   .catch(onError)
 
 export const fetchPoll = (identifier) => (dispatch, getState) =>
