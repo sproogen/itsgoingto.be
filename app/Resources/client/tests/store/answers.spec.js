@@ -166,20 +166,78 @@ describe('(Store) Answers', () => {
   })
 
   describe('(Action Handler) ANSWER_ADD', () => {
+    let _state = ['Answer 1', 'Answer 2']
+
+    it('Should add a blank answer to state.', () => {
+      _state = answersReducer(_state, { type : ANSWER_ADD })
+      expect(_state).to.deep.equal(['Answer 1', 'Answer 2', ''])
+    })
   })
 
   describe('(Action Handler) ANSWER_UPDATE', () => {
+    let _state = ['Answer 1', 'Answer 2']
+
+    it('Should update the ansers in the state and the index.', () => {
+      _state = answersReducer(_state, { type : ANSWER_UPDATE, text : 'Answer 2 Updated', index : 1})
+      expect(_state).to.deep.equal(['Answer 1', 'Answer 2 Updated'])
+
+      _state = answersReducer(_state, { type : ANSWER_UPDATE, text : 'Answer 1 Updated', index : 0})
+      expect(_state).to.deep.equal(['Answer 1 Updated', 'Answer 2 Updated'])
+    })
   })
 
   describe('(Action Handler) ANSWERS_UPDATE', () => {
+    let _state = ['Answer 1', 'Answer 2']
+
+    it('Should update the state to be the given answers.', () => {
+      _state = answersReducer(_state, { type : ANSWERS_UPDATE, answers : ['Answer 3', 'Answer 4']})
+      expect(_state).to.deep.equal(['Answer 3', 'Answer 4'])
+
+      _state = answersReducer(_state, { type : ANSWERS_UPDATE, answers : ['Answer 5', 'Answer 6']})
+      expect(_state).to.deep.equal(['Answer 5', 'Answer 6'])
+    })
   })
 
   describe('(Action Handler) ANSWER_REMOVE', () => {
+    it('Should remove the answer at the index from the state.', () => {
+      let _state = ['Answer 1', 'Answer 2', 'Answer 3', 'Answer 4', 'Answer 5']
+
+      _state = answersReducer(_state, { type : ANSWER_REMOVE, index : 2})
+      expect(_state).to.deep.equal(['Answer 1', 'Answer 2', 'Answer 4', 'Answer 5'])
+
+      _state = answersReducer(_state, { type : ANSWER_REMOVE, index : 1})
+      expect(_state).to.deep.equal(['Answer 1', 'Answer 4', 'Answer 5'])
+    })
+
+    it('Should not remove the last answer from the state.', () => {
+      let _state = ['Answer 1', 'Answer 2', 'Answer 3', 'Answer 4', 'Answer 5']
+
+      _state = answersReducer(_state, { type : ANSWER_REMOVE, index : 4})
+      expect(_state).to.deep.equal(['Answer 1', 'Answer 2', 'Answer 3', 'Answer 4', 'Answer 5'])
+    })
   })
 
   describe('(Action Handler) ANSWERS_REMOVE_AFTER', () => {
+    let _state = ['Answer 1', 'Answer 2', 'Answer 3', 'Answer 4', 'Answer 5']
+
+    it('Should remove all the answers from the state after the index.', () => {
+      _state = answersReducer(_state, { type : ANSWERS_REMOVE_AFTER, index : 2})
+      expect(_state).to.deep.equal(['Answer 1', 'Answer 2', 'Answer 3'])
+
+      _state = answersReducer(_state, { type : ANSWERS_REMOVE_AFTER, index : 1})
+      expect(_state).to.deep.equal(['Answer 1', 'Answer 2'])
+    })
   })
 
   describe('(Action Handler) ANSWERS_CLEAR', () => {
+    let _state = ['Answer 1', 'Answer 2']
+
+    it('Should clear all the answers in the state.', () => {
+      _state = answersReducer(_state, { type : ANSWERS_CLEAR})
+      expect(_state).to.deep.equal([])
+
+      _state = answersReducer(_state, { type : ANSWERS_CLEAR})
+      expect(_state).to.deep.equal([])
+    })
   })
 })
