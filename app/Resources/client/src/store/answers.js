@@ -53,6 +53,8 @@ export const updateAnswer = (index, value = '') => (dispatch, getState) => {
   } else if (hadAnswer && !hasAnswer) {
     dispatch(removeAfterAnswer(maxAnswerSelector(getState()) + 1))
   }
+
+  return Promise.resolve()
 }
 
 export const updateAnswers = (answers) => ({
@@ -62,12 +64,12 @@ export const updateAnswers = (answers) => ({
 
 export const removeAnswer = (index) => ({
   type  : ANSWER_REMOVE,
-  index : index
+  index
 })
 
 export const removeAfterAnswer = (index) => ({
   type  : ANSWERS_REMOVE_AFTER,
-  index : index
+  index
 })
 
 export const clearAnswers = () => ({
