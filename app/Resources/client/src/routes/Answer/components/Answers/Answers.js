@@ -10,7 +10,7 @@ class Answers extends React.Component {
     <div className='container answer-container'>
       <div className='options'>
         {this.props.answers.map((answer, index) =>
-          <Answer key={index} index={index} text={answer.answer} />
+          <Answer key={index} index={index} text={answer.answer} id={answer.id} />
         )}
       </div>
     </div>

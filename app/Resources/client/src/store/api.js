@@ -5,14 +5,14 @@ import { answersSelector } from './answers'
 // Constants
 // ------------------------------------
 export const ROUTE_QUESTION = '/api/questions'
+export const ROUTE_RESPONSES = '/responses'
 
 // ------------------------------------
 // Helpers
 // ------------------------------------
-export const APIError = (details) => {
+function APIError(details) {
   this.name = 'APIError'
   this.details = details
-  this.stack = (new Error()).stack
 }
 APIError.prototype = Object.create(Error.prototype)
 APIError.prototype.constructor = APIError
@@ -38,7 +38,7 @@ export const extractResponse = (response) => {
 // Parse an error and displays a suitible message to the user.
 export const onError = (error) => {
   // TODO : Display an error message to the user
-  console.error('There was an error', error.details)
+  console.error('There was an error', error)
   return false
 }
 
@@ -47,10 +47,11 @@ export const onError = (error) => {
 // ------------------------------------
 export const postPoll = () => (dispatch, getState) =>
   fetch(ROUTE_QUESTION, {
-    method: 'POST',
-    body: JSON.stringify({
-      question: questionSelector(getState()),
-      answers: answersSelector(getState()),
+    credentials : 'same-origin',
+    method      : 'POST',
+    body        : JSON.stringify({
+      question : questionSelector(getState()),
+      answers  : answersSelector(getState())
     })
   })
   .then(extractResponse)
@@ -58,9 +59,27 @@ export const postPoll = () => (dispatch, getState) =>
   .catch(onError)
 
 export const fetchPoll = (identifier) => (dispatch, getState) =>
-  fetch(ROUTE_QUESTION + '/' + identifier)
+  fetch(ROUTE_QUESTION + '/' + identifier, {
+    credentials : 'same-origin'
+  })
   .then(extractResponse)
   .then((response) => {
     return dispatch(updatePoll(response))
+  })
+  .catch(onError)
+
+// TODO : Test this.
+export const postResponse = (answer, identifier) => (dispatch, getState) =>
+  fetch(ROUTE_QUESTION + '/' + identifier + ROUTE_RESPONSES, {
+    credentials : 'same-origin',
+    method      : 'POST',
+    body        : JSON.stringify({
+      answers : [answer]
+    })
+  })
+  .then(extractResponse)
+  .then((response) => {
+    console.log(response)
+    // TODO : Update responses in state.
   })
   .catch(onError)

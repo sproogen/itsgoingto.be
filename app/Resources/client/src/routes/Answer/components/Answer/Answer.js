@@ -1,5 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { withRouter } from 'react-router'
+import { mergeAll } from 'ramda'
+import { postResponse } from 'store/api'
 import './Answer.scss'
 
 export class Answer extends React.Component {
@@ -11,6 +15,7 @@ export class Answer extends React.Component {
   handleClick = () => {
     this.setState({ animating: true })
     setTimeout(() => { this.setState({ animating: false }) }, 550)
+    this.props.postResponse()
   }
 
   render = () => (
@@ -36,8 +41,14 @@ export class Answer extends React.Component {
 }
 
 Answer.propTypes = {
-  index : PropTypes.number.isRequired,
-  text  : PropTypes.string.isRequired
+  id           : PropTypes.number.isRequired,
+  index        : PropTypes.number.isRequired,
+  text         : PropTypes.string.isRequired,
+  postResponse : PropTypes.func.isRequired
 }
 
-export default Answer
+const mapDispatchToProps = (dispatch, props) => ({
+  postResponse : () => dispatch(postResponse(props.id, props.params.identifier))
+})
+
+export default withRouter(connect(null, mapDispatchToProps)(Answer))

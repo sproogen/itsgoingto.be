@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect'
-import { prop, adjust, nth, compose, not, equals, length, remove,
-         isEmpty, slice, findLastIndex, when, subtract, __, gt, trim } from 'ramda'
+import { prop, adjust, nth, compose, not, equals, length, remove, omit,
+         isEmpty, slice, findLastIndex, when, subtract, __, gt, trim, map } from 'ramda'
 
 // TODO : Update answers to reference by identifier and index
 // TODO : Add comments
@@ -58,8 +58,8 @@ export const updateAnswer = (index, value = '') => (dispatch, getState) => {
 }
 
 export const updateAnswers = (answers) => ({
-  type  : ANSWERS_UPDATE,
-  answers
+  type    : ANSWERS_UPDATE,
+  answers : map(omit(['question']))(answers)
 })
 
 export const removeAnswer = (index) => ({
