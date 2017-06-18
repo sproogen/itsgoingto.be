@@ -2,8 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import './Answer.scss'
 
-// TODO : Clicky anomation on checkbox
-
 export class Answer extends React.Component {
   constructor (props) {
     super(props)
