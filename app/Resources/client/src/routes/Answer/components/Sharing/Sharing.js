@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { pollSelector } from '../../../../store/poll'
+import { pollSelector } from 'store/poll'
 import './Sharing.scss'
 
 export const Sharing = ({ poll }) => {

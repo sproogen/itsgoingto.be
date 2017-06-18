@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Footer from '../../components/Footer/Footer'
-import Loader from '../../components/Loader/Loader'
+import Footer from 'components/Footer/Footer'
+import Loader from 'components/Loader/Loader'
 import './PageLayout.scss'
 
 export const PageLayout = ({ children }) => (

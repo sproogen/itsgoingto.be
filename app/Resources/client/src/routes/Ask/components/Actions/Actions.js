@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { hasQuestionSelector } from '../../../../store/poll'
-import { canSubmitPollSelector } from '../../../../store/answers'
-import { postPoll } from '../../../../store/api'
+import { hasQuestionSelector } from 'store/poll'
+import { canSubmitPollSelector } from 'store/answers'
+import { postPoll } from 'store/api'
 import { browserHistory } from 'react-router'
-import Button from '../../../../components/Button/Button'
+import Button from 'components/Button/Button'
 
 class Actions extends React.Component {
   submit = () => this.props.postPoll()
