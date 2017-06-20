@@ -39,7 +39,7 @@ export class Answer extends React.Component {
         onClick={this.handleClick}>
         { this.props.answer.answer }
       </label>
-      <span htmlFor={'answer-' + this.props.index} className='input-label-votes'>0 votes</span>
+      <span htmlFor={'answer-' + this.props.index} className='input-label-votes'>{this.props.answer.responsesCount} votes</span>
     </span>
   )
 }

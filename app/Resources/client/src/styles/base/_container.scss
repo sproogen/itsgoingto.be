@@ -4,6 +4,7 @@
   padding-left:  floor(($gutter-width / 2));
   padding-right: ceil(($gutter-width / 2));
   position: relative;
+  width: 100%;
   @include clearfix;
 
   @media (min-width: $screen-sm-min) {
