@@ -1,5 +1,5 @@
 import { prop, compose, not, equals, length, omit, when, find, propEq,
-         adjust, set, lensProp, findIndex, update, ifElse, path } from 'ramda'
+         adjust, set, lensProp, findIndex, update, ifElse, path, isNil, isEmpty } from 'ramda'
 import { addAnswer, clearAnswers, updateAnswers } from './answers'
 
 // ------------------------------------
@@ -39,7 +39,7 @@ export const pollSelector = (state, identifier = '') =>
  * @return {string}            The question text for the poll
  */
 export const questionSelector = (state, identifier = '') =>
-  prop('question')(pollSelector(state, identifier))
+  compose(prop('question'), pollSelector)(state, identifier)
 
 /**
  * Returns true if the poll for the identifier has any question text
@@ -50,7 +50,33 @@ export const questionSelector = (state, identifier = '') =>
  * @return {bool}
  */
 export const hasQuestionSelector = (state, identifier = '') =>
-  compose(not, equals(0), length)(questionSelector(state, identifier))
+  compose(not, equals(0), length, questionSelector)(state, identifier)
+
+/**
+ * Returns the total number of responses from the poll with the given identifier
+ *
+ * @param  {State}  state      App state
+ * @param  {string} identifier Poll identifier
+ *
+ * @return {number}
+ */
+export const totalResponsesSelector = (state, identifier = '') =>
+  compose(
+    when(isNil, () => 0),
+    prop('responsesCount'),
+    pollSelector
+  )(state, identifier)
+
+/**
+ * Returns true if the user has responded to the poll
+ *
+ * @param  {State}  state      App state
+ * @param  {string} identifier Poll identifier
+ *
+ * @return {bool}
+ */
+export const userRespondedSelector = (state, identifier = '') =>
+  compose(not, isEmpty, prop('responses'), pollSelector)(state, identifier)
 
 // ------------------------------------
 // Actions
@@ -66,7 +92,7 @@ export const updatePoll = (poll) => (dispatch, getState) => {
   return Promise.all([
     dispatch({
       type : POLL_UPDATE,
-      poll : omit(['answers', 'responses'])(poll)
+      poll : omit(['answers'])(poll)
     }),
     dispatch(updateAnswers(prop('answers')(poll)))
   ]).then(() => poll)

@@ -172,10 +172,12 @@ class ApiController extends Controller
             }
 
             // TODO : Test the following
-            $extractedQuestion['responses'] = null;
+            $extractedQuestion['responses'] = [];
             if (!$question->isMultipleChoice()) {
                 $userResponse = $this->getResponseForUser($question, null, $request);
-                $extractedQuestion['responses'][] = $userResponse ? $userResponse->getAnswer()->getId() : null;
+                if ($userResponse) {
+                    $extractedQuestion['responses'][] = $userResponse->getAnswer()->getId();
+                }
             } else {
                 $userResponses = $this->getResponsesForUser($question, $request);
                 if ($userResponses) {

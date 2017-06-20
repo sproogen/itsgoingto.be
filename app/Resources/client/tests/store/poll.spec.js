@@ -6,6 +6,8 @@ import {
   pollSelector,
   questionSelector,
   hasQuestionSelector,
+  totalResponsesSelector,
+  userRespondedSelector,
   updatePoll,
   updateQuestion,
   default as pollReducer
@@ -50,8 +52,9 @@ describe('(Store) Poll', () => {
 
   const _globalState = {
     poll: [{
-      question   : 'Question',
-      identifier : 'hf0sd8fhoas'
+      question       : 'Question',
+      identifier     : 'hf0sd8fhoas',
+      responsesCount : [245]
     }]
   }
 
@@ -62,8 +65,9 @@ describe('(Store) Poll', () => {
 
     it('Should return a poll with an identifier from the state global state.', () => {
       expect(pollSelector(_globalState, 'hf0sd8fhoas')).to.deep.equal({
-        question   : 'Question',
-        identifier : 'hf0sd8fhoas'
+        question       : 'Question',
+        identifier     : 'hf0sd8fhoas',
+        responsesCount : [245]
       })
     })
 
@@ -96,6 +100,54 @@ describe('(Store) Poll', () => {
 
     it('Should return false if no question text from a poll with an identifier in the state global state.', () => {
       expect(hasQuestionSelector(_globalState, '')).to.equal(false)
+    })
+  })
+
+  describe('(Selector) totalResponsesSelector', () => {
+    it('Should be exported as a function.', () => {
+      expect(totalResponsesSelector).to.be.a('function')
+    })
+
+    it('Should return the responses count from a poll with an identifier in the state global state.', () => {
+      expect(totalResponsesSelector(_globalState, 'hf0sd8fhoas')).to.deep.equal([245])
+    })
+
+    it('Should return a default of 0 if there is no value.', () => {
+      let _globalState = {
+        poll: [{
+          question   : 'Question',
+          identifier : 'hf0sd8fhoas'
+        }]
+      }
+      expect(totalResponsesSelector(_globalState, 'hf0sd8fhoas')).to.equal(0)
+    })
+  })
+
+  describe('(Selector) userRespondedSelector', () => {
+    it('Should be exported as a function.', () => {
+      expect(userRespondedSelector).to.be.a('function')
+    })
+
+    it('Should return false if there are no response from a poll with an identifier in the state global state.', () => {
+      let _globalState = {
+        poll: [{
+          question   : 'Question',
+          identifier : 'hf0sd8fhoas',
+          responses  : []
+        }]
+      }
+      expect(userRespondedSelector(_globalState, 'hf0sd8fhoas')).to.equal(false)
+    })
+
+    it('Should return true if there are response from a poll with an identifier in the state global state.', () => {
+      let _globalState = {
+        poll: [{
+          question   : 'Question',
+          identifier : 'hf0sd8fhoas',
+          responses  : [245]
+        }]
+      }
+      expect(userRespondedSelector(_globalState, 'hf0sd8fhoas')).to.equal(true)
     })
   })
 
@@ -138,12 +190,12 @@ describe('(Store) Poll', () => {
         })
     })
 
-    it('Should dispatch POLL_UPDATE with data omitting answers and responses.', () => {
-      return updatePoll({ question : '', identifier : '', answers: [], responses: 5})(_dispatchSpy, _getStateSpy)
+    it('Should dispatch POLL_UPDATE with data omitting answers.', () => {
+      return updatePoll({ question : '', identifier : '', answers: [], responses: [245]})(_dispatchSpy, _getStateSpy)
         .then(() => {
           _dispatchSpy.should.have.been.calledWith({
             type : POLL_UPDATE,
-            poll : { question : '', identifier : ''}
+            poll : { question : '', identifier : '', responses: [245] }
           })
         })
     })

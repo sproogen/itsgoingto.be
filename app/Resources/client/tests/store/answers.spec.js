@@ -222,6 +222,7 @@ describe('(Store) Answers', () => {
 
     it('Should assign the argument to the "answers" property.', () => {
       const answers = ['Answer 1', 'Answer 2']
+      console.log(updateAnswers(answers))
       expect(updateAnswers(answers)).to.have.property('answers', answers)
     })
   })

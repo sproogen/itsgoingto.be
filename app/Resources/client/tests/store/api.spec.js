@@ -1,9 +1,11 @@
 import {
   ROUTE_QUESTION,
+  ROUTE_RESPONSES,
   extractResponse,
   onError,
   postPoll,
-  fetchPoll
+  fetchPoll,
+  postResponse
 } from 'store/api'
 import * as poll from 'store/poll';
 
@@ -30,6 +32,10 @@ const jsonError = (status, body) => {
 describe('(Store) API', () => {
   it('Should export a constant ROUTE_QUESTION.', () => {
     expect(ROUTE_QUESTION).to.equal('/api/questions')
+  })
+
+  it('Should export a constant ROUTE_RESPONSES.', () => {
+    expect(ROUTE_RESPONSES).to.equal('/responses')
   })
 
   describe('(Helper) extractResponse', () => {
@@ -88,7 +94,7 @@ describe('(Store) API', () => {
       it('Should call fetch with the correct url and data.', () => {
         return postPoll()(_dispatchSpy, _getStateSpy).then(() => {
           window.fetch.should.have.been.calledOnce()
-          window.fetch.should.have.been.calledWith(ROUTE_QUESTION, {method : 'POST', body : '{"question":"Question","answers":["Answer"]}'})
+          window.fetch.should.have.been.calledWith(ROUTE_QUESTION, {method : 'POST', credentials : 'same-origin', body : '{"question":"Question","answers":["Answer"]}'})
         })
       })
 
@@ -138,7 +144,7 @@ describe('(Store) API', () => {
       it('Should call fetch with the correct url.', () => {
         return fetchPoll('hf0sd8fhoas')(_dispatchSpy, _getStateSpy).then(() => {
           window.fetch.should.have.been.calledOnce()
-          window.fetch.should.have.been.calledWith(ROUTE_QUESTION + '/hf0sd8fhoas')
+          window.fetch.should.have.been.calledWith(ROUTE_QUESTION + '/hf0sd8fhoas', { credentials : 'same-origin' })
         })
       })
 
@@ -168,6 +174,43 @@ describe('(Store) API', () => {
           _dispatchSpy.should.have.been.calledWith(_updatePoll({question : 'Question', identifier: 'hf0sd8fhoas'}))
 
           _updatePoll.restore()
+        })
+      })
+    })
+
+    describe('(Action Creator) postResponse', () => {
+      it('Should be exported as a function.', () => {
+        expect(postResponse).to.be.a('function')
+      })
+
+      it('Should return a function (is a thunk).', () => {
+        expect(postResponse()).to.be.a('function')
+      })
+
+      it('Should return a promise from that thunk that gets fulfilled.', () => {
+        return postResponse()(_dispatchSpy, _getStateSpy).should.eventually.be.fulfilled
+      })
+
+      it('Should call fetch with the correct url and data.', () => {
+        return postResponse(434, 'hf0sd8fhoas')(_dispatchSpy, _getStateSpy).then(() => {
+          window.fetch.should.have.been.calledOnce()
+          window.fetch.should.have.been.calledWith(
+            ROUTE_QUESTION + '/hf0sd8fhoas' + ROUTE_RESPONSES,
+            {method : 'POST', credentials : 'same-origin', body : '{"answers":[434]}'})
+        })
+      })
+
+      it('Should return a promise with the response.', () => {
+        window.fetch.returns(jsonOk({}))
+        return postResponse(434, 'hf0sd8fhoas')(_dispatchSpy, _getStateSpy).then((response) => {
+          expect(response).to.deep.equal({})
+        })
+      })
+
+      it('Should catch error.', () => {
+        window.fetch.returns(jsonError(404, {message: 'There was an error'}))
+        return postResponse()(_dispatchSpy, _getStateSpy).then((response) => {
+          expect(response).to.equal(false)
         })
       })
     })

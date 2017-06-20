@@ -68,7 +68,6 @@ export const fetchPoll = (identifier) => (dispatch, getState) =>
   })
   .catch(onError)
 
-// TODO : Test this.
 export const postResponse = (answer, identifier) => (dispatch, getState) =>
   fetch(ROUTE_QUESTION + '/' + identifier + ROUTE_RESPONSES, {
     credentials : 'same-origin',
@@ -79,7 +78,7 @@ export const postResponse = (answer, identifier) => (dispatch, getState) =>
   })
   .then(extractResponse)
   .then((response) => {
-    console.log(response)
+    return response
     // TODO : Update responses in state.
   })
   .catch(onError)

@@ -18,10 +18,14 @@ export class Answer extends React.Component {
     this.props.postResponse()
   }
 
+  calculateWidth = () => {
+    return (this.props.answer.responsesCount/this.props.totalResponses) * 100 + '%'
+  }
+
   render = () => (
     <span className='input input-options'>
       <span className='result-wrapper'>
-        <span className='result' name='answer-435' />
+        <span className='result' name={'answer-' + this.props.index} style={{width: this.calculateWidth()}} />
       </span>
       <input
         id={'answer-' + this.props.index}
@@ -33,7 +37,7 @@ export class Answer extends React.Component {
         htmlFor={'answer-' + this.props.index}
         className={'input-label input-label-options' + (this.state.animating ? ' input-label-options--click' : '')}
         onClick={this.handleClick}>
-        { this.props.text }
+        { this.props.answer.answer }
       </label>
       <span htmlFor={'answer-' + this.props.index} className='input-label-votes'>0 votes</span>
     </span>
@@ -41,14 +45,14 @@ export class Answer extends React.Component {
 }
 
 Answer.propTypes = {
-  id           : PropTypes.number.isRequired,
-  index        : PropTypes.number.isRequired,
-  text         : PropTypes.string.isRequired,
-  postResponse : PropTypes.func.isRequired
+  index          : PropTypes.number.isRequired,
+  answer         : PropTypes.object.isRequired,
+  totalResponses : PropTypes.number.isRequired,
+  postResponse   : PropTypes.func.isRequired
 }
 
 const mapDispatchToProps = (dispatch, props) => ({
-  postResponse : () => dispatch(postResponse(props.id, props.params.identifier))
+  postResponse : () => dispatch(postResponse(props.answer.id, props.params.identifier))
 })
 
 export default withRouter(connect(null, mapDispatchToProps)(Answer))
