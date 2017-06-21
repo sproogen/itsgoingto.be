@@ -54,11 +54,11 @@ GET /api/questions
       },
       "answers": [
         {
-          "type": "answer",
+          "type": "Answer",
           "id": 1
         },
         {
-          "type": "answer",
+          "type": "Answer",
           "id": 2
         }
       ],
@@ -94,17 +94,27 @@ GET /api/questions/:identifier
   },
   "answers": [
     {
-      "type": "answer",
-      "id": 1
+      "id": 1,
+      "answer": "Answer Text",
+      "question": {
+        "type": "Question",
+        "id": 1
+      },
+      "responsesCount": 2
     },
     {
-      "type": "answer",
-      "id": 2
+      "id": 2,
+      "answer": "Answer Text",
+      "question": {
+        "type": "Question",
+        "id": 1
+      },
+      "responsesCount": 3
     }
   ],
   "responses" : [
     2
-  ]
+  ],
   "responsesCount": 5
 }
 ```
@@ -139,14 +149,25 @@ POST /api/questions
   },
   "answers": [
     {
-      "type": "answer",
-      "id": 1
+      "id": 1,
+      "answer": "Answer Text",
+      "question": {
+        "type": "Question",
+        "id": 1
+      },
+      "responsesCount": 0
     },
     {
-      "type": "answer",
-      "id": 2
+      "id": 2,
+      "answer": "Answer Text",
+      "question": {
+        "type": "Question",
+        "id": 1
+      },
+      "responsesCount": 0
     }
   ],
+  "responses": [],
   "responsesCount": 0
 }
 ```
@@ -176,13 +197,26 @@ DELETE /api/questions/:identifier
   },
   "answers": [
     {
-      "type": "answer",
-      "id": 1
+      "id": 1,
+      "answer": "Answer Text",
+      "question": {
+        "type": "Question",
+        "id": 1
+      },
+      "responsesCount": 2
     },
     {
-      "type": "answer",
-      "id": 2
+      "id": 2,
+      "answer": "Answer Text",
+      "question": {
+        "type": "Question",
+        "id": 1
+      },
+      "responsesCount": 3
     }
+  ],
+  "responses" : [
+    2
   ],
   "responsesCount": 5
 }
@@ -196,7 +230,10 @@ GET /api/questions/:identifier/responses
 ###### Response
 ```
 {
-  "responsesCount": 5
+  "responsesCount": 5,
+  "responses" : [
+    2
+  ],
   "answers": [
     {
       "id": 1,
@@ -222,6 +259,9 @@ POST /api/questions/:identifier/responses
 ```
 {
   "responsesCount": 6
+  "responses" : [
+    1
+  ],
   "answers": [
     {
       "id": 1,
