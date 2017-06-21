@@ -1,4 +1,4 @@
-import { prop, compose, not, equals, length, omit, when, find, propEq,
+import { prop, compose, not, equals, length, omit, when, find, propEq, contains,
          adjust, set, lensProp, findIndex, update, ifElse, path, isNil, isEmpty } from 'ramda'
 import { addAnswer, clearAnswers, updateAnswers } from './answers'
 
@@ -77,6 +77,18 @@ export const totalResponsesSelector = (state, identifier = '') =>
  */
 export const userRespondedSelector = (state, identifier = '') =>
   compose(not, isEmpty, prop('responses'), pollSelector)(state, identifier)
+
+/**
+ * Returns true if the user has responded to given answer
+ *
+ * @param  {State}   state      App state
+ * @param  {string}  identifier Poll identifier
+ * @param  {integer} answerId   Answer id
+ *
+ * @return {bool}
+ */
+export const userRespondedAnswerSelector = (state, identifier = '', answerId) =>
+  compose(contains(answerId), prop('responses'), pollSelector)(state, identifier)
 
 // ------------------------------------
 // Actions
