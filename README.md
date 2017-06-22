@@ -112,7 +112,7 @@ GET /api/questions/:identifier
       "responsesCount": 3
     }
   ],
-  "responses" : [
+  "userResponses" : [
     2
   ],
   "responsesCount": 5
@@ -167,7 +167,7 @@ POST /api/questions
       "responsesCount": 0
     }
   ],
-  "responses": [],
+  "userResponses": [],
   "responsesCount": 0
 }
 ```
@@ -197,26 +197,13 @@ DELETE /api/questions/:identifier
   },
   "answers": [
     {
-      "id": 1,
-      "answer": "Answer Text",
-      "question": {
-        "type": "Question",
-        "id": 1
-      },
-      "responsesCount": 2
+      "type": "Answer",
+      "id": 1
     },
     {
-      "id": 2,
-      "answer": "Answer Text",
-      "question": {
-        "type": "Question",
-        "id": 1
-      },
-      "responsesCount": 3
+      "type": "Answer",
+      "id": 2
     }
-  ],
-  "responses" : [
-    2
   ],
   "responsesCount": 5
 }
@@ -230,10 +217,10 @@ GET /api/questions/:identifier/responses
 ###### Response
 ```
 {
-  "responsesCount": 5,
-  "responses" : [
+  "userResponses" : [
     2
   ],
+  "responsesCount": 5,
   "answers": [
     {
       "id": 1,
@@ -243,7 +230,7 @@ GET /api/questions/:identifier/responses
       "id": 2,
       "responsesCount": 3
     }
-  ],
+  ]
 }
 ```
 
@@ -258,7 +245,10 @@ POST /api/questions/:identifier/responses
 ###### Response
 ```
 {
-  "responsesCount": 6
+  "userResponses": [
+    2
+  ],
+  "responsesCount": 6,
   "responses" : [
     1
   ],
@@ -271,7 +261,7 @@ POST /api/questions/:identifier/responses
       "id": 2,
       "responsesCount": 3
     }
-  ],
+  ]
 }
 ```
 

@@ -116,7 +116,7 @@ class ApiController extends Controller
         if ($question) {
             switch ($request->getMethod()) {
                 case 'GET':
-                    $response = $this->indexResponses($question);
+                    $response = $this->indexResponses($question, $request);
                     break;
                 case 'POST':
                     $response = $this->createResponse($question, $request, $this->getData($request));
@@ -170,23 +170,7 @@ class ApiController extends Controller
             foreach ($question->getAnswers() as $answer) {
                 $extractedQuestion['answers'][] = $answer->extract();
             }
-
-            // TODO : Test the following
-            $extractedQuestion['responses'] = [];
-            if (!$question->isMultipleChoice()) {
-                // TODO : Stop using get response for is multichoice.
-                $userResponse = $this->getResponseForUser($question, null, $request);
-                if ($userResponse) {
-                    $extractedQuestion['responses'][] = $userResponse->getAnswer()->getId();
-                }
-            } else {
-                $userResponses = $this->getResponsesForUser($question, $request);
-                if ($userResponses) {
-                    foreach ($userResponses as $userResponse) {
-                        $extractedQuestion['responses'][] = $userResponse->getAnswer()->getId();
-                    }
-                }
-            }
+            $extractedQuestion['userResponses'] = $this->getResponsesForUser($question, $request, true);
 
             $response = new JsonResponse($extractedQuestion);
         } else {
@@ -276,6 +260,8 @@ class ApiController extends Controller
             foreach ($question->getAnswers() as $answer) {
                 $extractedQuestion['answers'][] = $answer->extract();
             }
+            $extractedQuestion['userResponses'] = [];
+
             $response = new JsonResponse($extractedQuestion);
         } else {
             $response = new JsonResponse(['errors' => $errors], 400);
@@ -325,23 +311,8 @@ class ApiController extends Controller
     protected function indexResponses(Question $question, Request $request)
     {
         $responses = [];
+        $responses['userResponses'] = $this->getResponsesForUser($question, $request, true);
         $responses['responsesCount'] = count($question->getResponses());
-        // TODO : Abstract the following with question retrieve.
-        $responses['responses'] = [];
-        if (!$question->isMultipleChoice()) {
-            // TODO : Stop using get response for is multichoice.
-            $userResponse = $this->getResponseForUser($question, null, $request);
-            if ($userResponse) {
-                $responses['responses'][] = $userResponse->getAnswer()->getId();
-            }
-        } else {
-            $userResponses = $this->getResponsesForUser($question, $request);
-            if ($userResponses) {
-                foreach ($userResponses as $userResponse) {
-                    $responses['responses'][] = $userResponse->getAnswer()->getId();
-                }
-            }
-        }
         $responses['answers'] = [];
         foreach ($question->getAnswers() as $answer) {
             $responses['answers'][] = [
@@ -504,10 +475,11 @@ class ApiController extends Controller
      *
      * @param  Question $question
      * @param  Request  $request
+     * @param  bool     $idsOnly Only return the ids on the responses
      *
      * @return  array | null
      */
-    protected function getResponsesForUser(Question $question, Request $request)
+    protected function getResponsesForUser(Question $question, Request $request, $idsOnly = false)
     {
         $responseRepository = $this->em->getRepository('ItsGoingToBeBundle:UserResponse');
         $userResponses = $responseRepository->findBy([
@@ -519,6 +491,14 @@ class ApiController extends Controller
                 'userSessionID' => $this->identifierService->getSessionID($request),
                 'question' => $question->getId()
             ]);
+            if (!$userResponses) {
+                $userResponses = [];
+            }
+        }
+        if ($idsOnly) {
+            foreach ($userResponses as &$userResponse) {
+                $userResponse = $userResponse->getAnswer()->getId();
+            }
         }
         return $userResponses;
     }

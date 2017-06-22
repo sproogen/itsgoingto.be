@@ -34,7 +34,8 @@ export class Answer extends React.Component {
         className='input-radio input-radio-options'
         type='radio'
         value={this.props.index}
-        checked={this.props.checked} />
+        checked={this.props.checked}
+        readOnly />
       <label
         htmlFor={'answer-' + this.props.index}
         className={'input-label input-label-options' + (this.state.animating ? ' input-label-options--click' : '')}

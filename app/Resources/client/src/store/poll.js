@@ -76,7 +76,7 @@ export const totalResponsesSelector = (state, identifier = '') =>
  * @return {bool}
  */
 export const userRespondedSelector = (state, identifier = '') =>
-  compose(not, isEmpty, prop('responses'), pollSelector)(state, identifier)
+  compose(not, isEmpty, prop('userResponses'), pollSelector)(state, identifier)
 
 /**
  * Returns true if the user has responded to given answer
@@ -88,7 +88,7 @@ export const userRespondedSelector = (state, identifier = '') =>
  * @return {bool}
  */
 export const userRespondedAnswerSelector = (state, identifier = '', answerId) =>
-  compose(contains(answerId), prop('responses'), pollSelector)(state, identifier)
+  compose(contains(answerId), prop('userResponses'), pollSelector)(state, identifier)
 
 // ------------------------------------
 // Actions
