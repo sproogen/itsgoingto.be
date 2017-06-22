@@ -174,6 +174,7 @@ class ApiController extends Controller
             // TODO : Test the following
             $extractedQuestion['responses'] = [];
             if (!$question->isMultipleChoice()) {
+                // TODO : Stop using get response for is multichoice.
                 $userResponse = $this->getResponseForUser($question, null, $request);
                 if ($userResponse) {
                     $extractedQuestion['responses'][] = $userResponse->getAnswer()->getId();
@@ -321,10 +322,26 @@ class ApiController extends Controller
      *
      * @return JsonResponse
      */
-    protected function indexResponses($question)
+    protected function indexResponses(Question $question, Request $request)
     {
         $responses = [];
         $responses['responsesCount'] = count($question->getResponses());
+        // TODO : Abstract the following with question retrieve.
+        $responses['responses'] = [];
+        if (!$question->isMultipleChoice()) {
+            // TODO : Stop using get response for is multichoice.
+            $userResponse = $this->getResponseForUser($question, null, $request);
+            if ($userResponse) {
+                $responses['responses'][] = $userResponse->getAnswer()->getId();
+            }
+        } else {
+            $userResponses = $this->getResponsesForUser($question, $request);
+            if ($userResponses) {
+                foreach ($userResponses as $userResponse) {
+                    $responses['responses'][] = $userResponse->getAnswer()->getId();
+                }
+            }
+        }
         $responses['answers'] = [];
         foreach ($question->getAnswers() as $answer) {
             $responses['answers'][] = [
@@ -336,7 +353,7 @@ class ApiController extends Controller
     }
 
     /**
-     * Create a question given the data
+     * Create or Update a response given the data
      *
      * @param  Question $question
      * @param  Request  $request
@@ -395,7 +412,7 @@ class ApiController extends Controller
             }
             $this->em->flush();
 
-            $response = $this->indexResponses($question);
+            $response = $this->indexResponses($question, $request);
         } else {
             $response = new JsonResponse(['errors' => $errors], 400);
         }
@@ -405,7 +422,7 @@ class ApiController extends Controller
 
     /**
      * Generate an identifier for a question
-     * IDEA : This could be moved to the perPersist hook.
+     * IDEA : This could be moved to the prePersist hook.
      *
      * @return questionIdentifier identifier
      */
