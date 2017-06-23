@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect'
-import { prop, adjust, nth, compose, not, equals, length, remove, omit, is,
-         isEmpty, slice, findLastIndex, when, subtract, __, gt, trim, map } from 'ramda'
+import { prop, adjust, nth, compose, not, equals, length, remove, omit, is, merge, find,
+         isEmpty, slice, findLastIndex, when, subtract, __, gt, trim, map, isNil, propEq } from 'ramda'
 
 // TODO : Update answers to reference by identifier and index
 // TODO : Add comments
@@ -57,11 +57,16 @@ export const updateAnswer = (index, value = '') => (dispatch, getState) => {
   return Promise.resolve()
 }
 
-export const updateAnswers = (answers) => ({
+export const updateAnswers = (answers = []) => ({
   type    : ANSWERS_UPDATE,
   answers : when(
-    () => !answers instanceof Array,
-    map(omit(['question']))
+    compose(not, isNil),
+    map(
+      when(
+        is(Object),
+        omit(['question'])
+      ),
+    )
   )(answers)
 })
 
@@ -94,7 +99,15 @@ export const actions = {
 const ACTION_HANDLERS = {
   [ANSWER_ADD]           : (previousState, action) => [...previousState, ''],
   [ANSWER_UPDATE]        : (previousState, action) => adjust(() => action.text, action.index, previousState),
-  [ANSWERS_UPDATE]       : (previousState, action) => action.answers,
+  [ANSWERS_UPDATE]       : (previousState, action) => map(
+      answer => {
+        console.log(find(propEq('id', answer.id), previousState), previousState, answer.id, merge(find(propEq('id', answer.id), previousState))(answer))
+        return when(
+          is(Object),
+          merge(find(propEq('id', answer.id), previousState))
+        )(answer)
+      }
+    )(action.answers),
   [ANSWER_REMOVE]        : (previousState, action) =>
     when(
       compose(not, equals(action.index), subtract(__, 1), length),

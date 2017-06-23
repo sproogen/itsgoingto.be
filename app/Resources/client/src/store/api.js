@@ -1,4 +1,4 @@
-import { questionSelector, updatePoll } from './poll'
+import { questionSelector, updatePoll, updateResponses } from './poll'
 import { answersSelector } from './answers'
 
 // ------------------------------------
@@ -45,6 +45,11 @@ export const onError = (error) => {
 // ------------------------------------
 // Actions
 // ------------------------------------
+/**
+ * Post a poll through the api, fetches the poll and answer from the selectors
+ *
+ * @return {Function} redux-thunk callable function
+ */
 export const postPoll = () => (dispatch, getState) =>
   fetch(ROUTE_QUESTION, {
     credentials : 'same-origin',
@@ -58,16 +63,28 @@ export const postPoll = () => (dispatch, getState) =>
   .then((response) => dispatch(updatePoll(response)))
   .catch(onError)
 
+/**
+ * Fetches a poll with the identifier from the api
+ *
+ * @param  {string} identifier The identifier for the poll
+ *
+ * @return {Function} redux-thunk callable function
+ */
 export const fetchPoll = (identifier) => (dispatch, getState) =>
   fetch(ROUTE_QUESTION + '/' + identifier, {
     credentials : 'same-origin'
   })
   .then(extractResponse)
-  .then((response) => {
-    return dispatch(updatePoll(response))
-  })
+  .then((response) => dispatch(updatePoll(response)))
   .catch(onError)
 
+/**
+ * Fetches a poll with the identifier from the api
+ *
+ * @param  {string} identifier The identifier for the poll
+ *
+ * @return {Function} redux-thunk callable function
+ */
 export const postResponse = (answer, identifier) => (dispatch, getState) =>
   fetch(ROUTE_QUESTION + '/' + identifier + ROUTE_RESPONSES, {
     credentials : 'same-origin',
@@ -77,8 +94,5 @@ export const postResponse = (answer, identifier) => (dispatch, getState) =>
     })
   })
   .then(extractResponse)
-  .then((response) => {
-    return response
-    // TODO : Update responses in state.
-  })
+  .then((response) => dispatch(updateResponses(response, identifier)))
   .catch(onError)
