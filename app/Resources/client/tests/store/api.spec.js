@@ -5,7 +5,8 @@ import {
   onError,
   postPoll,
   fetchPoll,
-  postResponse
+  postResponse,
+  fetchResponses
 } from 'store/api'
 import * as poll from 'store/poll';
 
@@ -210,6 +211,43 @@ describe('(Store) API', () => {
       it('Should catch error.', () => {
         window.fetch.returns(jsonError(404, {message: 'There was an error'}))
         return postResponse()(_dispatchSpy, _getStateSpy).then((response) => {
+          expect(response).to.equal(false)
+        })
+      })
+    })
+
+    describe('(Action Creator) fetchResponses', () => {
+      it('Should be exported as a function.', () => {
+        expect(fetchResponses).to.be.a('function')
+      })
+
+      it('Should return a function (is a thunk).', () => {
+        expect(fetchResponses()).to.be.a('function')
+      })
+
+      it('Should return a promise from that thunk that gets fulfilled.', () => {
+        return fetchResponses()(_dispatchSpy, _getStateSpy).should.eventually.be.fulfilled
+      })
+
+      it('Should call fetch with the correct url and data.', () => {
+        return fetchResponses('hf0sd8fhoas')(_dispatchSpy, _getStateSpy).then(() => {
+          window.fetch.should.have.been.calledOnce()
+          window.fetch.should.have.been.calledWith(
+            ROUTE_QUESTION + '/hf0sd8fhoas' + ROUTE_RESPONSES,
+            { credentials : 'same-origin' })
+        })
+      })
+
+      it('Should return a promise with the response.', () => {
+        window.fetch.returns(jsonOk({}))
+        return fetchResponses('hf0sd8fhoas')(_dispatchSpy, _getStateSpy).then((response) => {
+          expect(response).to.deep.equal({})
+        })
+      })
+
+      it('Should catch error.', () => {
+        window.fetch.returns(jsonError(404, {message: 'There was an error'}))
+        return fetchResponses()(_dispatchSpy, _getStateSpy).then((response) => {
           expect(response).to.equal(false)
         })
       })

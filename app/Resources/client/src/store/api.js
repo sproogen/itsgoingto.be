@@ -81,7 +81,8 @@ export const fetchPoll = (identifier) => (dispatch, getState) =>
 /**
  * Fetches a poll with the identifier from the api
  *
- * @param  {string} identifier The identifier for the poll
+ * @param  {integer} answer     The id of the answer to submit
+ * @param  {string}  identifier The identifier for the poll
  *
  * @return {Function} redux-thunk callable function
  */
@@ -92,6 +93,21 @@ export const postResponse = (answer, identifier) => (dispatch, getState) =>
     body        : JSON.stringify({
       answers : [answer]
     })
+  })
+  .then(extractResponse)
+  .then((response) => dispatch(updateResponses(response, identifier)))
+  .catch(onError)
+
+/**
+ * Fetches the responses for a poll
+ *
+ * @param  {string} identifier The identifier for the poll
+ *
+ * @return {Function} redux-thunk callable function
+ */
+export const fetchResponses = (identifier) => (dispatch, getState) =>
+  fetch(ROUTE_QUESTION + '/' + identifier + ROUTE_RESPONSES, {
+    credentials : 'same-origin'
   })
   .then(extractResponse)
   .then((response) => dispatch(updateResponses(response, identifier)))

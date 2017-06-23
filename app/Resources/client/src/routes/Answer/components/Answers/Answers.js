@@ -4,10 +4,26 @@ import { withRouter } from 'react-router'
 import PropTypes from 'prop-types'
 import { answersSelector } from 'store/answers'
 import { totalResponsesSelector, userRespondedSelector } from 'store/poll'
+import { fetchResponses } from 'store/api'
 import Answer from '../Answer/Answer'
 import './Answers.scss'
 
 class Answers extends React.Component {
+  updateAnswers = () => {
+    this.props.updateResponses()
+  }
+
+  componentDidMount = () => {
+    this.answersUpdater = setInterval(
+      this.updateAnswers,
+      5000
+    )
+  }
+
+  componentWillUnmount = () => {
+    clearInterval(this.answersUpdater)
+  }
+
   render = () => (
     <div className='container answer-container'>
       <div className={'options' + (this.props.userResponded ? ' show-results' : '')}>
@@ -20,8 +36,10 @@ class Answers extends React.Component {
 }
 
 Answers.propTypes = {
-  answers        : PropTypes.array.isRequired,
-  totalResponses : PropTypes.number.isRequired,
+  answers         : PropTypes.array.isRequired,
+  totalResponses  : PropTypes.number.isRequired,
+  userResponded   : PropTypes.bool.isRequired,
+  updateResponses : PropTypes.func.isRequired
 }
 
 Answers.defaultProps = {
@@ -34,4 +52,8 @@ const mapStateToProps = (state, props) => ({
   userResponded  : userRespondedSelector(state, props.params.identifier)
 })
 
-export default withRouter(connect(mapStateToProps)(Answers))
+const mapDispatchToProps = (dispatch, props) => ({
+  updateResponses : () => dispatch(fetchResponses(props.params.identifier))
+})
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Answers))

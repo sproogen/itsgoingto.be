@@ -100,13 +100,10 @@ const ACTION_HANDLERS = {
   [ANSWER_ADD]           : (previousState, action) => [...previousState, ''],
   [ANSWER_UPDATE]        : (previousState, action) => adjust(() => action.text, action.index, previousState),
   [ANSWERS_UPDATE]       : (previousState, action) => map(
-      answer => {
-        console.log(find(propEq('id', answer.id), previousState), previousState, answer.id, merge(find(propEq('id', answer.id), previousState))(answer))
-        return when(
-          is(Object),
-          merge(find(propEq('id', answer.id), previousState))
-        )(answer)
-      }
+      answer => when(
+        is(Object),
+        merge(find(propEq('id', answer.id), previousState))
+      )(answer)
     )(action.answers),
   [ANSWER_REMOVE]        : (previousState, action) =>
     when(
