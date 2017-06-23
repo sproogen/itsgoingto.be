@@ -1,5 +1,5 @@
 import React from 'react'
-import { browserHistory, Router } from 'react-router'
+import { browserHistory, Router, Redirect } from 'react-router'
 import { Provider } from 'react-redux'
 import PropTypes from 'prop-types'
 

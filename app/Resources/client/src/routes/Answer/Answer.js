@@ -2,27 +2,32 @@ import React from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { mergeAll } from 'ramda'
+import { browserHistory } from 'react-router'
 import { pollSelector, hasQuestionSelector } from 'store/poll'
 import { fetchPoll } from 'store/api'
 import { setLoading } from 'store/loader'
 import Sharing from './components/Sharing/Sharing'
-import Back from './components/Back/Back'
+import Back from 'components/Back/Back'
 import Answers from './components/Answers/Answers'
 import './Answer.scss'
 
 /**
  * TODO :
- *   Answers
  *   Auto link URLs
  */
 
 class Answer extends React.Component {
-  constructor (props) {
-    super(props)
-    if (!props.hasPoll) {
-      props.setLoading(true)
+  componentWillMount = () => {
+    console.log(this.props.hasPoll)
+    if (!this.props.hasPoll) {
+      this.props.setLoading(true)
     }
-    props.fetchPoll(props.identifier).then(() => props.setLoading(false))
+    this.props.fetchPoll(this.props.identifier).then((response) => {
+      if (!response) {
+        browserHistory.push('/react/404')
+      }
+      this.props.setLoading(false)
+    })
   }
 
   render = () => (

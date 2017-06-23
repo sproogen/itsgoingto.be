@@ -221,7 +221,7 @@ describe('(Store) Poll', () => {
     })
 
     it('Should dispatch POLL_UPDATE with data omitting answers.', () => {
-      return updatePoll({ question : '', identifier : '', answers: [], userResponses: [245]})(_dispatchSpy, _getStateSpy)
+      return updatePoll({ question : '', identifier : '', answers: [], userResponses: [245] })(_dispatchSpy, _getStateSpy)
         .then(() => {
           _dispatchSpy.should.have.been.calledWith({
             type : POLL_UPDATE,
@@ -356,13 +356,13 @@ describe('(Store) Poll', () => {
 
     it('Should dispatch POLL_UPDATE with data omitting answers.', () => {
       return updateResponses({
-          userResponses  : [245],
-          responsesCount : 5,
-          answers        : [
+        userResponses  : [245],
+        responsesCount : 5,
+        answers        : [
             { id : 245, responsesCount: 3 },
             { id : 246, responsesCount: 2 }
-          ]
-        }, 'hf0sd8fhoas')(_dispatchSpy, _getStateSpy)
+        ]
+      }, 'hf0sd8fhoas')(_dispatchSpy, _getStateSpy)
         .then(() => {
           _dispatchSpy.should.have.been.calledWith({
             type : POLL_UPDATE,
@@ -373,13 +373,13 @@ describe('(Store) Poll', () => {
 
     it('Should dispatch updateAnswers with answers.', () => {
       return updateResponses({
-          userResponses  : [245],
-          responsesCount : 5,
-          answers        : [
+        userResponses  : [245],
+        responsesCount : 5,
+        answers        : [
             { id : 245, responsesCount: 3 },
             { id : 246, responsesCount: 2 }
-          ]
-        }, 'hf0sd8fhoas')(_dispatchSpy, _getStateSpy)
+        ]
+      }, 'hf0sd8fhoas')(_dispatchSpy, _getStateSpy)
         .then(() => {
           _dispatchSpy.should.have.been.calledWith(updateAnswers([
             { id : 245, responsesCount: 3 },
@@ -394,12 +394,13 @@ describe('(Store) Poll', () => {
       let state = [{ question : 'Question', identifier : 'hf0sd8fhoas' }]
       expect(state).to.deep.equal([{ question : 'Question', identifier : 'hf0sd8fhoas' }])
 
-      state = pollReducer(state, {type : POLL_UPDATE, poll : {
-        question   : 'Question Text',
-        identifier : 'hf0sd8fhoas',
-        deleted    : false,
-        created    : 'Some Date or other'
-      }})
+      state = pollReducer(state, { type : POLL_UPDATE,
+        poll : {
+          question   : 'Question Text',
+          identifier : 'hf0sd8fhoas',
+          deleted    : false,
+          created    : 'Some Date or other'
+        } })
       expect(state).to.deep.equal([{
         question   : 'Question Text',
         identifier : 'hf0sd8fhoas',
@@ -407,12 +408,13 @@ describe('(Store) Poll', () => {
         created    : 'Some Date or other'
       }])
 
-      state = pollReducer(state, {type : POLL_UPDATE, poll : {
-        question   : 'Different Question Text',
-        identifier : 'hf0sd8fhoas',
-        deleted    : true,
-        created    : 'Some Date or other'
-      }})
+      state = pollReducer(state, { type : POLL_UPDATE,
+        poll : {
+          question   : 'Different Question Text',
+          identifier : 'hf0sd8fhoas',
+          deleted    : true,
+          created    : 'Some Date or other'
+        } })
       expect(state).to.deep.equal([{
         question   : 'Different Question Text',
         identifier : 'hf0sd8fhoas',
@@ -425,11 +427,12 @@ describe('(Store) Poll', () => {
       let state = [{ question : 'Question', identifier : 'hf0sd8fhoas', responsesCount: 5 }]
       expect(state).to.deep.equal([{ question : 'Question', identifier : 'hf0sd8fhoas', responsesCount: 5 }])
 
-      state = pollReducer(state, {type : POLL_UPDATE, poll : {
-        identifier     : 'hf0sd8fhoas',
-        userResponses  : [245],
-        responsesCount : 6
-      }})
+      state = pollReducer(state, { type : POLL_UPDATE,
+        poll : {
+          identifier     : 'hf0sd8fhoas',
+          userResponses  : [245],
+          responsesCount : 6
+        } })
       expect(state).to.deep.equal([{
         question       : 'Question',
         identifier     : 'hf0sd8fhoas',
@@ -437,11 +440,12 @@ describe('(Store) Poll', () => {
         responsesCount : 6
       }])
 
-      state = pollReducer(state, {type : POLL_UPDATE, poll : {
-        identifier : 'hf0sd8fhoas',
-        userResponses  : [245, 246],
-        responsesCount : 7
-      }})
+      state = pollReducer(state, { type : POLL_UPDATE,
+        poll : {
+          identifier : 'hf0sd8fhoas',
+          userResponses  : [245, 246],
+          responsesCount : 7
+        } })
       expect(state).to.deep.equal([{
         question       : 'Question',
         identifier     : 'hf0sd8fhoas',
@@ -454,12 +458,13 @@ describe('(Store) Poll', () => {
       let state = [{ question : 'Question', identifier : 'hf0sd8fhoas' }, { question : 'Question', identifier : '' }]
       expect(state).to.deep.equal([{ question : 'Question', identifier : 'hf0sd8fhoas' }, { question : 'Question', identifier : '' }])
 
-      state = pollReducer(state, {type : POLL_UPDATE, poll : {
-        question   : 'Question Text',
-        identifier : 'sf34rsdfsf',
-        deleted    : false,
-        created    : 'Some Date or other'
-      }})
+      state = pollReducer(state, { type : POLL_UPDATE,
+        poll : {
+          question   : 'Question Text',
+          identifier : 'sf34rsdfsf',
+          deleted    : false,
+          created    : 'Some Date or other'
+        } })
       expect(state).to.deep.equal([
         { question : 'Question', identifier : 'hf0sd8fhoas' },
         { question : 'Question', identifier : '' },

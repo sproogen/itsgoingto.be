@@ -11,7 +11,8 @@
     "start": "cross-env NODE_ENV=server node build/scripts/start",
     "test": "cross-env NODE_ENV=test karma start build/karma.config",
     "test:watch": "npm test -- --watch",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "lint:fix": "npm run lint -- --fix"
   },
   "repository": {
     "type": "git",

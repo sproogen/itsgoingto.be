@@ -20,13 +20,13 @@ export class Answer extends React.Component {
   }
 
   calculateWidth = () => {
-    return (this.props.answer.responsesCount/this.props.totalResponses) * 100 + '%'
+    return (this.props.answer.responsesCount / this.props.totalResponses) * 100 + '%'
   }
 
   render = () => (
     <span className='input input-options'>
       <span className='result-wrapper'>
-        <span className='result' name={'answer-' + this.props.index} style={{width: this.calculateWidth()}} />
+        <span className='result' name={'answer-' + this.props.index} style={{ width: this.calculateWidth() }} />
       </span>
       <input
         id={'answer-' + this.props.index}

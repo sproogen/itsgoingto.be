@@ -8,7 +8,7 @@ import {
   postResponse,
   fetchResponses
 } from 'store/api'
-import * as poll from 'store/poll';
+import * as poll from 'store/poll'
 
 const jsonOk = (body) => {
   let mockResponse = new window.Response(JSON.stringify(body), {
@@ -57,16 +57,16 @@ describe('(Store) API', () => {
     let _dispatchSpy
     let _getStateSpy
 
-    beforeEach(function() {
+    beforeEach(function () {
       sinon.stub(window, 'fetch')
       window.fetch.returns(jsonOk({}))
 
       _globalState = {
-        poll    : [{question : 'Question', identifier : ''}],
+        poll    : [{ question : 'Question', identifier : '' }],
         answers : ['Answer']
       }
       _dispatchSpy = sinon.spy((action) => {
-        if (typeof action === "function") {
+        if (typeof action === 'function') {
           return action(_dispatchSpy, _getStateSpy)
         }
       })
@@ -95,34 +95,34 @@ describe('(Store) API', () => {
       it('Should call fetch with the correct url and data.', () => {
         return postPoll()(_dispatchSpy, _getStateSpy).then(() => {
           window.fetch.should.have.been.calledOnce()
-          window.fetch.should.have.been.calledWith(ROUTE_QUESTION, {method : 'POST', credentials : 'same-origin', body : '{"question":"Question","answers":["Answer"]}'})
+          window.fetch.should.have.been.calledWith(ROUTE_QUESTION, { method : 'POST', credentials : 'same-origin', body : '{"question":"Question","answers":["Answer"]}' })
         })
       })
 
       it('Should return a promise with the response.', () => {
-        window.fetch.returns(jsonOk({question : 'Question', identifier: 'hf0sd8fhoas'}))
+        window.fetch.returns(jsonOk({ question : 'Question', identifier: 'hf0sd8fhoas' }))
         return fetchPoll('hf0sd8fhoas')(_dispatchSpy, _getStateSpy).then((response) => {
-          expect(response).to.deep.equal({question : 'Question', identifier: 'hf0sd8fhoas'})
+          expect(response).to.deep.equal({ question : 'Question', identifier: 'hf0sd8fhoas' })
         })
       })
 
       it('Should catch error.', () => {
-        window.fetch.returns(jsonError(404, {message: 'There was an error'}))
+        window.fetch.returns(jsonError(404, { message: 'There was an error' }))
         return postPoll()(_dispatchSpy, _getStateSpy).then((response) => {
           expect(response).to.equal(false)
         })
       })
 
       it('Should dispatch updatePoll().', () => {
-        window.fetch.returns(jsonOk({question : 'Question', identifier: 'hf0sd8fhoas'}))
+        window.fetch.returns(jsonOk({ question : 'Question', identifier: 'hf0sd8fhoas' }))
         let _updatePoll = sinon.stub(poll, 'updatePoll')
         _updatePoll.returns({})
 
         return postPoll()(_dispatchSpy, _getStateSpy).then((response) => {
           _updatePoll.should.have.been.calledOnce()
-          _updatePoll.should.have.been.calledWith({question : 'Question', identifier: 'hf0sd8fhoas'})
+          _updatePoll.should.have.been.calledWith({ question : 'Question', identifier: 'hf0sd8fhoas' })
           _dispatchSpy.should.have.been.calledOnce()
-          _dispatchSpy.should.have.been.calledWith(_updatePoll({question : 'Question', identifier: 'hf0sd8fhoas'}))
+          _dispatchSpy.should.have.been.calledWith(_updatePoll({ question : 'Question', identifier: 'hf0sd8fhoas' }))
 
           _updatePoll.restore()
         })
@@ -150,29 +150,29 @@ describe('(Store) API', () => {
       })
 
       it('Should return a promise with the response.', () => {
-        window.fetch.returns(jsonOk({question : 'Question', identifier: 'hf0sd8fhoas'}))
+        window.fetch.returns(jsonOk({ question : 'Question', identifier: 'hf0sd8fhoas' }))
         return fetchPoll('hf0sd8fhoas')(_dispatchSpy, _getStateSpy).then((response) => {
-          expect(response).to.deep.equal({question : 'Question', identifier: 'hf0sd8fhoas'})
+          expect(response).to.deep.equal({ question : 'Question', identifier: 'hf0sd8fhoas' })
         })
       })
 
       it('Should catch error.', () => {
-        window.fetch.returns(jsonError(404, {message: 'There was an error'}))
+        window.fetch.returns(jsonError(404, { message: 'There was an error' }))
         return fetchPoll('hf0sd8fhoas')(_dispatchSpy, _getStateSpy).then((response) => {
           expect(response).to.equal(false)
         })
       })
 
       it('Should dispatch updatePoll().', () => {
-        window.fetch.returns(jsonOk({question : 'Question', identifier: 'hf0sd8fhoas'}))
+        window.fetch.returns(jsonOk({ question : 'Question', identifier: 'hf0sd8fhoas' }))
         let _updatePoll = sinon.stub(poll, 'updatePoll')
         _updatePoll.returns({})
 
         return fetchPoll('hf0sd8fhoas')(_dispatchSpy, _getStateSpy).then((response) => {
           _updatePoll.should.have.been.calledOnce()
-          _updatePoll.should.have.been.calledWith({question : 'Question', identifier: 'hf0sd8fhoas'})
+          _updatePoll.should.have.been.calledWith({ question : 'Question', identifier: 'hf0sd8fhoas' })
           _dispatchSpy.should.have.been.calledOnce()
-          _dispatchSpy.should.have.been.calledWith(_updatePoll({question : 'Question', identifier: 'hf0sd8fhoas'}))
+          _dispatchSpy.should.have.been.calledWith(_updatePoll({ question : 'Question', identifier: 'hf0sd8fhoas' }))
 
           _updatePoll.restore()
         })
@@ -197,7 +197,7 @@ describe('(Store) API', () => {
           window.fetch.should.have.been.calledOnce()
           window.fetch.should.have.been.calledWith(
             ROUTE_QUESTION + '/hf0sd8fhoas' + ROUTE_RESPONSES,
-            {method : 'POST', credentials : 'same-origin', body : '{"answers":[434]}'})
+            { method : 'POST', credentials : 'same-origin', body : '{"answers":[434]}' })
         })
       })
 
@@ -209,7 +209,7 @@ describe('(Store) API', () => {
       })
 
       it('Should catch error.', () => {
-        window.fetch.returns(jsonError(404, {message: 'There was an error'}))
+        window.fetch.returns(jsonError(404, { message: 'There was an error' }))
         return postResponse()(_dispatchSpy, _getStateSpy).then((response) => {
           expect(response).to.equal(false)
         })
@@ -246,7 +246,7 @@ describe('(Store) API', () => {
       })
 
       it('Should catch error.', () => {
-        window.fetch.returns(jsonError(404, {message: 'There was an error'}))
+        window.fetch.returns(jsonError(404, { message: 'There was an error' }))
         return fetchResponses()(_dispatchSpy, _getStateSpy).then((response) => {
           expect(response).to.equal(false)
         })

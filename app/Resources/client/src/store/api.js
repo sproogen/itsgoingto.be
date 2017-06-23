@@ -10,7 +10,7 @@ export const ROUTE_RESPONSES = '/responses'
 // ------------------------------------
 // Helpers
 // ------------------------------------
-function APIError(details) {
+function APIError (details) {
   this.name = 'APIError'
   this.details = details
 }

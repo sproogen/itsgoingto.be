@@ -33,7 +33,7 @@ describe('(Store) Loader', () => {
 
   describe('(Selector) isLoadingSelector', () => {
     it('Should return the loader value from the global state.', () => {
-      const globalState = {loader : true}
+      const globalState = { loader : true }
       expect(isLoadingSelector(globalState)).to.equal(true)
     })
   })
@@ -61,9 +61,9 @@ describe('(Store) Loader', () => {
     it('Should update the state to the loading property', () => {
       let state = false
       expect(state).to.equal(false)
-      state = loaderReducer(state, {type : LOADING_UPDATE, loading : true})
+      state = loaderReducer(state, { type : LOADING_UPDATE, loading : true })
       expect(state).to.equal(true)
-      state = loaderReducer(state, {type : LOADING_UPDATE, loading : false})
+      state = loaderReducer(state, { type : LOADING_UPDATE, loading : false })
       expect(state).to.equal(false)
     })
   })

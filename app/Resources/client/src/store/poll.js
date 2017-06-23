@@ -101,12 +101,12 @@ export const userRespondedAnswerSelector = (state, identifier = '', answerId) =>
  * @return {Function} redux-thunk callable function
  */
 export const updatePoll = (poll) => (dispatch, getState) => Promise.all([
-    dispatch({
-      type : POLL_UPDATE,
-      poll : omit(['answers'])(poll)
-    }),
-    dispatch(updateAnswers(prop('answers')(poll)))
-  ]).then(() => poll)
+  dispatch({
+    type : POLL_UPDATE,
+    poll : omit(['answers'])(poll)
+  }),
+  dispatch(updateAnswers(prop('answers')(poll)))
+]).then(() => poll)
 
 /**
  * Update the question text in the state for a given poll
@@ -144,13 +144,12 @@ export const updateQuestion = (text = '', identifier = '') => (dispatch, getStat
  * @return {Function} redux-thunk callable function
  */
 export const updateResponses = (responses, identifier) => (dispatch, getState) => Promise.all([
-    dispatch({
-      type : POLL_UPDATE,
-      poll : compose(omit(['answers']), merge(__, {identifier}))(responses)
-    }),
-    dispatch(updateAnswers(prop('answers')(responses)))
-  ]).then(() => responses)
-
+  dispatch({
+    type : POLL_UPDATE,
+    poll : compose(omit(['answers']), merge(__, { identifier }))(responses)
+  }),
+  dispatch(updateAnswers(prop('answers')(responses)))
+]).then(() => responses)
 
 export const actions = {
   updatePoll,
