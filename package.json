@@ -6,7 +6,7 @@
   },
   "private": true,
   "scripts": {
-    "postinstall": "gulp build && cd app/Resources/client && npm install"
+    "postinstall": "gulp build"
   },
   "dependencies": {
     "gulp": "^3.9.0",

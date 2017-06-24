@@ -22,6 +22,7 @@ install:
   - phpenv config-rm xdebug.ini
   - composer install
   - npm install
+  - cd app/Resources/client && npm install
 
 before_script:
   - php app/console doctrine:database:create --env=test
