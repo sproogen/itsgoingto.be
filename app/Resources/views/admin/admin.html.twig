@@ -31,12 +31,12 @@
         {% for question in pagination %}
         <tr {% if loop.index is odd %}class="color"{% endif %}>
             <td>{{ question.id }}</td>
-            <td><a target="_blank" href="{{ path('answer_page' , {'identifier' : question.identifier}) }}">{{ question.identifier }}</a></td>
+            <td><a target="_blank" href="/{{question.identifier}}">{{ question.identifier }}</a></td>
             <td>{{ question.question }}</td>
             <td>{{ question.created | date('Y-m-d H:i:s') }}</td>
             <td>
                 {% if question.deleted == false %}
-                    <a href="{{ path('delete' , {'identifier' : question.identifier, 'returnToPage': currentPage}) }}" class="icon"><i class="fa fa-times"></i></a>
+                    <a href="{{ path('admin_delete' , {'identifier' : question.identifier, 'returnToPage': currentPage}) }}" class="icon"><i class="fa fa-times"></i></a>
                 {% else %}
                     Deleted
                 {% endif %}

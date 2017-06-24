@@ -3,6 +3,12 @@
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Debug\Debug;
 
+// Loading the react app here to save bootstraping symfony.
+if (substr( $_SERVER['REQUEST_URI'], 0, 6 ) !== "/admin" && substr( $_SERVER['REQUEST_URI'], 0, 4 ) !== "/api") {
+    readfile("client/index.html");
+    exit(0);
+}
+
 // If you don't want to setup permissions the proper way, just uncomment the following PHP line
 // read http://symfony.com/doc/current/book/installation.html#checking-symfony-application-configuration-and-setup
 // for more information

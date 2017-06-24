@@ -24,7 +24,7 @@ class Answer extends React.Component {
     }
     this.props.fetchPoll(this.props.identifier).then((response) => {
       if (!response) {
-        browserHistory.push('/react/404')
+        browserHistory.push('/404')
       }
       this.props.setLoading(false)
     })

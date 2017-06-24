@@ -4,7 +4,7 @@ use Symfony\Component\ClassLoader\ApcClassLoader;
 use Symfony\Component\HttpFoundation\Request;
 
 // Loading the react app here to save bootstraping symfony.
-if (substr( $_SERVER['REQUEST_URI'], 0, 6 ) === "/react") {
+if (substr( $_SERVER['REQUEST_URI'], 0, 6 ) !== "/admin" && substr( $_SERVER['REQUEST_URI'], 0, 4 ) !== "/api") {
     readfile("client/index.html");
     exit(0);
 }

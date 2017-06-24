@@ -1,9 +1,3 @@
-itsgoingtobe_react:
-    pattern: /react/{url}
-    defaults: { _controller: ItsGoingToBeBundle:React:index, url: null }
-    requirements:
-        url: .*
-
 itsgoingtobe_admin:
     resource: "@ItsGoingToBeBundle/Resources/config/routing/admin.yml"
     prefix: /admin
@@ -12,6 +6,8 @@ itsgoingtobe_api:
     resource: "@ItsGoingToBeBundle/Resources/config/routing/api.yml"
     prefix: /api
 
-itsgoingtobe_pages:
-    resource: "@ItsGoingToBeBundle/Resources/config/routing/pages.yml"
-    prefix: /
+itsgoingtobe_react:
+    pattern: /{url}
+    defaults: { _controller: ItsGoingToBeBundle:React:index, url: null }
+    requirements:
+        url: .*

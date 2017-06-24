@@ -5,7 +5,7 @@ import NotFoundRoute from './NotFound'
 import CatchAllRoute from './CatchAll'
 
 export const createRoutes = (store) => ({
-  path        : '/react',
+  path        : '/',
   component   : CoreLayout,
   indexRoute  : AskRoute(store),
   childRoutes : [

@@ -4,7 +4,7 @@ import './Back.scss'
 
 export const Back = () => {
   const submit = () => {
-    browserHistory.push('/react')
+    browserHistory.push('/')
   }
 
   return (

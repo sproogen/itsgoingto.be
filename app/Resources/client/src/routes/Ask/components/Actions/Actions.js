@@ -11,7 +11,7 @@ class Actions extends React.Component {
   submit = () => this.props.postPoll()
   .then((response) => {
     if (response !== false) {
-      browserHistory.push('/react/' + response.identifier)
+      browserHistory.push('/' + response.identifier)
     }
   })
 

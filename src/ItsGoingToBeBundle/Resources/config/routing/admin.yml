@@ -2,6 +2,10 @@ admin_page:
     path:     /
     defaults: { _controller: ItsGoingToBeBundle:Admin:index }
 
+admin_delete:
+    path:     /delete/{identifier}
+    defaults: { _controller: ItsGoingToBeBundle:Admin:delete }
+
 admin_login_page:
     path:     /login
     defaults: { _controller: ItsGoingToBeBundle:Admin:login }

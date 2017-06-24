@@ -4,7 +4,8 @@
   "description": "It's Going To Be front-end with React, Redux, and React-Router!",
   "main": "index.js",
   "scripts": {
-    "clean": "rimraf ../../../web/client/dist",
+    "postinstall": "npm run build",
+    "clean": "rimraf ../../../web/client",
     "compile": "node build/scripts/compile",
     "build": "npm run clean && cross-env NODE_ENV=production npm run compile",
     "build-dev": "npm run clean && cross-env NODE_ENV=development npm run compile",

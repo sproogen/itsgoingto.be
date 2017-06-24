@@ -29,7 +29,8 @@ label {
   }
 }
 
-#{$all-text-inputs},
+input,
+textarea,
 select[multiple=multiple] {
   background-color: $base-background-color;
   border: $base-border;

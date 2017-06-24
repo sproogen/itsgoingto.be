@@ -26,16 +26,16 @@ input, h1, h2, h3, h4, h5, p, label {
 }
 
 .container {
-	@include grid-container;
+	margin-right: auto;
+  margin-left: auto;
+  @include clearfix;
 
-    @include media(max-width $medium-breakpoint) {
-        max-width:100%;
-    }
+  width:100%;
 
-    width:100%;
-
-    padding:0px 1em;
-
+  @include media(min-width $medium-breakpoint) {
+      max-width: 992px;
+  }
+  padding:0px 1em;
 	position: relative;
 
 	&.header-container {
@@ -177,51 +177,4 @@ input, h1, h2, h3, h4, h5, p, label {
     color: #fff;
     padding: 3px;
     margin-bottom: 20px;
-}
-
-.back-container {
-    @include media(max-width $medium-breakpoint) {
-        font-size:1.4em;
-    }
-    position: absolute;
-    width: auto;
-    top: 0px;
-    left: 0px;
-    z-index: 200;
-    .back-button {
-        a {
-            line-height: 50px;
-            margin-left: 30px;
-            color: #BBBBBB;
-            font-size: 1.1em;
-            @include media(max-width 68em) {
-                font-size: 1.3em;
-            }
-            -webkit-transition: color 0.4s ease;
-            -moz-transition: color 0.4s ease;
-            transition: color 0.4s ease;
-
-            &:hover {
-                color: #4C4C4C;
-            }
-        }
-    }
-}
-
-.slabtexted .slabtext {
-    display: -moz-inline-box;
-    display: inline-block;
-    white-space: nowrap;
-}
-.slabtextinactive .slabtext {
-    display: inline;
-    white-space: normal;
-    font-size: 1em !important;
-    letter-spacing: inherit !important;
-    word-spacing: inherit !important;
-    *letter-spacing: normal !important;
-    *word-spacing: normal !important;
-}
-.slabtextdone .slabtext {
-    display: block;
 }
