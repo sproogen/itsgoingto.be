@@ -17,7 +17,7 @@ const jsonOk = (body) => {
       'Content-type': 'application/json'
     }
   })
-  return new Promise.resolve(mockResponse)
+  return Promise.resolve(mockResponse)
 }
 
 const jsonError = (status, body) => {
@@ -27,7 +27,7 @@ const jsonError = (status, body) => {
       'Content-type': 'application/json'
     }
   })
-  return new Promise.reject(mockResponse)
+  return Promise.reject(mockResponse)
 }
 
 describe('(Store) API', () => {
@@ -52,7 +52,6 @@ describe('(Store) API', () => {
   })
 
   describe('(API Calls)', () => {
-    let promiseHelper
     let _globalState
     let _dispatchSpy
     let _getStateSpy
@@ -95,7 +94,10 @@ describe('(Store) API', () => {
       it('Should call fetch with the correct url and data.', () => {
         return postPoll()(_dispatchSpy, _getStateSpy).then(() => {
           window.fetch.should.have.been.calledOnce()
-          window.fetch.should.have.been.calledWith(ROUTE_QUESTION, { method : 'POST', credentials : 'same-origin', body : '{"question":"Question","answers":["Answer"]}' })
+          window.fetch.should.have.been.calledWith(
+            ROUTE_QUESTION,
+            { method : 'POST', credentials : 'same-origin', body : '{"question":"Question","answers":["Answer"]}' }
+          )
         })
       })
 

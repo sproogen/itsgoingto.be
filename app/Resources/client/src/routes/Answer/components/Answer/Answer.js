@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
-import { mergeAll } from 'ramda'
 import { postResponse } from 'store/api'
 import { userRespondedAnswerSelector } from 'store/poll'
 import './Answer.scss'
@@ -42,7 +41,9 @@ export class Answer extends React.Component {
         onClick={this.handleClick}>
         { this.props.answer.answer }
       </label>
-      <span htmlFor={'answer-' + this.props.index} className='input-label-votes'>{this.props.answer.responsesCount} votes</span>
+      <span htmlFor={'answer-' + this.props.index} className='input-label-votes'>
+        {this.props.answer.responsesCount} votes
+      </span>
     </span>
   )
 }

@@ -1,5 +1,5 @@
-import { prop, compose, not, equals, length, omit, when, find, propEq, contains, __, assoc,
-         adjust, set, lensProp, findIndex, update, ifElse, path, isNil, isEmpty, merge } from 'ramda'
+import { prop, compose, not, equals, length, omit, when, find, propEq, contains,
+         adjust, set, lensProp, findIndex, ifElse, path, isNil, isEmpty, merge, __ } from 'ramda'
 import { addAnswer, clearAnswers, updateAnswers } from './answers'
 
 // ------------------------------------

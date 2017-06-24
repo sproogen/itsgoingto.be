@@ -7,6 +7,7 @@ const project = require('../project.config')
 const compress = require('compression')
 
 const app = express()
+
 app.use(compress())
 
 // ------------------------------------
@@ -44,6 +45,7 @@ if (project.env === 'development') {
   // rendering, you'll want to remove this middleware.
   app.use('*', function (req, res, next) {
     const filename = path.join(compiler.outputPath, 'index.html')
+
     compiler.outputFileSystem.readFile(filename, (err, result) => {
       if (err) {
         return next(err)

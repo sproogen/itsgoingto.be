@@ -293,19 +293,33 @@ describe('(Store) Answers', () => {
     let _state = ['Answer 1', 'Answer 2']
 
     it('Should update the state to be the given answers.', () => {
-      _state = answersReducer(_state, { type : ANSWERS_UPDATE, answers : [{ id : 3, answer : 'Answer 3' }, { id : 4, answer : 'Answer 4' }] })
+      _state = answersReducer(
+        _state,
+        { type : ANSWERS_UPDATE, answers : [{ id : 3, answer : 'Answer 3' }, { id : 4, answer : 'Answer 4' }] }
+      )
       expect(_state).to.deep.equal([{ id : 3, answer : 'Answer 3' }, { id : 4, answer : 'Answer 4' }])
 
-      _state = answersReducer(_state, { type : ANSWERS_UPDATE, answers : [{ id : 5, answer : 'Answer 5' }, { id : 6, answer : 'Answer 6' }] })
+      _state = answersReducer(
+        _state,
+        { type : ANSWERS_UPDATE, answers : [{ id : 5, answer : 'Answer 5' }, { id : 6, answer : 'Answer 6' }] }
+      )
       expect(_state).to.deep.equal([{ id : 5, answer : 'Answer 5' }, { id : 6, answer : 'Answer 6' }])
     })
 
     it('Should update the state to be the given answers updating exisitng answers.', () => {
-      _state = answersReducer(_state, { type : ANSWERS_UPDATE, answers : [{ id : 3, answer : 'Answer 3' }, { id : 4, answer : 'Answer 4' }] })
+      _state = answersReducer(
+        _state,
+        { type : ANSWERS_UPDATE, answers : [{ id : 3, answer : 'Answer 3' }, { id : 4, answer : 'Answer 4' }] }
+      )
       expect(_state).to.deep.equal([{ id : 3, answer : 'Answer 3' }, { id : 4, answer : 'Answer 4' }])
 
-      _state = answersReducer(_state, { type : ANSWERS_UPDATE, answers : [{ id : 3, responseCount : 2 }, { id : 4, responseCount : 1 }] })
-      expect(_state).to.deep.equal([{ id : 3, answer : 'Answer 3', responseCount : 2 }, { id : 4, answer : 'Answer 4', responseCount : 1 }])
+      _state = answersReducer(
+        _state,
+        { type : ANSWERS_UPDATE, answers : [{ id : 3, responseCount : 2 }, { id : 4, responseCount : 1 }] }
+      )
+      expect(_state).to.deep.equal(
+        [{ id : 3, answer : 'Answer 3', responseCount : 2 }, { id : 4, answer : 'Answer 4', responseCount : 1 }]
+      )
     })
   })
 
