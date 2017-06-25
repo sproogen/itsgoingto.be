@@ -7,7 +7,7 @@ itsgoingtobe_api:
     prefix: /api
 
 itsgoingtobe_react:
-    pattern: /{url}
+    path: /{url}
     defaults: { _controller: ItsGoingToBeBundle:React:index, url: null }
     requirements:
         url: .*
