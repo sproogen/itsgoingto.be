@@ -24,11 +24,11 @@ ItsGoingToBeBundle\Entity\UserResponse:
         updated:
             type: datetime
     manyToOne:
-        question:
-            targetEntity: ItsGoingToBeBundle\Entity\Question
+        poll:
+            targetEntity: ItsGoingToBeBundle\Entity\Poll
             inversedBy: responses
             joinColumns:
-                question_id:
+                poll_id:
                     referencedColumnName: id
         answer:
             targetEntity: ItsGoingToBeBundle\Entity\Answer

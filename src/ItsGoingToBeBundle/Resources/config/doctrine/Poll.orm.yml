@@ -1,6 +1,6 @@
-ItsGoingToBeBundle\Entity\Question:
+ItsGoingToBeBundle\Entity\Poll:
     type: entity
-    table: question
+    table: poll
     id:
         id:
             type: integer
@@ -26,11 +26,11 @@ ItsGoingToBeBundle\Entity\Question:
     oneToMany:
         answers:
             targetEntity: ItsGoingToBeBundle\Entity\Answer
-            mappedBy: question
+            mappedBy: poll
             cascade: ["persist", "remove"]
         responses:
             targetEntity: ItsGoingToBeBundle\Entity\UserResponse
-            mappedBy: question
+            mappedBy: poll
     lifecycleCallbacks:
         prePersist: [ prePersist ]
         preUpdate: [ preUpdate ]

@@ -18,7 +18,7 @@ class AdminController extends Controller
         $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'Unable to access this page!');
 
         $em = $this->get('doctrine.orm.entity_manager');
-        $dql = "SELECT q FROM ItsGoingToBeBundle:Question q ORDER BY q.id DESC";
+        $dql = "SELECT q FROM ItsGoingToBeBundle:Poll p ORDER BY p.id DESC";
         $query = $em->createQuery($dql);
 
         $paginator  = $this->get('knp_paginator');
@@ -44,16 +44,16 @@ class AdminController extends Controller
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'Unable to access this page!');
 
-        $questionModel = $this->getDoctrine()
-            ->getRepository('ItsGoingToBeBundle:Question')
+        $pollModel = $this->getDoctrine()
+            ->getRepository('ItsGoingToBeBundle:Poll')
             ->findOneByIdentifier($identifier);
-        if (!$questionModel) {
-            throw $this->createNotFoundException('The question could not be found');
+        if (!$pollModel) {
+            throw $this->createNotFoundException('The poll could not be found');
         }
 
         $em = $this->getDoctrine()->getManager();
-        $questionModel->setDeleted(true);
-        $em->persist($questionModel);
+        $pollModel->setDeleted(true);
+        $em->persist($pollModel);
         $em->flush();
 
         return $this->redirectToRoute('admin_page', array('page'=>$request->query->getInt('returnToPage', 1)));

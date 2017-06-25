@@ -5,7 +5,7 @@ namespace ItsGoingToBeBundle\Tests\Entity;
 use Doctrine\Common\Collections\Collection;
 use ItsGoingToBeBundle\Tests\AbstractTests\BaseEntityTest;
 use ItsGoingToBeBundle\Entity\Answer;
-use ItsGoingToBeBundle\Entity\Question;
+use ItsGoingToBeBundle\Entity\Poll;
 use ItsGoingToBeBundle\Entity\UserResponse;
 
 /**
@@ -23,22 +23,22 @@ class AnswerTest extends BaseEntityTest
     public function testExtract()
     {
         $this->entity->setAnswer('Answer Text');
-        $question = new Question();
-        $this->entity->setQuestion($question);
+        $poll = new Poll();
+        $this->entity->setPoll($poll);
         $response = new UserResponse();
         $this->entity->addResponse($response);
 
         $extractedData = $this->entity->extract();
         self::assertArrayHasKey('id', $extractedData);
         self::assertArrayHasKey('answer', $extractedData);
-        self::assertArrayHasKey('question', $extractedData);
+        self::assertArrayHasKey('poll', $extractedData);
         self::assertArrayHasKey('responsesCount', $extractedData);
 
         self::assertEquals('Answer Text', $extractedData['answer']);
-        $question = $extractedData['question'];
-        self::assertArrayHasKey('type', $question);
-        self::assertArrayHasKey('id', $question);
-        self::assertEquals('question', $question['type']);
+        $poll = $extractedData['poll'];
+        self::assertArrayHasKey('type', $poll);
+        self::assertArrayHasKey('id', $poll);
+        self::assertEquals('poll', $poll['type']);
         self::assertEquals(1, $extractedData['responsesCount']);
     }
 
@@ -48,11 +48,11 @@ class AnswerTest extends BaseEntityTest
         self::assertEquals('Answer Text', $this->entity->getAnswer());
     }
 
-    public function testGetSetQuestion()
+    public function testGetSetPoll()
     {
-        $question = new Question();
-        $this->entity->setQuestion($question);
-        self::assertEquals($question, $this->entity->getQuestion());
+        $poll = new Poll();
+        $this->entity->setPoll($poll);
+        self::assertEquals($poll, $this->entity->getPoll());
     }
 
     public function testGetInitialResponses()
