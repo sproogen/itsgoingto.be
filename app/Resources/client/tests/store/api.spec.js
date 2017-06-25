@@ -1,5 +1,5 @@
 import {
-  ROUTE_QUESTION,
+  ROUTE_POLL,
   ROUTE_RESPONSES,
   extractResponse,
   onError,
@@ -31,8 +31,8 @@ const jsonError = (status, body) => {
 }
 
 describe('(Store) API', () => {
-  it('Should export a constant ROUTE_QUESTION.', () => {
-    expect(ROUTE_QUESTION).to.equal('/api/questions')
+  it('Should export a constant ROUTE_POLL.', () => {
+    expect(ROUTE_POLL).to.equal('/api/polls')
   })
 
   it('Should export a constant ROUTE_RESPONSES.', () => {
@@ -95,7 +95,7 @@ describe('(Store) API', () => {
         return postPoll()(_dispatchSpy, _getStateSpy).then(() => {
           window.fetch.should.have.been.calledOnce()
           window.fetch.should.have.been.calledWith(
-            ROUTE_QUESTION,
+            ROUTE_POLL,
             { method : 'POST', credentials : 'same-origin', body : '{"question":"Question","answers":["Answer"]}' }
           )
         })
@@ -147,7 +147,7 @@ describe('(Store) API', () => {
       it('Should call fetch with the correct url.', () => {
         return fetchPoll('hf0sd8fhoas')(_dispatchSpy, _getStateSpy).then(() => {
           window.fetch.should.have.been.calledOnce()
-          window.fetch.should.have.been.calledWith(ROUTE_QUESTION + '/hf0sd8fhoas', { credentials : 'same-origin' })
+          window.fetch.should.have.been.calledWith(ROUTE_POLL + '/hf0sd8fhoas', { credentials : 'same-origin' })
         })
       })
 
@@ -198,7 +198,7 @@ describe('(Store) API', () => {
         return postResponse(434, 'hf0sd8fhoas')(_dispatchSpy, _getStateSpy).then(() => {
           window.fetch.should.have.been.calledOnce()
           window.fetch.should.have.been.calledWith(
-            ROUTE_QUESTION + '/hf0sd8fhoas' + ROUTE_RESPONSES,
+            ROUTE_POLL + '/hf0sd8fhoas' + ROUTE_RESPONSES,
             { method : 'POST', credentials : 'same-origin', body : '{"answers":[434]}' })
         })
       })
@@ -235,7 +235,7 @@ describe('(Store) API', () => {
         return fetchResponses('hf0sd8fhoas')(_dispatchSpy, _getStateSpy).then(() => {
           window.fetch.should.have.been.calledOnce()
           window.fetch.should.have.been.calledWith(
-            ROUTE_QUESTION + '/hf0sd8fhoas' + ROUTE_RESPONSES,
+            ROUTE_POLL + '/hf0sd8fhoas' + ROUTE_RESPONSES,
             { credentials : 'same-origin' })
         })
       })

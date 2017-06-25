@@ -64,7 +64,7 @@ export const updateAnswers = (answers = []) => ({
     map(
       when(
         is(Object),
-        omit(['question'])
+        omit(['poll'])
       ),
     )
   )(answers)
