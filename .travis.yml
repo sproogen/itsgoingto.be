@@ -19,7 +19,6 @@ branches:
 before_install:
   - cp app/config/parameters.yml.travis app/config/parameters.yml
   - cp app/config/parameters.yml.travis app/config/parameters_dev.yml
-  - cp app/Resources/client/project.config.js.dist app/Resources/client/project.config.js
 
 install:
   - phpenv config-rm xdebug.ini
