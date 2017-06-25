@@ -32,7 +32,7 @@ security:
             form_login:
                 login_path: /admin/login
                 check_path: /admin/login-check
-                csrf_provider: security.csrf.token_manager
+                csrf_token_generator: security.csrf.token_manager
             # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
 
             logout:
