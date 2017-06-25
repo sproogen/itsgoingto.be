@@ -20,7 +20,7 @@ module.exports = {
   /** The base path for all projects assets (relative to the website root) */
   relativePath: '/client/',
   /** The base path for all projects assets */
-  publicPath: domain+'/client/',
+  publicPath: domain + '/client/',
   /** Whether to generate sourcemaps */
   sourcemaps: true,
   /** A hash map of keys that the compiler should treat as external to the project */
