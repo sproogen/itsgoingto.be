@@ -234,7 +234,9 @@ class ApiControllerTest extends BaseTest
 
         $this->userResponse = $this->prophesize(userResponse::class);
         $this->userResponse->getAnswer()->willReturn($this->answer->reveal());
-        $this->userResponseRepository->findBy(Argument::any())->willReturn([$this->userResponse->reveal(), $this->userResponse->reveal()]);
+        $this->userResponseRepository->findBy(Argument::any())->willReturn(
+          [$this->userResponse->reveal(), $this->userResponse->reveal()]
+        );
 
         $response = $this->controller->questionsAction($request, 'gf56dg');
         $data = json_decode($response->getContent(), true);
@@ -473,7 +475,9 @@ class ApiControllerTest extends BaseTest
 
         $this->userResponse = $this->prophesize(userResponse::class);
         $this->userResponse->getAnswer()->willReturn($this->answer->reveal());
-        $this->userResponseRepository->findBy(Argument::any())->willReturn([$this->userResponse->reveal(), $this->userResponse->reveal()]);
+        $this->userResponseRepository->findBy(Argument::any())->willReturn(
+          [$this->userResponse->reveal(), $this->userResponse->reveal()]
+        );
 
         $response = $this->controller->responsesAction($request, 'gf56dg');
         $data = json_decode($response->getContent(), true);
