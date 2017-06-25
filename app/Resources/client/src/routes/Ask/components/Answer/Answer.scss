@@ -1,0 +1,26 @@
+@import "bourbon";
+@import "neat";
+@import "variables";
+
+.input-answer {
+  margin-bottom: 1em;
+
+  .input-field-answer {
+    font-size: 1.5em;
+    display: inline-block;
+    width: -webkit-calc(100% - 2.3em);
+    width: -moz-calc(100% - 2.3em);
+    width: calc(100% - 2.3em);
+    position: absolute;
+    left:2.3em;
+    padding-right: 2em;
+  }
+
+  .input-label-answer {
+    font-size: 1.3em;
+    display: inline-block;
+    width:50px;
+    line-height: 2.5em;
+    margin-bottom: 0;
+  }
+}

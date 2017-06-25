@@ -218,6 +218,33 @@ class ApiControllerTest extends BaseTest
     }
 
     /**
+     * Test that the users responses is returned with the question
+     */
+    public function testRetrieveQuestionRequestReturnsUserResponses()
+    {
+        $request = Request::create('api/questions/gf56dg', 'GET');
+        $response = $this->controller->questionsAction($request, 'gf56dg');
+
+        self::assertInstanceOf(JsonResponse::class, $response);
+        self::assertEquals(200, $response->getStatusCode());
+
+        $data = json_decode($response->getContent(), true);
+        self::assertArrayHasKey('userResponses', $data);
+        self::assertEquals([], $data['userResponses']);
+
+        $this->userResponse = $this->prophesize(userResponse::class);
+        $this->userResponse->getAnswer()->willReturn($this->answer->reveal());
+        $this->userResponseRepository->findBy(Argument::any())->willReturn(
+          [$this->userResponse->reveal(), $this->userResponse->reveal()]
+        );
+
+        $response = $this->controller->questionsAction($request, 'gf56dg');
+        $data = json_decode($response->getContent(), true);
+        self::assertArrayHasKey('userResponses', $data);
+        self::assertEquals([5, 5], $data['userResponses']);
+    }
+
+    /**
      * Test that admins are able to access deleted questions
      */
     public function testRetrieveQuestionRequestReturnsDeletedQuestionForAdmin()
@@ -303,6 +330,7 @@ class ApiControllerTest extends BaseTest
         self::assertArrayHasKey('identifier', $data);
         self::assertArrayHasKey('question', $data);
         self::assertArrayHasKey('answers', $data);
+        self::assertArrayHasKey('userResponses', $data);
         self::assertArrayHasKey('responsesCount', $data);
         self::assertArrayHasKey('multipleChoice', $data);
         self::assertArrayHasKey('deleted', $data);
@@ -321,6 +349,7 @@ class ApiControllerTest extends BaseTest
         self::assertArrayHasKey('id', $data['answers'][1]);
         self::assertArrayHasKey('answer', $data['answers'][1]);
         self::assertEquals('Answer B', $data['answers'][1]['answer']);
+        self::assertEquals([], $data['userResponses']);
         self::assertEquals(0, $data['responsesCount']);
     }
 
@@ -412,7 +441,6 @@ class ApiControllerTest extends BaseTest
     public function testIndexResponsesRequestReturnsResponses()
     {
         $request = Request::create('/api/questions/gf56dg/responses', 'GET');
-
         $response = $this->controller->responsesAction($request, 'gf56dg');
 
         $this->entityManager->getRepository('ItsGoingToBeBundle:Question')
@@ -424,9 +452,11 @@ class ApiControllerTest extends BaseTest
         self::assertEquals(200, $response->getStatusCode());
 
         $data = json_decode($response->getContent(), true);
+        self::assertArrayHasKey('userResponses', $data);
         self::assertArrayHasKey('responsesCount', $data);
         self::assertArrayHasKey('answers', $data);
 
+        self::assertEquals([], $data['userResponses']);
         self::assertEquals(2, $data['responsesCount']);
         self::assertCount(2, $data['answers']);
 
@@ -434,6 +464,25 @@ class ApiControllerTest extends BaseTest
         self::assertArrayHasKey('responsesCount', $data['answers'][0]);
         self::assertEquals(5, $data['answers'][0]['id']);
         self::assertEquals(1, $data['answers'][0]['responsesCount']);
+    }
+
+    /**
+     * Test that the users responses is returned with the question
+     */
+    public function testIndexResponsesRequestReturnsUserResponses()
+    {
+        $request = Request::create('/api/questions/gf56dg/responses', 'GET');
+
+        $this->userResponse = $this->prophesize(userResponse::class);
+        $this->userResponse->getAnswer()->willReturn($this->answer->reveal());
+        $this->userResponseRepository->findBy(Argument::any())->willReturn(
+          [$this->userResponse->reveal(), $this->userResponse->reveal()]
+        );
+
+        $response = $this->controller->responsesAction($request, 'gf56dg');
+        $data = json_decode($response->getContent(), true);
+        self::assertArrayHasKey('userResponses', $data);
+        self::assertEquals([5, 5], $data['userResponses']);
     }
 
     /**
@@ -487,6 +536,7 @@ class ApiControllerTest extends BaseTest
         self::assertEquals(200, $response->getStatusCode());
 
         $data = json_decode($response->getContent(), true);
+        self::assertArrayHasKey('userResponses', $data);
         self::assertArrayHasKey('responsesCount', $data);
         self::assertArrayHasKey('answers', $data);
     }
@@ -554,6 +604,7 @@ class ApiControllerTest extends BaseTest
         self::assertEquals(200, $response->getStatusCode());
 
         $data = json_decode($response->getContent(), true);
+        self::assertArrayHasKey('userResponses', $data);
         self::assertArrayHasKey('responsesCount', $data);
         self::assertArrayHasKey('answers', $data);
     }
@@ -593,9 +644,9 @@ class ApiControllerTest extends BaseTest
             ->shouldHaveBeenCalledTimes(1);
 
         $this->userResponseRepository->findBy(array('customUserID' => '9873fdanba8qge9dfsaq39', 'question' => 2))
-            ->shouldHaveBeenCalledTimes(1);
+            ->shouldHaveBeenCalledTimes(2);
         $this->userResponseRepository->findBy(array('userSessionID' => '12354321897467', 'question' => 2))
-            ->shouldHaveBeenCalledTimes(1);
+            ->shouldHaveBeenCalledTimes(2);
 
         $this->userResponseRepository
             ->findOneBy(array('customUserID' => '9873fdanba8qge9dfsaq39', 'question' => 2, 'answer' => 5))
@@ -624,6 +675,7 @@ class ApiControllerTest extends BaseTest
         self::assertEquals(200, $response->getStatusCode());
 
         $data = json_decode($response->getContent(), true);
+        self::assertArrayHasKey('userResponses', $data);
         self::assertArrayHasKey('responsesCount', $data);
         self::assertArrayHasKey('answers', $data);
     }

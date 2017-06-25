@@ -35,6 +35,31 @@ class AdminController extends Controller
     }
 
     /**
+     * Action for the admin delete route
+     *
+     * Matches /admin/delete route.
+     * Only accessable to uses with the 'ROLE_ADMIN' role.
+     */
+    public function deleteAction(Request $request, $identifier)
+    {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'Unable to access this page!');
+
+        $questionModel = $this->getDoctrine()
+            ->getRepository('ItsGoingToBeBundle:Question')
+            ->findOneByIdentifier($identifier);
+        if (!$questionModel) {
+            throw $this->createNotFoundException('The question could not be found');
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $questionModel->setDeleted(true);
+        $em->persist($questionModel);
+        $em->flush();
+
+        return $this->redirectToRoute('admin_page', array('page'=>$request->query->getInt('returnToPage', 1)));
+    }
+
+    /**
      * Action for the admin login page
      *
      * Matches /admin/login route exactly.
