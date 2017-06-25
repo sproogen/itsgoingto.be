@@ -5,10 +5,17 @@
 !app/logs/.gitkeep
 
 # Cache and logs (Symfony3)
+/var/*
+!/var/cache
 /var/cache/*
-/var/logs/*
 !var/cache/.gitkeep
+!/var/logs
+/var/logs/*
 !var/logs/.gitkeep
+!/var/sessions
+/var/sessions/*
+!var/sessions/.gitkeep
+!var/SymfonyRequirements.php
 
 # Parameters
 /app/config/parameters.yml

@@ -18,13 +18,14 @@ use Symfony\Component\Debug\Debug;
 //     exit('You are not allowed to access this file. Check '.basename(__FILE__).' for more information.');
 // }
 
-$loader = require_once __DIR__.'/../app/bootstrap.php.cache';
+/** @var \Composer\Autoload\ClassLoader $loader */
+$loader = require __DIR__.'/../vendor/autoload.php';
 Debug::enable();
 
-require_once __DIR__.'/../app/AppKernel.php';
-
 $kernel = new AppKernel('dev', true);
-$kernel->loadClassCache();
+if (PHP_VERSION_ID < 70000) {
+    $kernel->loadClassCache();
+}
 $request = Request::createFromGlobals();
 $response = $kernel->handle($request);
 $response->send();
