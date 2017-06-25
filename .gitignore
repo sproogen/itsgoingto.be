@@ -50,12 +50,6 @@ npm-debug.log*
 # https://docs.npmjs.com/misc/faq#should-i-check-my-node-modules-folder-into-git
 node_modules
 
-#Compiled Files
-/web/js/itsgoingtobe.js
-/web/js/itsgoingtobe.min.js
-/web/css/itsgoingtobe.css
-/web/css/itsgoingtobe.min.css
-
 #React Files
 /web/client/
 /app/Resources/views/react/index.html

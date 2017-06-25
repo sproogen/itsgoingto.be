@@ -7,7 +7,6 @@ cache:
   directories:
     - vendor
     - node_modules
-    - app/Resources/client/node_modules
 
 branches:
   only:
@@ -22,7 +21,6 @@ install:
   - phpenv config-rm xdebug.ini
   - composer install
   - npm install
-  - cd app/Resources/client && npm install
 
 before_script:
   - php app/console doctrine:database:create --env=test
@@ -32,8 +30,8 @@ script:
   - bin/phpcs --standard=PSR2 src/
   - bin/phplint src
   - bin/phpunit -c app
-  - npm run lint --prefix app/Resources/client/
-  - npm run test --prefix app/Resources/client/
+  - npm run lint
+  - npm run test
 
 notifications:
   email:
