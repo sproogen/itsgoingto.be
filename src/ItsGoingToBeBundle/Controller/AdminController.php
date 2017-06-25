@@ -30,8 +30,8 @@ class AdminController extends Controller
 
         return $this->render('admin/admin.html.twig', array(
             'pagination' => $pagination,
-            'currentPage'=>$request->query->getInt('page', 1))
-        );
+            'currentPage'=> $request->query->getInt('page', 1)
+        ));
     }
 
     /**
