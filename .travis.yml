@@ -3,6 +3,9 @@ language: php
 php:
   - 5.6
 
+env:
+  - NODE_VERSION="7"
+
 cache:
   directories:
     - vendor
@@ -16,7 +19,7 @@ branches:
 before_install:
   - cp app/config/parameters.yml.travis app/config/parameters.yml
   - cp app/config/parameters.yml.travis app/config/parameters_dev.yml
-  - if [[ `npm -v` != 3* ]]; then npm i -g npm@3; fi
+  - rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm install NODE_VERSION
 
 install:
   - phpenv config-rm xdebug.ini
