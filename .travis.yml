@@ -19,10 +19,10 @@ branches:
 before_install:
   - cp app/config/parameters.yml.travis app/config/parameters.yml
   - cp app/config/parameters.yml.travis app/config/parameters_dev.yml
-  - rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm install $NODE_VERSION
 
 install:
   - phpenv config-rm xdebug.ini
+  - rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm install $NODE_VERSION
   - composer install
   - npm install
 
