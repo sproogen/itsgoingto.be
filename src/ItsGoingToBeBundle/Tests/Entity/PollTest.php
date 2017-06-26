@@ -5,21 +5,21 @@ namespace ItsGoingToBeBundle\Tests\Entity;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use ItsGoingToBeBundle\Tests\AbstractTests\BaseEntityTest;
-use ItsGoingToBeBundle\Entity\Question;
+use ItsGoingToBeBundle\Entity\Poll;
 use ItsGoingToBeBundle\Entity\Answer;
 use ItsGoingToBeBundle\Entity\UserResponse;
 
 /**
- * Test for Question
+ * Test for Poll
  */
-class QuestionTest extends BaseEntityTest
+class PollTest extends BaseEntityTest
 {
     /**
      * The name of the Entity class being tested.
      *
      * @var string
      */
-    protected $entityClass = Question::class;
+    protected $entityClass = Poll::class;
 
     public function testExtract()
     {

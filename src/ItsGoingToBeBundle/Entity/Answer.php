@@ -4,11 +4,11 @@ namespace ItsGoingToBeBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
-use ItsGoingToBeBundle\Entity\Question;
+use ItsGoingToBeBundle\Entity\Poll;
 use ItsGoingToBeBundle\Entity\UserResponse;
 
 /**
- * Entity to store an answer for a question.
+ * Entity to store an answer for a poll.
  */
 class Answer
 {
@@ -27,11 +27,11 @@ class Answer
     protected $answer;
 
     /**
-     * The question for this answer.
+     * The poll for this answer.
      *
-     * @var Question
+     * @var Poll
      */
-    protected $question;
+    protected $poll;
 
     /**
      * The responses for this answer
@@ -49,7 +49,7 @@ class Answer
     }
 
     /**
-     * Extract the data for the question
+     * Extract the data for the answer
      *
      * @return []
      */
@@ -59,9 +59,9 @@ class Answer
             'id'     => $this->getId(),
             'answer' => $this->getAnswer(),
         ];
-        $data['question'] = [
-            'type' => 'question',
-            'id'   => $this->getQuestion()->getId()
+        $data['poll'] = [
+            'type' => 'poll',
+            'id'   => $this->getPoll()->getId()
         ];
         $data['responsesCount'] = count($this->getResponses());
         return $data;
@@ -78,27 +78,27 @@ class Answer
     }
 
     /**
-     * Set question
+     * Set poll
      *
-     * @param Question $question
+     * @param Poll $poll
      *
      * @return Answer
      */
-    public function setQuestion(Question $question)
+    public function setPoll(Poll $poll)
     {
-        $this->question = $question;
+        $this->poll = $poll;
 
         return $this;
     }
 
     /**
-     * Get question
+     * Get poll
      *
-     * @return Question
+     * @return Poll
      */
-    public function getQuestion()
+    public function getPoll()
     {
-        return $this->question;
+        return $this->poll;
     }
 
     /**

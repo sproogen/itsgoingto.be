@@ -72,6 +72,13 @@ doctrine:
             datetime_functions:
                 date_format: DoctrineExtensions\Query\Mysql\DateFormat
 
+# Doctrine Migrations
+doctrine_migrations:
+    dir_name: "%kernel.root_dir%/DoctrineMigrations"
+    namespace: Application\Migrations
+    table_name: migration_versions
+    name: Application Migrations
+
 knp_paginator:
     page_range: 10                      # default page range used in pagination control
     default_options:

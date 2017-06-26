@@ -4,7 +4,7 @@ import { answersSelector } from './answers'
 // ------------------------------------
 // Constants
 // ------------------------------------
-export const ROUTE_QUESTION = '/api/questions'
+export const ROUTE_POLL = '/api/polls'
 export const ROUTE_RESPONSES = '/responses'
 
 // ------------------------------------
@@ -51,7 +51,7 @@ export const onError = (error) => {
  * @return {Function} redux-thunk callable function
  */
 export const postPoll = () => (dispatch, getState) =>
-  fetch(ROUTE_QUESTION, {
+  fetch(ROUTE_POLL, {
     credentials : 'same-origin',
     method      : 'POST',
     body        : JSON.stringify({
@@ -71,7 +71,7 @@ export const postPoll = () => (dispatch, getState) =>
  * @return {Function} redux-thunk callable function
  */
 export const fetchPoll = (identifier) => (dispatch, getState) =>
-  fetch(ROUTE_QUESTION + '/' + identifier, {
+  fetch(ROUTE_POLL + '/' + identifier, {
     credentials : 'same-origin'
   })
   .then(extractResponse)
@@ -87,7 +87,7 @@ export const fetchPoll = (identifier) => (dispatch, getState) =>
  * @return {Function} redux-thunk callable function
  */
 export const postResponse = (answer, identifier) => (dispatch, getState) =>
-  fetch(ROUTE_QUESTION + '/' + identifier + ROUTE_RESPONSES, {
+  fetch(ROUTE_POLL + '/' + identifier + ROUTE_RESPONSES, {
     credentials : 'same-origin',
     method      : 'POST',
     body        : JSON.stringify({
@@ -106,7 +106,7 @@ export const postResponse = (answer, identifier) => (dispatch, getState) =>
  * @return {Function} redux-thunk callable function
  */
 export const fetchResponses = (identifier) => (dispatch, getState) =>
-  fetch(ROUTE_QUESTION + '/' + identifier + ROUTE_RESPONSES, {
+  fetch(ROUTE_POLL + '/' + identifier + ROUTE_RESPONSES, {
     credentials : 'same-origin'
   })
   .then(extractResponse)

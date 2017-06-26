@@ -9,9 +9,9 @@ use ItsGoingToBeBundle\Entity\Answer;
 use ItsGoingToBeBundle\Entity\UserResponse;
 
 /**
- * Entity to store a question.
+ * Entity to store a poll.
  */
-class Question
+class Poll
 {
     /**
      * The id of this Entity.
@@ -21,7 +21,7 @@ class Question
     protected $id;
 
     /**
-     * A unique identifier for this question.
+     * A unique identifier for this poll.
      *
      * @var string
      */
@@ -35,28 +35,28 @@ class Question
     protected $question;
 
     /**
-     * The answers for this question.
+     * The answers for this poll.
      *
      * @var Answer[]
      */
     protected $answers;
 
     /**
-     * The responses for this question.
+     * The responses for this poll.
      *
      * @var Response[]
      */
     protected $responses;
 
     /**
-     * Is the question multiple choice.
+     * Is the poll multiple choice.
      *
      * @var boolean
      */
     protected $multipleChoice;
 
     /**
-     * Has the question been deleted
+     * Has the poll been deleted
      *
      * @var boolean
      */
@@ -77,7 +77,7 @@ class Question
     protected $updated;
 
     /**
-     * Question constructor
+     * Poll constructor
      */
     public function __construct()
     {
@@ -111,7 +111,7 @@ class Question
     }
 
     /**
-     * Extract the data for the question
+     * Extract the data for the poll
      *
      * @return []
      */
@@ -149,11 +149,11 @@ class Question
     }
 
     /**
-     * Set key
+     * Set identifier
      *
-     * @param string $key
+     * @param string $identifier
      *
-     * @return Question
+     * @return Poll
      */
     public function setIdentifier($identifier)
     {
@@ -163,7 +163,7 @@ class Question
     }
 
     /**
-     * Get key
+     * Get identifier
      *
      * @return string
      */
@@ -177,7 +177,7 @@ class Question
      *
      * @param string $question
      *
-     * @return Question
+     * @return Poll
      */
     public function setQuestion($question)
     {
@@ -201,11 +201,11 @@ class Question
      *
      * @param Answer $answer
      *
-     * @return Question
+     * @return Poll
      */
     public function addAnswer(Answer $answer)
     {
-        $answer->setQuestion($this);
+        $answer->setPoll($this);
         $this->answers[] = $answer;
 
         return $this;
@@ -236,7 +236,7 @@ class Question
      *
      * @param UserResponse $response
      *
-     * @return Question
+     * @return Poll
      */
     public function addResponse(UserResponse $response)
     {
@@ -270,7 +270,7 @@ class Question
      *
      * @param boolean $multipleChoice
      *
-     * @return Question
+     * @return Poll
      */
     public function setMultipleChoice($multipleChoice)
     {
@@ -294,7 +294,7 @@ class Question
      *
      * @param boolean $deleted
      *
-     * @return Question
+     * @return Poll
      */
     public function setDeleted($deleted)
     {
@@ -330,7 +330,7 @@ class Question
      *
      * @param \DateTime $created When this Entity was created.
      *
-     * @return Entity
+     * @return Poll
      */
     public function setCreated($created = null)
     {
@@ -359,7 +359,7 @@ class Question
      *
      * @param \DateTime $updated When this Entity was last updated.
      *
-     * @return Entity
+     * @return Poll
      */
     public function setUpdated($updated = null)
     {
