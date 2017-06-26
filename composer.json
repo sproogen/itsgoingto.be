@@ -14,16 +14,17 @@
     "require": {
         "php": ">=5.5.9",
         "doctrine/doctrine-bundle": "^1.6",
+        "doctrine/doctrine-migrations-bundle": "^1.0",
         "doctrine/orm": "^2.5",
         "incenteev/composer-parameter-handler": "^2.0",
+        "knplabs/knp-paginator-bundle": "^2.5",
         "sensio/distribution-bundle": "^5.0.19",
+        "sensio/framework-extra-bundle": "^3.0.2",
+        "symfony/assetic-bundle": "~2.8",
         "symfony/monolog-bundle": "^3.1.0",
         "symfony/polyfill-apcu": "^1.0",
-        "symfony/assetic-bundle": "~2.8",
         "symfony/symfony": "3.3.*",
-        "twig/twig": "^1.0||^2.0",
-        "sensio/framework-extra-bundle": "^3.0.2",
-        "knplabs/knp-paginator-bundle": "^2.5"
+        "twig/twig": "^1.0||^2.0"
     },
     "require-dev": {
         "symfony/phpunit-bridge": "^3.0",
@@ -47,7 +48,7 @@
             "@symfony-scripts"
         ],
         "compile": [
-            "php bin/console doctrine:schema:update --force",
+            "php bin/console doctrine:migrations:migrate --no-interaction",
             "rm web/app_dev.php"
         ]
     },
