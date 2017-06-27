@@ -1,0 +1,21 @@
+{
+  "name": "itsgoingto.be",
+  "scripts": {},
+  "env": {
+    "JAWSDB_URL": {
+      "required": true
+    },
+    "SYMFONY_ENV": {
+      "required": true
+    }
+  },
+  "formation": {},
+  "addons": [
+    "jawsdb"
+  ],
+  "buildpacks": [
+    {
+      "url": "https://github.com/heroku/heroku-buildpack-multi.git"
+    }
+  ]
+}
