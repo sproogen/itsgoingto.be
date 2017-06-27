@@ -166,7 +166,6 @@ config.module.rules.push({
 // Fonts
 // ------------------------------------
 ;[
-  ['woff2', 'application/font-woff2'],
   ['otf', 'font/opentype'],
   ['eot', 'application/vnd.ms-fontobject'],
   ['svg', 'image/svg+xml'],
