@@ -96,11 +96,11 @@ class ApiControllerTest extends BaseTest
         $this->pollRepository->createQueryBuilder(Argument::any())->willReturn($this->queryBuilder->reveal());
 
         $this->entityManager = $this->prophesize(EntityManager::class);
-        $this->entityManager->getRepository('ItsGoingToBeBundle:Answer')
+        $this->entityManager->getRepository(Answer::class)
             ->willReturn($this->answerRepository->reveal());
-        $this->entityManager->getRepository('ItsGoingToBeBundle:Poll')
+        $this->entityManager->getRepository(Poll::class)
             ->willReturn($this->pollRepository->reveal());
-        $this->entityManager->getRepository('ItsGoingToBeBundle:UserResponse')
+        $this->entityManager->getRepository(UserResponse::class)
             ->willReturn($this->userResponseRepository->reveal());
         $this->entityManager->persist(Argument::any())
             ->willReturn(true);
@@ -151,7 +151,7 @@ class ApiControllerTest extends BaseTest
 
         $response = $this->controller->pollsAction($request, 0);
 
-        $this->entityManager->getRepository('ItsGoingToBeBundle:Poll')
+        $this->entityManager->getRepository(Poll::class)
             ->shouldHaveBeenCalledTimes(1);
 
         $this->poll->extract()
@@ -443,7 +443,7 @@ class ApiControllerTest extends BaseTest
         $request  = Request::create('/api/polls/gf56dg/responses', 'GET');
         $response = $this->controller->responsesAction($request, 'gf56dg');
 
-        $this->entityManager->getRepository('ItsGoingToBeBundle:Poll')
+        $this->entityManager->getRepository(Poll::class)
              ->shouldHaveBeenCalledTimes(1);
         $this->pollRepository->findOneBy(array('identifier'=>'gf56dg', 'deleted'=>false))
                              ->shouldHaveBeenCalledTimes(1);
