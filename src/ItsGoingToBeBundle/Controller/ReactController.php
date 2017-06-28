@@ -2,7 +2,10 @@
 
 namespace ItsGoingToBeBundle\Controller;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+use ItsGoingToBeBundle\Entity\Poll;
 
 /**
  * Class ReactController
@@ -14,12 +17,38 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class ReactController extends Controller
 {
     /**
+     * @var EntityManager
+     */
+    protected $em;
+
+    /**
+     * @param EntityManagerInterface $entityManager
+     */
+    public function setEntityManager(EntityManagerInterface $em)
+    {
+        $this->em = $em;
+    }
+
+    /**
      * Action for the index page
      *
      * Matches / route exactly
+     *
+     * @param  Request   $request    The request object.
+     * @param  mixed     $identifier An identifier for a poll, 0 by default.
      */
-    public function indexAction()
+    public function indexAction(Request $request, $url)
     {
-        return $this->render('react/dev.html.twig');
+        // If we get here and we are in prod then we have likely hit a scraper and so just want to show the metatags.
+        if ($this->container->getParameter('kernel.environment') === 'prod') {
+            $poll = $this->em->getRepository(Poll::class)
+                ->findOneBy(['identifier' => $url, 'deleted' => false]);
+
+            return $this->render('react/meta.html.twig', array(
+                'poll' => $poll
+            ));
+        } else {
+            return $this->render('react/dev.html.twig');
+        }
     }
 }

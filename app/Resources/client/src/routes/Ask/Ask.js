@@ -1,4 +1,5 @@
 import React from 'react'
+import { Helmet } from 'react-helmet'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { hasQuestionSelector, updatePoll, initialPoll } from '../../store/poll'
@@ -14,6 +15,14 @@ class Ask extends React.Component {
 
   render = () => (
     <div>
+      <Helmet>
+        <meta charSet='utf-8' />
+        <title>It&#39;s Going To Be</title>
+        <meta
+          name='description'
+          content='Wondering where to go or what to see? Start a vote and share it with your friends or colleagues.' />
+        <meta name='keywords' content='question vote poll result' />
+      </Helmet>
       <div className={'container header-container hideable' + (this.props.hasQuestion ? ' gone' : '')}>
         <div className='header center-text'>
           <h1><WordRotate words='What,Where,When,Who' /> is it going to be?</h1>

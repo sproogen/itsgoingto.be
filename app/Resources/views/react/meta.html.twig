@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>It's going to be</title>
+
+        <meta name="keywords" content="question vote poll result" />
+
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:site" content="@sproogen" />
+        <meta name="twitter:image" content="{{ app.request.getSchemeAndHttpHost() ~ asset('/images/itsgoingtobe-logo.png') }}" />
+
+        <meta property="og:url" content="{{ app.request.uri }}" />
+        <meta property="og:image" content="{{ app.request.getSchemeAndHttpHost() ~ asset('/images/itsgoingtobe-logo.png') }}" />
+
+        {% if poll.question is defined %}
+            <meta name="description" content="Join in the vote and answer this poll at itsgoingto.be" />
+
+            <meta name="twitter:title" content="{{poll.question}}" />
+            <meta name="twitter:description" content="Join in the vote and answer this poll at itsgoingto.be" />
+
+            <meta property="og:title" content="{{poll.question}}" />
+            <meta property="og:description" content="Join in the vote and answer this poll at itsgoingto.be" />
+        {% else %}
+            <meta name="description" content="Wondering where to go or what to see? Start a vote and share it with your friends or colleagues." />
+
+            <meta name="twitter:title" content="It's Going To Be" />
+            <meta name="twitter:description" content="Wondering where to go or what to see? Start a vote and share it with your friends or colleagues." />
+
+            <meta property="og:title" content="It's Going To Be" />
+            <meta property="og:description" content="Wondering where to go or what to see? Start a vote and share it with your friends or colleagues." />
+        {% endif %}
+    </head>
+    <body>
+        <div id="root">You shouldn't be seeing this page. It's only for the crawlers.</div>
+    </body>
+</html>

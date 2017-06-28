@@ -27,3 +27,9 @@ services:
             - [ setEntityManager, ["@doctrine.orm.default_entity_manager"]]
             - [ setAuthorizationChecker, ["@security.authorization_checker"]]
             - [ setIdentifierService, ["@itsgoingtobe.identifier_service"]]
+
+    itsgoingtobe.react_controller:
+        class: ItsGoingToBeBundle\Controller\ReactController
+        calls:
+            - [ setContainer, ["@service_container"]]
+            - [ setEntityManager, ["@doctrine.orm.default_entity_manager"]]

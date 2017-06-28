@@ -1,4 +1,5 @@
 import React from 'react'
+import { Helmet } from 'react-helmet'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { mergeAll } from 'ramda'
@@ -31,6 +32,12 @@ class Answer extends React.Component {
 
   render = () => (
     <div>
+      <Helmet>
+        <meta charSet='utf-8' />
+        <title>{ this.props.poll.question }</title>
+        <meta name='description' content='Join in the vote and answer this poll at itsgoingto.be' />
+        <meta name='keywords' content='question vote poll result' />
+      </Helmet>
       <Back />
       <div className='container header-container answer-header-container'>
         <div className='header center-text'>
