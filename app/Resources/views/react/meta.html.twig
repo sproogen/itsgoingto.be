@@ -12,6 +12,11 @@
         <meta name="twitter:title" content="It's Going To Be" />
         <meta name="twitter:description" content="Wondering where to go or what to see? Start a vote and share it with your friends or colleagues." />
         <meta name="twitter:image" content="{{ app.request.getSchemeAndHttpHost() ~ asset('/images/itsgoingtobe-logo.png') }}" />
+
+        <meta property="og:url" content="{{ app.request.uri }}" />
+        <meta property="og:title" content="It's Going To Be" />
+        <meta property="og:description" content="Wondering where to go or what to see? Start a vote and share it with your friends or colleagues." />
+        <meta property="og:image" content="{{ app.request.getSchemeAndHttpHost() ~ asset('/images/itsgoingtobe-logo.png') }}" />
     </head>
     <body>
         <div id="root">You shouldn't be seeing this page. It's only for the crawlers.</div>
