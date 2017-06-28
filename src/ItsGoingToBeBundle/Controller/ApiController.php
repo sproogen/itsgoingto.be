@@ -32,7 +32,7 @@ class ApiController extends Controller
     protected $identifierService;
 
     /**
-     * @var EntityManager
+     * @var EntityManagerInterface
      */
     protected $em;
 
@@ -110,7 +110,7 @@ class ApiController extends Controller
      */
     public function responsesAction(Request $request, $identifier)
     {
-        $poll = $this->em->getRepository('ItsGoingToBeBundle:Poll')
+        $poll = $this->em->getRepository(Poll::class)
             ->findOneBy(array('identifier' => $identifier, 'deleted' => false));
 
         if ($poll) {
@@ -161,7 +161,7 @@ class ApiController extends Controller
         if (!$this->authorizationChecker->isGranted('ROLE_ADMIN')) {
             $findOneBy['deleted'] = false;
         }
-        $poll = $this->em->getRepository('ItsGoingToBeBundle:Poll')
+        $poll = $this->em->getRepository(Poll::class)
             ->findOneBy($findOneBy);
 
         if ($poll) {
@@ -189,7 +189,7 @@ class ApiController extends Controller
      */
     protected function indexPolls($parameters)
     {
-        $queryBuilder = $this->em->getRepository('ItsGoingToBeBundle:Poll')
+        $queryBuilder = $this->em->getRepository(Poll::class)
             ->createQueryBuilder('a')
             ->where('1 = 1');
 
@@ -283,7 +283,7 @@ class ApiController extends Controller
             return new JsonResponse([], 401);
         }
 
-        $poll = $this->em->getRepository('ItsGoingToBeBundle:Poll')
+        $poll = $this->em->getRepository(Poll::class)
             ->findOneBy(array('identifier' => $identifier));
 
         if ($poll) {
@@ -340,7 +340,7 @@ class ApiController extends Controller
                  is_array($data['answers']) ? $data['answers'] : [$data['answers']] :
                  [] as $answer) {
             if (is_int($answer)) {
-                $answer = $this->em->getRepository('ItsGoingToBeBundle:Answer')
+                $answer = $this->em->getRepository(Answer::class)
                     ->findOneBy(array('id' => $answer, 'poll' => $poll->getId()));
                 if ($answer) {
                     $answers[] = $answer;
@@ -402,7 +402,7 @@ class ApiController extends Controller
         $identifier = null;
         do {
             $identifier = substr(chr(mt_rand(97, 122)) .substr(md5(time()), 1), 0, 8);
-            $duplicatePoll = $this->em->getRepository('ItsGoingToBeBundle:Poll')
+            $duplicatePoll = $this->em->getRepository(Poll::class)
                 ->findOneBy(array('identifier' => $identifier));
             if ($duplicatePoll != null) {
                 $identifier = null;
@@ -453,7 +453,7 @@ class ApiController extends Controller
      */
     protected function getResponseForUser(Poll $poll, $answer, Request $request)
     {
-        $responseRepository = $this->em->getRepository('ItsGoingToBeBundle:UserResponse');
+        $responseRepository = $this->em->getRepository(UserResponse::class);
         $findOneBy = [
             'poll' => $poll->getId(),
             'customUserID' => $this->identifierService->getCustomUserID($request)
@@ -481,7 +481,7 @@ class ApiController extends Controller
      */
     protected function getResponsesForUser(Poll $poll, Request $request, $idsOnly = false)
     {
-        $responseRepository = $this->em->getRepository('ItsGoingToBeBundle:UserResponse');
+        $responseRepository = $this->em->getRepository(UserResponse::class);
         $userResponses = $responseRepository->findBy([
             'customUserID' => $this->identifierService->getCustomUserID($request),
             'poll' => $poll->getId()
