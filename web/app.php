@@ -3,15 +3,15 @@
 use Symfony\Component\HttpFoundation\Request;
 
 // Loading the react app here to save bootstraping symfony.
-if (substr( $_SERVER['REQUEST_URI'], 0, 6 ) !== "/admin" && substr( $_SERVER['REQUEST_URI'], 0, 4 ) !== "/api") {
-    if (
-        !strpos($_SERVER["HTTP_USER_AGENT"], "facebookexternalhit/") !== false &&
-        !strpos($_SERVER["HTTP_USER_AGENT"], "Facebot") !== false &&
-        !strpos($_SERVER["HTTP_USER_AGENT"], "Twitterbot") !== false
-    ) {
-        readfile("client/index.html");
-        exit(0);
-    }
+if (substr( $_SERVER['REQUEST_URI'], 0, 6 ) !== '/admin' && substr( $_SERVER['REQUEST_URI'], 0, 4 ) !== '/api') {
+    // if (
+    //     strpos($_SERVER["HTTP_USER_AGENT"], 'facebookexternalhit/') === false &&
+    //     strpos($_SERVER["HTTP_USER_AGENT"], 'Facebot') === false &&
+    //     strpos($_SERVER["HTTP_USER_AGENT"], 'Twitterbot') === false
+    // ) {
+    //     readfile("client/index.html");
+    //     exit(0);
+    // }
 }
 
 /** @var \Composer\Autoload\ClassLoader $loader */
