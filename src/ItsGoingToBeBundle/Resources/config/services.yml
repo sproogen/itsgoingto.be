@@ -20,8 +20,16 @@ services:
         calls:
             - [ setLogger, ["@logger"]]
 
-    itsgoingtobe.api_controller:
-        class: ItsGoingToBeBundle\Controller\ApiController
+    itsgoingtobe.poll_api_controller:
+        class: ItsGoingToBeBundle\Controller\Api\PollApiController
+        calls:
+            - [ setContainer, ["@service_container"]]
+            - [ setEntityManager, ["@doctrine.orm.default_entity_manager"]]
+            - [ setAuthorizationChecker, ["@security.authorization_checker"]]
+            - [ setIdentifierService, ["@itsgoingtobe.identifier_service"]]
+
+    itsgoingtobe.response_api_controller:
+        class: ItsGoingToBeBundle\Controller\Api\ResponseApiController
         calls:
             - [ setContainer, ["@service_container"]]
             - [ setEntityManager, ["@doctrine.orm.default_entity_manager"]]

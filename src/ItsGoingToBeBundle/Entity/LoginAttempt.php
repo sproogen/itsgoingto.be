@@ -3,7 +3,6 @@
 namespace ItsGoingToBeBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
@@ -57,10 +56,8 @@ class LoginAttempt
      * Lifecycle callback method for the 'prePersist' event.
      *
      * Sets the $created dates to now.
-     *
-     * @param LifecycleEventArgs $args Args for this Lifecycle event, passed in by Doctrine.
      */
-    public function prePersist(LifecycleEventArgs $args)
+    public function prePersist()
     {
         $this->setCreated();
     }

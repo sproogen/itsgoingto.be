@@ -3,7 +3,6 @@
 namespace ItsGoingToBeBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\Common\Collections\ArrayCollection;
 use ItsGoingToBeBundle\Entity\Answer;
 use ItsGoingToBeBundle\Entity\UserResponse;
@@ -89,10 +88,8 @@ class Poll
      * Lifecycle callback method for the 'prePersist' event.
      *
      * Sets the $created and $updated dates to now.
-     *
-     * @param LifecycleEventArgs $args Args for this Lifecycle event, passed in by Doctrine.
      */
-    public function prePersist(LifecycleEventArgs $args)
+    public function prePersist()
     {
         $this->setCreated();
         $this->setUpdated();
@@ -102,10 +99,8 @@ class Poll
      * Lifecycle callback method for the 'preUpdate' event.
      *
      * Sets the $updated date to now.
-     *
-     * @param LifecycleEventArgs $args Args for this Lifecycle event, passed in by Doctrine.
      */
-    public function preUpdate(LifecycleEventArgs $args)
+    public function preUpdate()
     {
         $this->setUpdated();
     }
