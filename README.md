@@ -6,6 +6,8 @@ The root of this project contains the Symfony app.
 
 The React app can be found at app/Resources/client. This can been loaded through symfony for developing or compiled into the web folder for prodcution builds.
 
+There are a number of number of NPM scripts that can be run from the project root.
+
 API
 -------------
 Retrieve Questions: [```GET /api/questions```](#retrieve-questions)
