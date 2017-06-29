@@ -5,7 +5,7 @@ namespace ItsGoingToBeBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use ItsGoingToBeBundle\Entity\Answer;
-use ItsGoingToBeBundle\Entity\Question;
+use ItsGoingToBeBundle\Entity\Poll;
 
 /**
  * Entity to store an answer for a users response.
@@ -20,11 +20,11 @@ class UserResponse
     protected $id;
 
     /**
-     * The question for this response.
+     * The poll for this response.
      *
-     * @var Question
+     * @var Poll
      */
-    protected $question;
+    protected $poll;
 
     /**
      * The answer for this response.
@@ -104,27 +104,27 @@ class UserResponse
     }
 
     /**
-     * Set question
+     * Set poll
      *
-     * @param Question $question
+     * @param Poll $poll
      *
      * @return UserResponse
      */
-    public function setQuestion(Question $question = null)
+    public function setPoll(Poll $poll = null)
     {
-        $this->question = $question;
+        $this->poll = $poll;
 
         return $this;
     }
 
     /**
-     * Get question
+     * Get poll
      *
-     * @return Question
+     * @return Poll
      */
-    public function getQuestion()
+    public function getPoll()
     {
-        return $this->question;
+        return $this->poll;
     }
 
     /**

@@ -1,5 +1,12 @@
 # itsgoingto.be [![Build Status](https://travis-ci.org/sproogen/itsgoingto.be.svg)](https://travis-ci.org/sproogen/itsgoingto.be) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/95ef266848d44348a421142d2ed6f8cb)](https://www.codacy.com/app/sproogen/itsgoingto.be?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=sproogen/itsgoingto.be&amp;utm_campaign=Badge_Grade)
-Symfony magic behind itsgoingto.be
+
+Symfony and React magic behind itsgoingto.be
+
+The root of this project contains the Symfony app.
+
+The React app can be found at app/Resources/client. This can been loaded through symfony for developing or compiled into the web folder for prodcution builds.
+
+There are a number of number of NPM scripts that can be run from the project root.
 
 API
 -------------
@@ -49,11 +56,11 @@ GET /api/questions
       },
       "answers": [
         {
-          "type": "answer",
+          "type": "Answer",
           "id": 1
         },
         {
-          "type": "answer",
+          "type": "Answer",
           "id": 2
         }
       ],
@@ -89,17 +96,27 @@ GET /api/questions/:identifier
   },
   "answers": [
     {
-      "type": "answer",
-      "id": 1
+      "id": 1,
+      "answer": "Answer Text",
+      "question": {
+        "type": "Question",
+        "id": 1
+      },
+      "responsesCount": 2
     },
     {
-      "type": "answer",
-      "id": 2
+      "id": 2,
+      "answer": "Answer Text",
+      "question": {
+        "type": "Question",
+        "id": 1
+      },
+      "responsesCount": 3
     }
   ],
-  "responses" : [
+  "userResponses" : [
     2
-  ]
+  ],
   "responsesCount": 5
 }
 ```
@@ -134,14 +151,25 @@ POST /api/questions
   },
   "answers": [
     {
-      "type": "answer",
-      "id": 1
+      "id": 1,
+      "answer": "Answer Text",
+      "question": {
+        "type": "Question",
+        "id": 1
+      },
+      "responsesCount": 0
     },
     {
-      "type": "answer",
-      "id": 2
+      "id": 2,
+      "answer": "Answer Text",
+      "question": {
+        "type": "Question",
+        "id": 1
+      },
+      "responsesCount": 0
     }
   ],
+  "userResponses": [],
   "responsesCount": 0
 }
 ```
@@ -171,11 +199,11 @@ DELETE /api/questions/:identifier
   },
   "answers": [
     {
-      "type": "answer",
+      "type": "Answer",
       "id": 1
     },
     {
-      "type": "answer",
+      "type": "Answer",
       "id": 2
     }
   ],
@@ -191,7 +219,10 @@ GET /api/questions/:identifier/responses
 ###### Response
 ```
 {
-  "responsesCount": 5
+  "userResponses" : [
+    2
+  ],
+  "responsesCount": 5,
   "answers": [
     {
       "id": 1,
@@ -201,7 +232,7 @@ GET /api/questions/:identifier/responses
       "id": 2,
       "responsesCount": 3
     }
-  ],
+  ]
 }
 ```
 
@@ -216,7 +247,13 @@ POST /api/questions/:identifier/responses
 ###### Response
 ```
 {
-  "responsesCount": 6
+  "userResponses": [
+    2
+  ],
+  "responsesCount": 6,
+  "responses" : [
+    1
+  ],
   "answers": [
     {
       "id": 1,
@@ -226,7 +263,7 @@ POST /api/questions/:identifier/responses
       "id": 2,
       "responsesCount": 3
     }
-  ],
+  ]
 }
 ```
 

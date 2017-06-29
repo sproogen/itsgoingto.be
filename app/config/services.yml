@@ -9,4 +9,4 @@ services:
         public:    false
         arguments:
             - "mysql:host=%database_host%;dbname=%database_name%"
-            - { db_table: sessions, db_username: %database_user%, db_password: %database_password% }
+            - { db_table: sessions, db_username: "%database_user%", db_password: "%database_password%" }

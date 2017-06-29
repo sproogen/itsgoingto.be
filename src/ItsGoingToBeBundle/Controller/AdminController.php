@@ -18,7 +18,7 @@ class AdminController extends Controller
         $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'Unable to access this page!');
 
         $em = $this->get('doctrine.orm.entity_manager');
-        $dql = "SELECT q FROM ItsGoingToBeBundle:Question q ORDER BY q.id DESC";
+        $dql = "SELECT q FROM ItsGoingToBeBundle:Poll p ORDER BY p.id DESC";
         $query = $em->createQuery($dql);
 
         $paginator  = $this->get('knp_paginator');
@@ -30,8 +30,33 @@ class AdminController extends Controller
 
         return $this->render('admin/admin.html.twig', array(
             'pagination' => $pagination,
-            'currentPage'=>$request->query->getInt('page', 1))
-        );
+            'currentPage'=> $request->query->getInt('page', 1)
+        ));
+    }
+
+    /**
+     * Action for the admin delete route
+     *
+     * Matches /admin/delete route.
+     * Only accessable to uses with the 'ROLE_ADMIN' role.
+     */
+    public function deleteAction(Request $request, $identifier)
+    {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'Unable to access this page!');
+
+        $pollModel = $this->getDoctrine()
+            ->getRepository('ItsGoingToBeBundle:Poll')
+            ->findOneByIdentifier($identifier);
+        if (!$pollModel) {
+            throw $this->createNotFoundException('The poll could not be found');
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $pollModel->setDeleted(true);
+        $em->persist($pollModel);
+        $em->flush();
+
+        return $this->redirectToRoute('admin_page', array('page'=>$request->query->getInt('returnToPage', 1)));
     }
 
     /**

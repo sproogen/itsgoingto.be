@@ -11,11 +11,11 @@ ItsGoingToBeBundle\Entity\Answer:
             type: text
             column: answer
     manyToOne:
-        question:
-            targetEntity: ItsGoingToBeBundle\Entity\Question
+        poll:
+            targetEntity: ItsGoingToBeBundle\Entity\Poll
             inversedBy: answers
             joinColumns:
-                question_id:
+                poll_id:
                     referencedColumnName: id
     oneToMany:
         responses:

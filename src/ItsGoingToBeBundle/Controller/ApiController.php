@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-use ItsGoingToBeBundle\Entity\Question;
+use ItsGoingToBeBundle\Entity\Poll;
 use ItsGoingToBeBundle\Entity\Answer;
 use ItsGoingToBeBundle\Entity\UserResponse;
 use ItsGoingToBeBundle\Service\IdentifierService;
@@ -32,7 +32,7 @@ class ApiController extends Controller
     protected $identifierService;
 
     /**
-     * @var EntityManager
+     * @var EntityManagerInterface
      */
     protected $em;
 
@@ -69,27 +69,27 @@ class ApiController extends Controller
      * Uses the HTTP method to decide which action to perform.
      *
      * @param  Request   $request    The request object.
-     * @param  mixed     $identifier An identifier for a question, 0 by default.
+     * @param  mixed     $identifier An identifier for a poll, 0 by default.
      *
      * @return JsonResponse        The API response
      */
-    public function questionsAction(Request $request, $identifier)
+    public function pollsAction(Request $request, $identifier)
     {
         switch ($request->getMethod()) {
             case 'GET':
                 // If GET is used and a non-zero ID is passed, call the retrieve method.
                 if ($identifier) {
-                    $response = $this->retrieveQuestion($identifier, $request);
+                    $response = $this->retrievePoll($identifier, $request);
                 } // Without an ID ($id is 0), call index
                 else {
-                    $response = $this->indexQuestions($request->query->all());
+                    $response = $this->indexPolls($request->query->all());
                 }
                 break;
             case 'POST':
-                $response = $this->createQuestion($this->getData($request));
+                $response = $this->createPoll($this->getData($request));
                 break;
             case 'DELETE':
-                $response = $this->deleteQuestion($identifier);
+                $response = $this->deletePoll($identifier);
                 break;
             case 'OPTIONS':
                 $response = new Response();
@@ -104,22 +104,22 @@ class ApiController extends Controller
      * Uses the HTTP method to decide which action to perform.
      *
      * @param  Request   $request    The request object.
-     * @param  mixed     $identifier An identifier for a question, 0 by default.
+     * @param  mixed     $identifier An identifier for a poll, 0 by default.
      *
      * @return JsonResponse        The API response
      */
     public function responsesAction(Request $request, $identifier)
     {
-        $question = $this->em->getRepository('ItsGoingToBeBundle:Question')
+        $poll = $this->em->getRepository(Poll::class)
             ->findOneBy(array('identifier' => $identifier, 'deleted' => false));
 
-        if ($question) {
+        if ($poll) {
             switch ($request->getMethod()) {
                 case 'GET':
-                    $response = $this->indexResponses($question);
+                    $response = $this->indexResponses($poll, $request);
                     break;
                 case 'POST':
-                    $response = $this->createResponse($question, $request, $this->getData($request));
+                    $response = $this->createResponse($poll, $request, $this->getData($request));
                     break;
                 case 'OPTIONS':
                     $response = new Response();
@@ -148,44 +148,31 @@ class ApiController extends Controller
     }
 
     /**
-     * Get a question given the identifier
+     * Get a poll given the identifier
      *
      * @param  string $identifier
      * @param  Request $request
      *
      * @return JsonResponse
      */
-    protected function retrieveQuestion($identifier, Request $request)
+    protected function retrievePoll($identifier, Request $request)
     {
         $findOneBy = array('identifier' => $identifier);
         if (!$this->authorizationChecker->isGranted('ROLE_ADMIN')) {
             $findOneBy['deleted'] = false;
         }
-        $question = $this->em->getRepository('ItsGoingToBeBundle:Question')
+        $poll = $this->em->getRepository(Poll::class)
             ->findOneBy($findOneBy);
 
-        if ($question) {
-            $extractedQuestion = $question->extract();
-            $extractedQuestion['answers'] = [];
-            foreach ($question->getAnswers() as $answer) {
-                $extractedQuestion['answers'][] = $answer->extract();
+        if ($poll) {
+            $extractedPoll = $poll->extract();
+            $extractedPoll['answers'] = [];
+            foreach ($poll->getAnswers() as $answer) {
+                $extractedPoll['answers'][] = $answer->extract();
             }
+            $extractedPoll['userResponses'] = $this->getResponsesForUser($poll, $request, true);
 
-            // TODO : Test the following
-            $extractedQuestion['responses'] = null;
-            if (!$question->isMultipleChoice()) {
-                $userResponse = $this->getResponseForUser($question, null, $request);
-                $extractedQuestion['responses'][] = $userResponse ? $userResponse->getAnswer()->getId() : null;
-            } else {
-                $userResponses = $this->getResponsesForUser($question, $request);
-                if ($userResponses) {
-                    foreach ($userResponses as $userResponse) {
-                        $extractedQuestion['responses'][] = $userResponse->getAnswer()->getId();
-                    }
-                }
-            }
-
-            $response = new JsonResponse($extractedQuestion);
+            $response = new JsonResponse($extractedPoll);
         } else {
             $response = new JsonResponse([], 404);
         }
@@ -194,15 +181,15 @@ class ApiController extends Controller
     }
 
     /**
-     * Get the questions with parameters
+     * Get the polls with parameters
      *
      * @param  array $parameters
      *
      * @return JsonResponse
      */
-    protected function indexQuestions($parameters)
+    protected function indexPolls($parameters)
     {
-        $queryBuilder = $this->em->getRepository('ItsGoingToBeBundle:Question')
+        $queryBuilder = $this->em->getRepository(Poll::class)
             ->createQueryBuilder('a')
             ->where('1 = 1');
 
@@ -213,31 +200,31 @@ class ApiController extends Controller
         $count = $this->countResults($queryBuilder);
 
         $this->applyPage($queryBuilder, $parameters);
-        $questions = $queryBuilder->getQuery()->getResult();
+        $polls = $queryBuilder->getQuery()->getResult();
 
-        $extractedQuestions = [];
-        foreach ($questions as $question) {
-            $extractedQuestions[] = $question->extract();
+        $extractedPolls = [];
+        foreach ($polls as $poll) {
+            $extractedPolls[] = $poll->extract();
         }
 
         return new JsonResponse([
-            'count' => count($extractedQuestions),
+            'count' => count($extractedPolls),
             'total' => (integer) $count,
-            'entities' => $extractedQuestions,
+            'entities' => $extractedPolls,
         ]);
     }
 
     /**
-     * Create a question given the data
+     * Create a poll given the data
      *
      * @param  array $data
      *
      * @return JsonResponse
      */
-    protected function createQuestion($data)
+    protected function createPoll($data)
     {
         $errors = [];
-        $questionText = isset($data['question']) ? $data['question'] : null;
+        $question = isset($data['question']) ? $data['question'] : null;
         $multipleChoice = isset($data['multipleChoice']) ? $data['multipleChoice'] : false;
         $answers = [];
         foreach (isset($data['answers'])? $data['answers']: [] as $answer) {
@@ -246,7 +233,7 @@ class ApiController extends Controller
             }
         }
 
-        if (strlen(trim($questionText)) === 0) {
+        if (strlen(trim($question)) === 0) {
             $errors[] = 'No question has been provided';
         }
         if (count($answers) === 0) {
@@ -254,26 +241,28 @@ class ApiController extends Controller
         }
 
         if (empty($errors)) {
-            $question = new Question();
-            $question->setIdentifier($this->generateIdentifier());
-            $question->setQuestion($questionText);
-            $question->setMultipleChoice($multipleChoice);
+            $poll = new Poll();
+            $poll->setIdentifier($this->generateIdentifier());
+            $poll->setQuestion($question);
+            $poll->setMultipleChoice($multipleChoice);
 
             foreach ($answers as $answerText) {
                 $answer = new Answer();
                 $answer->setAnswer($answerText);
-                $question->addAnswer($answer);
+                $poll->addAnswer($answer);
             }
 
-            $this->em->persist($question);
+            $this->em->persist($poll);
             $this->em->flush();
 
-            $extractedQuestion = $question->extract();
-            $extractedQuestion['answers'] = [];
-            foreach ($question->getAnswers() as $answer) {
-                $extractedQuestion['answers'][] = $answer->extract();
+            $extractedPoll = $poll->extract();
+            $extractedPoll['answers'] = [];
+            foreach ($poll->getAnswers() as $answer) {
+                $extractedPoll['answers'][] = $answer->extract();
             }
-            $response = new JsonResponse($extractedQuestion);
+            $extractedPoll['userResponses'] = [];
+
+            $response = new JsonResponse($extractedPoll);
         } else {
             $response = new JsonResponse(['errors' => $errors], 400);
         }
@@ -282,29 +271,29 @@ class ApiController extends Controller
     }
 
     /**
-     * Delete the question given the identifier
+     * Delete the poll given the identifier
      *
      * @param  string $identifier
      *
      * @return JsonResponse
      */
-    protected function deleteQuestion($identifier)
+    protected function deletePoll($identifier)
     {
         if (!$this->authorizationChecker->isGranted('ROLE_ADMIN')) {
             return new JsonResponse([], 401);
         }
 
-        $question = $this->em->getRepository('ItsGoingToBeBundle:Question')
+        $poll = $this->em->getRepository(Poll::class)
             ->findOneBy(array('identifier' => $identifier));
 
-        if ($question) {
-            $question->setDeleted(true);
+        if ($poll) {
+            $poll->setDeleted(true);
 
-            $this->em->persist($question);
+            $this->em->persist($poll);
             $this->em->flush();
 
-            $extractedQuestion = $question->extract();
-            $response = new JsonResponse($extractedQuestion);
+            $extractedPoll = $poll->extract();
+            $response = new JsonResponse($extractedPoll);
         } else {
             $response = new JsonResponse([], 404);
         }
@@ -313,18 +302,19 @@ class ApiController extends Controller
     }
 
     /**
-     * Get the responses for a question
+     * Get the responses for a poll
      *
-     * @param  Question $question
+     * @param  Poll $poll
      *
      * @return JsonResponse
      */
-    protected function indexResponses($question)
+    protected function indexResponses(Poll $poll, Request $request)
     {
         $responses = [];
-        $responses['responsesCount'] = count($question->getResponses());
+        $responses['userResponses'] = $this->getResponsesForUser($poll, $request, true);
+        $responses['responsesCount'] = count($poll->getResponses());
         $responses['answers'] = [];
-        foreach ($question->getAnswers() as $answer) {
+        foreach ($poll->getAnswers() as $answer) {
             $responses['answers'][] = [
                 'id'             => $answer->getId(),
                 'responsesCount' => count($answer->getResponses())
@@ -334,15 +324,15 @@ class ApiController extends Controller
     }
 
     /**
-     * Create a question given the data
+     * Create or Update a response given the data
      *
-     * @param  Question $question
+     * @param  Poll     $poll
      * @param  Request  $request
      * @param  array    $data
      *
      * @return JsonResponse
      */
-    protected function createResponse(Question $question, Request $request, $data)
+    protected function createResponse(Poll $poll, Request $request, $data)
     {
         $errors = [];
         $answers = [];
@@ -350,11 +340,11 @@ class ApiController extends Controller
                  is_array($data['answers']) ? $data['answers'] : [$data['answers']] :
                  [] as $answer) {
             if (is_int($answer)) {
-                $answer = $this->em->getRepository('ItsGoingToBeBundle:Answer')
-                    ->findOneBy(array('id' => $answer, 'question' => $question->getId()));
+                $answer = $this->em->getRepository(Answer::class)
+                    ->findOneBy(array('id' => $answer, 'poll' => $poll->getId()));
                 if ($answer) {
                     $answers[] = $answer;
-                    if (!$question->isMultipleChoice()) {
+                    if (!$poll->isMultipleChoice()) {
                         break;
                     }
                 }
@@ -366,8 +356,8 @@ class ApiController extends Controller
         }
 
         if (empty($errors)) {
-            if ($question->isMultipleChoice()) {
-                $userResponses = $this->getResponsesForUser($question, $request);
+            if ($poll->isMultipleChoice()) {
+                $userResponses = $this->getResponsesForUser($poll, $request);
                 if ($userResponses) {
                     foreach ($userResponses as $userResponse) {
                         if (!in_array($userResponse->getAnswer()->getId(), array_map([$this, 'mapIds'], $answers))) {
@@ -379,10 +369,10 @@ class ApiController extends Controller
             }
 
             foreach ($answers as $answer) {
-                $userResponse = $this->getResponseForUser($question, $answer, $request);
+                $userResponse = $this->getResponseForUser($poll, $answer, $request);
                 if (!$userResponse) {
                     $userResponse = new UserResponse();
-                    $userResponse->setQuestion($question);
+                    $userResponse->setPoll($poll);
                 }
                 $userResponse->setAnswer($answer);
                 $userResponse->setCustomUserID($this->identifierService->getCustomUserID($request));
@@ -393,7 +383,7 @@ class ApiController extends Controller
             }
             $this->em->flush();
 
-            $response = $this->indexResponses($question);
+            $response = $this->indexResponses($poll, $request);
         } else {
             $response = new JsonResponse(['errors' => $errors], 400);
         }
@@ -402,19 +392,19 @@ class ApiController extends Controller
     }
 
     /**
-     * Generate an identifier for a question
-     * IDEA : This could be moved to the perPersist hook.
+     * Generate an identifier for a poll
+     * IDEA : This could be moved to the prePersist hook.
      *
-     * @return questionIdentifier identifier
+     * @return string identifier
      */
     protected function generateIdentifier()
     {
         $identifier = null;
         do {
             $identifier = substr(chr(mt_rand(97, 122)) .substr(md5(time()), 1), 0, 8);
-            $duplicateQuestion = $this->em->getRepository('ItsGoingToBeBundle:Question')
+            $duplicatePoll = $this->em->getRepository(Poll::class)
                 ->findOneBy(array('identifier' => $identifier));
-            if ($duplicateQuestion != null) {
+            if ($duplicatePoll != null) {
                 $identifier = null;
             }
         } while ($identifier == null);
@@ -455,20 +445,20 @@ class ApiController extends Controller
     /**
      * Get a response for the current user
      *
-     * @param  Question $question
-     * @param  Answer|null   $answer
-     * @param  Request  $request
+     * @param  Poll        $poll
+     * @param  Answer|null $answer
+     * @param  Request     $request
      *
      * @return  UserResponse | null
      */
-    protected function getResponseForUser(Question $question, $answer, Request $request)
+    protected function getResponseForUser(Poll $poll, $answer, Request $request)
     {
-        $responseRepository = $this->em->getRepository('ItsGoingToBeBundle:UserResponse');
+        $responseRepository = $this->em->getRepository(UserResponse::class);
         $findOneBy = [
-            'question' => $question->getId(),
+            'poll' => $poll->getId(),
             'customUserID' => $this->identifierService->getCustomUserID($request)
         ];
-        if ($question->isMultipleChoice() && $answer !== null) {
+        if ($poll->isMultipleChoice() && $answer !== null) {
             $findOneBy['answer'] = $answer->getId();
         }
         $userResponse = $responseRepository->findOneBy($findOneBy);
@@ -483,23 +473,32 @@ class ApiController extends Controller
     /**
      * Get all responses for the current user
      *
-     * @param  Question $question
+     * @param  Poll     $poll
      * @param  Request  $request
+     * @param  bool     $idsOnly Only return the ids on the responses
      *
      * @return  array | null
      */
-    protected function getResponsesForUser(Question $question, Request $request)
+    protected function getResponsesForUser(Poll $poll, Request $request, $idsOnly = false)
     {
-        $responseRepository = $this->em->getRepository('ItsGoingToBeBundle:UserResponse');
+        $responseRepository = $this->em->getRepository(UserResponse::class);
         $userResponses = $responseRepository->findBy([
             'customUserID' => $this->identifierService->getCustomUserID($request),
-            'question' => $question->getId()
+            'poll' => $poll->getId()
         ]);
         if (!$userResponses) {
             $userResponses = $responseRepository->findBy([
                 'userSessionID' => $this->identifierService->getSessionID($request),
-                'question' => $question->getId()
+                'poll' => $poll->getId()
             ]);
+            if (!$userResponses) {
+                $userResponses = [];
+            }
+        }
+        if ($idsOnly) {
+            foreach ($userResponses as &$userResponse) {
+                $userResponse = $userResponse->getAnswer()->getId();
+            }
         }
         return $userResponses;
     }

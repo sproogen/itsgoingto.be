@@ -6,7 +6,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use ItsGoingToBeBundle\Tests\AbstractTests\BaseEntityTest;
 use ItsGoingToBeBundle\Entity\UserResponse;
-use ItsGoingToBeBundle\Entity\Question;
+use ItsGoingToBeBundle\Entity\Poll;
 use ItsGoingToBeBundle\Entity\Answer;
 
 /**
@@ -21,11 +21,11 @@ class UserResponseTest extends BaseEntityTest
      */
     protected $entityClass = UserResponse::class;
 
-    public function testGetSetQuestion()
+    public function testGetSetPoll()
     {
-        $question = new Question();
-        $this->entity->setQuestion($question);
-        self::assertEquals($question, $this->entity->getQuestion());
+        $poll = new Poll();
+        $this->entity->setPoll($poll);
+        self::assertEquals($poll, $this->entity->getPoll());
     }
 
     public function testGetSetAnswer()

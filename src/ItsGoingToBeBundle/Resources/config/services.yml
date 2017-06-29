@@ -2,16 +2,16 @@ services:
     itsgoingtobe.security.authentication_failure_event_listener:
         class: ItsGoingToBeBundle\Service\AuthenticationListener
         arguments:
-            - @doctrine.orm.entity_manager
-            - @request_stack
+            - "@doctrine.orm.entity_manager"
+            - "@request_stack"
         tags:
             - { name: kernel.event_listener, event: security.authentication.failure, method: onAuthenticationFailure }
 
     itsgoingtobe.security.interactive_login_listener:
         class: ItsGoingToBeBundle\Service\AuthenticationListener
         arguments:
-            - @doctrine.orm.entity_manager
-            - @request_stack
+            - "@doctrine.orm.entity_manager"
+            - "@request_stack"
         tags:
             - { name: kernel.event_listener, event: security.interactive_login, method: onAuthenticationSuccess }
 
@@ -28,14 +28,8 @@ services:
             - [ setAuthorizationChecker, ["@security.authorization_checker"]]
             - [ setIdentifierService, ["@itsgoingtobe.identifier_service"]]
 
-    itsgoingtobe.itsgoingtobe_controller:
-        class: ItsGoingToBeBundle\Controller\ItsGoingToBeController
+    itsgoingtobe.react_controller:
+        class: ItsGoingToBeBundle\Controller\ReactController
         calls:
-            - [ setContainer, ["@service_container"] ]
-            - [ setIdentifierService, ["@itsgoingtobe.identifier_service"]]
-
-    app.twig_extension:
-        class: ItsGoingToBeBundle\Twig\AutoLinkTwigExtension
-        public: false
-        tags:
-            - { name: twig.extension }
+            - [ setContainer, ["@service_container"]]
+            - [ setEntityManager, ["@doctrine.orm.default_entity_manager"]]

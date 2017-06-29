@@ -1,0 +1,23 @@
+.container {
+  margin-right: auto;
+  margin-left: auto;
+  padding-left:  floor(($gutter-width / 2));
+  padding-right: ceil(($gutter-width / 2));
+  position: relative;
+  width: 100%;
+  @include clearfix;
+
+  @media (min-width: $screen-sm-min) {
+    width: $container-sm;
+  }
+  @media (min-width: $screen-md-min) {
+    width: $container-md;
+  }
+  @media (min-width: $screen-lg-min) {
+    width: $container-lg;
+  }
+
+  .container {
+    width: auto;
+  }
+}
