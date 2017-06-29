@@ -21,7 +21,6 @@ before_install:
   - cp app/config/parameters.yml.travis app/config/parameters_dev.yml
 
 install:
-  - phpenv config-rm xdebug.ini
   - rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm install $NODE_VERSION
   - composer install
   - npm install
@@ -36,6 +35,9 @@ script:
   - bin/phpunit
   - npm run lint
   - npm run test
+
+after_script:
+  - bin/codacycoverage clover build/logs/clover.xml
 
 notifications:
   email:
