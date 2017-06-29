@@ -34,10 +34,9 @@ class ReactController extends Controller
      *
      * Matches / route exactly
      *
-     * @param  Request   $request    The request object.
-     * @param  mixed     $identifier An identifier for a poll, 0 by default.
+     * @param  string $url The url passed in for the react app.
      */
-    public function indexAction(Request $request, $url)
+    public function indexAction($url)
     {
         // If we get here and we are in prod then we have likely hit a scraper and so just want to show the metatags.
         if ($this->container->getParameter('kernel.environment') === 'prod') {
