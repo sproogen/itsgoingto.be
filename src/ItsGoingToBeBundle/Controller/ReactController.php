@@ -17,7 +17,7 @@ use ItsGoingToBeBundle\Entity\Poll;
 class ReactController extends Controller
 {
     /**
-     * @var EntityManager
+     * @var EntityManagerInterface
      */
     protected $em;
 
