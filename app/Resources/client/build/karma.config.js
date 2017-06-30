@@ -8,8 +8,10 @@ const karmaConfig = {
   browsers: ['PhantomJS'],
   singleRun: !argv.watch,
   coverageReporter: {
+    dir: './build/reports/coverage',
     reporters: [
       { type: 'text-summary' },
+      { type: 'lcov', subdir: 'report-lcov' }
     ],
   },
   files: [{
@@ -19,9 +21,9 @@ const karmaConfig = {
     included : true
   }],
   frameworks: ['mocha'],
-  reporters: ['mocha'],
+  reporters: ['mocha', 'coverage'],
   preprocessors: {
-    [TEST_BUNDLER]: ['webpack'],
+    [TEST_BUNDLER] : ['webpack', 'coverage'],
   },
   logLevel: 'WARN',
   browserConsoleLogOptions: {
