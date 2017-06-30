@@ -30,6 +30,7 @@
                 <directory>src/*/*Bundle/Tests</directory>
                 <directory>src/*/Bundle/*Bundle/Resources</directory>
                 <directory>src/*/Bundle/*Bundle/Tests</directory>
+                <directory>client/src</directory>
             </exclude>
         </whitelist>
     </filter>
