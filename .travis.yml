@@ -38,7 +38,7 @@ script:
 
 after_script:
   - bin/codacycoverage clover build/logs/clover.xml
-  - cat app/Resources/client/build/reports/coverage/report-lcov/lcov.info | node_modules/.bin/codacy-coverage .
+  - cat build/coverage/lcov.info | node_modules/.bin/codacy-coverage .
 
 notifications:
   email:
