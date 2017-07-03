@@ -1,16 +1,29 @@
+const path = require('path')
 const argv = require('yargs').argv
 const webpackConfig = require('./webpack.config')
-
+const project = require('../project.config')
+const moduleConfig = webpackConfig.module
 const TEST_BUNDLER = './tests/test-bundler.js'
+
+moduleConfig.rules.push({
+  enforce: 'post',
+  test: /\.js$/,
+  loader: 'istanbul-instrumenter-loader',
+  query: {
+    esModules: true
+  },
+  exclude: /(tests|node_modules|\.spec\.js$)/,
+})
 
 const karmaConfig = {
   basePath: '../',
   browsers: ['PhantomJS'],
   singleRun: !argv.watch,
-  coverageReporter: {
-    reporters: [
-      { type: 'text-summary' },
-    ],
+  coverageIstanbulReporter: {
+    reports: argv.watch ? [ 'text-summary' ] : [ 'html', 'lcovonly', 'text-summary' ],
+    dir: 'build/coverage',
+    fixWebpackSourcePaths: true,
+    skipFilesWithNoCoverage: false
   },
   files: [{
     pattern  : TEST_BUNDLER,
@@ -19,9 +32,9 @@ const karmaConfig = {
     included : true
   }],
   frameworks: ['mocha'],
-  reporters: ['mocha'],
+  reporters: ['mocha', 'coverage-istanbul'],
   preprocessors: {
-    [TEST_BUNDLER]: ['webpack'],
+    [TEST_BUNDLER] : ['webpack'],
   },
   logLevel: 'WARN',
   browserConsoleLogOptions: {
@@ -30,9 +43,9 @@ const karmaConfig = {
     level: '',
   },
   webpack: {
-    entry: TEST_BUNDLER,
+    entry: path.resolve(project.basePath, TEST_BUNDLER),
     devtool: 'cheap-module-source-map',
-    module: webpackConfig.module,
+    module: moduleConfig,
     plugins: webpackConfig.plugins,
     resolve: webpackConfig.resolve,
     externals: {

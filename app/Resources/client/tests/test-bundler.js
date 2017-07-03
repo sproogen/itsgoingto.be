@@ -28,6 +28,9 @@ chai.use(sinonChai)
 // Using a regular JS variable is not statically analyzable so webpack will throw warnings.
 const testsContext = require.context('./', true, /\.(spec|test)\.(js|ts|tsx)$/)
 
+const componentsContext = require.context('./../src', true, /\.(js)$/)
+componentsContext.keys().forEach(componentsContext)
+
 // When a test file changes, only rerun that spec file. If something outside of a
 // test file changed, rerun all tests.
 // https://www.npmjs.com/package/karma-webpack-with-fast-source-maps
