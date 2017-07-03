@@ -29,7 +29,7 @@ chai.use(sinonChai)
 const testsContext = require.context('./', true, /\.(spec|test)\.(js|ts|tsx)$/)
 
 const componentsContext = require.context('./../src', true, /\.(js)$/)
-componentsContext.keys().forEach(componentsContext);
+componentsContext.keys().forEach(componentsContext)
 
 // When a test file changes, only rerun that spec file. If something outside of a
 // test file changed, rerun all tests.

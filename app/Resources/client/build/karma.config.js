@@ -1,9 +1,10 @@
-const argv = require('yargs').argv
 const path = require('path')
+const argv = require('yargs').argv
 const webpackConfig = require('./webpack.config')
 const project = require('../project.config')
+const moduleConfig = webpackConfig.module
+const TEST_BUNDLER = './tests/test-bundler.js'
 
-let moduleConfig = webpackConfig.module
 moduleConfig.rules.push({
   enforce: 'post',
   test: /\.js$/,
@@ -14,19 +15,12 @@ moduleConfig.rules.push({
   exclude: /(tests|node_modules|\.spec\.js$)/,
 })
 
-let reports = [ 'text-summary' ]
-if (!argv.watch) {
-  reports = [ 'html', 'lcovonly', 'text-summary' ]
-}
-
-const TEST_BUNDLER = './tests/test-bundler.js'
-
 const karmaConfig = {
   basePath: '../',
   browsers: ['PhantomJS'],
   singleRun: !argv.watch,
   coverageIstanbulReporter: {
-    reports: reports,
+    reports: argv.watch ? [ 'text-summary' ] : [ 'html', 'lcovonly', 'text-summary' ],
     dir: 'build/coverage',
     fixWebpackSourcePaths: true,
     skipFilesWithNoCoverage: false
