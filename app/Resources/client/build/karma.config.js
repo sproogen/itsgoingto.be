@@ -1,5 +1,7 @@
 const argv = require('yargs').argv
+const path = require('path')
 const webpackConfig = require('./webpack.config')
+const project = require('../project.config')
 
 let moduleConfig = webpackConfig.module
 moduleConfig.rules.push({
@@ -47,7 +49,7 @@ const karmaConfig = {
     level: '',
   },
   webpack: {
-    entry: './app/Resources/client/tests/test-bundler.js',
+    entry: path.resolve(project.basePath, TEST_BUNDLER),
     devtool: 'cheap-module-source-map',
     module: moduleConfig,
     plugins: webpackConfig.plugins,
