@@ -134,7 +134,7 @@ class PollApiControllerTest extends BaseApiControllerTest
 
         $this->userResponse = $this->prophesize(UserResponse::class);
         $this->userResponse->getAnswer()->willReturn($this->answer->reveal());
-        $this->userResponseRepository->findBy(Argument::any())->willReturn([
+        $this->userResponseRepo->findBy(Argument::any())->willReturn([
             $this->userResponse->reveal(), $this->userResponse->reveal()
         ]);
 

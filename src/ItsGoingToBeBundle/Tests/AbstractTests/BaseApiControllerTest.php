@@ -61,7 +61,7 @@ abstract class BaseApiControllerTest extends BaseTest
     /**
      * @var ObjectProphecy
      */
-    protected $userResponseRepository;
+    protected $userResponseRepo;
 
     /**
      * @var ObjectProphecy
@@ -147,9 +147,9 @@ abstract class BaseApiControllerTest extends BaseTest
         $this->answerRepository = $this->prophesize(EntityRepository::class);
         $this->answerRepository->findOneBy(Argument::any())->willReturn($this->answer->reveal());
 
-        $this->userResponseRepository = $this->prophesize(EntityRepository::class);
-        $this->userResponseRepository->findOneBy(Argument::any())->willReturn(null);
-        $this->userResponseRepository->findBy(Argument::any())->willReturn(null);
+        $this->userResponseRepo = $this->prophesize(EntityRepository::class);
+        $this->userResponseRepo->findOneBy(Argument::any())->willReturn(null);
+        $this->userResponseRepo->findBy(Argument::any())->willReturn(null);
 
         $this->pollRepository = $this->prophesize(EntityRepository::class);
         $this->pollRepository->findOneBy(Argument::any())->willReturn($this->poll->reveal());
@@ -172,7 +172,7 @@ abstract class BaseApiControllerTest extends BaseTest
         $this->entityManager->getRepository(Poll::class)
             ->willReturn($this->pollRepository->reveal());
         $this->entityManager->getRepository(UserResponse::class)
-            ->willReturn($this->userResponseRepository->reveal());
+            ->willReturn($this->userResponseRepo->reveal());
         $this->entityManager->persist(Argument::any())
             ->willReturn(true);
         $this->entityManager->remove(Argument::any())

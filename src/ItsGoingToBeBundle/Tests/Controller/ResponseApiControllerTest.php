@@ -99,7 +99,7 @@ class ResponseApiControllerTest extends BaseApiControllerTest
 
         $this->userResponse = $this->prophesize(userResponse::class);
         $this->userResponse->getAnswer()->willReturn($this->answer->reveal());
-        $this->userResponseRepository->findBy(Argument::any())->willReturn([
+        $this->userResponseRepo->findBy(Argument::any())->willReturn([
             $this->userResponse->reveal(), $this->userResponse->reveal()
         ]);
 
@@ -139,9 +139,9 @@ class ResponseApiControllerTest extends BaseApiControllerTest
 
         $this->answerRepository->findOneBy(array('id' => 5, 'poll' => 2))
             ->shouldHaveBeenCalledTimes(1);
-        $this->userResponseRepository->findOneBy(array('customUserID' => '9873fdanba8qge9dfsaq39', 'poll' => 2))
+        $this->userResponseRepo->findOneBy(array('customUserID' => '9873fdanba8qge9dfsaq39', 'poll' => 2))
             ->shouldHaveBeenCalledTimes(1);
-        $this->userResponseRepository->findOneBy(array('userSessionID' => '12354321897467', 'poll' => 2))
+        $this->userResponseRepo->findOneBy(array('userSessionID' => '12354321897467', 'poll' => 2))
             ->shouldHaveBeenCalledTimes(1);
 
         $userResponse = new UserResponse();
@@ -197,7 +197,7 @@ class ResponseApiControllerTest extends BaseApiControllerTest
     public function testPostResponsesRequestUpdatesEntity()
     {
         $userResponse = $this->prophesize(UserResponse::class);
-        $this->userResponseRepository->findOneBy(Argument::any())->willReturn($userResponse->reveal());
+        $this->userResponseRepo->findOneBy(Argument::any())->willReturn($userResponse->reveal());
 
         $this->answer->getId()->willReturn(6);
 
@@ -210,9 +210,9 @@ class ResponseApiControllerTest extends BaseApiControllerTest
 
         $this->answerRepository->findOneBy(array('id' => 6, 'poll' => 2))
             ->shouldHaveBeenCalledTimes(1);
-        $this->userResponseRepository->findOneBy(array('customUserID' => '9873fdanba8qge9dfsaq39', 'poll' => 2))
+        $this->userResponseRepo->findOneBy(array('customUserID' => '9873fdanba8qge9dfsaq39', 'poll' => 2))
             ->shouldHaveBeenCalledTimes(1);
-        $this->userResponseRepository->findOneBy(array('userSessionID' => '12354321897467', 'poll' => 2))
+        $this->userResponseRepo->findOneBy(array('userSessionID' => '12354321897467', 'poll' => 2))
             ->shouldHaveBeenCalledTimes(0);
 
         $userResponse->setAnswer($this->answer->reveal())
@@ -249,7 +249,7 @@ class ResponseApiControllerTest extends BaseApiControllerTest
         $userResponse3->getAnswer()->willReturn($answer3->reveal());
         $this->answerRepository->findOneBy(array('id' => 6, 'poll' => 2))->willReturn($answer2->reveal());
 
-        $this->userResponseRepository->findBy(array('userSessionID' => '12354321897467', 'poll' => 2))
+        $this->userResponseRepo->findBy(array('userSessionID' => '12354321897467', 'poll' => 2))
             ->willReturn([$userResponse2->reveal(), $userResponse3->reveal()]);
 
         $requestContent = json_encode([
@@ -267,15 +267,15 @@ class ResponseApiControllerTest extends BaseApiControllerTest
         $this->entityManager->remove($userResponse3->reveal())
             ->shouldHaveBeenCalledTimes(1);
 
-        $this->userResponseRepository->findBy(array('customUserID' => '9873fdanba8qge9dfsaq39', 'poll' => 2))
+        $this->userResponseRepo->findBy(array('customUserID' => '9873fdanba8qge9dfsaq39', 'poll' => 2))
             ->shouldHaveBeenCalledTimes(2);
-        $this->userResponseRepository->findBy(array('userSessionID' => '12354321897467', 'poll' => 2))
+        $this->userResponseRepo->findBy(array('userSessionID' => '12354321897467', 'poll' => 2))
             ->shouldHaveBeenCalledTimes(2);
 
-        $this->userResponseRepository
+        $this->userResponseRepo
             ->findOneBy(array('customUserID' => '9873fdanba8qge9dfsaq39', 'poll' => 2, 'answer' => 5))
             ->shouldHaveBeenCalledTimes(1);
-        $this->userResponseRepository
+        $this->userResponseRepo
             ->findOneBy(array('customUserID' => '9873fdanba8qge9dfsaq39', 'poll' => 2, 'answer' => 6))
             ->shouldHaveBeenCalledTimes(1);
 
