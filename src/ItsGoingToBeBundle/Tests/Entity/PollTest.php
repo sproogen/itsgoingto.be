@@ -3,7 +3,6 @@
 namespace ItsGoingToBeBundle\Tests\Entity;
 
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Event\LifecycleEventArgs;
 use ItsGoingToBeBundle\Tests\AbstractTests\BaseEntityTest;
 use ItsGoingToBeBundle\Entity\Poll;
 use ItsGoingToBeBundle\Entity\Answer;
@@ -165,8 +164,7 @@ class PollTest extends BaseEntityTest
     {
         self::assertEquals(null, $this->entity->getCreated());
         self::assertEquals(null, $this->entity->getUpdated());
-        $lifecycleEventArgs = $this->prophesize(LifecycleEventArgs::class);
-        $this->entity->prePersist($lifecycleEventArgs->reveal());
+        $this->entity->prePersist();
         self::assertInstanceOf(\DateTime::class, $this->entity->getCreated());
         self::assertEquals(new \DateTime(), $this->entity->getCreated());
         self::assertInstanceOf(\DateTime::class, $this->entity->getUpdated());
@@ -176,8 +174,7 @@ class PollTest extends BaseEntityTest
     public function testPreUpdate()
     {
         self::assertEquals(null, $this->entity->getUpdated());
-        $lifecycleEventArgs = $this->prophesize(LifecycleEventArgs::class);
-        $this->entity->preUpdate($lifecycleEventArgs->reveal());
+        $this->entity->preUpdate();
         self::assertInstanceOf(\DateTime::class, $this->entity->getUpdated());
         self::assertEquals(new \DateTime(), $this->entity->getUpdated());
     }

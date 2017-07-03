@@ -2,7 +2,6 @@
 
 namespace ItsGoingToBeBundle\Tests\Entity;
 
-use Doctrine\ORM\Event\LifecycleEventArgs;
 use ItsGoingToBeBundle\Tests\AbstractTests\BaseEntityTest;
 use ItsGoingToBeBundle\Entity\LoginAttempt;
 
@@ -55,8 +54,7 @@ class LoginAttemptTest extends BaseEntityTest
     public function testPrePersist()
     {
         self::assertEquals(null, $this->entity->getCreated());
-        $lifecycleEventArgs = $this->prophesize(LifecycleEventArgs::class);
-        $this->entity->prePersist($lifecycleEventArgs->reveal());
+        $this->entity->prePersist();
         self::assertInstanceOf(\DateTime::class, $this->entity->getCreated());
         self::assertEquals(new \DateTime(), $this->entity->getCreated());
     }
