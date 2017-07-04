@@ -2,7 +2,7 @@ class_name: ApiTester
 modules:
     enabled:
         - REST:
-            url: /api/
+            url: /api
             depends: Symfony
         - Symfony:
             app_path: '../../app'
