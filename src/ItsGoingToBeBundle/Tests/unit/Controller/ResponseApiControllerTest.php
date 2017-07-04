@@ -1,12 +1,12 @@
 <?php
 
-namespace ItsGoingToBeBundle\Tests\Controller;
+namespace ItsGoingToBeBundle\Tests\Unit\Controller;
 
 use Prophecy\Argument;
 use Prophecy\ObjectProphecy;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use ItsGoingToBeBundle\Tests\AbstractTests\BaseApiControllerTest;
+use ItsGoingToBeBundle\Tests\Unit\AbstractTests\BaseApiControllerTest;
 use ItsGoingToBeBundle\Controller\Api\ResponseApiController;
 use ItsGoingToBeBundle\Entity\Poll;
 use ItsGoingToBeBundle\Entity\Answer;

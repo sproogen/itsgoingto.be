@@ -1,6 +1,6 @@
 <?php
 
-namespace ItsGoingToBeBundle\Tests\AbstractTests;
+namespace ItsGoingToBeBundle\Tests\Unit\AbstractTests;
 
 use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;

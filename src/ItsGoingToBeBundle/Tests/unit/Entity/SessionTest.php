@@ -1,8 +1,8 @@
 <?php
 
-namespace ItsGoingToBeBundle\Tests\Entity;
+namespace ItsGoingToBeBundle\Tests\Unit\Entity;
 
-use ItsGoingToBeBundle\Tests\AbstractTests\BaseEntityTest;
+use ItsGoingToBeBundle\Tests\Unit\AbstractTests\BaseEntityTest;
 use ItsGoingToBeBundle\Entity\Session;
 
 /**

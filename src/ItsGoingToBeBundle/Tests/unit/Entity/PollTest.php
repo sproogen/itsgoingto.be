@@ -1,9 +1,9 @@
 <?php
 
-namespace ItsGoingToBeBundle\Tests\Entity;
+namespace ItsGoingToBeBundle\Tests\Unit\Entity;
 
 use Doctrine\Common\Collections\Collection;
-use ItsGoingToBeBundle\Tests\AbstractTests\BaseEntityTest;
+use ItsGoingToBeBundle\Tests\Unit\AbstractTests\BaseEntityTest;
 use ItsGoingToBeBundle\Entity\Poll;
 use ItsGoingToBeBundle\Entity\Answer;
 use ItsGoingToBeBundle\Entity\UserResponse;

@@ -1,0 +1,13 @@
+class_name: ApiTester
+modules:
+    enabled:
+        - REST:
+            url: /api/
+            depends: Symfony
+        - Symfony:
+            app_path: '../../app'
+            var_path: '../../var'
+            environment: 'test'
+        - Doctrine2:
+            depends: Symfony
+        - \ItsGoingToBeBundle\Helper\Api

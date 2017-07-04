@@ -1,6 +1,6 @@
 <?php
 
-namespace ItsGoingToBeBundle\Tests\AbstractTests;
+namespace ItsGoingToBeBundle\Tests\Unit\AbstractTests;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
@@ -14,7 +14,7 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use ItsGoingToBeBundle\Interfaces\ApiControllerInterface;
 use ItsGoingToBeBundle\Controller\Api\PollApiController;
-use ItsGoingToBeBundle\Tests\AbstractTests\BaseTest;
+use ItsGoingToBeBundle\Tests\Unit\AbstractTests\BaseTest;
 use ItsGoingToBeBundle\Entity\Poll;
 use ItsGoingToBeBundle\Entity\Answer;
 use ItsGoingToBeBundle\Entity\UserResponse;
