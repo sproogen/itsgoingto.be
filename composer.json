@@ -29,6 +29,7 @@
     "require-dev": {
         "codacy/coverage": "^1.1",
         "codeception/codeception": "2.3.x-dev",
+        "flow/jsonpath": "^0.3.4",
         "overtrue/phplint": "^0.2.1",
         "phpunit/phpunit": "~5.5",
         "squizlabs/php_codesniffer": "3.*",

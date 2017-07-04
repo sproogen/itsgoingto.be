@@ -6,5 +6,7 @@ namespace ItsGoingToBeBundle\Helper;
 
 class Api extends \Codeception\Module
 {
-
+  function getEntityManager() {
+    return $this->getModule('Doctrine2')->_getEntityManager();
+  }
 }

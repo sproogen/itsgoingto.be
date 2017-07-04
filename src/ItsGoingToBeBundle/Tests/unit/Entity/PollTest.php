@@ -50,7 +50,7 @@ class PollTest extends BaseEntityTest
         self::assertCount(1, $answers);
         self::assertArrayHasKey('type', $answers[0]);
         self::assertArrayHasKey('id', $answers[0]);
-        self::assertEquals('answer', $answers[0]['type']);
+        self::assertEquals('Answer', $answers[0]['type']);
         self::assertEquals(1, $extractedData['responsesCount']);
         self::assertEquals(true, $extractedData['multipleChoice']);
         self::assertEquals(true, $extractedData['deleted']);
