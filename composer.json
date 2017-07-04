@@ -26,15 +26,9 @@
         "symfony/symfony": "3.3.*",
         "twig/twig": "^1.0||^2.0"
     },
-    "repositories": [
-        {
-            "type": "git",
-            "url": "https://github.com/Codeception/Codeception"
-        }
-    ],
     "require-dev": {
         "codacy/coverage": "^1.1",
-        "codeception/codeception": "dev-2.3",
+        "codeception/codeception": "2.3.x-dev",
         "overtrue/phplint": "^0.2.1",
         "phpunit/phpunit": "~5.5",
         "squizlabs/php_codesniffer": "3.*",
