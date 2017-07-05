@@ -1,34 +1,16 @@
 <?php
 
+namespace ItsGoingToBeBundle\Tests\Api;
+
 use Codeception\Util\HttpCode;
+use ItsGoingToBeBundle\Tests\Api\BaseApiCest;
 use ItsGoingToBeBundle\ApiTester;
-use ItsGoingToBeBundle\Entity\Poll;
-use ItsGoingToBeBundle\Entity\Answer;
 
 /**
  * API Tests for GET /api/polls
  */
-class RetrievePollsCest
+class RetrievePollsCest extends BaseApiCest
 {
-  public function _before(ApiTester $I)
-  {
-    $pollId = $I->haveInRepository(Poll::class, [
-      'identifier'     => 'he7gis',
-      'question'       => 'Test Question 1',
-      'multipleChoice' => false,
-      'deleted'        => false,
-    ]);
-    $em = $I->getEntityManager();
-    $poll = $em->find(Poll::class, $pollId);
-    $answerId = $I->haveInRepository(Answer::class, [
-      'answer' => 'Answer Text',
-      'poll'   => $poll,
-    ]);
-    $answer = $em->find(Answer::class, $answerId);
-    $poll->addAnswer($answer);
-    $I->persistEntity($poll);
-  }
-
   public function checkRouteTest(ApiTester $I)
   {
     $I->wantTo('Check call return 200 and matches json structure');
@@ -74,4 +56,58 @@ class RetrievePollsCest
     ],
     '$.entities[*].answers[*]');
   }
+
+  public function returnsPollWithValues(ApiTester $I)
+  {
+    $I->wantTo('Check returned polls match correct values');
+    $I->sendGET('/polls');
+    $I->seeResponseCodeIs(HttpCode::OK);
+    $I->seeResponseIsJson();
+    $I->seeResponseContainsJson([
+      'count' => 1,
+      'total' => 1,
+    ]);
+    $I->seeResponsePathContainsJson([
+      'identifier'     => 'he7gis',
+      'question'       => 'Test Question 1',
+      'multipleChoice' => false,
+      'deleted'        => false,
+      'responsesCount' => 0
+    ],
+    '$.entities[0]');
+  }
+
+  public function returnsOnlyNonDeletedPolls(ApiTester $I)
+  {
+    $this->createPoll($I, [
+      'identifier'     => 'h1f4sa',
+      'question'       => 'Test Question Deleted',
+      'multipleChoice' => false,
+      'deleted'        => true,
+      'answers'        => [
+        'Answer 1',
+        'Answer 2'
+      ]
+    ]);
+
+    $I->wantTo('Check returned polls are not deleted');
+    $I->sendGET('/polls');
+    $I->seeResponseCodeIs(HttpCode::OK);
+    $I->seeResponseIsJson();
+    $I->seeResponseContainsJson([
+      'count' => 1,
+      'total' => 1,
+    ]);
+    $I->seeResponsePathContainsJson([
+      'identifier'     => 'he7gis',
+      'question'       => 'Test Question 1',
+      'multipleChoice' => false,
+      'deleted'        => false,
+      'responsesCount' => 0
+    ],
+    '$.entities[0]');
+  }
+
+  // TODO : Test returns deleted for admin
+  // TODO : Test Pagination
 }
