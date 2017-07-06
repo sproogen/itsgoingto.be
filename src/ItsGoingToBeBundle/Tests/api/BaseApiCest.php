@@ -1,6 +1,6 @@
 <?php
 
-namespace ItsGoingToBeBundle\Tests\Api;
+namespace ItsGoingToBeBundle\Tests\api;
 
 use ItsGoingToBeBundle\ApiTester;
 use ItsGoingToBeBundle\Entity\Poll;
@@ -8,7 +8,6 @@ use ItsGoingToBeBundle\Entity\Answer;
 
 abstract class BaseApiCest
 {
-
   protected $em;
 
   protected function createPoll(ApiTester $I, $data)
