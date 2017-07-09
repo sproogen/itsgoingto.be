@@ -7,30 +7,46 @@ use ItsGoingToBeBundle\Tests\api\BaseApiCest;
 use ItsGoingToBeBundle\ApiTester;
 
 /**
- * API Tests for GET /api/polls/:identifier
+ * API Tests for POST /api/polls
  */
-class RetrievePollCest extends BaseApiCest
+class CreatePollCest extends BaseApiCest
 {
   public function checkRouteTest(ApiTester $I)
   {
-    $I->wantTo('Check call return 200');
-    $I->sendGet('/polls/he7gis');
-    $I->seeResponseCodeIs(HttpCode::OK);
+    $I->wantTo('Check call return 400');
+    $I->sendPOST('/polls');
+    $I->seeResponseCodeIs(HttpCode::BAD_REQUEST);
     $I->seeResponseIsJson();
   }
 
-  public function returns404Test(ApiTester $I)
+  public function returnsErrorMessagesAnd400Test(ApiTester $I)
   {
-    $I->wantTo('Check call return 404');
-    $I->sendGet('/polls/h2gUis');
-    $I->seeResponseCodeIs(HttpCode::NOT_FOUND);
+    $I->wantTo('Check call returns errors');
+    $I->sendPOST('/polls');
+    $I->seeResponseCodeIs(HttpCode::BAD_REQUEST);
     $I->seeResponseIsJson();
+    $I->seeResponseMatchesJsonType([
+      'errors' => 'array',
+    ]);
+    $I->seeResponseContainsJson([
+      'errors' => [
+        'No question has been provided',
+        'No answers have been provided'
+      ]
+    ]);
   }
 
-  public function returnsPollTest(ApiTester $I)
+  public function returnsPersistedPollTest(ApiTester $I)
   {
-    $I->wantTo('Check returned polls match json structure');
-    $I->sendGET('/polls/he7gis');
+    $I->wantTo('Check call returns persisted poll');
+    $I->sendPOST('/polls', [
+      'question'       => 'Question Text',
+      'answers'        => [
+        'Answer 1',
+        'Answer 2'
+      ],
+      'multipleChoice' => true
+    ]);
     $I->seeResponseCodeIs(HttpCode::OK);
     $I->seeResponseIsJson();
     $I->seeResponseMatchesJsonType([
@@ -63,49 +79,22 @@ class RetrievePollCest extends BaseApiCest
       ]
     ],
     '$.answers[*]');
-  }
-
-  public function returnsPollWithValues(ApiTester $I)
-  {
-    $I->wantTo('Check returned poll match correct values');
-    $I->sendGET('/polls/he7gis');
-    $I->seeResponseCodeIs(HttpCode::OK);
-    $I->seeResponseIsJson();
     $I->seeResponseContainsJson([
-      'id'             => $this->polls[0]->getId(),
-      'identifier'     => 'he7gis',
-      'question'       => 'Test Question 1',
-      'multipleChoice' => false,
+      'question'       => 'Question Text',
+      'multipleChoice' => true,
       'deleted'        => false,
-      'responsesCount' => 2,
+      'responsesCount' => 0,
       'userResponses'  => [],
     ]);
     $I->seeResponsePathContainsJson([
-      'id'             => $this->polls[0]->getAnswers()[0]->getId(),
       'answer'         => 'Answer 1',
-      'responsesCount' => 2
+      'responsesCount' => 0
     ],
     '$.answers[0]');
     $I->seeResponsePathContainsJson([
-      'id'             => $this->polls[0]->getAnswers()[1]->getId(),
       'answer'         => 'Answer 2',
       'responsesCount' => 0
     ],
     '$.answers[1]');
-    $I->seeResponsePathContainsJson([
-      'id'   => $this->polls[0]->getId(),
-      'type' => 'Poll'
-    ],
-    '$.answers[*].poll');
-  }
-
-  public function returns404ForDeletedTest(ApiTester $I)
-  {
-    $I->wantTo('Check call return 404');
-    $I->sendGet('/polls/y3k0sn');
-    $I->seeResponseCodeIs(HttpCode::NOT_FOUND);
-    $I->seeResponseIsJson();
   }
 }
-
-// TODO : Test returns deleted for admin

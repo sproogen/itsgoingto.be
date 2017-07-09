@@ -118,6 +118,7 @@ abstract class BaseApiControllerTest extends BaseTest
         $this->answer = $this->prophesize(Answer::class);
         $this->answer->getId()->willReturn(5);
         $this->answer->getResponses()->willReturn([new UserResponse()]);
+        $this->answer->addResponse(Argument::any())->willReturn(null);
         $this->answer->extract()->willReturn([
             'id'             => 5,
             'answer'         => 'Answer A',
@@ -141,6 +142,7 @@ abstract class BaseApiControllerTest extends BaseTest
             'deleted'        => false,
         ]);
         $this->poll->getResponses()->willReturn([new UserResponse(), new UserResponse()]);
+        $this->poll->addResponse(Argument::any())->willReturn(null);
         $this->poll->getAnswers()->willReturn([$this->answer->reveal(), $this->answer->reveal()]);
         $this->poll->setDeleted(Argument::any())->willReturn($this->poll->reveal());
 

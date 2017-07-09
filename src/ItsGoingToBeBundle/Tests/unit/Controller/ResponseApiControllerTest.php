@@ -241,8 +241,10 @@ class ResponseApiControllerTest extends BaseApiControllerTest
         $this->poll->isMultipleChoice()->willReturn(true);
         $answer2 = $this->prophesize(Answer::class);
         $answer2->getId()->willReturn(6);
+        $answer2->addResponse(Argument::any())->willReturn(null);
         $answer3 = $this->prophesize(Answer::class);
         $answer3->getId()->willReturn(7);
+        $answer3->addResponse(Argument::any())->willReturn(null);
         $userResponse2 = $this->prophesize(UserResponse::class);
         $userResponse2->getAnswer()->willReturn($answer2->reveal());
         $userResponse3 = $this->prophesize(UserResponse::class);

@@ -51,8 +51,8 @@ class RetrievePollsCest extends BaseApiCest
     ],
     '$.entities[*]');
     $I->seeResponseMatchesJsonType([
-      'id' => 'integer',
-      'type' => 'string:regex(/Answer/)',
+      'id'   => 'integer',
+      'type' => 'string:regex(/Answer/)'
     ],
     '$.entities[*].answers[*]');
   }
@@ -65,31 +65,31 @@ class RetrievePollsCest extends BaseApiCest
     $I->seeResponseIsJson();
     $I->seeResponseContainsJson([
       'count' => 1,
-      'total' => 1,
+      'total' => 1
     ]);
     $I->seeResponsePathContainsJson([
+      'id'             => $this->polls[0]->getId(),
       'identifier'     => 'he7gis',
       'question'       => 'Test Question 1',
       'multipleChoice' => false,
       'deleted'        => false,
-      'responsesCount' => 0
+      'responsesCount' => 2
     ],
     '$.entities[0]');
+    $I->seeResponsePathContainsJson([
+      'id'   => $this->polls[0]->getAnswers()[0]->getId(),
+      'type' => 'Answer'
+    ],
+    '$.entities[0].answers[0]');
+    $I->seeResponsePathContainsJson([
+      'id'   => $this->polls[0]->getAnswers()[1]->getId(),
+      'type' => 'Answer'
+    ],
+    '$.entities[0].answers[1]');
   }
 
   public function returnsOnlyNonDeletedPolls(ApiTester $I)
   {
-    $this->createPoll($I, [
-      'identifier'     => 'h1f4sa',
-      'question'       => 'Test Question Deleted',
-      'multipleChoice' => false,
-      'deleted'        => true,
-      'answers'        => [
-        'Answer 1',
-        'Answer 2'
-      ]
-    ]);
-
     $I->wantTo('Check returned polls are not deleted');
     $I->sendGET('/polls');
     $I->seeResponseCodeIs(HttpCode::OK);
@@ -99,11 +99,12 @@ class RetrievePollsCest extends BaseApiCest
       'total' => 1,
     ]);
     $I->seeResponsePathContainsJson([
+      'id'             => $this->polls[0]->getId(),
       'identifier'     => 'he7gis',
       'question'       => 'Test Question 1',
       'multipleChoice' => false,
       'deleted'        => false,
-      'responsesCount' => 0
+      'responsesCount' => 2
     ],
     '$.entities[0]');
   }

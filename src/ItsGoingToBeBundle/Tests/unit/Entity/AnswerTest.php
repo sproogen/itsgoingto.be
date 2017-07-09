@@ -38,7 +38,7 @@ class AnswerTest extends BaseEntityTest
         $poll = $extractedData['poll'];
         self::assertArrayHasKey('type', $poll);
         self::assertArrayHasKey('id', $poll);
-        self::assertEquals('poll', $poll['type']);
+        self::assertEquals('Poll', $poll['type']);
         self::assertEquals(1, $extractedData['responsesCount']);
     }
 
