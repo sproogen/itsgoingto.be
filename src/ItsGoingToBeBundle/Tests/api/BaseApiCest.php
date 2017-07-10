@@ -28,8 +28,6 @@ abstract class BaseApiCest
       $this->createAnswer($I, $poll, $answer);
     }
 
-    $this->polls[] = $poll;
-
     return $poll;
   }
 
@@ -75,7 +73,7 @@ abstract class BaseApiCest
 
     $this->polls = [];
 
-    $this->createPoll($I, [
+    $this->polls[] = $this->createPoll($I, [
       'identifier'     => 'he7gis',
       'question'       => 'Test Question 1',
       'multipleChoice' => false,
@@ -100,7 +98,7 @@ abstract class BaseApiCest
       ]
     ]);
 
-    $this->createPoll($I, [
+    $this->polls[] = $this->createPoll($I, [
       'identifier'     => 'y3k0sn',
       'question'       => 'Test Question Deleted',
       'multipleChoice' => false,

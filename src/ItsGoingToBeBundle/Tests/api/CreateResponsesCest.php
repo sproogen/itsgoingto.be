@@ -6,8 +6,6 @@ use Codeception\Util\HttpCode;
 use ItsGoingToBeBundle\Tests\api\BaseApiCest;
 use ItsGoingToBeBundle\ApiTester;
 
-// TODO : Test multiple choice
-
 /**
  * API Tests for POST /api/polls/:identifier/responses
  */
@@ -118,6 +116,89 @@ class CreateResponsesCest extends BaseApiCest
     '$.answers[0]');
     $I->seeResponsePathContainsJson([
       'id'             => $this->polls[0]->getAnswers()[1]->getId(),
+      'responsesCount' => 0
+    ],
+    '$.answers[1]');
+  }
+
+  public function returnsResponseAndPersistsMultipleResponsesTest(ApiTester $I)
+  {
+    $poll = $this->createPoll($I, [
+      'identifier'     => 'h27ngu',
+      'question'       => 'Test Question Multiple',
+      'multipleChoice' => true,
+      'deleted'        => false,
+      'answers'        => [
+        'Answer 1',
+        'Answer 2'
+      ]
+    ]);
+
+    $I->wantTo('Check call returns responses and persists multiple responses');
+    $I->sendPOST('/polls/h27ngu/responses', [
+      'answers' => [
+        $poll->getAnswers()[0]->getId(),
+        $poll->getAnswers()[1]->getId()
+      ]
+    ]);
+    $I->seeResponseCodeIs(HttpCode::OK);
+    $I->seeResponseIsJson();
+    $I->seeResponseMatchesJsonType([
+      'responsesCount' => 'integer',
+      'answers'        => 'array',
+      'userResponses'  => 'array'
+    ]);
+    $I->seeResponseMatchesJsonType([
+      'id'             => 'integer',
+      'responsesCount' => 'integer'
+    ],
+    '$.answers[*]');
+    $I->seeResponseContainsJson([
+      'responsesCount' => 2,
+      'userResponses'  => [
+        $poll->getAnswers()[0]->getId(),
+        $poll->getAnswers()[1]->getId()
+      ],
+    ]);
+    $I->seeResponsePathContainsJson([
+      'id'             => $poll->getAnswers()[0]->getId(),
+      'responsesCount' => 1
+    ],
+    '$.answers[0]');
+    $I->seeResponsePathContainsJson([
+      'id'             => $poll->getAnswers()[1]->getId(),
+      'responsesCount' => 1
+    ],
+    '$.answers[1]');
+
+    $I->sendPOST('/polls/h27ngu/responses', [
+      'answers' => [
+        $poll->getAnswers()[0]->getId()
+      ]
+    ]);
+    $I->seeResponseCodeIs(HttpCode::OK);
+    $I->seeResponseIsJson();
+    $I->seeResponseMatchesJsonType([
+      'responsesCount' => 'integer',
+      'answers'        => 'array',
+      'userResponses'  => 'array'
+    ]);
+    $I->seeResponseMatchesJsonType([
+      'id'             => 'integer',
+      'responsesCount' => 'integer'
+    ],
+    '$.answers[*]');
+    $I->seeResponseContainsJson([
+      'responsesCount' => 1,
+      'userResponses'  => [$poll->getAnswers()[0]->getId()],
+    ]);
+    $I->seeResponsePathContainsJson([
+      'id'             => $poll->getAnswers()[0]->getId(),
+      'responsesCount' => 1
+    ],
+    '$.answers[0]');
+    $I->seeResponsePathContainsJson([
+      'id'             => $poll->getAnswers()[1]->getId(),
       'responsesCount' => 0
     ],
     '$.answers[1]');
