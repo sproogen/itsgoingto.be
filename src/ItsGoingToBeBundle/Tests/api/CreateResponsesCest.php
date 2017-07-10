@@ -6,6 +6,8 @@ use Codeception\Util\HttpCode;
 use ItsGoingToBeBundle\Tests\api\BaseApiCest;
 use ItsGoingToBeBundle\ApiTester;
 
+// TODO : Test multiple choice
+
 /**
  * API Tests for POST /api/polls/:identifier/responses
  */
@@ -78,6 +80,46 @@ class CreateResponsesCest extends BaseApiCest
     ],
     '$.answers[1]');
   }
-}
 
-// TODO : Test multiple choice
+  public function returnsResponseAndUpdatesResponseTest(ApiTester $I)
+  {
+    $I->sendPOST('/polls/he7gis/responses', [
+      'answers' => [
+        $this->polls[0]->getAnswers()[1]->getId()
+      ]
+    ]);
+
+    $I->wantTo('Check call returns responses and persists responses');
+    $I->sendPOST('/polls/he7gis/responses', [
+      'answers' => [
+        $this->polls[0]->getAnswers()[0]->getId()
+      ]
+    ]);
+    $I->seeResponseCodeIs(HttpCode::OK);
+    $I->seeResponseIsJson();
+    $I->seeResponseMatchesJsonType([
+      'responsesCount' => 'integer',
+      'answers'        => 'array',
+      'userResponses'  => 'array'
+    ]);
+    $I->seeResponseMatchesJsonType([
+      'id'             => 'integer',
+      'responsesCount' => 'integer'
+    ],
+    '$.answers[*]');
+    $I->seeResponseContainsJson([
+      'responsesCount' => 3,
+      'userResponses'  => [$this->polls[0]->getAnswers()[0]->getId()],
+    ]);
+    $I->seeResponsePathContainsJson([
+      'id'             => $this->polls[0]->getAnswers()[0]->getId(),
+      'responsesCount' => 3
+    ],
+    '$.answers[0]');
+    $I->seeResponsePathContainsJson([
+      'id'             => $this->polls[0]->getAnswers()[1]->getId(),
+      'responsesCount' => 0
+    ],
+    '$.answers[1]');
+  }
+}

@@ -113,7 +113,10 @@ class RetrievePollCest extends BaseApiCest
     $I->sendGet('/polls/y3k0sn', ['user' => 'admin']);
     $I->seeResponseCodeIs(HttpCode::OK);
     $I->seeResponseIsJson();
+    $I->seeResponseContainsJson([
+      'id'             => $this->polls[1]->getId(),
+      'identifier'     => 'y3k0sn',
+      'question'       => 'Test Question Deleted'
+    ]);
   }
 }
-
-// TODO : Test returns deleted for admin

@@ -20,6 +20,7 @@ services:
         arguments:
             - "@security.authorization_checker"
             - "@request_stack"
+            - "%kernel.environment%"
 
     itsgoingtobe.identifier_service:
         class: ItsGoingToBeBundle\Service\IdentifierService
@@ -39,7 +40,7 @@ services:
         calls:
             - [ setContainer, ["@service_container"]]
             - [ setEntityManager, ["@doctrine.orm.default_entity_manager"]]
-            - [ setAuthorizationChecker, ["itsgoingtobe.authorization_checker"]]
+            - [ setAuthorizationChecker, ["@itsgoingtobe.authorization_checker"]]
             - [ setIdentifierService, ["@itsgoingtobe.identifier_service"]]
 
     itsgoingtobe.react_controller:

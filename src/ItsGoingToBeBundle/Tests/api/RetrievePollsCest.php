@@ -6,6 +6,8 @@ use Codeception\Util\HttpCode;
 use ItsGoingToBeBundle\Tests\api\BaseApiCest;
 use ItsGoingToBeBundle\ApiTester;
 
+// TODO : Test Pagination
+
 /**
  * API Tests for GET /api/polls
  */
@@ -57,7 +59,7 @@ class RetrievePollsCest extends BaseApiCest
     '$.entities[*].answers[*]');
   }
 
-  public function returnsPollWithValues(ApiTester $I)
+  public function returnsPollWithValuesTest(ApiTester $I)
   {
     $I->wantTo('Check returned polls match correct values');
     $I->sendGET('/polls');
@@ -88,7 +90,7 @@ class RetrievePollsCest extends BaseApiCest
     '$.entities[0].answers[1]');
   }
 
-  public function returnsOnlyNonDeletedPolls(ApiTester $I)
+  public function returnsOnlyNonDeletedPollsTest(ApiTester $I)
   {
     $I->wantTo('Check returned polls are not deleted');
     $I->sendGET('/polls');
@@ -109,6 +111,33 @@ class RetrievePollsCest extends BaseApiCest
     '$.entities[0]');
   }
 
-  // TODO : Test returns deleted for admin
-  // TODO : Test Pagination
+  public function returnsDeletedPollsForAdminTest(ApiTester $I)
+  {
+    $I->wantTo('Check returned polls are not deleted');
+    $I->sendGET('/polls', ['user' => 'admin']);
+    $I->seeResponseCodeIs(HttpCode::OK);
+    $I->seeResponseIsJson();
+    $I->seeResponseContainsJson([
+      'count' => 2,
+      'total' => 2,
+    ]);
+    $I->seeResponsePathContainsJson([
+      'id'             => $this->polls[0]->getId(),
+      'identifier'     => 'he7gis',
+      'question'       => 'Test Question 1',
+      'multipleChoice' => false,
+      'deleted'        => false,
+      'responsesCount' => 2
+    ],
+    '$.entities[0]');
+    $I->seeResponsePathContainsJson([
+      'id'             => $this->polls[1]->getId(),
+      'identifier'     => 'y3k0sn',
+      'question'       => 'Test Question Deleted',
+      'multipleChoice' => false,
+      'deleted'        => true,
+      'responsesCount' => 0
+    ],
+    '$.entities[1]');
+  }
 }

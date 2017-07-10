@@ -14,17 +14,20 @@ class AuthorizationChecker implements AuthorizationCheckerInterface
 {
     private $authorizationChecker;
     private $requestStack;
+    private $env;
 
     /**
      * Constructor.
      *
      * @param AuthorizationCheckerInterface $authorizationChecker
      * @param RequestStack                  $requestStack
+     * @param String                        $env
      */
-    public function __construct(AuthorizationCheckerInterface $authorizationChecker, RequestStack $requestStack)
+    public function __construct(AuthorizationCheckerInterface $authorizationChecker, RequestStack $requestStack, $env)
     {
         $this->authorizationChecker = $authorizationChecker;
         $this->requestStack = $requestStack;
+        $this->env = $env;
     }
 
     /**
@@ -32,17 +35,18 @@ class AuthorizationChecker implements AuthorizationCheckerInterface
      */
     final public function isGranted($attributes, $object = null)
     {
-        $request = $this->requestStack->getCurrentRequest();
-        $user = $request->query->get('user');
-        // TODO : Only do this if in 'test' env
-        if (!$user) {
-            $user = $request->request->get('name');
-        }
+        if ($this->env === 'test') {
+            $request = $this->requestStack->getCurrentRequest();
+            $user = $request->query->get('user');
+            if (!$user) {
+                $user = $request->request->get('user');
+            }
 
-        if ($user === 'admin') {
-            return true;
+            if ($user === 'admin') {
+                return true;
+            }
+        } else {
+            return $this->authorizationChecker->isGranted($attributes, $object);
         }
-
-        return $this->authorizationChecker->isGranted($attributes, $object);
     }
 }
