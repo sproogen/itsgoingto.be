@@ -34,6 +34,7 @@ class AuthorizationChecker implements AuthorizationCheckerInterface
     {
         $request = $this->requestStack->getCurrentRequest();
         $user = $request->query->get('user');
+        // TODO : Only do this if in 'test' env
         if (!$user) {
             $user = $request->request->get('name');
         }
