@@ -101,9 +101,17 @@ class RetrievePollCest extends BaseApiCest
 
   public function returns404ForDeletedTest(ApiTester $I)
   {
-    $I->wantTo('Check call return 404');
+    $I->wantTo('Check call returns 404');
     $I->sendGet('/polls/y3k0sn');
     $I->seeResponseCodeIs(HttpCode::NOT_FOUND);
+    $I->seeResponseIsJson();
+  }
+
+  public function returnsDeletedPollForAdminTest(ApiTester $I)
+  {
+    $I->wantTo('Check call returns deleted poll');
+    $I->sendGet('/polls/y3k0sn');
+    $I->seeResponseCodeIs(HttpCode::OK);
     $I->seeResponseIsJson();
   }
 }
