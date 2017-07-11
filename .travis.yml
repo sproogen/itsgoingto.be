@@ -33,7 +33,7 @@ script:
   - bin/phpcs --standard=PSR2 src/
   - bin/phplint src
   - bin/phpunit
-  - bin/codecept run
+  - SYMFONY_DEPRECATIONS_HELPER=disabled bin/codecept run
   - npm run lint
   - npm run test
 
