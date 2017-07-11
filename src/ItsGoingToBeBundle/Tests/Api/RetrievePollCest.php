@@ -1,9 +1,9 @@
 <?php
 
-namespace ItsGoingToBeBundle\Tests\api;
+namespace ItsGoingToBeBundle\Tests\Api;
 
 use Codeception\Util\HttpCode;
-use ItsGoingToBeBundle\Tests\api\BaseApiCest;
+use ItsGoingToBeBundle\Tests\Api\BaseApiCest;
 use ItsGoingToBeBundle\ApiTester;
 
 /**

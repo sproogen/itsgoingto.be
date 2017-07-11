@@ -14,9 +14,9 @@
 
     <testsuites>
         <testsuite name="Unit Test Suite">
-            <directory>src/*/*Bundle/Tests/unit</directory>
-            <directory>src/*/Bundle/*Bundle/Tests/unit</directory>
-            <directory>src/*Bundle/Tests/unit</directory>
+            <directory>src/*/*Bundle/Tests/Unit</directory>
+            <directory>src/*/Bundle/*Bundle/Tests/Unit</directory>
+            <directory>src/*Bundle/Tests/Unit</directory>
         </testsuite>
     </testsuites>
 

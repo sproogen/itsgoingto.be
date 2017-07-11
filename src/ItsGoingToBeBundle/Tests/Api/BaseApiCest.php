@@ -1,6 +1,6 @@
 <?php
 
-namespace ItsGoingToBeBundle\Tests\api;
+namespace ItsGoingToBeBundle\Tests\Api;
 
 use ItsGoingToBeBundle\ApiTester;
 use ItsGoingToBeBundle\Entity\Poll;
