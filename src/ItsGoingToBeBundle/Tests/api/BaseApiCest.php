@@ -7,6 +7,9 @@ use ItsGoingToBeBundle\Entity\Poll;
 use ItsGoingToBeBundle\Entity\Answer;
 use ItsGoingToBeBundle\Entity\UserResponse;
 
+/**
+ * Base class for API tests
+ */
 abstract class BaseApiCest
 {
   protected $em;

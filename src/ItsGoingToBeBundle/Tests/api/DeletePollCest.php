@@ -13,9 +13,17 @@ class DeletePollCest extends BaseApiCest
 {
   public function checkRouteTest(ApiTester $I)
   {
-    $I->wantTo('Check call return 401');
+    $I->wantTo('Check call returns 401');
     $I->sendDelete('/polls/he7gis');
     $I->seeResponseCodeIs(HttpCode::UNAUTHORIZED);
+    $I->seeResponseIsJson();
+  }
+
+  public function returns404Test(ApiTester $I)
+  {
+    $I->wantTo('Check call returns 404');
+    $I->sendDelete('/polls/he73is', ['user' => 'admin']);
+    $I->seeResponseCodeIs(HttpCode::NOT_FOUND);
     $I->seeResponseIsJson();
   }
 
