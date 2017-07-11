@@ -108,6 +108,7 @@ class UserResponse
     public function setPoll(Poll $poll = null)
     {
         $this->poll = $poll;
+        $poll->addResponse($this);
 
         return $this;
     }
@@ -132,6 +133,7 @@ class UserResponse
     public function setAnswer(Answer $answer = null)
     {
         $this->answer = $answer;
+        $answer->addResponse($this);
 
         return $this;
     }

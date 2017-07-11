@@ -1,8 +1,8 @@
 <?php
 
-namespace ItsGoingToBeBundle\Tests\AbstractTests;
+namespace ItsGoingToBeBundle\Tests\Unit\AbstractTests;
 
-use ItsGoingToBeBundle\Tests\AbstractTests\BaseTest;
+use ItsGoingToBeBundle\Tests\Unit\AbstractTests\BaseTest;
 
 /**
  * This class contains the common functionality for all Entity tests.

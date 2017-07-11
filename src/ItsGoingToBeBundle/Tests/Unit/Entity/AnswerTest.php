@@ -1,9 +1,9 @@
 <?php
 
-namespace ItsGoingToBeBundle\Tests\Entity;
+namespace ItsGoingToBeBundle\Tests\Unit\Entity;
 
 use Doctrine\Common\Collections\Collection;
-use ItsGoingToBeBundle\Tests\AbstractTests\BaseEntityTest;
+use ItsGoingToBeBundle\Tests\Unit\AbstractTests\BaseEntityTest;
 use ItsGoingToBeBundle\Entity\Answer;
 use ItsGoingToBeBundle\Entity\Poll;
 use ItsGoingToBeBundle\Entity\UserResponse;
@@ -38,7 +38,7 @@ class AnswerTest extends BaseEntityTest
         $poll = $extractedData['poll'];
         self::assertArrayHasKey('type', $poll);
         self::assertArrayHasKey('id', $poll);
-        self::assertEquals('poll', $poll['type']);
+        self::assertEquals('Poll', $poll['type']);
         self::assertEquals(1, $extractedData['responsesCount']);
     }
 

@@ -1,12 +1,12 @@
 <?php
 
-namespace ItsGoingToBeBundle\Tests\Controller;
+namespace ItsGoingToBeBundle\Tests\Unit\Controller;
 
 use Prophecy\Argument;
 use Prophecy\ObjectProphecy;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use ItsGoingToBeBundle\Tests\AbstractTests\BaseApiControllerTest;
+use ItsGoingToBeBundle\Tests\Unit\AbstractTests\BaseApiControllerTest;
 use ItsGoingToBeBundle\Controller\Api\ResponseApiController;
 use ItsGoingToBeBundle\Entity\Poll;
 use ItsGoingToBeBundle\Entity\Answer;
@@ -241,8 +241,10 @@ class ResponseApiControllerTest extends BaseApiControllerTest
         $this->poll->isMultipleChoice()->willReturn(true);
         $answer2 = $this->prophesize(Answer::class);
         $answer2->getId()->willReturn(6);
+        $answer2->addResponse(Argument::any())->willReturn(null);
         $answer3 = $this->prophesize(Answer::class);
         $answer3->getId()->willReturn(7);
+        $answer3->addResponse(Argument::any())->willReturn(null);
         $userResponse2 = $this->prophesize(UserResponse::class);
         $userResponse2->getAnswer()->willReturn($answer2->reveal());
         $userResponse3 = $this->prophesize(UserResponse::class);

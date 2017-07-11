@@ -18,7 +18,7 @@ class AdminController extends Controller
         $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'Unable to access this page!');
 
         $em = $this->get('doctrine.orm.entity_manager');
-        $dql = "SELECT q FROM ItsGoingToBeBundle:Poll p ORDER BY p.id DESC";
+        $dql = "SELECT p FROM ItsGoingToBeBundle:Poll p ORDER BY p.id DESC";
         $query = $em->createQuery($dql);
 
         $paginator  = $this->get('knp_paginator');

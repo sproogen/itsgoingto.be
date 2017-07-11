@@ -1,6 +1,6 @@
 <?php
 
-namespace ItsGoingToBeBundle\Tests\AbstractTests;
+namespace ItsGoingToBeBundle\Tests\Unit\AbstractTests;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
@@ -14,7 +14,7 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use ItsGoingToBeBundle\Interfaces\ApiControllerInterface;
 use ItsGoingToBeBundle\Controller\Api\PollApiController;
-use ItsGoingToBeBundle\Tests\AbstractTests\BaseTest;
+use ItsGoingToBeBundle\Tests\Unit\AbstractTests\BaseTest;
 use ItsGoingToBeBundle\Entity\Poll;
 use ItsGoingToBeBundle\Entity\Answer;
 use ItsGoingToBeBundle\Entity\UserResponse;
@@ -118,6 +118,7 @@ abstract class BaseApiControllerTest extends BaseTest
         $this->answer = $this->prophesize(Answer::class);
         $this->answer->getId()->willReturn(5);
         $this->answer->getResponses()->willReturn([new UserResponse()]);
+        $this->answer->addResponse(Argument::any())->willReturn(null);
         $this->answer->extract()->willReturn([
             'id'             => 5,
             'answer'         => 'Answer A',
@@ -141,6 +142,7 @@ abstract class BaseApiControllerTest extends BaseTest
             'deleted'        => false,
         ]);
         $this->poll->getResponses()->willReturn([new UserResponse(), new UserResponse()]);
+        $this->poll->addResponse(Argument::any())->willReturn(null);
         $this->poll->getAnswers()->willReturn([$this->answer->reveal(), $this->answer->reveal()]);
         $this->poll->setDeleted(Argument::any())->willReturn($this->poll->reveal());
 

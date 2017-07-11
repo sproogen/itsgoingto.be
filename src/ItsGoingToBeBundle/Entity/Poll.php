@@ -124,7 +124,7 @@ class Poll
         $answers = [];
         foreach ($this->getAnswers() as $answer) {
             $answers[] = [
-                'type' => 'answer',
+                'type' => 'Answer',
                 'id'   => $answer->getId()
             ];
         }

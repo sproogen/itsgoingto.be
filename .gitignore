@@ -45,6 +45,9 @@
 # Build data
 /build/
 
+#Codeception
+tests/_output/*
+
 # Composer PHAR
 /composer.phar
 

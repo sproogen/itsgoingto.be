@@ -15,6 +15,13 @@ services:
         tags:
             - { name: kernel.event_listener, event: security.interactive_login, method: onAuthenticationSuccess }
 
+    itsgoingtobe.authorization_checker:
+        class: ItsGoingToBeBundle\Security\AuthorizationChecker
+        arguments:
+            - "@security.authorization_checker"
+            - "@request_stack"
+            - "%kernel.environment%"
+
     itsgoingtobe.identifier_service:
         class: ItsGoingToBeBundle\Service\IdentifierService
         calls:
@@ -25,7 +32,7 @@ services:
         calls:
             - [ setContainer, ["@service_container"]]
             - [ setEntityManager, ["@doctrine.orm.default_entity_manager"]]
-            - [ setAuthorizationChecker, ["@security.authorization_checker"]]
+            - [ setAuthorizationChecker, ["@itsgoingtobe.authorization_checker"]]
             - [ setIdentifierService, ["@itsgoingtobe.identifier_service"]]
 
     itsgoingtobe.response_api_controller:
@@ -33,7 +40,7 @@ services:
         calls:
             - [ setContainer, ["@service_container"]]
             - [ setEntityManager, ["@doctrine.orm.default_entity_manager"]]
-            - [ setAuthorizationChecker, ["@security.authorization_checker"]]
+            - [ setAuthorizationChecker, ["@itsgoingtobe.authorization_checker"]]
             - [ setIdentifierService, ["@itsgoingtobe.identifier_service"]]
 
     itsgoingtobe.react_controller:
