@@ -8,9 +8,10 @@ import { addAnswer, clearAnswers, updateAnswers } from './answers'
 export const POLL_UPDATE     = 'POLL_UPDATE'
 export const QUESTION_UPDATE = 'QUESTION_UPDATE'
 export const initialPoll     = {
-  question   : '',
-  identifier : '',
-  answers    : []
+  question       : '',
+  identifier     : '',
+  multipleChoice : false,
+  answers        : []
 }
 
 // ------------------------------------
@@ -100,13 +101,23 @@ export const userRespondedAnswerSelector = (state, identifier = '', answerId) =>
  *
  * @return {Function} redux-thunk callable function
  */
-export const updatePoll = (poll) => (dispatch, getState) => Promise.all([
-  dispatch({
-    type : POLL_UPDATE,
-    poll : omit(['answers'])(poll)
-  }),
-  dispatch(updateAnswers(prop('answers')(poll)))
-]).then(() => poll)
+export const updatePoll = (poll) => (dispatch, getState) =>
+  ifElse(
+    compose(isNil, (prop('answers'))),
+    (poll) => Promise.resolve(
+            dispatch({
+              type : POLL_UPDATE,
+              poll : omit(['answers'])(poll)
+            })
+          ).then(() => poll),
+    (poll) => Promise.all([
+            dispatch({
+              type : POLL_UPDATE,
+              poll : omit(['answers'])(poll)
+            }),
+            dispatch(updateAnswers(prop('answers')(poll)))
+          ]).then(() => poll)
+  )(poll)
 
 /**
  * Update the question text in the state for a given poll

@@ -1,4 +1,4 @@
-import { questionSelector, updatePoll, updateResponses } from './poll'
+import { questionSelector, pollSelector, updatePoll, updateResponses } from './poll'
 import { answersSelector } from './answers'
 
 // ------------------------------------
@@ -55,8 +55,9 @@ export const postPoll = () => (dispatch, getState) =>
     credentials : 'same-origin',
     method      : 'POST',
     body        : JSON.stringify({
-      question : questionSelector(getState()),
-      answers  : answersSelector(getState())
+      question        : questionSelector(getState()),
+      answers         : answersSelector(getState()),
+      multipleChoice  : pollSelector(getState()).multipleChoice
     })
   })
   .then(extractResponse)

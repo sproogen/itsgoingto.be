@@ -1,0 +1,23 @@
+@import "bourbon";
+@import "neat";
+@import "variables";
+
+.modal-options {
+  margin: 2em 0;
+  text-align: left;
+}
+
+.modal-container {
+  padding: 2em;
+  background: $base-background-color;
+  text-align: center;
+}
+
+.modal-title {
+  letter-spacing: -1px;
+  font-weight: 300;
+  color: #4c4c4c;
+  font-size: 2em;
+  font-weight: 300;
+  margin: 0;
+}
