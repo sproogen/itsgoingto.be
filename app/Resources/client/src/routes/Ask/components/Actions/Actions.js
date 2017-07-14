@@ -7,6 +7,7 @@ import { postPoll } from 'store/api'
 import { browserHistory } from 'react-router'
 import Modal from 'boron/FadeModal'
 import Button from 'components/Button/Button'
+import './Actions.scss'
 
 class Actions extends React.Component {
   submit = () => this.props.postPoll()
@@ -23,11 +24,11 @@ class Actions extends React.Component {
   }
 
   showModal = function(){
-    this.refs.modal.show();
+    this._modal.show()
   }
   hideModal = function(){
-    this.refs.modal.hide();
-  }
+    this._modal.hide()
+  }.bind(this)
 
   render = () => (
     <div>
@@ -35,9 +36,11 @@ class Actions extends React.Component {
       <Button className='pull-left' text='Options' callback={this.options} />
       <Button className='pull-right' text='Create Poll' disabled={!this.props.canSubmitPoll} callback={this.submit} />
     </div>
-      <Modal ref="modal">
-        <h2>I am a dialog</h2>
-        <button onClick={this.hideModal}>Close</button>
+      <Modal ref={component => this._modal = component}>
+        <div className='modal-container'>
+          <h2 className='modal-title'>I am a dialog</h2>
+          <button className="modal-button" onClick={this.hideModal}>Close</button>
+        </div>
       </Modal>
     </div>
   )
