@@ -29,9 +29,9 @@ export class Answer extends React.Component {
       </span>
       <input
         id={'answer-' + this.props.index}
-        name='answer[]'
+        name='answer'
         className={this.props.type === 'radio' ? 'input-radio input-radio-options' : 'input-checkbox input-checkbox-options'}
-        type='radio'
+        type={this.props.type}
         value={this.props.index}
         checked={this.props.checked}
         readOnly />
