@@ -1,9 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import Modal from 'boron/FadeModal'
+import Modal from 'components/Modal/Modal'
 import { pollSelector, updatePoll } from 'store/poll'
-import './OptionsModal.scss'
 
 class OptionsModal extends React.Component {
   show = function(){
@@ -12,9 +11,6 @@ class OptionsModal extends React.Component {
   hide = function(){
     this._modal.hide()
   }.bind(this)
-  modalStyle = {
-    width: '60%'
-  }
 
   handleChange = (event) =>
     this.props.updateOptions({
@@ -23,8 +19,7 @@ class OptionsModal extends React.Component {
     })
 
   render = () => (
-    <Modal ref={component => this._modal = component} modalStyle={this.modalStyle}>
-      <div className='modal-container'>
+    <Modal ref={component => this._modal = component}>
         <h2 className='modal-title'>Poll Options</h2>
         <div className='modal-options'>
           <input
@@ -41,7 +36,6 @@ class OptionsModal extends React.Component {
           </label>
         </div>
         <button className="btn modal-btn" onClick={this.hide}>Close</button>
-      </div>
     </Modal>
   )
 }
