@@ -29,8 +29,8 @@ export class Answer extends React.Component {
       </span>
       <input
         id={'answer-' + this.props.index}
-        name='answer'
-        className='input-radio input-radio-options'
+        name='answer[]'
+        className={this.props.type === 'radio' ? 'input-radio input-radio-options' : 'input-checkbox input-checkbox-options'}
         type='radio'
         value={this.props.index}
         checked={this.props.checked}
@@ -50,6 +50,7 @@ export class Answer extends React.Component {
 
 Answer.propTypes = {
   index          : PropTypes.number.isRequired,
+  type           : PropTypes.string.isRequired,
   answer         : PropTypes.object.isRequired,
   totalResponses : PropTypes.number.isRequired,
   checked        : PropTypes.bool.isRequired,

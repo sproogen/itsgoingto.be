@@ -1,3 +1,4 @@
+import { prop, compose, not, isEmpty, contains, without, append } from 'ramda'
 import { questionSelector, pollSelector, updatePoll, updateResponses } from './poll'
 import { answersSelector } from './answers'
 
@@ -80,24 +81,43 @@ export const fetchPoll = (identifier) => (dispatch, getState) =>
   .catch(onError)
 
 /**
- * Fetches a poll with the identifier from the api
+ * Posts the response for a poll with the identifier to the api
  *
  * @param  {integer} answer     The id of the answer to submit
  * @param  {string}  identifier The identifier for the poll
  *
  * @return {Function} redux-thunk callable function
  */
-export const postResponse = (answer, identifier) => (dispatch, getState) =>
-  fetch(ROUTE_POLL + '/' + identifier + ROUTE_RESPONSES, {
+export const postResponse = (answer, identifier) => (dispatch, getState) => {
+
+  // TODO : Tidy this up (ramdify it)
+  // TODO : Test the mutipleChoice stuff here
+
+  let answers = []
+  const poll = pollSelector(getState(), identifier)
+
+  if (prop('multipleChoice', poll) && compose(not, isEmpty, prop('userResponses'))(poll)) {
+    let currentAnswers = prop('userResponses', poll)
+    if (contains(answer, currentAnswers)) {
+      answers = without([answer], currentAnswers)
+    } else {
+      answers = append(answer, currentAnswers)
+    }
+  } else {
+    answers = [answer]
+  }
+
+  return fetch(ROUTE_POLL + '/' + identifier + ROUTE_RESPONSES, {
     credentials : 'same-origin',
     method      : 'POST',
     body        : JSON.stringify({
-      answers : [answer]
+      answers : answers
     })
   })
   .then(extractResponse)
   .then((response) => dispatch(updateResponses(response, identifier)))
   .catch(onError)
+}
 
 /**
  * Fetches the responses for a poll
