@@ -105,10 +105,7 @@ export const postResponse = (answer, identifier) => (dispatch, getState) =>
     .then((response) => dispatch(updateResponses(response, identifier)))
     .catch(onError),
     ifElse(
-      both(
-        prop('multipleChoice'),
-        compose(not, isEmpty, prop('userResponses'))
-      ),
+      both(prop('multipleChoice'), compose(not, isEmpty, prop('userResponses'))),
       compose(
         ifElse(
           contains(answer),
