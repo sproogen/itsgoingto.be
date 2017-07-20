@@ -83,8 +83,6 @@ export const fetchPoll = (identifier) => (dispatch, getState) =>
 /**
  * Posts the response for a poll with the identifier to the api
  *
- * TODO : Test the mutipleChoice stuff here
- *
  * @param  {integer} answer     The id of the answer to submit
  * @param  {string}  identifier The identifier for the poll
  *
