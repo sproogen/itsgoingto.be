@@ -24,9 +24,10 @@ describe('(Store) Poll', () => {
   })
   it('Should export a constant initialPoll.', () => {
     expect(initialPoll).to.deep.equal({
-      question   : '',
-      identifier : '',
-      answers    : []
+      question       : '',
+      identifier     : '',
+      multipleChoice : false,
+      answers        : []
     })
   })
 
@@ -74,12 +75,14 @@ describe('(Store) Poll', () => {
 
     it('Should return an empty poll from the state global state.', () => {
       expect(pollSelector(_globalState, 'dasdfasd')).to.deep.equal({
-        question   : '',
-        identifier : ''
+        question       : '',
+        identifier     : '',
+        multipleChoice : false
       })
       expect(pollSelector(_globalState)).to.deep.equal({
-        question   : '',
-        identifier : ''
+        question       : '',
+        identifier     : '',
+        multipleChoice : false
       })
     })
   })
@@ -507,7 +510,7 @@ describe('(Store) Poll', () => {
       state = pollReducer(state, { type : QUESTION_UPDATE, question : 'Question Text', identifier : '' })
       expect(state).to.deep.equal([
         { question : 'Question', identifier : 'hf0sd8fhoas' },
-        { question : 'Question Text', identifier : '' }
+        { question : 'Question Text', identifier : '', multipleChoice : false }
       ])
     })
 
