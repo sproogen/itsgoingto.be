@@ -111,12 +111,12 @@ export const updatePoll = (poll) => (dispatch, getState) =>
             })
           ).then(() => poll),
     (poll) => Promise.all([
-            dispatch({
-              type : POLL_UPDATE,
-              poll : omit(['answers'])(poll)
-            }),
-            dispatch(updateAnswers(prop('answers')(poll)))
-          ]).then(() => poll)
+      dispatch({
+        type : POLL_UPDATE,
+        poll : omit(['answers'])(poll)
+      }),
+      dispatch(updateAnswers(prop('answers')(poll)))
+    ]).then(() => poll)
   )(poll)
 
 /**
