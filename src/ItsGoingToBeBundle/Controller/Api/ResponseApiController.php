@@ -100,7 +100,7 @@ class ResponseApiController extends BaseApiController implements ApiControllerIn
             }
         }
 
-        if (count($answers) === 0) {
+        if (count($answers) === 0 && !$poll->isMultipleChoice()) {
             $errors[] = 'No answers have been provided';
         }
 

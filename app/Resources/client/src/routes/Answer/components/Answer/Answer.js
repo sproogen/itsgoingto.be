@@ -30,8 +30,10 @@ export class Answer extends React.Component {
       <input
         id={'answer-' + this.props.index}
         name='answer'
-        className='input-radio input-radio-options'
-        type='radio'
+        className={this.props.type === 'radio'
+                    ? 'input-radio input-radio-options'
+                    : 'input-checkbox input-checkbox-options'}
+        type={this.props.type}
         value={this.props.index}
         checked={this.props.checked}
         readOnly />
@@ -50,6 +52,7 @@ export class Answer extends React.Component {
 
 Answer.propTypes = {
   index          : PropTypes.number.isRequired,
+  type           : PropTypes.string.isRequired,
   answer         : PropTypes.object.isRequired,
   totalResponses : PropTypes.number.isRequired,
   checked        : PropTypes.bool.isRequired,

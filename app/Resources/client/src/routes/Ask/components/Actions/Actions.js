@@ -6,6 +6,7 @@ import { canSubmitPollSelector } from 'store/answers'
 import { postPoll } from 'store/api'
 import { browserHistory } from 'react-router'
 import Button from 'components/Button/Button'
+import OptionsModal from '../OptionsModal/OptionsModal'
 
 class Actions extends React.Component {
   submit = () => this.props.postPoll()
@@ -15,9 +16,18 @@ class Actions extends React.Component {
     }
   })
 
+  options = () => {
+    this._modal.getWrappedInstance().show()
+    return Promise.resolve()
+  }
+
   render = () => (
-    <div className={'actions hideable' + (this.props.hasQuestion ? '' : ' gone')}>
-      <Button className='pull-right' text='Create Poll' disabled={!this.props.canSubmitPoll} callback={this.submit} />
+    <div>
+      <div className={'actions hideable' + (this.props.hasQuestion ? '' : ' gone')}>
+        <Button className='pull-left' text='Options' callback={this.options} />
+        <Button className='pull-right' text='Create Poll' disabled={!this.props.canSubmitPoll} callback={this.submit} />
+      </div>
+      <OptionsModal ref={component => { this._modal = component }} />
     </div>
   )
 }

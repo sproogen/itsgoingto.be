@@ -1,4 +1,5 @@
-import { questionSelector, updatePoll, updateResponses } from './poll'
+import { prop, compose, not, isEmpty, contains, without, append, ifElse, both } from 'ramda'
+import { questionSelector, pollSelector, updatePoll, updateResponses } from './poll'
 import { answersSelector } from './answers'
 
 // ------------------------------------
@@ -55,8 +56,9 @@ export const postPoll = () => (dispatch, getState) =>
     credentials : 'same-origin',
     method      : 'POST',
     body        : JSON.stringify({
-      question : questionSelector(getState()),
-      answers  : answersSelector(getState())
+      question        : questionSelector(getState()),
+      answers         : answersSelector(getState()),
+      multipleChoice  : pollSelector(getState()).multipleChoice
     })
   })
   .then(extractResponse)
@@ -79,7 +81,7 @@ export const fetchPoll = (identifier) => (dispatch, getState) =>
   .catch(onError)
 
 /**
- * Fetches a poll with the identifier from the api
+ * Posts the response for a poll with the identifier to the api
  *
  * @param  {integer} answer     The id of the answer to submit
  * @param  {string}  identifier The identifier for the poll
@@ -87,16 +89,33 @@ export const fetchPoll = (identifier) => (dispatch, getState) =>
  * @return {Function} redux-thunk callable function
  */
 export const postResponse = (answer, identifier) => (dispatch, getState) =>
-  fetch(ROUTE_POLL + '/' + identifier + ROUTE_RESPONSES, {
-    credentials : 'same-origin',
-    method      : 'POST',
-    body        : JSON.stringify({
-      answers : [answer]
-    })
-  })
-  .then(extractResponse)
-  .then((response) => dispatch(updateResponses(response, identifier)))
-  .catch(onError)
+  compose(
+    (answers) => fetch(ROUTE_POLL + '/' + identifier + ROUTE_RESPONSES,
+      {
+        credentials : 'same-origin',
+        method      : 'POST',
+        body        : JSON.stringify({
+          answers : answers
+        })
+      }
+    )
+    .then(extractResponse)
+    .then((response) => dispatch(updateResponses(response, identifier)))
+    .catch(onError),
+    ifElse(
+      both(prop('multipleChoice'), compose(not, isEmpty, prop('userResponses'))),
+      compose(
+        ifElse(
+          contains(answer),
+          without([answer]),
+          append(answer)
+        ),
+        prop('userResponses')
+      ),
+      () => [answer],
+    ),
+    pollSelector
+  )(getState(), identifier)
 
 /**
  * Fetches the responses for a poll

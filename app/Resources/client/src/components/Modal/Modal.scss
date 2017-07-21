@@ -1,0 +1,45 @@
+@import "bourbon";
+@import "neat";
+@import "variables";
+
+.modal {
+  z-index: 1050;
+  position: fixed;
+  width: 500px;
+  transform: translate3d(-50%, -50%, 0px);
+  top: 50%;
+  left: 50%;
+}
+
+.modal-options {
+  margin: 2em 0;
+  text-align: left;
+}
+
+.modal-container {
+  padding: 2em;
+  background: $base-background-color;
+  text-align: center;
+}
+
+.modal-title {
+  letter-spacing: -1px;
+  font-weight: 300;
+  color: #4c4c4c;
+  font-size: 2em;
+  font-weight: 300;
+  margin: 0;
+}
+
+.backdrop {
+  position: fixed;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  z-index: 1040;
+  background-color: rgb(55, 58, 71);
+  animation-fill-mode: forwards;
+  animation-duration: 0.3s;
+  animation-timing-function: ease-out;
+}

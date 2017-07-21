@@ -194,15 +194,6 @@ describe('(Store) API', () => {
         return postResponse()(_dispatchSpy, _getStateSpy).should.eventually.be.fulfilled
       })
 
-      it('Should call fetch with the correct url and data.', () => {
-        return postResponse(434, 'hf0sd8fhoas')(_dispatchSpy, _getStateSpy).then(() => {
-          window.fetch.should.have.been.calledOnce()
-          window.fetch.should.have.been.calledWith(
-            ROUTE_POLL + '/hf0sd8fhoas' + ROUTE_RESPONSES,
-            { method : 'POST', credentials : 'same-origin', body : '{"answers":[434]}' })
-        })
-      })
-
       it('Should return a promise with the response.', () => {
         window.fetch.returns(jsonOk({}))
         return postResponse(434, 'hf0sd8fhoas')(_dispatchSpy, _getStateSpy).then((response) => {
@@ -214,6 +205,78 @@ describe('(Store) API', () => {
         window.fetch.returns(jsonError(404, { message: 'There was an error' }))
         return postResponse()(_dispatchSpy, _getStateSpy).then((response) => {
           expect(response).to.equal(false)
+        })
+      })
+
+      it('Should call fetch with the correct url and data.', () => {
+        return postResponse(434, 'hf0sd8fhoas')(_dispatchSpy, _getStateSpy).then(() => {
+          window.fetch.should.have.been.calledOnce()
+          window.fetch.should.have.been.calledWith(
+            ROUTE_POLL + '/hf0sd8fhoas' + ROUTE_RESPONSES,
+            { method : 'POST', credentials : 'same-origin', body : '{"answers":[434]}' })
+        })
+      })
+
+      it('Should call fetch with the correct data for multiple choice initial answer.', () => {
+        _globalState = {
+          poll    : [{
+            question : 'Question',
+            identifier : 'hf0sd8fhoas',
+            multipleChoice : true,
+            userResponses : []
+          }],
+          answers : ['Answer']
+        }
+        _getStateSpy = sinon.spy(() => {
+          return _globalState
+        })
+        return postResponse(434, 'hf0sd8fhoas')(_dispatchSpy, _getStateSpy).then(() => {
+          window.fetch.should.have.been.calledOnce()
+          window.fetch.should.have.been.calledWith(
+            ROUTE_POLL + '/hf0sd8fhoas' + ROUTE_RESPONSES,
+            { method : 'POST', credentials : 'same-origin', body : '{"answers":[434]}' })
+        })
+      })
+
+      it('Should call fetch with the correct data for multiple choice add answer.', () => {
+        _globalState = {
+          poll    : [{
+            question : 'Question',
+            identifier : 'hf0sd8fhoas',
+            multipleChoice : true,
+            userResponses : [433]
+          }],
+          answers : ['Answer']
+        }
+        _getStateSpy = sinon.spy(() => {
+          return _globalState
+        })
+        return postResponse(434, 'hf0sd8fhoas')(_dispatchSpy, _getStateSpy).then(() => {
+          window.fetch.should.have.been.calledOnce()
+          window.fetch.should.have.been.calledWith(
+            ROUTE_POLL + '/hf0sd8fhoas' + ROUTE_RESPONSES,
+            { method : 'POST', credentials : 'same-origin', body : '{"answers":[433,434]}' })
+        })
+      })
+
+      it('Should call fetch with the correct data for multiple choice remove answer.', () => {
+        _globalState = {
+          poll    : [{
+            question : 'Question',
+            identifier : 'hf0sd8fhoas',
+            multipleChoice : true,
+            userResponses : [433]
+          }],
+          answers : ['Answer']
+        }
+        _getStateSpy = sinon.spy(() => {
+          return _globalState
+        })
+        return postResponse(433, 'hf0sd8fhoas')(_dispatchSpy, _getStateSpy).then(() => {
+          window.fetch.should.have.been.calledOnce()
+          window.fetch.should.have.been.calledWith(
+            ROUTE_POLL + '/hf0sd8fhoas' + ROUTE_RESPONSES,
+            { method : 'POST', credentials : 'same-origin', body : '{"answers":[]}' })
         })
       })
     })

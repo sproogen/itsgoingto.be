@@ -2,8 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import autosize from 'autosize'
-import EventBus from '../../../../components/EventBus'
-import { questionSelector, hasQuestionSelector, updateQuestion } from '../../../../store/poll'
+import EventBus from 'components/EventBus'
+import { questionSelector, hasQuestionSelector, updateQuestion } from 'store/poll'
 import Answers from '../Answers/Answers'
 import Actions from '../Actions/Actions'
 import './Question.scss'
@@ -70,13 +70,13 @@ Question.propTypes = {
   onQuestionChange : PropTypes.func.isRequired
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  onQuestionChange : (value) => dispatch(updateQuestion(value))
-})
-
 const mapStateToProps = (state) => ({
   question    : questionSelector(state),
   hasQuestion : hasQuestionSelector(state)
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  onQuestionChange : (value) => dispatch(updateQuestion(value))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Question)
