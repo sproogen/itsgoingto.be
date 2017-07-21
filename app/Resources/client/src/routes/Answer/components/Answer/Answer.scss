@@ -8,6 +8,24 @@
   .options {
     @media(max-width: $screen-md-min) {
       font-size: 1.25em;
+      width: 100%;
+    }
+
+    &.show-results {
+      .input-options {
+        min-width: 48em;
+        @media(max-width: $screen-md-min) {
+          width: 100%;
+        }
+        @media(max-width: $screen-sm-min) {
+          min-width: 0em;
+        }
+      }
+
+      .result-wrapper,
+      .input-label-votes {
+        opacity: .999;
+      }
     }
   }
 
@@ -23,6 +41,9 @@
     word-break: break-word;
     padding-right: 3.6em;
     padding-top: 0.2em;
+    @media(max-width: $screen-md-min) {
+      padding-top: 0.3em;
+    }
     padding-bottom: 0.2em;
     line-height: 1.6em;
     @media(max-width: $screen-lg-min) {
@@ -105,7 +126,7 @@
     right:0.6em;
     z-index: -1;
 
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.06), 0 0 5px #D4D4D4;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.06), 0 0 2px rgba(212, 212, 212, 0.5);
     background: $disabled-grey;
 
     .result {
@@ -116,25 +137,7 @@
       transition: width 0.4s ease;
 
       background: $dark-grey;
-      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.06), 0 0 5px #D4D4D4;
-    }
-  }
-
-  .show-results {
-    @media(max-width: $screen-md-min) {
-      display: block!important;
-    }
-    .input-options {
-      min-width: 48em;
-      @media(max-width: $screen-md-min) {
-        min-width: 0em;
-        width: 100%;
-      }
-    }
-
-    .result-wrapper,
-    .input-label-votes {
-      opacity: 1;
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.06), 0 0 2px rgba(212, 212, 212, 0.5);
     }
   }
 }
