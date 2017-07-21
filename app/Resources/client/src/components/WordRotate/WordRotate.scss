@@ -1,14 +1,14 @@
 .word-rotate {
-    position: relative;
-    padding-right: 3em;
+  position: relative;
+  padding-right: 3em;
 
-    .word-rotate_word {
-        position: absolute;
-        right: 12px;
+  .word-rotate_word {
+    position: absolute;
+    right: 12px;
 
-        &.word-rotate_word--previous {
-           transform: translate(0, 1em);
-           opacity: 0;
-        }
+    &.word-rotate_word--previous {
+      transform: translate(0, 1em);
+      opacity: 0;
     }
+  }
 }
