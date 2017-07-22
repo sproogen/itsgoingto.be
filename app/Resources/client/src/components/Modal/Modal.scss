@@ -20,6 +20,10 @@
   padding: 2em;
   background: $base-background-color;
   text-align: center;
+  animation-fill-mode: forwards;
+  animation-name: show-modal-animation;
+  animation-duration: 0.2s;
+  animation-timing-function: ease-out;
 }
 
 .modal-title {
@@ -40,6 +44,57 @@
   z-index: 1040;
   background-color: rgb(55, 58, 71);
   animation-fill-mode: forwards;
-  animation-duration: 0.3s;
+  animation-name: show-backdrop-animation;
+  animation-duration: 0.2s;
   animation-timing-function: ease-out;
+}
+
+.willHidden {
+  .modal-container {
+    animation-name: hide-modal-animation;
+  }
+
+  .backdrop {
+    animation-name: hide-backdrop-animation;
+  }
+}
+
+@keyframes show-modal-animation {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes hide-modal-animation {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes show-backdrop-animation {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 0.9;
+  }
+}
+
+@keyframes hide-backdrop-animation {
+  0% {
+    opacity: 0.9;
+  }
+
+  100% {
+    opacity: 0;
+  }
 }
