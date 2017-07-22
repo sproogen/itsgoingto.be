@@ -54,8 +54,9 @@ class LoginAttemptTest extends BaseEntityTest
     public function testPrePersist()
     {
         self::assertEquals(null, $this->entity->getCreated());
+        $now = new \DateTime();
         $this->entity->prePersist();
         self::assertInstanceOf(\DateTime::class, $this->entity->getCreated());
-        self::assertEquals(new \DateTime(), $this->entity->getCreated());
+        self::assertEquals($now, $this->entity->getCreated());
     }
 }
