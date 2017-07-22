@@ -20,7 +20,7 @@ h3 {
 
 .shareButton {
   display: inline-block;
-  width:1.75em;
+  width: 1.75em;
   padding: 0.25em 0.25em;
   border-radius: 30px;
   font-size: 1rem;
@@ -32,24 +32,24 @@ h3 {
 
   @media(max-width: $screen-md-min) {
     position: absolute;
-    top:55px;
-    left:50%;
-    margin-left:22.5px;
+    top: 55px;
+    left: 50%;
+    margin-left: 22.5px;
   }
 
   &.twitter {
-    background:#55acee;
+    background: #55acee;
     color: $white;
     @media(max-width: $screen-md-min) {
-      margin-left:-57.5px;
+      margin-left: -57.5px;
     }
   }
 
   &.facebook {
-    background:#3B5998;
+    background: #3B5998;
     color: $white;
     @media(max-width: $screen-md-min) {
-      margin-left:-17.5px;
+      margin-left: -17.5px;
     }
   }
 }

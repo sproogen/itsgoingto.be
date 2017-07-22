@@ -17,7 +17,7 @@ label {
   font-weight: 600;
   margin-bottom: $small-spacing / 2;
   @media (max-width: $screen-md-max) {
-    font-size:1.3em;
+    font-size: 1.3em;
   }
 
   &.required::after {
