@@ -10,9 +10,7 @@
     }
   },
   "formation": {},
-  "addons": [
-    "jawsdb"
-  ],
+  "addons": [],
   "buildpacks": [
     {
       "url": "https://github.com/heroku/heroku-buildpack-multi.git"
