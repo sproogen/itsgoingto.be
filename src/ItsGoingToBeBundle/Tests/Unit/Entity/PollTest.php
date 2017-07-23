@@ -164,18 +164,20 @@ class PollTest extends BaseEntityTest
     {
         self::assertEquals(null, $this->entity->getCreated());
         self::assertEquals(null, $this->entity->getUpdated());
+        $now = new \DateTime();
         $this->entity->prePersist();
         self::assertInstanceOf(\DateTime::class, $this->entity->getCreated());
-        self::assertEquals(new \DateTime(), $this->entity->getCreated());
+        self::assertEquals($now, $this->entity->getCreated());
         self::assertInstanceOf(\DateTime::class, $this->entity->getUpdated());
-        self::assertEquals(new \DateTime(), $this->entity->getUpdated());
+        self::assertEquals($now, $this->entity->getUpdated());
     }
 
     public function testPreUpdate()
     {
         self::assertEquals(null, $this->entity->getUpdated());
+        $now = new \DateTime();
         $this->entity->preUpdate();
         self::assertInstanceOf(\DateTime::class, $this->entity->getUpdated());
-        self::assertEquals(new \DateTime(), $this->entity->getUpdated());
+        self::assertEquals($now, $this->entity->getUpdated());
     }
 }

@@ -5,24 +5,68 @@ import './Modal.scss'
 class Modal extends React.Component {
   constructor (props) {
     super(props)
-    this.state = { hidden: true }
+    this.state = {
+      hidden: true,
+      willHidden: false
+    }
   }
 
-  show = function () {
+  whichAnimationEvent = () => {
+    let t
+    const el = document.createElement('fakeelement')
+    const transitions = {
+      'transition':'animationend',
+      'OTransition':'oAnimationEnd',
+      'MozTransition':'animationend',
+      'WebkitTransition':'webkitAnimationEnd'
+    }
+
+    for (t in transitions) {
+      if (el.style[t] !== undefined) {
+        return transitions[t]
+      }
+    }
+  }
+
+  addAnimationListener = (node, handle) => {
+    if (node) {
+      const animationEvent = this.whichAnimationEvent()
+      const endListener = (e) => {
+        if (e && e.target !== node) {
+          return
+        }
+        node.removeEventListener(animationEvent, endListener)
+        handle()
+      }
+
+      animationEvent && node.addEventListener(animationEvent, endListener)
+    }
+  }
+
+  show = () => {
     this.setState({
       hidden: false
     })
   }
+
   hide = function () {
+    this.addAnimationListener(this.refs._backdrop, this.hidden)
     this.setState({
-      hidden: true
+      willHidden: true
+    })
+  }.bind(this)
+
+  hidden = function () {
+    this.setState({
+      hidden: true,
+      willHidden: false
     })
   }.bind(this)
 
   render = () => {
     let modal
     if (!this.state.hidden) {
-      modal = <span>
+      modal = <span className={this.state.willHidden ? 'willHidden' : ''}>
         <div ref='_backdrop' className='backdrop' onClick={this.hide} />
         <div ref='_modal' className='modal'>
           <div className='modal-container'>

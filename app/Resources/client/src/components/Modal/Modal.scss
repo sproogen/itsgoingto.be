@@ -5,7 +5,16 @@
 .modal {
   z-index: 1050;
   position: fixed;
-  width: 500px;
+  width: 90%;
+  @media (min-width: $screen-sm-min) {
+    width: ($container-sm - ($gutter-width * 8));
+  }
+  @media (min-width: $screen-md-min) {
+    width: ($container-md - ($gutter-width * 10));
+  }
+  @media (min-width: $screen-lg-min) {
+    width: ($container-lg - ($gutter-width * 12));
+  }
   transform: translate3d(-50%, -50%, 0px);
   top: 50%;
   left: 50%;
@@ -20,6 +29,10 @@
   padding: 2em;
   background: $base-background-color;
   text-align: center;
+  animation-fill-mode: forwards;
+  animation-name: show-modal-animation;
+  animation-duration: 0.2s;
+  animation-timing-function: ease-out;
 }
 
 .modal-title {
@@ -40,6 +53,57 @@
   z-index: 1040;
   background-color: rgb(55, 58, 71);
   animation-fill-mode: forwards;
-  animation-duration: 0.3s;
+  animation-name: show-backdrop-animation;
+  animation-duration: 0.2s;
   animation-timing-function: ease-out;
+}
+
+.willHidden {
+  .modal-container {
+    animation-name: hide-modal-animation;
+  }
+
+  .backdrop {
+    animation-name: hide-backdrop-animation;
+  }
+}
+
+@keyframes show-modal-animation {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes hide-modal-animation {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes show-backdrop-animation {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 0.9;
+  }
+}
+
+@keyframes hide-backdrop-animation {
+  0% {
+    opacity: 0.9;
+  }
+
+  100% {
+    opacity: 0;
+  }
 }
