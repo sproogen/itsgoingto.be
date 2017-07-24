@@ -13,7 +13,9 @@ class Actions extends React.Component {
   .then((response) => {
     if (response !== false) {
       browserHistory.push('/' + response.identifier)
+      return false
     }
+    return true
   })
 
   options = () => {
