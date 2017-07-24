@@ -1,11 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import Spinner from 'components/Spinner/Spinner'
 import './Button.scss'
 
 class Button extends React.Component {
   constructor (props) {
     super(props)
-    this.state = { disabled: false }
+    this.state = {
+      disabled : false,
+      loading  : false
+    }
   }
 
   isDisabled = () => this.props.disabled || this.state.disabled
@@ -13,9 +17,17 @@ class Button extends React.Component {
   handlePress = (event) => {
     event.preventDefault()
     if (!this.isDisabled()) {
-      this.setState({ disabled: true })
-      this.props.callback().then(() => {
-        this.setState({ disabled: false })
+      this.setState({
+        disabled : true,
+        loading  : true
+      })
+      this.props.callback().then((reset) => {
+        if (reset !== false) {
+          this.setState({
+            disabled : false,
+            loading  : false
+          })
+        }
       })
     }
   }
@@ -25,7 +37,8 @@ class Button extends React.Component {
       className={'btn ' + this.props.className + (this.isDisabled() ? ' disabled' : '')}
       disabled={this.props.disabled}
       onClick={this.handlePress}>
-      {this.props.text}
+      {this.state.loading && <Spinner />}
+      {!this.state.loading && <span>{this.props.text}</span>}
     </button>
   )
 }
