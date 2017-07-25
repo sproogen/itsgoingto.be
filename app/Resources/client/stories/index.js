@@ -14,10 +14,10 @@ import '../src/styles/main.scss'
 
 const store = createStore(window.__INITIAL_STATE__)
 
-storiesOf('Back', module)
+storiesOf('Core.Back', module)
   .add('Default', () => <Back />)
 
-storiesOf('Button', module)
+storiesOf('Core.Button', module)
   .add('Default', () => <Button text='Click Me' callback={() => Promise.resolve()} />)
   .add('Disabled', () => <Button text='Click Me' disabled callback={() => Promise.resolve()} />)
   .add('Delayed Callback', () =>
@@ -30,10 +30,10 @@ storiesOf('Button', module)
     } />
   )
 
-storiesOf('Footer', module)
+storiesOf('Core.Footer', module)
   .add('Default', () => <Footer />)
 
-storiesOf('Loader', module)
+storiesOf('Core.Loader', module)
   .addDecorator((getStory) => {
     store.dispatch(setLoading(true))
     return <Provider store={store}>
@@ -43,7 +43,7 @@ storiesOf('Loader', module)
   .add('Default', () => <Loader />)
 
 let _modal
-storiesOf('Modal', module)
+storiesOf('Core.Modal', module)
   .add('Default', () =>
     <div>
       <Button text='Show' callback={() => {
@@ -55,10 +55,10 @@ storiesOf('Modal', module)
       </Modal>
     </div>)
 
-storiesOf('Spinner', module)
+storiesOf('Core.Spinner', module)
   .add('Default', () => <Spinner />)
 
-storiesOf('WordRotate', module)
+storiesOf('Core.WordRotate', module)
   .add('Default', () =>
     <div className='header center-text'>
       <h1><WordRotate words='What,Where,When,Who' /></h1>
