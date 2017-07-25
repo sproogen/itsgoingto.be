@@ -1,4 +1,5 @@
 const path = require('path')
+const webpack = require('webpack')
 const bourbon = require('bourbon')
 const bourbonNeat = require('bourbon-neat')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
@@ -6,6 +7,10 @@ const project = require('../project.config')
 
 const inProject = path.resolve.bind(path, project.basePath)
 const inProjectSrc = (file) => inProject(project.srcDir, file)
+
+const __DEV__ = project.env === 'development'
+const __TEST__ = project.env === 'test'
+const __PROD__ = project.env === 'production'
 
 const extractStyles = new ExtractTextPlugin({
   filename: 'styles/[name].[contenthash].css',
@@ -75,6 +80,12 @@ module.exports = {
     ]
   },
   plugins: [
-    extractStyles
+    extractStyles,
+    new webpack.DefinePlugin(Object.assign({
+      'process.env': { NODE_ENV: JSON.stringify(project.env) },
+      __DEV__,
+      __TEST__,
+      __PROD__,
+    }, project.globals))
   ]
 }
