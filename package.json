@@ -11,6 +11,7 @@
     "build": "npm run clean && cross-env NODE_ENV=production npm run compile",
     "build-dev": "npm run clean && cross-env NODE_ENV=development npm run compile",
     "start": "cross-env NODE_ENV=server node app/Resources/client/build/scripts/start",
+    "storybook": "start-storybook -p 6006 -c app/Resources/client/.storybook",
     "test": "cross-env NODE_ENV=test karma start app/Resources/client/build/karma.config",
     "test:watch": "npm test -- --watch",
     "lint": "eslint app/Resources/client/.",
@@ -80,6 +81,7 @@
     "whatwg-fetch": "^2.0.3"
   },
   "devDependencies": {
+    "@storybook/react": "^3.1.9",
     "chai": "^3.5.0",
     "chai-as-promised": "^6.0.0",
     "chai-enzyme": "^0.6.1",
