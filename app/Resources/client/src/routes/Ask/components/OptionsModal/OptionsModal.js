@@ -5,7 +5,7 @@ import Modal from 'components/Modal/Modal'
 import { pollSelector, updatePoll } from 'store/poll'
 
 class OptionsModal extends React.Component {
-  show = function () {
+  show = () => {
     this._modal.show()
   }
   hide = function () {

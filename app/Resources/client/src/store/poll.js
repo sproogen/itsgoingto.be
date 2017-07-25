@@ -11,7 +11,8 @@ export const initialPoll     = {
   question       : '',
   identifier     : '',
   multipleChoice : false,
-  answers        : []
+  answers        : [],
+  userResponses  : []
 }
 
 // ------------------------------------
