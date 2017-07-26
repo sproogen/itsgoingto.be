@@ -209,6 +209,7 @@ class PollApiControllerTest extends BaseApiControllerTest
                 'Answer B'
             ],
             'multipleChoice' => true,
+            'passphrase' => 'Passphrase'
         ]);
         $this->pollRepository->findOneBy(Argument::any())->willReturn(null);
         $request = Request::create($this->apiUrl, Request::METHOD_POST, [], [], [], [], $requestContent);
@@ -233,6 +234,7 @@ class PollApiControllerTest extends BaseApiControllerTest
         self::assertArrayHasKey('userResponses', $data);
         self::assertArrayHasKey('responsesCount', $data);
         self::assertArrayHasKey('multipleChoice', $data);
+        self::assertArrayHasKey('passphrase', $data);
         self::assertArrayHasKey('deleted', $data);
 
         self::assertInternalType('string', $data['identifier']);
@@ -240,6 +242,7 @@ class PollApiControllerTest extends BaseApiControllerTest
 
         self::assertEquals('This is just a question?', $data['question']);
         self::assertEquals(true, $data['multipleChoice']);
+        self::assertEquals('Passphrase', $data['passphrase']);
         self::assertEquals(false, $data['deleted']);
 
         self::assertCount(2, $data['answers']);

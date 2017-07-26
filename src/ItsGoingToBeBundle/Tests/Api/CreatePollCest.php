@@ -54,6 +54,7 @@ class CreatePollCest extends BaseApiCest
         'identifier'     => 'string',
         'question'       => 'string',
         'multipleChoice' => 'boolean',
+        'passphrase'     => 'string',
         'deleted'        => 'boolean',
         'responsesCount' => 'integer',
         'answers'        => 'array',
@@ -84,6 +85,7 @@ class CreatePollCest extends BaseApiCest
         $I->seeResponseContainsJson([
         'question'       => 'Question Text',
         'multipleChoice' => true,
+        'passphrase'     => '',
         'deleted'        => false,
         'responsesCount' => 0,
         'userResponses'  => [],

@@ -130,6 +130,7 @@ class PollApiController extends BaseApiController implements ApiControllerInterf
         $errors = [];
         $question = isset($data['question']) ? $data['question'] : null;
         $multipleChoice = isset($data['multipleChoice']) ? $data['multipleChoice'] : false;
+        $passphrase = isset($data['passphrase']) ? $data['passphrase'] : '';
         $answers = [];
         foreach (isset($data['answers'])? $data['answers']: [] as $answer) {
             if (strlen(trim($answer)) !== 0) {
@@ -149,6 +150,7 @@ class PollApiController extends BaseApiController implements ApiControllerInterf
             $poll->setIdentifier($this->generateIdentifier());
             $poll->setQuestion($question);
             $poll->setMultipleChoice($multipleChoice);
+            $poll->setPassphrase($passphrase);
 
             foreach ($answers as $answerText) {
                 $answer = new Answer();

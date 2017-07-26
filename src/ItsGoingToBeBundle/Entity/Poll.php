@@ -55,6 +55,13 @@ class Poll
     protected $multipleChoice;
 
     /**
+     * A passphrase for the poll.
+     *
+     * @var string
+     */
+    protected $passphrase;
+
+    /**
      * Has the poll been deleted
      *
      * @var boolean
@@ -117,6 +124,7 @@ class Poll
             'identifier'     => $this->getIdentifier(),
             'question'       => $this->getQuestion(),
             'multipleChoice' => $this->isMultipleChoice(),
+            'passphrase'     => $this->getPassphrase(),
             'deleted'        => $this->isDeleted(),
             'created'        => $this->getCreated(),
             'updated'        => $this->getUpdated()
@@ -282,6 +290,30 @@ class Poll
     public function isMultipleChoice()
     {
         return $this->multipleChoice;
+    }
+
+    /**
+     * Set passphrase
+     *
+     * @param boolean $passphrase
+     *
+     * @return Poll
+     */
+    public function setPassphrase($passphrase)
+    {
+        $this->passphrase = $passphrase;
+
+        return $this;
+    }
+
+    /**
+     * Get passphrase
+     *
+     * @return boolean
+     */
+    public function getPassphrase()
+    {
+        return $this->passphrase;
     }
 
     /**

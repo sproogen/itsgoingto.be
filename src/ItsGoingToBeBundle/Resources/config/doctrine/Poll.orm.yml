@@ -16,6 +16,9 @@ ItsGoingToBeBundle\Entity\Poll:
         multipleChoice:
             type: boolean
             column: multiple_choice
+        passphrase:
+            type: string
+            column: passphrase
         deleted:
             type: boolean
             column: deleted

@@ -36,6 +36,7 @@ class RetrievePollsCest extends BaseApiCest
             'identifier'     => 'string',
             'question'       => 'string',
             'multipleChoice' => 'boolean',
+            'passphrase'     => 'string',
             'deleted'        => 'boolean',
             'responsesCount' => 'integer',
             'answers'        => 'array',
@@ -77,6 +78,7 @@ class RetrievePollsCest extends BaseApiCest
             'identifier'     => 'he7gis',
             'question'       => 'Test Question 1',
             'multipleChoice' => false,
+            'passphrase'     => '',
             'deleted'        => false,
             'responsesCount' => 2
             ],
@@ -114,6 +116,7 @@ class RetrievePollsCest extends BaseApiCest
             'identifier'     => 'he7gis',
             'question'       => 'Test Question 1',
             'multipleChoice' => false,
+            'passphrase'     => '',
             'deleted'        => false,
             'responsesCount' => 2
             ],
@@ -137,6 +140,7 @@ class RetrievePollsCest extends BaseApiCest
             'identifier'     => 'he7gis',
             'question'       => 'Test Question 1',
             'multipleChoice' => false,
+            'passphrase'     => '',
             'deleted'        => false,
             'responsesCount' => 2
             ],
@@ -148,6 +152,7 @@ class RetrievePollsCest extends BaseApiCest
             'identifier'     => 'y3k0sn',
             'question'       => 'Test Question Deleted',
             'multipleChoice' => false,
+            'passphrase'     => '',
             'deleted'        => true,
             'responsesCount' => 0
             ],
@@ -162,6 +167,7 @@ class RetrievePollsCest extends BaseApiCest
             'identifier'     => substr(chr(mt_rand(97, 122)) .substr(md5(time()), 1), 0, 6),
             'question'       => 'Test Question',
             'multipleChoice' => false,
+            'passphrase'     => '',
             'deleted'        => false,
             'answers'        => [
               'Answer 1',
@@ -184,6 +190,7 @@ class RetrievePollsCest extends BaseApiCest
             'identifier'     => 'he7gis',
             'question'       => 'Test Question 1',
             'multipleChoice' => false,
+            'passphrase'     => '',
             'deleted'        => false,
             'responsesCount' => 2
             ],
@@ -204,6 +211,7 @@ class RetrievePollsCest extends BaseApiCest
             'identifier'     => $this->polls[21]->getIdentifier(),
             'question'       => 'Test Question',
             'multipleChoice' => false,
+            'passphrase'     => '',
             'deleted'        => false,
             'responsesCount' => 0
             ],
@@ -224,6 +232,7 @@ class RetrievePollsCest extends BaseApiCest
             'identifier'     => $this->polls[26]->getIdentifier(),
             'question'       => 'Test Question',
             'multipleChoice' => false,
+            'passphrase'     => '',
             'deleted'        => false,
             'responsesCount' => 0
             ],

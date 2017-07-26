@@ -1,5 +1,5 @@
 import { prop, compose, not, isEmpty, contains, without, append, ifElse, both } from 'ramda'
-import { questionSelector, pollSelector, updatePoll, updateResponses } from './poll'
+import { pollSelector, updatePoll, updateResponses } from './poll'
 import { answersSelector } from './answers'
 
 // ------------------------------------
@@ -52,18 +52,22 @@ export const onError = (error) => {
  * @return {Function} redux-thunk callable function
  */
 export const postPoll = () => (dispatch, getState) =>
-  fetch(ROUTE_POLL, {
-    credentials : 'same-origin',
-    method      : 'POST',
-    body        : JSON.stringify({
-      question        : questionSelector(getState()),
-      answers         : answersSelector(getState()),
-      multipleChoice  : pollSelector(getState()).multipleChoice
+  compose(
+    (poll) => fetch(ROUTE_POLL, {
+      credentials : 'same-origin',
+      method      : 'POST',
+      body        : JSON.stringify({
+        question        : poll.question,
+        answers         : answersSelector(getState()),
+        multipleChoice  : poll.multipleChoice,
+        passphrase      : poll.passphrase
+      })
     })
-  })
-  .then(extractResponse)
-  .then((response) => dispatch(updatePoll(response)))
-  .catch(onError)
+    .then(extractResponse)
+    .then((response) => dispatch(updatePoll(response)))
+    .catch(onError),
+    pollSelector
+  )(getState())
 
 /**
  * Fetches a poll with the identifier from the api

@@ -81,6 +81,7 @@ abstract class BaseApiCest
         'identifier'     => 'he7gis',
         'question'       => 'Test Question 1',
         'multipleChoice' => false,
+        'passphrase'     => '',
         'deleted'        => false,
         'answers'        => [
         [
@@ -106,6 +107,7 @@ abstract class BaseApiCest
         'identifier'     => 'y3k0sn',
         'question'       => 'Test Question Deleted',
         'multipleChoice' => false,
+        'passphrase'     => '',
         'deleted'        => true,
         'answers'        => [
         'Answer Deleted 1',

@@ -139,6 +139,7 @@ class CreateResponsesCest extends BaseApiCest
         'identifier'     => 'h27ngu',
         'question'       => 'Test Question Multiple',
         'multipleChoice' => true,
+        'passphrase'     => '',
         'deleted'        => false,
         'answers'        => [
         'Answer 1',
