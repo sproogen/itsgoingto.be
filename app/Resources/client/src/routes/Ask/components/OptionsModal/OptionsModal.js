@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import Modal from 'components/Modal/Modal'
 import { pollSelector, updatePoll } from 'store/poll'
+import './OptionsModal.scss'
 
 class OptionsModal extends React.Component {
   show = () => {
@@ -12,28 +13,47 @@ class OptionsModal extends React.Component {
     this._modal.hide()
   }.bind(this)
 
-  handleChange = (event) =>
+  handleMultipleChoiceChange = (event) =>
     this.props.updateOptions({
       identifier : '',
       multipleChoice : event.target.checked
+    })
+
+  handlePassphraseChange = (event) =>
+    this.props.updateOptions({
+      identifier : '',
+      passphrase : event.target.value
     })
 
   render = () => (
     <Modal ref={component => { this._modal = component }}>
       <h2 className='modal-title'>Poll Options</h2>
       <div className='modal-options'>
-        <input
-          id='multiple-choice'
-          className='input-checkbox input-checkbox-advanced'
-          name='multiple'
-          type='checkbox'
-          onChange={this.handleChange}
-          checked={this.props.poll.multipleChoice} />
-        <label
-          htmlFor='multiple-choice'
-          className='input-label input-label-options input-label-advanced'>
-            Multiple choice answers
+        <div className='input-option'>
+          <input
+            id='multiple-choice'
+            className='input-checkbox input-checkbox-advanced'
+            name='multiple'
+            type='checkbox'
+            checked={this.props.poll.multipleChoice}
+            onChange={this.handleMultipleChoiceChange} />
+          <label
+            htmlFor='multiple-choice'
+            className='input-label input-label-options input-label-advanced'>
+              Multiple choice answers
           </label>
+        </div>
+        <div className='input-option'>
+          <label className='input-label input-label-passphrase' htmlFor='passphrase'>Passphrase</label>
+          <input
+            className='input-field input-field-passphrase'
+            type='text'
+            id='passphrase'
+            name='passphrase'
+            ref='passphrase'
+            value={this.props.poll.passphrase}
+            onChange={this.handlePassphraseChange} />
+        </div>
       </div>
       <button className='btn modal-btn' onClick={this.hide}>Close</button>
     </Modal>

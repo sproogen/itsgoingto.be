@@ -11,6 +11,7 @@ export const initialPoll     = {
   question       : '',
   identifier     : '',
   multipleChoice : false,
+  passphrase     : '',
   answers        : [],
   userResponses  : []
 }
