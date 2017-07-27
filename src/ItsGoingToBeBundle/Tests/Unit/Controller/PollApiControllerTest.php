@@ -32,14 +32,28 @@ class PollApiControllerTest extends BaseApiControllerTest
     protected $apiUrl = '/api/polls';
 
     /**
+     * Test that GET returns a 401 if not admin.
+     */
+    public function testIndexPollRequestReturns401()
+    {
+        $request = Request::create($this->apiUrl, Request::METHOD_GET);
+
+        $response = $this->controller->apiAction($request, 0);
+
+        self::assertInstanceOf(JsonResponse::class, $response);
+        self::assertEquals(401, $response->getStatusCode());
+    }
+
+    /**
      * Test that if a GET request is made, a JsonResponse is returned.
      */
-    public function testIndexPollRequestReturnsPolls()
+    public function testIndexPollRequestReturnsPollsForAdmin()
     {
         $this->controller = $this->getMockBuilder(PollApiController::class)
             ->setMethods(array('countResults'))
             ->getMock();
         $this->controller->setEntityManager($this->entityManager->reveal());
+        $this->authorizationChecker->isGranted('ROLE_ADMIN')->willReturn(true);
         $this->controller->setAuthorizationChecker($this->authorizationChecker->reveal());
         $request = Request::create($this->apiUrl, Request::METHOD_GET);
 
@@ -78,6 +92,7 @@ class PollApiControllerTest extends BaseApiControllerTest
             ->setMethods(array('countResults'))
             ->getMock();
         $this->controller->setEntityManager($this->entityManager->reveal());
+        $this->authorizationChecker->isGranted('ROLE_ADMIN')->willReturn(true);
         $this->controller->setAuthorizationChecker($this->authorizationChecker->reveal());
         $request = Request::create($this->apiUrl, Request::METHOD_GET);
 
