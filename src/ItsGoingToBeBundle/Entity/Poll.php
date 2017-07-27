@@ -317,6 +317,16 @@ class Poll
     }
 
     /**
+     * Has passphrase
+     *
+     * @return boolean
+     */
+    public function hasPassphrase()
+    {
+        return trim($this->getPassphrase()) !== '';
+    }
+
+    /**
      * Set deleted
      *
      * @param boolean $deleted

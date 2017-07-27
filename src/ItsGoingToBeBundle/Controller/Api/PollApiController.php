@@ -30,7 +30,7 @@ class PollApiController extends BaseApiController implements ApiControllerInterf
             case 'GET':
                 // If GET is used and a non-zero ID is passed, call the retrieve method.
                 if ($identifier) {
-                    $response = $this->retrievePoll($identifier, $request);
+                    $response = $this->retrievePoll($identifier, $request, $this->getData($request));
                 } // Without an ID ($id is 0), call index
                 else {
                     $response = $this->indexPolls($request->query->all());
@@ -56,10 +56,11 @@ class PollApiController extends BaseApiController implements ApiControllerInterf
      *
      * @param  string $identifier
      * @param  Request $request
+     * @param  array $data
      *
      * @return JsonResponse
      */
-    protected function retrievePoll($identifier, Request $request)
+    protected function retrievePoll($identifier, Request $request, $data)
     {
         $findOneBy = array('identifier' => $identifier);
         if (!$this->authorizationChecker->isGranted('ROLE_ADMIN')) {
@@ -69,14 +70,19 @@ class PollApiController extends BaseApiController implements ApiControllerInterf
             ->findOneBy($findOneBy);
 
         if ($poll) {
-            $extractedPoll = $poll->extract();
-            $extractedPoll['answers'] = [];
-            foreach ($poll->getAnswers() as $answer) {
-                $extractedPoll['answers'][] = $answer->extract();
-            }
-            $extractedPoll['userResponses'] = $this->getResponsesForUser($poll, $request, true);
+            if ($poll->hasPassphrase() &&
+                $poll->getPassphrase() !== (isset($data['passphrase']) ? $data['passphrase'] : '')) {
+                $response = new JsonResponse(['error' => 'incorrect-passphrase'], 401);
+            } else {
+                $extractedPoll = $poll->extract();
+                $extractedPoll['answers'] = [];
+                foreach ($poll->getAnswers() as $answer) {
+                    $extractedPoll['answers'][] = $answer->extract();
+                }
+                $extractedPoll['userResponses'] = $this->getResponsesForUser($poll, $request, true);
 
-            $response = new JsonResponse($extractedPoll);
+                $response = new JsonResponse($extractedPoll);
+            }
         } else {
             $response = new JsonResponse([], 404);
         }
@@ -93,13 +99,13 @@ class PollApiController extends BaseApiController implements ApiControllerInterf
      */
     protected function indexPolls($parameters)
     {
+        if (!$this->authorizationChecker->isGranted('ROLE_ADMIN')) {
+            return new JsonResponse([], 401);
+        }
+
         $queryBuilder = $this->em->getRepository(Poll::class)
             ->createQueryBuilder('a')
             ->where('1 = 1');
-
-        if (!$this->authorizationChecker->isGranted('ROLE_ADMIN')) {
-            $queryBuilder->andWhere('a.deleted = false');
-        }
 
         $count = $this->countResults($queryBuilder);
 

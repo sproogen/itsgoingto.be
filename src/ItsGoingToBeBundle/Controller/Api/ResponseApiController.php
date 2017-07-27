@@ -31,18 +31,24 @@ class ResponseApiController extends BaseApiController implements ApiControllerIn
             ->findOneBy(array('identifier' => $identifier, 'deleted' => false));
 
         if ($poll) {
-            switch ($request->getMethod()) {
-                case 'GET':
-                    $response = $this->indexResponses($poll, $request);
-                    break;
-                case 'POST':
-                    $response = $this->createResponse($poll, $request, $this->getData($request));
-                    break;
-                case 'OPTIONS':
-                    $response = new Response();
-                    break;
-                default:
-                    throw new HttpException('405', 'Method not allowed.');
+            $data = $this->getData($request);
+            if ($poll->hasPassphrase() &&
+                $poll->getPassphrase() !== (isset($data['passphrase']) ? $data['passphrase'] : '')) {
+                $response = new JsonResponse(['error' => 'incorrect-passphrase'], 401);
+            } else {
+                switch ($request->getMethod()) {
+                    case 'GET':
+                        $response = $this->indexResponses($poll, $request);
+                        break;
+                    case 'POST':
+                        $response = $this->createResponse($poll, $request, $data);
+                        break;
+                    case 'OPTIONS':
+                        $response = new Response();
+                        break;
+                    default:
+                        throw new HttpException('405', 'Method not allowed.');
+                }
             }
         } else {
             $response = new JsonResponse([], 404);
