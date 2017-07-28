@@ -26,13 +26,13 @@ class CreatePollCest extends BaseApiCest
         $I->seeResponseCodeIs(HttpCode::BAD_REQUEST);
         $I->seeResponseIsJson();
         $I->seeResponseMatchesJsonType([
-        'errors' => 'array',
+            'errors' => 'array',
         ]);
         $I->seeResponseContainsJson([
-        'errors' => [
-        'No question has been provided',
-        'No answers have been provided'
-        ]
+            'errors' => [
+                'No question has been provided',
+                'No answers have been provided'
+            ]
         ]);
     }
 
@@ -40,67 +40,67 @@ class CreatePollCest extends BaseApiCest
     {
         $I->wantTo('Check call returns persisted poll');
         $I->sendPOST('/polls', [
-        'question'       => 'Question Text',
-        'answers'        => [
-        'Answer 1',
-        'Answer 2'
-        ],
-        'multipleChoice' => true
+            'question'       => 'Question Text',
+            'answers'        => [
+                'Answer 1',
+                'Answer 2'
+            ],
+            'multipleChoice' => true
         ]);
         $I->seeResponseCodeIs(HttpCode::OK);
         $I->seeResponseIsJson();
         $I->seeResponseMatchesJsonType([
-        'id'             => 'integer',
-        'identifier'     => 'string',
-        'question'       => 'string',
-        'multipleChoice' => 'boolean',
-        'passphrase'     => 'string',
-        'deleted'        => 'boolean',
-        'responsesCount' => 'integer',
-        'answers'        => 'array',
-        'userResponses'  => 'array',
-        'created'        => [
-        'date'          => 'string',
-        'timezone_type' => 'integer',
-        'timezone'      => 'string'
-        ],
-        'updated'        => [
-        'date'          => 'string',
-        'timezone_type' => 'integer',
-        'timezone'      => 'string'
-        ]
+            'id'             => 'integer',
+            'identifier'     => 'string',
+            'question'       => 'string',
+            'multipleChoice' => 'boolean',
+            'passphrase'     => 'string',
+            'deleted'        => 'boolean',
+            'responsesCount' => 'integer',
+            'answers'        => 'array',
+            'userResponses'  => 'array',
+            'created'        => [
+                'date'          => 'string',
+                'timezone_type' => 'integer',
+                'timezone'      => 'string'
+            ],
+            'updated'        => [
+                'date'          => 'string',
+                'timezone_type' => 'integer',
+                'timezone'      => 'string'
+            ]
         ]);
         $I->seeResponseMatchesJsonType(
             [
-            'id'             => 'integer',
-            'answer'         => 'string',
-            'responsesCount' => 'integer',
-            'poll'           => [
-            'id'   => 'integer',
-            'type' => 'string:regex(/Poll/)',
-            ]
+                'id'             => 'integer',
+                'answer'         => 'string',
+                'responsesCount' => 'integer',
+                'poll'           => [
+                    'id'   => 'integer',
+                    'type' => 'string:regex(/Poll/)',
+                ]
             ],
             '$.answers[*]'
         );
         $I->seeResponseContainsJson([
-        'question'       => 'Question Text',
-        'multipleChoice' => true,
-        'passphrase'     => '',
-        'deleted'        => false,
-        'responsesCount' => 0,
-        'userResponses'  => [],
+            'question'       => 'Question Text',
+            'multipleChoice' => true,
+            'passphrase'     => '',
+            'deleted'        => false,
+            'responsesCount' => 0,
+            'userResponses'  => [],
         ]);
         $I->seeResponsePathContainsJson(
             [
-            'answer'         => 'Answer 1',
-            'responsesCount' => 0
+                'answer'         => 'Answer 1',
+                'responsesCount' => 0
             ],
             '$.answers[0]'
         );
         $I->seeResponsePathContainsJson(
             [
-            'answer'         => 'Answer 2',
-            'responsesCount' => 0
+                'answer'         => 'Answer 2',
+                'responsesCount' => 0
             ],
             '$.answers[1]'
         );

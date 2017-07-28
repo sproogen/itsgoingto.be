@@ -78,41 +78,41 @@ abstract class BaseApiCest
         $this->polls = [];
 
         $this->polls[] = $this->createPoll($I, [
-        'identifier'     => 'he7gis',
-        'question'       => 'Test Question 1',
-        'multipleChoice' => false,
-        'passphrase'     => '',
-        'deleted'        => false,
-        'answers'        => [
-        [
-          'answer'    => 'Answer 1',
-          'responses' => [
-            [
-              'userIP'        => '198.0.1.66',
-              'userSessionID' => 'jf0983ryasjd98hud',
-              'customUserID'  => 'jd7s6jhd78'
-            ],
-            [
-              'userIP'        => '198.0.1.62',
-              'userSessionID' => 'ft65gd43sdgjasdrhg',
-              'customUserID'  => 'syj5bdj64f'
-            ],
-          ],
-        ],
-        'Answer 2'
-        ]
+            'identifier'     => 'he7gis',
+            'question'       => 'Test Question 1',
+            'multipleChoice' => false,
+            'passphrase'     => '',
+            'deleted'        => false,
+            'answers'        => [
+                [
+                    'answer'    => 'Answer 1',
+                    'responses' => [
+                        [
+                            'userIP'        => '198.0.1.66',
+                            'userSessionID' => 'jf0983ryasjd98hud',
+                            'customUserID'  => 'jd7s6jhd78'
+                        ],
+                        [
+                            'userIP'        => '198.0.1.62',
+                            'userSessionID' => 'ft65gd43sdgjasdrhg',
+                            'customUserID'  => 'syj5bdj64f'
+                        ],
+                    ],
+                ],
+                'Answer 2'
+            ]
         ]);
 
         $this->polls[] = $this->createPoll($I, [
-        'identifier'     => 'y3k0sn',
-        'question'       => 'Test Question Deleted',
-        'multipleChoice' => false,
-        'passphrase'     => '',
-        'deleted'        => true,
-        'answers'        => [
-        'Answer Deleted 1',
-        'Answer Deleted 2'
-        ]
+            'identifier'     => 'y3k0sn',
+            'question'       => 'Test Question Deleted',
+            'multipleChoice' => false,
+            'passphrase'     => '',
+            'deleted'        => true,
+            'answers'        => [
+                'Answer Deleted 1',
+                'Answer Deleted 2'
+            ]
         ]);
     }
 }

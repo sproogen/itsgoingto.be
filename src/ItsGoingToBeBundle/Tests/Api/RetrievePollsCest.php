@@ -18,9 +18,9 @@ class RetrievePollsCest extends BaseApiCest
         $I->seeResponseCodeIs(HttpCode::OK);
         $I->seeResponseIsJson();
         $I->seeResponseMatchesJsonType([
-        'count'    => 'integer',
-        'total'    => 'integer',
-        'entities' => 'array'
+            'count'    => 'integer',
+            'total'    => 'integer',
+            'entities' => 'array'
         ]);
     }
 
@@ -32,31 +32,31 @@ class RetrievePollsCest extends BaseApiCest
         $I->seeResponseIsJson();
         $I->seeResponseMatchesJsonType(
             [
-            'id'             => 'integer',
-            'identifier'     => 'string',
-            'question'       => 'string',
-            'multipleChoice' => 'boolean',
-            'passphrase'     => 'string',
-            'deleted'        => 'boolean',
-            'responsesCount' => 'integer',
-            'answers'        => 'array',
-            'created'        => [
-            'date'          => 'string',
-            'timezone_type' => 'integer',
-            'timezone'      => 'string'
-            ],
-            'updated'        => [
-            'date'          => 'string',
-            'timezone_type' => 'integer',
-            'timezone'      => 'string'
-            ]
+                'id'             => 'integer',
+                'identifier'     => 'string',
+                'question'       => 'string',
+                'multipleChoice' => 'boolean',
+                'passphrase'     => 'string',
+                'deleted'        => 'boolean',
+                'responsesCount' => 'integer',
+                'answers'        => 'array',
+                'created'        => [
+                    'date'          => 'string',
+                    'timezone_type' => 'integer',
+                    'timezone'      => 'string'
+                ],
+                'updated'        => [
+                    'date'          => 'string',
+                    'timezone_type' => 'integer',
+                    'timezone'      => 'string'
+                ]
             ],
             '$.entities[*]'
         );
         $I->seeResponseMatchesJsonType(
             [
-            'id'   => 'integer',
-            'type' => 'string:regex(/Answer/)'
+                'id'   => 'integer',
+                'type' => 'string:regex(/Answer/)'
             ],
             '$.entities[*].answers[*]'
         );
@@ -69,32 +69,32 @@ class RetrievePollsCest extends BaseApiCest
         $I->seeResponseCodeIs(HttpCode::OK);
         $I->seeResponseIsJson();
         $I->seeResponseContainsJson([
-        'count' => 2,
-        'total' => 2
+            'count' => 2,
+            'total' => 2
         ]);
         $I->seeResponsePathContainsJson(
             [
-            'id'             => $this->polls[0]->getId(),
-            'identifier'     => 'he7gis',
-            'question'       => 'Test Question 1',
-            'multipleChoice' => false,
-            'passphrase'     => '',
-            'deleted'        => false,
-            'responsesCount' => 2
+                'id'             => $this->polls[0]->getId(),
+                'identifier'     => 'he7gis',
+                'question'       => 'Test Question 1',
+                'multipleChoice' => false,
+                'passphrase'     => '',
+                'deleted'        => false,
+                'responsesCount' => 2
             ],
             '$.entities[0]'
         );
         $I->seeResponsePathContainsJson(
             [
-            'id'   => $this->polls[0]->getAnswers()[0]->getId(),
-            'type' => 'Answer'
+                'id'   => $this->polls[0]->getAnswers()[0]->getId(),
+                'type' => 'Answer'
             ],
             '$.entities[0].answers[0]'
         );
         $I->seeResponsePathContainsJson(
             [
-            'id'   => $this->polls[0]->getAnswers()[1]->getId(),
-            'type' => 'Answer'
+                'id'   => $this->polls[0]->getAnswers()[1]->getId(),
+                'type' => 'Answer'
             ],
             '$.entities[0].answers[1]'
         );
@@ -104,15 +104,15 @@ class RetrievePollsCest extends BaseApiCest
     {
         for ($x = 0; $x < 50; $x++) {
             $this->polls[] = $this->createPoll($I, [
-            'identifier'     => substr(chr(mt_rand(97, 122)) .substr(md5(time()), 1), 0, 6),
-            'question'       => 'Test Question',
-            'multipleChoice' => false,
-            'passphrase'     => '',
-            'deleted'        => false,
-            'answers'        => [
-              'Answer 1',
-              'Answer 2'
-            ]
+                'identifier'     => substr(chr(mt_rand(97, 122)) .substr(md5(time()), 1), 0, 6),
+                'question'       => 'Test Question',
+                'multipleChoice' => false,
+                'passphrase'     => '',
+                'deleted'        => false,
+                'answers'        => [
+                    'Answer 1',
+                    'Answer 2'
+                ]
             ]);
         }
 
@@ -121,18 +121,18 @@ class RetrievePollsCest extends BaseApiCest
         $I->seeResponseCodeIs(HttpCode::OK);
         $I->seeResponseIsJson();
         $I->seeResponseContainsJson([
-        'count' => 20,
-        'total' => 52,
+            'count' => 20,
+            'total' => 52,
         ]);
         $I->seeResponsePathContainsJson(
             [
-            'id'             => $this->polls[0]->getId(),
-            'identifier'     => 'he7gis',
-            'question'       => 'Test Question 1',
-            'multipleChoice' => false,
-            'passphrase'     => '',
-            'deleted'        => false,
-            'responsesCount' => 2
+                'id'             => $this->polls[0]->getId(),
+                'identifier'     => 'he7gis',
+                'question'       => 'Test Question 1',
+                'multipleChoice' => false,
+                'passphrase'     => '',
+                'deleted'        => false,
+                'responsesCount' => 2
             ],
             '$.entities[0]'
         );
@@ -142,18 +142,18 @@ class RetrievePollsCest extends BaseApiCest
         $I->seeResponseCodeIs(HttpCode::OK);
         $I->seeResponseIsJson();
         $I->seeResponseContainsJson([
-        'count' => 20,
-        'total' => 52,
+            'count' => 20,
+            'total' => 52,
         ]);
         $I->seeResponsePathContainsJson(
             [
-            'id'             => $this->polls[20]->getId(),
-            'identifier'     => $this->polls[20]->getIdentifier(),
-            'question'       => 'Test Question',
-            'multipleChoice' => false,
-            'passphrase'     => '',
-            'deleted'        => false,
-            'responsesCount' => 0
+                'id'             => $this->polls[20]->getId(),
+                'identifier'     => $this->polls[20]->getIdentifier(),
+                'question'       => 'Test Question',
+                'multipleChoice' => false,
+                'passphrase'     => '',
+                'deleted'        => false,
+                'responsesCount' => 0
             ],
             '$.entities[0]'
         );
@@ -163,18 +163,18 @@ class RetrievePollsCest extends BaseApiCest
         $I->seeResponseCodeIs(HttpCode::OK);
         $I->seeResponseIsJson();
         $I->seeResponseContainsJson([
-        'count' => 25,
-        'total' => 52,
+            'count' => 25,
+            'total' => 52,
         ]);
         $I->seeResponsePathContainsJson(
             [
-            'id'             => $this->polls[25]->getId(),
-            'identifier'     => $this->polls[25]->getIdentifier(),
-            'question'       => 'Test Question',
-            'multipleChoice' => false,
-            'passphrase'     => '',
-            'deleted'        => false,
-            'responsesCount' => 0
+                'id'             => $this->polls[25]->getId(),
+                'identifier'     => $this->polls[25]->getIdentifier(),
+                'question'       => 'Test Question',
+                'multipleChoice' => false,
+                'passphrase'     => '',
+                'deleted'        => false,
+                'responsesCount' => 0
             ],
             '$.entities[0]'
         );

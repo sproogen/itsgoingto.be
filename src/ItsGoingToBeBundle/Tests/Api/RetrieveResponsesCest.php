@@ -34,14 +34,14 @@ class RetrieveResponsesCest extends BaseApiCest
         $I->seeResponseCodeIs(HttpCode::OK);
         $I->seeResponseIsJson();
         $I->seeResponseMatchesJsonType([
-        'responsesCount' => 'integer',
-        'answers'        => 'array',
-        'userResponses'  => 'array'
+            'responsesCount' => 'integer',
+            'answers'        => 'array',
+            'userResponses'  => 'array'
         ]);
         $I->seeResponseMatchesJsonType(
             [
-            'id'             => 'integer',
-            'responsesCount' => 'integer'
+                'id'             => 'integer',
+                'responsesCount' => 'integer'
             ],
             '$.answers[*]'
         );
@@ -54,20 +54,20 @@ class RetrieveResponsesCest extends BaseApiCest
         $I->seeResponseCodeIs(HttpCode::OK);
         $I->seeResponseIsJson();
         $I->seeResponseContainsJson([
-        'responsesCount' => 2,
-        'userResponses'  => [],
+            'responsesCount' => 2,
+            'userResponses'  => [],
         ]);
         $I->seeResponsePathContainsJson(
             [
-            'id'             => $this->polls[0]->getAnswers()[0]->getId(),
-            'responsesCount' => 2
+                'id'             => $this->polls[0]->getAnswers()[0]->getId(),
+                'responsesCount' => 2
             ],
             '$.answers[0]'
         );
         $I->seeResponsePathContainsJson(
             [
-            'id'             => $this->polls[0]->getAnswers()[1]->getId(),
-            'responsesCount' => 0
+                'id'             => $this->polls[0]->getAnswers()[1]->getId(),
+                'responsesCount' => 0
             ],
             '$.answers[1]'
         );
@@ -76,9 +76,9 @@ class RetrieveResponsesCest extends BaseApiCest
     public function returnsUsersResponsesWithValues(ApiTester $I)
     {
         $I->sendPOST('/polls/he7gis/responses', [
-        'answers' => [
-        $this->polls[0]->getAnswers()[1]->getId()
-        ]
+            'answers' => [
+                $this->polls[0]->getAnswers()[1]->getId()
+            ]
         ]);
 
         $I->wantTo('Check returned responses include users responses');
@@ -86,22 +86,80 @@ class RetrieveResponsesCest extends BaseApiCest
         $I->seeResponseCodeIs(HttpCode::OK);
         $I->seeResponseIsJson();
         $I->seeResponseContainsJson([
-        'responsesCount' => 3,
-        'userResponses'  => [$this->polls[0]->getAnswers()[1]->getId()],
+            'responsesCount' => 3,
+            'userResponses'  => [$this->polls[0]->getAnswers()[1]->getId()],
         ]);
         $I->seeResponsePathContainsJson(
             [
-            'id'             => $this->polls[0]->getAnswers()[0]->getId(),
-            'responsesCount' => 2
+                'id'             => $this->polls[0]->getAnswers()[0]->getId(),
+                'responsesCount' => 2
             ],
             '$.answers[0]'
         );
         $I->seeResponsePathContainsJson(
             [
-            'id'             => $this->polls[0]->getAnswers()[1]->getId(),
-            'responsesCount' => 1
+                'id'             => $this->polls[0]->getAnswers()[1]->getId(),
+                'responsesCount' => 1
             ],
             '$.answers[1]'
+        );
+    }
+
+    public function returnsErrorAnd401ForResponsesPassphraseTest(ApiTester $I)
+    {
+        $this->polls[] = $this->createPoll($I, [
+            'identifier'     => 'ic8ans',
+            'question'       => 'Test Question Passphrase',
+            'multipleChoice' => false,
+            'passphrase'     => 'Passphrase',
+            'deleted'        => false,
+            'answers'        => [
+                'Answer Passphrase 1',
+                'Answer Passphrase 2'
+            ]
+        ]);
+
+        $I->wantTo('Check call return 401');
+        $I->sendGet('/polls/ic8ans/responses');
+        $I->seeResponseCodeIs(HttpCode::UNAUTHORIZED);
+        $I->seeResponseIsJson();
+        $I->seeResponseMatchesJsonType([
+            'error' => 'string',
+        ]);
+        $I->seeResponseContainsJson([
+            'error' => 'incorrect-passphrase'
+        ]);
+    }
+
+    public function returnsResponsesWithPassphraseTest(ApiTester $I)
+    {
+        $this->polls[] = $this->createPoll($I, [
+            'identifier'     => 'ic8ans',
+            'question'       => 'Test Question Passphrase',
+            'multipleChoice' => false,
+            'passphrase'     => 'Passphrase',
+            'deleted'        => false,
+            'answers'        => [
+                'Answer Passphrase 1',
+                'Answer Passphrase 2'
+            ]
+        ]);
+
+        $I->wantTo('Check returned responses match json structure');
+        $I->sendGET('/polls/he7gis/responses?passphrase=Passphrase');
+        $I->seeResponseCodeIs(HttpCode::OK);
+        $I->seeResponseIsJson();
+        $I->seeResponseMatchesJsonType([
+            'responsesCount' => 'integer',
+            'answers'        => 'array',
+            'userResponses'  => 'array'
+        ]);
+        $I->seeResponseMatchesJsonType(
+            [
+                'id'             => 'integer',
+                'responsesCount' => 'integer'
+            ],
+            '$.answers[*]'
         );
     }
 }
