@@ -196,6 +196,52 @@ class PollApiControllerTest extends BaseApiControllerTest
     }
 
     /**
+     * Test that if a GET request is made and the poll has a passphrase a 401 and error is returned.
+     */
+    public function testRetrievePollPassphraseRequestReturns401()
+    {
+        $this->poll->hasPassphrase()->willReturn(true);
+        $this->poll->getPassphrase()->willReturn('Passphrase');
+
+        $request = Request::create($this->apiUrl . '/gf56dg', Request::METHOD_GET);
+        $response = $this->controller->apiAction($request, 'gf56dg');
+
+        $this->pollRepository->findOneBy(array('identifier'=>'gf56dg', 'deleted' => false))
+            ->shouldHaveBeenCalledTimes(1);
+
+        $this->poll->hasPassphrase()
+            ->shouldHaveBeenCalledTimes(1);
+        $this->poll->getPassphrase()
+            ->shouldHaveBeenCalledTimes(1);
+
+        self::assertInstanceOf(JsonResponse::class, $response);
+        self::assertEquals(401, $response->getStatusCode());
+
+        $data = json_decode($response->getContent(), true);
+        self::assertArrayHasKey('error', $data);
+        self::assertEquals('incorrect-passphrase', $data['error']);
+    }
+
+    /**
+     * Test that a poll with a passphrase can be accessed.
+     */
+    public function testRetrievePollReturnsPollWithPassphrase()
+    {
+        $this->poll->hasPassphrase()->willReturn(true);
+        $this->poll->getPassphrase()->willReturn('Passphrase');
+
+        $request = Request::create($this->apiUrl . '/gf56dg?passphrase=Passphrase', Request::METHOD_GET);
+        $response = $this->controller->apiAction($request, 'gf56dg');
+
+        self::assertInstanceOf(JsonResponse::class, $response);
+        self::assertEquals(200, $response->getStatusCode());
+
+        $data = json_decode($response->getContent(), true);
+        self::assertArrayHasKey('id', $data);
+        self::assertEquals(2, $data['id']);
+    }
+
+    /**
      * Test that if a POST request is made without params an error is thrown
      */
     public function testPostPollRequestReturnsErrors()

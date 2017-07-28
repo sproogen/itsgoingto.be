@@ -305,4 +305,122 @@ class ResponseApiControllerTest extends BaseApiControllerTest
         self::assertArrayHasKey('responsesCount', $data);
         self::assertArrayHasKey('answers', $data);
     }
+
+    /**
+     * Test if an index request is made and the poll has a passphrase a 401 and error is returned.
+     */
+    public function testIndexResponsesRequestsReturns401()
+    {
+        $this->poll->hasPassphrase()->willReturn(true);
+        $this->poll->getPassphrase()->willReturn('Passphrase');
+
+        $request  = Request::create($this->apiUrl, Request::METHOD_GET);
+        $response = $this->controller->apiAction($request, 'gf56dg');
+
+        $this->pollRepository->findOneBy(array('identifier'=>'gf56dg', 'deleted' => false))
+            ->shouldHaveBeenCalledTimes(1);
+
+        $this->poll->hasPassphrase()
+            ->shouldHaveBeenCalledTimes(1);
+        $this->poll->getPassphrase()
+            ->shouldHaveBeenCalledTimes(1);
+
+        self::assertInstanceOf(JsonResponse::class, $response);
+        self::assertEquals(401, $response->getStatusCode());
+
+        $data = json_decode($response->getContent(), true);
+        self::assertArrayHasKey('error', $data);
+        self::assertEquals('incorrect-passphrase', $data['error']);
+    }
+
+    /**
+     * Test that the responses for a poll with a passphrase can be accessed.
+     */
+    public function testIndexResponsesReturnsResponsesWithPassphrase()
+    {
+        $this->poll->hasPassphrase()->willReturn(true);
+        $this->poll->getPassphrase()->willReturn('Passphrase');
+
+        $request = Request::create($this->apiUrl . '?passphrase=Passphrase', Request::METHOD_GET);
+        $response = $this->controller->apiAction($request, 'gf56dg');
+
+        self::assertInstanceOf(JsonResponse::class, $response);
+        self::assertEquals(200, $response->getStatusCode());
+
+        $data = json_decode($response->getContent(), true);
+        self::assertArrayHasKey('userResponses', $data);
+        self::assertArrayHasKey('responsesCount', $data);
+        self::assertArrayHasKey('answers', $data);
+    }
+
+    /**
+     * Test if a post request is made and the poll has a passphrase a 401 and error is returned.
+     */
+    public function testPostResponsesRequestsReturns401()
+    {
+        $this->poll->hasPassphrase()->willReturn(true);
+        $this->poll->getPassphrase()->willReturn('Passphrase');
+
+        $request  = Request::create($this->apiUrl, Request::METHOD_POST);
+        $response = $this->controller->apiAction($request, 'gf56dg');
+
+        $this->pollRepository->findOneBy(array('identifier'=>'gf56dg', 'deleted' => false))
+            ->shouldHaveBeenCalledTimes(1);
+
+        $this->poll->hasPassphrase()
+            ->shouldHaveBeenCalledTimes(1);
+        $this->poll->getPassphrase()
+            ->shouldHaveBeenCalledTimes(1);
+
+        self::assertInstanceOf(JsonResponse::class, $response);
+        self::assertEquals(401, $response->getStatusCode());
+
+        $data = json_decode($response->getContent(), true);
+        self::assertArrayHasKey('error', $data);
+        self::assertEquals('incorrect-passphrase', $data['error']);
+    }
+
+    /**
+     * Test that if a POST request is made a UserResponse is persisted with a passphrase
+     */
+    public function testPostResponsesRequestPersistsEntityWithPassphrase()
+    {
+        $this->poll->hasPassphrase()->willReturn(true);
+        $this->poll->getPassphrase()->willReturn('Passphrase');
+
+        $requestContent = json_encode([
+            'answers' => 5,
+            'passphrase' => 'Passphrase'
+        ]);
+        $request = Request::create($this->apiUrl, Request::METHOD_POST, [], [], [], [], $requestContent);
+
+        $response = $this->controller->apiAction($request, 'gf56dg');
+
+        $this->answerRepository->findOneBy(array('id' => 5, 'poll' => 2))
+            ->shouldHaveBeenCalledTimes(1);
+        $this->userResponseRepo->findOneBy(array('customUserID' => '9873fdanba8qge9dfsaq39', 'poll' => 2))
+            ->shouldHaveBeenCalledTimes(1);
+        $this->userResponseRepo->findOneBy(array('userSessionID' => '12354321897467', 'poll' => 2))
+            ->shouldHaveBeenCalledTimes(1);
+
+        $userResponse = new UserResponse();
+        $userResponse->setPoll($this->poll->reveal());
+        $userResponse->setAnswer($this->answer->reveal());
+        $userResponse->setCustomUserID('9873fdanba8qge9dfsaq39');
+        $userResponse->setUserSessionID('12354321897467');
+        $userResponse->setUserIP($request->server->get('REMOTE_ADDR'));
+        $this->entityManager->persist($userResponse)
+            ->shouldHaveBeenCalledTimes(1);
+
+        $this->entityManager->flush()
+            ->shouldHaveBeenCalledTimes(1);
+
+        self::assertInstanceOf(JsonResponse::class, $response);
+        self::assertEquals(200, $response->getStatusCode());
+
+        $data = json_decode($response->getContent(), true);
+        self::assertArrayHasKey('userResponses', $data);
+        self::assertArrayHasKey('responsesCount', $data);
+        self::assertArrayHasKey('answers', $data);
+    }
 }
