@@ -12,6 +12,14 @@ class Button extends React.Component {
     }
   }
 
+  componentDidMount() {
+    this._mounted = true
+  }
+
+  componentWillUnmount() {
+    this._mounted = false
+  }
+
   isDisabled = () => this.props.disabled || this.state.disabled
 
   handlePress = (event) => {
@@ -22,7 +30,7 @@ class Button extends React.Component {
         loading  : true
       })
       this.props.callback().then((reset) => {
-        if (reset !== false) {
+        if (reset !== false && this._mounted) {
           this.setState({
             disabled : false,
             loading  : false

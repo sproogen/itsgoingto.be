@@ -1,4 +1,4 @@
-import { prop, compose, not, isEmpty, contains, without, append, ifElse, both } from 'ramda'
+import { prop, compose, not, isEmpty, contains, without, append, ifElse, both, equals, length } from 'ramda'
 import { pollSelector, updatePoll, updateResponses } from './poll'
 import { answersSelector } from './answers'
 
@@ -11,7 +11,7 @@ export const ROUTE_RESPONSES = '/responses'
 // ------------------------------------
 // Helpers
 // ------------------------------------
-function APIError (details) {
+export function APIError (details) {
   this.name = 'APIError'
   this.details = details
 }
@@ -40,7 +40,7 @@ export const extractResponse = (response) => {
 export const onError = (error) => {
   // TODO : Display an error message to the user
   console.error('There was an error', error)
-  return false
+  return error
 }
 
 // ------------------------------------
@@ -77,12 +77,20 @@ export const postPoll = () => (dispatch, getState) =>
  * @return {Function} redux-thunk callable function
  */
 export const fetchPoll = (identifier) => (dispatch, getState) =>
-  fetch(ROUTE_POLL + '/' + identifier, {
-    credentials : 'same-origin'
-  })
-  .then(extractResponse)
-  .then((response) => dispatch(updatePoll(response)))
-  .catch(onError)
+  compose (
+    (url) => fetch(url, {
+      credentials : 'same-origin'
+    })
+    .then(extractResponse)
+    .then((response) => dispatch(updatePoll(response)))
+    .catch(onError),
+    ifElse(
+      compose(not, equals(0), length, prop('passphrase')),
+      (poll) => ROUTE_POLL + '/' + identifier + '?passphrase=' + prop('passphrase')(poll),
+      () => ROUTE_POLL + '/' + identifier
+    ),
+    pollSelector
+  )(getState(), identifier)
 
 /**
  * Posts the response for a poll with the identifier to the api
@@ -93,6 +101,7 @@ export const fetchPoll = (identifier) => (dispatch, getState) =>
  * @return {Function} redux-thunk callable function
  */
 export const postResponse = (answer, identifier) => (dispatch, getState) =>
+  // TODO : Add passphrase here
   compose(
     (answers) => fetch(ROUTE_POLL + '/' + identifier + ROUTE_RESPONSES,
       {
@@ -129,6 +138,7 @@ export const postResponse = (answer, identifier) => (dispatch, getState) =>
  * @return {Function} redux-thunk callable function
  */
 export const fetchResponses = (identifier) => (dispatch, getState) =>
+  // TODO : Add passphrase here
   fetch(ROUTE_POLL + '/' + identifier + ROUTE_RESPONSES, {
     credentials : 'same-origin'
   })

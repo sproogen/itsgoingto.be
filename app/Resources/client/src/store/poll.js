@@ -1,4 +1,4 @@
-import { prop, compose, not, equals, length, omit, when, find, propEq, contains,
+import { prop, compose, not, equals, length, omit, when, find, propEq, contains, both,
          adjust, set, lensProp, findIndex, ifElse, path, isNil, isEmpty, merge, __ } from 'ramda'
 import { addAnswer, clearAnswers, updateAnswers } from './answers'
 
@@ -53,7 +53,13 @@ export const questionSelector = (state, identifier = '') =>
  * @return {bool}
  */
 export const hasQuestionSelector = (state, identifier = '') =>
-  compose(not, equals(0), length, questionSelector)(state, identifier)
+  compose(
+    both(
+      compose(not, equals(0), length),
+      compose(not, isNil)
+    ),
+    questionSelector
+  )(state, identifier)
 
 /**
  * Returns the total number of responses from the poll with the given identifier

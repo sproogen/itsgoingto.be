@@ -6,14 +6,14 @@ import './WordRotate.scss'
 class WordRotate extends React.Component {
   constructor (props) {
     super(props)
-    this.state = { currentWord: 0 }
+    this.state = { currentWord : 0 }
   }
 
   getWord = (index) => compose(nth(index), split(','))(this.props.words)
 
   updateWord = () => {
     this.setState((prevState, props) => ({
-      currentWord: ifElse(
+      currentWord : ifElse(
         equals(compose(subtract(__, 1), length, split(','))(props.words)),
         () => 0,
         add(1)
@@ -30,12 +30,12 @@ class WordRotate extends React.Component {
 
   componentWillUpdate = () => {
     this.refs.current.animate([
-      { transform: 'translate(0, -0.8em)', opacity: 0 },
-      { transform: 'translate(0)', opacity: 1 }
+      { transform : 'translate(0, -0.8em)', opacity : 0 },
+      { transform : 'translate(0)', opacity : 1 }
     ], 500, 'easeInOutQuart')
     this.refs.previous.animate([
-      { transform: 'translate(0)', opacity: 1 },
-      { transform: 'translate(0, 0.6em)', opacity: 0 }
+      { transform : 'translate(0)', opacity: 1 },
+      { transform : 'translate(0, 0.6em)', opacity : 0 }
     ], 350, 'easeInOutQuart')
   }
 
