@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import EventBus from 'components/EventBus'
 import Spinner from 'components/Spinner/Spinner'
 import './Button.scss'
 
@@ -12,18 +13,27 @@ class Button extends React.Component {
     }
   }
 
-  componentDidMount() {
+  componentDidMount = () => {
     this._mounted = true
+    this.eventBus = EventBus.getEventBus()
+    if (this.props.submitEvent) {
+      this.eventListener = this.eventBus.addListener(this.props.submitEvent, () => {
+        this.handlePress()
+      })
+    }
   }
 
-  componentWillUnmount() {
+  componentWillUnmount = () => {
     this._mounted = false
+    this.eventListener.remove()
   }
 
   isDisabled = () => this.props.disabled || this.state.disabled
 
   handlePress = (event) => {
-    event.preventDefault()
+    if (event) {
+      event.preventDefault()
+    }
     if (!this.isDisabled()) {
       this.setState({
         disabled : true,
@@ -52,10 +62,11 @@ class Button extends React.Component {
 }
 
 Button.propTypes = {
-  text      : PropTypes.string.isRequired,
-  className : PropTypes.string,
-  disabled  : PropTypes.bool,
-  callback  : PropTypes.func.isRequired
+  text        : PropTypes.string.isRequired,
+  className   : PropTypes.string,
+  disabled    : PropTypes.bool,
+  callback    : PropTypes.func.isRequired,
+  submitEvent : PropTypes.string
 }
 
 Button.defaultProps = {

@@ -6,10 +6,17 @@ import { mergeAll } from 'ramda'
 import { updatePoll } from 'store/poll'
 import { fetchPoll, APIError } from 'store/api'
 import { setRequiresPassphrase } from 'store/loader'
+import EventBus from 'components/EventBus'
 import Button from 'components/Button/Button'
 import './Passphrase.scss'
 
+const KEY_ENTER = 13
+
 class Passphrase extends React.Component {
+  componentDidMount = () => {
+    this.eventBus = EventBus.getEventBus()
+  }
+
   // TODO : Display error on incorrect passphrase
   submit = () =>
     this.props.setPassphrase(this.refs.passphrase.value)
@@ -22,6 +29,15 @@ class Passphrase extends React.Component {
       })
     )
 
+  handleKeyPress = (event) => {
+    event = event || window.event
+    const key = event.keyCode || event.charCode
+
+    if (key === KEY_ENTER) {
+      this.eventBus.emit('passphrase-submit')
+    }
+  }
+
   render = () => (
     <div className='passphrase-container'>
       <div className='input-passphrase'>
@@ -31,9 +47,10 @@ class Passphrase extends React.Component {
           type='text'
           id='passphrase'
           name='passphrase'
-          ref='passphrase' />
+          ref='passphrase'
+          onKeyDown={this.handleKeyPress} />
       </div>
-      <Button className='btn pull-right' text='Enter' callback={this.submit} />
+      <Button className='btn pull-right' text='Enter' callback={this.submit} submitEvent='passphrase-submit' />
     </div>
   )
 }

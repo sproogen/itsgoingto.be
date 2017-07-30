@@ -1,4 +1,4 @@
-import { prop, compose, not, isEmpty, contains, without, append, ifElse, both, equals, length } from 'ramda'
+import { prop, compose, not, isEmpty, contains, without, append, ifElse, both, equals, length, when, path, omit, merge, __ } from 'ramda'
 import { pollSelector, updatePoll, updateResponses } from './poll'
 import { answersSelector } from './answers'
 
@@ -101,32 +101,39 @@ export const fetchPoll = (identifier) => (dispatch, getState) =>
  * @return {Function} redux-thunk callable function
  */
 export const postResponse = (answer, identifier) => (dispatch, getState) =>
-  // TODO : Add passphrase here
   compose(
-    (answers) => fetch(ROUTE_POLL + '/' + identifier + ROUTE_RESPONSES,
+    (requestData) => fetch(ROUTE_POLL + '/' + identifier + ROUTE_RESPONSES,
       {
         credentials : 'same-origin',
         method      : 'POST',
-        body        : JSON.stringify({
-          answers : answers
-        })
+        body        : JSON.stringify(requestData)
       }
     )
     .then(extractResponse)
     .then((response) => dispatch(updateResponses(response, identifier)))
     .catch(onError),
-    ifElse(
-      both(prop('multipleChoice'), compose(not, isEmpty, prop('userResponses'))),
+    when(
+      compose(not, equals(0), length, path(['poll', 'passphrase'])),
       compose(
-        ifElse(
-          contains(answer),
-          without([answer]),
-          append(answer)
-        ),
-        prop('userResponses')
-      ),
-      () => [answer],
+        omit(['poll']),
+        (data) => merge(data, { passphrase : path(['poll', 'passphrase'])(data) })
+      )
     ),
+    (poll) => ({
+      poll,
+      answers : ifElse(
+        both(prop('multipleChoice'), compose(not, isEmpty, prop('userResponses'))),
+        compose(
+          ifElse(
+            contains(answer),
+            without([answer]),
+            append(answer)
+          ),
+          prop('userResponses')
+        ),
+        () => [answer]
+      )(poll)
+    }),
     pollSelector
   )(getState(), identifier)
 
@@ -138,10 +145,17 @@ export const postResponse = (answer, identifier) => (dispatch, getState) =>
  * @return {Function} redux-thunk callable function
  */
 export const fetchResponses = (identifier) => (dispatch, getState) =>
-  // TODO : Add passphrase here
-  fetch(ROUTE_POLL + '/' + identifier + ROUTE_RESPONSES, {
-    credentials : 'same-origin'
-  })
-  .then(extractResponse)
-  .then((response) => dispatch(updateResponses(response, identifier)))
-  .catch(onError)
+  compose (
+    (url) => fetch(url, {
+      credentials : 'same-origin'
+    })
+    .then(extractResponse)
+    .then((response) => dispatch(updateResponses(response, identifier)))
+    .catch(onError),
+    ifElse(
+      compose(not, equals(0), length, prop('passphrase')),
+      (poll) => ROUTE_POLL + '/' + identifier + ROUTE_RESPONSES + '?passphrase=' + prop('passphrase')(poll),
+      () => ROUTE_POLL + '/' + identifier + ROUTE_RESPONSES
+    ),
+    pollSelector
+  )(getState(), identifier)

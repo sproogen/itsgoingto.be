@@ -32,7 +32,8 @@ class ResponseApiController extends BaseApiController implements ApiControllerIn
 
         if ($poll) {
             $data = $this->getData($request);
-            if ($poll->hasPassphrase() &&
+            if (!$this->authorizationChecker->isGranted('ROLE_ADMIN') &&
+                $poll->hasPassphrase() &&
                 $poll->getPassphrase() !== (isset($data['passphrase']) ? $data['passphrase'] : '')) {
                 $response = new JsonResponse(['error' => 'incorrect-passphrase'], 401);
             } else {

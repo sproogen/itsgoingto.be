@@ -70,7 +70,8 @@ class PollApiController extends BaseApiController implements ApiControllerInterf
             ->findOneBy($findOneBy);
 
         if ($poll) {
-            if ($poll->hasPassphrase() &&
+            if (!$this->authorizationChecker->isGranted('ROLE_ADMIN') &&
+                $poll->hasPassphrase() &&
                 $poll->getPassphrase() !== (isset($data['passphrase']) ? $data['passphrase'] : '')) {
                 $response = new JsonResponse(['error' => 'incorrect-passphrase'], 401);
             } else {
