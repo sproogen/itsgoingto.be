@@ -19,10 +19,6 @@ import './Answer.scss'
  */
 
 class Answer extends React.Component {
-  constructor (props) {
-    super(props)
-  }
-
   componentWillMount = () => {
     if (!this.props.hasPoll) {
       this.props.setLoading(true)

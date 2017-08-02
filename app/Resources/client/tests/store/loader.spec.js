@@ -15,15 +15,15 @@ describe('(Store) Loader', () => {
       expect(loaderReducer).to.be.a('function')
     })
 
-    it('Should initialize with a initialState.', () => {
-      expect(loaderReducer(undefined, {})).to.equal(false)
+    it('Should initialize with an initialState.', () => {
+      expect(loaderReducer(undefined, {})).to.deep.equal({ loading : false, passphrase : false })
     })
 
     it('Should return the previous state if an action was not matched.', () => {
       let state = loaderReducer(undefined, {})
-      expect(state).to.equal(false)
+      expect(state).to.deep.equal({ loading : false, passphrase : false })
       state = loaderReducer(state, { type: '@@@@@@@' })
-      expect(state).to.equal(false)
+      expect(state).to.deep.equal({ loading : false, passphrase : false })
 
       state = true
       state = loaderReducer(state, { type: '@@@@@@@' })
@@ -33,7 +33,7 @@ describe('(Store) Loader', () => {
 
   describe('(Selector) isLoadingSelector', () => {
     it('Should return the loader value from the global state.', () => {
-      const globalState = { loader : true }
+      const globalState = { loader : { loading : true, passphrase : false } }
       expect(isLoadingSelector(globalState)).to.equal(true)
     })
   })
@@ -59,12 +59,12 @@ describe('(Store) Loader', () => {
 
   describe('(Action Handler) LOADING_UPDATE', () => {
     it('Should update the state to the loading property', () => {
-      let state = false
-      expect(state).to.equal(false)
+      let state = { loading : false, passphrase : false }
+      expect(state.loading).to.equal(false)
       state = loaderReducer(state, { type : LOADING_UPDATE, loading : true })
-      expect(state).to.equal(true)
+      expect(state.loading).to.equal(true)
       state = loaderReducer(state, { type : LOADING_UPDATE, loading : false })
-      expect(state).to.equal(false)
+      expect(state.loading).to.equal(false)
     })
   })
 })

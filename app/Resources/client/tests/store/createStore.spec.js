@@ -29,7 +29,7 @@ describe('(Store) createStore', () => {
 
   describe('(Loader)', () => {
     it('store should be initialized with Loader state', () => {
-      const loader = false
+      const loader = { loading : false, passphrase : false }
       expect(store.getState().loader).to.deep.equal(loader)
     })
   })

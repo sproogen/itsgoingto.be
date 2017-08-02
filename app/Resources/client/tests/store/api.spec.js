@@ -2,6 +2,7 @@ import {
   ROUTE_POLL,
   ROUTE_RESPONSES,
   extractResponse,
+  APIError,
   onError,
   postPoll,
   fetchPoll,
@@ -27,7 +28,7 @@ const jsonError = (status, body) => {
       'Content-type': 'application/json'
     }
   })
-  return Promise.reject(mockResponse)
+  return Promise.resolve(mockResponse)
 }
 
 describe('(Store) API', () => {
@@ -111,7 +112,9 @@ describe('(Store) API', () => {
       it('Should catch error.', () => {
         window.fetch.returns(jsonError(404, { message: 'There was an error' }))
         return postPoll()(_dispatchSpy, _getStateSpy).then((response) => {
-          expect(response).to.equal(false)
+          expect(response).to.be.an.instanceof(APIError)
+          expect(response.name).to.equal('APIError')
+          expect(response.details.status).to.equal(404)
         })
       })
 
@@ -161,7 +164,9 @@ describe('(Store) API', () => {
       it('Should catch error.', () => {
         window.fetch.returns(jsonError(404, { message: 'There was an error' }))
         return fetchPoll('hf0sd8fhoas')(_dispatchSpy, _getStateSpy).then((response) => {
-          expect(response).to.equal(false)
+          expect(response).to.be.an.instanceof(APIError)
+          expect(response.name).to.equal('APIError')
+          expect(response.details.status).to.equal(404)
         })
       })
 
@@ -204,7 +209,9 @@ describe('(Store) API', () => {
       it('Should catch error.', () => {
         window.fetch.returns(jsonError(404, { message: 'There was an error' }))
         return postResponse()(_dispatchSpy, _getStateSpy).then((response) => {
-          expect(response).to.equal(false)
+          expect(response).to.be.an.instanceof(APIError)
+          expect(response.name).to.equal('APIError')
+          expect(response.details.status).to.equal(404)
         })
       })
 
@@ -313,7 +320,9 @@ describe('(Store) API', () => {
       it('Should catch error.', () => {
         window.fetch.returns(jsonError(404, { message: 'There was an error' }))
         return fetchResponses()(_dispatchSpy, _getStateSpy).then((response) => {
-          expect(response).to.equal(false)
+          expect(response).to.be.an.instanceof(APIError)
+          expect(response.name).to.equal('APIError')
+          expect(response.details.status).to.equal(404)
         })
       })
     })

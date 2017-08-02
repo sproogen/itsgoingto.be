@@ -1,4 +1,5 @@
-import { prop, compose, not, isEmpty, contains, without, append, ifElse, both, equals, length, when, path, omit, merge, __ } from 'ramda'
+import { prop, compose, not, isEmpty, contains, without, append, ifElse, both, equals, length, when, path, omit,
+         merge } from 'ramda'
 import { pollSelector, updatePoll, updateResponses } from './poll'
 import { answersSelector } from './answers'
 
@@ -39,6 +40,13 @@ export const extractResponse = (response) => {
 // Parse an error and displays a suitible message to the user.
 export const onError = (error) => {
   // TODO : Display an error message to the user
+  if (!(error instanceof APIError)) {
+    error = new APIError({
+      status     : error.status,
+      statusText : error.statusText,
+      error
+    })
+  }
   console.error('There was an error', error)
   return error
 }
@@ -77,7 +85,7 @@ export const postPoll = () => (dispatch, getState) =>
  * @return {Function} redux-thunk callable function
  */
 export const fetchPoll = (identifier) => (dispatch, getState) =>
-  compose (
+  compose(
     (url) => fetch(url, {
       credentials : 'same-origin'
     })
@@ -112,12 +120,10 @@ export const postResponse = (answer, identifier) => (dispatch, getState) =>
     .then(extractResponse)
     .then((response) => dispatch(updateResponses(response, identifier)))
     .catch(onError),
+    omit(['poll']),
     when(
       compose(not, equals(0), length, path(['poll', 'passphrase'])),
-      compose(
-        omit(['poll']),
-        (data) => merge(data, { passphrase : path(['poll', 'passphrase'])(data) })
-      )
+      (data) => merge(data, { passphrase : path(['poll', 'passphrase'])(data) })
     ),
     (poll) => ({
       poll,
@@ -145,7 +151,7 @@ export const postResponse = (answer, identifier) => (dispatch, getState) =>
  * @return {Function} redux-thunk callable function
  */
 export const fetchResponses = (identifier) => (dispatch, getState) =>
-  compose (
+  compose(
     (url) => fetch(url, {
       credentials : 'same-origin'
     })
