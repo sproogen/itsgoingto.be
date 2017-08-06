@@ -62,7 +62,7 @@ describe('(Store) API', () => {
       window.fetch.returns(jsonOk({}))
 
       _globalState = {
-        poll    : [{ question : 'Question', identifier : '' }],
+        poll    : [{ question : 'Question', identifier : '', multipleChoice : false, passphrase: '' }],
         answers : ['Answer']
       }
       _dispatchSpy = sinon.spy((action) => {
@@ -97,14 +97,17 @@ describe('(Store) API', () => {
           window.fetch.should.have.been.calledOnce()
           window.fetch.should.have.been.calledWith(
             ROUTE_POLL,
-            { method : 'POST', credentials : 'same-origin', body : '{"question":"Question","answers":["Answer"]}' }
+            {
+              method : 'POST',
+              credentials : 'same-origin',
+              body : '{"question":"Question","answers":["Answer"],"multipleChoice":false,"passphrase":""}' }
           )
         })
       })
 
       it('Should return a promise with the response.', () => {
         window.fetch.returns(jsonOk({ question : 'Question', identifier: 'hf0sd8fhoas' }))
-        return fetchPoll('hf0sd8fhoas')(_dispatchSpy, _getStateSpy).then((response) => {
+        return postPoll()(_dispatchSpy, _getStateSpy).then((response) => {
           expect(response).to.deep.equal({ question : 'Question', identifier: 'hf0sd8fhoas' })
         })
       })
@@ -151,6 +154,23 @@ describe('(Store) API', () => {
         return fetchPoll('hf0sd8fhoas')(_dispatchSpy, _getStateSpy).then(() => {
           window.fetch.should.have.been.calledOnce()
           window.fetch.should.have.been.calledWith(ROUTE_POLL + '/hf0sd8fhoas', { credentials : 'same-origin' })
+        })
+      })
+
+      it('Should call fetch with the passphrase.', () => {
+        _globalState.poll = [{
+          question       : 'Question',
+          identifier     : 'hf0sd8fhoas',
+          multipleChoice : false,
+          passphrase     : '1234'
+        }]
+
+        return fetchPoll('hf0sd8fhoas')(_dispatchSpy, _getStateSpy).then(() => {
+          window.fetch.should.have.been.calledOnce()
+          window.fetch.should.have.been.calledWith(
+            ROUTE_POLL + '/hf0sd8fhoas?passphrase=1234',
+            { credentials : 'same-origin' }
+          )
         })
       })
 
@@ -224,6 +244,22 @@ describe('(Store) API', () => {
         })
       })
 
+      it('Should call fetch with the correct url and data with passphrase.', () => {
+        _globalState.poll = [{
+          question       : 'Question',
+          identifier     : 'hf0sd8fhoas',
+          multipleChoice : false,
+          passphrase     : '1234'
+        }]
+
+        return postResponse(434, 'hf0sd8fhoas')(_dispatchSpy, _getStateSpy).then(() => {
+          window.fetch.should.have.been.calledOnce()
+          window.fetch.should.have.been.calledWith(
+            ROUTE_POLL + '/hf0sd8fhoas' + ROUTE_RESPONSES,
+            { method : 'POST', credentials : 'same-origin', body : '{"answers":[434],"passphrase":"1234"}' })
+        })
+      })
+
       it('Should call fetch with the correct data for multiple choice initial answer.', () => {
         _globalState = {
           poll    : [{
@@ -234,9 +270,6 @@ describe('(Store) API', () => {
           }],
           answers : ['Answer']
         }
-        _getStateSpy = sinon.spy(() => {
-          return _globalState
-        })
         return postResponse(434, 'hf0sd8fhoas')(_dispatchSpy, _getStateSpy).then(() => {
           window.fetch.should.have.been.calledOnce()
           window.fetch.should.have.been.calledWith(
@@ -255,9 +288,6 @@ describe('(Store) API', () => {
           }],
           answers : ['Answer']
         }
-        _getStateSpy = sinon.spy(() => {
-          return _globalState
-        })
         return postResponse(434, 'hf0sd8fhoas')(_dispatchSpy, _getStateSpy).then(() => {
           window.fetch.should.have.been.calledOnce()
           window.fetch.should.have.been.calledWith(
@@ -306,6 +336,22 @@ describe('(Store) API', () => {
           window.fetch.should.have.been.calledOnce()
           window.fetch.should.have.been.calledWith(
             ROUTE_POLL + '/hf0sd8fhoas' + ROUTE_RESPONSES,
+            { credentials : 'same-origin' })
+        })
+      })
+
+      it('Should call fetch with the passphrase.', () => {
+        _globalState.poll = [{
+          question       : 'Question',
+          identifier     : 'hf0sd8fhoas',
+          multipleChoice : false,
+          passphrase     : '1234'
+        }]
+
+        return fetchResponses('hf0sd8fhoas')(_dispatchSpy, _getStateSpy).then(() => {
+          window.fetch.should.have.been.calledOnce()
+          window.fetch.should.have.been.calledWith(
+            ROUTE_POLL + '/hf0sd8fhoas' + ROUTE_RESPONSES + '?passphrase=1234',
             { credentials : 'same-origin' })
         })
       })

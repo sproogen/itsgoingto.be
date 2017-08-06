@@ -1,13 +1,19 @@
 import {
   LOADING_UPDATE,
+  PASSPHRASE_UPDATE,
   isLoadingSelector,
+  requiresPassphraseSelector,
   setLoading,
+  setRequiresPassphrase,
   default as loaderReducer
 } from 'store/loader'
 
 describe('(Store) Loader', () => {
   it('Should export a constant LOADING_UPDATE.', () => {
     expect(LOADING_UPDATE).to.equal('LOADING_UPDATE')
+  })
+  it('Should export a constant PASSPHRASE_UPDATE.', () => {
+    expect(PASSPHRASE_UPDATE).to.equal('PASSPHRASE_UPDATE')
   })
 
   describe('(Reducer)', () => {
@@ -38,6 +44,13 @@ describe('(Store) Loader', () => {
     })
   })
 
+  describe('(Selector) requiresPassphraseSelector', () => {
+    it('Should return the passphrase required value from the global state.', () => {
+      const globalState = { loader : { loading : false, passphrase : true } }
+      expect(requiresPassphraseSelector(globalState)).to.equal(true)
+    })
+  })
+
   describe('(Action Creator) setLoading', () => {
     it('Should be exported as a function.', () => {
       expect(setLoading).to.be.a('function')
@@ -57,6 +70,25 @@ describe('(Store) Loader', () => {
     })
   })
 
+  describe('(Action Creator) setRequiresPassphrase', () => {
+    it('Should be exported as a function.', () => {
+      expect(setRequiresPassphrase).to.be.a('function')
+    })
+
+    it('Should return an action with type "PASSPHRASE_UPDATE".', () => {
+      expect(setRequiresPassphrase()).to.have.property('type', PASSPHRASE_UPDATE)
+    })
+
+    it('Should assign the argument to the "requiresPassphrase" property.', () => {
+      const requiresPassphrase = true
+      expect(setRequiresPassphrase(requiresPassphrase)).to.have.property('requiresPassphrase', requiresPassphrase)
+    })
+
+    it('Should default the "requiresPassphrase" property to false if not provided.', () => {
+      expect(setRequiresPassphrase()).to.have.property('requiresPassphrase', false)
+    })
+  })
+
   describe('(Action Handler) LOADING_UPDATE', () => {
     it('Should update the state to the loading property', () => {
       let state = { loading : false, passphrase : false }
@@ -65,6 +97,17 @@ describe('(Store) Loader', () => {
       expect(state.loading).to.equal(true)
       state = loaderReducer(state, { type : LOADING_UPDATE, loading : false })
       expect(state.loading).to.equal(false)
+    })
+  })
+
+  describe('(Action Handler) PASSPHRASE_UPDATE', () => {
+    it('Should update the state to the passphrase property', () => {
+      let state = { loading : false, passphrase : false }
+      expect(state.passphrase).to.equal(false)
+      state = loaderReducer(state, { type : PASSPHRASE_UPDATE, requiresPassphrase : true })
+      expect(state.passphrase).to.equal(true)
+      state = loaderReducer(state, { type : PASSPHRASE_UPDATE, requiresPassphrase : false })
+      expect(state.passphrase).to.equal(false)
     })
   })
 })
