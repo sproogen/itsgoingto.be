@@ -21,6 +21,7 @@ input,textarea {
 	  font-weight: 400;
 	  font-family: "Avenir Next", "Helvetica Neue", Helvetica, Arial, sans-serif;
 	  -webkit-appearance: none;
+    transition: background $base-duration $base-timing;
 
 	  width: 100%;
 	  background: $light-grey;
@@ -41,6 +42,7 @@ textarea {
   padding: 0 1em;
   color: $label-text-color;
   font-weight: bold;
+  transition: color $base-duration $base-timing;
 }
 
 .input-disabled {
@@ -136,4 +138,19 @@ textarea {
     cursor: default;
     color: #d4d4d4;
     }
+}
+
+.input-error-label {
+  color: #f52525;
+  font-weight: 300;
+  font-size: 1.1em;
+  padding: 0 1em;
+  margin-top: 0.3em;
+  display: block;
+}
+
+.input-error {
+  .input-field {
+    background: #ffeaed;
+  }
 }

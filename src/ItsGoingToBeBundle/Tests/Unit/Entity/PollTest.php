@@ -29,6 +29,7 @@ class PollTest extends BaseEntityTest
         $response = new UserResponse();
         $this->entity->addResponse($response);
         $this->entity->setMultipleChoice(true);
+        $this->entity->setPassphrase('Passphrase');
         $this->entity->setDeleted(true);
         $this->entity->setCreated();
         $this->entity->setUpdated();
@@ -40,6 +41,7 @@ class PollTest extends BaseEntityTest
         self::assertArrayHasKey('answers', $extractedData);
         self::assertArrayHasKey('responsesCount', $extractedData);
         self::assertArrayHasKey('multipleChoice', $extractedData);
+        self::assertArrayHasKey('passphrase', $extractedData);
         self::assertArrayHasKey('deleted', $extractedData);
         self::assertArrayHasKey('created', $extractedData);
         self::assertArrayHasKey('updated', $extractedData);
@@ -53,6 +55,7 @@ class PollTest extends BaseEntityTest
         self::assertEquals('Answer', $answers[0]['type']);
         self::assertEquals(1, $extractedData['responsesCount']);
         self::assertEquals(true, $extractedData['multipleChoice']);
+        self::assertEquals('Passphrase', $extractedData['passphrase']);
         self::assertEquals(true, $extractedData['deleted']);
     }
 
@@ -132,6 +135,12 @@ class PollTest extends BaseEntityTest
     {
         $this->entity->setMultipleChoice(true);
         self::assertEquals(true, $this->entity->isMultipleChoice());
+    }
+
+    public function testGetSetPassphrase()
+    {
+        $this->entity->setPassphrase('Passphrase');
+        self::assertEquals('Passphrase', $this->entity->getPassphrase());
     }
 
     public function testGetSetDeleted()

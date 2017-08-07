@@ -27,6 +27,7 @@ describe('(Store) Poll', () => {
       question       : '',
       identifier     : '',
       multipleChoice : false,
+      passphrase     : '',
       answers        : [],
       userResponses  : []
     })
@@ -79,12 +80,14 @@ describe('(Store) Poll', () => {
         question       : '',
         identifier     : '',
         multipleChoice : false,
+        passphrase     : '',
         userResponses  : []
       })
       expect(pollSelector(_globalState)).to.deep.equal({
         question       : '',
         identifier     : '',
         multipleChoice : false,
+        passphrase     : '',
         userResponses  : []
       })
     })
@@ -514,7 +517,7 @@ describe('(Store) Poll', () => {
       state = pollReducer(state, { type : QUESTION_UPDATE, question : 'Question Text', identifier : '' })
       expect(state).to.deep.equal([
         { question : 'Question', identifier : 'hf0sd8fhoas' },
-        { question : 'Question Text', identifier : '', multipleChoice : false, userResponses  : [] }
+        { question : 'Question Text', identifier : '', multipleChoice : false, passphrase : '', userResponses  : [] }
       ])
     })
 

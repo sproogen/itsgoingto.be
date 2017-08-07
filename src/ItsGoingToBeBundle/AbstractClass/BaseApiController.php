@@ -73,6 +73,7 @@ abstract class BaseApiController extends Controller
     {
         $data = (array) json_decode($request->getContent(), true);
         $data += $request->request->all();
+        $data += $request->query->all();
 
         return $data;
     }

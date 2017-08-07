@@ -34,12 +34,12 @@ class DeletePollCest extends BaseApiCest
         $I->seeResponseCodeIs(HttpCode::OK);
         $I->seeResponseIsJson();
         $I->seeResponseContainsJson([
-        'id'             => $this->polls[0]->getId(),
-        'identifier'     => 'he7gis',
-        'question'       => 'Test Question 1',
-        'multipleChoice' => false,
-        'deleted'        => true,
-        'responsesCount' => 2,
+            'id'             => $this->polls[0]->getId(),
+            'identifier'     => 'he7gis',
+            'question'       => 'Test Question 1',
+            'multipleChoice' => false,
+            'deleted'        => true,
+            'responsesCount' => 2,
         ]);
     }
 }

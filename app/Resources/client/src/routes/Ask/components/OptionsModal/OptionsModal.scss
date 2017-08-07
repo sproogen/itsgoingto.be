@@ -1,0 +1,11 @@
+@import "bourbon";
+@import "neat";
+@import "variables";
+
+.input-option {
+  margin-bottom: 1em;
+
+  .input-field {
+    font-size: 1.5em;
+  }
+}

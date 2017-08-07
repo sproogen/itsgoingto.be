@@ -32,14 +32,28 @@ class PollApiControllerTest extends BaseApiControllerTest
     protected $apiUrl = '/api/polls';
 
     /**
+     * Test that GET returns a 401 if not admin.
+     */
+    public function testIndexPollRequestReturns401()
+    {
+        $request = Request::create($this->apiUrl, Request::METHOD_GET);
+
+        $response = $this->controller->apiAction($request, 0);
+
+        self::assertInstanceOf(JsonResponse::class, $response);
+        self::assertEquals(401, $response->getStatusCode());
+    }
+
+    /**
      * Test that if a GET request is made, a JsonResponse is returned.
      */
-    public function testIndexPollRequestReturnsPolls()
+    public function testIndexPollRequestReturnsPollsForAdmin()
     {
         $this->controller = $this->getMockBuilder(PollApiController::class)
             ->setMethods(array('countResults'))
             ->getMock();
         $this->controller->setEntityManager($this->entityManager->reveal());
+        $this->authorizationChecker->isGranted('ROLE_ADMIN')->willReturn(true);
         $this->controller->setAuthorizationChecker($this->authorizationChecker->reveal());
         $request = Request::create($this->apiUrl, Request::METHOD_GET);
 
@@ -78,6 +92,7 @@ class PollApiControllerTest extends BaseApiControllerTest
             ->setMethods(array('countResults'))
             ->getMock();
         $this->controller->setEntityManager($this->entityManager->reveal());
+        $this->authorizationChecker->isGranted('ROLE_ADMIN')->willReturn(true);
         $this->controller->setAuthorizationChecker($this->authorizationChecker->reveal());
         $request = Request::create($this->apiUrl, Request::METHOD_GET);
 
@@ -181,6 +196,52 @@ class PollApiControllerTest extends BaseApiControllerTest
     }
 
     /**
+     * Test that if a GET request is made and the poll has a passphrase a 401 and error is returned.
+     */
+    public function testRetrievePollPassphraseRequestReturns401()
+    {
+        $this->poll->hasPassphrase()->willReturn(true);
+        $this->poll->getPassphrase()->willReturn('Passphrase');
+
+        $request = Request::create($this->apiUrl . '/gf56dg', Request::METHOD_GET);
+        $response = $this->controller->apiAction($request, 'gf56dg');
+
+        $this->pollRepository->findOneBy(array('identifier'=>'gf56dg', 'deleted' => false))
+            ->shouldHaveBeenCalledTimes(1);
+
+        $this->poll->hasPassphrase()
+            ->shouldHaveBeenCalledTimes(1);
+        $this->poll->getPassphrase()
+            ->shouldHaveBeenCalledTimes(1);
+
+        self::assertInstanceOf(JsonResponse::class, $response);
+        self::assertEquals(401, $response->getStatusCode());
+
+        $data = json_decode($response->getContent(), true);
+        self::assertArrayHasKey('error', $data);
+        self::assertEquals('incorrect-passphrase', $data['error']);
+    }
+
+    /**
+     * Test that a poll with a passphrase can be accessed.
+     */
+    public function testRetrievePollReturnsPollWithPassphrase()
+    {
+        $this->poll->hasPassphrase()->willReturn(true);
+        $this->poll->getPassphrase()->willReturn('Passphrase');
+
+        $request = Request::create($this->apiUrl . '/gf56dg?passphrase=Passphrase', Request::METHOD_GET);
+        $response = $this->controller->apiAction($request, 'gf56dg');
+
+        self::assertInstanceOf(JsonResponse::class, $response);
+        self::assertEquals(200, $response->getStatusCode());
+
+        $data = json_decode($response->getContent(), true);
+        self::assertArrayHasKey('id', $data);
+        self::assertEquals(2, $data['id']);
+    }
+
+    /**
      * Test that if a POST request is made without params an error is thrown
      */
     public function testPostPollRequestReturnsErrors()
@@ -209,6 +270,7 @@ class PollApiControllerTest extends BaseApiControllerTest
                 'Answer B'
             ],
             'multipleChoice' => true,
+            'passphrase' => 'Passphrase'
         ]);
         $this->pollRepository->findOneBy(Argument::any())->willReturn(null);
         $request = Request::create($this->apiUrl, Request::METHOD_POST, [], [], [], [], $requestContent);
@@ -233,6 +295,7 @@ class PollApiControllerTest extends BaseApiControllerTest
         self::assertArrayHasKey('userResponses', $data);
         self::assertArrayHasKey('responsesCount', $data);
         self::assertArrayHasKey('multipleChoice', $data);
+        self::assertArrayHasKey('passphrase', $data);
         self::assertArrayHasKey('deleted', $data);
 
         self::assertInternalType('string', $data['identifier']);
@@ -240,6 +303,7 @@ class PollApiControllerTest extends BaseApiControllerTest
 
         self::assertEquals('This is just a question?', $data['question']);
         self::assertEquals(true, $data['multipleChoice']);
+        self::assertEquals('Passphrase', $data['passphrase']);
         self::assertEquals(false, $data['deleted']);
 
         self::assertCount(2, $data['answers']);
