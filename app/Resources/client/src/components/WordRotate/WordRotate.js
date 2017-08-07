@@ -24,7 +24,7 @@ class WordRotate extends React.Component {
   componentDidMount = () => {
     this.wordUpdater = setInterval(
       this.updateWord,
-      2000
+      5000
     )
   }
 
