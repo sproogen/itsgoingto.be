@@ -113,8 +113,6 @@ abstract class BaseApiControllerTest extends BaseTest
             throw new \Exception($message);
         }
 
-        // Maybe look at using this - https://github.com/michaelmoussa/doctrine-qbmocker
-
         $this->answer = $this->prophesize(Answer::class);
         $this->answer->getId()->willReturn(5);
         $this->answer->getResponses()->willReturn([new UserResponse()]);

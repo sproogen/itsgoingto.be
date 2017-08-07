@@ -295,7 +295,7 @@ class Poll
     /**
      * Set passphrase
      *
-     * @param boolean $passphrase
+     * @param string $passphrase
      *
      * @return Poll
      */
@@ -309,7 +309,7 @@ class Poll
     /**
      * Get passphrase
      *
-     * @return boolean
+     * @return string
      */
     public function getPassphrase()
     {
