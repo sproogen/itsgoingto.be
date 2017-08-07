@@ -13,11 +13,17 @@ import './Passphrase.scss'
 const KEY_ENTER = 13
 
 class Passphrase extends React.Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      error : false
+    }
+  }
+
   componentDidMount = () => {
     this.eventBus = EventBus.getEventBus()
   }
 
-  // TODO : Display error on incorrect passphrase
   submit = () =>
     this.props.setPassphrase(this.refs.passphrase.value)
     .then(
@@ -25,6 +31,10 @@ class Passphrase extends React.Component {
       .then((response) => {
         if (!(response instanceof APIError)) {
           this.props.setRequiresPassphrase(false)
+        } else {
+          this.setState({
+            error : true
+          })
         }
       })
     )
@@ -40,7 +50,7 @@ class Passphrase extends React.Component {
 
   render = () => (
     <div className='passphrase-container'>
-      <div className='input-passphrase'>
+      <div className={'input-passphrase' + (this.state.error ? ' input-error' : '')}>
         <label className='input-label input-label-passphrase' htmlFor='passphrase'>Passphrase</label>
         <input
           className='input-field input-field-passphrase'
@@ -49,6 +59,11 @@ class Passphrase extends React.Component {
           name='passphrase'
           ref='passphrase'
           onKeyDown={this.handleKeyPress} />
+        {this.state.error &&
+          <span className='input-error-label'>
+            Passphrase incorrect
+          </span>
+        }
       </div>
       <Button className='btn pull-right' text='Enter' callback={this.submit} submitEvent='passphrase-submit' />
     </div>
