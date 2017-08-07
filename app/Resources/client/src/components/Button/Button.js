@@ -25,7 +25,9 @@ class Button extends React.Component {
 
   componentWillUnmount = () => {
     this._mounted = false
-    this.eventListener.remove()
+    if (this.eventListener) {
+      this.eventListener.remove()
+    }
   }
 
   isDisabled = () => this.props.disabled || this.state.disabled
