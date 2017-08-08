@@ -7,6 +7,18 @@ import WordRotate from '../../components/WordRotate/WordRotate'
 import Question from './components/Question/Question'
 import './Ask.scss'
 
+const WORDS = 'What,Where,When,Who'
+const PLACEHOLDER_TEXT = [
+  'What film should we watch?',
+  'Who is going to win the league?',
+  'Where should we go for drinks?',
+  'You talking to me?',
+  'What should we do this weekend?',
+  'When should we go to Paris?',
+  'Who ya gonna call?',
+  'When will you start a poll?'
+]
+
 class Ask extends React.Component {
   constructor (props) {
     super(props)
@@ -25,10 +37,10 @@ class Ask extends React.Component {
       </Helmet>
       <div className={'container header-container hideable' + (this.props.hasQuestion ? ' gone' : '')}>
         <div className='header center-text'>
-          <h1><WordRotate words='What,Where,When,Who' /> is it going to be?</h1>
+          <h1><WordRotate words={WORDS} /> is it going to be?</h1>
         </div>
       </div>
-      <Question />
+      <Question placeholderText={PLACEHOLDER_TEXT} />
     </div>
   )
 }

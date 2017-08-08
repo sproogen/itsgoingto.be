@@ -13,11 +13,6 @@ import Answers from './components/Answers/Answers'
 import Passphrase from './components/Passphrase/Passphrase'
 import './Answer.scss'
 
-/**
- * TODO :
- *   Auto link URLs
- */
-
 class Answer extends React.Component {
   componentWillMount = () => {
     if (!this.props.hasPoll) {
