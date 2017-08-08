@@ -1,7 +1,5 @@
 import React from 'react'
-import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { pollSelector } from 'store/poll'
 import './Sharing.scss'
 
 export const Sharing = ({ poll }) => {
@@ -72,8 +70,4 @@ Sharing.propTypes = {
   poll : PropTypes.object.isRequired,
 }
 
-const mapStateToProps = (state, props) => ({
-  poll : pollSelector(state, props.identifier),
-})
-
-export default connect(mapStateToProps)(Sharing)
+export default Sharing

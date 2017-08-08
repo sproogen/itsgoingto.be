@@ -60,7 +60,7 @@ class Answer
             'answer' => $this->getAnswer(),
         ];
         $data['poll'] = [
-            'type' => 'poll',
+            'type' => 'Poll',
             'id'   => $this->getPoll()->getId()
         ];
         $data['responsesCount'] = count($this->getResponses());

@@ -5,17 +5,13 @@ import PropTypes from 'prop-types'
 import { mergeAll } from 'ramda'
 import { browserHistory } from 'react-router'
 import { pollSelector, hasQuestionSelector } from 'store/poll'
-import { fetchPoll } from 'store/api'
-import { setLoading } from 'store/loader'
+import { fetchPoll, APIError } from 'store/api'
+import { setLoading, setRequiresPassphrase, requiresPassphraseSelector } from 'store/loader'
 import Sharing from './components/Sharing/Sharing'
 import Back from 'components/Back/Back'
 import Answers from './components/Answers/Answers'
+import Passphrase from './components/Passphrase/Passphrase'
 import './Answer.scss'
-
-/**
- * TODO :
- *   Auto link URLs
- */
 
 class Answer extends React.Component {
   componentWillMount = () => {
@@ -23,10 +19,16 @@ class Answer extends React.Component {
       this.props.setLoading(true)
     }
     this.props.fetchPoll(this.props.identifier).then((response) => {
-      if (!response) {
-        browserHistory.push('/404')
+      if (response instanceof APIError) {
+        if (response.details.status === 401 && response.details.error.error === 'incorrect-passphrase') {
+          this.props.setRequiresPassphrase(true)
+          this.props.setLoading(false)
+        } else {
+          browserHistory.push('/404')
+        }
+      } else {
+        this.props.setLoading(false)
       }
-      this.props.setLoading(false)
     })
   }
 
@@ -38,34 +40,45 @@ class Answer extends React.Component {
         <meta name='description' content='Join in the vote and answer this poll at itsgoingto.be' />
         <meta name='keywords' content='question vote poll result' />
       </Helmet>
-      <Back />
-      <div className='container header-container answer-header-container'>
-        <div className='header center-text'>
-          <h2>{ this.props.poll.question }</h2>
-          <Sharing poll={this.props.poll} />
+      { this.props.hasPoll &&
+        <div>
+          <Back />
+          <div className='container header-container answer-header-container'>
+            <div className='header center-text'>
+              <h2>{ this.props.poll.question }</h2>
+              <Sharing poll={this.props.poll} />
+            </div>
+          </div>
+          <Answers />
         </div>
-      </div>
-      <Answers />
+      }
+      { this.props.requiresPassphrase &&
+        <Passphrase />
+      }
     </div>
   )
 }
 
 Answer.propTypes = {
-  identifier : PropTypes.string.isRequired,
-  poll       : PropTypes.object.isRequired,
-  hasPoll    : PropTypes.bool.isRequired,
-  fetchPoll  : PropTypes.func.isRequired,
-  setLoading : PropTypes.func.isRequired
+  identifier            : PropTypes.string.isRequired,
+  poll                  : PropTypes.object.isRequired,
+  hasPoll               : PropTypes.bool.isRequired,
+  requiresPassphrase    : PropTypes.bool.isRequired,
+  fetchPoll             : PropTypes.func.isRequired,
+  setLoading            : PropTypes.func.isRequired,
+  setRequiresPassphrase : PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state, props) => ({
-  poll    : pollSelector(state, props.params.identifier),
-  hasPoll : hasQuestionSelector(state, props.params.identifier),
+  poll               : pollSelector(state, props.params.identifier),
+  hasPoll            : hasQuestionSelector(state, props.params.identifier),
+  requiresPassphrase : requiresPassphraseSelector(state),
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchPoll  : (identifier) => dispatch(fetchPoll(identifier)),
-  setLoading : (loading) => dispatch(setLoading(loading))
+  fetchPoll             : (identifier) => dispatch(fetchPoll(identifier)),
+  setLoading            : (value) => dispatch(setLoading(value)),
+  setRequiresPassphrase : (value) => dispatch(setRequiresPassphrase(value))
 })
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => mergeAll([stateProps, dispatchProps, ownProps.params])

@@ -3,7 +3,6 @@
 namespace ItsGoingToBeBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\Common\Collections\ArrayCollection;
 use ItsGoingToBeBundle\Entity\Answer;
 use ItsGoingToBeBundle\Entity\UserResponse;
@@ -56,6 +55,13 @@ class Poll
     protected $multipleChoice;
 
     /**
+     * A passphrase for the poll.
+     *
+     * @var string
+     */
+    protected $passphrase;
+
+    /**
      * Has the poll been deleted
      *
      * @var boolean
@@ -89,10 +95,8 @@ class Poll
      * Lifecycle callback method for the 'prePersist' event.
      *
      * Sets the $created and $updated dates to now.
-     *
-     * @param LifecycleEventArgs $args Args for this Lifecycle event, passed in by Doctrine.
      */
-    public function prePersist(LifecycleEventArgs $args)
+    public function prePersist()
     {
         $this->setCreated();
         $this->setUpdated();
@@ -102,10 +106,8 @@ class Poll
      * Lifecycle callback method for the 'preUpdate' event.
      *
      * Sets the $updated date to now.
-     *
-     * @param LifecycleEventArgs $args Args for this Lifecycle event, passed in by Doctrine.
      */
-    public function preUpdate(LifecycleEventArgs $args)
+    public function preUpdate()
     {
         $this->setUpdated();
     }
@@ -122,6 +124,7 @@ class Poll
             'identifier'     => $this->getIdentifier(),
             'question'       => $this->getQuestion(),
             'multipleChoice' => $this->isMultipleChoice(),
+            'passphrase'     => $this->getPassphrase(),
             'deleted'        => $this->isDeleted(),
             'created'        => $this->getCreated(),
             'updated'        => $this->getUpdated()
@@ -129,7 +132,7 @@ class Poll
         $answers = [];
         foreach ($this->getAnswers() as $answer) {
             $answers[] = [
-                'type' => 'answer',
+                'type' => 'Answer',
                 'id'   => $answer->getId()
             ];
         }
@@ -287,6 +290,40 @@ class Poll
     public function isMultipleChoice()
     {
         return $this->multipleChoice;
+    }
+
+    /**
+     * Set passphrase
+     *
+     * @param string $passphrase
+     *
+     * @return Poll
+     */
+    public function setPassphrase($passphrase)
+    {
+        $this->passphrase = $passphrase;
+
+        return $this;
+    }
+
+    /**
+     * Get passphrase
+     *
+     * @return string
+     */
+    public function getPassphrase()
+    {
+        return $this->passphrase;
+    }
+
+    /**
+     * Has passphrase
+     *
+     * @return boolean
+     */
+    public function hasPassphrase()
+    {
+        return trim($this->getPassphrase()) !== '';
     }
 
     /**

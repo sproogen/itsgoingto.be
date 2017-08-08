@@ -1,9 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { compose, nth, slice, concat, __, when, merge, ifElse, add, equals, subtract, length } from 'ramda'
 import autosize from 'autosize'
-import EventBus from '../../../../components/EventBus'
-import { questionSelector, hasQuestionSelector, updateQuestion } from '../../../../store/poll'
+import EventBus from 'components/EventBus'
+import { questionSelector, hasQuestionSelector, updateQuestion } from 'store/poll'
 import Answers from '../Answers/Answers'
 import Actions from '../Actions/Actions'
 import './Question.scss'
@@ -12,6 +13,15 @@ const KEY_DOWN_ARROW = 40
 const KEY_ENTER = 13
 
 class Question extends React.Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      placeholder : 0,
+      character : 0,
+      cursor : false,
+    }
+  }
+
   handleChange = (event) => {
     this.props.onQuestionChange(event.target.value)
   }
@@ -29,6 +39,55 @@ class Question extends React.Component {
     }
   }
 
+  humanize = () => Math.round(Math.random() * (150 - 30)) + 30
+
+  toggleCursor = () => {
+    this.setState((prevState) =>
+      merge(prevState, { cursor : !prevState.cursor })
+    )
+  }
+
+  type = () => {
+    this.setState((prevState) =>
+      merge(prevState, { character : prevState.character + 1 })
+    )
+    this.characterUpdate = setTimeout(
+      this.type,
+      this.humanize()
+    )
+    if (this.state.character <= this.props.placeholderText[this.state.placeholder].length) {
+      clearInterval(this.cursorUpdater)
+      this.setState(merge(this.state, { cursor : true }))
+      this.cursorUpdater = setInterval(
+        this.toggleCursor,
+        500
+      )
+    }
+  }
+
+  updatePlaceholder = () => {
+    this.setState((prevState, props) =>
+      merge(prevState, {
+        character   : 0,
+        placeholder : ifElse(
+          equals(compose(subtract(__, 1), length)(props.placeholderText)),
+          () => 0,
+          add(1)
+        )(prevState.placeholder)
+      })
+    )
+  }
+
+  placeholderSelector = (state) =>
+    compose(
+      when(
+        () => state.cursor,
+        concat(__, '|')
+      ),
+      slice(0, state.character),
+      nth(state.placeholder)
+    )(this.props.placeholderText)
+
   componentDidMount = () => {
     this.eventBus = EventBus.getEventBus()
     this.eventListener = this.eventBus.addListener('focus', (index) => {
@@ -37,11 +96,26 @@ class Question extends React.Component {
       }
     })
     autosize(this.refs.question)
+    this.cursorUpdater = setInterval(
+      this.toggleCursor,
+      500
+    )
+    this.characterUpdate = setTimeout(
+      this.type,
+      this.humanize()
+    )
+    this.placeholderUpdater = setInterval(
+      this.updatePlaceholder,
+      5000
+    )
   }
 
   componentWillUnmount = () => {
     this.eventListener.remove()
     autosize.destroy(this.refs.question)
+    clearInterval(this.cursorUpdater)
+    clearTimeout(this.characterUpdate)
+    clearInterval(this.placeholderUpdater)
   }
 
   render = () => (
@@ -53,6 +127,7 @@ class Question extends React.Component {
           value={this.props.question}
           onChange={this.handleChange}
           onKeyDown={this.handleKeyPress}
+          placeholder={this.placeholderSelector(this.state)}
           rows='1'
           id='question'
           name='question'
@@ -65,18 +140,19 @@ class Question extends React.Component {
 }
 
 Question.propTypes = {
+  placeholderText  : PropTypes.array.isRequired,
   question         : PropTypes.string.isRequired,
   hasQuestion      : PropTypes.bool.isRequired,
   onQuestionChange : PropTypes.func.isRequired
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  onQuestionChange : (value) => dispatch(updateQuestion(value))
-})
-
 const mapStateToProps = (state) => ({
   question    : questionSelector(state),
   hasQuestion : hasQuestionSelector(state)
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  onQuestionChange : (value) => dispatch(updateQuestion(value))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Question)

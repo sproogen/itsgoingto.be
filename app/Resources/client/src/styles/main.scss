@@ -30,7 +30,7 @@ body {
     background: $base-background-color;
     -webkit-font-smoothing: antialiased;
 
-    margin:0px;
+    margin: 0px;
     position: relative;
     padding-bottom: 60px;
 
@@ -45,7 +45,7 @@ body {
 .hideable {
     /* A horrific hack to allow the labels to change opacity while moving */
     opacity: .999;
-    visibility:visible;
+    visibility: visible;
 
     transition: visibility 0s linear, opacity 0.3s ease;
 

@@ -4,37 +4,16 @@
 
 .question-container {
   transition: top 0.4s ease;
-  top:0px;
+  top: 0px;
   &.move-up {
-    top:-10em;
+    top: -10em;
   }
 
   .input-question {
-    margin-bottom:1.875em;
+    margin-bottom: 1.875em;
 
     .input-field-question {
       font-size: 2em;
-    }
-  }
-
-  .input-answer {
-    .input-field-answer {
-      font-size: 1.5em;
-      display: inline-block;
-      width: -webkit-calc(100% - 2.3em);
-      width: -moz-calc(100% - 2.3em);
-      width: calc(100% - 2.3em);
-      position: absolute;
-      left:2.3em;
-      padding-right: 2em;
-    }
-
-    .input-label-answer {
-      font-size: 1.3em;
-      display: inline-block;
-      width:50px;
-      line-height: 2.5em;
-      margin-bottom: 0;
     }
   }
 }

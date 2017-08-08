@@ -15,49 +15,52 @@ $heading-line-height: 1.2;
 $base-border-radius: 3px;
 $base-spacing: $base-line-height * 1em;
 $small-spacing: $base-spacing / 2;
+
 $base-z-index: 0;
 
-$gutter-width:         30px !default;
+$gutter-width: 30px !default;
 
 // Media Breakpoints
 // Small screen / tablet
-$screen-sm-min:              768px !default;
+$screen-sm-min: 768px !default;
 // Medium screen / desktop
-$screen-md-min:              992px !default;
+$screen-md-min: 992px !default;
 // Large screen / wide desktop
-$screen-lg-min:              1200px !default;
+$screen-lg-min: 1200px !default;
 
-$screen-xs-max:              ($screen-sm-min - 1) !default;
-$screen-sm-max:              ($screen-md-min - 1) !default;
-$screen-md-max:              ($screen-lg-min - 1) !default;
+$screen-xs-max: ($screen-sm-min - 1) !default;
+$screen-sm-max: ($screen-md-min - 1) !default;
+$screen-md-max: ($screen-lg-min - 1) !default;
 
 // Container Sizes
 // Small screen / tablet
-$container-sm:                 (720px + $gutter-width) !default;
+$container-sm: (720px + $gutter-width) !default;
 // Medium screen / desktop
-$container-md:                 (940px + $gutter-width) !default;
+$container-md: (940px + $gutter-width) !default;
 // Large screen / wide desktop
-$container-lg:                 (1140px + $gutter-width) !default;
+$container-lg: (1140px + $gutter-width) !default;
 
 // Colors
-$blue: #477dca;
-$dark-grey: #BBBBBB;
-$medium-grey: #999;
-$light-grey: #DEDEDE;
+$blue:          #477dca;
+$dark-grey:     #BBBBBB;
+$medium-grey:   #999;
+$light-grey:    #DEDEDE;
 $disabled-grey: #EAEAEA;
-$white: #FFF;
-$red:#C10202;
+$white:         #FFF;
+$red:           #C10202;
 
 // Font Colors
 $base-font-color: #4C4C4C;
-$action-color: $blue;
+$action-color:    $blue;
+$label-text-color: #9E9E9E;
+$disabled-label-text-color: #DEDEDE;
 
 // Border
 $base-border-color: $light-grey;
-$base-border: 1px solid $base-border-color;
+$base-border:       1px solid $base-border-color;
 
 // Background Colors
-$base-background-color: #f5fafa;
+$base-background-color:      #f5fafa;
 $secondary-background-color: tint($base-border-color, 75%);
 
 // Forms
@@ -67,7 +70,3 @@ $form-box-shadow-focus: $form-box-shadow, 0 0 5px adjust-color($action-color, $l
 // Animations
 $base-duration: 150ms;
 $base-timing: ease;
-
-
-$label-text-color: #9E9E9E;
-$disabled-label-text-color: #DEDEDE;

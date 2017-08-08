@@ -1,4 +1,4 @@
-import { prop, compose, not, equals, length, omit, when, find, propEq, contains,
+import { prop, compose, not, equals, length, omit, when, find, propEq, contains, both,
          adjust, set, lensProp, findIndex, ifElse, path, isNil, isEmpty, merge, __ } from 'ramda'
 import { addAnswer, clearAnswers, updateAnswers } from './answers'
 
@@ -8,9 +8,12 @@ import { addAnswer, clearAnswers, updateAnswers } from './answers'
 export const POLL_UPDATE     = 'POLL_UPDATE'
 export const QUESTION_UPDATE = 'QUESTION_UPDATE'
 export const initialPoll     = {
-  question   : '',
-  identifier : '',
-  answers    : []
+  question       : '',
+  identifier     : '',
+  multipleChoice : false,
+  passphrase     : '',
+  answers        : [],
+  userResponses  : []
 }
 
 // ------------------------------------
@@ -19,10 +22,10 @@ export const initialPoll     = {
 /**
  * Get the poll with the given identifier
  *
- * @param  {State}  state      App state
+ * @param  {object} state      App state
  * @param  {string} identifier Poll identifier
  *
- * @return {Poll}            The question text for the poll
+ * @return {Poll}              The question text for the poll
  */
 export const pollSelector = (state, identifier = '') =>
   when(
@@ -33,7 +36,7 @@ export const pollSelector = (state, identifier = '') =>
 /**
  * Get the question text from a poll with the given identifier
  *
- * @param  {State}  state      App state
+ * @param  {object} state      App state
  * @param  {string} identifier Poll identifier
  *
  * @return {string}            The question text for the poll
@@ -44,18 +47,24 @@ export const questionSelector = (state, identifier = '') =>
 /**
  * Returns true if the poll for the identifier has any question text
  *
- * @param  {State}  state      App state
+ * @param  {object} state      App state
  * @param  {string} identifier Poll identifier
  *
  * @return {bool}
  */
 export const hasQuestionSelector = (state, identifier = '') =>
-  compose(not, equals(0), length, questionSelector)(state, identifier)
+  compose(
+    both(
+      compose(not, equals(0), length),
+      compose(not, isNil)
+    ),
+    questionSelector
+  )(state, identifier)
 
 /**
  * Returns the total number of responses from the poll with the given identifier
  *
- * @param  {State}  state      App state
+ * @param  {object} state      App state
  * @param  {string} identifier Poll identifier
  *
  * @return {number}
@@ -70,7 +79,7 @@ export const totalResponsesSelector = (state, identifier = '') =>
 /**
  * Returns true if the user has responded to the poll
  *
- * @param  {State}  state      App state
+ * @param  {object} state      App state
  * @param  {string} identifier Poll identifier
  *
  * @return {bool}
@@ -81,7 +90,7 @@ export const userRespondedSelector = (state, identifier = '') =>
 /**
  * Returns true if the user has responded to given answer
  *
- * @param  {State}   state      App state
+ * @param  {object}  state      App state
  * @param  {string}  identifier Poll identifier
  * @param  {integer} answerId   Answer id
  *
@@ -96,26 +105,36 @@ export const userRespondedAnswerSelector = (state, identifier = '', answerId) =>
 /**
  * Update the poll in the state then dispatch to update the answers
  *
- * @param  {Poll} poll The poll to add/update the state with
+ * @param  {Poll}     poll The poll to add/update the state with
  *
- * @return {Function} redux-thunk callable function
+ * @return {Function}      redux-thunk callable function
  */
-export const updatePoll = (poll) => (dispatch, getState) => Promise.all([
-  dispatch({
-    type : POLL_UPDATE,
-    poll : omit(['answers'])(poll)
-  }),
-  dispatch(updateAnswers(prop('answers')(poll)))
-]).then(() => poll)
+export const updatePoll = (poll) => (dispatch, getState) =>
+  ifElse(
+    compose(isNil, (prop('answers'))),
+    (poll) => Promise.resolve(
+            dispatch({
+              type : POLL_UPDATE,
+              poll : omit(['answers'])(poll)
+            })
+          ).then(() => poll),
+    (poll) => Promise.all([
+      dispatch({
+        type : POLL_UPDATE,
+        poll : omit(['answers'])(poll)
+      }),
+      dispatch(updateAnswers(prop('answers')(poll)))
+    ]).then(() => poll)
+  )(poll)
 
 /**
  * Update the question text in the state for a given poll
  * Dispatch to insert or clear the answers appropriately
  *
- * @param  {string} text       The question text
- * @param  {string} identifier The poll identifier to update
+ * @param  {string}   text       The question text
+ * @param  {string}   identifier The poll identifier to update
  *
- * @return {Function} redux-thunk callable function
+ * @return {Function}             redux-thunk callable function
  */
 export const updateQuestion = (text = '', identifier = '') => (dispatch, getState) => {
   let hadQuestion = hasQuestionSelector(getState(), identifier)
@@ -138,10 +157,10 @@ export const updateQuestion = (text = '', identifier = '') => (dispatch, getStat
 /**
  * Update the responses for the poll
  *
- * @param  {Object} responses The responses object
- * @param  {string} identifier The poll identifier to update
+ * @param  {object}   responses  The responses object
+ * @param  {string}   identifier The poll identifier to update
  *
- * @return {Function} redux-thunk callable function
+ * @return {Function}            redux-thunk callable function
  */
 export const updateResponses = (responses, identifier) => (dispatch, getState) => Promise.all([
   dispatch({
@@ -203,10 +222,10 @@ const initialState = []
 /**
  * The reducer for this store component
  *
- * @param  {State} state   The current state
+ * @param  {object} state  The current state
  * @param  {object} action The action to perform on the state
  *
- * @return {State}         The modified state
+ * @return {object}        The modified state
  */
 export default function pollReducer (state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]

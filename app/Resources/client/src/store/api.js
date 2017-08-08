@@ -1,4 +1,6 @@
-import { questionSelector, updatePoll, updateResponses } from './poll'
+import { prop, compose, not, isEmpty, contains, without, append, ifElse, both, equals, length, when, path, omit,
+         merge } from 'ramda'
+import { pollSelector, updatePoll, updateResponses } from './poll'
 import { answersSelector } from './answers'
 
 // ------------------------------------
@@ -10,7 +12,7 @@ export const ROUTE_RESPONSES = '/responses'
 // ------------------------------------
 // Helpers
 // ------------------------------------
-function APIError (details) {
+export function APIError (details) {
   this.name = 'APIError'
   this.details = details
 }
@@ -38,8 +40,15 @@ export const extractResponse = (response) => {
 // Parse an error and displays a suitible message to the user.
 export const onError = (error) => {
   // TODO : Display an error message to the user
+  if (!(error instanceof APIError)) {
+    error = new APIError({
+      status     : error.status,
+      statusText : error.statusText,
+      error
+    })
+  }
   console.error('There was an error', error)
-  return false
+  return error
 }
 
 // ------------------------------------
@@ -51,17 +60,22 @@ export const onError = (error) => {
  * @return {Function} redux-thunk callable function
  */
 export const postPoll = () => (dispatch, getState) =>
-  fetch(ROUTE_POLL, {
-    credentials : 'same-origin',
-    method      : 'POST',
-    body        : JSON.stringify({
-      question : questionSelector(getState()),
-      answers  : answersSelector(getState())
+  compose(
+    (poll) => fetch(ROUTE_POLL, {
+      credentials : 'same-origin',
+      method      : 'POST',
+      body        : JSON.stringify({
+        question        : poll.question,
+        answers         : answersSelector(getState()),
+        multipleChoice  : poll.multipleChoice,
+        passphrase      : poll.passphrase
+      })
     })
-  })
-  .then(extractResponse)
-  .then((response) => dispatch(updatePoll(response)))
-  .catch(onError)
+    .then(extractResponse)
+    .then((response) => dispatch(updatePoll(response)))
+    .catch(onError),
+    pollSelector
+  )(getState())
 
 /**
  * Fetches a poll with the identifier from the api
@@ -71,15 +85,23 @@ export const postPoll = () => (dispatch, getState) =>
  * @return {Function} redux-thunk callable function
  */
 export const fetchPoll = (identifier) => (dispatch, getState) =>
-  fetch(ROUTE_POLL + '/' + identifier, {
-    credentials : 'same-origin'
-  })
-  .then(extractResponse)
-  .then((response) => dispatch(updatePoll(response)))
-  .catch(onError)
+  compose(
+    (url) => fetch(url, {
+      credentials : 'same-origin'
+    })
+    .then(extractResponse)
+    .then((response) => dispatch(updatePoll(response)))
+    .catch(onError),
+    ifElse(
+      compose(not, equals(0), length, prop('passphrase')),
+      (poll) => ROUTE_POLL + '/' + identifier + '?passphrase=' + prop('passphrase')(poll),
+      () => ROUTE_POLL + '/' + identifier
+    ),
+    pollSelector
+  )(getState(), identifier)
 
 /**
- * Fetches a poll with the identifier from the api
+ * Posts the response for a poll with the identifier to the api
  *
  * @param  {integer} answer     The id of the answer to submit
  * @param  {string}  identifier The identifier for the poll
@@ -87,16 +109,39 @@ export const fetchPoll = (identifier) => (dispatch, getState) =>
  * @return {Function} redux-thunk callable function
  */
 export const postResponse = (answer, identifier) => (dispatch, getState) =>
-  fetch(ROUTE_POLL + '/' + identifier + ROUTE_RESPONSES, {
-    credentials : 'same-origin',
-    method      : 'POST',
-    body        : JSON.stringify({
-      answers : [answer]
-    })
-  })
-  .then(extractResponse)
-  .then((response) => dispatch(updateResponses(response, identifier)))
-  .catch(onError)
+  compose(
+    (requestData) => fetch(ROUTE_POLL + '/' + identifier + ROUTE_RESPONSES,
+      {
+        credentials : 'same-origin',
+        method      : 'POST',
+        body        : JSON.stringify(requestData)
+      }
+    )
+    .then(extractResponse)
+    .then((response) => dispatch(updateResponses(response, identifier)))
+    .catch(onError),
+    omit(['poll']),
+    when(
+      compose(not, equals(0), length, path(['poll', 'passphrase'])),
+      (data) => merge(data, { passphrase : path(['poll', 'passphrase'])(data) })
+    ),
+    (poll) => ({
+      poll,
+      answers : ifElse(
+        both(prop('multipleChoice'), compose(not, isEmpty, prop('userResponses'))),
+        compose(
+          ifElse(
+            contains(answer),
+            without([answer]),
+            append(answer)
+          ),
+          prop('userResponses')
+        ),
+        () => [answer]
+      )(poll)
+    }),
+    pollSelector
+  )(getState(), identifier)
 
 /**
  * Fetches the responses for a poll
@@ -106,9 +151,17 @@ export const postResponse = (answer, identifier) => (dispatch, getState) =>
  * @return {Function} redux-thunk callable function
  */
 export const fetchResponses = (identifier) => (dispatch, getState) =>
-  fetch(ROUTE_POLL + '/' + identifier + ROUTE_RESPONSES, {
-    credentials : 'same-origin'
-  })
-  .then(extractResponse)
-  .then((response) => dispatch(updateResponses(response, identifier)))
-  .catch(onError)
+  compose(
+    (url) => fetch(url, {
+      credentials : 'same-origin'
+    })
+    .then(extractResponse)
+    .then((response) => dispatch(updateResponses(response, identifier)))
+    .catch(onError),
+    ifElse(
+      compose(not, equals(0), length, prop('passphrase')),
+      (poll) => ROUTE_POLL + '/' + identifier + ROUTE_RESPONSES + '?passphrase=' + prop('passphrase')(poll),
+      () => ROUTE_POLL + '/' + identifier + ROUTE_RESPONSES
+    ),
+    pollSelector
+  )(getState(), identifier)

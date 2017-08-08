@@ -13,42 +13,43 @@ input,textarea {
 
 	&.input-field {
 		position: relative;
-	    display: block;
-	    padding: 0.5em;
-	    width: 60%;
-	    border: none;
-	    border-radius: 0;
-	    color: $base-font-color;
-	    font-weight: 400;
-	    font-family: "Avenir Next", "Helvetica Neue", Helvetica, Arial, sans-serif;
-	    -webkit-appearance: none;
+	  display: block;
+	  padding: 0.5em;
+	  border: none;
+	  border-radius: 0;
+	  color: $base-font-color;
+	  font-weight: 400;
+	  font-family: "Avenir Next", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	  -webkit-appearance: none;
+    transition: background $base-duration $base-timing;
 
-	    width: 100%;
-	    background: $light-grey;
-	    margin-bottom:0px;
+	  width: 100%;
+	  background: $light-grey;
+	  margin-bottom: 0px;
 	}
 }
 textarea {
 	resize: none;
 	overflow-x: hidden;
 	box-sizing: border-box;
-    min-height: 2.125em;
+  min-height: 2.125em;
 }
 .input {
 	display: block;
-    position: relative;
+  position: relative;
 }
 .input-label {
-    padding: 0 1em;
-    color: $label-text-color;
-    font-weight: bold;
+  padding: 0 1em;
+  color: $label-text-color;
+  font-weight: bold;
+  transition: color $base-duration $base-timing;
 }
 
 .input-disabled {
-	input,textarea {
+	input, textarea {
 		&.input-field {
 			background: $disabled-grey;
-			cursor:default;
+			cursor: default;
 		}
 	}
 	.input-label {
@@ -57,45 +58,44 @@ textarea {
 }
 
 /* Radio and Checkbox Styles */
-
 .input-radio, .input-checkbox {
 	opacity: 0;
-    position: absolute;
+  position: absolute;
 }
 
 .input-radio, .input-checkbox, .input-label-options {
-    display: inline-block;
-    vertical-align: middle;
-    margin: 0.2em;
-    cursor: pointer;
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0.2em;
+  cursor: pointer;
 }
 
 .input-label-options {
-    position: relative;
-    font-weight: 300;
-    font-size: 1.6em;
-    line-height: 1.875em;
-    margin-bottom: 0px;
+  position: relative;
+  font-weight: 300;
+  font-size: 1.6em;
+  line-height: 1.875em;
+  margin-bottom: 0px;
 }
 
 .input-radio + .input-label-options:before, .input-checkbox + .input-label-options:before {
-    content: '';
-    background: #fff;
-    border: 0.125em solid $label-text-color;
-    display: inline-block;
-    vertical-align: middle;
-    width: 1.5625em;
-    height: 1.5625em;
-    padding: 0.125em;
-    margin-right: 0.625em;
-    font-size: 1rem;
-    @media (max-width: 68em) {
-        font-size: 0.9rem;
-    }
-    line-height: 1.1em;
-    text-align: center;
-    margin-top: -0.25em;
-    text-indent: -1px;
+  content: '';
+  background: #fff;
+  border: 0.125em solid $label-text-color;
+  display: inline-block;
+  vertical-align: middle;
+  width: 1.5625em;
+  height: 1.5625em;
+  padding: 0.125em;
+  margin-right: 0.625em;
+  margin-top: -0.25em;
+  font-size: 1rem;
+  @media (max-width: 68em) {
+    font-size: 0.9rem;
+  }
+  line-height: 1.1em;
+  text-align: center;
+  text-indent: -1px;
 }
 
 .input-radio:checked + .input-label-options, .input-checkbox:checked + .input-label-options {
@@ -107,35 +107,50 @@ textarea {
 }
 
 .input-checkbox:checked + .input-label-options:before {
-    content: "\f00c";
-    font-family: 'FontAwesome';
-    color: $base-font-color;
-    text-indent: 0px;
+  content: "\f00c";
+  font-family: 'FontAwesome';
+  color: $base-font-color;
+  text-indent: 0px;
 }
 
 .input-radio + .input-label-options:before {
-    border-radius: 50%;
+  border-radius: 50%;
 }
 
 .input-radio:checked + .input-label-options:before {
-    content: "\f00c";
-    font-family: 'FontAwesome';
-    color: $base-font-color;
+  content: "\f00c";
+  font-family: 'FontAwesome';
+  color: $base-font-color;
 }
 
 .input-field-datepicker-trigger {
-    right:0.3125em;
-    display: inline-block;
-    position: absolute;
-    cursor:pointer;
+  right: 0.3125em;
+  display: inline-block;
+  position: absolute;
+  cursor: pointer;
 
-    font-size: 2em;
-    line-height: 1.625em;
+  font-size: 2em;
+  line-height: 1.625em;
 
-    color:#999;
+  color: #999;
 
-    .input-disabled & {
-        cursor: default;
-        color:#d4d4d4;
+  .input-disabled & {
+    cursor: default;
+    color: #d4d4d4;
     }
+}
+
+.input-error-label {
+  color: #f52525;
+  font-weight: 300;
+  font-size: 1.1em;
+  padding: 0 1em;
+  margin-top: 0.3em;
+  display: block;
+}
+
+.input-error {
+  .input-field {
+    background: #ffeaed;
+  }
 }

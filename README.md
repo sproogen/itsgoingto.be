@@ -1,4 +1,4 @@
-# itsgoingto.be [![Build Status](https://travis-ci.org/sproogen/itsgoingto.be.svg)](https://travis-ci.org/sproogen/itsgoingto.be) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/95ef266848d44348a421142d2ed6f8cb)](https://www.codacy.com/app/sproogen/itsgoingto.be?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=sproogen/itsgoingto.be&amp;utm_campaign=Badge_Grade)
+# itsgoingto.be [![Build Status](https://travis-ci.org/sproogen/itsgoingto.be.svg)](https://travis-ci.org/sproogen/itsgoingto.be) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/95ef266848d44348a421142d2ed6f8cb)](https://www.codacy.com/app/sproogen/itsgoingto.be?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=sproogen/itsgoingto.be&amp;utm_campaign=Badge_Grade) [![Codacy Badge](https://api.codacy.com/project/badge/Coverage/95ef266848d44348a421142d2ed6f8cb)](https://www.codacy.com/app/sproogen/itsgoingto.be?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=sproogen/itsgoingto.be&amp;utm_campaign=Badge_Coverage)
 
 Symfony and React magic behind itsgoingto.be
 
@@ -10,22 +10,22 @@ There are a number of number of NPM scripts that can be run from the project roo
 
 API
 -------------
-Retrieve Questions: [```GET /api/questions```](#retrieve-questions)
+Retrieve Polls: [```GET /api/polls```](#retrieve-polls)
 
-Retrieve a Question: [```GET /api/questions/:identifier```](#retrieve-a-question)
+Retrieve a Poll: [```GET /api/polls/:identifier```](#retrieve-a-poll)
 
-Create a Question: [```POST /api/questions```](#create-a-question)
+Create a Poll: [```POST /api/polls```](#create-a-poll)
 
-Delete a Question: [```DELETE /api/questions/:identifier```](#delete-a-question)
+Delete a Poll: [```DELETE /api/polls/:identifier```](#delete-a-poll)
 
-Retrieve responses info: [```GET /api/questions/:identifier/responses```](#retrieve-responses-info)
+Retrieve responses info: [```GET /api/polls/:identifier/responses```](#retrieve-responses-info)
 
-Submit/Change  users response: [```POST /api/questions/:identifier/responses```](#submitchange-a-user-response)
+Submit/Change  users response: [```POST /api/polls/:identifier/responses```](#submitchange-a-user-response)
 
-#### Retrieve Questions
-Only returns non deleted questions unless the user has `ROLE_ADMIN`
+#### Retrieve Polls
+Only returns non deleted polls unless the user has `ROLE_ADMIN`
 ```
-GET /api/questions
+GET /api/polls
 ```
 ###### Parameters
 | Name | Type | Description |
@@ -71,10 +71,10 @@ GET /api/questions
 }
 ```
 
-#### Retrieve a Question
-Only returns a non deleted question unless the user has `ROLE_ADMIN`
+#### Retrieve a Poll
+Only returns a non deleted poll unless the user has `ROLE_ADMIN`
 ```
-GET /api/questions/:identifier
+GET /api/polls/:identifier
 ```
 ###### Response
 ```
@@ -98,8 +98,8 @@ GET /api/questions/:identifier
     {
       "id": 1,
       "answer": "Answer Text",
-      "question": {
-        "type": "Question",
+      "poll": {
+        "type": "Poll",
         "id": 1
       },
       "responsesCount": 2
@@ -107,8 +107,8 @@ GET /api/questions/:identifier
     {
       "id": 2,
       "answer": "Answer Text",
-      "question": {
-        "type": "Question",
+      "poll": {
+        "type": "Poll",
         "id": 1
       },
       "responsesCount": 3
@@ -121,16 +121,16 @@ GET /api/questions/:identifier
 }
 ```
 
-#### Create a Question
+#### Create a Poll
 ```
-POST /api/questions
+POST /api/polls
 ```
 ###### Input
 | Name | Type | Required | Description |
 | ---- | ---- | -------- | ----------- |
 | question | string | true | The question text.
-| answers | array | true | Array of answers for the question. Each answer should be a string |
-| multipleChoice | boolean | false | Is the question multiple choice. Default: false |
+| answers | array | true | Array of answers for the poll. Each answer should be a string |
+| multipleChoice | boolean | false | Is the poll multiple choice. Default: false |
 ###### Response
 ```
 {
@@ -153,8 +153,8 @@ POST /api/questions
     {
       "id": 1,
       "answer": "Answer Text",
-      "question": {
-        "type": "Question",
+      "poll": {
+        "type": "Poll",
         "id": 1
       },
       "responsesCount": 0
@@ -162,8 +162,8 @@ POST /api/questions
     {
       "id": 2,
       "answer": "Answer Text",
-      "question": {
-        "type": "Question",
+      "poll": {
+        "type": "Poll",
         "id": 1
       },
       "responsesCount": 0
@@ -174,10 +174,10 @@ POST /api/questions
 }
 ```
 
-#### Delete a Question
+#### Delete a Poll
 Sets the deleted flag to true. Can only be accessed by `ROLE_ADMIN`
 ```
-DELETE /api/questions/:identifier
+DELETE /api/polls/:identifier
 ```
 ###### Response
 ```
@@ -212,9 +212,9 @@ DELETE /api/questions/:identifier
 ```
 
 #### Retrieve responses info
-Only returns non deleted question's responses unless the user has `ROLE_ADMIN`
+Only returns non deleted poll's responses unless the user has `ROLE_ADMIN`
 ```
-GET /api/questions/:identifier/responses
+GET /api/polls/:identifier/responses
 ```
 ###### Response
 ```
@@ -238,12 +238,12 @@ GET /api/questions/:identifier/responses
 
 #### Submit/Change a user response
 ```
-POST /api/questions/:identifier/responses
+POST /api/polls/:identifier/responses
 ```
 ###### Input
 | Name | Type | Required | Description |
 | ---- | ---- | -------- | ----------- |
-| answers | array | true | Array of answer ids the user has selected. If the question is not multiple choice only the first will be used. |
+| answers | array | true | Array of answer ids the user has selected. If the poll is not multiple choice only the first will be used. |
 ###### Response
 ```
 {

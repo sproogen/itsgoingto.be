@@ -12,13 +12,13 @@
     a {
       line-height: 50px;
       margin-left: 10px;
-      color: #BBBBBB;
+      color: $dark-grey;
       cursor: pointer;
       font-size: 1rem;
       transition: color 0.4s ease;
 
       &:hover {
-        color: #4C4C4C;
+        color: $base-font-color;
       }
     }
   }

@@ -3,11 +3,15 @@ language: php
 php:
   - 5.6
 
+services:
+  - mysql
+
 env:
   - NODE_VERSION="7"
 
 cache:
   directories:
+    - $HOME/.composer/cache/file
     - vendor
     - node_modules
 
@@ -21,7 +25,6 @@ before_install:
   - cp app/config/parameters.yml.travis app/config/parameters_dev.yml
 
 install:
-  - phpenv config-rm xdebug.ini
   - rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm install $NODE_VERSION
   - composer install
   - npm install
@@ -34,8 +37,13 @@ script:
   - bin/phpcs --standard=PSR2 src/
   - bin/phplint src
   - bin/phpunit
+  - SYMFONY_DEPRECATIONS_HELPER=disabled bin/codecept run
   - npm run lint
   - npm run test
+
+after_script:
+  - bin/codacycoverage clover build/logs/clover.xml
+  - cat build/coverage/lcov.info | node_modules/.bin/codacy-coverage .
 
 notifications:
   email:
