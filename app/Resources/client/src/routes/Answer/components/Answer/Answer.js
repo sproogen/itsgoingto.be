@@ -1,7 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { merge } from 'ramda'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
+import Linkify from 'react-linkify'
 import { postResponse } from 'store/api'
 import { userRespondedAnswerSelector } from 'store/poll'
 import './Answer.scss'
@@ -9,13 +11,28 @@ import './Answer.scss'
 export class Answer extends React.Component {
   constructor (props) {
     super(props)
-    this.state = { animating: false }
+    this.state = { animating: false, linkClicked: false }
+    this.linkClicked = false
   }
 
   handleClick = () => {
-    this.setState({ animating: true })
-    setTimeout(() => { this.setState({ animating: false }) }, 550)
-    this.props.postResponse()
+    if (!this.linkClicked) {
+      this.setState((prevState) =>
+        merge(prevState, { animating : true })
+      )
+      setTimeout(() => {
+        this.setState((prevState) =>
+          merge(prevState, { animating : false })
+        )
+      }, 550)
+      this.props.postResponse()
+    } else {
+      this.linkClicked = false
+    }
+  }
+
+  linkClick = () => {
+    this.linkClicked = true
   }
 
   calculateWidth = () => {
@@ -41,7 +58,7 @@ export class Answer extends React.Component {
         htmlFor={'answer-' + this.props.index}
         className={'input-label input-label-options' + (this.state.animating ? ' input-label-options--click' : '')}
         onClick={this.handleClick}>
-        { this.props.answer.answer }
+        <Linkify properties={{ target: '_blank', onClick: this.linkClick }}>{ this.props.answer.answer }</Linkify>
       </label>
       <span htmlFor={'answer-' + this.props.index} className='input-label-votes'>
         {this.props.answer.responsesCount} votes
