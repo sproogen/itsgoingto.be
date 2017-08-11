@@ -11,7 +11,7 @@ import './Answer.scss'
 export class Answer extends React.Component {
   constructor (props) {
     super(props)
-    this.state = { animating: false, linkClicked: false }
+    this.state = { animating : false }
     this.linkClicked = false
   }
 
