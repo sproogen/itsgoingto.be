@@ -41,14 +41,16 @@ class Button extends React.Component {
         disabled : true,
         loading  : true
       })
-      this.props.callback().then((reset) => {
-        if (reset !== false && this._mounted) {
-          this.setState({
-            disabled : false,
-            loading  : false
-          })
-        }
-      })
+      if (this.props.callback) {
+        this.props.callback().then((reset) => {
+          if (reset !== false && this._mounted) {
+            this.setState({
+              disabled : false,
+              loading  : false
+            })
+          }
+        })
+      }
     }
   }
 
@@ -64,15 +66,17 @@ class Button extends React.Component {
 }
 
 Button.propTypes = {
-  text        : PropTypes.string.isRequired,
+  text        : PropTypes.string,
   className   : PropTypes.string,
   disabled    : PropTypes.bool,
-  callback    : PropTypes.func.isRequired,
+  callback    : PropTypes.func,
   submitEvent : PropTypes.string
 }
 
 Button.defaultProps = {
-  disabled : false,
+  text      : '',
+  className : '',
+  disabled  : false,
 }
 
 export default Button
