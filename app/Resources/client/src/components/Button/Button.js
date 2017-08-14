@@ -36,21 +36,19 @@ class Button extends React.Component {
     if (event) {
       event.preventDefault()
     }
-    if (!this.isDisabled()) {
+    if (!this.isDisabled() && this.props.callback) {
       this.setState({
         disabled : true,
         loading  : true
       })
-      if (this.props.callback) {
-        this.props.callback().then((reset) => {
-          if (reset !== false && this._mounted) {
-            this.setState({
-              disabled : false,
-              loading  : false
-            })
-          }
-        })
-      }
+      this.props.callback().then((reset) => {
+        if (reset !== false && this._mounted) {
+          this.setState({
+            disabled : false,
+            loading  : false
+          })
+        }
+      })
     }
   }
 
