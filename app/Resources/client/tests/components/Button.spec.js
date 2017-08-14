@@ -27,7 +27,9 @@ describe('(Component) Button', () => {
     })
 
     it('Should have props', () => {
-      const wrapper = mount(<Button text='Click Me!' className='button' disabled={true} callback={()=>{}} submitEvent='onSubmit' />)
+      const wrapper = mount(
+        <Button text='Click Me!' className='button' disabled callback={() => {}} submitEvent='onSubmit' />
+      )
       expect(wrapper.props().text).to.equal('Click Me!')
       expect(wrapper.props().className).to.equal('button')
       expect(wrapper.props().disabled).to.equal(true)
@@ -43,7 +45,7 @@ describe('(Component) Button', () => {
     })
 
     it('Should return true for prop', () => {
-      const wrapper = shallow(<Button disabled={true} />).instance()
+      const wrapper = shallow(<Button disabled />).instance()
       expect(wrapper.isDisabled()).to.equal(true)
     })
 
@@ -56,7 +58,7 @@ describe('(Component) Button', () => {
 
   describe('(Method) handlePress', () => {
     it('Should update the state', () => {
-      const wrapper = shallow(<Button callback={ () => {return Promise.resolve()}} />)
+      const wrapper = shallow(<Button callback={() => Promise.resolve()} />)
       const instance = wrapper.instance()
       instance.handlePress()
       expect(wrapper.state()).to.deep.equal({ disabled : true, loading : true })
@@ -71,7 +73,7 @@ describe('(Component) Button', () => {
     })
 
     it('Shouldn\'t update the state when disabled', () => {
-      const wrapper = shallow(<Button disabled={true} callback={ () => {return Promise.resolve()}} />)
+      const wrapper = shallow(<Button disabled callback={() => Promise.resolve()} />)
       const instance = wrapper.instance()
       instance.handlePress()
       expect(wrapper.state()).to.deep.equal({ disabled : false, loading : false })
@@ -103,13 +105,13 @@ describe('(Component) Button', () => {
     })
 
     it('Should be disabled', () => {
-      const wrapper = shallow(<Button text='Click Me!' disabled={true} />)
+      const wrapper = shallow(<Button text='Click Me!' disabled />)
       expect(wrapper.props().disabled).to.equal(true)
       expect(wrapper.props().className).to.equal('btn  disabled')
     })
 
     it('Should have className', () => {
-      const wrapper = shallow(<Button className='button button--class' disabled={true} />)
+      const wrapper = shallow(<Button className='button button--class' disabled />)
       expect(wrapper.props().className).to.equal('btn button button--class disabled')
     })
 
