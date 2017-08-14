@@ -1,8 +1,9 @@
 import React from 'react'
-import { Helmet } from 'react-helmet'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { mergeAll } from 'ramda'
+import Helmet from 'react-helmet'
+import Linkify from 'react-linkify'
 import { browserHistory } from 'react-router'
 import { pollSelector, hasQuestionSelector } from 'store/poll'
 import { fetchPoll, APIError } from 'store/api'
@@ -45,7 +46,7 @@ class Answer extends React.Component {
           <Back />
           <div className='container header-container answer-header-container'>
             <div className='header center-text'>
-              <h2>{ this.props.poll.question }</h2>
+              <h2><Linkify properties={{ target: '_blank' }}>{ this.props.poll.question }</Linkify></h2>
               <Sharing poll={this.props.poll} />
             </div>
           </div>
