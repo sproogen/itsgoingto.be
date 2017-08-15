@@ -19,6 +19,7 @@ use ItsGoingToBeBundle\Entity\Poll;
 use ItsGoingToBeBundle\Entity\Answer;
 use ItsGoingToBeBundle\Entity\UserResponse;
 use ItsGoingToBeBundle\Service\IdentifierService;
+use ItsGoingToBeBundle\Service\PollEndService;
 
 abstract class BaseApiControllerTest extends BaseTest
 {
@@ -87,6 +88,11 @@ abstract class BaseApiControllerTest extends BaseTest
      * @var ObjectProphecy
      */
     protected $identifierService;
+
+    /**
+     * @var ObjectProphecy
+     */
+    protected $pollEndService;
 
     /**
      * Test setup.
@@ -189,9 +195,15 @@ abstract class BaseApiControllerTest extends BaseTest
         $this->identifierService->getCustomUserID(Argument::any())->willReturn('9873fdanba8qge9dfsaq39');
         $this->identifierService->getSessionID(Argument::any())->willReturn('12354321897467');
 
+        $this->pollEndService = $this->prophesize(PollEndService::class);
+        $this->pollEndService->updateIfEnded(Argument::any())->will(function ($args) {
+            return $args[0];
+        });
+
         $this->controller->setEntityManager($this->entityManager->reveal());
         $this->controller->setAuthorizationChecker($this->authorizationChecker->reveal());
         $this->controller->setIdentifierService($this->identifierService->reveal());
+        $this->controller->setPollEndService($this->pollEndService->reveal());
     }
 
     /**

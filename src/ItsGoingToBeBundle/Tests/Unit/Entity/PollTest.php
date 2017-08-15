@@ -65,6 +65,29 @@ class PollTest extends BaseEntityTest
         self::assertEquals(true, $extractedData['deleted']);
     }
 
+    public function testShouldHaveEnded()
+    {
+        $now = new \DateTime();
+        $now->modify('-1 hour');
+        $this->entity->setEndDate($now);
+        self::assertTrue($this->entity->shouldHaveEnded());
+
+        $this->entity->setEndDate(null);
+        self::assertFalse($this->entity->shouldHaveEnded());
+
+        $now = new \DateTime();
+        $now = $now->setTimezone(new \DateTimezone(timezone_name_from_abbr("", 2*3600, true)));
+        $now->modify('-1 hour');
+        $this->entity->setEndDate($now);
+        self::assertTrue($this->entity->shouldHaveEnded());
+
+        $now = new \DateTime();
+        $now = $now->setTimezone(new \DateTimezone(timezone_name_from_abbr("", -2*3600, true)));
+        $now->modify('+3 hour');
+        $this->entity->setEndDate($now);
+        self::assertFalse($this->entity->shouldHaveEnded());
+    }
+
     public function testGetSetIdentifier()
     {
         $this->entity->setIdentifier('sdf4er');

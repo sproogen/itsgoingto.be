@@ -158,6 +158,20 @@ class Poll
     }
 
     /**
+     * Returns if the poll should have ended.
+     *
+     * @return boolean
+     */
+    public function shouldHaveEnded()
+    {
+        if ($this->getEndDate()) {
+            return new \DateTime() >= $this->getEndDate();
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * Get id
      *
      * @return integer
@@ -359,7 +373,7 @@ class Poll
      *
      * @return Poll
      */
-    public function setEndDate($endDate)
+    public function setEndDate(\DateTime $endDate = null)
     {
         $this->endDate = $endDate;
 

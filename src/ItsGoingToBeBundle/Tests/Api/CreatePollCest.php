@@ -55,6 +55,7 @@ class CreatePollCest extends BaseApiCest
             'question'       => 'string',
             'multipleChoice' => 'boolean',
             'passphrase'     => 'string',
+            'ended'          => 'boolean',
             'deleted'        => 'boolean',
             'responsesCount' => 'integer',
             'answers'        => 'array',
@@ -86,6 +87,7 @@ class CreatePollCest extends BaseApiCest
             'question'       => 'Question Text',
             'multipleChoice' => true,
             'passphrase'     => '',
+            'ended'          => false,
             'deleted'        => false,
             'responsesCount' => 0,
             'userResponses'  => [],
@@ -104,5 +106,61 @@ class CreatePollCest extends BaseApiCest
             ],
             '$.answers[1]'
         );
+    }
+
+    public function returnsPersistedPollWithEndDateTest(ApiTester $I)
+    {
+        $I->wantTo('Check call returns persisted poll with end date');
+        $I->sendPOST('/polls', [
+            'question'       => 'Question Text',
+            'answers'        => [
+                'Answer 1',
+                'Answer 2'
+            ],
+            'endDate' => '2017-05-18T15:52:01+02:00'
+        ]);
+        $I->seeResponseCodeIs(HttpCode::OK);
+        $I->seeResponseIsJson();
+        $I->seeResponseMatchesJsonType([
+            'id'             => 'integer',
+            'identifier'     => 'string',
+            'question'       => 'string',
+            'multipleChoice' => 'boolean',
+            'passphrase'     => 'string',
+            'endDate'        => [
+                'date'          => 'string',
+                'timezone_type' => 'integer',
+                'timezone'      => 'string'
+            ],
+            'ended'          => 'boolean',
+            'deleted'        => 'boolean',
+            'responsesCount' => 'integer',
+            'answers'        => 'array',
+            'userResponses'  => 'array',
+            'created'        => [
+                'date'          => 'string',
+                'timezone_type' => 'integer',
+                'timezone'      => 'string'
+            ],
+            'updated'        => [
+                'date'          => 'string',
+                'timezone_type' => 'integer',
+                'timezone'      => 'string'
+            ]
+        ]);
+        $I->seeResponseContainsJson([
+            'question'       => 'Question Text',
+            'multipleChoice' => false,
+            'passphrase'     => '',
+            'endDate'        => [
+                'date'          => '2017-05-18 15:52:01.000000',
+                'timezone_type' => 1,
+                'timezone'      => '+02:00'
+            ],
+            'ended'          => false,
+            'deleted'        => false,
+            'responsesCount' => 0,
+            'userResponses'  => [],
+        ]);
     }
 }
