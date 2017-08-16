@@ -12,8 +12,7 @@ class Modal extends React.Component {
   }
 
   whichAnimationEvent = () => {
-    let t
-    const el = document.createElement('fakeelement')
+    const element = document.createElement('fakeelement')
     const transitions = {
       'transition':'animationend',
       'OTransition':'oAnimationEnd',
@@ -21,8 +20,9 @@ class Modal extends React.Component {
       'WebkitTransition':'webkitAnimationEnd'
     }
 
-    for (t in transitions) {
-      if (el.style[t] !== undefined) {
+    let transition
+    for (transition in transitions) {
+      if (element.style[t] !== undefined) {
         return transitions[t]
       }
     }
@@ -63,14 +63,17 @@ class Modal extends React.Component {
     })
   }.bind(this)
 
-  render = () => {
+  render () {
     let modal
     if (!this.state.hidden) {
-      modal = <span className={this.state.willHidden ? 'willHidden' : ''}>
+      const { willHidden } = this.state
+      const { children } = this.props
+
+      modal = <span className={willHidden ? 'willHidden' : ''}>
         <div ref='_backdrop' className='backdrop' onClick={this.hide} />
         <div ref='_modal' className='modal'>
           <div className='modal-container'>
-            { this.props.children }
+            { children }
           </div>
         </div>
       </span>

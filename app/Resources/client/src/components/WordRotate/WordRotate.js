@@ -43,16 +43,20 @@ class WordRotate extends React.Component {
     clearInterval(this.wordUpdater)
   }
 
-  render = () => (
-    <span className='word-rotate'>
-      <span className='word-rotate_word' ref='current'>
-        { this.getWord(this.state.currentWord) }
+  render () {
+    const { currentWord } = this.state
+
+    return (
+      <span className='word-rotate'>
+        <span className='word-rotate_word' ref='current'>
+          { this.getWord(currentWord) }
+        </span>
+        <span className='word-rotate_word word-rotate_word--previous' ref='previous'>
+          { this.getWord(subtract(currentWord, 1)) }
+        </span>
       </span>
-      <span className='word-rotate_word word-rotate_word--previous' ref='previous'>
-        { this.getWord(subtract(this.state.currentWord, 1)) }
-      </span>
-    </span>
-  )
+    )
+  }
 }
 
 WordRotate.propTypes = {

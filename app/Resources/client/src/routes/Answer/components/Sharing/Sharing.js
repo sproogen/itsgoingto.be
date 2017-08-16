@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import './Sharing.scss'
 
-export const Sharing = ({ poll }) => {
+export function Sharing ({ poll }) {
   // Select the text contents from target of the given event
   const selectText = (event) => {
     let doc = document
