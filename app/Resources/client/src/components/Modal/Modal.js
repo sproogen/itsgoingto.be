@@ -22,8 +22,8 @@ class Modal extends React.Component {
 
     let transition
     for (transition in transitions) {
-      if (element.style[t] !== undefined) {
-        return transitions[t]
+      if (element.style[transition] !== undefined) {
+        return transitions[transition]
       }
     }
   }
@@ -31,8 +31,8 @@ class Modal extends React.Component {
   addAnimationListener = (node, handle) => {
     if (node) {
       const animationEvent = this.whichAnimationEvent()
-      const endListener = (e) => {
-        if (e && e.target !== node) {
+      const endListener = (event) => {
+        if (event && event.target !== node) {
           return
         }
         node.removeEventListener(animationEvent, endListener)
