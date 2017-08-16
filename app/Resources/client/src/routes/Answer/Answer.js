@@ -23,13 +23,11 @@ class Answer extends React.Component {
       if (response instanceof APIError) {
         if (response.details.status === 401 && response.details.error.error === 'incorrect-passphrase') {
           this.props.setRequiresPassphrase(true)
-          this.props.setLoading(false)
         } else {
           browserHistory.push('/404')
         }
-      } else {
-        this.props.setLoading(false)
       }
+      this.props.setLoading(false)
     })
   }
 
