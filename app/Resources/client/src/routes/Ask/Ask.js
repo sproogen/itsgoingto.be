@@ -2,9 +2,10 @@ import React from 'react'
 import { Helmet } from 'react-helmet'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { hasQuestionSelector, updatePoll, initialPoll } from '../../store/poll'
-import WordRotate from '../../components/WordRotate/WordRotate'
-import Question from './components/Question/Question'
+import { questionSelector, hasQuestionSelector, updatePoll, initialPoll } from 'store/poll'
+import { canSubmitPollSelector } from 'store/answers'
+import WordRotate from 'components/WordRotate'
+import Question from './components/Question'
 import './Ask.scss'
 
 const WORDS = 'What,Where,When,Who'
@@ -25,33 +26,40 @@ class Ask extends React.Component {
     props.clearPoll()
   }
 
-  render = () => (
-    <div>
-      <Helmet>
-        <meta charSet='utf-8' />
-        <title>It&#39;s Going To Be</title>
-        <meta
-          name='description'
-          content='Wondering where to go or what to see? Start a vote and share it with your friends or colleagues.' />
-        <meta name='keywords' content='question vote poll result' />
-      </Helmet>
-      <div className={'container header-container hideable' + (this.props.hasQuestion ? ' gone' : '')}>
-        <div className='header center-text'>
-          <h1><WordRotate words={WORDS} /> is it going to be?</h1>
+  render () {
+    const { question, hasQuestion, canSubmitPoll } = this.props
+
+    return (
+      <div>
+        <Helmet>
+          <meta charSet='utf-8' />
+          <title>It&#39;s Going To Be</title>
+          <meta
+            name='description'
+            content='Wondering where to go or what to see? Start a vote and share it with your friends or colleagues.' />
+          <meta name='keywords' content='question vote poll result' />
+        </Helmet>
+        <div className={'container header-container hideable' + (hasQuestion ? ' gone' : '')}>
+          <div className='header center-text'>
+            <h1><WordRotate words={WORDS} /> is it going to be?</h1>
+          </div>
         </div>
+        <Question question={question} hasQuestion={hasQuestion} canSubmitPoll={canSubmitPoll} placeholderText={PLACEHOLDER_TEXT} />
       </div>
-      <Question placeholderText={PLACEHOLDER_TEXT} />
-    </div>
-  )
+    )
+  }
 }
 
 Ask.propTypes = {
-  hasQuestion : PropTypes.bool.isRequired,
-  clearPoll   : PropTypes.func.isRequired
+  hasQuestion   : PropTypes.bool.isRequired,
+  clearPoll     : PropTypes.func.isRequired,
+  canSubmitPoll : PropTypes.bool.isRequired
 }
 
 const mapStateToProps = (state) => ({
-  hasQuestion : hasQuestionSelector(state)
+  question      : questionSelector(state),
+  hasQuestion   : hasQuestionSelector(state),
+  canSubmitPoll : canSubmitPollSelector(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({

@@ -1,15 +1,17 @@
 import React from 'react'
-import Back from 'components/Back/Back'
+import Back from 'components/Back'
 
-export const NotFound = () => (
-  <div>
-    <Back />
-    <div className='container header-container answer-header-container'>
-      <div className='header center-text'>
-        <h1>404</h1>
+export function NotFound () {
+  return (
+    <div>
+      <Back />
+      <div className='container header-container answer-header-container'>
+        <div className='header center-text'>
+          <h1>404</h1>
+        </div>
       </div>
     </div>
-  </div>
-)
+  )
+}
 
 export default NotFound
