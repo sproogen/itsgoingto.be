@@ -36,7 +36,7 @@ class Button extends React.Component {
     if (event) {
       event.preventDefault()
     }
-    if (!this.isDisabled()) {
+    if (!this.isDisabled() && this.props.callback) {
       this.setState({
         disabled : true,
         loading  : true
@@ -70,15 +70,17 @@ class Button extends React.Component {
 }
 
 Button.propTypes = {
-  text        : PropTypes.string.isRequired,
+  text        : PropTypes.string,
   className   : PropTypes.string,
   disabled    : PropTypes.bool,
-  callback    : PropTypes.func.isRequired,
+  callback    : PropTypes.func,
   submitEvent : PropTypes.string
 }
 
 Button.defaultProps = {
-  disabled : false,
+  text      : '',
+  className : '',
+  disabled  : false,
 }
 
 export default Button
