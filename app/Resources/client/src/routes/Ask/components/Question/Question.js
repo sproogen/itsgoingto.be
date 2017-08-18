@@ -5,8 +5,6 @@ import { compose, nth, slice, concat, __, when, merge, ifElse, add, equals, subt
 import autosize from 'autosize'
 import EventBus from 'components/EventBus'
 import { updateQuestion } from 'store/poll'
-import Answers from '../Answers/Answers'
-import Actions from '../Actions'
 import './Question.scss'
 
 const KEY_DOWN_ARROW = 40
@@ -118,27 +116,22 @@ class Question extends React.Component {
     clearInterval(this.placeholderUpdater)
   }
 
-  render() {
-    const { hasQuestion, question, canSubmitPoll } = this.props
+  render () {
+    const { question } = this.props
 
-    // TODO : Move the question container, Answers and Actions to Ask.js or a Form component
     return (
-      <div className={'container question-container' + (hasQuestion ? ' move-up' : '')}>
-        <div className='input input-question'>
-          <label className='input-label input-label-question' htmlFor='question'>Ask a question</label>
-          <textarea
-            className='input-field input-field-question js-auto-size'
-            value={question}
-            onChange={this.handleChange}
-            onKeyDown={this.handleKeyPress}
-            placeholder={this.placeholderSelector(this.state)}
-            rows='1'
-            id='question'
-            name='question'
-            ref='question' />
-        </div>
-        <Answers />
-        <Actions hasQuestion={hasQuestion} canSubmitPoll={canSubmitPoll} />
+      <div className='input input-question'>
+        <label className='input-label input-label-question' htmlFor='question'>Ask a question</label>
+        <textarea
+          className='input-field input-field-question js-auto-size'
+          value={question}
+          onChange={this.handleChange}
+          onKeyDown={this.handleKeyPress}
+          placeholder={this.placeholderSelector(this.state)}
+          rows='1'
+          id='question'
+          name='question'
+          ref='question' />
       </div>
     )
   }
@@ -147,8 +140,6 @@ class Question extends React.Component {
 Question.propTypes = {
   placeholderText  : PropTypes.array.isRequired,
   question         : PropTypes.string.isRequired,
-  hasQuestion      : PropTypes.bool.isRequired,
-  canSubmitPoll    : PropTypes.bool.isRequired,
   onQuestionChange : PropTypes.func.isRequired
 }
 

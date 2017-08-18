@@ -7,14 +7,16 @@ import Loader from 'components/Loader'
 import './PageLayout.scss'
 
 export const PageLayout = ({ children, isLoading }) => (
-  <div className='container'>
-    <div className='page-layout__viewport'>
-      {children}
+  //return (
+    <div className='container'>
+      <div className='page-layout__viewport'>
+        {children}
+      </div>
+      <Loader isLoading={isLoading} />
+      <Footer />
     </div>
-    <Loader isLoading={isLoading} />
-    <Footer />
-  </div>
-)
+  )
+//}
 
 PageLayout.propTypes = {
   children  : PropTypes.node,

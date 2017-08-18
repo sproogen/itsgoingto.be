@@ -74,10 +74,16 @@ Answer.propTypes = {
   poll                  : PropTypes.object.isRequired,
   hasPoll               : PropTypes.bool.isRequired,
   requiresPassphrase    : PropTypes.bool.isRequired,
+  answers               : PropTypes.array.isRequired,
+  totalResponses        : PropTypes.number,
+  userResponded         : PropTypes.bool.isRequired,
   fetchPoll             : PropTypes.func.isRequired,
   setLoading            : PropTypes.func.isRequired,
-  setRequiresPassphrase : PropTypes.func.isRequired,
-  answers               : PropTypes.array.isRequired,
+  setRequiresPassphrase : PropTypes.func.isRequired
+}
+
+Answer.defaultProps = {
+  totalResponses : 0
 }
 
 const mapStateToProps = (state, props) => ({
