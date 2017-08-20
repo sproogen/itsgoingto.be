@@ -12,7 +12,7 @@ use ItsGoingToBeBundle\Entity\Poll;
 use ItsGoingToBeBundle\Entity\UserResponse;
 
 /**
- * ItsGoingToBeBundle\Controller\Api\PollApiController
+ * Tests for ItsGoingToBeBundle\Controller\Api\PollApiController
  */
 class PollApiControllerTest extends BaseApiControllerTest
 {
@@ -119,6 +119,9 @@ class PollApiControllerTest extends BaseApiControllerTest
         $response = $this->controller->apiAction($request, 'gf56dg');
 
         $this->pollRepository->findOneBy(array('identifier'=>'gf56dg', 'deleted' => false))
+            ->shouldHaveBeenCalledTimes(1);
+
+        $this->pollEndService->updateIfEnded(Argument::type(Poll::class))
             ->shouldHaveBeenCalledTimes(1);
 
         $this->poll->getAnswers()

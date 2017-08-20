@@ -72,6 +72,9 @@ class ResponseApiControllerTest extends BaseApiControllerTest
         $this->pollRepository->findOneBy(array('identifier'=>'gf56dg', 'deleted'=>false))
                              ->shouldHaveBeenCalledTimes(1);
 
+        $this->pollEndService->updateIfEnded(Argument::type(Poll::class))
+            ->shouldHaveBeenCalledTimes(1);
+
         self::assertInstanceOf(JsonResponse::class, $response);
         self::assertEquals(200, $response->getStatusCode());
 

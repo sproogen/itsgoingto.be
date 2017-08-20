@@ -75,7 +75,6 @@ class PollApiController extends BaseApiController implements ApiControllerInterf
                 $poll->getPassphrase() !== (isset($data['passphrase']) ? $data['passphrase'] : '')) {
                 $response = new JsonResponse(['error' => 'incorrect-passphrase'], 401);
             } else {
-                // TODO : Test this
                 $poll = $this->pollEndService->updateIfEnded($poll);
 
                 $extractedPoll = $poll->extract();

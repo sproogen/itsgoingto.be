@@ -37,7 +37,6 @@ class ResponseApiController extends BaseApiController implements ApiControllerIn
                 $poll->getPassphrase() !== (isset($data['passphrase']) ? $data['passphrase'] : '')) {
                 $response = new JsonResponse(['error' => 'incorrect-passphrase'], 401);
             } else {
-                // TODO : Test this
                 $poll = $this->pollEndService->updateIfEnded($poll);
 
                 switch ($request->getMethod()) {

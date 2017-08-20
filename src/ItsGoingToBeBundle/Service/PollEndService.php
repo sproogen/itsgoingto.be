@@ -25,7 +25,6 @@ class PollEndService
 
     /**
      * Update the end date of a poll if it has ended
-     * TODO : Test this
      *
      * @param  Poll $poll
      *
@@ -33,8 +32,10 @@ class PollEndService
      */
     public function updateIfEnded(Poll $poll)
     {
-        if (!$poll->isEnded()) {
-            // TODO : This
+        if (!$poll->isEnded() && $poll->shouldHaveEnded()) {
+            $poll->setEnded(true);
+            $this->entityManager->persist($poll);
+            $this->entityManager->flush();
         }
 
         return $poll;
