@@ -211,4 +211,36 @@ class RetrievePollCest extends BaseApiCest
             '$.answers[*]'
         );
     }
+
+    public function endsPollAndreturnsEndedPollTest(ApiTester $I)
+    {
+        $now = new \DateTime();
+        $this->polls[] = $this->createPoll($I, [
+            'identifier'     => '5gfd8u',
+            'question'       => 'Test Question End',
+            'multipleChoice' => false,
+            'passphrase'     => '',
+            'endDate'        => $now,
+            'deleted'        => false,
+            'answers'        => [
+                'Answer Passphrase 1',
+                'Answer Passphrase 2'
+            ]
+        ]);
+
+        $I->sendGET('/polls/5gfd8u');
+        $I->seeResponseCodeIs(HttpCode::OK);
+        $I->seeResponseIsJson();
+        $I->seeResponseContainsJson([
+            'id'             => $this->polls[2]->getId(),
+            'identifier'     => '5gfd8u',
+            'question'       => 'Test Question End',
+            'multipleChoice' => false,
+            'passphrase'     => '',
+            'ended'          => true,
+            'deleted'        => false,
+            'responsesCount' => 0,
+            'userResponses'  => [],
+        ]);
+    }
 }
