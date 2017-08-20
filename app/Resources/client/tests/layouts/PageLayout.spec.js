@@ -3,7 +3,7 @@ import createStore from 'store/createStore'
 import PageLayout from 'layouts/PageLayout'
 import Footer from 'components/Footer'
 import Loader from 'components/Loader'
-import { shallow, mount } from 'enzyme'
+import { mount } from 'enzyme'
 
 const store = createStore(window.__INITIAL_STATE__)
 

@@ -6,8 +6,8 @@ import Footer from 'components/Footer'
 import Loader from 'components/Loader'
 import './PageLayout.scss'
 
-export const PageLayout = ({ children, isLoading }) => (
-  //return (
+export function PageLayout ({ children, isLoading }) {
+  return (
     <div className='container'>
       <div className='page-layout__viewport'>
         {children}
@@ -16,7 +16,7 @@ export const PageLayout = ({ children, isLoading }) => (
       <Footer />
     </div>
   )
-//}
+}
 
 PageLayout.propTypes = {
   children  : PropTypes.node,
