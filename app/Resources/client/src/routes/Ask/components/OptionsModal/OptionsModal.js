@@ -28,16 +28,10 @@ class OptionsModal extends React.Component {
       passphrase : event.target.value
     })
 
-  handleEndInCheckboxChange = event =>
+  handleEndTypeChange = event => {
     this.props.updateOptions({
       identifier : '',
-      endType : event.target.checked ? 'endIn' : null
-    })
-
-  handleEndAtCheckboxChange = event =>
-    this.props.updateOptions({
-      identifier : '',
-      endType : event.target.checked ? 'endAt' : null
+      endType : event.target.value
     })
 
   handleEndInChange = value =>
@@ -87,39 +81,55 @@ class OptionsModal extends React.Component {
           </div>
           <hr />
           <div className='input-option'>
-            <div>
+            <div className='input-option-radios'>
+              <input
+                id='end-never'
+                className='input-radio input-checkbox-endType'
+                name='endType'
+                type='checkbox'
+                checked={poll.endType !== 'endAt' && poll.endType !== 'endIn'}
+                value='endNever'
+                onChange={this.handleEndTypeChange} />
+              <label
+                htmlFor='end-never'
+                className='input-label input-label-options input-label-endType'>
+                  Don't End Poll
+              </label>
               <input
                 id='end-at'
-                className='input-checkbox input-checkbox-endAt'
-                name='end-at'
+                className='input-radio input-checkbox-endType'
+                name='endType'
                 type='checkbox'
                 checked={poll.endType === 'endAt'}
-                onChange={this.handleEndAtCheckboxChange} />
+                value='endAt'
+                onChange={this.handleEndTypeChange} />
               <label
                 htmlFor='end-at'
-                className='input-label input-label-options input-label-endAt'>
+                className='input-label input-label-options input-label-endType'>
                   End Poll At
               </label>
               <input
                 id='end-in'
-                className='input-checkbox input-checkbox-endIn'
-                name='end-in'
-                type='checkbox'
+                className='input-radio input-checkbox-endType'
+                name='endType'
+                type='radio'
+                value='endIn'
                 checked={poll.endType === 'endIn'}
-                onChange={this.handleEndInCheckboxChange} />
+                onChange={this.handleEndTypeChange} />
               <label
                 htmlFor='end-in'
-                className='input-label input-label-options input-label-endIn'>
+                className='input-label input-label-options input-label-endType'>
                   End Poll In
               </label>
             </div>
             { poll.endType === 'endAt' &&
-              <div className='input-option'>
+              <div className='input-option-datepicker'>
                 datepicker
               </div>
             }
             { poll.endType === 'endIn' &&
-              <div className='input-option'>
+              <div className='input-option-slider'>
+                <div className='input-option-slider-label'>{formatEndin(endIn)}</div>
                 <Slider
                   min={1}
                   max={24}
@@ -127,7 +137,6 @@ class OptionsModal extends React.Component {
                   tooltip={false}
                   onChange={this.handleEndInChange}
                 />
-                <div className='value'>{formatEndin(endIn)}</div>
               </div>
             }
           </div>

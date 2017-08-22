@@ -8,4 +8,43 @@
   .input-field {
     font-size: 1.5em;
   }
+
+  .input-option-radios {
+    margin-bottom: 2em;
+  }
+
+  .input-option-slider {
+    padding: 0 1em;
+
+    .input-option-slider-label {
+      text-align: center;
+      font-weight: 300;
+      font-size: 1.6em;
+    }
+
+    .rangeslider {
+      max-width: 80%;
+      margin: 0 auto;
+      margin-top: 2em;
+    }
+  }
+}
+
+.rangeslider,
+.rangeslider .rangeslider__fill {
+  box-shadow: inset 0 1px 3px rgba(0,0,0,.06);
+  border-radius: 2px;
+}
+
+.rangeslider {
+  background: $light-grey;
+}
+
+.rangeslider .rangeslider__fill {
+  background: $medium-grey;
+}
+
+.rangeslider-horizontal .rangeslider__handle:after {
+  background: none;
+  box-shadow: none;
 }
