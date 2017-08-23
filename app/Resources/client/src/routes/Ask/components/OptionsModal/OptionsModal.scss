@@ -28,6 +28,16 @@
       margin-top: 2em;
     }
   }
+
+  .input-option-datepicker {
+    text-align: center;
+    font-weight: 300;
+    font-size: 1.6em;
+
+    .input-option-datepicker-label {
+      cursor: pointer;
+    }
+  }
 }
 
 .rangeslider,
@@ -47,4 +57,33 @@
 .rangeslider-horizontal .rangeslider__handle:after {
   background: none;
   box-shadow: none;
+}
+
+.react-datepicker-popper {
+  margin-left: -20px;
+}
+
+.react-datepicker,
+.react-datepicker * {
+  border-radius: 0;
+  color: $base-font-color;
+}
+
+.react-datepicker__day--in-range,
+.react-datepicker__day--in-selecting-range,
+.react-datepicker__day--selected {
+  background-color: $label-text-color;
+  color: $white;
+  border-radius: 0;
+}
+
+.react-datepicker__day--in-range:hover,
+.react-datepicker__day--in-selecting-range:hover,
+.react-datepicker__day--selected:hover {
+  background-color: darken($label-text-color, 10%);
+  border-radius: 0;
+}
+
+.react-datepicker__day--disabled {
+  color: $disabled-grey;
 }

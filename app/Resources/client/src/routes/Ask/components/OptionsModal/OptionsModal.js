@@ -1,10 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import moment from 'moment'
 import Slider from 'react-rangeslider'
+import DatePicker from 'react-datepicker'
+import DatePickerInput from './DatePickerInput'
 import Modal from 'components/Modal'
 import { pollSelector, updatePoll } from 'store/poll'
 import 'react-rangeslider/lib/index.css'
+import 'react-datepicker/dist/react-datepicker-cssmodules.css'
 import './OptionsModal.scss'
 
 class OptionsModal extends React.Component {
@@ -40,12 +44,31 @@ class OptionsModal extends React.Component {
       endIn : value
     })
 
+  handleEndAtChange = value => {
+    this.props.updateOptions({
+      identifier : '',
+      endAt : value
+    })
+  }
+
+  componentWillReceiveProps = nextProps => {
+    const { poll } = nextProps
+    if (typeof poll.endIn === 'undefined') {
+      this.props.updateOptions({
+        identifier : '',
+        endIn : 1
+      })
+    }
+    if (typeof poll.endAt === 'undefined') {
+      this.props.updateOptions({
+        identifier : '',
+        endAt : moment().add(1, 'days')
+      })
+    }
+  }
+
   render () {
     const { poll } = this.props
-    let { endIn } = poll
-    if (typeof endIn === 'undefined') {
-      endIn = 1
-    }
 
     const formatEndin = value => value + ' hour' + (value > 1 ? 's' : '')
 
@@ -124,16 +147,21 @@ class OptionsModal extends React.Component {
             </div>
             { poll.endType === 'endAt' &&
               <div className='input-option-datepicker'>
-                datepicker
+                <DatePicker
+                  customInput={<DatePickerInput />}
+                  dateFormat="DD/MM/YYYY"
+                  minDate={moment()}
+                  selected={poll.endAt}
+                  onChange={this.handleEndAtChange} />
               </div>
             }
             { poll.endType === 'endIn' &&
               <div className='input-option-slider'>
-                <div className='input-option-slider-label'>{formatEndin(endIn)}</div>
+                <div className='input-option-slider-label'>{formatEndin(poll.endIn)}</div>
                 <Slider
                   min={1}
                   max={24}
-                  value={endIn}
+                  value={poll.endIn}
                   tooltip={false}
                   onChange={this.handleEndInChange}
                 />
