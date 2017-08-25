@@ -9,6 +9,7 @@ import Footer from 'components/Footer/Footer'
 import Loader from 'components/Loader/Loader'
 import Modal from 'components/Modal/Modal'
 import Spinner from 'components/Spinner/Spinner'
+import TimePicker from 'components/TimePicker/TimePicker'
 import WordRotate from 'components/WordRotate/WordRotate'
 import OptionsModalWrapper from './OptionsModalWrapper'
 import Question from 'routes/Ask/components/Question/Question'
@@ -61,6 +62,9 @@ storiesOf('Core.Modal', module)
 
 storiesOf('Core.Spinner', module)
   .add('Default', () => <Spinner />)
+
+storiesOf('Core.TimePicker', module)
+  .add('Default', () => <TimePicker />)
 
 storiesOf('Core.WordRotate', module)
   .add('Default', () =>
