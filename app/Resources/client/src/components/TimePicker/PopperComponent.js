@@ -52,15 +52,17 @@ export default class PopperComponent extends React.Component {
       targetComponent
     } = this.props
 
+    console.log('hidePopper', hidePopper)
+
     return (
       <Manager>
-        <Target className="react-datepicker-wrapper">
+        <Target className="react-timepicker-wrapper">
           {targetComponent}
         </Target>
         {
           !hidePopper &&
           <Popper
-              className="react-datepicker-popper"
+              className="react-timepicker-popper"
               modifiers={popperModifiers}
               placement={popperPlacement}>
             {popperComponent}

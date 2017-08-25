@@ -1,8 +1,12 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import PopperComponent, { popperPlacementPositions } from './PopperComponent'
 import classnames from 'classnames'
+import onClickOutside from 'react-onclickoutside'
+import Time from './Time'
 
 const outsideClickIgnoreClass = 'react-timepicker-ignore-onclickoutside'
+const WrappedTime = onClickOutside(Time)
 
 class TimePicker extends React.Component {
   constructor (props) {
@@ -11,6 +15,7 @@ class TimePicker extends React.Component {
   }
 
   setOpen = (open) => {
+    console.log('open', open)
     this.setState({
       open: open
     })
@@ -29,6 +34,20 @@ class TimePicker extends React.Component {
     if (!this.props.disabled) {
       this.setOpen(true)
     }
+  }
+
+  handleClickOutside = (event) => {
+    this.setOpen(false)
+  }
+
+  renderTime = () => {
+    if (!this.state.open || this.props.disabled) {
+      return null
+    }
+    return <WrappedTime
+        ref={(elem) => { this._time = elem }}
+        onClickOutside={this.handleClickOutside}
+        outsideClickIgnoreClass={outsideClickIgnoreClass} />
   }
 
   renderInput = () => {
@@ -55,6 +74,8 @@ class TimePicker extends React.Component {
   }
 
   render () {
+    const time = this.renderTime()
+
     return (
       <PopperComponent
         hidePopper={(!this.state.open || this.props.disabled)}
@@ -63,13 +84,17 @@ class TimePicker extends React.Component {
             {this.renderInput()}
           </div>
         }
-        popperComponent={<div><h1>Hii</h1></div>}/>
+        popperComponent={time}/>
     )
   }
 }
 
 TimePicker.propTypes = {
+  disabled: PropTypes.bool
+}
 
+TimePicker.defaultProps = {
+  disabled: false
 }
 
 export default TimePicker
