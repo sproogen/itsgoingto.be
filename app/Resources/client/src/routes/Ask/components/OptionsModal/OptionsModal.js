@@ -5,10 +5,12 @@ import moment from 'moment'
 import Slider from 'react-rangeslider'
 import DatePicker from 'react-datepicker'
 import DatePickerInput from './DatePickerInput'
+import { TimePicker } from 'antd';
 import Modal from 'components/Modal'
 import { pollSelector, updatePoll } from 'store/poll'
 import 'react-rangeslider/lib/index.css'
 import 'react-datepicker/dist/react-datepicker-cssmodules.css'
+import 'antd/lib/time-picker/style/css'
 import './OptionsModal.scss'
 
 class OptionsModal extends React.Component {
@@ -149,10 +151,11 @@ class OptionsModal extends React.Component {
               <div className='input-option-datepicker'>
                 <DatePicker
                   customInput={<DatePickerInput />}
-                  dateFormat="DD/MM/YYYY"
+                  dateFormat='DD/MM/YYYY'
                   minDate={moment()}
                   selected={poll.endAt}
                   onChange={this.handleEndAtChange} />
+                <TimePicker format='HH:mm' />
               </div>
             }
             { poll.endType === 'endIn' &&

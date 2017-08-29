@@ -1,5 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { LocaleProvider } from 'antd';
+import enUS from 'antd/lib/locale-provider/en_US';
 import createStore from 'store/createStore'
 import 'styles/main.scss'
 
@@ -16,7 +18,9 @@ let render = () => {
   const routes = require('./routes/index').default(store)
 
   ReactDOM.render(
-    <App store={store} routes={routes} />,
+    <LocaleProvider locale={enUS}>
+      <App store={store} routes={routes} />
+    </LocaleProvider>,
     MOUNT_NODE
   )
 }

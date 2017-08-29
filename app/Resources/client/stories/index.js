@@ -1,5 +1,7 @@
 import React from 'react'
 import { Provider } from 'react-redux'
+import { LocaleProvider } from 'antd';
+import enGB from 'antd/lib/locale-provider/en_GB';
 import createStore from 'store/createStore'
 import { storiesOf } from '@storybook/react'
 import { setLoading } from 'store/loader'
@@ -9,7 +11,6 @@ import Footer from 'components/Footer/Footer'
 import Loader from 'components/Loader/Loader'
 import Modal from 'components/Modal/Modal'
 import Spinner from 'components/Spinner/Spinner'
-import TimePicker from 'components/TimePicker/TimePicker'
 import WordRotate from 'components/WordRotate/WordRotate'
 import OptionsModalWrapper from './OptionsModalWrapper'
 import Question from 'routes/Ask/components/Question/Question'
@@ -63,9 +64,6 @@ storiesOf('Core.Modal', module)
 storiesOf('Core.Spinner', module)
   .add('Default', () => <Spinner />)
 
-storiesOf('Core.TimePicker', module)
-  .add('Default', () => <TimePicker />)
-
 storiesOf('Core.WordRotate', module)
   .add('Default', () =>
     <div className='header center-text'>
@@ -76,9 +74,11 @@ storiesOf('Core.WordRotate', module)
 let _optionsModal
 storiesOf('Ask.OptionsModal', module)
   .addDecorator((getStory) => {
-    return <Provider store={store}>
-      { getStory() }
-    </Provider>
+    return <LocaleProvider locale={enGB}>
+      <Provider store={store}>
+        { getStory() }
+      </Provider>
+    </LocaleProvider>
   })
   .add('Default', () => {
     return (
