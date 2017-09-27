@@ -10,7 +10,7 @@ import Modal from 'components/Modal'
 import { pollSelector, updatePoll } from 'store/poll'
 import 'react-rangeslider/lib/index.css'
 import 'react-datepicker/dist/react-datepicker-cssmodules.css'
-import 'antd/lib/time-picker/style/css'
+import 'antd/lib/time-picker/style/index.css'
 import './OptionsModal.scss'
 
 class OptionsModal extends React.Component {

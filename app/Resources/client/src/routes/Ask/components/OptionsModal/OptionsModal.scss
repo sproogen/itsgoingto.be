@@ -2,6 +2,13 @@
 @import "neat";
 @import "variables";
 
+@font-face {
+  font-family: 'anticon';
+  src: url('https://at.alicdn.com/t/font_zck90zmlh7hf47vi.eot');
+  /* IE9*/
+  src: url('https://at.alicdn.com/t/font_zck90zmlh7hf47vi.eot?#iefix') format('embedded-opentype'), /* chrome、firefox */ url('https://at.alicdn.com/t/font_zck90zmlh7hf47vi.woff') format('woff'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/ url('https://at.alicdn.com/t/font_zck90zmlh7hf47vi.ttf') format('truetype'), /* iOS 4.1- */ url('https://at.alicdn.com/t/font_zck90zmlh7hf47vi.svg#iconfont') format('svg');
+}
+
 .input-option {
   margin-bottom: 2em;
 
@@ -37,7 +44,48 @@
     .input-option-datepicker-label {
       cursor: pointer;
     }
+
+    > div:first-child {
+      display: inline-block;
+    }
+
+    .ant-time-picker {
+      font-size: inherit;
+      .ant-time-picker-input {
+        border: none;
+        background: none;
+        border-radius: 0;
+        font-size: inherit;
+        font-weight: 300;
+        height: auto;
+        box-shadow: none;
+        cursor: pointer;
+        padding: 0;
+        padding-left: 8px;
+        margin: 0;
+        color: inherit;
+      }
+
+      .ant-time-picker-icon {
+        display: none;
+      }
+    }
   }
+}
+
+.ant-time-picker-panel-input {
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+
+  &:focus {
+    border: none;
+    box-shadow: none;
+  }
+}
+
+.ant-time-picker-panel-clear-btn {
+  display: none;
 }
 
 .rangeslider,
