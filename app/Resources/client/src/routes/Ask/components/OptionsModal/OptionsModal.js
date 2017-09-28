@@ -47,10 +47,20 @@ class OptionsModal extends React.Component {
     })
 
   handleEndAtChange = value => {
+    // TODO - Validate if in the past or less than 1 hour in the future. Change to 1 hour in the future if fails.
     this.props.updateOptions({
       identifier : '',
       endAt : value
     })
+  }
+
+  // TODO - Implement these to not allow times in the past or less than 1 hour in the future for the current date
+  timePickerDisabledHours = () => {
+    return [0, 1, 2, 3]
+  }
+
+  timePickerDisabledMinutes = hour => {
+    return [0, 1, 2, 3]
   }
 
   componentWillReceiveProps = nextProps => {
@@ -155,7 +165,13 @@ class OptionsModal extends React.Component {
                   minDate={moment()}
                   selected={poll.endAt}
                   onChange={this.handleEndAtChange} />
-                <TimePicker format='HH:mm' />
+                <TimePicker
+                  format='HH:mm'
+                  disabledHours={this.timePickerDisabledHours}
+                  disabledMinutes={this.timePickerDisabledMinutes}
+                  hideDisabledOptions
+                  value={poll.endAt}
+                  onChange={this.handleEndAtChange} />
               </div>
             }
             { poll.endType === 'endIn' &&
