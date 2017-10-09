@@ -1,5 +1,6 @@
 import { prop, compose, not, isEmpty, contains, without, append, ifElse, both, equals, length, when, path, omit,
          merge } from 'ramda'
+import moment from 'moment'
 import { pollSelector, updatePoll, updateResponses } from './poll'
 import { answersSelector } from './answers'
 
@@ -8,6 +9,7 @@ import { answersSelector } from './answers'
 // ------------------------------------
 export const ROUTE_POLL = '/api/polls'
 export const ROUTE_RESPONSES = '/responses'
+export const API_DATE_FORMAT = 'YYYY-MM-DDTHH:mm:ssZ'
 
 // ------------------------------------
 // Helpers
@@ -51,6 +53,17 @@ export const onError = (error) => {
   return error
 }
 
+// TODO - Test this
+export const getEndDateFromPoll = (poll) => {
+  if (poll.endType === 'endAt') {
+    return poll.endAt.format(API_DATE_FORMAT)
+  } else if (poll.endType === 'endIn') {
+    return moment().add(poll.endIn, 'hours').format(API_DATE_FORMAT)
+  } else {
+    return null
+  }
+}
+
 // ------------------------------------
 // Actions
 // ------------------------------------
@@ -68,7 +81,8 @@ export const postPoll = () => (dispatch, getState) =>
         question        : poll.question,
         answers         : answersSelector(getState()),
         multipleChoice  : poll.multipleChoice,
-        passphrase      : poll.passphrase
+        passphrase      : poll.passphrase,
+        endDate         : getEndDateFromPoll(poll) // TODO - Test this
       })
     })
     .then(extractResponse)

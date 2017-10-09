@@ -156,6 +156,10 @@ class PollApiController extends BaseApiController implements ApiControllerInterf
         }
         if ($endDate) {
             $endDate = \DateTime::createFromFormat(\DateTime::ATOM, $endDate);
+
+            if (!$endDate) {
+                $errors[] = 'Invalid endDate format';
+            }
         }
 
         if (empty($errors)) {

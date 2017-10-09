@@ -18,9 +18,9 @@ class OptionsModal extends React.Component {
     this._modal.show()
   }
 
-  hide = function () {
+  hide = () => {
     this._modal.hide()
-  }.bind(this)
+  }
 
   handleMultipleChoiceChange = event =>
     this.props.updateOptions({
@@ -56,11 +56,11 @@ class OptionsModal extends React.Component {
 
   // TODO - Implement these to not allow times in the past or less than 1 hour in the future for the current date
   timePickerDisabledHours = () => {
-    return [0, 1, 2, 3]
+    return []
   }
 
   timePickerDisabledMinutes = hour => {
-    return [0, 1, 2, 3]
+    return []
   }
 
   componentWillReceiveProps = nextProps => {
@@ -74,7 +74,7 @@ class OptionsModal extends React.Component {
     if (typeof poll.endAt === 'undefined') {
       this.props.updateOptions({
         identifier : '',
-        endAt : moment().add(1, 'days')
+        endAt : moment().add(1, 'days').seconds(0).milliseconds(0)
       })
     }
   }
