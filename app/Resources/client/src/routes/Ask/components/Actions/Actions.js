@@ -1,12 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { hasQuestionSelector } from 'store/poll'
-import { canSubmitPollSelector } from 'store/answers'
 import { postPoll } from 'store/api'
 import { browserHistory } from 'react-router'
-import Button from 'components/Button/Button'
-import OptionsModal from '../OptionsModal/OptionsModal'
+import Button from 'components/Button'
+import OptionsModal from '../OptionsModal'
 
 class Actions extends React.Component {
   submit = () => this.props.postPoll()
@@ -23,30 +21,30 @@ class Actions extends React.Component {
     return Promise.resolve()
   }
 
-  render = () => (
-    <div>
-      <div className={'actions hideable' + (this.props.hasQuestion ? '' : ' gone')}>
-        <Button className='pull-left' text='Options' callback={this.options} />
-        <Button className='pull-right' text='Create Poll' disabled={!this.props.canSubmitPoll} callback={this.submit} />
+  render () {
+    const { hasQuestion, canSubmitPoll, poll } = this.props
+
+    return (
+      <div>
+        <div className={'actions hideable' + (hasQuestion ? '' : ' gone')}>
+          <Button className='pull-left' text='Options' callback={this.options} />
+          <Button className='pull-right' text='Create Poll' disabled={!canSubmitPoll} callback={this.submit} />
+        </div>
+        <OptionsModal ref={component => { this._modal = component }} poll={poll} />
       </div>
-      <OptionsModal ref={component => { this._modal = component }} />
-    </div>
-  )
+    )
+  }
 }
 
 Actions.propTypes = {
   hasQuestion   : PropTypes.bool.isRequired,
   canSubmitPoll : PropTypes.bool.isRequired,
-  postPoll      : PropTypes.func.isRequired
+  postPoll      : PropTypes.func.isRequired,
+  poll          : PropTypes.object.isRequired
 }
-
-const mapStateToProps = (state) => ({
-  hasQuestion   : hasQuestionSelector(state),
-  canSubmitPoll : canSubmitPollSelector(state)
-})
 
 const mapDispatchToProps = (dispatch) => ({
   postPoll : () => dispatch(postPoll())
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Actions)
+export default connect(null, mapDispatchToProps)(Actions)

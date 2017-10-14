@@ -1,5 +1,5 @@
 import React from 'react'
-import Button from 'components/Button/Button'
+import Button from 'components/Button'
 import { shallow, mount } from 'enzyme'
 import EventBus from 'components/EventBus'
 

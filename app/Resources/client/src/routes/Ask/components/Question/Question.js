@@ -4,9 +4,7 @@ import { connect } from 'react-redux'
 import { compose, nth, slice, concat, __, when, merge, ifElse, add, equals, subtract, length } from 'ramda'
 import autosize from 'autosize'
 import EventBus from 'components/EventBus'
-import { questionSelector, hasQuestionSelector, updateQuestion } from 'store/poll'
-import Answers from '../Answers/Answers'
-import Actions from '../Actions/Actions'
+import { updateQuestion } from 'store/poll'
 import './Question.scss'
 
 const KEY_DOWN_ARROW = 40
@@ -118,13 +116,15 @@ class Question extends React.Component {
     clearInterval(this.placeholderUpdater)
   }
 
-  render = () => (
-    <div className={'container question-container' + (this.props.hasQuestion ? ' move-up' : '')}>
+  render () {
+    const { question } = this.props
+
+    return (
       <div className='input input-question'>
         <label className='input-label input-label-question' htmlFor='question'>Ask a question</label>
         <textarea
           className='input-field input-field-question js-auto-size'
-          value={this.props.question}
+          value={question}
           onChange={this.handleChange}
           onKeyDown={this.handleKeyPress}
           placeholder={this.placeholderSelector(this.state)}
@@ -133,26 +133,18 @@ class Question extends React.Component {
           name='question'
           ref='question' />
       </div>
-      <Answers />
-      <Actions />
-    </div>
-  )
+    )
+  }
 }
 
 Question.propTypes = {
   placeholderText  : PropTypes.array.isRequired,
   question         : PropTypes.string.isRequired,
-  hasQuestion      : PropTypes.bool.isRequired,
   onQuestionChange : PropTypes.func.isRequired
 }
-
-const mapStateToProps = (state) => ({
-  question    : questionSelector(state),
-  hasQuestion : hasQuestionSelector(state)
-})
 
 const mapDispatchToProps = (dispatch) => ({
   onQuestionChange : (value) => dispatch(updateQuestion(value))
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Question)
+export default connect(null, mapDispatchToProps)(Question)

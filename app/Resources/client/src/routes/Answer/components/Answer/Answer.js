@@ -5,7 +5,6 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import Linkify from 'react-linkify'
 import { postResponse } from 'store/api'
-import { userRespondedAnswerSelector } from 'store/poll'
 import './Answer.scss'
 
 export class Answer extends React.Component {
@@ -35,36 +34,41 @@ export class Answer extends React.Component {
     this.linkClicked = true
   }
 
-  calculateWidth = () => {
-    return (this.props.answer.responsesCount / this.props.totalResponses) * 100 + '%'
-  }
+  calculateWidth = () =>
+    (this.props.answer.responsesCount / this.props.totalResponses) * 100 + '%'
 
-  render = () => (
-    <span className='input input-options'>
-      <span className='result-wrapper'>
-        <span className='result' name={'answer-' + this.props.index} style={{ width: this.calculateWidth() }} />
+  render () {
+    const { index, type, checked, answer } = this.props
+    const { animating } = this.state
+    const width = this.calculateWidth()
+
+    return (
+      <span className='input input-options'>
+        <span className='result-wrapper'>
+          <span className='result' name={'answer-' + index} style={{ width }} />
+        </span>
+        <input
+          id={'answer-' + index}
+          name='answer'
+          className={type === 'radio'
+                      ? 'input-radio input-radio-options'
+                      : 'input-checkbox input-checkbox-options'}
+          type={type}
+          value={index}
+          checked={checked}
+          readOnly />
+        <label
+          htmlFor={'answer-' + index}
+          className={'input-label input-label-options' + (animating ? ' input-label-options--click' : '')}
+          onClick={this.handleClick}>
+          <Linkify properties={{ target: '_blank', onClick: this.linkClick }}>{ answer.answer }</Linkify>
+        </label>
+        <span htmlFor={'answer-' + index} className='input-label-votes'>
+          {answer.responsesCount} votes
+        </span>
       </span>
-      <input
-        id={'answer-' + this.props.index}
-        name='answer'
-        className={this.props.type === 'radio'
-                    ? 'input-radio input-radio-options'
-                    : 'input-checkbox input-checkbox-options'}
-        type={this.props.type}
-        value={this.props.index}
-        checked={this.props.checked}
-        readOnly />
-      <label
-        htmlFor={'answer-' + this.props.index}
-        className={'input-label input-label-options' + (this.state.animating ? ' input-label-options--click' : '')}
-        onClick={this.handleClick}>
-        <Linkify properties={{ target: '_blank', onClick: this.linkClick }}>{ this.props.answer.answer }</Linkify>
-      </label>
-      <span htmlFor={'answer-' + this.props.index} className='input-label-votes'>
-        {this.props.answer.responsesCount} votes
-      </span>
-    </span>
-  )
+    )
+  }
 }
 
 Answer.propTypes = {
@@ -76,12 +80,8 @@ Answer.propTypes = {
   postResponse   : PropTypes.func.isRequired
 }
 
-const mapStateToProps = (state, props) => ({
-  checked : userRespondedAnswerSelector(state, props.params.identifier, props.answer.id)
-})
-
 const mapDispatchToProps = (dispatch, props) => ({
   postResponse : () => dispatch(postResponse(props.answer.id, props.params.identifier))
 })
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Answer))
+export default withRouter(connect(null, mapDispatchToProps)(Answer))

@@ -7,7 +7,7 @@ import { updatePoll } from 'store/poll'
 import { fetchPoll, APIError } from 'store/api'
 import { setRequiresPassphrase } from 'store/loader'
 import EventBus from 'components/EventBus'
-import Button from 'components/Button/Button'
+import Button from 'components/Button'
 import './Passphrase.scss'
 
 const KEY_ENTER = 13
@@ -48,26 +48,30 @@ class Passphrase extends React.Component {
     }
   }
 
-  render = () => (
-    <div className='passphrase-container'>
-      <div className={'input-passphrase' + (this.state.error ? ' input-error' : '')}>
-        <label className='input-label input-label-passphrase' htmlFor='passphrase'>Passphrase</label>
-        <input
-          className='input-field input-field-passphrase'
-          type='text'
-          id='passphrase'
-          name='passphrase'
-          ref='passphrase'
-          onKeyDown={this.handleKeyPress} />
-        {this.state.error &&
-          <span className='input-error-label'>
-            Passphrase incorrect
-          </span>
-        }
+  render () {
+    const { error } = this.state
+
+    return (
+      <div className='passphrase-container'>
+        <div className={'input-passphrase' + (error ? ' input-error' : '')}>
+          <label className='input-label input-label-passphrase' htmlFor='passphrase'>Passphrase</label>
+          <input
+            className='input-field input-field-passphrase'
+            type='text'
+            id='passphrase'
+            name='passphrase'
+            ref='passphrase'
+            onKeyDown={this.handleKeyPress} />
+          {error &&
+            <span className='input-error-label'>
+              Passphrase incorrect
+            </span>
+          }
+        </div>
+        <Button className='btn pull-right' text='Enter' callback={this.submit} submitEvent='passphrase-submit' />
       </div>
-      <Button className='btn pull-right' text='Enter' callback={this.submit} submitEvent='passphrase-submit' />
-    </div>
-  )
+    )
+  }
 }
 
 Passphrase.propTypes = {

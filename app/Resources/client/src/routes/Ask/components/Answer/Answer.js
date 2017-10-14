@@ -53,25 +53,29 @@ class Answer extends React.Component {
     this.eventListener.remove()
   }
 
-  render = () => (
-    <div className={'input input-answer' + (this.props.disabled ? ' input-disabled' : '')}>
-      <label
-        className='input-label input-label-answer'
-        htmlFor={'answer-' + this.props.index}>
-        {this.props.index + 1}
-      </label>
-      <input
-        className='input-field input-field-answer'
-        type='text'
-        id={'answer-' + this.props.index}
-        name={'answer-' + this.props.index}
-        ref='answer'
-        value={this.props.text}
-        onChange={this.handleChange}
-        onKeyDown={this.handleKeyPress}
-        disabled={this.props.disabled} />
-    </div>
-  )
+  render () {
+    const { index, text, disabled } = this.props
+
+    return (
+      <div className={'input input-answer' + (disabled ? ' input-disabled' : '')}>
+        <label
+          className='input-label input-label-answer'
+          htmlFor={'answer-' + index}>
+          {index + 1}
+        </label>
+        <input
+          className='input-field input-field-answer'
+          type='text'
+          id={'answer-' + index}
+          name={'answer-' + index}
+          ref='answer'
+          value={text}
+          onChange={this.handleChange}
+          onKeyDown={this.handleKeyPress}
+          disabled={disabled} />
+      </div>
+    )
+  }
 }
 
 Answer.propTypes = {
