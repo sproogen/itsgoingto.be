@@ -44,6 +44,7 @@
 
     .ant-time-picker {
       font-size: inherit;
+
       .ant-time-picker-input {
         border: none;
         background: none;
@@ -66,19 +67,57 @@
   }
 }
 
-.ant-time-picker-panel-input {
-  border-radius: 0;
-  background: none;
-  box-shadow: none;
-
-  &:focus {
-    border: none;
-    box-shadow: none;
-  }
-}
-
 .ant-time-picker-panel-clear-btn {
   display: none;
+}
+
+.ant-time-picker-panel-input-wrap {
+  display: none;
+}
+
+.ant-time-picker-panel-inner {
+  margin-top: 50px;
+  @media(max-width: $screen-lg-min) {
+    margin-top: 37px;
+  }
+  @media(max-width: $screen-md-min) {
+    margin-top: 31px;
+  }
+  border: 1px solid #aeaeae;
+  border-radius: 0;
+  box-shadow: none;
+  overflow: visible;
+}
+
+.ant-time-picker-panel-inner:after, .ant-time-picker-panel-inner:before {
+  bottom: 100%;
+  left: 36%;
+  @media(max-width: $screen-lg-min) {
+    left: 27%;
+  }
+  @media(max-width: $screen-md-min) {
+    left: 21%;
+  }
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+}
+
+.ant-time-picker-panel-inner:after {
+  border-color: rgba(255, 255, 255, 0);
+  border-bottom-color: #fff;
+  border-width: 8px;
+  margin-left: -8px;
+}
+
+.ant-time-picker-panel-inner:before {
+  border-color: rgba(174, 174, 174, 0);
+  border-bottom-color: #aeaeae;
+  border-width: 9px;
+  margin-left: -9px;
 }
 
 .rangeslider,

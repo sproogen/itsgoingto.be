@@ -24,7 +24,7 @@ class OptionsModal extends React.Component {
 
   handleMultipleChoiceChange = event =>
     this.props.updateOptions({
-      identifier : '',
+      identifier     : '',
       multipleChoice : event.target.checked
     })
 
@@ -37,29 +37,47 @@ class OptionsModal extends React.Component {
   handleEndTypeChange = event => {
     this.props.updateOptions({
       identifier : '',
-      endType : event.target.value
+      endType    : event.target.value
     })
 
   handleEndInChange = value =>
     this.props.updateOptions({
       identifier : '',
-      endIn : value
+      endIn      : value
     })
 
   handleEndAtChange = value => {
-    // TODO - Validate if in the past or less than 1 hour in the future. Change to 1 hour in the future if fails.
-    this.props.updateOptions({
-      identifier : '',
-      endAt : value
-    })
+    const minDate = moment().add(1, 'hour').seconds(0).milliseconds(0)
+    if (value.isBefore(minDate)) {
+      this.props.updateOptions({
+        identifier : '',
+        endAt      : minDate
+      })
+    } else {
+      this.props.updateOptions({
+        identifier : '',
+        endAt      : value
+      })
+    }
   }
 
-  // TODO - Implement these to not allow times in the past or less than 1 hour in the future for the current date
   timePickerDisabledHours = () => {
+    const { poll } = this.props
+
+    if (poll.endAt.isSame(moment(), 'day')) {
+      return [...Array(moment().hour() + 1).keys()]
+    }
+
     return []
   }
 
   timePickerDisabledMinutes = hour => {
+    const { poll } = this.props
+
+    if (poll.endAt.isSame(moment().add(1, 'hour'), 'hour')) {
+      return [...Array(moment().minute()).keys()]
+    }
+
     return []
   }
 
@@ -68,13 +86,13 @@ class OptionsModal extends React.Component {
     if (typeof poll.endIn === 'undefined') {
       this.props.updateOptions({
         identifier : '',
-        endIn : 1
+        endIn      : 1
       })
     }
     if (typeof poll.endAt === 'undefined') {
       this.props.updateOptions({
         identifier : '',
-        endAt : moment().add(1, 'days').seconds(0).milliseconds(0)
+        endAt      : moment().add(1, 'days').seconds(0).milliseconds(0)
       })
     }
   }

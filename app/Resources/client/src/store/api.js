@@ -53,12 +53,15 @@ export const onError = (error) => {
   return error
 }
 
-// TODO - Test this
 export const getEndDateFromPoll = (poll) => {
   if (poll.endType === 'endAt') {
     return poll.endAt.format(API_DATE_FORMAT)
   } else if (poll.endType === 'endIn') {
-    return moment().add(poll.endIn, 'hours').format(API_DATE_FORMAT)
+    return moment()
+            .add(poll.endIn, 'hours')
+            .seconds(0)
+            .milliseconds(0)
+            .format(API_DATE_FORMAT)
   } else {
     return null
   }
@@ -82,7 +85,7 @@ export const postPoll = () => (dispatch, getState) =>
         answers         : answersSelector(getState()),
         multipleChoice  : poll.multipleChoice,
         passphrase      : poll.passphrase,
-        endDate         : getEndDateFromPoll(poll) // TODO - Test this
+        endDate         : getEndDateFromPoll(poll)
       })
     })
     .then(extractResponse)
