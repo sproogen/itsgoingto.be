@@ -88,9 +88,9 @@ export const postPoll = () => (dispatch, getState) =>
         endDate         : getEndDateFromPoll(poll)
       })
     })
-    .then(extractResponse)
-    .then((response) => dispatch(updatePoll(response)))
-    .catch(onError),
+      .then(extractResponse)
+      .then((response) => dispatch(updatePoll(response)))
+      .catch(onError),
     pollSelector
   )(getState())
 
@@ -106,9 +106,9 @@ export const fetchPoll = (identifier) => (dispatch, getState) =>
     (url) => fetch(url, {
       credentials : 'same-origin'
     })
-    .then(extractResponse)
-    .then((response) => dispatch(updatePoll(response)))
-    .catch(onError),
+      .then(extractResponse)
+      .then((response) => dispatch(updatePoll(response)))
+      .catch(onError),
     ifElse(
       compose(not, equals(0), length, prop('passphrase')),
       (poll) => ROUTE_POLL + '/' + identifier + '?passphrase=' + prop('passphrase')(poll),
@@ -134,9 +134,9 @@ export const postResponse = (answer, identifier) => (dispatch, getState) =>
         body        : JSON.stringify(requestData)
       }
     )
-    .then(extractResponse)
-    .then((response) => dispatch(updateResponses(response, identifier)))
-    .catch(onError),
+      .then(extractResponse)
+      .then((response) => dispatch(updateResponses(response, identifier)))
+      .catch(onError),
     omit(['poll']),
     when(
       compose(not, equals(0), length, path(['poll', 'passphrase'])),
@@ -172,9 +172,9 @@ export const fetchResponses = (identifier) => (dispatch, getState) =>
     (url) => fetch(url, {
       credentials : 'same-origin'
     })
-    .then(extractResponse)
-    .then((response) => dispatch(updateResponses(response, identifier)))
-    .catch(onError),
+      .then(extractResponse)
+      .then((response) => dispatch(updateResponses(response, identifier)))
+      .catch(onError),
     ifElse(
       compose(not, equals(0), length, prop('passphrase')),
       (poll) => ROUTE_POLL + '/' + identifier + ROUTE_RESPONSES + '?passphrase=' + prop('passphrase')(poll),
