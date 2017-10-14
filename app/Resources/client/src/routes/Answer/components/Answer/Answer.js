@@ -4,7 +4,6 @@ import { merge } from 'ramda'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import Linkify from 'react-linkify'
-import { postResponse } from 'store/api'
 import './Answer.scss'
 
 export class Answer extends React.Component {
@@ -15,6 +14,8 @@ export class Answer extends React.Component {
   }
 
   handleClick = () => {
+    const { answer, poll, postResponse } = this.props
+
     if (!this.linkClicked) {
       this.setState((prevState) =>
         merge(prevState, { animating : true })
@@ -24,7 +25,9 @@ export class Answer extends React.Component {
           merge(prevState, { animating : false })
         )
       }, 550)
-      this.props.postResponse()
+      if (!poll.ended) {
+        postResponse(answer.id)
+      }
     } else {
       this.linkClicked = false
     }
@@ -75,13 +78,10 @@ Answer.propTypes = {
   index          : PropTypes.number.isRequired,
   type           : PropTypes.string.isRequired,
   answer         : PropTypes.object.isRequired,
+  poll           : PropTypes.object.isRequired,
   totalResponses : PropTypes.number.isRequired,
   checked        : PropTypes.bool.isRequired,
   postResponse   : PropTypes.func.isRequired
 }
 
-const mapDispatchToProps = (dispatch, props) => ({
-  postResponse : () => dispatch(postResponse(props.answer.id, props.params.identifier))
-})
-
-export default withRouter(connect(null, mapDispatchToProps)(Answer))
+export default Answer

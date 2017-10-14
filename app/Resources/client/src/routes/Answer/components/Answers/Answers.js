@@ -3,13 +3,24 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import PropTypes from 'prop-types'
 import { prop, compose, contains } from 'ramda'
-import { fetchResponses } from 'store/api'
+import { fetchResponses, postResponse, fetchPoll, APIError } from 'store/api'
 import Answer from '../Answer'
 import './Answers.scss'
 
 class Answers extends React.Component {
   updateAnswers = () => {
-    this.props.updateResponses()
+    const { poll, updateResponses, fetchPoll } = this.props
+
+    if (poll.ended) {
+      clearInterval(this.answersUpdater)
+    } else {
+      updateResponses()
+        .then((response) => {
+          if (response instanceof APIError) {
+            fetchPoll()
+          }
+        })
+    }
   }
 
   componentDidMount = () => {
@@ -27,7 +38,7 @@ class Answers extends React.Component {
     compose(contains(answer.id), prop('userResponses'))(this.props.poll)
 
   render () {
-    const { poll, answers, userResponded, totalResponses } = this.props
+    const { poll, answers, userResponded, postResponse, totalResponses } = this.props
 
     return (
       <div className='container answer-container'>
@@ -38,7 +49,9 @@ class Answers extends React.Component {
               index={index}
               type={poll.multipleChoice ? 'checkbox' : 'radio'}
               answer={answer}
+              poll={poll}
               checked={this.answerChecked(answer)}
+              postResponse={postResponse}
               totalResponses={totalResponses} />
           )}
         </div>
@@ -52,7 +65,8 @@ Answers.propTypes = {
   poll            : PropTypes.object.isRequired,
   totalResponses  : PropTypes.number,
   userResponded   : PropTypes.bool.isRequired,
-  updateResponses : PropTypes.func.isRequired
+  updateResponses : PropTypes.func.isRequired,
+  fetchPoll       : PropTypes.func.isRequired
 }
 
 Answers.defaultProps = {
@@ -60,7 +74,9 @@ Answers.defaultProps = {
 }
 
 const mapDispatchToProps = (dispatch, props) => ({
-  updateResponses : () => dispatch(fetchResponses(props.params.identifier))
+  updateResponses : () => dispatch(fetchResponses(props.params.identifier)),
+  postResponse    : (id) => dispatch(postResponse(id, props.params.identifier)),
+  fetchPoll       : () => dispatch(fetchPoll(props.params.identifier))
 })
 
 export default withRouter(connect(null, mapDispatchToProps)(Answers))
