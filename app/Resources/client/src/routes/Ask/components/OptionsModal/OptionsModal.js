@@ -34,7 +34,7 @@ class OptionsModal extends React.Component {
       passphrase : event.target.value
     })
 
-  handleEndTypeChange = event => {
+  handleEndTypeChange = event =>
     this.props.updateOptions({
       identifier : '',
       endType    : event.target.value
