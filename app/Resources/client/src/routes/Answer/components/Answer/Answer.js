@@ -17,15 +17,16 @@ export class Answer extends React.Component {
     const { answer, poll, postResponse } = this.props
 
     if (!this.linkClicked) {
-      this.setState((prevState) =>
-        merge(prevState, { animating : true })
-      )
-      setTimeout(() => {
-        this.setState((prevState) =>
-          merge(prevState, { animating : false })
-        )
-      }, 550)
       if (!poll.ended) {
+        this.setState((prevState) =>
+          merge(prevState, { animating : true })
+        )
+        setTimeout(() => {
+          this.setState((prevState) =>
+            merge(prevState, { animating : false })
+          )
+        }, 550)
+
         postResponse(answer.id)
       }
     } else {
@@ -41,7 +42,7 @@ export class Answer extends React.Component {
     (this.props.answer.responsesCount / this.props.totalResponses) * 100 + '%'
 
   render () {
-    const { index, type, checked, answer } = this.props
+    const { index, type, checked, answer, poll } = this.props
     const { animating } = this.state
     const width = this.calculateWidth()
 
@@ -54,15 +55,17 @@ export class Answer extends React.Component {
           id={'answer-' + index}
           name='answer'
           className={type === 'radio'
-                      ? 'input-radio input-radio-options'
-                      : 'input-checkbox input-checkbox-options'}
+                     ? 'input-radio input-radio-options'
+                     : 'input-checkbox input-checkbox-options'}
           type={type}
           value={index}
           checked={checked}
           readOnly />
         <label
           htmlFor={'answer-' + index}
-          className={'input-label input-label-options' + (animating ? ' input-label-options--click' : '')}
+          className={'input-label input-label-options' +
+                     (animating ? ' input-label-options--click' : '') +
+                     (poll.ended ? ' input-label-options--hidden' : '')}
           onClick={this.handleClick}>
           <Linkify properties={{ target: '_blank', onClick: this.linkClick }}>{ answer.answer }</Linkify>
         </label>

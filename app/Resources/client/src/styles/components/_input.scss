@@ -63,14 +63,11 @@ textarea {
   position: absolute;
 }
 
-.input-radio, .input-checkbox, .input-label-options {
+.input-label-options {
   display: inline-block;
   vertical-align: middle;
   margin: 0.2em;
   cursor: pointer;
-}
-
-.input-label-options {
   position: relative;
   font-weight: 300;
   font-size: 1.6em;
@@ -121,6 +118,16 @@ textarea {
   content: "\f00c";
   font-family: 'FontAwesome';
   color: $base-font-color;
+}
+
+.input-radio + .input-label-options--hidden,
+.input-checkbox + .input-label-options--hidden {
+  cursor: default;
+}
+
+.input-radio + .input-label-options--hidden:before,
+.input-checkbox + .input-label-options--hidden:before {
+  display: none;
 }
 
 .input-field-datepicker-trigger {
