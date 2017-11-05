@@ -56,6 +56,7 @@ describe('(Store) API', () => {
 
   describe('(Helper) getEndDateFromPoll', () => {
     let poll
+
     beforeEach(function () {
       poll = { question: 'Question', identifier: '', endType: null }
     })
@@ -140,7 +141,9 @@ describe('(Store) API', () => {
             {
               method      : 'POST',
               credentials : 'same-origin',
-              body        : '{"question":"Question","answers":["Answer"],"multipleChoice":false,"passphrase":"","endDate":null}' }
+              body        : '{"question":"Question","answers":["Answer"],' +
+                            '"multipleChoice":false,"passphrase":"","endDate":null}'
+            }
           )
         })
       })

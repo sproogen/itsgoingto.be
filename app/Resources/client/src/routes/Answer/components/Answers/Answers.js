@@ -66,6 +66,7 @@ Answers.propTypes = {
   totalResponses  : PropTypes.number,
   userResponded   : PropTypes.bool.isRequired,
   updateResponses : PropTypes.func.isRequired,
+  postResponse    : PropTypes.func.isRequired,
   fetchPoll       : PropTypes.func.isRequired
 }
 

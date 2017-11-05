@@ -5,9 +5,9 @@ import moment from 'moment'
 import Slider from 'react-rangeslider'
 import DatePicker from 'react-datepicker'
 import DatePickerInput from './DatePickerInput'
-import { TimePicker } from 'antd';
+import { TimePicker } from 'antd'
 import Modal from 'components/Modal'
-import { pollSelector, updatePoll } from 'store/poll'
+import { updatePoll } from 'store/poll'
 import 'react-rangeslider/lib/index.css'
 import 'react-datepicker/dist/react-datepicker-cssmodules.css'
 import 'antd/lib/time-picker/style/index.css'
@@ -22,32 +22,33 @@ class OptionsModal extends React.Component {
     this._modal.hide()
   }
 
-  handleMultipleChoiceChange = event =>
+  handleMultipleChoiceChange = (event) =>
     this.props.updateOptions({
       identifier     : '',
       multipleChoice : event.target.checked
     })
 
-  handlePassphraseChange = event =>
+  handlePassphraseChange = (event) =>
     this.props.updateOptions({
       identifier : '',
       passphrase : event.target.value
     })
 
-  handleEndTypeChange = event =>
+  handleEndTypeChange = (event) =>
     this.props.updateOptions({
       identifier : '',
       endType    : event.target.value
     })
 
-  handleEndInChange = value =>
+  handleEndInChange = (value) =>
     this.props.updateOptions({
       identifier : '',
       endIn      : value
     })
 
-  handleEndAtChange = value => {
+  handleEndAtChange = (value) => {
     const minDate = moment().add(1, 'hour').seconds(0).milliseconds(0)
+
     if (value.isBefore(minDate)) {
       this.props.updateOptions({
         identifier : '',
@@ -71,7 +72,7 @@ class OptionsModal extends React.Component {
     return []
   }
 
-  timePickerDisabledMinutes = hour => {
+  timePickerDisabledMinutes = (hour) => {
     const { poll } = this.props
 
     if (poll.endAt.isSame(moment().add(1, 'hour'), 'hour')) {
@@ -81,8 +82,9 @@ class OptionsModal extends React.Component {
     return []
   }
 
-  componentWillReceiveProps = nextProps => {
+  componentWillReceiveProps = (nextProps) => {
     const { poll } = nextProps
+
     if (typeof poll.endIn === 'undefined') {
       this.props.updateOptions({
         identifier : '',
@@ -100,7 +102,7 @@ class OptionsModal extends React.Component {
   render () {
     const { poll } = this.props
 
-    const formatEndin = value => value + ' hour' + (value > 1 ? 's' : '')
+    const formatEndin = (value) => value + ' hour' + (value > 1 ? 's' : '')
 
     return (
       <Modal ref={component => { this._modal = component }}>

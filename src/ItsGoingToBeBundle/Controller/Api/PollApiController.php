@@ -2,6 +2,7 @@
 
 namespace ItsGoingToBeBundle\Controller\Api;
 
+use \Datetime;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -155,7 +156,7 @@ class PollApiController extends BaseApiController implements ApiControllerInterf
             $errors[] = 'No answers have been provided';
         }
         if ($endDate) {
-            $endDate = \DateTime::createFromFormat(\DateTime::ATOM, $endDate);
+            $endDate = DateTime::createFromFormat(DateTime::ATOM, $endDate);
 
             if (!$endDate) {
                 $errors[] = 'Invalid endDate format';

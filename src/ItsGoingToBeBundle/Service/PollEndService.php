@@ -40,5 +40,4 @@ class PollEndService
 
         return $poll;
     }
-
 }

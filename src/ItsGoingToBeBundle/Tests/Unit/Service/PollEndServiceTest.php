@@ -61,7 +61,7 @@ class PollEndServiceTest extends BaseTest
      */
     public function testUpdateIfEndedDoesntUpdateIfEnded()
     {
-        $poll = $this->service->updateIfEnded($this->poll->reveal());
+        $this->service->updateIfEnded($this->poll->reveal());
 
         $this->poll->isEnded()
              ->shouldHaveBeenCalledTimes(1);
@@ -82,7 +82,7 @@ class PollEndServiceTest extends BaseTest
     {
         $this->poll->isEnded()->willReturn(false);
 
-        $poll = $this->service->updateIfEnded($this->poll->reveal());
+        $this->service->updateIfEnded($this->poll->reveal());
 
         $this->poll->isEnded()
              ->shouldHaveBeenCalledTimes(1);
@@ -104,7 +104,7 @@ class PollEndServiceTest extends BaseTest
         $this->poll->isEnded()->willReturn(false);
         $this->poll->shouldHaveEnded()->willReturn(true);
 
-        $poll = $this->service->updateIfEnded($this->poll->reveal());
+        $this->service->updateIfEnded($this->poll->reveal());
 
         $this->poll->isEnded()
              ->shouldHaveBeenCalledTimes(1);

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { mergeAll } from 'ramda'
 import Helmet from 'react-helmet'
 import Linkify from 'react-linkify'
-import Countdown from 'react-countdown-now';
+import Countdown from 'react-countdown-now'
 import { browserHistory } from 'react-router'
 import { pollSelector, hasQuestionSelector, totalResponsesSelector, userRespondedSelector } from 'store/poll'
 import { answersSelector } from 'store/answers'
@@ -33,17 +33,24 @@ class Answer extends React.Component {
     })
   }
 
-  renderer = ({ days, hours, minutes, seconds, completed }) => {
+  endingToString = (days, hours, minutes, seconds) => {
+    let endingString = ''
+
+    endingString += days ? ` ${days} days and` : ''
+    endingString += days || hours ? ` ${hours} hours ${!days ? 'and' : ''}` : ''
+    endingString += !days && (hours || minutes) ? ` ${minutes} minutes ${!hours ? 'and' : ''}` : ''
+    endingString += !days && !hours ? ` ${seconds} seconds` : ''
+
+    return endingString
+  }
+
+  countdownRenderer = ({ days, hours, minutes, seconds, completed }) => {
     let ending = ''
 
     if (completed) {
       ending = 'This poll has now ended'
     } else {
-      ending = 'This poll will end in'
-      ending += days ? ` ${days} days and` : ''
-      ending += days || hours ? ` ${hours} hours ${!days ? 'and' : ''}` : ''
-      ending += !days && (hours || minutes) ? ` ${minutes} minutes ${!hours ? 'and' : ''}` : ''
-      ending += !days && !hours ? ` ${seconds} seconds` : ''
+      ending = 'This poll will end in' + this.endingToString(days, hours, minutes, seconds)
     }
 
     return <span>{ending}</span>
@@ -73,8 +80,8 @@ class Answer extends React.Component {
                 { poll.endDate && !poll.ended &&
                   <div className='alert alert-success'>
                     <Countdown
-                      date={ poll.endDate.date }
-                      renderer={this.renderer}/>
+                      date={poll.endDate.date}
+                      renderer={this.countdownRenderer} />
                   </div>
                 }
               </div>

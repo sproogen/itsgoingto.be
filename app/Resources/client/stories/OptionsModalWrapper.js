@@ -13,7 +13,7 @@ class OptionsModalWrapper extends React.Component {
     const { poll } = this.props
 
     return (
-      <OptionsModal ref={component => { this._modal = component }} poll={poll} />
+      <OptionsModal ref={(component) => { this._modal = component }} poll={poll} />
     )
   }
 }

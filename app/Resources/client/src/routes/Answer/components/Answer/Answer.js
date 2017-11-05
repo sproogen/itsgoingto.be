@@ -1,8 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { merge } from 'ramda'
-import { connect } from 'react-redux'
-import { withRouter } from 'react-router'
 import Linkify from 'react-linkify'
 import './Answer.scss'
 

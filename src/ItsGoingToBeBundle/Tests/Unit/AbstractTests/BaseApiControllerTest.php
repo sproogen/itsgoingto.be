@@ -136,6 +136,7 @@ abstract class BaseApiControllerTest extends BaseTest
         $this->poll = $this->prophesize(Poll::class);
         $this->poll->getId()->willReturn(2);
         $this->poll->isMultipleChoice()->willReturn(false);
+        $this->poll->isEnded()->willReturn(false);
         $this->poll->getPassphrase()->willReturn('');
         $this->poll->hasPassphrase()->willReturn(false);
         $this->poll->extract()->willReturn([

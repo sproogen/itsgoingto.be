@@ -1,7 +1,7 @@
 import React from 'react'
 import { Provider } from 'react-redux'
-import { LocaleProvider } from 'antd';
-import enGB from 'antd/lib/locale-provider/en_GB';
+import { LocaleProvider } from 'antd'
+import enGB from 'antd/lib/locale-provider/en_GB'
 import createStore from 'store/createStore'
 import { storiesOf } from '@storybook/react'
 import { setLoading } from 'store/loader'
@@ -87,7 +87,7 @@ storiesOf('Ask.OptionsModal', module)
           _optionsModal.getWrappedInstance().show()
           return Promise.resolve()
         }} />
-        <OptionsModalWrapper ref={component => { _optionsModal = component }} />
+        <OptionsModalWrapper ref={(component) => { _optionsModal = component }} />
       </div>
     )
   })
