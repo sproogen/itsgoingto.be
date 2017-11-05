@@ -50,6 +50,9 @@ class Answer extends React.Component {
               <div className='header center-text'>
                 <h2><Linkify properties={{ target: '_blank' }}>{ poll.question }</Linkify></h2>
                 <Sharing poll={poll} />
+                { poll.ended &&
+                  <div className='alert alert-success'>This poll has now ended</div>
+                }
               </div>
             </div>
             <Answers
