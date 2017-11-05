@@ -2,6 +2,7 @@
 
 namespace ItsGoingToBeBundle\Controller\Api;
 
+use \Datetime;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -75,6 +76,8 @@ class PollApiController extends BaseApiController implements ApiControllerInterf
                 $poll->getPassphrase() !== (isset($data['passphrase']) ? $data['passphrase'] : '')) {
                 $response = new JsonResponse(['error' => 'incorrect-passphrase'], 401);
             } else {
+                $poll = $this->pollEndService->updateIfEnded($poll);
+
                 $extractedPoll = $poll->extract();
                 $extractedPoll['answers'] = [];
                 foreach ($poll->getAnswers() as $answer) {
@@ -138,6 +141,7 @@ class PollApiController extends BaseApiController implements ApiControllerInterf
         $question = isset($data['question']) ? $data['question'] : null;
         $multipleChoice = isset($data['multipleChoice']) ? $data['multipleChoice'] : false;
         $passphrase = isset($data['passphrase']) ? $data['passphrase'] : '';
+        $endDate = isset($data['endDate']) ? $data['endDate'] : null;
         $answers = [];
         foreach (isset($data['answers'])? $data['answers']: [] as $answer) {
             if (strlen(trim($answer)) !== 0) {
@@ -151,6 +155,13 @@ class PollApiController extends BaseApiController implements ApiControllerInterf
         if (count($answers) === 0) {
             $errors[] = 'No answers have been provided';
         }
+        if ($endDate) {
+            $endDate = DateTime::createFromFormat(DateTime::ATOM, $endDate);
+
+            if (!$endDate) {
+                $errors[] = 'Invalid endDate format';
+            }
+        }
 
         if (empty($errors)) {
             $poll = new Poll();
@@ -158,6 +169,8 @@ class PollApiController extends BaseApiController implements ApiControllerInterf
             $poll->setQuestion($question);
             $poll->setMultipleChoice($multipleChoice);
             $poll->setPassphrase($passphrase);
+
+            $poll->setEndDate($endDate);
 
             foreach ($answers as $answerText) {
                 $answer = new Answer();

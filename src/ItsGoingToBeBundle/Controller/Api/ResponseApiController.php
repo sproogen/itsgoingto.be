@@ -28,7 +28,7 @@ class ResponseApiController extends BaseApiController implements ApiControllerIn
     public function apiAction(Request $request, $identifier)
     {
         $poll = $this->em->getRepository(Poll::class)
-            ->findOneBy(array('identifier' => $identifier, 'deleted' => false));
+            ->findOneBy(array('identifier' => $identifier, 'deleted' => false, 'ended' => false));
 
         if ($poll) {
             $data = $this->getData($request);
@@ -37,12 +37,19 @@ class ResponseApiController extends BaseApiController implements ApiControllerIn
                 $poll->getPassphrase() !== (isset($data['passphrase']) ? $data['passphrase'] : '')) {
                 $response = new JsonResponse(['error' => 'incorrect-passphrase'], 401);
             } else {
+                $poll = $this->pollEndService->updateIfEnded($poll);
+
                 switch ($request->getMethod()) {
                     case 'GET':
                         $response = $this->indexResponses($poll, $request);
                         break;
                     case 'POST':
-                        $response = $this->createResponse($poll, $request, $data);
+                        if ($poll->isEnded()) {
+                            // The poll has just ended, return a 400
+                            $response = new JsonResponse(['error' => 'poll-ended'], 400);
+                        } else {
+                            $response = $this->createResponse($poll, $request, $data);
+                        }
                         break;
                     case 'OPTIONS':
                         $response = new Response();

@@ -25,12 +25,15 @@ const karmaConfig = {
     fixWebpackSourcePaths: true,
     skipFilesWithNoCoverage: false
   },
-  files: [{
-    pattern  : TEST_BUNDLER,
-    watched  : false,
-    served   : true,
-    included : true
-  }],
+  files: [
+    '../../../node_modules/babel-polyfill/browser.js',
+    {
+      pattern  : TEST_BUNDLER,
+      watched  : false,
+      served   : true,
+      included : true
+    }
+  ],
   frameworks: ['mocha'],
   reporters: ['mocha', 'coverage-istanbul'],
   preprocessors: {

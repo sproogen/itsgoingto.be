@@ -1,5 +1,7 @@
 import React from 'react'
 import { Provider } from 'react-redux'
+import { LocaleProvider } from 'antd'
+import enGB from 'antd/lib/locale-provider/en_GB'
 import createStore from 'store/createStore'
 import { storiesOf } from '@storybook/react'
 import { setLoading } from 'store/loader'
@@ -10,7 +12,7 @@ import Loader from 'components/Loader/Loader'
 import Modal from 'components/Modal/Modal'
 import Spinner from 'components/Spinner/Spinner'
 import WordRotate from 'components/WordRotate/WordRotate'
-import OptionsModal from 'routes/Ask/components/OptionsModal/OptionsModal'
+import OptionsModalWrapper from './OptionsModalWrapper'
 import Question from 'routes/Ask/components/Question/Question'
 import Sharing from 'routes/Answer/components/Sharing/Sharing'
 import Answer from 'routes/Answer/components/Answer/Answer'
@@ -44,7 +46,7 @@ storiesOf('Core.Loader', module)
       { getStory() }
     </Provider>
   })
-  .add('Default', () => <Loader />)
+  .add('Default', () => <Loader isLoading />)
 
 let _modal
 storiesOf('Core.Modal', module)
@@ -72,19 +74,23 @@ storiesOf('Core.WordRotate', module)
 let _optionsModal
 storiesOf('Ask.OptionsModal', module)
   .addDecorator((getStory) => {
-    return <Provider store={store}>
-      { getStory() }
-    </Provider>
+    return <LocaleProvider locale={enGB}>
+      <Provider store={store}>
+        { getStory() }
+      </Provider>
+    </LocaleProvider>
   })
-  .add('Default', () =>
-    <div>
-      <Button text='Show' callback={() => {
-        _optionsModal.getWrappedInstance().show()
-        return Promise.resolve()
-      }} />
-      <OptionsModal ref={component => { _optionsModal = component }} />
-    </div>
-  )
+  .add('Default', () => {
+    return (
+      <div>
+        <Button text='Show' callback={() => {
+          _optionsModal.getWrappedInstance().show()
+          return Promise.resolve()
+        }} />
+        <OptionsModalWrapper ref={(component) => { _optionsModal = component }} />
+      </div>
+    )
+  })
 
 storiesOf('Ask.Question', module)
   .addDecorator((getStory) => {

@@ -37,6 +37,7 @@ class RetrievePollsCest extends BaseApiCest
                 'question'       => 'string',
                 'multipleChoice' => 'boolean',
                 'passphrase'     => 'string',
+                'ended'          => 'boolean',
                 'deleted'        => 'boolean',
                 'responsesCount' => 'integer',
                 'answers'        => 'array',
@@ -79,6 +80,7 @@ class RetrievePollsCest extends BaseApiCest
                 'question'       => 'Test Question 1',
                 'multipleChoice' => false,
                 'passphrase'     => '',
+                'ended'          => false,
                 'deleted'        => false,
                 'responsesCount' => 2
             ],
@@ -131,6 +133,7 @@ class RetrievePollsCest extends BaseApiCest
                 'question'       => 'Test Question 1',
                 'multipleChoice' => false,
                 'passphrase'     => '',
+                'ended'          => false,
                 'deleted'        => false,
                 'responsesCount' => 2
             ],
@@ -152,6 +155,7 @@ class RetrievePollsCest extends BaseApiCest
                 'question'       => 'Test Question',
                 'multipleChoice' => false,
                 'passphrase'     => '',
+                'ended'          => false,
                 'deleted'        => false,
                 'responsesCount' => 0
             ],
@@ -173,6 +177,7 @@ class RetrievePollsCest extends BaseApiCest
                 'question'       => 'Test Question',
                 'multipleChoice' => false,
                 'passphrase'     => '',
+                'ended'          => false,
                 'deleted'        => false,
                 'responsesCount' => 0
             ],

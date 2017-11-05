@@ -38,6 +38,7 @@ class DeletePollCest extends BaseApiCest
             'identifier'     => 'he7gis',
             'question'       => 'Test Question 1',
             'multipleChoice' => false,
+            'ended'          => false,
             'deleted'        => true,
             'responsesCount' => 2,
         ]);

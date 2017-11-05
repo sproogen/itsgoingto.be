@@ -1,10 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { merge } from 'ramda'
-import { connect } from 'react-redux'
-import { withRouter } from 'react-router'
 import Linkify from 'react-linkify'
-import { postResponse } from 'store/api'
 import './Answer.scss'
 
 export class Answer extends React.Component {
@@ -15,16 +12,21 @@ export class Answer extends React.Component {
   }
 
   handleClick = () => {
+    const { answer, poll, postResponse } = this.props
+
     if (!this.linkClicked) {
-      this.setState((prevState) =>
-        merge(prevState, { animating : true })
-      )
-      setTimeout(() => {
+      if (!poll.ended) {
         this.setState((prevState) =>
-          merge(prevState, { animating : false })
+          merge(prevState, { animating : true })
         )
-      }, 550)
-      this.props.postResponse()
+        setTimeout(() => {
+          this.setState((prevState) =>
+            merge(prevState, { animating : false })
+          )
+        }, 550)
+
+        postResponse(answer.id)
+      }
     } else {
       this.linkClicked = false
     }
@@ -38,7 +40,7 @@ export class Answer extends React.Component {
     (this.props.answer.responsesCount / this.props.totalResponses) * 100 + '%'
 
   render () {
-    const { index, type, checked, answer } = this.props
+    const { index, type, checked, answer, poll } = this.props
     const { animating } = this.state
     const width = this.calculateWidth()
 
@@ -51,15 +53,17 @@ export class Answer extends React.Component {
           id={'answer-' + index}
           name='answer'
           className={type === 'radio'
-                      ? 'input-radio input-radio-options'
-                      : 'input-checkbox input-checkbox-options'}
+                     ? 'input-radio input-radio-options'
+                     : 'input-checkbox input-checkbox-options'}
           type={type}
           value={index}
           checked={checked}
           readOnly />
         <label
           htmlFor={'answer-' + index}
-          className={'input-label input-label-options' + (animating ? ' input-label-options--click' : '')}
+          className={'input-label input-label-options' +
+                     (animating ? ' input-label-options--click' : '') +
+                     (poll.ended ? ' input-label-options--hidden' : '')}
           onClick={this.handleClick}>
           <Linkify properties={{ target: '_blank', onClick: this.linkClick }}>{ answer.answer }</Linkify>
         </label>
@@ -75,13 +79,10 @@ Answer.propTypes = {
   index          : PropTypes.number.isRequired,
   type           : PropTypes.string.isRequired,
   answer         : PropTypes.object.isRequired,
+  poll           : PropTypes.object.isRequired,
   totalResponses : PropTypes.number.isRequired,
   checked        : PropTypes.bool.isRequired,
   postResponse   : PropTypes.func.isRequired
 }
 
-const mapDispatchToProps = (dispatch, props) => ({
-  postResponse : () => dispatch(postResponse(props.answer.id, props.params.identifier))
-})
-
-export default withRouter(connect(null, mapDispatchToProps)(Answer))
+export default Answer

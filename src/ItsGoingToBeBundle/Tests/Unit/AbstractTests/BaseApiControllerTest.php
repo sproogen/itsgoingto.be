@@ -19,6 +19,7 @@ use ItsGoingToBeBundle\Entity\Poll;
 use ItsGoingToBeBundle\Entity\Answer;
 use ItsGoingToBeBundle\Entity\UserResponse;
 use ItsGoingToBeBundle\Service\IdentifierService;
+use ItsGoingToBeBundle\Service\PollEndService;
 
 abstract class BaseApiControllerTest extends BaseTest
 {
@@ -89,6 +90,11 @@ abstract class BaseApiControllerTest extends BaseTest
     protected $identifierService;
 
     /**
+     * @var ObjectProphecy
+     */
+    protected $pollEndService;
+
+    /**
      * Test setup.
      *
      * @throws \Exception if $this->controllerClass is not set.
@@ -130,6 +136,7 @@ abstract class BaseApiControllerTest extends BaseTest
         $this->poll = $this->prophesize(Poll::class);
         $this->poll->getId()->willReturn(2);
         $this->poll->isMultipleChoice()->willReturn(false);
+        $this->poll->isEnded()->willReturn(false);
         $this->poll->getPassphrase()->willReturn('');
         $this->poll->hasPassphrase()->willReturn(false);
         $this->poll->extract()->willReturn([
@@ -189,9 +196,15 @@ abstract class BaseApiControllerTest extends BaseTest
         $this->identifierService->getCustomUserID(Argument::any())->willReturn('9873fdanba8qge9dfsaq39');
         $this->identifierService->getSessionID(Argument::any())->willReturn('12354321897467');
 
+        $this->pollEndService = $this->prophesize(PollEndService::class);
+        $this->pollEndService->updateIfEnded(Argument::any())->will(function ($args) {
+            return $args[0];
+        });
+
         $this->controller->setEntityManager($this->entityManager->reveal());
         $this->controller->setAuthorizationChecker($this->authorizationChecker->reveal());
         $this->controller->setIdentifierService($this->identifierService->reveal());
+        $this->controller->setPollEndService($this->pollEndService->reveal());
     }
 
     /**

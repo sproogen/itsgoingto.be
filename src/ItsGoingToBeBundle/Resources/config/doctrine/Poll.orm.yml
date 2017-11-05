@@ -19,6 +19,13 @@ ItsGoingToBeBundle\Entity\Poll:
         passphrase:
             type: string
             column: passphrase
+        endDate:
+            type: datetime
+            nullable: true
+            column: end_date
+        ended:
+            type: boolean
+            column: ended
         deleted:
             type: boolean
             column: deleted

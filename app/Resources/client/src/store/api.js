@@ -1,5 +1,6 @@
 import { prop, compose, not, isEmpty, contains, without, append, ifElse, both, equals, length, when, path, omit,
          merge } from 'ramda'
+import moment from 'moment'
 import { pollSelector, updatePoll, updateResponses } from './poll'
 import { answersSelector } from './answers'
 
@@ -8,6 +9,7 @@ import { answersSelector } from './answers'
 // ------------------------------------
 export const ROUTE_POLL = '/api/polls'
 export const ROUTE_RESPONSES = '/responses'
+export const API_DATE_FORMAT = 'YYYY-MM-DDTHH:mm:ssZ'
 
 // ------------------------------------
 // Helpers
@@ -51,6 +53,20 @@ export const onError = (error) => {
   return error
 }
 
+export const getEndDateFromPoll = (poll) => {
+  if (poll.endType === 'endAt') {
+    return poll.endAt.format(API_DATE_FORMAT)
+  } else if (poll.endType === 'endIn') {
+    return moment()
+            .add(poll.endIn, 'hours')
+            .seconds(0)
+            .milliseconds(0)
+            .format(API_DATE_FORMAT)
+  } else {
+    return null
+  }
+}
+
 // ------------------------------------
 // Actions
 // ------------------------------------
@@ -68,12 +84,13 @@ export const postPoll = () => (dispatch, getState) =>
         question        : poll.question,
         answers         : answersSelector(getState()),
         multipleChoice  : poll.multipleChoice,
-        passphrase      : poll.passphrase
+        passphrase      : poll.passphrase,
+        endDate         : getEndDateFromPoll(poll)
       })
     })
-    .then(extractResponse)
-    .then((response) => dispatch(updatePoll(response)))
-    .catch(onError),
+      .then(extractResponse)
+      .then((response) => dispatch(updatePoll(response)))
+      .catch(onError),
     pollSelector
   )(getState())
 
@@ -89,9 +106,9 @@ export const fetchPoll = (identifier) => (dispatch, getState) =>
     (url) => fetch(url, {
       credentials : 'same-origin'
     })
-    .then(extractResponse)
-    .then((response) => dispatch(updatePoll(response)))
-    .catch(onError),
+      .then(extractResponse)
+      .then((response) => dispatch(updatePoll(response)))
+      .catch(onError),
     ifElse(
       compose(not, equals(0), length, prop('passphrase')),
       (poll) => ROUTE_POLL + '/' + identifier + '?passphrase=' + prop('passphrase')(poll),
@@ -117,9 +134,9 @@ export const postResponse = (answer, identifier) => (dispatch, getState) =>
         body        : JSON.stringify(requestData)
       }
     )
-    .then(extractResponse)
-    .then((response) => dispatch(updateResponses(response, identifier)))
-    .catch(onError),
+      .then(extractResponse)
+      .then((response) => dispatch(updateResponses(response, identifier)))
+      .catch(onError),
     omit(['poll']),
     when(
       compose(not, equals(0), length, path(['poll', 'passphrase'])),
@@ -155,9 +172,9 @@ export const fetchResponses = (identifier) => (dispatch, getState) =>
     (url) => fetch(url, {
       credentials : 'same-origin'
     })
-    .then(extractResponse)
-    .then((response) => dispatch(updateResponses(response, identifier)))
-    .catch(onError),
+      .then(extractResponse)
+      .then((response) => dispatch(updateResponses(response, identifier)))
+      .catch(onError),
     ifElse(
       compose(not, equals(0), length, prop('passphrase')),
       (poll) => ROUTE_POLL + '/' + identifier + ROUTE_RESPONSES + '?passphrase=' + prop('passphrase')(poll),

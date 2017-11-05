@@ -69,8 +69,11 @@ class ResponseApiControllerTest extends BaseApiControllerTest
 
         $this->entityManager->getRepository(Poll::class)
              ->shouldHaveBeenCalledTimes(1);
-        $this->pollRepository->findOneBy(array('identifier'=>'gf56dg', 'deleted'=>false))
+        $this->pollRepository->findOneBy(array('identifier'=>'gf56dg', 'deleted'=>false, 'ended'=>false))
                              ->shouldHaveBeenCalledTimes(1);
+
+        $this->pollEndService->updateIfEnded(Argument::type(Poll::class))
+            ->shouldHaveBeenCalledTimes(1);
 
         self::assertInstanceOf(JsonResponse::class, $response);
         self::assertEquals(200, $response->getStatusCode());
@@ -317,7 +320,7 @@ class ResponseApiControllerTest extends BaseApiControllerTest
         $request  = Request::create($this->apiUrl, Request::METHOD_GET);
         $response = $this->controller->apiAction($request, 'gf56dg');
 
-        $this->pollRepository->findOneBy(array('identifier'=>'gf56dg', 'deleted' => false))
+        $this->pollRepository->findOneBy(array('identifier'=>'gf56dg', 'deleted' => false, 'ended' => false))
             ->shouldHaveBeenCalledTimes(1);
 
         $this->poll->hasPassphrase()
@@ -364,7 +367,7 @@ class ResponseApiControllerTest extends BaseApiControllerTest
         $request  = Request::create($this->apiUrl, Request::METHOD_POST);
         $response = $this->controller->apiAction($request, 'gf56dg');
 
-        $this->pollRepository->findOneBy(array('identifier'=>'gf56dg', 'deleted' => false))
+        $this->pollRepository->findOneBy(array('identifier'=>'gf56dg', 'deleted' => false, 'ended' => false))
             ->shouldHaveBeenCalledTimes(1);
 
         $this->poll->hasPassphrase()
