@@ -3,7 +3,7 @@ const argv = require('yargs').argv
 const webpackConfig = require('./webpack.config')
 const project = require('../project.config')
 const moduleConfig = webpackConfig.module
-const TEST_BUNDLER = './tests/test-bundler.js'
+const TEST_BUNDLER = './build/test-bundler.js'
 
 moduleConfig.rules.push({
   enforce: 'post',

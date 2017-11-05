@@ -1,3 +1,5 @@
+/* eslint-env mocha */
+/* global expect, sinon */
 import moment from 'moment'
 import {
   ROUTE_POLL,
