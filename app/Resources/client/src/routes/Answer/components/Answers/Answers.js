@@ -42,7 +42,7 @@ class Answers extends React.Component {
 
     return (
       <div className='container answer-container'>
-        <div className={'options' + (userResponded ? ' show-results' : '')}>
+        <div className={'options' + (userResponded || poll.ended ? ' show-results' : '')}>
           {answers.map((answer, index) =>
             <Answer
               key={index}

@@ -68,7 +68,7 @@ class Answer extends React.Component {
                 <h2><Linkify properties={{ target: '_blank' }}>{ poll.question }</Linkify></h2>
                 <Sharing poll={poll} />
                 { poll.ended &&
-                  <div className='alert alert-success'>This poll has now ended</div>
+                  <div className='alert alert-success'><span>This poll has now ended</span></div>
                 }
                 { poll.endDate && !poll.ended &&
                   <div className='alert alert-success'>

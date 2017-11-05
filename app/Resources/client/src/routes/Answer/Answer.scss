@@ -15,7 +15,6 @@
 
   .alert {
     width: 48em;
-    font-size: 1.4em;
     margin-top: 2em;
     margin-bottom: -1em;
     transition: width .4s ease;
@@ -23,6 +22,9 @@
       width: 100%;
       margin-top: 60px;
       margin-bottom: -40px;
+    }
+    .span {
+      font-size: 1.4em;
     }
   }
 }
