@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import { mergeAll } from 'ramda'
 import Helmet from 'react-helmet'
 import Linkify from 'react-linkify'
+import Countdown from 'react-countdown-now';
 import { browserHistory } from 'react-router'
 import { pollSelector, hasQuestionSelector, totalResponsesSelector, userRespondedSelector } from 'store/poll'
 import { answersSelector } from 'store/answers'
@@ -32,6 +33,22 @@ class Answer extends React.Component {
     })
   }
 
+  renderer = ({ days, hours, minutes, seconds, completed }) => {
+    let ending = ''
+
+    if (completed) {
+      ending = 'This poll has now ended'
+    } else {
+      ending = 'This poll will end in'
+      ending += days ? ` ${days} days and` : ''
+      ending += days || hours ? ` ${hours} hours ${!days ? 'and' : ''}` : ''
+      ending += !days && (hours || minutes) ? ` ${minutes} minutes ${!hours ? 'and' : ''}` : ''
+      ending += !days && !hours ? ` ${seconds} seconds` : ''
+    }
+
+    return <span>{ending}</span>
+  }
+
   render () {
     const { hasPoll, poll, requiresPassphrase, answers, totalResponses, userResponded } = this.props
 
@@ -52,6 +69,13 @@ class Answer extends React.Component {
                 <Sharing poll={poll} />
                 { poll.ended &&
                   <div className='alert alert-success'>This poll has now ended</div>
+                }
+                { poll.endDate && !poll.ended &&
+                  <div className='alert alert-success'>
+                    <Countdown
+                      date={ poll.endDate.date }
+                      renderer={this.renderer}/>
+                  </div>
                 }
               </div>
             </div>

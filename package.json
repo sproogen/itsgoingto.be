@@ -69,6 +69,7 @@
     "prop-types": "^15.6.0",
     "ramda": "^0.24.0",
     "react": "^15.6.2",
+    "react-countdown-now": "^1.2.0",
     "react-datepicker": "^0.53.0",
     "react-dom": "^15.6.2",
     "react-helmet": "^5.2.0",
