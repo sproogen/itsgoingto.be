@@ -3,7 +3,7 @@
 import React from 'react'
 import createStore from 'store/createStore'
 import PageLayout from 'layouts/PageLayout'
-import Footer from 'components/Footer'
+import Footer from 'layouts/Footer'
 import Loader from 'components/Loader'
 import { mount } from 'enzyme'
 
