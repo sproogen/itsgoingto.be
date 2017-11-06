@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { isLoadingSelector } from 'store/loader'
-import Footer from 'components/Footer'
+import Footer from 'layouts/Footer'
 import Loader from 'components/Loader'
 import './PageLayout.scss'
 

@@ -3,7 +3,7 @@
 import React from 'react'
 import createStore from 'store/createStore'
 import PageLayout from 'layouts/PageLayout'
-import Footer from 'components/Footer'
+import Footer from 'layouts/Footer'
 import Loader from 'components/Loader'
 import { mount } from 'enzyme'
 
@@ -26,6 +26,7 @@ describe('(Layout) PageLayout', () => {
 
   it('renders its children inside of the viewport', () => {
     const Child = () => <h2>child</h2>
+
     mount(
       <PageLayout store={store}>
         <Child />
