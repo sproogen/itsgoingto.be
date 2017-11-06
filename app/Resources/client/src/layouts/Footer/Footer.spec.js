@@ -10,6 +10,7 @@ describe('(Layout) Footer', () => {
 
   it('renders as a Footer', () => {
     const wrapper = mount(<Footer />)
+
     expect(wrapper.name()).to.equal('Footer')
   })
 
@@ -19,12 +20,12 @@ describe('(Layout) Footer', () => {
   })
 
   it('renders a mailto link', () => {
-    expect(wrapper.find(`a[href="mailto:itsgoingtobe@jwgmedia.co.uk"]`)).to.be.present()
-    expect(wrapper.find(`a[href="mailto:itsgoingtobe@jwgmedia.co.uk"]`)).to.have.text('itsgoingtobe@jwgmedia.co.uk')
+    expect(wrapper.find('a[href="mailto:itsgoingtobe@jwgmedia.co.uk"]')).to.be.present()
+    expect(wrapper.find('a[href="mailto:itsgoingtobe@jwgmedia.co.uk"]')).to.have.text('itsgoingtobe@jwgmedia.co.uk')
   })
 
   it('renders the jwg_logo', () => {
-    expect(wrapper.find(`a[href="http://jwgmedia.co.uk"]`)).to.be.present()
-    wrapper.find(`a[href="http://jwgmedia.co.uk"]`).should.contain(<img src={JWGMediaImage} />)
+    expect(wrapper.find('a[href="http://jwgmedia.co.uk"]')).to.be.present()
+    wrapper.find('a[href="http://jwgmedia.co.uk"]').should.contain(<img src={JWGMediaImage} />)
   })
 })
