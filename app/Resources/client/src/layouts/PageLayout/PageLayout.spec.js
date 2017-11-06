@@ -1,3 +1,5 @@
+/* eslint-env mocha */
+/* global expect */
 import React from 'react'
 import createStore from 'store/createStore'
 import PageLayout from 'layouts/PageLayout'
