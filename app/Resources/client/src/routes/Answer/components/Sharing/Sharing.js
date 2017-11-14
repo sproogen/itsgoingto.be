@@ -5,8 +5,8 @@ import './Sharing.scss'
 export function Sharing ({ poll }) {
   // Select the text contents from target of the given event
   const selectText = (event) => {
-    let doc = document
-    let text = event.target
+    const doc = document
+    const text = event.target
     let range
     let selection
 

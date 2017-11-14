@@ -24,6 +24,7 @@ describe('(Internal Module) Location', () => {
 
     it('Should return the previous state if an action was not matched.', () => {
       let state = locationReducer(undefined, {})
+
       expect(state).to.be.an('object')
       expect(state).to.have.property('pathname')
       expect(state).to.have.property('pathname', '/context.html')
@@ -31,6 +32,7 @@ describe('(Internal Module) Location', () => {
       expect(state).to.have.property('pathname', '/context.html')
 
       const locationState = { pathname: '/yup' }
+
       state = locationReducer(state, locationChange(locationState))
       expect(state).to.equal(locationState)
       expect(state).to.have.property('pathname', '/yup')
@@ -51,6 +53,7 @@ describe('(Internal Module) Location', () => {
 
     it('Should assign the first argument to the "payload" property.', () => {
       const locationState = { pathname: '/yup' }
+
       expect(locationChange(locationState)).to.have.property('payload', locationState)
     })
 

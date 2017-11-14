@@ -16,7 +16,7 @@ import {
 import * as poll from 'store/poll'
 
 const jsonOk = (body) => {
-  let mockResponse = new window.Response(JSON.stringify(body), {
+  const mockResponse = new window.Response(JSON.stringify(body), {
     status: 200,
     headers: {
       'Content-type': 'application/json'
@@ -27,7 +27,7 @@ const jsonOk = (body) => {
 }
 
 const jsonError = (status, body) => {
-  let mockResponse = new window.Response(JSON.stringify(body), {
+  const mockResponse = new window.Response(JSON.stringify(body), {
     status: status,
     headers: {
       'Content-type': 'application/json'
@@ -170,7 +170,7 @@ describe('(Store) API', () => {
 
       it('Should dispatch updatePoll().', () => {
         window.fetch.returns(jsonOk({ question: 'Question', identifier: 'hf0sd8fhoas' }))
-        let _updatePoll = sinon.stub(poll, 'updatePoll')
+        const _updatePoll = sinon.stub(poll, 'updatePoll')
 
         _updatePoll.returns({})
 

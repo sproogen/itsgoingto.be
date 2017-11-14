@@ -128,6 +128,7 @@ describe('(Store) Answers', () => {
       const _globalState = {
         answers: ['Answer 1', '']
       }
+
       expect(canSubmitPollSelector(_globalState)).to.equal(false)
     })
   })
@@ -193,7 +194,7 @@ describe('(Store) Answers', () => {
         .then(() => {
           _dispatchSpy.should.have.been.calledWith({
             type  : ANSWER_UPDATE,
-            index : index,
+            index,
             text  : 'Answer Text'
           })
         })

@@ -37,7 +37,7 @@ export const answersSelector = (state, identifier = '') => prop('answers')(state
  */
 export const maxAnswerSelector = createSelector(
   answersSelector,
-  answers => findLastIndex(compose(not, isEmpty, trim))(answers)
+  (answers) => findLastIndex(compose(not, isEmpty, trim))(answers)
 )
 
 /**
@@ -91,6 +91,7 @@ export const addAnswer = () => ({
  */
 export const updateAnswer = (index, value = '') => (dispatch, getState) => {
   const hadAnswer = hasAnswerSelector(getState(), index)
+
   dispatch({
     type  : ANSWER_UPDATE,
     index,
@@ -180,7 +181,7 @@ const ACTION_HANDLERS = {
   [ANSWER_UPDATE]        : (previousState, action) => adjust(() => action.text, action.index, previousState),
   // Update all the answers in the state
   [ANSWERS_UPDATE]       : (previousState, action) => map(
-      answer => when(
+      (answer) => when(
         is(Object),
         merge(find(propEq('id', answer.id), previousState))
       )(answer)
@@ -215,5 +216,6 @@ const initialState = []
  */
 export default function answersReducer (state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
+
   return handler ? handler(state, action) : state
 }

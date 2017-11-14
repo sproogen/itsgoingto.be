@@ -130,7 +130,7 @@ export const updateQuestion = (text = '', identifier = '') => (dispatch, getStat
   dispatch({
     type       : QUESTION_UPDATE,
     question   : text,
-    identifier : identifier
+    identifier
   })
   const hasQuestion = hasQuestionSelector(getState(), identifier)
 
