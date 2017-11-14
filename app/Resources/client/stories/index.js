@@ -49,6 +49,7 @@ storiesOf('Core.Loader', module)
   .add('Default', () => <Loader isLoading />)
 
 let _modal
+
 storiesOf('Core.Modal', module)
   .add('Default', () =>
     <div>
@@ -56,7 +57,7 @@ storiesOf('Core.Modal', module)
         _modal.show()
         return Promise.resolve()
       }} />
-      <Modal ref={component => { _modal = component }}>
+      <Modal ref={(component) => { _modal = component }}>
         <h2 className='modal-title'>Poll Options</h2>
       </Modal>
     </div>)
@@ -72,6 +73,7 @@ storiesOf('Core.WordRotate', module)
   )
 
 let _optionsModal
+
 storiesOf('Ask.OptionsModal', module)
   .addDecorator((getStory) => {
     return <LocaleProvider locale={enGB}>

@@ -1,3 +1,5 @@
+/*global __DEV__*/
+
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { LocaleProvider } from 'antd'

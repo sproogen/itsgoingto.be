@@ -90,14 +90,14 @@ export const addAnswer = () => ({
  * @return {Function}      redux-thunk callable function
  */
 export const updateAnswer = (index, value = '') => (dispatch, getState) => {
-  let hadAnswer = hasAnswerSelector(getState(), index)
+  const hadAnswer = hasAnswerSelector(getState(), index)
   dispatch({
     type  : ANSWER_UPDATE,
-    index : index,
+    index,
     text  : value
   })
-  let hasAnswer = hasAnswerSelector(getState(), index)
-  let countAnswers = length(answersSelector(getState()))
+  const hasAnswer = hasAnswerSelector(getState(), index)
+  const countAnswers = length(answersSelector(getState()))
 
   if (index === (countAnswers - 1) && hasAnswer && !hadAnswer) {
     dispatch(addAnswer())

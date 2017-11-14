@@ -125,13 +125,14 @@ export const updatePoll = (poll) => (dispatch, getState) =>
  * @return {Function}             redux-thunk callable function
  */
 export const updateQuestion = (text = '', identifier = '') => (dispatch, getState) => {
-  let hadQuestion = hasQuestionSelector(getState(), identifier)
+  const hadQuestion = hasQuestionSelector(getState(), identifier)
+
   dispatch({
     type       : QUESTION_UPDATE,
     question   : text,
     identifier : identifier
   })
-  let hasQuestion = hasQuestionSelector(getState(), identifier)
+  const hasQuestion = hasQuestionSelector(getState(), identifier)
 
   if (hasQuestion && !hadQuestion) {
     dispatch(addAnswer())
