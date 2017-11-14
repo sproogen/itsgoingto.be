@@ -12,4 +12,22 @@
       letter-spacing: -1px;
     }
   }
+
+  .alert {
+    width: 40em;
+    margin-top: 2em;
+    margin-bottom: -1em;
+    transition: width .4s ease;
+    @media(max-width: $screen-md-min) {
+      margin-top: 60px;
+      margin-bottom: -40px;
+      font-size: 1.4em;
+    }
+    @media(max-width: $screen-sm-min) {
+      width: 100%;
+    }
+    .span {
+      font-size: 1.4em;
+    }
+  }
 }

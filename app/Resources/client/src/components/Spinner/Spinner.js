@@ -1,7 +1,7 @@
 import React from 'react'
 import './Spinner.scss'
 
-export const Spinner = () => {
+export function Spinner () {
   return (
     <div className='spinner'>
       <span className='spinner_dot spinner_dot--first' />

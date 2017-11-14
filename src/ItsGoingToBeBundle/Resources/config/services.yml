@@ -27,6 +27,11 @@ services:
         calls:
             - [ setLogger, ["@logger"]]
 
+    itsgoingtobe.poll_end_service:
+        class: ItsGoingToBeBundle\Service\PollEndService
+        calls:
+            - [ setEntityManager, ["@doctrine.orm.default_entity_manager"]]
+
     itsgoingtobe.poll_api_controller:
         class: ItsGoingToBeBundle\Controller\Api\PollApiController
         calls:
@@ -34,6 +39,7 @@ services:
             - [ setEntityManager, ["@doctrine.orm.default_entity_manager"]]
             - [ setAuthorizationChecker, ["@itsgoingtobe.authorization_checker"]]
             - [ setIdentifierService, ["@itsgoingtobe.identifier_service"]]
+            - [ setPollEndService, ["@itsgoingtobe.poll_end_service"]]
 
     itsgoingtobe.response_api_controller:
         class: ItsGoingToBeBundle\Controller\Api\ResponseApiController
@@ -42,6 +48,7 @@ services:
             - [ setEntityManager, ["@doctrine.orm.default_entity_manager"]]
             - [ setAuthorizationChecker, ["@itsgoingtobe.authorization_checker"]]
             - [ setIdentifierService, ["@itsgoingtobe.identifier_service"]]
+            - [ setPollEndService, ["@itsgoingtobe.poll_end_service"]]
 
     itsgoingtobe.react_controller:
         class: ItsGoingToBeBundle\Controller\ReactController

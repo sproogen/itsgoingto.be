@@ -1,3 +1,5 @@
+/* eslint-env mocha */
+/* global expect, sinon */
 import {
   ANSWER_ADD,
   ANSWER_UPDATE,

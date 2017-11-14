@@ -30,6 +30,8 @@ class PollTest extends BaseEntityTest
         $this->entity->addResponse($response);
         $this->entity->setMultipleChoice(true);
         $this->entity->setPassphrase('Passphrase');
+        $this->entity->setEndDate($endDate = new \DateTime());
+        $this->entity->setEnded(true);
         $this->entity->setDeleted(true);
         $this->entity->setCreated();
         $this->entity->setUpdated();
@@ -42,6 +44,8 @@ class PollTest extends BaseEntityTest
         self::assertArrayHasKey('responsesCount', $extractedData);
         self::assertArrayHasKey('multipleChoice', $extractedData);
         self::assertArrayHasKey('passphrase', $extractedData);
+        self::assertArrayHasKey('endDate', $extractedData);
+        self::assertArrayHasKey('ended', $extractedData);
         self::assertArrayHasKey('deleted', $extractedData);
         self::assertArrayHasKey('created', $extractedData);
         self::assertArrayHasKey('updated', $extractedData);
@@ -56,7 +60,32 @@ class PollTest extends BaseEntityTest
         self::assertEquals(1, $extractedData['responsesCount']);
         self::assertEquals(true, $extractedData['multipleChoice']);
         self::assertEquals('Passphrase', $extractedData['passphrase']);
+        self::assertEquals($endDate, $extractedData['endDate']);
+        self::assertEquals(true, $extractedData['ended']);
         self::assertEquals(true, $extractedData['deleted']);
+    }
+
+    public function testShouldHaveEnded()
+    {
+        $now = new \DateTime();
+        $now->modify('-1 hour');
+        $this->entity->setEndDate($now);
+        self::assertTrue($this->entity->shouldHaveEnded());
+
+        $this->entity->setEndDate(null);
+        self::assertFalse($this->entity->shouldHaveEnded());
+
+        $now = new \DateTime();
+        $now = $now->setTimezone(new \DateTimezone(timezone_name_from_abbr("", 2*3600, true)));
+        $now->modify('-1 hour');
+        $this->entity->setEndDate($now);
+        self::assertTrue($this->entity->shouldHaveEnded());
+
+        $now = new \DateTime();
+        $now = $now->setTimezone(new \DateTimezone(timezone_name_from_abbr("", -2*3600, true)));
+        $now->modify('+3 hour');
+        $this->entity->setEndDate($now);
+        self::assertFalse($this->entity->shouldHaveEnded());
     }
 
     public function testGetSetIdentifier()
@@ -143,8 +172,26 @@ class PollTest extends BaseEntityTest
         self::assertEquals('Passphrase', $this->entity->getPassphrase());
     }
 
+    public function testGetSetEndDate()
+    {
+        $now = new \DateTime();
+        $this->entity->setEndDate($now);
+        self::assertEquals($now, $this->entity->getEndDate());
+        $now->modify('+1 day');
+        $this->entity->setEndDate($now);
+        self::assertEquals($now, $this->entity->getEndDate());
+    }
+
+    public function testGetSetEnded()
+    {
+        self::assertEquals(false, $this->entity->isEnded());
+        $this->entity->setEnded(true);
+        self::assertEquals(true, $this->entity->isEnded());
+    }
+
     public function testGetSetDeleted()
     {
+        self::assertEquals(false, $this->entity->isDeleted());
         $this->entity->setDeleted(true);
         self::assertEquals(true, $this->entity->isDeleted());
     }

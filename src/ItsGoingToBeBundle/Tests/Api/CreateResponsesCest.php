@@ -27,6 +27,47 @@ class CreateResponsesCest extends BaseApiCest
         $I->seeResponseIsJson();
     }
 
+    public function returns404DeletedPollTest(ApiTester $I)
+    {
+        $this->polls[] = $this->createPoll($I, [
+            'identifier'     => 'as46hg',
+            'question'       => 'Test Question Deleted',
+            'multipleChoice' => false,
+            'passphrase'     => 'Passphrase',
+            'deleted'        => true,
+            'answers'        => [
+                'Answer Passphrase 1',
+                'Answer Passphrase 2'
+            ]
+        ]);
+
+        $I->wantTo('Check call return 404 for deleted poll');
+        $I->sendPOST('/polls/as46hg/responses');
+        $I->seeResponseCodeIs(HttpCode::NOT_FOUND);
+        $I->seeResponseIsJson();
+    }
+
+    public function returns404EndedPollTest(ApiTester $I)
+    {
+        $this->polls[] = $this->createPoll($I, [
+            'identifier'     => 'hg7i3s',
+            'question'       => 'Test Question Ended',
+            'multipleChoice' => false,
+            'passphrase'     => 'Passphrase',
+            'ended'          => true,
+            'deleted'        => false,
+            'answers'        => [
+                'Answer Passphrase 1',
+                'Answer Passphrase 2'
+            ]
+        ]);
+
+        $I->wantTo('Check call return 404 for ended poll');
+        $I->sendPOST('/polls/hg7i3s/responses');
+        $I->seeResponseCodeIs(HttpCode::NOT_FOUND);
+        $I->seeResponseIsJson();
+    }
+
     public function returnsErrorMessagesAnd400Test(ApiTester $I)
     {
         $I->wantTo('Check call returns errors');
@@ -292,5 +333,32 @@ class CreateResponsesCest extends BaseApiCest
             ],
             '$.answers[*]'
         );
+    }
+
+    public function returnsErrorAnd400ForNewlyEndedPollResponsesTest(ApiTester $I)
+    {
+        $this->polls[] = $this->createPoll($I, [
+            'identifier'     => 'gfry89',
+            'question'       => 'Test Question Ending',
+            'multipleChoice' => false,
+            'passphrase'     => '',
+            'endDate'        => new \DateTime(),
+            'deleted'        => false,
+            'answers'        => [
+                'Answer Passphrase 1',
+                'Answer Passphrase 2'
+            ]
+        ]);
+
+        $I->wantTo('Check call return 400');
+        $I->sendPOST('/polls/gfry89/responses');
+        $I->seeResponseCodeIs(HttpCode::BAD_REQUEST);
+        $I->seeResponseIsJson();
+        $I->seeResponseMatchesJsonType([
+            'error' => 'string',
+        ]);
+        $I->seeResponseContainsJson([
+            'error' => 'poll-ended'
+        ]);
     }
 }

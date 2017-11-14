@@ -1,29 +1,34 @@
+/* eslint-env mocha */
+/* global expect */
 import React from 'react'
-import PageLayout from 'layouts/PageLayout/PageLayout'
-import Footer from 'components/Footer/Footer'
-import Loader from 'components/Loader/Loader'
-import { shallow } from 'enzyme'
+import createStore from 'store/createStore'
+import PageLayout from 'layouts/PageLayout'
+import Footer from 'layouts/Footer'
+import Loader from 'components/Loader'
+import { mount } from 'enzyme'
+
+const store = createStore(window.__INITIAL_STATE__)
 
 describe('(Layout) PageLayout', () => {
+  const wrapper = mount(<PageLayout store={store} />)
+
   it('renders as a .container', () => {
-    const wrapper = shallow(<PageLayout />)
     expect(wrapper.hasClass('container')).to.equal(true)
   })
 
   it('renders the footer', () => {
-    const wrapper = shallow(<PageLayout />)
     expect(wrapper.find(Footer)).to.have.length(1)
   })
 
   it('renders the loader', () => {
-    const wrapper = shallow(<PageLayout />)
     expect(wrapper.find(Loader)).to.have.length(1)
   })
 
   it('renders its children inside of the viewport', () => {
     const Child = () => <h2>child</h2>
-    shallow(
-      <PageLayout>
+
+    mount(
+      <PageLayout store={store}>
         <Child />
       </PageLayout>
     )

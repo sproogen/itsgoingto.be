@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import EventBus from 'components/EventBus'
-import Spinner from 'components/Spinner/Spinner'
+import Spinner from 'components/Spinner'
 import './Button.scss'
 
 class Button extends React.Component {
@@ -36,7 +36,7 @@ class Button extends React.Component {
     if (event) {
       event.preventDefault()
     }
-    if (!this.isDisabled()) {
+    if (!this.isDisabled() && this.props.callback) {
       this.setState({
         disabled : true,
         loading  : true
@@ -52,27 +52,35 @@ class Button extends React.Component {
     }
   }
 
-  render = () => (
-    <button
-      className={'btn ' + this.props.className + (this.isDisabled() ? ' disabled' : '')}
-      disabled={this.props.disabled}
-      onClick={this.handlePress}>
-      {this.state.loading && <Spinner />}
-      {!this.state.loading && <span>{this.props.text}</span>}
-    </button>
-  )
+  render () {
+    const { className, disabled, text } = this.props
+    const { loading } = this.state
+    const isDisabled = this.isDisabled()
+
+    return (
+      <button
+        className={'btn ' + className + (isDisabled ? ' disabled' : '')}
+        disabled={disabled}
+        onClick={this.handlePress}>
+        {loading && <Spinner />}
+        {!loading && <span>{text}</span>}
+      </button>
+    )
+  }
 }
 
 Button.propTypes = {
-  text        : PropTypes.string.isRequired,
+  text        : PropTypes.string,
   className   : PropTypes.string,
   disabled    : PropTypes.bool,
-  callback    : PropTypes.func.isRequired,
+  callback    : PropTypes.func,
   submitEvent : PropTypes.string
 }
 
 Button.defaultProps = {
-  disabled : false,
+  text      : '',
+  className : '',
+  disabled  : false,
 }
 
 export default Button

@@ -1,4 +1,4 @@
-import CoreLayout from '../layouts/PageLayout/PageLayout'
+import CoreLayout from 'layouts/PageLayout'
 import AskRoute from './Ask'
 import AnswerRoute from './Answer'
 import NotFoundRoute from './NotFound'

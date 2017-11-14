@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use ItsGoingToBeBundle\Service\IdentifierService;
+use ItsGoingToBeBundle\Service\PollEndService;
 use ItsGoingToBeBundle\Entity\Poll;
 use ItsGoingToBeBundle\Entity\UserResponse;
 
@@ -30,6 +31,11 @@ abstract class BaseApiController extends Controller
      * @var IdentifierService
      */
     protected $identifierService;
+
+    /**
+     * @var PollEndService
+     */
+    protected $pollEndService;
 
     /**
      * Number of entities to return per page.
@@ -60,6 +66,14 @@ abstract class BaseApiController extends Controller
     public function setIdentifierService(IdentifierService $identifierService)
     {
         $this->identifierService = $identifierService;
+    }
+
+    /**
+     * @param PollEndService $pollEndService
+     */
+    public function setPollEndService(PollEndService $pollEndService)
+    {
+        $this->pollEndService = $pollEndService;
     }
 
     /**

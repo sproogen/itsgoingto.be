@@ -62,6 +62,20 @@ class Poll
     protected $passphrase;
 
     /**
+     * When the poll will end.
+     *
+     * @var \DateTime
+     */
+    protected $endDate;
+
+    /**
+     * Has the poll ended
+     *
+     * @var boolean
+     */
+    protected $ended = false;
+
+    /**
      * Has the poll been deleted
      *
      * @var boolean
@@ -125,6 +139,8 @@ class Poll
             'question'       => $this->getQuestion(),
             'multipleChoice' => $this->isMultipleChoice(),
             'passphrase'     => $this->getPassphrase(),
+            'endDate'        => $this->getEndDate(),
+            'ended'          => $this->isEnded(),
             'deleted'        => $this->isDeleted(),
             'created'        => $this->getCreated(),
             'updated'        => $this->getUpdated()
@@ -139,6 +155,20 @@ class Poll
         $data['answers'] = $answers;
         $data['responsesCount'] = count($this->getResponses());
         return $data;
+    }
+
+    /**
+     * Returns if the poll should have ended.
+     *
+     * @return boolean
+     */
+    public function shouldHaveEnded()
+    {
+        if ($this->getEndDate()) {
+            return new \DateTime() >= $this->getEndDate();
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -324,6 +354,54 @@ class Poll
     public function hasPassphrase()
     {
         return trim($this->getPassphrase()) !== '';
+    }
+
+    /**
+     * Get when the poll should end.
+     *
+     * @return \DateTime
+     */
+    public function getEndDate()
+    {
+        return $this->endDate;
+    }
+
+    /**
+     * Set when the poll should end.
+     *
+     * @param \DateTime $endDate When the poll should end.
+     *
+     * @return Poll
+     */
+    public function setEndDate(\DateTime $endDate = null)
+    {
+        $this->endDate = $endDate;
+
+        return $this;
+    }
+
+    /**
+     * Set ended
+     *
+     * @param boolean $ended
+     *
+     * @return Poll
+     */
+    public function setEnded($ended)
+    {
+        $this->ended = $ended;
+
+        return $this;
+    }
+
+    /**
+     * Get ended
+     *
+     * @return boolean
+     */
+    public function isEnded()
+    {
+        return $this->ended;
     }
 
     /**

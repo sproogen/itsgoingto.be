@@ -2,7 +2,7 @@ import React from 'react'
 import { browserHistory } from 'react-router'
 import './Back.scss'
 
-export const Back = () => {
+export function Back () {
   const submit = () => {
     browserHistory.push('/')
   }

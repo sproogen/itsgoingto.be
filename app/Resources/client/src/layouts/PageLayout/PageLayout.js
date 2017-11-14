@@ -1,21 +1,30 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Footer from 'components/Footer/Footer'
-import Loader from 'components/Loader/Loader'
+import { connect } from 'react-redux'
+import { isLoadingSelector } from 'store/loader'
+import Footer from 'layouts/Footer'
+import Loader from 'components/Loader'
 import './PageLayout.scss'
 
-export const PageLayout = ({ children }) => (
-  <div className='container'>
-    <div className='page-layout__viewport'>
-      {children}
+export function PageLayout ({ children, isLoading }) {
+  return (
+    <div className='container'>
+      <div className='page-layout__viewport'>
+        {children}
+      </div>
+      <Loader isLoading={isLoading} />
+      <Footer />
     </div>
-    <Loader />
-    <Footer />
-  </div>
-)
-
-PageLayout.propTypes = {
-  children : PropTypes.node
+  )
 }
 
-export default PageLayout
+PageLayout.propTypes = {
+  children  : PropTypes.node,
+  isLoading : PropTypes.bool.isRequired
+}
+
+const mapStateToProps = (state) => ({
+  isLoading : isLoadingSelector(state),
+})
+
+export default connect(mapStateToProps)(PageLayout)

@@ -43,6 +43,12 @@ GET /api/polls
       "identifier": "v90034d6",
       "question": "Is this a question?",
       "multipleChoice": false,
+      "endDate": {
+        "date": "2017-05-18 13:45:37.000000",
+        "timezone_type": 3,
+        "timezone": "Europe/London"
+      },
+      "ended": false,
       "deleted": false,
       "created": {
         "date": "2017-05-18 13:45:37.000000",
@@ -83,6 +89,12 @@ GET /api/polls/:identifier
   "identifier": "v90034d6",
   "question": "Is this a question?",
   "multipleChoice": false,
+  "endDate": {
+    "date": "2017-05-18 13:45:37.000000",
+    "timezone_type": 3,
+    "timezone": "Europe/London"
+  },
+  "ended": false,
   "deleted": false,
   "created": {
     "date": "2017-05-18 13:45:37.000000",
@@ -131,6 +143,7 @@ POST /api/polls
 | question | string | true | The question text.
 | answers | array | true | Array of answers for the poll. Each answer should be a string |
 | multipleChoice | boolean | false | Is the poll multiple choice. Default: false |
+| endDate | string | false | The end date for the poll. Format: DateTime::ATOM (e.g. 2017-05-18T15:52:01+00:00). Default: null |
 ###### Response
 ```
 {
@@ -138,6 +151,12 @@ POST /api/polls
   "identifier": "v90034d6",
   "question": "Is this a question?",
   "multipleChoice": false,
+  "endDate": {
+    "date": "2017-05-18 13:45:37.000000",
+    "timezone_type": 3,
+    "timezone": "Europe/London"
+  },
+  "ended": false,
   "deleted": false,
   "created": {
     "date": "2017-05-18 13:45:37.000000",
@@ -186,6 +205,12 @@ DELETE /api/polls/:identifier
   "identifier": "v90034d6",
   "question": "Is this a question?",
   "multipleChoice": false,
+  "endDate": {
+    "date": "2017-05-18 13:45:37.000000",
+    "timezone_type": 3,
+    "timezone": "Europe/London"
+  },
+  "ended": false,
   "deleted": true,
   "created": {
     "date": "2017-05-18 13:45:37.000000",

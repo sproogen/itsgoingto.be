@@ -1,7 +1,11 @@
+/* eslint-env mocha */
+/* global expect, sinon */
+import moment from 'moment'
 import {
   ROUTE_POLL,
   ROUTE_RESPONSES,
   extractResponse,
+  getEndDateFromPoll,
   APIError,
   onError,
   postPoll,
@@ -52,6 +56,45 @@ describe('(Store) API', () => {
     })
   })
 
+  describe('(Helper) getEndDateFromPoll', () => {
+    let poll
+
+    beforeEach(function () {
+      poll = { question: 'Question', identifier: '', endType: null }
+    })
+
+    it('Should be a function.', () => {
+      expect(getEndDateFromPoll).to.be.a('function')
+    })
+
+    it('Should return null when endType is null.', () => {
+      expect(getEndDateFromPoll(poll)).to.equal(null)
+    })
+
+    it('Should return null when endType is endNever.', () => {
+      poll.endType = 'endNever'
+      expect(getEndDateFromPoll(poll)).to.equal(null)
+    })
+
+    it('Should return a date string when endType is endAt.', () => {
+      poll.endType = 'endAt'
+      poll.endAt = moment()
+      expect(getEndDateFromPoll(poll)).to.equal(poll.endAt.format('YYYY-MM-DDTHH:mm:ssZ'))
+    })
+
+    it('Should return a date string when endType is endIn.', () => {
+      poll.endType = 'endIn'
+      poll.endIn = 5
+      expect(getEndDateFromPoll(poll)).to.equal(
+        moment()
+          .add(poll.endIn, 'hours')
+          .seconds(0)
+          .milliseconds(0)
+          .format('YYYY-MM-DDTHH:mm:ssZ')
+      )
+    })
+  })
+
   describe('(API Calls)', () => {
     let _globalState
     let _dispatchSpy
@@ -62,7 +105,7 @@ describe('(Store) API', () => {
       window.fetch.returns(jsonOk({}))
 
       _globalState = {
-        poll    : [{ question : 'Question', identifier : '', multipleChoice : false, passphrase: '' }],
+        poll    : [{ question: 'Question', identifier: '', multipleChoice: false, passphrase: '' }],
         answers : ['Answer']
       }
       _dispatchSpy = sinon.spy((action) => {
@@ -98,17 +141,19 @@ describe('(Store) API', () => {
           window.fetch.should.have.been.calledWith(
             ROUTE_POLL,
             {
-              method : 'POST',
+              method      : 'POST',
               credentials : 'same-origin',
-              body : '{"question":"Question","answers":["Answer"],"multipleChoice":false,"passphrase":""}' }
+              body        : '{"question":"Question","answers":["Answer"],' +
+                            '"multipleChoice":false,"passphrase":"","endDate":null}'
+            }
           )
         })
       })
 
       it('Should return a promise with the response.', () => {
-        window.fetch.returns(jsonOk({ question : 'Question', identifier: 'hf0sd8fhoas' }))
+        window.fetch.returns(jsonOk({ question: 'Question', identifier: 'hf0sd8fhoas' }))
         return postPoll()(_dispatchSpy, _getStateSpy).then((response) => {
-          expect(response).to.deep.equal({ question : 'Question', identifier: 'hf0sd8fhoas' })
+          expect(response).to.deep.equal({ question: 'Question', identifier: 'hf0sd8fhoas' })
         })
       })
 
@@ -122,15 +167,15 @@ describe('(Store) API', () => {
       })
 
       it('Should dispatch updatePoll().', () => {
-        window.fetch.returns(jsonOk({ question : 'Question', identifier: 'hf0sd8fhoas' }))
+        window.fetch.returns(jsonOk({ question: 'Question', identifier: 'hf0sd8fhoas' }))
         let _updatePoll = sinon.stub(poll, 'updatePoll')
         _updatePoll.returns({})
 
         return postPoll()(_dispatchSpy, _getStateSpy).then((response) => {
           _updatePoll.should.have.been.calledOnce()
-          _updatePoll.should.have.been.calledWith({ question : 'Question', identifier: 'hf0sd8fhoas' })
+          _updatePoll.should.have.been.calledWith({ question: 'Question', identifier: 'hf0sd8fhoas' })
           _dispatchSpy.should.have.been.calledOnce()
-          _dispatchSpy.should.have.been.calledWith(_updatePoll({ question : 'Question', identifier: 'hf0sd8fhoas' }))
+          _dispatchSpy.should.have.been.calledWith(_updatePoll({ question: 'Question', identifier: 'hf0sd8fhoas' }))
 
           _updatePoll.restore()
         })
@@ -153,7 +198,7 @@ describe('(Store) API', () => {
       it('Should call fetch with the correct url.', () => {
         return fetchPoll('hf0sd8fhoas')(_dispatchSpy, _getStateSpy).then(() => {
           window.fetch.should.have.been.calledOnce()
-          window.fetch.should.have.been.calledWith(ROUTE_POLL + '/hf0sd8fhoas', { credentials : 'same-origin' })
+          window.fetch.should.have.been.calledWith(ROUTE_POLL + '/hf0sd8fhoas', { credentials: 'same-origin' })
         })
       })
 
@@ -169,15 +214,15 @@ describe('(Store) API', () => {
           window.fetch.should.have.been.calledOnce()
           window.fetch.should.have.been.calledWith(
             ROUTE_POLL + '/hf0sd8fhoas?passphrase=1234',
-            { credentials : 'same-origin' }
+            { credentials: 'same-origin' }
           )
         })
       })
 
       it('Should return a promise with the response.', () => {
-        window.fetch.returns(jsonOk({ question : 'Question', identifier: 'hf0sd8fhoas' }))
+        window.fetch.returns(jsonOk({ question: 'Question', identifier: 'hf0sd8fhoas' }))
         return fetchPoll('hf0sd8fhoas')(_dispatchSpy, _getStateSpy).then((response) => {
-          expect(response).to.deep.equal({ question : 'Question', identifier: 'hf0sd8fhoas' })
+          expect(response).to.deep.equal({ question: 'Question', identifier: 'hf0sd8fhoas' })
         })
       })
 
@@ -191,15 +236,15 @@ describe('(Store) API', () => {
       })
 
       it('Should dispatch updatePoll().', () => {
-        window.fetch.returns(jsonOk({ question : 'Question', identifier: 'hf0sd8fhoas' }))
+        window.fetch.returns(jsonOk({ question: 'Question', identifier: 'hf0sd8fhoas' }))
         let _updatePoll = sinon.stub(poll, 'updatePoll')
         _updatePoll.returns({})
 
         return fetchPoll('hf0sd8fhoas')(_dispatchSpy, _getStateSpy).then((response) => {
           _updatePoll.should.have.been.calledOnce()
-          _updatePoll.should.have.been.calledWith({ question : 'Question', identifier: 'hf0sd8fhoas' })
+          _updatePoll.should.have.been.calledWith({ question: 'Question', identifier: 'hf0sd8fhoas' })
           _dispatchSpy.should.have.been.calledOnce()
-          _dispatchSpy.should.have.been.calledWith(_updatePoll({ question : 'Question', identifier: 'hf0sd8fhoas' }))
+          _dispatchSpy.should.have.been.calledWith(_updatePoll({ question: 'Question', identifier: 'hf0sd8fhoas' }))
 
           _updatePoll.restore()
         })
@@ -240,7 +285,7 @@ describe('(Store) API', () => {
           window.fetch.should.have.been.calledOnce()
           window.fetch.should.have.been.calledWith(
             ROUTE_POLL + '/hf0sd8fhoas' + ROUTE_RESPONSES,
-            { method : 'POST', credentials : 'same-origin', body : '{"answers":[434]}' })
+            { method: 'POST', credentials: 'same-origin', body: '{"answers":[434]}' })
         })
       })
 
@@ -256,17 +301,17 @@ describe('(Store) API', () => {
           window.fetch.should.have.been.calledOnce()
           window.fetch.should.have.been.calledWith(
             ROUTE_POLL + '/hf0sd8fhoas' + ROUTE_RESPONSES,
-            { method : 'POST', credentials : 'same-origin', body : '{"answers":[434],"passphrase":"1234"}' })
+            { method: 'POST', credentials: 'same-origin', body: '{"answers":[434],"passphrase":"1234"}' })
         })
       })
 
       it('Should call fetch with the correct data for multiple choice initial answer.', () => {
         _globalState = {
           poll    : [{
-            question : 'Question',
-            identifier : 'hf0sd8fhoas',
+            question       : 'Question',
+            identifier     : 'hf0sd8fhoas',
             multipleChoice : true,
-            userResponses : []
+            userResponses  : []
           }],
           answers : ['Answer']
         }
@@ -274,17 +319,17 @@ describe('(Store) API', () => {
           window.fetch.should.have.been.calledOnce()
           window.fetch.should.have.been.calledWith(
             ROUTE_POLL + '/hf0sd8fhoas' + ROUTE_RESPONSES,
-            { method : 'POST', credentials : 'same-origin', body : '{"answers":[434]}' })
+            { method: 'POST', credentials: 'same-origin', body: '{"answers":[434]}' })
         })
       })
 
       it('Should call fetch with the correct data for multiple choice add answer.', () => {
         _globalState = {
           poll    : [{
-            question : 'Question',
-            identifier : 'hf0sd8fhoas',
+            question       : 'Question',
+            identifier     : 'hf0sd8fhoas',
             multipleChoice : true,
-            userResponses : [433]
+            userResponses  : [433]
           }],
           answers : ['Answer']
         }
@@ -292,17 +337,17 @@ describe('(Store) API', () => {
           window.fetch.should.have.been.calledOnce()
           window.fetch.should.have.been.calledWith(
             ROUTE_POLL + '/hf0sd8fhoas' + ROUTE_RESPONSES,
-            { method : 'POST', credentials : 'same-origin', body : '{"answers":[433,434]}' })
+            { method: 'POST', credentials: 'same-origin', body: '{"answers":[433,434]}' })
         })
       })
 
       it('Should call fetch with the correct data for multiple choice remove answer.', () => {
         _globalState = {
           poll    : [{
-            question : 'Question',
-            identifier : 'hf0sd8fhoas',
+            question       : 'Question',
+            identifier     : 'hf0sd8fhoas',
             multipleChoice : true,
-            userResponses : [433]
+            userResponses  : [433]
           }],
           answers : ['Answer']
         }
@@ -313,7 +358,7 @@ describe('(Store) API', () => {
           window.fetch.should.have.been.calledOnce()
           window.fetch.should.have.been.calledWith(
             ROUTE_POLL + '/hf0sd8fhoas' + ROUTE_RESPONSES,
-            { method : 'POST', credentials : 'same-origin', body : '{"answers":[]}' })
+            { method: 'POST', credentials: 'same-origin', body: '{"answers":[]}' })
         })
       })
     })
@@ -336,7 +381,7 @@ describe('(Store) API', () => {
           window.fetch.should.have.been.calledOnce()
           window.fetch.should.have.been.calledWith(
             ROUTE_POLL + '/hf0sd8fhoas' + ROUTE_RESPONSES,
-            { credentials : 'same-origin' })
+            { credentials: 'same-origin' })
         })
       })
 
@@ -352,7 +397,7 @@ describe('(Store) API', () => {
           window.fetch.should.have.been.calledOnce()
           window.fetch.should.have.been.calledWith(
             ROUTE_POLL + '/hf0sd8fhoas' + ROUTE_RESPONSES + '?passphrase=1234',
-            { credentials : 'same-origin' })
+            { credentials: 'same-origin' })
         })
       })
 

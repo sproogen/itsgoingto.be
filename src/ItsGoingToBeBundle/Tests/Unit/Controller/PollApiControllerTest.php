@@ -12,7 +12,7 @@ use ItsGoingToBeBundle\Entity\Poll;
 use ItsGoingToBeBundle\Entity\UserResponse;
 
 /**
- * ItsGoingToBeBundle\Controller\Api\PollApiController
+ * Tests for ItsGoingToBeBundle\Controller\Api\PollApiController
  */
 class PollApiControllerTest extends BaseApiControllerTest
 {
@@ -119,6 +119,9 @@ class PollApiControllerTest extends BaseApiControllerTest
         $response = $this->controller->apiAction($request, 'gf56dg');
 
         $this->pollRepository->findOneBy(array('identifier'=>'gf56dg', 'deleted' => false))
+            ->shouldHaveBeenCalledTimes(1);
+
+        $this->pollEndService->updateIfEnded(Argument::type(Poll::class))
             ->shouldHaveBeenCalledTimes(1);
 
         $this->poll->getAnswers()
@@ -315,6 +318,40 @@ class PollApiControllerTest extends BaseApiControllerTest
         self::assertEquals('Answer B', $data['answers'][1]['answer']);
         self::assertEquals([], $data['userResponses']);
         self::assertEquals(0, $data['responsesCount']);
+    }
+
+    /**
+     * Test that if a POST request is made with an endDate it is parsed and persisted.
+     */
+    public function testPostPollRequestPersistsEndDate()
+    {
+        $requestContent = json_encode([
+            'question' => 'This is just a question?',
+            'answers' => [
+                'Answer A',
+                'Answer B'
+            ],
+            'endDate' => '2017-05-18T15:52:01+03:00'
+        ]);
+        $this->pollRepository->findOneBy(Argument::any())->willReturn(null);
+        $request = Request::create($this->apiUrl, Request::METHOD_POST, [], [], [], [], $requestContent);
+
+        $response = $this->controller->apiAction($request, 0);
+
+        self::assertInstanceOf(JsonResponse::class, $response);
+        self::assertEquals(200, $response->getStatusCode());
+
+        $data = json_decode($response->getContent(), true);
+        self::assertArrayHasKey('endDate', $data);
+
+        self::assertInternalType('array', $data['endDate']);
+        self::assertArrayHasKey('date', $data['endDate']);
+        self::assertArrayHasKey('timezone_type', $data['endDate']);
+        self::assertArrayHasKey('timezone', $data['endDate']);
+
+        self::assertEquals('2017-05-18 15:52:01.000000', $data['endDate']['date']);
+        self::assertEquals('1', $data['endDate']['timezone_type']);
+        self::assertEquals('+03:00', $data['endDate']['timezone']);
     }
 
     /**

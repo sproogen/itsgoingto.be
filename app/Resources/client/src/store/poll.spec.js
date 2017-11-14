@@ -1,3 +1,5 @@
+/* eslint-env mocha */
+/* global expect, sinon */
 import {
   POLL_UPDATE,
   QUESTION_UPDATE,
@@ -7,7 +9,6 @@ import {
   hasQuestionSelector,
   totalResponsesSelector,
   userRespondedSelector,
-  userRespondedAnswerSelector,
   updatePoll,
   updateQuestion,
   updateResponses,
@@ -158,34 +159,6 @@ describe('(Store) Poll', () => {
         }]
       }
       expect(userRespondedSelector(_globalState, 'hf0sd8fhoas')).to.equal(true)
-    })
-  })
-
-  describe('(Selector) userRespondedAnswerSelector', () => {
-    it('Should be exported as a function.', () => {
-      expect(userRespondedAnswerSelector).to.be.a('function')
-    })
-
-    it('Should return false if there are no response from the poll in the global state.', () => {
-      let _globalState = {
-        poll: [{
-          question       : 'Question',
-          identifier     : 'hf0sd8fhoas',
-          userResponses  : []
-        }]
-      }
-      expect(userRespondedAnswerSelector(_globalState, 'hf0sd8fhoas', 245)).to.equal(false)
-    })
-
-    it('Should return true if there is a response that matches from the poll in the global state.', () => {
-      let _globalState = {
-        poll: [{
-          question       : 'Question',
-          identifier     : 'hf0sd8fhoas',
-          userResponses  : [245]
-        }]
-      }
-      expect(userRespondedAnswerSelector(_globalState, 'hf0sd8fhoas', 245)).to.equal(true)
     })
   })
 

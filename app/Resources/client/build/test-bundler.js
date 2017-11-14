@@ -1,3 +1,4 @@
+/* eslint-env mocha */
 import 'normalize.js'
 import chai from 'chai'
 import sinon from 'sinon'

@@ -1,70 +1,88 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { withRouter } from 'react-router'
-import { postResponse } from 'store/api'
-import { userRespondedAnswerSelector } from 'store/poll'
+import { merge } from 'ramda'
+import Linkify from 'react-linkify'
 import './Answer.scss'
 
 export class Answer extends React.Component {
   constructor (props) {
     super(props)
-    this.state = { animating: false }
+    this.state = { animating : false }
+    this.linkClicked = false
   }
 
   handleClick = () => {
-    this.setState({ animating: true })
-    setTimeout(() => { this.setState({ animating: false }) }, 550)
-    this.props.postResponse()
+    const { answer, poll, postResponse } = this.props
+
+    if (!this.linkClicked) {
+      if (!poll.ended) {
+        this.setState((prevState) =>
+          merge(prevState, { animating : true })
+        )
+        setTimeout(() => {
+          this.setState((prevState) =>
+            merge(prevState, { animating : false })
+          )
+        }, 550)
+
+        postResponse(answer.id)
+      }
+    } else {
+      this.linkClicked = false
+    }
   }
 
-  calculateWidth = () => {
-    return (this.props.answer.responsesCount / this.props.totalResponses) * 100 + '%'
+  linkClick = () => {
+    this.linkClicked = true
   }
 
-  render = () => (
-    <span className='input input-options'>
-      <span className='result-wrapper'>
-        <span className='result' name={'answer-' + this.props.index} style={{ width: this.calculateWidth() }} />
+  calculateWidth = () =>
+    (this.props.answer.responsesCount / this.props.totalResponses) * 100 + '%'
+
+  render () {
+    const { index, type, checked, answer, poll } = this.props
+    const { animating } = this.state
+    const width = this.calculateWidth()
+
+    return (
+      <span className='input input-options'>
+        <span className='result-wrapper'>
+          <span className='result' name={'answer-' + index} style={{ width }} />
+        </span>
+        <input
+          id={'answer-' + index}
+          name='answer'
+          className={type === 'radio'
+                     ? 'input-radio input-radio-options'
+                     : 'input-checkbox input-checkbox-options'}
+          type={type}
+          value={index}
+          checked={checked}
+          readOnly />
+        <label
+          htmlFor={'answer-' + index}
+          className={'input-label input-label-options' +
+                     (animating ? ' input-label-options--click' : '') +
+                     (poll.ended ? ' input-label-options--hidden' : '')}
+          onClick={this.handleClick}>
+          <Linkify properties={{ target: '_blank', onClick: this.linkClick }}>{ answer.answer }</Linkify>
+        </label>
+        <span htmlFor={'answer-' + index} className='input-label-votes'>
+          {answer.responsesCount} votes
+        </span>
       </span>
-      <input
-        id={'answer-' + this.props.index}
-        name='answer'
-        className={this.props.type === 'radio'
-                    ? 'input-radio input-radio-options'
-                    : 'input-checkbox input-checkbox-options'}
-        type={this.props.type}
-        value={this.props.index}
-        checked={this.props.checked}
-        readOnly />
-      <label
-        htmlFor={'answer-' + this.props.index}
-        className={'input-label input-label-options' + (this.state.animating ? ' input-label-options--click' : '')}
-        onClick={this.handleClick}>
-        { this.props.answer.answer }
-      </label>
-      <span htmlFor={'answer-' + this.props.index} className='input-label-votes'>
-        {this.props.answer.responsesCount} votes
-      </span>
-    </span>
-  )
+    )
+  }
 }
 
 Answer.propTypes = {
   index          : PropTypes.number.isRequired,
   type           : PropTypes.string.isRequired,
   answer         : PropTypes.object.isRequired,
+  poll           : PropTypes.object.isRequired,
   totalResponses : PropTypes.number.isRequired,
   checked        : PropTypes.bool.isRequired,
   postResponse   : PropTypes.func.isRequired
 }
 
-const mapStateToProps = (state, props) => ({
-  checked : userRespondedAnswerSelector(state, props.params.identifier, props.answer.id)
-})
-
-const mapDispatchToProps = (dispatch, props) => ({
-  postResponse : () => dispatch(postResponse(props.answer.id, props.params.identifier))
-})
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Answer))
+export default Answer

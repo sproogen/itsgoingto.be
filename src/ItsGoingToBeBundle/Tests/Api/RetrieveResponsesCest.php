@@ -27,6 +27,47 @@ class RetrieveResponsesCest extends BaseApiCest
         $I->seeResponseIsJson();
     }
 
+    public function returns404DeletedPollTest(ApiTester $I)
+    {
+        $this->polls[] = $this->createPoll($I, [
+            'identifier'     => 'as46hg',
+            'question'       => 'Test Question Deleted',
+            'multipleChoice' => false,
+            'passphrase'     => 'Passphrase',
+            'deleted'        => true,
+            'answers'        => [
+                'Answer Passphrase 1',
+                'Answer Passphrase 2'
+            ]
+        ]);
+
+        $I->wantTo('Check call return 404 for deleted poll');
+        $I->sendGet('/polls/as46hg/responses');
+        $I->seeResponseCodeIs(HttpCode::NOT_FOUND);
+        $I->seeResponseIsJson();
+    }
+
+    public function returns404EndedPollTest(ApiTester $I)
+    {
+        $this->polls[] = $this->createPoll($I, [
+            'identifier'     => 'hg7i3s',
+            'question'       => 'Test Question Ended',
+            'multipleChoice' => false,
+            'passphrase'     => 'Passphrase',
+            'ended'          => true,
+            'deleted'        => false,
+            'answers'        => [
+                'Answer Passphrase 1',
+                'Answer Passphrase 2'
+            ]
+        ]);
+
+        $I->wantTo('Check call return 404 for ended poll');
+        $I->sendGet('/polls/hg7i3s/responses');
+        $I->seeResponseCodeIs(HttpCode::NOT_FOUND);
+        $I->seeResponseIsJson();
+    }
+
     public function returnsResponsesTest(ApiTester $I)
     {
         $I->wantTo('Check returned responses match json structure');
