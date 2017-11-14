@@ -28,7 +28,7 @@ const jsonOk = (body) => {
 
 const jsonError = (status, body) => {
   const mockResponse = new window.Response(JSON.stringify(body), {
-    status: status,
+    status,
     headers: {
       'Content-type': 'application/json'
     }
