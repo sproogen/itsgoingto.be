@@ -16,22 +16,24 @@ import {
 import * as poll from 'store/poll'
 
 const jsonOk = (body) => {
-  let mockResponse = new window.Response(JSON.stringify(body), {
+  const mockResponse = new window.Response(JSON.stringify(body), {
     status: 200,
     headers: {
       'Content-type': 'application/json'
     }
   })
+
   return Promise.resolve(mockResponse)
 }
 
 const jsonError = (status, body) => {
-  let mockResponse = new window.Response(JSON.stringify(body), {
-    status: status,
+  const mockResponse = new window.Response(JSON.stringify(body), {
+    status,
     headers: {
       'Content-type': 'application/json'
     }
   })
+
   return Promise.resolve(mockResponse)
 }
 
@@ -168,7 +170,8 @@ describe('(Store) API', () => {
 
       it('Should dispatch updatePoll().', () => {
         window.fetch.returns(jsonOk({ question: 'Question', identifier: 'hf0sd8fhoas' }))
-        let _updatePoll = sinon.stub(poll, 'updatePoll')
+        const _updatePoll = sinon.stub(poll, 'updatePoll')
+
         _updatePoll.returns({})
 
         return postPoll()(_dispatchSpy, _getStateSpy).then((response) => {
@@ -238,6 +241,7 @@ describe('(Store) API', () => {
       it('Should dispatch updatePoll().', () => {
         window.fetch.returns(jsonOk({ question: 'Question', identifier: 'hf0sd8fhoas' }))
         let _updatePoll = sinon.stub(poll, 'updatePoll')
+
         _updatePoll.returns({})
 
         return fetchPoll('hf0sd8fhoas')(_dispatchSpy, _getStateSpy).then((response) => {

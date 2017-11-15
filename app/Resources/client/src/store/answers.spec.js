@@ -52,6 +52,7 @@ describe('(Store) Answers', () => {
 
     it('Should return the previous state if an action was not matched.', () => {
       let state = answersReducer(undefined, {})
+
       expect(state).to.deep.equal([])
       state = answersReducer(state, { type: '@@@@@@@' })
       expect(state).to.deep.equal([])
@@ -127,6 +128,7 @@ describe('(Store) Answers', () => {
       const _globalState = {
         answers: ['Answer 1', '']
       }
+
       expect(canSubmitPollSelector(_globalState)).to.equal(false)
     })
   })
@@ -171,11 +173,13 @@ describe('(Store) Answers', () => {
 
     it('Should return a promise from that thunk that gets fulfilled.', () => {
       const index = 0
+
       return updateAnswer(index)(_dispatchSpy, _getStateSpy).should.eventually.be.fulfilled
     })
 
     it('Should call dispatch exactly once and get state twice.', () => {
       const index = 0
+
       return updateAnswer(index)(_dispatchSpy, _getStateSpy)
         .then(() => {
           _dispatchSpy.should.have.been.calledOnce()
@@ -185,11 +189,12 @@ describe('(Store) Answers', () => {
 
     it('Should call dispatch with ANSWER_UPDATE, index and text.', () => {
       const index = 0
+
       return updateAnswer(index, 'Answer Text')(_dispatchSpy, _getStateSpy)
         .then(() => {
           _dispatchSpy.should.have.been.calledWith({
             type  : ANSWER_UPDATE,
-            index : index,
+            index,
             text  : 'Answer Text'
           })
         })
@@ -197,6 +202,7 @@ describe('(Store) Answers', () => {
 
     it('Should dispatch addAnswer() if the last answer is updated and was empty.', () => {
       const index = 0
+
       return updateAnswer(index, 'Answer Text')(_dispatchSpy, _getStateSpy)
         .then(() => {
           _dispatchSpy.should.have.been.calledTwice()
@@ -206,6 +212,7 @@ describe('(Store) Answers', () => {
 
     it('Should dispatch removeAfterAnswer() if answer is updated to be empty.', () => {
       const index = 0
+
       _globalState = {
         answers : ['Answer 1', 'Answer 2']
       }
@@ -224,7 +231,7 @@ describe('(Store) Answers', () => {
 
     it('Should assign the argument to the "answers" property.', () => {
       const answers = ['Answer 1', 'Answer 2']
-      console.log(updateAnswers(answers))
+
       expect(updateAnswers(answers)).to.have.property('answers')
       expect(updateAnswers(answers).answers).to.deep.equal(answers)
     })
@@ -241,6 +248,7 @@ describe('(Store) Answers', () => {
 
     it('Should assign the argument to the "index" property.', () => {
       const index = 5
+
       expect(removeAnswer(index)).to.have.property('index', index)
     })
   })
@@ -256,6 +264,7 @@ describe('(Store) Answers', () => {
 
     it('Should assign the argument to the "index" property.', () => {
       const index = 3
+
       expect(removeAfterAnswer(index)).to.have.property('index', index)
     })
   })

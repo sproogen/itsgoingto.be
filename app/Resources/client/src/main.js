@@ -1,3 +1,5 @@
+/* global __DEV__ __TEST__ */
+
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { LocaleProvider } from 'antd'
@@ -60,4 +62,6 @@ if (__DEV__) {
 
 // Let's Go!
 // ------------------------------------
-if (!__TEST__) render()
+if (!__TEST__) {
+  render()
+}

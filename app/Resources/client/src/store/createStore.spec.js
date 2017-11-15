@@ -21,6 +21,7 @@ describe('(Store) createStore', () => {
       const location = {
         pathname : '/echo'
       }
+
       store.dispatch({
         type    : 'LOCATION_CHANGE',
         payload : location
@@ -32,6 +33,7 @@ describe('(Store) createStore', () => {
   describe('(Loader)', () => {
     it('store should be initialized with Loader state', () => {
       const loader = { loading : false, passphrase : false }
+
       expect(store.getState().loader).to.deep.equal(loader)
     })
   })
@@ -39,6 +41,7 @@ describe('(Store) createStore', () => {
   describe('(Poll)', () => {
     it('store should be initialized with Poll state', () => {
       const poll = []
+
       expect(store.getState().poll).to.deep.equal(poll)
     })
   })
@@ -46,6 +49,7 @@ describe('(Store) createStore', () => {
   describe('(Answers)', () => {
     it('store should be initialized with Answers state', () => {
       const answers = []
+
       expect(store.getState().answers).to.deep.equal(answers)
     })
   })
