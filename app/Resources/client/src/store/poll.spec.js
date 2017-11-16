@@ -142,7 +142,7 @@ describe('(Store) Poll', () => {
     })
 
     it('Should return false if there are no response from a poll with an identifier in the state global state.', () => {
-      let _globalState = {
+      const _globalState = {
         poll: [{
           question       : 'Question',
           identifier     : 'hf0sd8fhoas',
@@ -154,7 +154,7 @@ describe('(Store) Poll', () => {
     })
 
     it('Should return true if there are response from a poll with an identifier in the state global state.', () => {
-      let _globalState = {
+      const _globalState = {
         poll: [{
           question       : 'Question',
           identifier     : 'hf0sd8fhoas',
