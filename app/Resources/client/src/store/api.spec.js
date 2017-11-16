@@ -240,7 +240,7 @@ describe('(Store) API', () => {
 
       it('Should dispatch updatePoll().', () => {
         window.fetch.returns(jsonOk({ question: 'Question', identifier: 'hf0sd8fhoas' }))
-        let _updatePoll = sinon.stub(poll, 'updatePoll')
+        const _updatePoll = sinon.stub(poll, 'updatePoll')
 
         _updatePoll.returns({})
 
