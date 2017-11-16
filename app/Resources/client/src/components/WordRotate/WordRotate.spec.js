@@ -1,10 +1,10 @@
 /* eslint-env mocha */
 /* global expect */
 import React from 'react'
-import { shallow, mount } from 'enzyme'
+import { shallow } from 'enzyme'
 import WordRotate from './WordRotate'
 
-describe.only('(Component) WordRotate', () => {
+describe('(Component) WordRotate', () => {
   let wrapper
   let instance
 
