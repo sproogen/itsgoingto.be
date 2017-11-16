@@ -29,14 +29,18 @@ class WordRotate extends React.Component {
   }
 
   componentWillUpdate = () => {
-    this.refs.current.animate([
-      { transform : 'translate(0, -0.8em)', opacity : 0 },
-      { transform : 'translate(0)', opacity : 1 }
-    ], 500, 'easeInOutQuart')
-    this.refs.previous.animate([
-      { transform : 'translate(0)', opacity: 1 },
-      { transform : 'translate(0, 0.6em)', opacity : 0 }
-    ], 350, 'easeInOutQuart')
+    if (this.refs.current) {
+      this.refs.current.animate([
+        { transform : 'translate(0, -0.8em)', opacity : 0 },
+        { transform : 'translate(0)', opacity : 1 }
+      ], 500, 'easeInOutQuart')
+    }
+    if (this.refs.previous) {
+      this.refs.previous.animate([
+        { transform : 'translate(0)', opacity: 1 },
+        { transform : 'translate(0, 0.6em)', opacity : 0 }
+      ], 350, 'easeInOutQuart')
+    }
   }
 
   componentWillUnmount = () => {
