@@ -77,10 +77,10 @@
 
 .ant-time-picker-panel-inner {
   margin-top: 50px;
-  @media(max-width: $screen-lg-min) {
+  @media(max-width: $screen-md-max) {
     margin-top: 37px;
   }
-  @media(max-width: $screen-md-min) {
+  @media(max-width: $screen-sm-max) {
     margin-top: 31px;
   }
   border: 1px solid #aeaeae;
@@ -92,10 +92,10 @@
 .ant-time-picker-panel-inner:after, .ant-time-picker-panel-inner:before {
   bottom: 100%;
   left: 36%;
-  @media(max-width: $screen-lg-min) {
+  @media(max-width: $screen-md-max) {
     left: 27%;
   }
-  @media(max-width: $screen-md-min) {
+  @media(max-width: $screen-sm-max) {
     left: 21%;
   }
   border: solid transparent;

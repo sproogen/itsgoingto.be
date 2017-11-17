@@ -6,7 +6,7 @@
   padding: 0px;
 
   .options {
-    @media(max-width: $screen-md-min) {
+    @media(max-width: $screen-sm-max) {
       font-size: 1.25em;
       width: 100%;
     }
@@ -14,10 +14,10 @@
     &.show-results {
       .input-options {
         min-width: 68em;
-        @media(max-width: $screen-md-min) {
+        @media(max-width: $screen-sm-max) {
           width: 100%;
         }
-        @media(max-width: $screen-sm-min) {
+        @media(max-width: $screen-xs-max) {
           min-width: 0em;
         }
       }
@@ -41,15 +41,15 @@
     word-break: break-word;
     padding-right: 3.6em;
     padding-top: 0.2em;
-    @media(max-width: $screen-md-min) {
+    @media(max-width: $screen-sm-max) {
       padding-top: 0.3em;
     }
     padding-bottom: 0.2em;
     line-height: 1.6em;
-    @media(max-width: $screen-lg-min) {
+    @media(max-width: $screen-md-max) {
       line-height: 1.8em;
     }
-    @media(max-width: $screen-md-min) {
+    @media(max-width: $screen-sm-max) {
       line-height: 2em;
     }
     text-indent: -32px;
@@ -61,13 +61,13 @@
       left: 14px;
       width: 40px;
       height: 40px;
-      @media(max-width: $screen-lg-min) {
+      @media(max-width: $screen-md-max) {
         top: -1px;
         left: 9px;
         width: 36px;
         height: 36px;
       }
-      @media(max-width: $screen-md-min) {
+      @media(max-width: $screen-sm-max) {
         top: 1px;
         left: 8px;
         width: 32px;
@@ -93,10 +93,10 @@
     position: absolute;
     line-height: 4em;
     margin-top: 0px;
-    @media(max-width: $screen-lg-min) {
+    @media(max-width: $screen-md-max) {
       margin-top: 1px;
     }
-    @media(max-width: $screen-md-min) {
+    @media(max-width: $screen-sm-max) {
       margin-top: 2px;
     }
     right: 2em;
@@ -114,10 +114,10 @@
     transition: opacity 0.4s ease;
 
     margin-top: 3px;
-    @media(max-width: $screen-lg-min) {
+    @media(max-width: $screen-md-max) {
       margin-top: 2px;
     }
-    @media(max-width: $screen-md-min) {
+    @media(max-width: $screen-sm-max) {
       margin-top: 1px;
     }
     position: absolute;
