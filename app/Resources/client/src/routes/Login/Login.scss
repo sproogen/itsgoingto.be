@@ -1,0 +1,14 @@
+@import "variables";
+
+.container .login-container {
+  @media(min-width: $screen-sm-min) {
+    width: 36em;
+  }
+  @media(max-width: $screen-md-max) {
+    font-size: 1.3em;
+  }
+
+  .input {
+    margin-bottom: 2em;
+  }
+}
