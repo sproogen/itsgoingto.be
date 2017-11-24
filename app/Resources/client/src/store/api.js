@@ -9,6 +9,7 @@ import { answersSelector } from './answers'
 // ------------------------------------
 export const ROUTE_POLL = '/api/polls'
 export const ROUTE_RESPONSES = '/responses'
+export const ROUTE_LOGIN = '/api/login'
 export const API_DATE_FORMAT = 'YYYY-MM-DDTHH:mm:ssZ'
 
 // ------------------------------------
@@ -182,3 +183,24 @@ export const fetchResponses = (identifier) => (dispatch, getState) =>
     ),
     pollSelector
   )(getState(), identifier)
+
+/**
+ * Post a login request through the api.
+ *
+ * @param  {string} username The username to login with
+ * @param  {string} password The password to login with
+ *
+ * @return {Function} redux-thunk callable function
+ */
+export const postLogin = (username, password) => (dispatch) =>
+  fetch(ROUTE_LOGIN, {
+    credentials : 'same-origin',
+    method      : 'POST',
+    body        : JSON.stringify({
+      username,
+      password,
+    })
+  })
+  .then(extractResponse)
+  // .then((response) => dispatch(updateUser(response)))
+  .catch(onError)

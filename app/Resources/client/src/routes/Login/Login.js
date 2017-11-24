@@ -1,5 +1,8 @@
 import React from 'react'
-import { isEmpty, merge } from 'ramda'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { isEmpty, dissoc } from 'ramda'
+import { postLogin } from 'store/api'
 import Button from 'components/Button'
 import './Login.scss'
 
@@ -8,37 +11,62 @@ class Login extends React.Component {
     super(props)
 
     this.state = {
-      data: {
-        username: '',
-        password: '',
+      data : {
+        username : '',
+        password : '',
       },
-      errors: { },
+      errors : { },
     }
   }
 
   handleChange = ({ target }) => {
-    this.setState((prevState) => ({
-      data: merge(prevState.data, { [target.id]: target.value }),
-    }))
+    const data = { ...this.state.data, [target.id] : target.value }
+
+    this.setState({ data })
+    this.validate(true, data)
   }
 
-  validate = () => {
-    this.setState((prevState) => ({
-      errors: merge(prevState.errors, { 'username': 'Please set a username' }),
-    }))
-    return false
+  validate = (removeOnly = false, data) => {
+    if (!data) {
+      data = this.state.data
+    }
+    const { username, password } = data
+    let errors = this.state.errors
+
+    if (username.length === 0) {
+      if (!removeOnly) {
+        errors.username = 'Please enter a username.'
+      }
+    } else {
+      errors = dissoc('username', errors)
+    }
+
+    if (password.length === 0) {
+      if (!removeOnly) {
+        errors.password = 'Please enter a password.'
+      }
+    } else {
+      errors = dissoc('password', errors)
+    }
+
+    this.setState({ errors })
+
+    return isEmpty(errors)
   }
 
   submit = () => {
-    const { data: { username, password }, errors } = this.state
+    const { data : { username, password }, errors } = this.state
+    const { postLogin } = this.props
+
     if (this.validate()) {
       console.log('Login', username, password)
+      postLogin(username, password)
     }
     return Promise.resolve()
   }
 
   render () {
-    const { data: { username, password }, errors } = this.state
+    const { data : { username, password }, errors } = this.state
 
     return (
       <div>
@@ -58,6 +86,7 @@ class Login extends React.Component {
               ref='username'
               value={username}
               onChange={this.handleChange} />
+              <span>{errors.username}</span>
           </div>
           <div className='input input-password'>
             <label className='input-label input-label-password' htmlFor='question'>Password</label>
@@ -69,6 +98,7 @@ class Login extends React.Component {
               ref='password'
               value={password}
               onChange={this.handleChange} />
+              <span>{errors.password}</span>
           </div>
           <Button className='pull-right' text='Login' disabled={!isEmpty(errors)} callback={this.submit} />
         </div>
@@ -77,4 +107,12 @@ class Login extends React.Component {
   }
 }
 
-export default Login
+Login.propTypes = {
+  postLogin : PropTypes.func.isRequired,
+}
+
+const mapDispatchToProps = (dispatch) => ({
+  postLogin : (username, password) => dispatch(postLogin(username, password))
+})
+
+export default connect(null, mapDispatchToProps)(Login)
