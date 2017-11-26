@@ -6,6 +6,7 @@ use ItsGoingToBeBundle\ApiTester;
 use ItsGoingToBeBundle\Entity\Poll;
 use ItsGoingToBeBundle\Entity\Answer;
 use ItsGoingToBeBundle\Entity\UserResponse;
+use ItsGoingToBeBundle\Entity\User;
 
 /**
  * Base class for API tests
@@ -68,6 +69,23 @@ abstract class BaseApiCest
         $I->persistEntity($answer);
 
         return $response;
+    }
+
+    protected function createUser(ApiTester $I, $data)
+    {
+        $userId = $I->haveInRepository(User::class, $data);
+        $user = $this->em->find(User::class, $userId);
+
+        return $user;
+    }
+
+    protected function getTokenForUser(ApiTester $I, User $user)
+    {
+        $jwtService = $I->getJWTService();
+
+        $token = $jwtService->encode(['username' => $user->getUsername()]);
+
+        return $token;
     }
 
     // @codingStandardsIgnoreLine

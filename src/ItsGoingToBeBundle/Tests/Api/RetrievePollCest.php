@@ -121,8 +121,15 @@ class RetrievePollCest extends BaseApiCest
 
     public function returnsDeletedPollForAdminTest(ApiTester $I)
     {
+        $user = $this->createUser($I, [
+            'username' => 'admin',
+            'password' => 'password123'
+        ]);
+        $token = $this->getTokenForUser($I, $user);
+        $I->amBearerAuthenticated($token);
+
         $I->wantTo('Check call returns deleted poll');
-        $I->sendGet('/polls/y3k0sn', ['user' => 'admin']);
+        $I->sendGet('/polls/y3k0sn');
         $I->seeResponseCodeIs(HttpCode::OK);
         $I->seeResponseIsJson();
         $I->seeResponseContainsJson([

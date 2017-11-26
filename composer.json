@@ -18,6 +18,7 @@
         "doctrine/orm": "^2.5",
         "incenteev/composer-parameter-handler": "^2.0",
         "knplabs/knp-paginator-bundle": "^2.5",
+        "lexik/jwt-authentication-bundle": "^2.4",
         "sensio/distribution-bundle": "^5.0.19",
         "sensio/framework-extra-bundle": "^3.0.2",
         "symfony/assetic-bundle": "~2.8",

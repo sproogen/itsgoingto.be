@@ -5,3 +5,4 @@ parameters:
     database_user: root
     database_password: null
     secret: 0c165270a6aa5e54d2ab2fc7f3d09b144a4f7829
+    jwt_key_pass_phrase: ~

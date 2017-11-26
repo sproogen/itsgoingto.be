@@ -185,6 +185,8 @@ export const fetchResponses = (identifier) => (dispatch, getState) =>
   )(getState(), identifier)
 
 /**
+ * TODO : Test this
+ *
  * Post a login request through the api.
  *
  * @param  {string} username The username to login with

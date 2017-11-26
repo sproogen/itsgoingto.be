@@ -13,8 +13,15 @@ class RetrievePollsCest extends BaseApiCest
 {
     public function checkRouteTest(ApiTester $I)
     {
+        $user = $this->createUser($I, [
+            'username' => 'admin',
+            'password' => 'password123'
+        ]);
+        $token = $this->getTokenForUser($I, $user);
+        $I->amBearerAuthenticated($token);
+
         $I->wantTo('Check call return 200 and matches json structure');
-        $I->sendGET('/polls', ['user' => 'admin']);
+        $I->sendGET('/polls');
         $I->seeResponseCodeIs(HttpCode::OK);
         $I->seeResponseIsJson();
         $I->seeResponseMatchesJsonType([
@@ -24,10 +31,25 @@ class RetrievePollsCest extends BaseApiCest
         ]);
     }
 
+    public function returns401ForUnauthorizedUser(ApiTester $I)
+    {
+        $I->wantTo('Check call returns 401');
+        $I->sendDelete('/polls');
+        $I->seeResponseCodeIs(HttpCode::UNAUTHORIZED);
+        $I->seeResponseIsJson();
+    }
+
     public function returnsPollTest(ApiTester $I)
     {
+        $user = $this->createUser($I, [
+            'username' => 'admin',
+            'password' => 'password123'
+        ]);
+        $token = $this->getTokenForUser($I, $user);
+        $I->amBearerAuthenticated($token);
+
         $I->wantTo('Check returned polls match json structure');
-        $I->sendGET('/polls', ['user' => 'admin']);
+        $I->sendGET('/polls');
         $I->seeResponseCodeIs(HttpCode::OK);
         $I->seeResponseIsJson();
         $I->seeResponseMatchesJsonType(
@@ -65,8 +87,15 @@ class RetrievePollsCest extends BaseApiCest
 
     public function returnsPollWithValuesTest(ApiTester $I)
     {
+        $user = $this->createUser($I, [
+            'username' => 'admin',
+            'password' => 'password123'
+        ]);
+        $token = $this->getTokenForUser($I, $user);
+        $I->amBearerAuthenticated($token);
+
         $I->wantTo('Check returned polls match correct values');
-        $I->sendGET('/polls', ['user' => 'admin']);
+        $I->sendGET('/polls');
         $I->seeResponseCodeIs(HttpCode::OK);
         $I->seeResponseIsJson();
         $I->seeResponseContainsJson([
@@ -117,9 +146,15 @@ class RetrievePollsCest extends BaseApiCest
                 ]
             ]);
         }
+        $user = $this->createUser($I, [
+            'username' => 'admin',
+            'password' => 'password123'
+        ]);
+        $token = $this->getTokenForUser($I, $user);
+        $I->amBearerAuthenticated($token);
 
         $I->wantTo('Check first page of polls are returned');
-        $I->sendGET('/polls', ['user' => 'admin']);
+        $I->sendGET('/polls');
         $I->seeResponseCodeIs(HttpCode::OK);
         $I->seeResponseIsJson();
         $I->seeResponseContainsJson([
@@ -141,7 +176,7 @@ class RetrievePollsCest extends BaseApiCest
         );
 
         $I->wantTo('Check second page of polls are returned');
-        $I->sendGET('/polls', ['page' => 2, 'user' => 'admin']);
+        $I->sendGET('/polls', ['page' => 2]);
         $I->seeResponseCodeIs(HttpCode::OK);
         $I->seeResponseIsJson();
         $I->seeResponseContainsJson([
@@ -163,7 +198,7 @@ class RetrievePollsCest extends BaseApiCest
         );
 
         $I->wantTo('Check page size affects returned');
-        $I->sendGET('/polls', ['page' => 2, 'pageSize' => 25, 'user' => 'admin']);
+        $I->sendGET('/polls', ['page' => 2, 'pageSize' => 25]);
         $I->seeResponseCodeIs(HttpCode::OK);
         $I->seeResponseIsJson();
         $I->seeResponseContainsJson([

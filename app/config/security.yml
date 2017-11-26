@@ -1,40 +1,21 @@
-# To get started with security, check out the documentation:
-# http://symfony.com/doc/current/book/security.html
 security:
-
-    # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
     providers:
-        in_memory:
-            memory:
-                users:
-                    admin:
-                        password: $2a$12$E2T1TjR0KF540Lee0MWwB.Z8pMrf8QW8EtWjqnswyaZ16eAi0Hhv.
-                        roles: 'ROLE_ADMIN'
+        database_users:
+            entity: { class: ItsGoingToBeBundle:User, property: username }
 
-    encoders:
-        Symfony\Component\Security\Core\User\User:
-            algorithm: bcrypt
-            cost: 12
+    # encoders:
+    #     Symfony\Component\Security\Core\User\User:
+    #         algorithm: bcrypt
+    #         cost: 12
 
     firewalls:
-        # disables authentication for assets and the profiler, adapt it according to your needs
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
         main:
             anonymous: ~
-            # activate different ways to authenticate
 
-            # http_basic: ~
-            # http://symfony.com/doc/current/book/security.html#a-configuring-how-your-users-will-authenticate
-
-            form_login:
-                login_path: /admin/login
-                check_path: /admin/login-check
-                csrf_token_generator: security.csrf.token_manager
-            # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
-
-            logout:
-                path:   /admin/logout
-                target: /
+            guard:
+              authenticators:
+                  - 'itsgoingtobe.security.token_authenticator'
