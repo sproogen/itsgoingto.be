@@ -16,6 +16,9 @@
 /var/sessions/*
 !var/sessions/.gitkeep
 !var/SymfonyRequirements.php
+!/var/jwt
+/var/jwt/*
+!var/jwt/.gitkeep
 
 # Parameters
 /app/config/parameters.yml
