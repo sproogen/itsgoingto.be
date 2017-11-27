@@ -3,6 +3,7 @@ import locationReducer from './location'
 import loaderReducer from './loader'
 import pollReducer from './poll'
 import answersReducer from './answers'
+import userReducer from './user'
 
 export const makeRootReducer = (asyncReducers) => {
   return combineReducers({
@@ -10,6 +11,7 @@ export const makeRootReducer = (asyncReducers) => {
     loader   : loaderReducer,
     poll     : pollReducer,
     answers  : answersReducer,
+    user     : userReducer,
     ...asyncReducers
   })
 }

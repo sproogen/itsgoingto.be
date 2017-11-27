@@ -18,18 +18,20 @@ import './Answer.scss'
 
 class Answer extends React.Component {
   componentWillMount = () => {
-    if (!this.props.hasPoll) {
-      this.props.setLoading(true)
+    const { hasPoll, setLoading, fetchPoll, setRequiresPassphrase } = this.props
+
+    if (!hasPoll) {
+      setLoading(true)
     }
-    this.props.fetchPoll(this.props.identifier).then((response) => {
+    fetchPoll(this.props.identifier).then((response) => {
       if (response instanceof APIError) {
         if (response.details.status === 401 && response.details.error.error === 'incorrect-passphrase') {
-          this.props.setRequiresPassphrase(true)
+          setRequiresPassphrase(true)
         } else {
           browserHistory.push('/404')
         }
       }
-      this.props.setLoading(false)
+      setLoading(false)
     })
   }
 

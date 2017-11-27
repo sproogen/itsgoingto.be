@@ -1,8 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { browserHistory } from 'react-router'
+import { withCookies, Cookies } from 'react-cookie'
 import { isEmpty, dissoc } from 'ramda'
-import { postLogin } from 'store/api'
+import { postLogin, APIError } from 'store/api'
+import { hasUserSelector} from 'store/user'
+import { setLoading } from 'store/loader'
 import Button from 'components/Button'
 import './Login.scss'
 
@@ -16,7 +20,20 @@ class Login extends React.Component {
         password : '',
       },
       errors : { },
+      loading: false,
     }
+
+    if (props.hasUser) {
+      props.setLoading(true)
+      this.state.loading = true
+      browserHistory.push('/admin2') // TODO : Replace with 401 or home page
+    }
+  }
+
+  componentWillMount = () => {
+    const { setLoading } = this.props
+
+    setLoading(false)
   }
 
   handleChange = ({ target }) => {
@@ -56,17 +73,29 @@ class Login extends React.Component {
 
   submit = () => {
     const { data : { username, password }, errors } = this.state
-    const { postLogin } = this.props
+    const { postLogin, cookies, setLoading } = this.props
 
     if (this.validate()) {
-      console.log('Login', username, password)
-      postLogin(username, password)
+      return postLogin(username, password).then((response) => {
+        if (response instanceof APIError) {
+          // TODO : Display error message to user
+          return true
+        } else {
+          setLoading(true)
+          cookies.set('itsgoingtobeUserToken', response.token, { path: '/', maxAge: 3600 })
+          browserHistory.push('/admin2')
+          return false
+        }
+      })
+    } else {
+      return Promise.resolve()
     }
-    return Promise.resolve()
   }
 
   render () {
-    const { data : { username, password }, errors } = this.state
+    const { data : { username, password }, errors, loading } = this.state
+
+    if (loading) return <div />
 
     return (
       <div>
@@ -108,11 +137,19 @@ class Login extends React.Component {
 }
 
 Login.propTypes = {
-  postLogin : PropTypes.func.isRequired,
+  postLogin  : PropTypes.func.isRequired,
+  hasUser    : PropTypes.bool.isRequired,
+  setLoading : PropTypes.func.isRequired,
+  cookies    : PropTypes.instanceOf(Cookies).isRequired,
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  postLogin : (username, password) => dispatch(postLogin(username, password))
+const mapStateToProps = (state, props) => ({
+  hasUser : hasUserSelector(state),
 })
 
-export default connect(null, mapDispatchToProps)(Login)
+const mapDispatchToProps = (dispatch) => ({
+  postLogin  : (username, password) => dispatch(postLogin(username, password)),
+  setLoading : (value) => dispatch(setLoading(value)),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(withCookies(Login))

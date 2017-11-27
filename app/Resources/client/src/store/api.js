@@ -3,6 +3,7 @@ import { prop, compose, not, isEmpty, contains, without, append, ifElse, both, e
 import moment from 'moment'
 import { pollSelector, updatePoll, updateResponses } from './poll'
 import { answersSelector } from './answers'
+import { updateUser } from './user'
 
 // ------------------------------------
 // Constants
@@ -204,5 +205,6 @@ export const postLogin = (username, password) => (dispatch) =>
     })
   })
   .then(extractResponse)
-  // .then((response) => dispatch(updateUser(response)))
+  .then((response) => dispatch(updateUser(response)))
+  .then((response) => prop('user')(response))
   .catch(onError)
