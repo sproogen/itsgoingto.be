@@ -4,6 +4,7 @@ import moment from 'moment'
 import {
   ROUTE_POLL,
   ROUTE_RESPONSES,
+  ROUTE_LOGIN,
   extractResponse,
   getEndDateFromPoll,
   APIError,
@@ -11,9 +12,11 @@ import {
   postPoll,
   fetchPoll,
   postResponse,
-  fetchResponses
+  fetchResponses,
+  postLogin
 } from 'store/api'
 import * as poll from 'store/poll'
+import * as user from 'store/user'
 
 const jsonOk = (body) => {
   const mockResponse = new window.Response(JSON.stringify(body), {
@@ -108,11 +111,14 @@ describe('(Store) API', () => {
 
       _globalState = {
         poll    : [{ question: 'Question', identifier: '', multipleChoice: false, passphrase: '' }],
-        answers : ['Answer']
+        answers : ['Answer'],
+        user    : {},
       }
       _dispatchSpy = sinon.spy((action) => {
         if (typeof action === 'function') {
           return action(_dispatchSpy, _getStateSpy)
+        } else {
+          return action
         }
       })
       _getStateSpy = sinon.spy(() => {
@@ -418,6 +424,66 @@ describe('(Store) API', () => {
           expect(response).to.be.an.instanceof(APIError)
           expect(response.name).to.equal('APIError')
           expect(response.details.status).to.equal(404)
+        })
+      })
+    })
+
+    describe('(Action Creator) postLogin', () => {
+      it('Should be exported as a function.', () => {
+        expect(postLogin).to.be.a('function')
+      })
+
+      it('Should return a function (is a thunk).', () => {
+        expect(postLogin()).to.be.a('function')
+      })
+
+      it('Should return a promise from that thunk that gets fulfilled.', () => {
+        return postLogin()(_dispatchSpy).should.eventually.be.fulfilled
+      })
+
+      it('Should call fetch with the correct url and data.', () => {
+        return postLogin('username', 'password')(_dispatchSpy).then(() => {
+          window.fetch.should.have.been.calledOnce()
+          window.fetch.should.have.been.calledWith(
+            ROUTE_LOGIN,
+            {
+              method      : 'POST',
+              credentials : 'same-origin',
+              body        : '{"username":"username","password":"password"}'
+            }
+          )
+        })
+      })
+
+      it('Should return a promise with the response.', () => {
+        window.fetch.returns(jsonOk({ username: 'username', token: 'js7XZ&$£ZZSSu2389' }))
+        return postLogin('username', 'password')(_dispatchSpy).then((response) => {
+          expect(response).to.deep.equal({ username: 'username', token: 'js7XZ&$£ZZSSu2389' })
+        })
+      })
+
+      it('Should catch error.', () => {
+        window.fetch.returns(jsonError(400, { message: 'There password is incorrect' }))
+        return postLogin('username', 'wrongpassword')(_dispatchSpy).then((response) => {
+          expect(response).to.be.an.instanceof(APIError)
+          expect(response.name).to.equal('APIError')
+          expect(response.details.status).to.equal(400)
+        })
+      })
+
+      it('Should dispatch updateUser().', () => {
+        window.fetch.returns(jsonOk({ username: 'username', token: 'js7XZ&$£ZZSSu2389' }))
+        const _updateUser = sinon.stub(user, 'updateUser')
+
+        _updateUser.returns({})
+
+        return postLogin('username', 'password')(_dispatchSpy).then((response) => {
+          _updateUser.should.have.been.calledOnce()
+          _updateUser.should.have.been.calledWith({ username: 'username', token: 'js7XZ&$£ZZSSu2389' })
+          _dispatchSpy.should.have.been.calledOnce()
+          _dispatchSpy.should.have.been.calledWith(_updateUser({ username: 'username', token: 'js7XZ&$£ZZSSu2389' }))
+
+          _updateUser.restore()
         })
       })
     })
