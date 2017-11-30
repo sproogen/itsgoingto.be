@@ -60,7 +60,7 @@ class Answer extends React.Component {
       <div className={'input input-answer' + (disabled ? ' input-disabled' : '')}>
         <label
           className='input-label input-label-answer'
-          htmlFor={'answer-' + index}>
+          htmlFor={'answer-' + index} >
           {index + 1}
         </label>
         <input

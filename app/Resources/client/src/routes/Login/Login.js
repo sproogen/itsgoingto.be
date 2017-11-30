@@ -8,7 +8,10 @@ import { postLogin, APIError } from 'store/api'
 import { hasUserSelector} from 'store/user'
 import { setLoading } from 'store/loader'
 import Button from 'components/Button'
+import EventBus from 'components/EventBus'
 import './Login.scss'
+
+const KEY_ENTER = 13
 
 class Login extends React.Component {
   constructor (props) {
@@ -34,6 +37,7 @@ class Login extends React.Component {
     const { setLoading } = this.props
 
     setLoading(false)
+    this.eventBus = EventBus.getEventBus()
   }
 
   handleChange = ({ target }) => {
@@ -69,6 +73,15 @@ class Login extends React.Component {
     this.setState({ errors })
 
     return isEmpty(errors)
+  }
+
+  handleKeyPress = (event) => {
+    event = event || window.event
+    const key = event.keyCode || event.charCode
+
+    if (key === KEY_ENTER) {
+      this.eventBus.emit('login-submit')
+    }
   }
 
   submit = () => {
@@ -126,10 +139,11 @@ class Login extends React.Component {
               name='password'
               ref='password'
               value={password}
+              onKeyDown={this.handleKeyPress}
               onChange={this.handleChange} />
               <span>{errors.password}</span>
           </div>
-          <Button className='pull-right' text='Login' disabled={!isEmpty(errors)} callback={this.submit} />
+          <Button className='pull-right' text='Login' disabled={!isEmpty(errors)} callback={this.submit} submitEvent='login-submit' />
         </div>
       </div>
     )
