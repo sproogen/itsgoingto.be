@@ -1,18 +1,30 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { withCookies, Cookies } from 'react-cookie'
 import { isLoadingSelector } from 'store/loader'
-import { hasUserSelector } from 'store/user'
+import { hasUserSelector, clearUser } from 'store/user'
 import Footer from 'layouts/Footer'
 import Loader from 'components/Loader'
+import Button from 'components/Button'
 import './PageLayout.scss'
 
-export function PageLayout ({ children, isLoading, hasUser }) {
+export function PageLayout ({ children, isLoading, hasUser, clearUser, cookies }) {
+  const submit = () => {
+    clearUser()
+    cookies.remove('itsgoingtobeUserToken', { path: '/' })
+    return Promise.resolve()
+  }
+
   return (
     <div className='container'>
       <Loader isLoading={isLoading} />
       <div className='page-layout__viewport'>
-        { hasUser && <div>LOGOUT</div> }
+        { hasUser &&
+          <div className='logout-conatiner'>
+            <Button text='Logout' callback={submit} />
+          </div>
+        }
         {children}
       </div>
       <Footer />
@@ -24,6 +36,8 @@ PageLayout.propTypes = {
   children  : PropTypes.node,
   isLoading : PropTypes.bool.isRequired,
   hasUser   : PropTypes.bool.isRequired,
+  clearUser : PropTypes.func.isRequired,
+  cookies   : PropTypes.instanceOf(Cookies).isRequired,
 }
 
 const mapStateToProps = (state) => ({
@@ -31,4 +45,8 @@ const mapStateToProps = (state) => ({
   hasUser   : hasUserSelector(state),
 })
 
-export default connect(mapStateToProps)(PageLayout)
+const mapDispatchToProps = (dispatch) => ({
+  clearUser : () => dispatch(clearUser()),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(withCookies(PageLayout))

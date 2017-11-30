@@ -27,18 +27,25 @@ export const hasUserSelector = (state) =>
 /**
  * Update the user in the state
  *
- * @param  {string}   text       The question text
- * @param  {string}   identifier The poll identifier to update
+ * @param  {object} user The user data
  *
- * @return {Function}             redux-thunk callable function
+ * @return {Function}    redux-thunk callable function
  */
 export const updateUser = (user) => ({
   type : USER_UPDATE,
   user,
 })
 
+/**
+ * Clear the user in the state
+ *
+ * @return {Function}    redux-thunk callable function
+ */
+export const clearUser = () => updateUser({})
+
 export const actions = {
   updateUser,
+  clearUser,
 }
 
 // ------------------------------------

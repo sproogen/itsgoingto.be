@@ -9,9 +9,19 @@ class Admin extends React.Component {
   componentWillMount = () => {
     const { hasUser } = this.props
 
+    this.checkPermissions(hasUser)
+  }
+
+  componentWillReceiveProps = (nexProps) => {
+    const { hasUser } = nexProps
+
+    this.checkPermissions(hasUser)
+  }
+
+  checkPermissions = (hasUser) => {
     if (!hasUser) {
       this.props.setLoading(true)
-      browserHistory.push('/login') // TODO : Replace with 401 or home page
+      browserHistory.push('/login')
     } else {
       this.props.setLoading(false)
     }
