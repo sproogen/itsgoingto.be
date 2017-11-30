@@ -5,9 +5,7 @@
   right: 1em;
   z-index: 10;
 
-  button {
-    font-size: 0.7em;
-
+  .btn {
     @media(max-width: $screen-md-max) {
       font-size: 1em;
     }

@@ -3,12 +3,13 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
 import { withCookies, Cookies } from 'react-cookie'
-import { isEmpty, dissoc } from 'ramda'
+import { isEmpty, dissoc, join } from 'ramda'
 import { postLogin, APIError } from 'store/api'
 import { hasUserSelector} from 'store/user'
 import { setLoading } from 'store/loader'
 import Button from 'components/Button'
 import EventBus from 'components/EventBus'
+import Back from 'components/Back'
 import './Login.scss'
 
 const KEY_ENTER = 13
@@ -52,7 +53,9 @@ class Login extends React.Component {
       data = this.state.data
     }
     const { username, password } = data
-    let errors = this.state.errors
+    let { errors } = this.state
+
+    errors = dissoc('api', errors)
 
     if (username.length === 0) {
       if (!removeOnly) {
@@ -91,7 +94,9 @@ class Login extends React.Component {
     if (this.validate()) {
       return postLogin(username, password).then((response) => {
         if (response instanceof APIError) {
-          // TODO : Display error message to user
+          let errors = {}
+          errors.api = join('<br />', response.details.error.errors)
+          this.setState({ errors })
           return true
         } else {
           setLoading(true)
@@ -112,13 +117,14 @@ class Login extends React.Component {
 
     return (
       <div>
+        <Back />
         <div className='container header-container'>
           <div className='header center-text'>
             <h1>Login</h1>
           </div>
         </div>
         <div className='container login-container'>
-          <div className='input input-username'>
+          <div className={'input input-username' + (errors.username || errors.api ? ' input-error' : '')}>
             <label className='input-label input-label-username' htmlFor='question'>Username</label>
             <input
               className='input-field input-field-username'
@@ -128,9 +134,9 @@ class Login extends React.Component {
               ref='username'
               value={username}
               onChange={this.handleChange} />
-              <span>{errors.username}</span>
+              <span className='input-error-label'>{errors.username}</span>
           </div>
-          <div className='input input-password'>
+          <div className={'input input-password' + (errors.username || errors.api ? ' input-error' : '')}>
             <label className='input-label input-label-password' htmlFor='question'>Password</label>
             <input
               className='input-field input-field-password'
@@ -141,9 +147,9 @@ class Login extends React.Component {
               value={password}
               onKeyDown={this.handleKeyPress}
               onChange={this.handleChange} />
-              <span>{errors.password}</span>
+              <span className='input-error-label'>{errors.password || errors.api}</span>
           </div>
-          <Button className='pull-right' text='Login' disabled={!isEmpty(errors)} callback={this.submit} submitEvent='login-submit' />
+          <Button className='pull-right btn--small' text='Login' disabled={!isEmpty(errors)} callback={this.submit} submitEvent='login-submit' />
         </div>
       </div>
     )

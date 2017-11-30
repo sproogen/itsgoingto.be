@@ -22,7 +22,7 @@ export function PageLayout ({ children, isLoading, hasUser, clearUser, cookies }
       <div className='page-layout__viewport'>
         { hasUser &&
           <div className='logout-conatiner'>
-            <Button text='Logout' callback={submit} />
+            <Button className='btn--small' text='Logout' callback={submit} />
           </div>
         }
         {children}

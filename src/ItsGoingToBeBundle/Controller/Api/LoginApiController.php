@@ -60,7 +60,7 @@ class LoginApiController extends BaseApiController implements ApiControllerInter
                 ->findOneBy(['username' => $username]);
 
             if (!$user || !$user->checkPassword($password)) {
-                $errors[] = 'Username or password is incorrect';
+                $errors[] = 'Username or password incorrect';
             } else {
                 $extractedUser = $user->extract();
                 $extractedUser['token'] = $this->getToken($user);
