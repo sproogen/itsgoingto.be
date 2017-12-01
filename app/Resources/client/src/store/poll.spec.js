@@ -69,7 +69,7 @@ describe('(Store) Poll', () => {
       expect(pollSelector).to.be.a('function')
     })
 
-    it('Should return a poll with an identifier from the state global state.', () => {
+    it('Should return a poll with an identifier from the global state.', () => {
       expect(pollSelector(_globalState, 'hf0sd8fhoas')).to.deep.equal({
         question       : 'Question',
         identifier     : 'hf0sd8fhoas',
@@ -77,7 +77,7 @@ describe('(Store) Poll', () => {
       })
     })
 
-    it('Should return an empty poll from the state global state.', () => {
+    it('Should return an empty poll from the global state.', () => {
       expect(pollSelector(_globalState, 'dasdfasd')).to.deep.equal({
         question       : '',
         identifier     : '',
@@ -100,17 +100,17 @@ describe('(Store) Poll', () => {
       expect(questionSelector).to.be.a('function')
     })
 
-    it('Should return the question text from a poll with an identifier in the state global state.', () => {
+    it('Should return the question text from a poll with an identifier in the global state.', () => {
       expect(questionSelector(_globalState, 'hf0sd8fhoas')).to.equal('Question')
     })
   })
 
   describe('(Selector) hasQuestionSelector', () => {
-    it('Should return true if question text from a poll with an identifier in the state global state.', () => {
+    it('Should return true if question text from a poll with an identifier in the global state.', () => {
       expect(hasQuestionSelector(_globalState, 'hf0sd8fhoas')).to.equal(true)
     })
 
-    it('Should return false if no question text from a poll with an identifier in the state global state.', () => {
+    it('Should return false if no question text from a poll with an identifier in the global state.', () => {
       expect(hasQuestionSelector(_globalState, '')).to.equal(false)
     })
   })
@@ -120,7 +120,7 @@ describe('(Store) Poll', () => {
       expect(totalResponsesSelector).to.be.a('function')
     })
 
-    it('Should return the responses count from a poll with an identifier in the state global state.', () => {
+    it('Should return the responses count from a poll with an identifier in the global state.', () => {
       expect(totalResponsesSelector(_globalState, 'hf0sd8fhoas')).to.deep.equal([245])
     })
 
@@ -141,7 +141,7 @@ describe('(Store) Poll', () => {
       expect(userRespondedSelector).to.be.a('function')
     })
 
-    it('Should return false if there are no response from a poll with an identifier in the state global state.', () => {
+    it('Should return false if there are no response from a poll with an identifier in the global state.', () => {
       const _globalState = {
         poll: [{
           question       : 'Question',
@@ -153,7 +153,7 @@ describe('(Store) Poll', () => {
       expect(userRespondedSelector(_globalState, 'hf0sd8fhoas')).to.equal(false)
     })
 
-    it('Should return true if there are response from a poll with an identifier in the state global state.', () => {
+    it('Should return true if there are response from a poll with an identifier in the global state.', () => {
       const _globalState = {
         poll: [{
           question       : 'Question',
