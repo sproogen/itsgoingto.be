@@ -7,12 +7,12 @@ export default (store) => ({
     require.ensure([], (require) => {
       /*  Webpack - use require callback to define
           dependencies for bundling   */
-      const Admin = require('./Admin').default
+      const Dashboard = require('./Dashboard').default
 
       /*  Return getComponent   */
-      cb(null, Admin)
+      cb(null, Dashboard)
 
     /* Webpack named bundle   */
-    }, 'admin')
+    }, 'dashboard')
   }
 })

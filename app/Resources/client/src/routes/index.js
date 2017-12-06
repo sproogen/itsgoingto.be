@@ -2,7 +2,7 @@ import CoreLayout from 'layouts/PageLayout'
 import askRoute from './Ask'
 import answerRoute from './Answer'
 import loginRoute from './Login'
-import adminRoute from './Admin'
+import dashboardRoute from './Dashboard'
 import notFoundRoute from './NotFound'
 import catchAllRoute from './CatchAll'
 
@@ -13,7 +13,7 @@ export const createRoutes = (store) => ({
   childRoutes : [
     notFoundRoute(),
     loginRoute(),
-    adminRoute(),
+    dashboardRoute(),
     answerRoute(store),
     catchAllRoute(),
   ]
