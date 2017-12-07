@@ -21,6 +21,19 @@ export const hasUserSelector = (state) =>
     prop('user')
   )(state)
 
+  /**
+ * Returns the token from the user object
+ *
+ * @param  {object} state App state
+ *
+ * @return {boolean}      The users token
+ */
+export const userTokenSelector = (state) =>
+  compose(
+    prop('token'),
+    prop('user')
+  )(state)
+
 // ------------------------------------
 // Actions
 // ------------------------------------

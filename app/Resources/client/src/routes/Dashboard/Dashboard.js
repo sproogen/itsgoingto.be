@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
 import { hasUserSelector} from 'store/user'
 import { setLoading } from 'store/loader'
+import Polls from './components/Polls'
 import './Dashboard.scss'
 
 class Dashboard extends React.Component {
@@ -59,13 +60,7 @@ class Dashboard extends React.Component {
           </div>
         </div>
         <div className='container panel-container'>
-          <div className='panel'>
-            <div className='panel-header'>
-              Polls
-            </div>
-            <div className='panel-body'>
-            </div>
-          </div>
+          <Polls />
         </div>
       </div>
     )

@@ -3,7 +3,7 @@ import { prop, compose, not, isEmpty, contains, without, append, ifElse, both, e
 import moment from 'moment'
 import { pollSelector, updatePoll, updateResponses } from './poll'
 import { answersSelector } from './answers'
-import { updateUser } from './user'
+import { updateUser, userTokenSelector } from './user'
 
 // ------------------------------------
 // Constants
@@ -118,6 +118,30 @@ export const fetchPoll = (identifier) => (dispatch, getState) =>
     ),
     pollSelector
   )(getState(), identifier)
+
+/**
+ * TODO : Test this
+ *
+ * Fetches polls from the api
+ *
+ * @param  {integer} page The page number to fetch polls for
+ *
+ * @return {Function}     redux-thunk callable function
+ */
+export const fetchPolls = (page) => (dispatch, getState) =>
+    fetch(ROUTE_POLL + '?page=' + page, {
+      credentials : 'same-origin',
+      headers: {
+        'Authorization': 'Bearer ' + userTokenSelector(getState()),
+      }
+    })
+    .then(extractResponse)
+    .then((response) => {
+      console.log(response)
+      return response
+    })
+    // .then((response) => dispatch(updatePolls(response)))
+    .catch(onError)
 
 /**
  * Posts the response for a poll with the identifier to the api
