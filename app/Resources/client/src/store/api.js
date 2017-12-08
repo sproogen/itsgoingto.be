@@ -1,7 +1,7 @@
 import { prop, compose, not, isEmpty, contains, without, append, ifElse, both, equals, length, when, path, omit,
          merge } from 'ramda'
 import moment from 'moment'
-import { pollSelector, updatePoll, updateResponses } from './poll'
+import { pollSelector, updatePoll, setPolls, updateResponses, POLLS_PER_PAGE } from './poll'
 import { answersSelector } from './answers'
 import { updateUser, userTokenSelector } from './user'
 
@@ -129,18 +129,15 @@ export const fetchPoll = (identifier) => (dispatch, getState) =>
  * @return {Function}     redux-thunk callable function
  */
 export const fetchPolls = (page) => (dispatch, getState) =>
-    fetch(ROUTE_POLL + '?page=' + page, {
+    fetch(ROUTE_POLL + '?page=' + page + '&pageSize=' + POLLS_PER_PAGE, {
       credentials : 'same-origin',
       headers: {
         'Authorization': 'Bearer ' + userTokenSelector(getState()),
       }
     })
     .then(extractResponse)
-    .then((response) => {
-      console.log(response)
-      return response
-    })
-    // .then((response) => dispatch(updatePolls(response)))
+    .then((response) => dispatch(setPolls(prop('entities', response))))
+    // TODO : Store total polls in the state
     .catch(onError)
 
 /**

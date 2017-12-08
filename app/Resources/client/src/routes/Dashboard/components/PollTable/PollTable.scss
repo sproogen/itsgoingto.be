@@ -1,0 +1,32 @@
+.panel {
+  background: #fff;
+  padding:1.6em;
+  border: 1px solid #E6E9ED;
+  border-radius: 2px;
+  margin-bottom: 5em;
+
+  .panel-header {
+    padding-bottom: 0.8em;
+    padding-left: 0.6em;
+    font-size: 2em;
+    line-height: 1em;
+    font-weight: 300;
+    border-bottom: 2px solid #e6e9ed;
+
+    a {
+      font-size: 0.8em;
+      margin-left: 5px;
+      cursor: pointer;
+    }
+  }
+
+  .panel-body {
+    .spinner {
+      margin-top: 2em;
+    }
+  }
+}
+
+th, td {
+  text-align: center;
+}

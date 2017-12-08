@@ -23,7 +23,7 @@ Retrieve responses info: [```GET /api/polls/:identifier/responses```](#retrieve-
 Submit/Change  users response: [```POST /api/polls/:identifier/responses```](#submitchange-a-user-response)
 
 #### Retrieve Polls
-Only returns non deleted polls unless the user has `ROLE_ADMIN`
+Only returns polls if the user has `ROLE_ADMIN`
 ```
 GET /api/polls
 ```

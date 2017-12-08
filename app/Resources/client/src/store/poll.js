@@ -1,4 +1,4 @@
-import { prop, compose, not, equals, length, omit, when, find, propEq, both,
+import { prop, compose, not, equals, length, omit, when, find, propEq, both, map,
          adjust, set, lensProp, findIndex, ifElse, path, isNil, isEmpty, merge, __ } from 'ramda'
 import { addAnswer, clearAnswers, updateAnswers } from './answers'
 
@@ -6,7 +6,9 @@ import { addAnswer, clearAnswers, updateAnswers } from './answers'
 // Constants
 // ------------------------------------
 export const POLL_UPDATE     = 'POLL_UPDATE'
+export const POLLS_SET       = 'POLLS_SET'
 export const QUESTION_UPDATE = 'QUESTION_UPDATE'
+export const POLLS_PER_PAGE  = 10
 export const initialPoll     = {
   question       : '',
   identifier     : '',
@@ -32,6 +34,17 @@ export const pollSelector = (state, identifier = '') =>
     equals(undefined),
     () => omit(['answers'])(initialPoll)
   )(find(propEq('identifier', identifier))(prop('poll')(state)))
+
+/**
+ * TODO : Test this
+ *
+ * Get the polls from the state
+ *
+ * @param  {object} state App state
+ *
+ * @return {Poll[]}       The polls in the state
+ */
+export const pollsSelector = (state) => prop('poll')(state)
 
 /**
  * Get the question text from a poll with the given identifier
@@ -116,6 +129,20 @@ export const updatePoll = (poll) => (dispatch, getState) =>
   )(poll)
 
 /**
+ * TODO : Test this
+ *
+ * Set the polls in the state
+ *
+ * @param  {Poll[]}   polls The array of polls to put in the state
+ *
+ * @return {Function}       dispatchable object
+ */
+export const setPolls = (polls = []) => ({
+  type  : POLLS_SET,
+  polls : map(omit(['answers']))(polls),
+})
+
+/**
  * Update the question text in the state for a given poll
  * Dispatch to insert or clear the answers appropriately
  *
@@ -182,6 +209,11 @@ const ACTION_HANDLERS = {
         findIndex(propEq('identifier', path(['poll', 'identifier'])(action)))(previousState)
       )
     )(previousState),
+  // Set the polls in the state
+  [POLLS_SET]       : (previousState, action) => {
+    console.log('action', action)
+    return action.polls
+  },
   // Update the question for a poll in the state if it exists else insert a blank poll with the question
   [QUESTION_UPDATE] : (previousState, action) =>
     ifElse(

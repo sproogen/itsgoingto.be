@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
 import { hasUserSelector} from 'store/user'
 import { setLoading } from 'store/loader'
-import Polls from './components/Polls'
+import PollTable from './components/PollTable'
 import './Dashboard.scss'
 
 class Dashboard extends React.Component {
@@ -30,40 +30,46 @@ class Dashboard extends React.Component {
   }
 
   render () {
-    return (
-      <div>
-        <div className='container header-container dashboard-header-container'>
-          <div className='header dashboard-header'>
-            <h1>Dashboard</h1>
+    const { hasUser } = this.props
+
+    if (hasUser) {
+      return (
+        <div>
+          <div className='container header-container dashboard-header-container'>
+            <div className='header dashboard-header'>
+              <h1>Dashboard</h1>
+            </div>
           </div>
-        </div>
-        <div className='container info-container'>
-          <div className='info-block-column'>
-            <div className='info-block'>
-              <div className='info-header'>
-                Total Polls
+          <div className='container info-container'>
+            <div className='info-block-column'>
+              <div className='info-block'>
+                <div className='info-header'>
+                  Total Polls
+                </div>
+                <div className='info-body'>
+                  500
+                </div>
               </div>
-              <div className='info-body'>
-                500
+            </div>
+            <div className='info-block-column'>
+              <div className='info-block'>
+                <div className='info-header'>
+                  Total Responses
+                </div>
+                <div className='info-body'>
+                  800
+                </div>
               </div>
             </div>
           </div>
-          <div className='info-block-column'>
-            <div className='info-block'>
-              <div className='info-header'>
-                Total Responses
-              </div>
-              <div className='info-body'>
-                800
-              </div>
-            </div>
+          <div className='container panel-container'>
+            <PollTable />
           </div>
         </div>
-        <div className='container panel-container'>
-          <Polls />
-        </div>
-      </div>
-    )
+      )
+    }
+
+    return <div />
   }
 }
 
