@@ -7,8 +7,9 @@ import { addAnswer, clearAnswers, updateAnswers } from './answers'
 // ------------------------------------
 export const POLL_UPDATE     = 'POLL_UPDATE'
 export const POLLS_SET       = 'POLLS_SET'
+export const POLL_COUNT_SET  = 'POLL_COUNT_SET'
 export const QUESTION_UPDATE = 'QUESTION_UPDATE'
-export const POLLS_PER_PAGE  = 10
+export const POLLS_PER_PAGE  = 2
 export const initialPoll     = {
   question       : '',
   identifier     : '',
@@ -33,7 +34,7 @@ export const pollSelector = (state, identifier = '') =>
   when(
     equals(undefined),
     () => omit(['answers'])(initialPoll)
-  )(find(propEq('identifier', identifier))(prop('poll')(state)))
+  )(find(propEq('identifier', identifier))(pollsSelector(state)))
 
 /**
  * TODO : Test this
@@ -44,7 +45,18 @@ export const pollSelector = (state, identifier = '') =>
  *
  * @return {Poll[]}       The polls in the state
  */
-export const pollsSelector = (state) => prop('poll')(state)
+export const pollsSelector = (state) => path(['poll', 'polls'])(state)
+
+/**
+ * TODO : Test this
+ *
+ * Get the poll count from the state
+ *
+ * @param  {object} state App state
+ *
+ * @return {integer}      The poll count from the state
+ */
+export const pollCountSelector = (state) => path(['poll', 'count'])(state)
 
 /**
  * Get the question text from a poll with the given identifier
@@ -143,6 +155,20 @@ export const setPolls = (polls = []) => ({
 })
 
 /**
+ * TODO : Test this
+ *
+ * Set the poll count in the state
+ *
+ * @param  {integer}  count The total count of polls to put in the state
+ *
+ * @return {Function}       dispatchable object
+ */
+export const setPollCount = (count) => ({
+  type  : POLL_COUNT_SET,
+  count,
+})
+
+/**
  * Update the question text in the state for a given poll
  * Dispatch to insert or clear the answers appropriately
  *
@@ -197,39 +223,39 @@ export const actions = {
 // ------------------------------------
 const ACTION_HANDLERS = {
   // Insert the poll if it doesn't exist in the state else update the exisitng poll in the state
-  [POLL_UPDATE]     : (previousState, action) =>
+  [POLL_UPDATE]     : (previousState, action) => merge(previousState)({ polls :
     ifElse(
       compose(
         equals(-1),
         findIndex(propEq('identifier', path(['poll', 'identifier'])(action)))
       ),
-      () => [...previousState, action.poll],
+      () => [...prop('polls')(previousState), action.poll],
       adjust(
         merge(__, action.poll),
-        findIndex(propEq('identifier', path(['poll', 'identifier'])(action)))(previousState)
+        findIndex(propEq('identifier', path(['poll', 'identifier'])(action)))(prop('polls')(previousState))
       )
-    )(previousState),
+    )(prop('polls')(previousState))
+  }),
   // Set the polls in the state
-  [POLLS_SET]       : (previousState, action) => {
-    console.log('action', action)
-    return action.polls
-  },
+  [POLLS_SET]       : (previousState, action) => merge(previousState)({ polls : action.polls }),
+  [POLL_COUNT_SET]  : (previousState, action) => merge(previousState)({ count : action.count }),
   // Update the question for a poll in the state if it exists else insert a blank poll with the question
-  [QUESTION_UPDATE] : (previousState, action) =>
+  [QUESTION_UPDATE] : (previousState, action) => merge(previousState)({ polls :
     ifElse(
       compose(
         equals(-1),
         findIndex(propEq('identifier', action.identifier))
       ),
-      () => [...previousState, compose(
+      () => [...prop('polls')(previousState), compose(
         omit(['answers']),
         set(lensProp('question'), action.question)
       )(initialPoll)],
       adjust(
         set(lensProp('question'), action.question),
-        findIndex(propEq('identifier', action.identifier))(previousState)
+        findIndex(propEq('identifier', action.identifier))(prop('polls')(previousState))
       )
-    )(previousState)
+    )(prop('polls')(previousState))
+  })
 }
 
 // ------------------------------------
@@ -238,7 +264,10 @@ const ACTION_HANDLERS = {
 /**
  * Initial state for this store component
  */
-const initialState = []
+const initialState = {
+  polls: [],
+  count: null
+}
 
 /**
  * The reducer for this store component

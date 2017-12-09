@@ -63,7 +63,7 @@ class Ask extends React.Component {
 }
 
 Ask.propTypes = {
-  question      : PropTypes.object.isRequired,
+  question      : PropTypes.string.isRequired,
   hasQuestion   : PropTypes.bool.isRequired,
   canSubmitPoll : PropTypes.bool.isRequired,
   poll          : PropTypes.object.isRequired,
