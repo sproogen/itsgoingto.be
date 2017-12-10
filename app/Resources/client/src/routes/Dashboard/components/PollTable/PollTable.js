@@ -20,8 +20,6 @@ class PollTable extends React.Component {
   componentWillMount = () => {
     const { page } = this.state
 
-    // TODO : Remove polls from state
-
     this.fetchPollsForPage(page)
   }
 

@@ -43,6 +43,10 @@
       &.hidden {
         opacity: 0;
       }
+
+      a {
+        cursor: pointer;
+      }
     }
 
     th, td {
