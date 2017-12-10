@@ -9,7 +9,7 @@ export const POLL_UPDATE     = 'POLL_UPDATE'
 export const POLLS_SET       = 'POLLS_SET'
 export const POLL_COUNT_SET  = 'POLL_COUNT_SET'
 export const QUESTION_UPDATE = 'QUESTION_UPDATE'
-export const POLLS_PER_PAGE  = 2
+export const POLLS_PER_PAGE  = 10
 export const initialPoll     = {
   question       : '',
   identifier     : '',
@@ -266,7 +266,7 @@ const ACTION_HANDLERS = {
  */
 const initialState = {
   polls: [],
-  count: null
+  count: 0
 }
 
 /**

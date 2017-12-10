@@ -4,6 +4,8 @@ import { connect } from 'react-redux'
 import { fetchPolls } from 'store/api'
 import { pollsSelector, pollCountSelector, POLLS_PER_PAGE } from 'store/poll'
 import Spinner from 'components/Spinner'
+import PollTableRow from '../PollTableRow'
+import Paginator from '../Paginator'
 import './PollTable.scss'
 
 class PollTable extends React.Component {
@@ -32,49 +34,14 @@ class PollTable extends React.Component {
     })
   }
 
-  changePage = (page) => () => {
+  changePage = (page) => {
     this.setState({ page, loading : true }, () => this.fetchPollsForPage(page))
   }
 
-  renderPaginationButton = (key, text, disabled, callback) => {
-    return (
-      <button
-        key={key}
-        disabled={disabled}
-        className={'btn btn-pagination' + (disabled ? ' disabled' : '')}
-        onClick={callback}>
-        {text}
-      </button>
-    )
-  }
-
-  renderPagination = () => {
-    const { pollCount } = this.props
-    const { page } = this.state
-    const pageCount = Math.ceil(pollCount / POLLS_PER_PAGE)
-
-    let pages = [];
-    for (var i = 0; i < pageCount; i++) {
-        pages.push(this.renderPaginationButton(i, i+1, i === page, this.changePage(i)));
-    }
-
-    return (
-      <div className='pagination-container'>
-        {pageCount > 1 ?
-          <div>
-            {this.renderPaginationButton('previous', 'PREVIOUS', page <= 0, this.changePage(page - 1))}
-            {pages}
-            {this.renderPaginationButton('next', 'NEXT', page >= pageCount - 1, this.changePage(page + 1))}
-          </div> :
-          null
-        }
-      </div>
-    )
-  }
-
   render () {
-    const { loading } = this.state
-    const { polls } = this.props
+    const { loading, page } = this.state
+    const { polls, pollCount } = this.props
+    const hasPaginator = Math.ceil(pollCount / POLLS_PER_PAGE) > 1
 
     const pollItems = polls.map((poll) =>
       <div key={poll.id}>
@@ -89,11 +56,11 @@ class PollTable extends React.Component {
         </div>
         <div className='panel-body'>
           {loading &&
-            <div className='center-text'>
+            <div className={'spinner-container center-text' + (!hasPaginator ? ' no-paginator' : '')}>
               <Spinner />
             </div>
           }
-          {!loading &&
+          <div className={'table-container' + (loading ? ' hidden' : '')}>
             <table>
               <thead>
                 <tr>
@@ -105,22 +72,20 @@ class PollTable extends React.Component {
                 </tr>
               </thead>
               <tbody>
-                { //TODO : Poll row component
-                  polls.map(({id, identifier, question, created}) => (
-                    <tr key={id}>
-                      <td>{id}</td>
-                      <td>{identifier}</td>
-                      <td>{question}</td>
-                      <td>{created.date}</td>
-                      <td>X</td>
-                    </tr>
+                {
+                  polls.map((poll) => (
+                    <PollTableRow key={poll.id} poll={poll} />
                   ))
                 }
               </tbody>
             </table>
-          }
-          {/* TODO : Pagination Component */}
-          {this.renderPagination()}
+          </div>
+          <Paginator
+            pollCount={pollCount}
+            pollsPerPage={POLLS_PER_PAGE}
+            page={page}
+            pageCallback={this.changePage}
+          />
         </div>
       </div>
     )

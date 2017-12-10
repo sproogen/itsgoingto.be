@@ -1,5 +1,3 @@
-@import "variables";
-
 .panel {
   background: #fff;
   padding:1.6em;
@@ -23,45 +21,32 @@
   }
 
   .panel-body {
-    .spinner {
-      margin-top: 2em;
-    }
-  }
-}
+    position: relative;
 
-th, td {
-  text-align: center;
-}
+    .spinner-container {
+      position: absolute;
+      top: 2em;
+      top: calc(50% - 2em);
+      margin-left: auto;
+      margin-right: auto;
+      left: 0;
+      right: 0;
 
-.pagination-container {
-  text-align: center;
-  margin-top: 1.6em;
-
-  .btn-pagination {
-    border: solid 1px $label-text-color;
-    color: $label-text-color;
-    background: $white;
-    box-shadow: none;
-    text-decoration: none;
-    text-transform: uppercase;
-    display: inline-block;
-    text-align: center;
-    padding: 0.5em 0.9em;
-    border-radius: 0.2em;
-    margin: 0px;
-    margin-right: .5em;
-
-    &.disabled {
-      background: $disabled-grey;
+      &.no-paginator {
+        top: calc(50%);
+      }
     }
 
-    &:first-child {
-      margin-right: 1em;
+    .table-container {
+      opacity: 0.999;
+
+      &.hidden {
+        opacity: 0;
+      }
     }
 
-    &:last-child {
-      margin-left: .5em;
-      margin-right: 0;
+    th, td {
+      text-align: center;
     }
   }
 }
