@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import PropTypes from 'prop-types'
-import { prop, compose, contains } from 'ramda'
+import { prop, compose, contains, when, isNil } from 'ramda'
 import { fetchResponses, postResponse, fetchPoll, APIError } from 'store/api'
 import Answer from '../Answer'
 import './Answers.scss'
@@ -15,11 +15,11 @@ class Answers extends React.Component {
       clearInterval(this.answersUpdater)
     } else {
       updateResponses()
-        .then((response) => {
-          if (response instanceof APIError) {
-            fetchPoll()
-          }
-        })
+      .then((response) => {
+        if (response instanceof APIError) {
+          fetchPoll()
+        }
+      })
     }
   }
 
@@ -35,7 +35,7 @@ class Answers extends React.Component {
   }
 
   answerChecked = (answer) =>
-    compose(contains(answer.id), prop('userResponses'))(this.props.poll)
+    compose(contains(answer.id), when(isNil, () => []), prop('userResponses'))(this.props.poll)
 
   render () {
     const { poll, answers, userResponded, postResponse, totalResponses } = this.props

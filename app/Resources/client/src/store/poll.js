@@ -136,7 +136,7 @@ export const updatePoll = (poll) => (dispatch, getState) =>
         type : POLL_UPDATE,
         poll : omit(['answers'])(poll)
       }),
-      dispatch(updateAnswers(prop('answers')(poll)))
+      dispatch(updateAnswers(prop('answers', poll)))
     ]).then(() => poll)
   )(poll)
 
@@ -209,7 +209,7 @@ export const updateResponses = (responses, identifier) => (dispatch, getState) =
     type : POLL_UPDATE,
     poll : compose(omit(['answers']), merge(__, { identifier }))(responses)
   }),
-  dispatch(updateAnswers(prop('answers')(responses)))
+  dispatch(updateAnswers(prop('answers', responses)))
 ]).then(() => responses)
 
 export const actions = {

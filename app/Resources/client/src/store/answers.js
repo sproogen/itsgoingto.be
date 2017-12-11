@@ -25,7 +25,7 @@ export const ANSWERS_CLEAR        = 'ANSWERS_CLEAR'
  *
  * @return {array}             Answers
  */
-export const answersSelector = (state, identifier = '') => prop('answers')(state)
+export const answersSelector = (state) => prop('answers')(state)
 
 /**
  * Returns the max answer index using the answersSelector
