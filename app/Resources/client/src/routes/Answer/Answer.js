@@ -10,6 +10,7 @@ import { pollSelector, hasQuestionSelector, totalResponsesSelector, userResponde
 import { answersSelector, clearAnswers } from 'store/answers'
 import { fetchPoll, APIError } from 'store/api'
 import { setLoading, setRequiresPassphrase, requiresPassphraseSelector } from 'store/loader'
+import { hasUserSelector } from 'store/user'
 import Back from 'components/Back'
 import Sharing from './components/Sharing'
 import Answers from './components/Answers'
@@ -24,7 +25,6 @@ class Answer extends React.Component {
       setLoading(true)
     }
     clearAnswers()
-    // TODO : Show loading for answers
     fetchPoll(this.props.identifier).then((response) => {
       if (response instanceof APIError) {
         if (response.details.status === 401 && response.details.error.error === 'incorrect-passphrase') {
@@ -61,7 +61,7 @@ class Answer extends React.Component {
   }
 
   render () {
-    const { hasPoll, poll, requiresPassphrase, answers, totalResponses, userResponded } = this.props
+    const { hasPoll, poll, requiresPassphrase, answers, totalResponses, userResponded, hasUser } = this.props
 
     return (
       <div>
@@ -94,7 +94,8 @@ class Answer extends React.Component {
               poll={poll}
               answers={answers}
               totalResponses={totalResponses}
-              userResponded={userResponded} />
+              userResponded={userResponded}
+              viewOnly={hasUser} />
           </div>
         }
         { requiresPassphrase &&
@@ -113,6 +114,7 @@ Answer.propTypes = {
   answers               : PropTypes.array.isRequired,
   totalResponses        : PropTypes.number,
   userResponded         : PropTypes.bool.isRequired,
+  hasUser               : PropTypes.bool.isRequired,
   fetchPoll             : PropTypes.func.isRequired,
   clearAnswers          : PropTypes.func.isRequired,
   setLoading            : PropTypes.func.isRequired,
@@ -129,7 +131,8 @@ const mapStateToProps = (state, props) => ({
   requiresPassphrase : requiresPassphraseSelector(state),
   answers            : answersSelector(state),
   totalResponses     : totalResponsesSelector(state, props.params.identifier),
-  userResponded      : userRespondedSelector(state, props.params.identifier)
+  userResponded      : userRespondedSelector(state, props.params.identifier),
+  hasUser            : hasUserSelector(state),
 })
 
 const mapDispatchToProps = (dispatch) => ({

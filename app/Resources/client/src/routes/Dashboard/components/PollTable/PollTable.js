@@ -11,6 +11,9 @@ import './PollTable.scss'
 class PollTable extends React.Component {
   constructor (props) {
     super(props)
+
+    // TODO : Store page for fetched polls in state
+    // If initial page (also get from URL) = stored page don't show loading.
     this.state = {
       page : 0,
       loading : true
@@ -33,6 +36,7 @@ class PollTable extends React.Component {
   }
 
   changePage = (page) => {
+    // TODO : Set page number as URL parameter
     this.setState({ page, loading : true }, () => this.fetchPollsForPage(page))
   }
 
