@@ -7,6 +7,7 @@ import { addAnswer, clearAnswers, updateAnswers } from './answers'
 // ------------------------------------
 export const POLL_UPDATE     = 'POLL_UPDATE'
 export const POLLS_SET       = 'POLLS_SET'
+export const POLL_PAGE_SET   = 'POLL_PAGE_SET'
 export const POLL_COUNT_SET  = 'POLL_COUNT_SET'
 export const QUESTION_UPDATE = 'QUESTION_UPDATE'
 export const POLLS_PER_PAGE  = 10
@@ -46,6 +47,17 @@ export const pollSelector = (state, identifier = '') =>
  * @return {Poll[]}       The polls in the state
  */
 export const pollsSelector = (state) => path(['poll', 'polls'])(state)
+
+/**
+ * TODO : Test this
+ *
+ * Get the poll page from the state
+ *
+ * @param  {object} state App state
+ *
+ * @return {integer}      The poll page from the state
+ */
+export const pollPageSelector = (state) => path(['poll', 'page'])(state)
 
 /**
  * TODO : Test this
@@ -157,6 +169,20 @@ export const setPolls = (polls = []) => ({
 /**
  * TODO : Test this
  *
+ * Set the poll page in the state
+ *
+ * @param  {integer}  count The total count of polls to put in the state
+ *
+ * @return {Function}       dispatchable object
+ */
+export const setPollPage = (page) => ({
+  type  : POLL_PAGE_SET,
+  page,
+})
+
+/**
+ * TODO : Test this
+ *
  * Set the poll count in the state
  *
  * @param  {integer}  count The total count of polls to put in the state
@@ -238,6 +264,7 @@ const ACTION_HANDLERS = {
   }),
   // Set the polls in the state
   [POLLS_SET]       : (previousState, action) => merge(previousState)({ polls : action.polls }),
+  [POLL_PAGE_SET]   : (previousState, action) => merge(previousState)({ page : action.page }),
   [POLL_COUNT_SET]  : (previousState, action) => merge(previousState)({ count : action.count }),
   // Update the question for a poll in the state if it exists else insert a blank poll with the question
   [QUESTION_UPDATE] : (previousState, action) => merge(previousState)({ polls :
@@ -266,6 +293,7 @@ const ACTION_HANDLERS = {
  */
 const initialState = {
   polls: [],
+  page: null,
   count: 0
 }
 

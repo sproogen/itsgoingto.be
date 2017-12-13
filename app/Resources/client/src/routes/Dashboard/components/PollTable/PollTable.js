@@ -1,22 +1,27 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import CancelablePromise from 'cancelable-promise'
 import { fetchPolls } from 'store/api'
-import { pollsSelector, pollCountSelector, POLLS_PER_PAGE } from 'store/poll'
+import { pollsSelector, pollCountSelector, pollPageSelector, POLLS_PER_PAGE } from 'store/poll'
 import Spinner from 'components/Spinner'
 import PollTableRow from '../PollTableRow'
 import Paginator from '../Paginator'
 import './PollTable.scss'
 
+let fetchPollsPromise
+
 class PollTable extends React.Component {
   constructor (props) {
     super(props)
 
-    // TODO : Store page for fetched polls in state
-    // If initial page (also get from URL) = stored page don't show loading.
+    const { pollPage } = props
+
+    // TODO : Store ID's of polls for the page in a dashboard store
+    // Also store the page number in the dashboard store
     this.state = {
-      page : 0,
-      loading : true
+      page    : pollPage ? pollPage : 0,
+      loading : pollPage === null
     }
   }
 
@@ -26,17 +31,23 @@ class PollTable extends React.Component {
     this.fetchPollsForPage(page)
   }
 
+  componentWillUnmount = () => {
+    fetchPollsPromise.cancel()
+  }
+
   fetchPollsForPage = (page) => {
     const { fetchPolls } = this.props
 
-    fetchPolls(page + 1)
-    .then(() => {
+    fetchPollsPromise = new CancelablePromise(
+      (resolve) => fetchPolls(page + 1).then(resolve)
+    )
+    fetchPollsPromise.then(() => {
       this.setState({ loading : false })
     })
   }
 
   changePage = (page) => {
-    // TODO : Set page number as URL parameter
+    fetchPollsPromise.cancel()
     this.setState({ page, loading : true }, () => this.fetchPollsForPage(page))
   }
 
@@ -102,6 +113,7 @@ PollTable.propTypes = {
 const mapStateToProps = (state) => ({
   polls     : pollsSelector(state),
   pollCount : pollCountSelector(state),
+  pollPage  : pollPageSelector(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
