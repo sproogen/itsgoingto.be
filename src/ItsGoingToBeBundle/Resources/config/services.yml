@@ -36,9 +36,16 @@ services:
         calls:
             - [ setContainer, ["@service_container"]]
             - [ setEntityManager, ["@doctrine.orm.default_entity_manager"]]
+            - [ setEncoder, ["@security.password_encoder"]]
 
     itsgoingtobe.react_controller:
         class: ItsGoingToBeBundle\Controller\ReactController
         calls:
             - [ setContainer, ["@service_container"]]
             - [ setEntityManager, ["@doctrine.orm.default_entity_manager"]]
+
+    itsgoingtobe.user_listener:
+        class: ItsGoingToBeBundle\Service\UserListener
+        arguments: ['@security.password_encoder']
+        tags:
+            - { name: doctrine.event_subscriber }

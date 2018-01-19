@@ -4,6 +4,7 @@ namespace ItsGoingToBeBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * Entity to store a user.
@@ -30,6 +31,13 @@ class User implements UserInterface
      * @var string
      */
     protected $password;
+
+    /**
+     * The plain password for encryption
+     *
+     * @var string
+     */
+    protected $plainPassword;
 
     /**
      * When this Entity was created.
@@ -140,7 +148,6 @@ class User implements UserInterface
      */
     public function setPassword($password)
     {
-        // TODO : Hash password
         $this->password = $password;
 
         return $this;
@@ -157,15 +164,27 @@ class User implements UserInterface
     }
 
     /**
-     * Check a given password agains the password hash.
+     * Set plainPassword
      *
-     * @param  string $plainPassword The plaintext password to check against the user.
+     * @param string $plainPassword
      *
-     * @return boolean               Do the passwords match.
+     * @return User
      */
-    public function checkPassword($plainPassword)
+    public function setPlainPassword($plainPassword)
     {
-        return $this->getPassword() === $plainPassword;
+        $this->plainPassword = $plainPassword;
+
+        return $this;
+    }
+
+    /**
+     * Get plainPassword
+     *
+     * @return string
+     */
+    public function getPlainPassword()
+    {
+        return $this->plainPassword;
     }
 
     /**

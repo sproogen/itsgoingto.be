@@ -3,10 +3,10 @@ security:
         database_users:
             entity: { class: ItsGoingToBeBundle:User, property: username }
 
-    # encoders:
-    #     Symfony\Component\Security\Core\User\User:
-    #         algorithm: bcrypt
-    #         cost: 12
+    encoders:
+        ItsGoingToBeBundle\Entity\User:
+            algorithm: bcrypt
+            cost: 12
 
     firewalls:
         dev:
