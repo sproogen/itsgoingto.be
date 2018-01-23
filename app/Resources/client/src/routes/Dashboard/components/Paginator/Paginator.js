@@ -22,8 +22,8 @@ class Paginator extends React.Component {
   }
 
   render () {
-    const { pollCount, pollsPerPage, page } = this.props
-    const pageCount = Math.ceil(pollCount / pollsPerPage)
+    const { itemCount, itemsPerPage, page } = this.props
+    const pageCount = Math.ceil(itemCount / itemsPerPage)
     const maxPage = pageCount - 1
 
     let pages = []
@@ -63,8 +63,8 @@ class Paginator extends React.Component {
 }
 
 Paginator.propTypes = {
-  pollCount    : PropTypes.number.isRequired,
-  pollsPerPage : PropTypes.number.isRequired,
+  itemCount    : PropTypes.number.isRequired,
+  itemsPerPage : PropTypes.number.isRequired,
   page         : PropTypes.number.isRequired,
   pageCallback : PropTypes.func.isRequired,
 }

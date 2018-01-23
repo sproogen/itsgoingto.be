@@ -122,6 +122,24 @@ export const fetchPoll = (identifier) => (dispatch, getState) =>
 /**
  * TODO : Test this
  *
+ * Deletes a poll with the identifier from the api
+ *
+ * @param  {string} identifier The identifier for the poll
+ *
+ * @return {Function} redux-thunk callable function
+ */
+export const deletePoll = (identifier) => (dispatch, getState) =>
+  fetch(ROUTE_POLL + '/' + identifier, {
+    credentials : 'same-origin',
+    method      : 'DELETE'
+  })
+  .then(extractResponse)
+  .then((response) => dispatch(updatePoll(response)))
+  .catch(onError)
+
+/**
+ * TODO : Test this
+ *
  * Fetches polls from the api
  *
  * @param  {integer} page The page number to fetch polls for
@@ -129,20 +147,20 @@ export const fetchPoll = (identifier) => (dispatch, getState) =>
  * @return {Function}     redux-thunk callable function
  */
 export const fetchPolls = (page) => (dispatch, getState) =>
-    fetch(ROUTE_POLL + '?page=' + page + '&pageSize=' + POLLS_PER_PAGE, {
-      credentials : 'same-origin',
-      headers: {
-        'Authorization': 'Bearer ' + userTokenSelector(getState()),
-      }
-    })
-    .then(extractResponse)
-    .then((response) => Promise.all([
-      dispatch(setPolls(prop('entities', response))),
-      dispatch(setPollPage(page - 1)),
-      dispatch(setPollCount(prop('total', response)))
-    ]))
-    .then((responses) => responses[0])
-    .catch(onError)
+  fetch(ROUTE_POLL + '?page=' + page + '&pageSize=' + POLLS_PER_PAGE, {
+    credentials : 'same-origin',
+    headers: {
+      'Authorization': 'Bearer ' + userTokenSelector(getState()),
+    }
+  })
+  .then(extractResponse)
+  .then((response) => Promise.all([
+    dispatch(setPolls(prop('entities', response))),
+    dispatch(setPollPage(page - 1)),
+    dispatch(setPollCount(prop('total', response)))
+  ]))
+  .then((responses) => responses[0])
+  .catch(onError)
 
 /**
  * Posts the response for a poll with the identifier to the api

@@ -2,10 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import CancelablePromise from 'cancelable-promise'
-import { fetchPolls } from 'store/api'
+import { fetchPolls, deletePoll } from 'store/api'
 import { pollsSelector, pollCountSelector, pollPageSelector, POLLS_PER_PAGE } from 'store/poll'
 import Spinner from 'components/Spinner'
-import PollTableRow from '../PollTableRow'
+import PollTableRow from './PollTableRow'
 import Paginator from '../Paginator'
 import './PollTable.scss'
 
@@ -53,7 +53,7 @@ class PollTable extends React.Component {
 
   render () {
     const { loading, page } = this.state
-    const { polls, pollCount } = this.props
+    const { polls, pollCount, deletePoll } = this.props
     const hasPaginator = Math.ceil(pollCount / POLLS_PER_PAGE) > 1
 
     const pollItems = polls.map((poll) =>
@@ -77,25 +77,27 @@ class PollTable extends React.Component {
             <table>
               <thead>
                 <tr>
-                  <th>ID</th>
-                  <th>Identifier</th>
+                  <th style={{width: '4em'}}>ID</th>
+                  <th style={{width: '8em'}}>Identifier</th>
                   <th>Question</th>
-                  <th>Created At</th>
-                  <th>Delete</th>
+                  <th style={{width: '8em'}}>Responses</th>
+                  <th style={{width: '8em'}}>Status</th>
+                  <th style={{width: '12em'}}>Created At</th>
+                  <th style={{width: '4em'}}>Delete</th>
                 </tr>
               </thead>
               <tbody>
                 {
                   polls.map((poll) => (
-                    <PollTableRow key={poll.id} poll={poll} />
+                    <PollTableRow key={poll.id} poll={poll} deletePoll={deletePoll} />
                   ))
                 }
               </tbody>
             </table>
           </div>
           <Paginator
-            pollCount={pollCount}
-            pollsPerPage={POLLS_PER_PAGE}
+            itemCount={pollCount}
+            itemsPerPage={POLLS_PER_PAGE}
             page={page}
             pageCallback={this.changePage}
           />
@@ -108,6 +110,7 @@ class PollTable extends React.Component {
 PollTable.propTypes = {
   polls      : PropTypes.array.isRequired,
   fetchPolls : PropTypes.func.isRequired,
+  deletePoll : PropTypes.func.isRequired,
 }
 
 const mapStateToProps = (state) => ({
@@ -117,7 +120,8 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchPolls : (page) => dispatch(fetchPolls(page))
+  fetchPolls : (page) => dispatch(fetchPolls(page)),
+  deletePoll : (identifier) => dispatch(deletePoll(identifier))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(PollTable)
