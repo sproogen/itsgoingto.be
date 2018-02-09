@@ -30,7 +30,7 @@ class Login extends React.Component {
     if (props.hasUser) {
       props.setLoading(true)
       this.state.loading = true
-      browserHistory.push('/admin2') // TODO : Replace with 401 or home page
+      browserHistory.push('/admin')
     }
   }
 
@@ -101,7 +101,7 @@ class Login extends React.Component {
         } else {
           setLoading(true)
           cookies.set('itsgoingtobeUserToken', response.token, { path: '/', maxAge: 3600 })
-          browserHistory.push('/admin2')
+          browserHistory.push('/admin')
           return false
         }
       })

@@ -18,7 +18,7 @@ export function PageLayout ({ children, isLoading, hasUser, clearUser, cookies }
   }
 
   const viewPolls = () => {
-    browserHistory.push('/admin2')
+    browserHistory.push('/admin')
   }
 
   return (
