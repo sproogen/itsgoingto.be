@@ -1,4 +1,4 @@
-import { prop, compose, not, equals, length, omit, when, find, propEq, both, map,
+import { prop, compose, not, equals, length, omit, when, find, propEq, both, map, filter, T,
          adjust, set, lensProp, findIndex, ifElse, path, isNil, isEmpty, merge, __ } from 'ramda'
 import { addAnswer, clearAnswers, updateAnswers } from './answers'
 
@@ -42,11 +42,22 @@ export const pollSelector = (state, identifier = '') =>
  *
  * Get the polls from the state
  *
- * @param  {object} state App state
+ * @param  {object} state     App state
+ * @param  {bool}   populated Whether the selector should only return real polls
  *
  * @return {Poll[]}       The polls in the state
  */
-export const pollsSelector = (state) => path(['poll', 'polls'])(state)
+export const pollsSelector = (state, populated = false) =>
+  compose(
+    filter(
+      when(
+        () => populated,
+        compose(not, isEmpty, prop('identifier')),
+      )
+    ),
+    path(['poll', 'polls'])
+  )(state)
+
 
 /**
  * TODO : Test this

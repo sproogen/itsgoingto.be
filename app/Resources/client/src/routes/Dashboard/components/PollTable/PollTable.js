@@ -56,12 +56,6 @@ class PollTable extends React.Component {
     const { polls, pollCount, deletePoll } = this.props
     const hasPaginator = Math.ceil(pollCount / POLLS_PER_PAGE) > 1
 
-    const pollItems = polls.map((poll) =>
-      <div key={poll.id}>
-        {poll.question}
-      </div>
-    )
-
     return (
       <div className='panel'>
         <div className='panel-header'>
@@ -114,7 +108,7 @@ PollTable.propTypes = {
 }
 
 const mapStateToProps = (state) => ({
-  polls     : pollsSelector(state),
+  polls     : pollsSelector(state, true),
   pollCount : pollCountSelector(state),
   pollPage  : pollPageSelector(state)
 })
