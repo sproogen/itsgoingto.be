@@ -7,6 +7,9 @@
     },
     "SYMFONY_ENV": {
       "required": true
+    },
+    "SECRET": {
+      "required": true
     }
   },
   "formation": {},
