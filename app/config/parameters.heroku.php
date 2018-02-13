@@ -14,5 +14,5 @@ if(isset($_ENV['SECRET'])){
 }
 
 if(isset($_ENV['JWT_PASS_PHRASE'])){
-    $container->setParameter('jwt_key_pass_phrase', $_ENV['SECRET']);
+    $container->setParameter('jwt_key_pass_phrase', $_ENV['JWT_PASS_PHRASE']);
 }
