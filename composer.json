@@ -53,7 +53,7 @@
         "compile": [
             "php bin/console doctrine:migrations:migrate --no-interaction",
             "rm web/app_dev.php",
-            "openssl genrsa -aes128 -passout pass:SuperSecretPassword -out var/jwt/private.pem 2048",
+            "openssl genrsa -aes256 -passout pass:SuperSecretPassword -out var/jwt/private.pem 4096",
             "openssl rsa -pubout -in var/jwt/private.pem -passin pass:SuperSecretPassword -out var/jwt/public.pem"
         ]
     },
