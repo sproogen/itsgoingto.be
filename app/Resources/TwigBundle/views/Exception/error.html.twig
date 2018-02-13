@@ -8,6 +8,15 @@
 
         <title>{% block title %}It's Going To Be{% endblock %}</title>
 
+        <link href='https://fonts.googleapis.com/css?family=Roboto:100,300,400,700,500,500italic,400italic,300italic,100italic,700italic' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.10.1/themes/smoothness/jquery-ui.css">
+        <link rel="stylesheet" href="{{ asset('/css/itsgoingtobe.min.css') }}">
+
+        <link rel="icon"
+          type="image/png"
+          href="{{ asset('favicon.png') }}">
+
     </head>
     <body>
 
@@ -27,7 +36,7 @@
                     <label for="answer-0" class="input-label input-radio-label input-label-options">{{ status_code ~ ' - ' ~ status_text  }}</label>
                 </span>
 
-                <p class="error-message center-text">It looks like the requested page could not be loaded, please try again or <a href="{{ path('question') }}">return to the question page</a></p>
+                <p class="error-message center-text">It looks like the requested page could not be loaded, please try again later.</a></p>
     		</div>
         </div>
 
