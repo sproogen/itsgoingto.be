@@ -1,4 +1,4 @@
-import { prop, compose, not, equals, length, omit, when, find, propEq, both, map, filter, T,
+import { prop, compose, not, equals, length, omit, when, find, propEq, both, map, filter,
          adjust, set, lensProp, findIndex, ifElse, path, isNil, isEmpty, merge, __ } from 'ramda'
 import { addAnswer, clearAnswers, updateAnswers } from './answers'
 
@@ -57,7 +57,6 @@ export const pollsSelector = (state, populated = false) =>
     ),
     path(['poll', 'polls'])
   )(state)
-
 
 /**
  * TODO : Test this

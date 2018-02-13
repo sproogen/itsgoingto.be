@@ -20,7 +20,7 @@ class PollTable extends React.Component {
     // TODO : Store ID's of polls for the page in a dashboard store
     // Also store the page number in the dashboard store
     this.state = {
-      page    : pollPage ? pollPage : 0,
+      page    : pollPage,
       loading : pollPage === null
     }
   }
@@ -71,13 +71,13 @@ class PollTable extends React.Component {
             <table>
               <thead>
                 <tr>
-                  <th style={{width: '4em'}}>ID</th>
-                  <th style={{width: '8em'}}>Identifier</th>
+                  <th style={{ width: '4em' }}>ID</th>
+                  <th style={{ width: '8em' }}>Identifier</th>
                   <th>Question</th>
-                  <th style={{width: '8em'}}>Responses</th>
-                  <th style={{width: '8em'}}>Status</th>
-                  <th style={{width: '12em'}}>Created At</th>
-                  <th style={{width: '4em'}}>Delete</th>
+                  <th style={{ width: '8em' }}>Responses</th>
+                  <th style={{ width: '8em' }}>Status</th>
+                  <th style={{ width: '12em' }}>Created At</th>
+                  <th style={{ width: '4em' }}>Delete</th>
                 </tr>
               </thead>
               <tbody>
@@ -103,6 +103,8 @@ class PollTable extends React.Component {
 
 PollTable.propTypes = {
   polls      : PropTypes.array.isRequired,
+  pollCount  : PropTypes.number.isRequired,
+  pollPage   : PropTypes.number.isRequired,
   fetchPolls : PropTypes.func.isRequired,
   deletePoll : PropTypes.func.isRequired,
 }

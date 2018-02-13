@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { browserHistory } from 'react-router'
 import { cond, propEq, always, T } from 'ramda'
-import fontawesome from '@fortawesome/fontawesome'
 
 class PollTableRow extends React.Component {
   constructor (props) {
@@ -28,8 +27,8 @@ class PollTableRow extends React.Component {
 
   getStatus = cond([
     [propEq('deleted', true), always('Deleted')],
-    [propEq('ended', true),   always('Ended')],
-    [T,                       always('Active')]
+    [propEq('ended', true), always('Ended')],
+    [T, always('Active')]
   ])
 
   render () {
@@ -49,10 +48,10 @@ class PollTableRow extends React.Component {
             <span>
               {!deleting &&
                 <a onClick={this.deletePoll(identifier)}>
-                  <i className="fa fa-times"></i>
+                  <i className='fa fa-times' />
                 </a>
               }
-              {deleting && <i className="fa fa-circle-o-notch fa-spin"></i>}
+              {deleting && <i className='fa fa-circle-o-notch fa-spin' />}
             </span>
           }
         </td>

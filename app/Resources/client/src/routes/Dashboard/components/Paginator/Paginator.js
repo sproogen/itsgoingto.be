@@ -39,23 +39,22 @@ class Paginator extends React.Component {
       end = Math.min(7, maxPage)
     }
 
-    pages.push(this.renderPaginationButton(0, 1, 0 === page, this.changePage(0)))
+    pages.push(this.renderPaginationButton(0, 1, page === 0, this.changePage(0)))
     if (start !== 1) pages.push(<div key='start-elipses' className='pagination-elipses'>...</div>)
     for (var i = start; i < end; i++) {
-      pages.push(this.renderPaginationButton(i, i+1, i === page, this.changePage(i)))
+      pages.push(this.renderPaginationButton(i, i + 1, page === i, this.changePage(i)))
     }
     if (end !== maxPage) pages.push(<div key='end-elipses' className='pagination-elipses'>...</div>)
     pages.push(this.renderPaginationButton(maxPage, pageCount, maxPage === page, this.changePage(maxPage)))
 
     return (
       <div className='pagination-container'>
-        {pageCount > 1 ?
+        {pageCount > 1 &&
           <div>
             {this.renderPaginationButton('previous', 'PREVIOUS', page <= 0, this.changePage(page - 1))}
             {pages}
             {this.renderPaginationButton('next', 'NEXT', page >= pageCount - 1, this.changePage(page + 1))}
-          </div> :
-          null
+          </div>
         }
       </div>
     )

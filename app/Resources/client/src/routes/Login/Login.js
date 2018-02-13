@@ -5,7 +5,7 @@ import { browserHistory } from 'react-router'
 import { withCookies, Cookies } from 'react-cookie'
 import { isEmpty, dissoc, join } from 'ramda'
 import { postLogin, APIError } from 'store/api'
-import { hasUserSelector} from 'store/user'
+import { hasUserSelector } from 'store/user'
 import { setLoading } from 'store/loader'
 import Button from 'components/Button'
 import EventBus from 'components/EventBus'
@@ -88,7 +88,7 @@ class Login extends React.Component {
   }
 
   submit = () => {
-    const { data : { username, password }, errors } = this.state
+    const { data : { username, password } } = this.state
     const { postLogin, cookies, setLoading } = this.props
 
     if (this.validate()) {
@@ -134,7 +134,7 @@ class Login extends React.Component {
               ref='username'
               value={username}
               onChange={this.handleChange} />
-              <span className='input-error-label'>{errors.username}</span>
+            <span className='input-error-label'>{errors.username}</span>
           </div>
           <div className={'input input-password' + (errors.username || errors.api ? ' input-error' : '')}>
             <label className='input-label input-label-password' htmlFor='question'>Password</label>
@@ -147,9 +147,14 @@ class Login extends React.Component {
               value={password}
               onKeyDown={this.handleKeyPress}
               onChange={this.handleChange} />
-              <span className='input-error-label'>{errors.password || errors.api}</span>
+            <span className='input-error-label'>{errors.password || errors.api}</span>
           </div>
-          <Button className='pull-right btn--small' text='Login' disabled={!isEmpty(errors)} callback={this.submit} submitEvent='login-submit' />
+          <Button
+            className='pull-right btn--small'
+            text='Login'
+            disabled={!isEmpty(errors)}
+            callback={this.submit}
+            submitEvent='login-submit' />
         </div>
       </div>
     )

@@ -67,4 +67,3 @@ class UserListener implements EventSubscriber
         $entity->setPassword($encoded);
     }
 }
-
