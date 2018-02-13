@@ -1,32 +1,35 @@
-{% extends 'base.html.twig' %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-{% block meta %}
-    <meta name="robots" CONTENT="INDEX, FOLLOW">
-{% endblock %}
+        <meta name="robots" CONTENT="INDEX, FOLLOW">
 
-{% block body %}
+        <title>{% block title %}It's Going To Be{% endblock %}</title>
 
-    <div class="container header-container hideable">
-    	<div class="header center-text">
-    		<h1>It's going to be</h1>
-    	</div>
-    </div>
+    </head>
+    <body>
 
-	<div class="container answer-container">
-		<div class="options show-results">
-            <span class="input input-options">
-                <span class="result-wrapper">
-                    <span class="result" name="answer-0" style="width:100%"></span>
+        <div class="container header-container hideable">
+        	<div class="header center-text">
+        		<h1>It's going to be</h1>
+        	</div>
+        </div>
+
+    	<div class="container answer-container">
+    		<div class="options show-results">
+                <span class="input input-options">
+                    <span class="result-wrapper">
+                        <span class="result" name="answer-0" style="width:100%"></span>
+                    </span>
+                    <input id="answer-0" class="input-radio input-radio-options" name="answer" type="radio" value="0" checked>
+                    <label for="answer-0" class="input-label input-radio-label input-label-options">{{ status_code ~ ' - ' ~ status_text  }}</label>
                 </span>
-                <input id="answer-0" class="input-radio input-radio-options" name="answer" type="radio" value="0" checked>
-                <label for="answer-0" class="input-label input-radio-label input-label-options">{{ status_code ~ ' - ' ~ status_text  }}</label>
-            </span>
 
-            <p class="error-message center-text">It looks like the requested page could not be loaded, please try again or <a href="{{ path('question') }}">return to the question page</a></p>
-		</div>
-    </div>
+                <p class="error-message center-text">It looks like the requested page could not be loaded, please try again or <a href="{{ path('question') }}">return to the question page</a></p>
+    		</div>
+        </div>
 
-{% endblock %}
-
-{% block javascripts %}
-{% endblock %}
+    </body>
+</html>

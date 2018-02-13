@@ -3,7 +3,7 @@
 use Symfony\Component\HttpFoundation\Request;
 
 // Loading the react app here to save bootstraping symfony.
-if (substr( $_SERVER['REQUEST_URI'], 0, 6 ) !== '/admin' && substr( $_SERVER['REQUEST_URI'], 0, 4 ) !== '/api') {
+if (substr( $_SERVER['REQUEST_URI'], 0, 4 ) !== '/api') {
     if (!(
         strpos($_SERVER["HTTP_USER_AGENT"], 'facebookexternalhit/') !== false ||
         strpos($_SERVER["HTTP_USER_AGENT"], 'Facebot') !== false ||

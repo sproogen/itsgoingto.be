@@ -10,6 +10,9 @@
     },
     "SECRET": {
       "required": true
+    },
+    "JWT_PASS_PHRASE": {
+      "required": true
     }
   },
   "formation": {},
