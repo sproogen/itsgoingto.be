@@ -26,12 +26,11 @@ before_install:
 install:
   - rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm install $NODE_VERSION
   - composer install
-  - composer compile
   - npm install
 
 before_script:
   - php bin/console doctrine:database:create --env=test
-  - php bin/console doctrine:schema:create --env=test
+  - composer compile
 
 script:
   - bin/phpcs --standard=PSR2 src/
