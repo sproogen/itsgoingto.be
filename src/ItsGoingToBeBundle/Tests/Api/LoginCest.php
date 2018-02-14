@@ -41,7 +41,7 @@ class LoginCest extends BaseApiCest
         $I->wantTo('Check call returns logged in user');
         $I->sendPOST('/login', [
             'username' => 'admin',
-            'password' => 'password123'
+            'password' => '$2y$12$SmJomfmyLDtfLT9HI.z.qunIMsYI50gG2h8kVFw3BVaHyUn3cmCy.'
         ]);
         $I->seeResponseCodeIs(HttpCode::BAD_REQUEST);
         $I->seeResponseIsJson();
@@ -50,7 +50,7 @@ class LoginCest extends BaseApiCest
         ]);
         $I->seeResponseContainsJson([
             'errors' => [
-                'Username or password is incorrect'
+                'Username or password incorrect'
             ]
         ]);
     }
@@ -59,7 +59,7 @@ class LoginCest extends BaseApiCest
     {
         $this->createUser($I, [
             'username' => 'admin',
-            'password' => 'password123'
+            'password' => '$2y$12$SmJomfmyLDtfLT9HI.z.qunIMsYI50gG2h8kVFw3BVaHyUn3cmCy.'
         ]);
 
         $I->wantTo('Check call returns logged in user');
@@ -74,7 +74,7 @@ class LoginCest extends BaseApiCest
         ]);
         $I->seeResponseContainsJson([
             'errors' => [
-                'Username or password is incorrect'
+                'Username or password incorrect'
             ]
         ]);
     }
@@ -83,7 +83,7 @@ class LoginCest extends BaseApiCest
     {
         $user = $this->createUser($I, [
             'username' => 'admin',
-            'password' => 'password123'
+            'password' => '$2y$12$SmJomfmyLDtfLT9HI.z.qunIMsYI50gG2h8kVFw3BVaHyUn3cmCy.'
         ]);
 
         $I->wantTo('Check call returns logged in user');

@@ -16,7 +16,6 @@ use ItsGoingToBeBundle\Entity\UserResponse;
  */
 class PollApiControllerTest extends BaseApiControllerTest
 {
-
     /**
      * Name of the class being tested.
      *
