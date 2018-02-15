@@ -302,9 +302,9 @@ const ACTION_HANDLERS = {
  * Initial state for this store component
  */
 const initialState = {
-  polls: [],
-  page: null,
-  count: 0
+  polls : [],
+  page  : null,
+  count : 0
 }
 
 /**

@@ -16,6 +16,12 @@ import {
 } from 'store/poll'
 import { addAnswer, updateAnswers, clearAnswers } from 'store/answers'
 
+const initialState = {
+  polls : [],
+  page  : null,
+  count : 0
+}
+
 describe('(Store) Poll', () => {
   it('Should export a constant POLL_UPDATE.', () => {
     expect(POLL_UPDATE).to.equal('POLL_UPDATE')
@@ -40,15 +46,15 @@ describe('(Store) Poll', () => {
     })
 
     it('Should initialize with a initialState.', () => {
-      expect(pollReducer(undefined, {})).to.deep.equal([])
+      expect(pollReducer(undefined, {})).to.deep.equal(initialState)
     })
 
     it('Should return the previous state if an action was not matched.', () => {
       let state = pollReducer(undefined, {})
 
-      expect(state).to.deep.equal([])
+      expect(state).to.deep.equal(initialState)
       state = pollReducer(state, { type: '@@@@@@@' })
-      expect(state).to.deep.equal([])
+      expect(state).to.deep.equal(initialState)
 
       state = [initialPoll]
       state = pollReducer(state, { type: '@@@@@@@' })
@@ -57,11 +63,15 @@ describe('(Store) Poll', () => {
   })
 
   const _globalState = {
-    poll: [{
-      question       : 'Question',
-      identifier     : 'hf0sd8fhoas',
-      responsesCount : [245]
-    }]
+    poll : {
+      polls : [{
+        question       : 'Question',
+        identifier     : 'hf0sd8fhoas',
+        responsesCount : [245]
+      }],
+      page  : null,
+      count : 0
+    }
   }
 
   describe('(Selector) pollSelector', () => {
@@ -126,10 +136,14 @@ describe('(Store) Poll', () => {
 
     it('Should return a default of 0 if there is no value.', () => {
       const _globalState = {
-        poll: [{
-          question   : 'Question',
-          identifier : 'hf0sd8fhoas'
-        }]
+        poll : {
+          polls : [{
+            question   : 'Question',
+            identifier : 'hf0sd8fhoas'
+          }],
+          page  : null,
+          count : 0
+        }
       }
 
       expect(totalResponsesSelector(_globalState, 'hf0sd8fhoas')).to.equal(0)
@@ -143,11 +157,15 @@ describe('(Store) Poll', () => {
 
     it('Should return false if there are no response from a poll with an identifier in the global state.', () => {
       const _globalState = {
-        poll: [{
-          question       : 'Question',
-          identifier     : 'hf0sd8fhoas',
-          userResponses  : []
-        }]
+        poll : {
+          polls : [{
+            question       : 'Question',
+            identifier     : 'hf0sd8fhoas',
+            userResponses  : []
+          }],
+          page  : null,
+          count : 0
+        }
       }
 
       expect(userRespondedSelector(_globalState, 'hf0sd8fhoas')).to.equal(false)
@@ -155,11 +173,15 @@ describe('(Store) Poll', () => {
 
     it('Should return true if there are response from a poll with an identifier in the global state.', () => {
       const _globalState = {
-        poll: [{
-          question       : 'Question',
-          identifier     : 'hf0sd8fhoas',
-          userResponses  : [245]
-        }]
+        poll : {
+          polls : [{
+            question       : 'Question',
+            identifier     : 'hf0sd8fhoas',
+            userResponses  : [245]
+          }],
+          page  : null,
+          count : 0
+        }
       }
 
       expect(userRespondedSelector(_globalState, 'hf0sd8fhoas')).to.equal(true)
@@ -285,7 +307,11 @@ describe('(Store) Poll', () => {
 
     it('Should dispatch clearAnswers() if now doesn\'t have question.', () => {
       _globalState = {
-        poll : [{ question : 'Question Text', identifier : 'hf0sd8fhoas' }]
+        poll : {
+          polls : [{ question : 'Question Text', identifier : 'hf0sd8fhoas' }],
+          page  : null,
+          count : 0
+        }
       }
       return updateQuestion('', 'hf0sd8fhoas')(_dispatchSpy, _getStateSpy)
         .then(() => {
@@ -378,9 +404,17 @@ describe('(Store) Poll', () => {
 
   describe('(Action Handler) POLL_UPDATE', () => {
     it('Should update the poll with identifier', () => {
-      let state = [{ question : 'Question', identifier : 'hf0sd8fhoas' }]
+      let state = {
+        polls : [{ question : 'Question', identifier : 'hf0sd8fhoas' }],
+        page  : null,
+        count : 0
+      }
 
-      expect(state).to.deep.equal([{ question : 'Question', identifier : 'hf0sd8fhoas' }])
+      expect(state).to.deep.equal({
+        polls : [{ question : 'Question', identifier : 'hf0sd8fhoas' }],
+        page  : null,
+        count : 0
+      })
 
       state = pollReducer(state, { type : POLL_UPDATE,
         poll : {
@@ -390,12 +424,16 @@ describe('(Store) Poll', () => {
           created    : 'Some Date or other'
         }
       })
-      expect(state).to.deep.equal([{
-        question   : 'Question Text',
-        identifier : 'hf0sd8fhoas',
-        deleted    : false,
-        created    : 'Some Date or other'
-      }])
+      expect(state).to.deep.equal({
+        polls : [{
+          question   : 'Question Text',
+          identifier : 'hf0sd8fhoas',
+          deleted    : false,
+          created    : 'Some Date or other'
+        }],
+        page  : null,
+        count : 0
+      })
 
       state = pollReducer(state, { type : POLL_UPDATE,
         poll : {
@@ -404,18 +442,30 @@ describe('(Store) Poll', () => {
           deleted    : true,
           created    : 'Some Date or other'
         } })
-      expect(state).to.deep.equal([{
-        question   : 'Different Question Text',
-        identifier : 'hf0sd8fhoas',
-        deleted    : true,
-        created    : 'Some Date or other'
-      }])
+      expect(state).to.deep.equal({
+        polls : [{
+          question   : 'Different Question Text',
+          identifier : 'hf0sd8fhoas',
+          deleted    : true,
+          created    : 'Some Date or other'
+        }],
+        page  : null,
+        count : 0
+      })
     })
 
     it('Should update the poll with identifier with just responses', () => {
-      let state = [{ question : 'Question', identifier : 'hf0sd8fhoas', responsesCount: 5 }]
+      let state = {
+        polls : [{ question : 'Question', identifier : 'hf0sd8fhoas', responsesCount: 5 }],
+        page  : null,
+        count : 0
+      }
 
-      expect(state).to.deep.equal([{ question : 'Question', identifier : 'hf0sd8fhoas', responsesCount: 5 }])
+      expect(state).to.deep.equal({
+        polls : [{ question : 'Question', identifier : 'hf0sd8fhoas', responsesCount: 5 }],
+        page  : null,
+        count : 0
+      })
 
       state = pollReducer(state, { type : POLL_UPDATE,
         poll : {
@@ -423,12 +473,16 @@ describe('(Store) Poll', () => {
           userResponses  : [245],
           responsesCount : 6
         } })
-      expect(state).to.deep.equal([{
-        question       : 'Question',
-        identifier     : 'hf0sd8fhoas',
-        userResponses  : [245],
-        responsesCount : 6
-      }])
+      expect(state).to.deep.equal({
+        polls : [{
+          question       : 'Question',
+          identifier     : 'hf0sd8fhoas',
+          userResponses  : [245],
+          responsesCount : 6
+        }],
+        page  : null,
+        count : 0
+      })
 
       state = pollReducer(state, { type : POLL_UPDATE,
         poll : {
@@ -436,21 +490,33 @@ describe('(Store) Poll', () => {
           userResponses  : [245, 246],
           responsesCount : 7
         } })
-      expect(state).to.deep.equal([{
-        question       : 'Question',
-        identifier     : 'hf0sd8fhoas',
-        userResponses  : [245, 246],
-        responsesCount : 7
-      }])
+      expect(state).to.deep.equal({
+        polls : [{
+          question       : 'Question',
+          identifier     : 'hf0sd8fhoas',
+          userResponses  : [245, 246],
+          responsesCount : 7
+        }],
+        page  : null,
+        count : 0
+      })
     })
 
     it('Should insert a new poll', () => {
-      let state = [{ question : 'Question', identifier : 'hf0sd8fhoas' }, { question : 'Question', identifier : '' }]
+      let state = {
+        polls : [{ question : 'Question', identifier : 'hf0sd8fhoas' }, { question : 'Question', identifier : '' }],
+        page  : null,
+        count : 0
+      }
 
-      expect(state).to.deep.equal([
-        { question : 'Question', identifier : 'hf0sd8fhoas' },
-        { question : 'Question', identifier : '' }
-      ])
+      expect(state).to.deep.equal({
+        polls : [
+          { question : 'Question', identifier : 'hf0sd8fhoas' },
+          { question : 'Question', identifier : '' }
+        ],
+        page  : null,
+        count : 0
+      })
 
       state = pollReducer(state, { type : POLL_UPDATE,
         poll : {
@@ -459,66 +525,110 @@ describe('(Store) Poll', () => {
           deleted    : false,
           created    : 'Some Date or other'
         } })
-      expect(state).to.deep.equal([
-        { question : 'Question', identifier : 'hf0sd8fhoas' },
-        { question : 'Question', identifier : '' },
-        {
-          question   : 'Question Text',
-          identifier : 'sf34rsdfsf',
-          deleted    : false,
-          created    : 'Some Date or other'
-        }
-      ])
+      expect(state).to.deep.equal({
+        polls : [
+          { question : 'Question', identifier : 'hf0sd8fhoas' },
+          { question : 'Question', identifier : '' },
+          {
+            question   : 'Question Text',
+            identifier : 'sf34rsdfsf',
+            deleted    : false,
+            created    : 'Some Date or other'
+          }
+        ],
+        page  : null,
+        count : 0
+      })
     })
   })
 
   describe('(Action Handler) QUESTION_UPDATE', () => {
     it('Should update the question text for the poll with identifier', () => {
-      let state = [{ question : 'Question', identifier : 'hf0sd8fhoas' }]
+      let state = {
+        polls : [{ question : 'Question', identifier : 'hf0sd8fhoas' }],
+        page  : null,
+        count : 0
+      }
 
-      expect(state).to.deep.equal([{ question : 'Question', identifier : 'hf0sd8fhoas' }])
+      expect(state).to.deep.equal({
+        polls : [{ question : 'Question', identifier : 'hf0sd8fhoas' }],
+        page  : null,
+        count : 0
+      })
 
       state = pollReducer(
         state,
         { type : QUESTION_UPDATE, question : 'Question Text', identifier : 'hf0sd8fhoas' }
       )
-      expect(state).to.deep.equal([{ question : 'Question Text', identifier : 'hf0sd8fhoas' }])
+      expect(state).to.deep.equal({
+        polls : [{ question : 'Question Text', identifier : 'hf0sd8fhoas' }],
+        page  : null,
+        count : 0
+      })
 
       state = pollReducer(
         state,
         { type : QUESTION_UPDATE, question : 'Different Question Text', identifier : 'hf0sd8fhoas' }
       )
-      expect(state).to.deep.equal([{ question : 'Different Question Text', identifier : 'hf0sd8fhoas' }])
+      expect(state).to.deep.equal({
+        polls : [{ question : 'Different Question Text', identifier : 'hf0sd8fhoas' }],
+        page  : null,
+        count : 0
+      })
     })
 
     it('Should insert the question text as a new poll', () => {
-      let state = [{ question : 'Question', identifier : 'hf0sd8fhoas' }]
+      let state = {
+        polls : [{ question : 'Question', identifier : 'hf0sd8fhoas' }],
+        page  : null,
+        count : 0
+      }
 
-      expect(state).to.deep.equal([{ question : 'Question', identifier : 'hf0sd8fhoas' }])
+      expect(state).to.deep.equal({
+        polls : [{ question : 'Question', identifier : 'hf0sd8fhoas' }],
+        page  : null,
+        count : 0
+      })
 
       state = pollReducer(state, { type : QUESTION_UPDATE, question : 'Question Text', identifier : '' })
-      expect(state).to.deep.equal([
-        { question : 'Question', identifier : 'hf0sd8fhoas' },
-        { question : 'Question Text', identifier : '', multipleChoice : false, passphrase : '', userResponses  : [] }
-      ])
+      expect(state).to.deep.equal({
+        polls : [
+          { question : 'Question', identifier : 'hf0sd8fhoas' },
+          { question : 'Question Text', identifier : '', multipleChoice : false, passphrase : '', userResponses  : [] }
+        ],
+        page  : null,
+        count : 0
+      })
     })
 
     it('Should update the question text for a new poll', () => {
-      let state = [
-        { question : 'Question', identifier : 'hf0sd8fhoas' },
-        { question : 'Question Text', identifier : '' }
-      ]
+      let state = {
+        polls : [
+          { question : 'Question', identifier : 'hf0sd8fhoas' },
+          { question : 'Question Text', identifier : '' }
+        ],
+        page  : null,
+        count : 0
+      }
 
-      expect(state).to.deep.equal([
-        { question : 'Question', identifier : 'hf0sd8fhoas' },
-        { question : 'Question Text', identifier : '' }
-      ])
+      expect(state).to.deep.equal({
+        polls : [
+          { question : 'Question', identifier : 'hf0sd8fhoas' },
+          { question : 'Question Text', identifier : '' }
+        ],
+        page  : null,
+        count : 0
+      })
 
       state = pollReducer(state, { type : QUESTION_UPDATE, question : 'Different Question Text', identifier : '' })
-      expect(state).to.deep.equal([
-        { question : 'Question', identifier : 'hf0sd8fhoas' },
-        { question : 'Different Question Text', identifier : '' }
-      ])
+      expect(state).to.deep.equal({
+        polls : [
+          { question : 'Question', identifier : 'hf0sd8fhoas' },
+          { question : 'Different Question Text', identifier : '' }
+        ],
+        page  : null,
+        count : 0
+      })
     })
   })
 })

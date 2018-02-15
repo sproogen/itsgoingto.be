@@ -40,7 +40,11 @@ describe('(Store) createStore', () => {
 
   describe('(Poll)', () => {
     it('store should be initialized with Poll state', () => {
-      const poll = []
+      const poll = {
+        polls : [],
+        page  : null,
+        count : 0
+      }
 
       expect(store.getState().poll).to.deep.equal(poll)
     })

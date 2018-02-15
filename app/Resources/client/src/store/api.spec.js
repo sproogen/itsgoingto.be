@@ -110,7 +110,11 @@ describe('(Store) API', () => {
       window.fetch.returns(jsonOk({}))
 
       _globalState = {
-        poll    : [{ question: 'Question', identifier: '', multipleChoice: false, passphrase: '' }],
+        poll    : {
+          polls : [{ question: 'Question', identifier: '', multipleChoice: false, passphrase: '' }],
+          page  : null,
+          count : 0
+        },
         answers : ['Answer'],
         user    : {},
       }
@@ -212,7 +216,7 @@ describe('(Store) API', () => {
       })
 
       it('Should call fetch with the passphrase.', () => {
-        _globalState.poll = [{
+        _globalState.poll.polls = [{
           question       : 'Question',
           identifier     : 'hf0sd8fhoas',
           multipleChoice : false,
@@ -300,7 +304,7 @@ describe('(Store) API', () => {
       })
 
       it('Should call fetch with the correct url and data with passphrase.', () => {
-        _globalState.poll = [{
+        _globalState.poll.polls = [{
           question       : 'Question',
           identifier     : 'hf0sd8fhoas',
           multipleChoice : false,
@@ -317,12 +321,16 @@ describe('(Store) API', () => {
 
       it('Should call fetch with the correct data for multiple choice initial answer.', () => {
         _globalState = {
-          poll    : [{
-            question       : 'Question',
-            identifier     : 'hf0sd8fhoas',
-            multipleChoice : true,
-            userResponses  : []
-          }],
+          poll    : {
+            polls : [{
+              question       : 'Question',
+              identifier     : 'hf0sd8fhoas',
+              multipleChoice : true,
+              userResponses  : []
+            }],
+            page  : null,
+            count : 0
+          },
           answers : ['Answer']
         }
         return postResponse(434, 'hf0sd8fhoas')(_dispatchSpy, _getStateSpy).then(() => {
@@ -335,12 +343,16 @@ describe('(Store) API', () => {
 
       it('Should call fetch with the correct data for multiple choice add answer.', () => {
         _globalState = {
-          poll    : [{
-            question       : 'Question',
-            identifier     : 'hf0sd8fhoas',
-            multipleChoice : true,
-            userResponses  : [433]
-          }],
+          poll    : {
+            polls : [{
+              question       : 'Question',
+              identifier     : 'hf0sd8fhoas',
+              multipleChoice : true,
+              userResponses  : [433]
+            }],
+            page  : null,
+            count : 0
+          },
           answers : ['Answer']
         }
         return postResponse(434, 'hf0sd8fhoas')(_dispatchSpy, _getStateSpy).then(() => {
@@ -353,12 +365,16 @@ describe('(Store) API', () => {
 
       it('Should call fetch with the correct data for multiple choice remove answer.', () => {
         _globalState = {
-          poll    : [{
-            question       : 'Question',
-            identifier     : 'hf0sd8fhoas',
-            multipleChoice : true,
-            userResponses  : [433]
-          }],
+          poll    : {
+            polls : [{
+              question       : 'Question',
+              identifier     : 'hf0sd8fhoas',
+              multipleChoice : true,
+              userResponses  : [433]
+            }],
+            page  : null,
+            count : 0
+          },
           answers : ['Answer']
         }
         _getStateSpy = sinon.spy(() => {
@@ -396,7 +412,7 @@ describe('(Store) API', () => {
       })
 
       it('Should call fetch with the passphrase.', () => {
-        _globalState.poll = [{
+        _globalState.poll.polls = [{
           question       : 'Question',
           identifier     : 'hf0sd8fhoas',
           multipleChoice : false,
