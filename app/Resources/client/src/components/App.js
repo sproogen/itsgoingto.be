@@ -34,7 +34,7 @@ class App extends React.Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  updateUserWithToken : (token) => dispatch(updateUser({ token : token }))
+  updateUserWithToken : (token) => dispatch(updateUser({ token }))
 })
 
 export default connect(null, mapDispatchToProps)(withCookies(App))

@@ -42,6 +42,8 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
 
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
+        unset($userProvider);
+
         $data = $this->jwtEncoder->decode($credentials);
 
         if ($data === false) {
@@ -57,15 +59,23 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
 
     public function checkCredentials($credentials, UserInterface $user)
     {
+        unset($credentials);
+        unset($user);
+
         return true;
     }
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
     {
+        unset($request);
+        unset($exception);
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
+        unset($request);
+        unset($token);
+        unset($providerKey);
     }
 
     public function supportsRememberMe()
@@ -75,6 +85,9 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
 
     public function start(Request $request, AuthenticationException $authException = null)
     {
+        unset($request);
+        unset($authException);
+
         return new Response('Token is missing!', Response::HTTP_UNAUTHORIZED);
     }
 }

@@ -81,7 +81,7 @@ class LoginCest extends BaseApiCest
 
     public function logsInAndReturnsUserTest(ApiTester $I)
     {
-        $user = $this->createUser($I, [
+        $this->createUser($I, [
             'username' => 'admin',
             'password' => '$2y$12$SmJomfmyLDtfLT9HI.z.qunIMsYI50gG2h8kVFw3BVaHyUn3cmCy.'
         ]);

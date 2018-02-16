@@ -94,7 +94,8 @@ class Login extends React.Component {
     if (this.validate()) {
       return postLogin(username, password).then((response) => {
         if (response instanceof APIError) {
-          let errors = {}
+          const errors = {}
+
           errors.api = join('<br />', response.details.error.errors)
           this.setState({ errors })
           return true
@@ -113,7 +114,9 @@ class Login extends React.Component {
   render () {
     const { data : { username, password }, errors, loading } = this.state
 
-    if (loading) return <div />
+    if (loading) {
+      return <div />
+    }
 
     return (
       <div>
