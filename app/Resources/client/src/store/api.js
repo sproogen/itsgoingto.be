@@ -120,8 +120,6 @@ export const fetchPoll = (identifier) => (dispatch, getState) =>
   )(getState(), identifier)
 
 /**
- * TODO : Test this
- *
  * Deletes a poll with the identifier from the api
  *
  * @param  {string} identifier The identifier for the poll
@@ -138,8 +136,6 @@ export const deletePoll = (identifier) => (dispatch, getState) =>
   .catch(onError)
 
 /**
- * TODO : Test this
- *
  * Fetches polls from the api
  *
  * @param  {integer} page The page number to fetch polls for
@@ -159,7 +155,6 @@ export const fetchPolls = (page) => (dispatch, getState) =>
     dispatch(setPollPage(page - 1)),
     dispatch(setPollCount(prop('total', response)))
   ]))
-  .then((responses) => responses[0])
   .catch(onError)
 
 /**

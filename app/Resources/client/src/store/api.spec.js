@@ -11,6 +11,8 @@ import {
   onError,
   postPoll,
   fetchPoll,
+  deletePoll,
+  fetchPolls,
   postResponse,
   fetchResponses,
   postLogin
@@ -261,6 +263,141 @@ describe('(Store) API', () => {
           _dispatchSpy.should.have.been.calledWith(_updatePoll({ question: 'Question', identifier: 'hf0sd8fhoas' }))
 
           _updatePoll.restore()
+        })
+      })
+    })
+
+    describe('(Action Creator) deletePoll', () => {
+      it('Should be exported as a function.', () => {
+        expect(deletePoll).to.be.a('function')
+      })
+
+      it('Should return a function (is a thunk).', () => {
+        expect(deletePoll()).to.be.a('function')
+      })
+
+      it('Should return a promise from that thunk that gets fulfilled.', () => {
+        return deletePoll('hf0sd8fhoas')(_dispatchSpy, _getStateSpy).should.eventually.be.fulfilled
+      })
+
+      it('Should call fetch with the correct url and data.', () => {
+        return deletePoll('hf0sd8fhoas')(_dispatchSpy, _getStateSpy).then(() => {
+          window.fetch.should.have.been.calledOnce()
+          window.fetch.should.have.been.calledWith(
+            ROUTE_POLL + '/hf0sd8fhoas', { method: 'DELETE', credentials: 'same-origin'}
+          )
+        })
+      })
+
+      it('Should return a promise with the response.', () => {
+        window.fetch.returns(jsonOk({ question: 'Question', identifier: 'hf0sd8fhoas', deleted: true }))
+        return deletePoll('hf0sd8fhoas')(_dispatchSpy, _getStateSpy).then((response) => {
+          expect(response).to.deep.equal({ question: 'Question', identifier: 'hf0sd8fhoas', deleted: true })
+        })
+      })
+
+      it('Should catch error.', () => {
+        window.fetch.returns(jsonError(404, { message: 'There was an error' }))
+        return deletePoll('hf0sd8fhoas')(_dispatchSpy, _getStateSpy).then((response) => {
+          expect(response).to.be.an.instanceof(APIError)
+          expect(response.name).to.equal('APIError')
+          expect(response.details.status).to.equal(404)
+        })
+      })
+
+      it('Should dispatch updatePoll().', () => {
+        window.fetch.returns(jsonOk({ question: 'Question', identifier: 'hf0sd8fhoas', deleted: true }))
+        const _updatePoll = sinon.stub(poll, 'updatePoll')
+
+        _updatePoll.returns({})
+
+        return deletePoll('hf0sd8fhoas')(_dispatchSpy, _getStateSpy).then((response) => {
+          _updatePoll.should.have.been.calledOnce()
+          _updatePoll.should.have.been.calledWith({ question: 'Question', identifier: 'hf0sd8fhoas', deleted: true })
+          _dispatchSpy.should.have.been.calledOnce()
+          _dispatchSpy.should.have.been.calledWith(_updatePoll({ question: 'Question', identifier: 'hf0sd8fhoas', deleted: true }))
+
+          _updatePoll.restore()
+        })
+      })
+    })
+
+    describe('(Action Creator) fetchPolls', () => {
+      let _userTokenSelector
+
+      beforeEach(function () {
+        _userTokenSelector = sinon.stub(user, 'userTokenSelector')
+
+        _userTokenSelector.returns('USERTOKEN')
+      })
+
+      afterEach(function () {
+        _userTokenSelector.restore()
+      })
+
+      it('Should be exported as a function.', () => {
+        expect(fetchPolls).to.be.a('function')
+      })
+
+      it('Should return a function (is a thunk).', () => {
+        expect(fetchPolls()).to.be.a('function')
+      })
+
+      it('Should return a promise from that thunk that gets fulfilled.', () => {
+        return fetchPolls()(_dispatchSpy, _getStateSpy).should.eventually.be.fulfilled
+      })
+
+      it('Should call fetch with the correct url.', () => {
+        return fetchPolls(1)(_dispatchSpy, _getStateSpy).then(() => {
+          window.fetch.should.have.been.calledOnce()
+          window.fetch.should.have.been.calledWith(
+            ROUTE_POLL + '?page=1&pageSize=' + poll.POLLS_PER_PAGE,
+            { credentials: 'same-origin', headers: { Authorization: 'Bearer USERTOKEN' } }
+          )
+        })
+      })
+
+      it('Should dispatch setPolls().', () => {
+        window.fetch.returns(jsonOk({ entities: [{ question: 'Question', identifier: 'hf0sd8fhoas' }] }))
+        const _setPolls = sinon.stub(poll, 'setPolls')
+
+        _setPolls.returns({})
+
+        return fetchPolls(1)(_dispatchSpy, _getStateSpy).then(() => {
+          _setPolls.should.have.been.calledOnce()
+          _setPolls.should.have.been.calledWith([{ question: 'Question', identifier: 'hf0sd8fhoas' }])
+          _dispatchSpy.should.have.been.calledWith(_setPolls([{ question: 'Question', identifier: 'hf0sd8fhoas' }]))
+
+          _setPolls.restore()
+        })
+      })
+
+      it('Should dispatch setPollPage().', () => {
+        const _setPollPage = sinon.stub(poll, 'setPollPage')
+
+        _setPollPage.returns({})
+
+        return fetchPolls(1)(_dispatchSpy, _getStateSpy).then(() => {
+          _setPollPage.should.have.been.calledOnce()
+          _setPollPage.should.have.been.calledWith(0)
+          _dispatchSpy.should.have.been.calledWith(_setPollPage(0))
+
+          _setPollPage.restore()
+        })
+      })
+
+      it('Should dispatch setPollCount().', () => {
+        window.fetch.returns(jsonOk({ total: 5 }))
+        const _setPollCount = sinon.stub(poll, 'setPollCount')
+
+        _setPollCount.returns({})
+
+        return fetchPolls(1)(_dispatchSpy, _getStateSpy).then(() => {
+          _setPollCount.should.have.been.calledOnce()
+          _setPollCount.should.have.been.calledWith(5)
+          _dispatchSpy.should.have.been.calledWith(_setPollCount(5))
+
+          _setPollCount.restore()
         })
       })
     })

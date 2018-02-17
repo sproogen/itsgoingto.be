@@ -273,8 +273,11 @@ const ACTION_HANDLERS = {
     )(prop('polls')(previousState))
   }),
   // Set the polls in the state
+  // TODO : Test this
   [POLLS_SET]       : (previousState, action) => merge(previousState)({ polls : action.polls }),
+  // TODO : Test this
   [POLL_PAGE_SET]   : (previousState, action) => merge(previousState)({ page : action.page }),
+  // TODO : Test this
   [POLL_COUNT_SET]  : (previousState, action) => merge(previousState)({ count : action.count }),
   // Update the question for a poll in the state if it exists else insert a blank poll with the question
   [QUESTION_UPDATE] : (previousState, action) => merge(previousState)({ polls :
