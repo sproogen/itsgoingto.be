@@ -38,8 +38,6 @@ export const pollSelector = (state, identifier = '') =>
   )(find(propEq('identifier', identifier))(pollsSelector(state)))
 
 /**
- * TODO : Test this
- *
  * Get the polls from the state
  *
  * @param  {object} state     App state
@@ -59,8 +57,6 @@ export const pollsSelector = (state, populated = false) =>
   )(state)
 
 /**
- * TODO : Test this
- *
  * Get the poll page from the state
  *
  * @param  {object} state App state
@@ -70,8 +66,6 @@ export const pollsSelector = (state, populated = false) =>
 export const pollPageSelector = (state) => path(['poll', 'page'])(state)
 
 /**
- * TODO : Test this
- *
  * Get the poll count from the state
  *
  * @param  {object} state App state
@@ -163,8 +157,6 @@ export const updatePoll = (poll) => (dispatch, getState) =>
   )(poll)
 
 /**
- * TODO : Test this
- *
  * Set the polls in the state
  *
  * @param  {Poll[]}   polls The array of polls to put in the state
@@ -177,8 +169,6 @@ export const setPolls = (polls = []) => ({
 })
 
 /**
- * TODO : Test this
- *
  * Set the poll page in the state
  *
  * @param  {integer}  count The total count of polls to put in the state
@@ -191,8 +181,6 @@ export const setPollPage = (page) => ({
 })
 
 /**
- * TODO : Test this
- *
  * Set the poll count in the state
  *
  * @param  {integer}  count The total count of polls to put in the state
@@ -272,12 +260,11 @@ const ACTION_HANDLERS = {
       )
     )(prop('polls')(previousState))
   }),
-  // Set the polls in the state
-  // TODO : Test this
+  // Update the state and override the polls with the given polls
   [POLLS_SET]       : (previousState, action) => merge(previousState)({ polls : action.polls }),
-  // TODO : Test this
+  // Update the state with the given poll page
   [POLL_PAGE_SET]   : (previousState, action) => merge(previousState)({ page : action.page }),
-  // TODO : Test this
+  // Update the state with the given poll count
   [POLL_COUNT_SET]  : (previousState, action) => merge(previousState)({ count : action.count }),
   // Update the question for a poll in the state if it exists else insert a blank poll with the question
   [QUESTION_UPDATE] : (previousState, action) => merge(previousState)({ polls :

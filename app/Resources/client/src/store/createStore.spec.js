@@ -57,4 +57,12 @@ describe('(Store) createStore', () => {
       expect(store.getState().answers).to.deep.equal(answers)
     })
   })
+
+  describe('(User)', () => {
+    it('store should be initialized with User state', () => {
+      const user = {}
+
+      expect(store.getState().user).to.deep.equal(user)
+    })
+  })
 })

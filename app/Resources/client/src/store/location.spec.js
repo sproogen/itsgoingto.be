@@ -42,53 +42,55 @@ describe('(Internal Module) Location', () => {
     })
   })
 
-  describe('(Action Creator) locationChange', () => {
-    it('Should be exported as a function.', () => {
-      expect(locationChange).to.be.a('function')
-    })
+  describe('(Action Creators)', () => {
+    describe('(Action Creator) locationChange', () => {
+      it('Should be exported as a function.', () => {
+        expect(locationChange).to.be.a('function')
+      })
 
-    it('Should return an action with type "LOCATION_CHANGE".', () => {
-      expect(locationChange()).to.have.property('type', LOCATION_CHANGE)
-    })
+      it('Should return an action with type "LOCATION_CHANGE".', () => {
+        expect(locationChange()).to.have.property('type', LOCATION_CHANGE)
+      })
 
-    it('Should assign the first argument to the "payload" property.', () => {
-      const locationState = { pathname: '/yup' }
+      it('Should assign the first argument to the "payload" property.', () => {
+        const locationState = { pathname: '/yup' }
 
-      expect(locationChange(locationState)).to.have.property('payload', locationState)
-    })
+        expect(locationChange(locationState)).to.have.property('payload', locationState)
+      })
 
-    it('Should default the "payload" property to "/" if not provided.', () => {
-      expect(locationChange()).to.have.property('payload', '/')
-    })
-  })
-
-  describe('(Specialized Action Creator) updateLocation', () => {
-    let _globalState
-    let _dispatchSpy
-
-    beforeEach(() => {
-      _globalState = {
-        location : locationReducer(undefined, {})
-      }
-      _dispatchSpy = sinon.spy((action) => {
-        _globalState = {
-          ..._globalState,
-          location : locationReducer(_globalState.location, action)
-        }
+      it('Should default the "payload" property to "/" if not provided.', () => {
+        expect(locationChange()).to.have.property('payload', '/')
       })
     })
 
-    it('Should be exported as a function.', () => {
-      expect(updateLocation).to.be.a('function')
-    })
+    describe('(Specialized Action Creator) updateLocation', () => {
+      let _globalState
+      let _dispatchSpy
 
-    it('Should return a function (is a thunk).', () => {
-      expect(updateLocation({ dispatch: _dispatchSpy })).to.be.a('function')
-    })
+      beforeEach(() => {
+        _globalState = {
+          location : locationReducer(undefined, {})
+        }
+        _dispatchSpy = sinon.spy((action) => {
+          _globalState = {
+            ..._globalState,
+            location : locationReducer(_globalState.location, action)
+          }
+        })
+      })
 
-    it('Should call dispatch exactly once.', () => {
-      updateLocation({ dispatch: _dispatchSpy })('/')
-      expect(_dispatchSpy.should.have.been.calledOnce)
+      it('Should be exported as a function.', () => {
+        expect(updateLocation).to.be.a('function')
+      })
+
+      it('Should return a function (is a thunk).', () => {
+        expect(updateLocation({ dispatch: _dispatchSpy })).to.be.a('function')
+      })
+
+      it('Should call dispatch exactly once.', () => {
+        updateLocation({ dispatch: _dispatchSpy })('/')
+        expect(_dispatchSpy.should.have.been.calledOnce)
+      })
     })
   })
 })

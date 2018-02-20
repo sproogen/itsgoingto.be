@@ -51,54 +51,56 @@ describe('(Store) API', () => {
     expect(ROUTE_RESPONSES).to.equal('/responses')
   })
 
-  describe('(Helper) extractResponse', () => {
-    it('Should be a function.', () => {
-      expect(extractResponse).to.be.a('function')
-    })
-  })
-
-  describe('(Helper) onError', () => {
-    it('Should be a function.', () => {
-      expect(onError).to.be.a('function')
-    })
-  })
-
-  describe('(Helper) getEndDateFromPoll', () => {
-    let poll
-
-    beforeEach(function () {
-      poll = { question: 'Question', identifier: '', endType: null }
+  describe('(Helpers)', () => {
+    describe('(Helper) extractResponse', () => {
+      it('Should be a function.', () => {
+        expect(extractResponse).to.be.a('function')
+      })
     })
 
-    it('Should be a function.', () => {
-      expect(getEndDateFromPoll).to.be.a('function')
+    describe('(Helper) onError', () => {
+      it('Should be a function.', () => {
+        expect(onError).to.be.a('function')
+      })
     })
 
-    it('Should return null when endType is null.', () => {
-      expect(getEndDateFromPoll(poll)).to.equal(null)
-    })
+    describe('(Helper) getEndDateFromPoll', () => {
+      let poll
 
-    it('Should return null when endType is endNever.', () => {
-      poll.endType = 'endNever'
-      expect(getEndDateFromPoll(poll)).to.equal(null)
-    })
+      beforeEach(function () {
+        poll = { question: 'Question', identifier: '', endType: null }
+      })
 
-    it('Should return a date string when endType is endAt.', () => {
-      poll.endType = 'endAt'
-      poll.endAt = moment()
-      expect(getEndDateFromPoll(poll)).to.equal(poll.endAt.format('YYYY-MM-DDTHH:mm:ssZ'))
-    })
+      it('Should be a function.', () => {
+        expect(getEndDateFromPoll).to.be.a('function')
+      })
 
-    it('Should return a date string when endType is endIn.', () => {
-      poll.endType = 'endIn'
-      poll.endIn = 5
-      expect(getEndDateFromPoll(poll)).to.equal(
-        moment()
-          .add(poll.endIn, 'hours')
-          .seconds(0)
-          .milliseconds(0)
-          .format('YYYY-MM-DDTHH:mm:ssZ')
-      )
+      it('Should return null when endType is null.', () => {
+        expect(getEndDateFromPoll(poll)).to.equal(null)
+      })
+
+      it('Should return null when endType is endNever.', () => {
+        poll.endType = 'endNever'
+        expect(getEndDateFromPoll(poll)).to.equal(null)
+      })
+
+      it('Should return a date string when endType is endAt.', () => {
+        poll.endType = 'endAt'
+        poll.endAt = moment()
+        expect(getEndDateFromPoll(poll)).to.equal(poll.endAt.format('YYYY-MM-DDTHH:mm:ssZ'))
+      })
+
+      it('Should return a date string when endType is endIn.', () => {
+        poll.endType = 'endIn'
+        poll.endIn = 5
+        expect(getEndDateFromPoll(poll)).to.equal(
+          moment()
+            .add(poll.endIn, 'hours')
+            .seconds(0)
+            .milliseconds(0)
+            .format('YYYY-MM-DDTHH:mm:ssZ')
+        )
+      })
     })
   })
 
@@ -136,7 +138,7 @@ describe('(Store) API', () => {
       window.fetch.restore()
     })
 
-    describe('(Action Creator) postPoll', () => {
+    describe('(API Call) postPoll', () => {
       it('Should be exported as a function.', () => {
         expect(postPoll).to.be.a('function')
       })
@@ -197,7 +199,7 @@ describe('(Store) API', () => {
       })
     })
 
-    describe('(Action Creator) fetchPoll', () => {
+    describe('(API Call) fetchPoll', () => {
       it('Should be exported as a function.', () => {
         expect(fetchPoll).to.be.a('function')
       })
@@ -267,7 +269,7 @@ describe('(Store) API', () => {
       })
     })
 
-    describe('(Action Creator) deletePoll', () => {
+    describe('(API Call) deletePoll', () => {
       it('Should be exported as a function.', () => {
         expect(deletePoll).to.be.a('function')
       })
@@ -322,7 +324,7 @@ describe('(Store) API', () => {
       })
     })
 
-    describe('(Action Creator) fetchPolls', () => {
+    describe('(API Call) fetchPolls', () => {
       let _userTokenSelector
 
       beforeEach(function () {
@@ -402,7 +404,7 @@ describe('(Store) API', () => {
       })
     })
 
-    describe('(Action Creator) postResponse', () => {
+    describe('(API Call) postResponse', () => {
       it('Should be exported as a function.', () => {
         expect(postResponse).to.be.a('function')
       })
@@ -526,7 +528,7 @@ describe('(Store) API', () => {
       })
     })
 
-    describe('(Action Creator) fetchResponses', () => {
+    describe('(API Call) fetchResponses', () => {
       it('Should be exported as a function.', () => {
         expect(fetchResponses).to.be.a('function')
       })
@@ -581,7 +583,7 @@ describe('(Store) API', () => {
       })
     })
 
-    describe('(Action Creator) postLogin', () => {
+    describe('(API Call) postLogin', () => {
       it('Should be exported as a function.', () => {
         expect(postLogin).to.be.a('function')
       })
