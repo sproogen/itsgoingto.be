@@ -10,6 +10,7 @@ use Psr\Log\LoggerInterface;
 
 /**
  * ItsGoingToBeBundle\Service\IdentifierService
+ *
  * TODO : Test this
  */
 class IdentifierService

@@ -13,6 +13,11 @@ use Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\TokenExtractor\AuthorizationHeaderTokenExtractor;
 use ItsGoingToBeBundle\Entity\User;
 
+/**
+ * ItsGoingToBeBundle\Security\TokenAuthenticator
+ *
+ * TODO : Test this
+ */
 class TokenAuthenticator extends AbstractGuardAuthenticator
 {
     private $jwtEncoder;
