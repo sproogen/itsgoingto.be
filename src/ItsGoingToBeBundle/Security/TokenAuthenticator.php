@@ -3,30 +3,31 @@
 namespace ItsGoingToBeBundle\Security;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
-use Symfony\Component\Security\Core\User\UserProviderInterface;
-use Doctrine\ORM\EntityManager;
 use Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface;
+use Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTDecodeFailureException;
 use Lexik\Bundle\JWTAuthenticationBundle\TokenExtractor\AuthorizationHeaderTokenExtractor;
 use ItsGoingToBeBundle\Entity\User;
 
 /**
  * ItsGoingToBeBundle\Security\TokenAuthenticator
- *
- * TODO : Test this
  */
 class TokenAuthenticator extends AbstractGuardAuthenticator
 {
+    /**
+     * @var JWTEncoderInterface
+     */
     private $jwtEncoder;
-    private $em;
 
-    public function __construct(JWTEncoderInterface $jwtEncoder, EntityManager $em)
+    public function __construct(JWTEncoderInterface $jwtEncoder)
     {
         $this->jwtEncoder = $jwtEncoder;
-        $this->em = $em;
     }
 
     public function getCredentials(Request $request)
@@ -47,19 +48,13 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
 
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
-        unset($userProvider);
-
-        $data = $this->jwtEncoder->decode($credentials);
-
-        if ($data === false) {
-            throw new CustomUserMessageAuthenticationException('Invalid Token');
+        try {
+            $data = $this->jwtEncoder->decode($credentials);
+        } catch (JWTDecodeFailureException $exception) {
+            return;
         }
 
-        $username = $data['username'];
-
-        return $this->em
-            ->getRepository(User::class)
-            ->findOneBy(['username' => $username]);
+        return $userProvider->loadUserByUsername($data['username']);
     }
 
     public function checkCredentials($credentials, UserInterface $user)
@@ -70,22 +65,24 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
         return true;
     }
 
-    public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
-    {
-        unset($request);
-        unset($exception);
-    }
-
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
         unset($request);
         unset($token);
         unset($providerKey);
+
+        return null;
     }
 
-    public function supportsRememberMe()
+    public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
     {
-        return false;
+        unset($request);
+
+        $data = array(
+            'message' => strtr($exception->getMessageKey(), $exception->getMessageData())
+        );
+
+        return new JsonResponse($data, Response::HTTP_FORBIDDEN);
     }
 
     public function start(Request $request, AuthenticationException $authException = null)
@@ -93,6 +90,15 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
         unset($request);
         unset($authException);
 
-        return new Response('Token is missing!', Response::HTTP_UNAUTHORIZED);
+        $data = array(
+            'message' => 'Authentication Required'
+        );
+
+        return new JsonResponse($data, Response::HTTP_UNAUTHORIZED);
+    }
+
+    public function supportsRememberMe()
+    {
+        return false;
     }
 }

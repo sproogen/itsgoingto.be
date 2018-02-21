@@ -1,7 +1,7 @@
 services:
     itsgoingtobe.security.token_authenticator:
         class: ItsGoingToBeBundle\Security\TokenAuthenticator
-        arguments: ['@lexik_jwt_authentication.encoder.default', '@doctrine.orm.entity_manager']
+        arguments: ['@lexik_jwt_authentication.encoder.default']
 
     itsgoingtobe.identifier_service:
         class: ItsGoingToBeBundle\Service\IdentifierService
