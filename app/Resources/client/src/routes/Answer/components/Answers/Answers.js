@@ -12,7 +12,7 @@ class Answers extends React.Component {
   updateAnswers = () => {
     const { poll, updateResponses, fetchPoll } = this.props
 
-    if (poll.ended) {
+    if (poll.ended || poll.deleted) {
       clearInterval(this.answersUpdater)
     } else {
       updateResponses()

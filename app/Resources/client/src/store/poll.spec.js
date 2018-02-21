@@ -27,7 +27,7 @@ import { addAnswer, updateAnswers, clearAnswers } from 'store/answers'
 
 const initialState = {
   polls : [],
-  page  : null,
+  page  : 0,
   count : 0
 }
 
@@ -82,7 +82,7 @@ describe('(Store) Poll', () => {
             identifier     : 'hf0sd8fhoas',
             responsesCount : 5
           }],
-          page  : null,
+          page  : 0,
           count : 0
         }
       }
@@ -162,7 +162,7 @@ describe('(Store) Poll', () => {
       })
 
       it('Should return the poll page in the global state.', () => {
-        expect(pollPageSelector(_globalState)).to.equal(null)
+        expect(pollPageSelector(_globalState)).to.equal(0)
 
         _globalState.poll.page = 2
 

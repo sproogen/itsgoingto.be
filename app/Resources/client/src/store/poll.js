@@ -293,7 +293,7 @@ const ACTION_HANDLERS = {
  */
 const initialState = {
   polls : [],
-  page  : null,
+  page  : 0,
   count : 0
 }
 

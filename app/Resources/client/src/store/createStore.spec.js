@@ -42,7 +42,7 @@ describe('(Store) createStore', () => {
     it('store should be initialized with Poll state', () => {
       const poll = {
         polls : [],
-        page  : null,
+        page  : 0,
         count : 0
       }
 
