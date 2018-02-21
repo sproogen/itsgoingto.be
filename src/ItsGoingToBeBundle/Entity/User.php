@@ -188,21 +188,6 @@ class User implements UserInterface
     }
 
     /**
-     * Add answer
-     *
-     * @param Answer $answer
-     *
-     * @return Poll
-     */
-    public function addAnswer(Answer $answer)
-    {
-        $answer->setPoll($this);
-        $this->answers[] = $answer;
-
-        return $this;
-    }
-
-    /**
      * Get when this Entity was created.
      *
      * @return \DateTime

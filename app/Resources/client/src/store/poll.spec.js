@@ -232,7 +232,7 @@ describe('(Store) Poll', () => {
       })
 
       it('Should return true if there are response from a poll with an identifier in the global state.', () => {
-         _globalState.poll.polls[0].userResponses = [1]
+        _globalState.poll.polls[0].userResponses = [1]
 
         expect(userRespondedSelector(_globalState, 'hf0sd8fhoas')).to.equal(true)
       })
@@ -691,7 +691,13 @@ describe('(Store) Poll', () => {
         expect(state).to.deep.equal({
           polls : [
             { question : 'Question', identifier : 'hf0sd8fhoas' },
-            { question : 'Question Text', identifier : '', multipleChoice : false, passphrase : '', userResponses  : [] }
+            {
+              question       : 'Question Text',
+              identifier     : '',
+              multipleChoice : false,
+              passphrase     : '',
+              userResponses  : []
+            }
           ],
           page  : null,
           count : 0

@@ -286,7 +286,7 @@ describe('(Store) API', () => {
         return deletePoll('hf0sd8fhoas')(_dispatchSpy, _getStateSpy).then(() => {
           window.fetch.should.have.been.calledOnce()
           window.fetch.should.have.been.calledWith(
-            ROUTE_POLL + '/hf0sd8fhoas', { method: 'DELETE', credentials: 'same-origin'}
+            ROUTE_POLL + '/hf0sd8fhoas', { method: 'DELETE', credentials: 'same-origin' }
           )
         })
       })
@@ -315,9 +315,13 @@ describe('(Store) API', () => {
 
         return deletePoll('hf0sd8fhoas')(_dispatchSpy, _getStateSpy).then((response) => {
           _updatePoll.should.have.been.calledOnce()
-          _updatePoll.should.have.been.calledWith({ question: 'Question', identifier: 'hf0sd8fhoas', deleted: true })
+          _updatePoll.should.have.been.calledWith(
+            { question: 'Question', identifier: 'hf0sd8fhoas', deleted: true }
+          )
           _dispatchSpy.should.have.been.calledOnce()
-          _dispatchSpy.should.have.been.calledWith(_updatePoll({ question: 'Question', identifier: 'hf0sd8fhoas', deleted: true }))
+          _dispatchSpy.should.have.been.calledWith(
+            _updatePoll({ question: 'Question', identifier: 'hf0sd8fhoas', deleted: true })
+          )
 
           _updatePoll.restore()
         })

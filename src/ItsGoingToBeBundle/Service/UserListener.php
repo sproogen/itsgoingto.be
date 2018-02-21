@@ -9,8 +9,6 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * ItsGoingToBeBundle\Service\UserListener
- *
- * TODO : Test this
  */
 class UserListener implements EventSubscriber
 {
@@ -38,12 +36,12 @@ class UserListener implements EventSubscriber
             return;
         }
 
-        $this->encodePassword($entity);
-
-        // Necessary to force the update to see the change
-        $em = $args->getEntityManager();
-        $meta = $em->getClassMetadata(get_class($entity));
-        $em->getUnitOfWork()->recomputeSingleEntityChangeSet($meta, $entity);
+        if ($this->encodePassword($entity)) {
+            // Necessary to force the update to see the change
+            $em = $args->getEntityManager();
+            $meta = $em->getClassMetadata(get_class($entity));
+            $em->getUnitOfWork()->recomputeSingleEntityChangeSet($meta, $entity);
+        }
     }
 
     public function getSubscribedEvents()
@@ -64,6 +62,7 @@ class UserListener implements EventSubscriber
             $entity,
             $entity->getPlainPassword()
         );
-        $entity->setPassword($encoded);
+
+        return $entity->setPassword($encoded);
     }
 }
