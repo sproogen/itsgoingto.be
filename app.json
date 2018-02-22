@@ -7,6 +7,12 @@
     },
     "SYMFONY_ENV": {
       "required": true
+    },
+    "SECRET": {
+      "required": true
+    },
+    "JWT_PASS_PHRASE": {
+      "required": true
     }
   },
   "formation": {},

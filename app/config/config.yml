@@ -79,13 +79,8 @@ doctrine_migrations:
     table_name: migration_versions
     name: Application Migrations
 
-knp_paginator:
-    page_range: 10                      # default page range used in pagination control
-    default_options:
-        page_name: page                # page query parameter name
-        sort_field_name: sort          # sort field query parameter name
-        sort_direction_name: direction # sort direction query parameter name
-        distinct: true                 # ensure distinct results, useful when ORM queries are using GROUP BY statements
-    template:
-        pagination: KnpPaginatorBundle:Pagination:sliding.html.twig     # sliding pagination controls template
-        sortable: KnpPaginatorBundle:Pagination:sortable_link.html.twig # sort link template
+lexik_jwt_authentication:
+    private_key_path: %kernel.root_dir%/../var/jwt/private.pem
+    public_key_path:  %kernel.root_dir%/../var/jwt/public.pem
+    pass_phrase:      %jwt_key_pass_phrase%
+    token_ttl:        3600

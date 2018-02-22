@@ -21,7 +21,9 @@ class Question extends React.Component {
   }
 
   handleChange = (event) => {
-    this.props.onQuestionChange(event.target.value)
+    const { onQuestionChange } = this.props
+
+    onQuestionChange(event.target.value)
   }
 
   handleKeyPress = (event) => {

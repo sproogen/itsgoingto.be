@@ -2,11 +2,9 @@
   padding: 6px;
   margin: 0 auto;
   margin-bottom: 20px;
-  border: 1px solid transparent;
 
   &.alert-success {
-    color: #31708f;
+    color: $base-font-color;
     background-color: #d9edf7;
-    border-color: #bce8f1;
   }
 }

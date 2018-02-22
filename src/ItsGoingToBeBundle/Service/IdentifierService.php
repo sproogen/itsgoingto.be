@@ -10,6 +10,8 @@ use Psr\Log\LoggerInterface;
 
 /**
  * ItsGoingToBeBundle\Service\IdentifierService
+ *
+ * TODO : Test this
  */
 class IdentifierService
 {
@@ -28,7 +30,6 @@ class IdentifierService
 
     /**
      * Get the session ID for the user
-     * TODO : Test this
      *
      * @param  Request $request
      *
@@ -55,7 +56,6 @@ class IdentifierService
 
     /**
      * Get or generate a custom user id
-     * TODO : Test this
      *
      * @param  Request $request
      *

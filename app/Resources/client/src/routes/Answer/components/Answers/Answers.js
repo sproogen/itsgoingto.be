@@ -2,8 +2,9 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import PropTypes from 'prop-types'
-import { prop, compose, contains } from 'ramda'
+import { prop, compose, contains, when, isNil } from 'ramda'
 import { fetchResponses, postResponse, fetchPoll, APIError } from 'store/api'
+import Spinner from 'components/Spinner'
 import Answer from '../Answer'
 import './Answers.scss'
 
@@ -11,15 +12,15 @@ class Answers extends React.Component {
   updateAnswers = () => {
     const { poll, updateResponses, fetchPoll } = this.props
 
-    if (poll.ended) {
+    if (poll.ended || poll.deleted) {
       clearInterval(this.answersUpdater)
     } else {
       updateResponses()
-        .then((response) => {
-          if (response instanceof APIError) {
-            fetchPoll()
-          }
-        })
+      .then((response) => {
+        if (response instanceof APIError) {
+          fetchPoll()
+        }
+      })
     }
   }
 
@@ -35,14 +36,19 @@ class Answers extends React.Component {
   }
 
   answerChecked = (answer) =>
-    compose(contains(answer.id), prop('userResponses'))(this.props.poll)
+    compose(contains(answer.id), when(isNil, () => []), prop('userResponses'))(this.props.poll)
 
   render () {
-    const { poll, answers, userResponded, postResponse, totalResponses } = this.props
+    const { poll, answers, userResponded, postResponse, totalResponses, viewOnly } = this.props
 
     return (
       <div className='container answer-container'>
-        <div className={'options' + (userResponded || poll.ended ? ' show-results' : '')}>
+        {answers.length === 0 &&
+          <div className={'spinner-container center-text'}>
+            <Spinner />
+          </div>
+        }
+        <div className={'options' + (userResponded || viewOnly || poll.ended ? ' show-results' : '')}>
           {answers.map((answer, index) =>
             <Answer
               key={index}
@@ -50,6 +56,7 @@ class Answers extends React.Component {
               type={poll.multipleChoice ? 'checkbox' : 'radio'}
               answer={answer}
               poll={poll}
+              viewOnly={viewOnly}
               checked={this.answerChecked(answer)}
               postResponse={postResponse}
               totalResponses={totalResponses} />
@@ -65,6 +72,7 @@ Answers.propTypes = {
   poll            : PropTypes.object.isRequired,
   totalResponses  : PropTypes.number,
   userResponded   : PropTypes.bool.isRequired,
+  viewOnly        : PropTypes.bool.isRequired,
   updateResponses : PropTypes.func.isRequired,
   postResponse    : PropTypes.func.isRequired,
   fetchPoll       : PropTypes.func.isRequired

@@ -40,7 +40,11 @@ describe('(Store) createStore', () => {
 
   describe('(Poll)', () => {
     it('store should be initialized with Poll state', () => {
-      const poll = []
+      const poll = {
+        polls : [],
+        page  : 0,
+        count : 0
+      }
 
       expect(store.getState().poll).to.deep.equal(poll)
     })
@@ -51,6 +55,14 @@ describe('(Store) createStore', () => {
       const answers = []
 
       expect(store.getState().answers).to.deep.equal(answers)
+    })
+  })
+
+  describe('(User)', () => {
+    it('store should be initialized with User state', () => {
+      const user = {}
+
+      expect(store.getState().user).to.deep.equal(user)
     })
   })
 })

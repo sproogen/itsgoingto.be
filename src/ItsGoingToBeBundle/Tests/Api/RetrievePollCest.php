@@ -121,8 +121,15 @@ class RetrievePollCest extends BaseApiCest
 
     public function returnsDeletedPollForAdminTest(ApiTester $I)
     {
+        $user = $this->createUser($I, [
+            'username' => 'admin',
+            'password' => 'password123'
+        ]);
+        $token = $this->getTokenForUser($I, $user);
+        $I->amBearerAuthenticated($token);
+
         $I->wantTo('Check call returns deleted poll');
-        $I->sendGet('/polls/y3k0sn', ['user' => 'admin']);
+        $I->sendGet('/polls/y3k0sn');
         $I->seeResponseCodeIs(HttpCode::OK);
         $I->seeResponseIsJson();
         $I->seeResponseContainsJson([
@@ -132,7 +139,7 @@ class RetrievePollCest extends BaseApiCest
         ]);
     }
 
-    public function returnsErrorAnd401ForPassphraseTest(ApiTester $I)
+    public function returnsErrorAnd403ForPassphraseTest(ApiTester $I)
     {
         $this->polls[] = $this->createPoll($I, [
             'identifier'     => 'ic8ans',
@@ -146,9 +153,9 @@ class RetrievePollCest extends BaseApiCest
             ]
         ]);
 
-        $I->wantTo('Check call return 401');
+        $I->wantTo('Check call return 403');
         $I->sendGet('/polls/ic8ans');
-        $I->seeResponseCodeIs(HttpCode::UNAUTHORIZED);
+        $I->seeResponseCodeIs(HttpCode::FORBIDDEN);
         $I->seeResponseIsJson();
         $I->seeResponseMatchesJsonType([
             'error' => 'string',

@@ -5,3 +5,7 @@ api_poll:
 api_poll_responses:
     path:     /polls/{identifier}/responses
     defaults: { _controller: itsgoingtobe.response_api_controller:apiAction, identifier: 0 }
+
+api_login:
+    path:     /login
+    defaults: { _controller: itsgoingtobe.login_api_controller:apiAction, identifier: 0 }

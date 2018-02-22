@@ -7,9 +7,10 @@ import Linkify from 'react-linkify'
 import Countdown from 'react-countdown-now'
 import { browserHistory } from 'react-router'
 import { pollSelector, hasQuestionSelector, totalResponsesSelector, userRespondedSelector } from 'store/poll'
-import { answersSelector } from 'store/answers'
+import { answersSelector, clearAnswers } from 'store/answers'
 import { fetchPoll, APIError } from 'store/api'
 import { setLoading, setRequiresPassphrase, requiresPassphraseSelector } from 'store/loader'
+import { hasUserSelector } from 'store/user'
 import Back from 'components/Back'
 import Sharing from './components/Sharing'
 import Answers from './components/Answers'
@@ -18,18 +19,21 @@ import './Answer.scss'
 
 class Answer extends React.Component {
   componentWillMount = () => {
-    if (!this.props.hasPoll) {
-      this.props.setLoading(true)
+    const { hasPoll, setLoading, fetchPoll, clearAnswers, setRequiresPassphrase } = this.props
+
+    if (!hasPoll) {
+      setLoading(true)
     }
-    this.props.fetchPoll(this.props.identifier).then((response) => {
+    clearAnswers()
+    fetchPoll(this.props.identifier).then((response) => {
       if (response instanceof APIError) {
         if (response.details.status === 401 && response.details.error.error === 'incorrect-passphrase') {
-          this.props.setRequiresPassphrase(true)
+          setRequiresPassphrase(true)
         } else {
           browserHistory.push('/404')
         }
       }
-      this.props.setLoading(false)
+      setLoading(false)
     })
   }
 
@@ -57,7 +61,7 @@ class Answer extends React.Component {
   }
 
   render () {
-    const { hasPoll, poll, requiresPassphrase, answers, totalResponses, userResponded } = this.props
+    const { hasPoll, poll, requiresPassphrase, answers, totalResponses, userResponded, hasUser } = this.props
 
     return (
       <div>
@@ -90,7 +94,8 @@ class Answer extends React.Component {
               poll={poll}
               answers={answers}
               totalResponses={totalResponses}
-              userResponded={userResponded} />
+              userResponded={userResponded}
+              viewOnly={hasUser} />
           </div>
         }
         { requiresPassphrase &&
@@ -109,7 +114,9 @@ Answer.propTypes = {
   answers               : PropTypes.array.isRequired,
   totalResponses        : PropTypes.number,
   userResponded         : PropTypes.bool.isRequired,
+  hasUser               : PropTypes.bool.isRequired,
   fetchPoll             : PropTypes.func.isRequired,
+  clearAnswers          : PropTypes.func.isRequired,
   setLoading            : PropTypes.func.isRequired,
   setRequiresPassphrase : PropTypes.func.isRequired
 }
@@ -122,13 +129,15 @@ const mapStateToProps = (state, props) => ({
   poll               : pollSelector(state, props.params.identifier),
   hasPoll            : hasQuestionSelector(state, props.params.identifier),
   requiresPassphrase : requiresPassphraseSelector(state),
-  answers            : answersSelector(state, props.params.identifier),
+  answers            : answersSelector(state),
   totalResponses     : totalResponsesSelector(state, props.params.identifier),
-  userResponded      : userRespondedSelector(state, props.params.identifier)
+  userResponded      : userRespondedSelector(state, props.params.identifier),
+  hasUser            : hasUserSelector(state),
 })
 
 const mapDispatchToProps = (dispatch) => ({
   fetchPoll             : (identifier) => dispatch(fetchPoll(identifier)),
+  clearAnswers          : () => dispatch(clearAnswers()),
   setLoading            : (value) => dispatch(setLoading(value)),
   setRequiresPassphrase : (value) => dispatch(setRequiresPassphrase(value))
 })

@@ -2,6 +2,7 @@
 
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { CookiesProvider } from 'react-cookie'
 import { LocaleProvider } from 'antd'
 import enUS from 'antd/lib/locale-provider/en_US'
 import createStore from 'store/createStore'
@@ -20,9 +21,11 @@ let render = () => {
   const routes = require('./routes/index').default(store)
 
   ReactDOM.render(
-    <LocaleProvider locale={enUS}>
-      <App store={store} routes={routes} />
-    </LocaleProvider>,
+    <CookiesProvider>
+      <LocaleProvider locale={enUS}>
+        <App store={store} routes={routes} />
+      </LocaleProvider>
+    </CookiesProvider>,
     MOUNT_NODE
   )
 }
