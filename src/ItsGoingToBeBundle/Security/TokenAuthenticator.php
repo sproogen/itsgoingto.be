@@ -25,25 +25,29 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
      */
     private $jwtEncoder;
 
+    /**
+     * @var AuthorizationHeaderTokenExtractor
+     */
+    private $extractor;
+
     public function __construct(JWTEncoderInterface $jwtEncoder)
     {
         $this->jwtEncoder = $jwtEncoder;
+
+        $this->extractor = new AuthorizationHeaderTokenExtractor(
+            'Bearer',
+            'Authorization'
+        );
+    }
+
+    public function supports(Request $request)
+    {
+        return $this->extractor->extract($request) !== false;
     }
 
     public function getCredentials(Request $request)
     {
-        $extractor = new AuthorizationHeaderTokenExtractor(
-            'Bearer',
-            'Authorization'
-        );
-
-        $token = $extractor->extract($request);
-
-        if (!$token) {
-            return;
-        }
-
-        return $token;
+        return $this->extractor->extract($request);
     }
 
     public function getUser($credentials, UserProviderInterface $userProvider)

@@ -41,6 +41,7 @@ services:
             - [ setTokenTTL, ["%lexik_jwt_authentication.token_ttl%"]]
 
     itsgoingtobe.react_controller:
+        public: true
         class: ItsGoingToBeBundle\Controller\ReactController
         calls:
             - [ setContainer, ["@service_container"]]
