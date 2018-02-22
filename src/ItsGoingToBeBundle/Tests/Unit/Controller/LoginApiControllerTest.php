@@ -219,7 +219,7 @@ class LoginApiControllerTest extends BaseApiControllerTest
         ]);
         $request = Request::create($this->apiUrl, Request::METHOD_POST, [], [], [], [], $requestContent);
 
-        $response = $this->controller->apiAction($request, 0);
+        $this->controller->apiAction($request, 0);
 
         $this->userRepo->findOneBy(['username' => 'user'])
             ->shouldHaveBeenCalledTimes(1);
