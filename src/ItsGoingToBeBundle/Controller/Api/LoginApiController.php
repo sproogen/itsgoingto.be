@@ -68,6 +68,8 @@ class LoginApiController extends BaseApiController implements ApiControllerInter
      */
     public function apiAction(Request $request, $identifier)
     {
+        unset($identifier);
+
         switch ($request->getMethod()) {
             case 'POST':
                 $response = $this->loginUser($this->getData($request), $request->getClientIp());
