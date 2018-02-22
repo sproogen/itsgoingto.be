@@ -204,7 +204,7 @@ class LoginApiControllerTest extends BaseApiControllerTest
     }
 
     /**
-     * Test that POST returns persits a login attempt for a successful login
+     * Test that POST returns persits a login attempt for a successful login.
      */
     public function testsuccessfulLoginRequestPersistsLoginAttempt()
     {
