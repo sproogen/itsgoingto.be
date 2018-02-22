@@ -146,12 +146,18 @@ class TokenAuthenticatorTest extends BaseTest
         $exception->getMessageKey()->willReturn('Authentication Failure');
         $exception->getMessageData()->willReturn(['Failure' => 'Failed']);
 
+        $response = $this->service->onAuthenticationFailure(
+            $this->prophesize(Request::class)->reveal(),
+            $exception->reveal()
+        );
+
         self::assertEquals(
-            new JsonResponse(['message' => 'Authentication Failed'], Response::HTTP_FORBIDDEN),
-            $this->service->onAuthenticationFailure(
-                $this->prophesize(Request::class)->reveal(),
-                $exception->reveal()
-            )
+            Response::HTTP_FORBIDDEN,
+            $response->getStatusCode()
+        );
+        self::assertEquals(
+            json_encode(['message' => 'Authentication Failed']),
+            $response->getContent()
         );
     }
 
@@ -160,11 +166,14 @@ class TokenAuthenticatorTest extends BaseTest
      */
     public function testStartReturnsJsonResponse()
     {
+        $response = $this->service->start($this->prophesize(Request::class)->reveal());
         self::assertEquals(
-            new JsonResponse(['message' => 'Authentication Required'], Response::HTTP_UNAUTHORIZED),
-            $this->service->start(
-                $this->prophesize(Request::class)->reveal()
-            )
+            Response::HTTP_UNAUTHORIZED,
+            $response->getStatusCode()
+        );
+        self::assertEquals(
+            json_encode(['message' => 'Authentication Required']),
+            $response->getContent()
         );
     }
 
