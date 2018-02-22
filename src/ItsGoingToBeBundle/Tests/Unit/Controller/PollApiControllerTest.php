@@ -217,7 +217,7 @@ class PollApiControllerTest extends BaseApiControllerTest
             ->shouldHaveBeenCalledTimes(1);
 
         self::assertInstanceOf(JsonResponse::class, $response);
-        self::assertEquals(401, $response->getStatusCode());
+        self::assertEquals(403, $response->getStatusCode());
 
         $data = json_decode($response->getContent(), true);
         self::assertArrayHasKey('error', $data);

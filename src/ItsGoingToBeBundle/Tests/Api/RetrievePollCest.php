@@ -139,7 +139,7 @@ class RetrievePollCest extends BaseApiCest
         ]);
     }
 
-    public function returnsErrorAnd401ForPassphraseTest(ApiTester $I)
+    public function returnsErrorAnd403ForPassphraseTest(ApiTester $I)
     {
         $this->polls[] = $this->createPoll($I, [
             'identifier'     => 'ic8ans',
@@ -153,9 +153,9 @@ class RetrievePollCest extends BaseApiCest
             ]
         ]);
 
-        $I->wantTo('Check call return 401');
+        $I->wantTo('Check call return 403');
         $I->sendGet('/polls/ic8ans');
-        $I->seeResponseCodeIs(HttpCode::UNAUTHORIZED);
+        $I->seeResponseCodeIs(HttpCode::FORBIDDEN);
         $I->seeResponseIsJson();
         $I->seeResponseMatchesJsonType([
             'error' => 'string',

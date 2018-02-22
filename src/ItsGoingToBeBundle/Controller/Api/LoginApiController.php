@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface;
 use ItsGoingToBeBundle\Interfaces\ApiControllerInterface;
 use ItsGoingToBeBundle\AbstractClass\BaseApiController;
 use ItsGoingToBeBundle\Entity\User;
@@ -15,8 +16,6 @@ use ItsGoingToBeBundle\Entity\LoginAttempt;
 
 /**
  *  Api Controller to manage authentication of users.
- *
- * TODO : Test this
  */
 class LoginApiController extends BaseApiController implements ApiControllerInterface
 {
@@ -26,11 +25,37 @@ class LoginApiController extends BaseApiController implements ApiControllerInter
     protected $encoder;
 
     /**
+     * @var JWTEncoderInterface
+     */
+    protected $jwtEncoder;
+
+    /**
+     * @var integer
+     */
+    protected $tokenTTL;
+
+    /**
      * @param UserPasswordEncoderInterface $encoder
      */
     public function setEncoder(UserPasswordEncoderInterface $encoder)
     {
         $this->encoder = $encoder;
+    }
+
+    /**
+     * @param JWTEncoderInterface $jwtEncoder
+     */
+    public function setJWTEncoder(JWTEncoderInterface $jwtEncoder)
+    {
+        $this->jwtEncoder = $jwtEncoder;
+    }
+
+    /**
+     * @param integer $tokenTTL
+     */
+    public function setTokenTTL($tokenTTL)
+    {
+        $this->tokenTTL = $tokenTTL;
     }
 
     /**
@@ -43,12 +68,16 @@ class LoginApiController extends BaseApiController implements ApiControllerInter
      */
     public function apiAction(Request $request, $identifier)
     {
-        if ($request->getMethod() === 'POST') {
-            $response = $this->loginUser($this->getData($request), $request->getClientIp());
-        } else {
-            throw new HttpException('405', 'Method not allowed.');
+        switch ($request->getMethod()) {
+            case 'POST':
+                $response = $this->loginUser($this->getData($request), $request->getClientIp());
+                break;
+            case 'OPTIONS':
+                $response = new Response();
+                break;
+            default:
+                throw new HttpException('405', 'Method not allowed.');
         }
-
         return $response;
     }
 
@@ -94,7 +123,7 @@ class LoginApiController extends BaseApiController implements ApiControllerInter
         }
 
         if (!empty($errors)) {
-            $response = new JsonResponse(['errors' => $errors], 400);
+            $response = new JsonResponse(['errors' => $errors], Response::HTTP_BAD_REQUEST);
             $loginAttempt->setSuccesful(false);
         }
 
@@ -113,11 +142,10 @@ class LoginApiController extends BaseApiController implements ApiControllerInter
      */
     public function getToken(User $user)
     {
-        return $this->container->get('lexik_jwt_authentication.encoder')
-            ->encode([
-                'username' => $user->getUsername(),
-                'exp' => $this->getTokenExpiryDateTime(),
-            ]);
+        return $this->jwtEncoder->encode([
+            'username' => $user->getUsername(),
+            'exp' => $this->getTokenExpiryDateTime(),
+        ]);
     }
 
     /**
@@ -127,9 +155,8 @@ class LoginApiController extends BaseApiController implements ApiControllerInter
      */
     private function getTokenExpiryDateTime()
     {
-        $tokenTtl = $this->container->getParameter('lexik_jwt_authentication.token_ttl');
         $now = new \DateTime();
-        $now->add(new \DateInterval('PT'.$tokenTtl.'S'));
+        $now->add(new \DateInterval('PT'.$this->tokenTTL.'S'));
 
         return $now->format('U');
     }

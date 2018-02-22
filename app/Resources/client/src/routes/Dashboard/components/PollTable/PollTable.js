@@ -15,13 +15,13 @@ class PollTable extends React.Component {
   constructor (props) {
     super(props)
 
-    const { pollPage } = props
+    const { pollPage, pollCount } = props
 
     // TODO : Store ID's of polls for the page in a dashboard store
     // Also store the page number in the dashboard store
     this.state = {
       page    : pollPage,
-      loading : pollPage === null
+      loading : pollCount === 0
     }
   }
 

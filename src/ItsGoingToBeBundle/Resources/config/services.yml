@@ -37,6 +37,8 @@ services:
             - [ setContainer, ["@service_container"]]
             - [ setEntityManager, ["@doctrine.orm.default_entity_manager"]]
             - [ setEncoder, ["@security.password_encoder"]]
+            - [ setJWTEncoder, ["@lexik_jwt_authentication.encoder.default"]]
+            - [ setTokenTTL, ["%lexik_jwt_authentication.token_ttl%"]]
 
     itsgoingtobe.react_controller:
         class: ItsGoingToBeBundle\Controller\ReactController
