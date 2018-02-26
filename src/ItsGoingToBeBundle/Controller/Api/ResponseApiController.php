@@ -136,7 +136,7 @@ class ResponseApiController extends BaseApiController implements ApiControllerIn
                 if (!$userResponse) {
                     $userResponse = new UserResponse();
                     $userResponse->setPoll($poll);
-                } else if ($userResponse->getAnswer()) {
+                } elseif ($userResponse->getAnswer()) {
                     $userResponse->getAnswer()->removeResponse($userResponse);
                 }
                 $userResponse->setAnswer($answer);
