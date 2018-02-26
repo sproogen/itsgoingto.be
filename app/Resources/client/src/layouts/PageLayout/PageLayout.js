@@ -11,7 +11,7 @@ import Button from 'components/Button'
 import './PageLayout.scss'
 
 export function PageLayout ({ children, isLoading, hasUser, clearUser, cookies }) {
-  const submit = () => {
+  const logout = () => {
     clearUser()
     cookies.remove('itsgoingtobeUserToken', { path: '/' })
     return Promise.resolve()
@@ -28,7 +28,7 @@ export function PageLayout ({ children, isLoading, hasUser, clearUser, cookies }
         { hasUser &&
           <div className='logout-conatiner'>
             <a className='view-polls' onClick={viewPolls}>View Polls</a>
-            <Button className='btn--small' text='Logout' callback={submit} />
+            <Button className='btn--small' text='Logout' callback={logout} />
           </div>
         }
         {children}

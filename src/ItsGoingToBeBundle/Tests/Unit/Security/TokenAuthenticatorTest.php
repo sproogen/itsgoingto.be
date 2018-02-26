@@ -48,6 +48,17 @@ class TokenAuthenticatorTest extends BaseTest
     }
 
     /**
+     * Test that checkCredentials always returns true
+     */
+    public function testSupportsReturnsTrue()
+    {
+        self::assertEquals(
+            true,
+            $this->service->supports(new Request())
+        );
+    }
+
+    /**
      * Test that getCredentials returns null if no token found in header
      */
     public function testGetCredentialsReturnsNullIfNoToken()
@@ -140,40 +151,25 @@ class TokenAuthenticatorTest extends BaseTest
     /**
      * Test that onAuthenticationFailure returns a JsonResponse with the correct message
      */
-    public function testOnAuthenticationFailureReturnsJsonResponse()
+    public function testOnAuthenticationFailureReturnsNull()
     {
-        $exception = $this->prophesize(AuthenticationException::class);
-        $exception->getMessageKey()->willReturn('Authentication Failure');
-        $exception->getMessageData()->willReturn(['Failure' => 'Failed']);
-
-        $response = $this->service->onAuthenticationFailure(
-            $this->prophesize(Request::class)->reveal(),
-            $exception->reveal()
-        );
-
         self::assertEquals(
-            Response::HTTP_FORBIDDEN,
-            $response->getStatusCode()
-        );
-        self::assertEquals(
-            json_encode(['message' => 'Authentication Failed']),
-            $response->getContent()
+            null,
+            $this->service->onAuthenticationFailure(
+                $this->prophesize(Request::class)->reveal(),
+                $this->prophesize(AuthenticationException::class)->reveal()
+            )
         );
     }
 
     /**
      * Test that start returns a JsonResponse with the correct message
      */
-    public function testStartReturnsJsonResponse()
+    public function testStartReturnsNull()
     {
-        $response = $this->service->start($this->prophesize(Request::class)->reveal());
         self::assertEquals(
-            Response::HTTP_UNAUTHORIZED,
-            $response->getStatusCode()
-        );
-        self::assertEquals(
-            json_encode(['message' => 'Authentication Required']),
-            $response->getContent()
+            null,
+            $this->service->start($this->prophesize(Request::class)->reveal())
         );
     }
 

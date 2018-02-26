@@ -108,6 +108,7 @@ describe('(Store) API', () => {
     let _globalState
     let _dispatchSpy
     let _getStateSpy
+    let _userTokenSelector
 
     beforeEach(function () {
       sinon.stub(window, 'fetch')
@@ -132,10 +133,14 @@ describe('(Store) API', () => {
       _getStateSpy = sinon.spy(() => {
         return _globalState
       })
+
+      _userTokenSelector = sinon.stub(user, 'userTokenSelector')
+      _userTokenSelector.returns('USERTOKEN')
     })
 
     afterEach(() => {
       window.fetch.restore()
+      _userTokenSelector.restore()
     })
 
     describe('(API Call) postPoll', () => {
@@ -215,7 +220,10 @@ describe('(Store) API', () => {
       it('Should call fetch with the correct url.', () => {
         return fetchPoll('hf0sd8fhoas')(_dispatchSpy, _getStateSpy).then(() => {
           window.fetch.should.have.been.calledOnce()
-          window.fetch.should.have.been.calledWith(ROUTE_POLL + '/hf0sd8fhoas', { credentials: 'same-origin' })
+          window.fetch.should.have.been.calledWith(
+            ROUTE_POLL + '/hf0sd8fhoas',
+            { credentials: 'same-origin', headers: { Authorization: 'Bearer USERTOKEN' } }
+          )
         })
       })
 
@@ -231,7 +239,7 @@ describe('(Store) API', () => {
           window.fetch.should.have.been.calledOnce()
           window.fetch.should.have.been.calledWith(
             ROUTE_POLL + '/hf0sd8fhoas?passphrase=1234',
-            { credentials: 'same-origin' }
+            { credentials: 'same-origin', headers: { Authorization: 'Bearer USERTOKEN' } }
           )
         })
       })
@@ -286,7 +294,8 @@ describe('(Store) API', () => {
         return deletePoll('hf0sd8fhoas')(_dispatchSpy, _getStateSpy).then(() => {
           window.fetch.should.have.been.calledOnce()
           window.fetch.should.have.been.calledWith(
-            ROUTE_POLL + '/hf0sd8fhoas', { method: 'DELETE', credentials: 'same-origin' }
+            ROUTE_POLL + '/hf0sd8fhoas',
+            { method: 'DELETE', credentials: 'same-origin', headers: { Authorization: 'Bearer USERTOKEN' } }
           )
         })
       })
@@ -329,18 +338,6 @@ describe('(Store) API', () => {
     })
 
     describe('(API Call) fetchPolls', () => {
-      let _userTokenSelector
-
-      beforeEach(function () {
-        _userTokenSelector = sinon.stub(user, 'userTokenSelector')
-
-        _userTokenSelector.returns('USERTOKEN')
-      })
-
-      afterEach(function () {
-        _userTokenSelector.restore()
-      })
-
       it('Should be exported as a function.', () => {
         expect(fetchPolls).to.be.a('function')
       })
