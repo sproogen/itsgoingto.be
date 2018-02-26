@@ -36,7 +36,7 @@ script:
   - bin/phpcs --standard=PSR2 src/
   - bin/phplint src
   - bin/phpunit
-  - SYMFONY_DEPRECATIONS_HELPER=disabled bin/codecept run
+  - SYMFONY_DEPRECATIONS_HELPER=disabled bin/codecept run --ext DotReporter
   - npm run lint
   - npm run test
 
