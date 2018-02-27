@@ -3,7 +3,7 @@ import { prop, compose, has } from 'ramda'
 // ------------------------------------
 // Constants
 // ------------------------------------
-export const USER_UPDATE     = 'USER_UPDATE'
+export const USER_UPDATE = 'USER_UPDATE'
 
 // ------------------------------------
 // Selectors

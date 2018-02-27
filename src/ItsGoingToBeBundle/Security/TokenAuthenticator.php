@@ -42,7 +42,9 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
 
     public function supports(Request $request)
     {
-        return $this->extractor->extract($request) !== false;
+        unset($request);
+
+        return true;
     }
 
     public function getCredentials(Request $request)
@@ -81,12 +83,9 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
     {
         unset($request);
+        unset($exception);
 
-        $data = array(
-            'message' => strtr($exception->getMessageKey(), $exception->getMessageData())
-        );
-
-        return new JsonResponse($data, Response::HTTP_FORBIDDEN);
+        return null;
     }
 
     public function start(Request $request, AuthenticationException $authException = null)
@@ -94,11 +93,7 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
         unset($request);
         unset($authException);
 
-        $data = array(
-            'message' => 'Authentication Required'
-        );
-
-        return new JsonResponse($data, Response::HTTP_UNAUTHORIZED);
+        return null;
     }
 
     public function supportsRememberMe()
