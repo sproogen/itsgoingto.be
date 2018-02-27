@@ -14,6 +14,7 @@ export function PageLayout ({ children, isLoading, hasUser, clearUser, cookies }
   const logout = () => {
     clearUser()
     cookies.remove('itsgoingtobeUserToken', { path: '/' })
+    browserHistory.push('/login')
     return Promise.resolve()
   }
 
