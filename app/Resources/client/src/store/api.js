@@ -106,7 +106,10 @@ export const postPoll = () => (dispatch, getState) =>
 export const fetchPoll = (identifier) => (dispatch, getState) =>
   compose(
     (url) => fetch(url, {
-      credentials : 'same-origin'
+      credentials : 'same-origin',
+      headers: {
+        'Authorization': 'Bearer ' + userTokenSelector(getState()),
+      },
     })
       .then(extractResponse)
       .then((response) => dispatch(updatePoll(response)))
@@ -129,7 +132,10 @@ export const fetchPoll = (identifier) => (dispatch, getState) =>
 export const deletePoll = (identifier) => (dispatch, getState) =>
   fetch(ROUTE_POLL + '/' + identifier, {
     credentials : 'same-origin',
-    method      : 'DELETE'
+    method      : 'DELETE',
+    headers: {
+      'Authorization': 'Bearer ' + userTokenSelector(getState()),
+    }
   })
   .then(extractResponse)
   .then((response) => dispatch(updatePoll(response)))
