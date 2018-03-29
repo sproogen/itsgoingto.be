@@ -19,8 +19,8 @@ class Modal extends React.Component {
       'MozTransition':'animationend',
       'WebkitTransition':'webkitAnimationEnd'
     }
-
     let transition
+
     for (transition in transitions) {
       if (element.style[transition] !== undefined) {
         return transitions[transition]
@@ -65,6 +65,7 @@ class Modal extends React.Component {
 
   render () {
     let modal
+
     if (!this.state.hidden) {
       const { willHidden } = this.state
       const { children } = this.props

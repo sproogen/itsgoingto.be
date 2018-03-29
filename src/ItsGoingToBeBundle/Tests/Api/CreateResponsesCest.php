@@ -5,6 +5,7 @@ namespace ItsGoingToBeBundle\Tests\Api;
 use Codeception\Util\HttpCode;
 use ItsGoingToBeBundle\Tests\Api\BaseApiCest;
 use ItsGoingToBeBundle\ApiTester;
+use ItsGoingToBeBundle\Entity\UserResponse;
 
 /**
  * API Tests for POST /api/polls/:identifier/responses
@@ -134,7 +135,7 @@ class CreateResponsesCest extends BaseApiCest
             ]
         ]);
 
-        $I->wantTo('Check call returns responses and persists responses');
+        $I->wantTo('Check call returns responses and updates responses');
         $I->sendPOST('/polls/he7gis/responses', [
             'answers' => [
                 $this->polls[0]->getAnswers()[0]->getId()

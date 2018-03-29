@@ -10,6 +10,8 @@ use Psr\Log\LoggerInterface;
 
 /**
  * ItsGoingToBeBundle\Service\IdentifierService
+ *
+ * TODO : Test this
  */
 class IdentifierService
 {
@@ -28,7 +30,6 @@ class IdentifierService
 
     /**
      * Get the session ID for the user
-     * TODO : Test this
      *
      * @param  Request $request
      *
@@ -37,6 +38,9 @@ class IdentifierService
     public function getSessionID(Request $request)
     {
         $session = $request->getSession();
+
+        // var_dump("session");
+        // var_dump($session->getId());
 
         if (!$session instanceof Session) {
             $this->logger->info('Session Not Found');
@@ -55,7 +59,6 @@ class IdentifierService
 
     /**
      * Get or generate a custom user id
-     * TODO : Test this
      *
      * @param  Request $request
      *
@@ -64,6 +67,9 @@ class IdentifierService
     public function getCustomUserID(Request $request)
     {
         $userID = $request->cookies->get('USERID');
+
+        // var_dump("userID");
+        // var_dump($userID);
 
         if (!$userID) {
             $this->logger->info('Custom User ID Not Found');

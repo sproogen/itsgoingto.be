@@ -14,6 +14,12 @@ class Api extends \Codeception\Module
         return $this->getModule('Doctrine2')->_getEntityManager();
     }
 
+    public function getJWTService()
+    {
+        return $this->getModule('Symfony')
+            ->grabServiceFromContainer('lexik_jwt_authentication.encoder');
+    }
+
     public function seeResponsePathContainsJson($data = [], $path = '$')
     {
         $response = $this->getModule('REST')->grabResponse();

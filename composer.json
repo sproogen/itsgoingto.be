@@ -17,18 +17,18 @@
         "doctrine/doctrine-migrations-bundle": "^1.0",
         "doctrine/orm": "^2.5",
         "incenteev/composer-parameter-handler": "^2.0",
-        "knplabs/knp-paginator-bundle": "^2.5",
+        "lexik/jwt-authentication-bundle": "^2.4",
         "sensio/distribution-bundle": "^5.0.19",
         "sensio/framework-extra-bundle": "^3.0.2",
         "symfony/assetic-bundle": "~2.8",
         "symfony/monolog-bundle": "^3.1.0",
         "symfony/polyfill-apcu": "^1.0",
-        "symfony/symfony": "3.3.*",
+        "symfony/symfony": "3.4.*",
         "twig/twig": "^1.0||^2.0"
     },
     "require-dev": {
         "codacy/coverage": "^1.1",
-        "codeception/codeception": "2.3.x-dev",
+        "codeception/codeception": "2.3.*",
         "flow/jsonpath": "^0.3.4",
         "overtrue/phplint": "^0.2.1",
         "phpunit/phpunit": "~5.5",
@@ -50,9 +50,19 @@
         "post-update-cmd": [
             "@symfony-scripts"
         ],
+        "generate-rsa": [
+            "openssl genrsa -aes256 -passout pass:SuperSecretPassword -out var/jwt/private.pem 4096",
+            "openssl rsa -pubout -in var/jwt/private.pem -passin pass:SuperSecretPassword -out var/jwt/public.pem"
+        ],
         "compile": [
             "php bin/console doctrine:migrations:migrate --no-interaction",
-            "rm web/app_dev.php"
+            "rm web/app_dev.php",
+            "@generate-rsa"
+        ],
+        "compile-test": [
+            "php bin/console doctrine:migrations:migrate --no-interaction --env=test",
+            "rm web/app_dev.php",
+            "@generate-rsa"
         ]
     },
     "config": {

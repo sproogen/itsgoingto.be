@@ -1,57 +1,57 @@
 services:
-    itsgoingtobe.security.authentication_failure_event_listener:
-        class: ItsGoingToBeBundle\Service\AuthenticationListener
-        arguments:
-            - "@doctrine.orm.entity_manager"
-            - "@request_stack"
-        tags:
-            - { name: kernel.event_listener, event: security.authentication.failure, method: onAuthenticationFailure }
+  itsgoingtobe.security.token_authenticator:
+    class: ItsGoingToBeBundle\Security\TokenAuthenticator
+    arguments: ['@lexik_jwt_authentication.encoder.default']
 
-    itsgoingtobe.security.interactive_login_listener:
-        class: ItsGoingToBeBundle\Service\AuthenticationListener
-        arguments:
-            - "@doctrine.orm.entity_manager"
-            - "@request_stack"
-        tags:
-            - { name: kernel.event_listener, event: security.interactive_login, method: onAuthenticationSuccess }
+  itsgoingtobe.identifier_service:
+    class: ItsGoingToBeBundle\Service\IdentifierService
+    calls:
+      - [ setLogger, ["@logger"]]
 
-    itsgoingtobe.authorization_checker:
-        class: ItsGoingToBeBundle\Security\AuthorizationChecker
-        arguments:
-            - "@security.authorization_checker"
-            - "@request_stack"
-            - "%kernel.environment%"
+  itsgoingtobe.poll_end_service:
+    class: ItsGoingToBeBundle\Service\PollEndService
+    calls:
+      - [ setEntityManager, ["@doctrine.orm.default_entity_manager"]]
 
-    itsgoingtobe.identifier_service:
-        class: ItsGoingToBeBundle\Service\IdentifierService
-        calls:
-            - [ setLogger, ["@logger"]]
+  itsgoingtobe.poll_api_controller:
+    public: true
+    class: ItsGoingToBeBundle\Controller\Api\PollApiController
+    calls:
+      - [ setContainer, ["@service_container"]]
+      - [ setEntityManager, ["@doctrine.orm.default_entity_manager"]]
+      - [ setAuthorizationChecker, ["@security.authorization_checker"]]
+      - [ setIdentifierService, ["@itsgoingtobe.identifier_service"]]
+      - [ setPollEndService, ["@itsgoingtobe.poll_end_service"]]
 
-    itsgoingtobe.poll_end_service:
-        class: ItsGoingToBeBundle\Service\PollEndService
-        calls:
-            - [ setEntityManager, ["@doctrine.orm.default_entity_manager"]]
+  itsgoingtobe.response_api_controller:
+    public: true
+    class: ItsGoingToBeBundle\Controller\Api\ResponseApiController
+    calls:
+      - [ setContainer, ["@service_container"]]
+      - [ setEntityManager, ["@doctrine.orm.default_entity_manager"]]
+      - [ setAuthorizationChecker, ["@security.authorization_checker"]]
+      - [ setIdentifierService, ["@itsgoingtobe.identifier_service"]]
+      - [ setPollEndService, ["@itsgoingtobe.poll_end_service"]]
 
-    itsgoingtobe.poll_api_controller:
-        class: ItsGoingToBeBundle\Controller\Api\PollApiController
-        calls:
-            - [ setContainer, ["@service_container"]]
-            - [ setEntityManager, ["@doctrine.orm.default_entity_manager"]]
-            - [ setAuthorizationChecker, ["@itsgoingtobe.authorization_checker"]]
-            - [ setIdentifierService, ["@itsgoingtobe.identifier_service"]]
-            - [ setPollEndService, ["@itsgoingtobe.poll_end_service"]]
+  itsgoingtobe.login_api_controller:
+    public: true
+    class: ItsGoingToBeBundle\Controller\Api\LoginApiController
+    calls:
+      - [ setContainer, ["@service_container"]]
+      - [ setEntityManager, ["@doctrine.orm.default_entity_manager"]]
+      - [ setEncoder, ["@security.password_encoder"]]
+      - [ setJWTEncoder, ["@lexik_jwt_authentication.encoder.default"]]
+      - [ setTokenTTL, ["%lexik_jwt_authentication.token_ttl%"]]
 
-    itsgoingtobe.response_api_controller:
-        class: ItsGoingToBeBundle\Controller\Api\ResponseApiController
-        calls:
-            - [ setContainer, ["@service_container"]]
-            - [ setEntityManager, ["@doctrine.orm.default_entity_manager"]]
-            - [ setAuthorizationChecker, ["@itsgoingtobe.authorization_checker"]]
-            - [ setIdentifierService, ["@itsgoingtobe.identifier_service"]]
-            - [ setPollEndService, ["@itsgoingtobe.poll_end_service"]]
+  itsgoingtobe.react_controller:
+    public: true
+    class: ItsGoingToBeBundle\Controller\ReactController
+    calls:
+      - [ setContainer, ["@service_container"]]
+      - [ setEntityManager, ["@doctrine.orm.default_entity_manager"]]
 
-    itsgoingtobe.react_controller:
-        class: ItsGoingToBeBundle\Controller\ReactController
-        calls:
-            - [ setContainer, ["@service_container"]]
-            - [ setEntityManager, ["@doctrine.orm.default_entity_manager"]]
+  itsgoingtobe.user_listener:
+    class: ItsGoingToBeBundle\Service\UserListener
+    arguments: ['@security.password_encoder']
+    tags:
+      - { name: doctrine.event_subscriber }

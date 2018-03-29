@@ -21,16 +21,30 @@ class DeletePollCest extends BaseApiCest
 
     public function returns404Test(ApiTester $I)
     {
+        $user = $this->createUser($I, [
+            'username' => 'admin',
+            'password' => 'password123'
+        ]);
+        $token = $this->getTokenForUser($I, $user);
+        $I->amBearerAuthenticated($token);
+
         $I->wantTo('Check call returns 404');
-        $I->sendDelete('/polls/he73is', ['user' => 'admin']);
+        $I->sendDelete('/polls/he73is');
         $I->seeResponseCodeIs(HttpCode::NOT_FOUND);
         $I->seeResponseIsJson();
     }
 
     public function deletesPollAsAdminTest(ApiTester $I)
     {
+        $user = $this->createUser($I, [
+            'username' => 'admin',
+            'password' => 'password123'
+        ]);
+        $token = $this->getTokenForUser($I, $user);
+        $I->amBearerAuthenticated($token);
+
         $I->wantTo('Returns a deleted poll');
-        $I->sendDelete('/polls/he7gis', ['user' => 'admin']);
+        $I->sendDelete('/polls/he7gis');
         $I->seeResponseCodeIs(HttpCode::OK);
         $I->seeResponseIsJson();
         $I->seeResponseContainsJson([

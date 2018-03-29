@@ -1,7 +1,3 @@
-itsgoingtobe_admin:
-    resource: "@ItsGoingToBeBundle/Resources/config/routing/admin.yml"
-    prefix: /admin
-
 itsgoingtobe_api:
     resource: "@ItsGoingToBeBundle/Resources/config/routing/api.yml"
     prefix: /api

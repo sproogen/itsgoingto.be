@@ -1,17 +1,21 @@
 import CoreLayout from 'layouts/PageLayout'
-import AskRoute from './Ask'
-import AnswerRoute from './Answer'
-import NotFoundRoute from './NotFound'
-import CatchAllRoute from './CatchAll'
+import askRoute from './Ask'
+import answerRoute from './Answer'
+import loginRoute from './Login'
+import dashboardRoute from './Dashboard'
+import notFoundRoute from './NotFound'
+import catchAllRoute from './CatchAll'
 
 export const createRoutes = (store) => ({
   path        : '/',
   component   : CoreLayout,
-  indexRoute  : AskRoute(store),
+  indexRoute  : askRoute(store),
   childRoutes : [
-    NotFoundRoute(),
-    AnswerRoute(store),
-    CatchAllRoute(),
+    notFoundRoute(),
+    loginRoute(),
+    dashboardRoute(),
+    answerRoute(store),
+    catchAllRoute(),
   ]
 })
 

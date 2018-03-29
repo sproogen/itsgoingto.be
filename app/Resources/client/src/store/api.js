@@ -1,14 +1,16 @@
 import { prop, compose, not, isEmpty, contains, without, append, ifElse, both, equals, length, when, path, omit,
          merge } from 'ramda'
 import moment from 'moment'
-import { pollSelector, updatePoll, updateResponses } from './poll'
+import { pollSelector, updatePoll, setPolls, setPollCount, setPollPage, updateResponses, POLLS_PER_PAGE } from './poll'
 import { answersSelector } from './answers'
+import { updateUser, userTokenSelector } from './user'
 
 // ------------------------------------
 // Constants
 // ------------------------------------
 export const ROUTE_POLL = '/api/polls'
 export const ROUTE_RESPONSES = '/responses'
+export const ROUTE_LOGIN = '/api/login'
 export const API_DATE_FORMAT = 'YYYY-MM-DDTHH:mm:ssZ'
 
 // ------------------------------------
@@ -88,9 +90,9 @@ export const postPoll = () => (dispatch, getState) =>
         endDate         : getEndDateFromPoll(poll)
       })
     })
-      .then(extractResponse)
-      .then((response) => dispatch(updatePoll(response)))
-      .catch(onError),
+    .then(extractResponse)
+    .then((response) => dispatch(updatePoll(response)))
+    .catch(onError),
     pollSelector
   )(getState())
 
@@ -104,7 +106,10 @@ export const postPoll = () => (dispatch, getState) =>
 export const fetchPoll = (identifier) => (dispatch, getState) =>
   compose(
     (url) => fetch(url, {
-      credentials : 'same-origin'
+      credentials : 'same-origin',
+      headers: {
+        'Authorization': 'Bearer ' + userTokenSelector(getState()),
+      },
     })
       .then(extractResponse)
       .then((response) => dispatch(updatePoll(response)))
@@ -116,6 +121,47 @@ export const fetchPoll = (identifier) => (dispatch, getState) =>
     ),
     pollSelector
   )(getState(), identifier)
+
+/**
+ * Deletes a poll with the identifier from the api
+ *
+ * @param  {string} identifier The identifier for the poll
+ *
+ * @return {Function} redux-thunk callable function
+ */
+export const deletePoll = (identifier) => (dispatch, getState) =>
+  fetch(ROUTE_POLL + '/' + identifier, {
+    credentials : 'same-origin',
+    method      : 'DELETE',
+    headers: {
+      'Authorization': 'Bearer ' + userTokenSelector(getState()),
+    }
+  })
+  .then(extractResponse)
+  .then((response) => dispatch(updatePoll(response)))
+  .catch(onError)
+
+/**
+ * Fetches polls from the api
+ *
+ * @param  {integer} page The page number to fetch polls for
+ *
+ * @return {Function}     redux-thunk callable function
+ */
+export const fetchPolls = (page) => (dispatch, getState) =>
+  fetch(ROUTE_POLL + '?page=' + page + '&pageSize=' + POLLS_PER_PAGE, {
+    credentials : 'same-origin',
+    headers: {
+      'Authorization': 'Bearer ' + userTokenSelector(getState()),
+    }
+  })
+  .then(extractResponse)
+  .then((response) => Promise.all([
+    dispatch(setPolls(prop('entities', response))),
+    dispatch(setPollPage(page - 1)),
+    dispatch(setPollCount(prop('total', response)))
+  ]))
+  .catch(onError)
 
 /**
  * Posts the response for a poll with the identifier to the api
@@ -182,3 +228,25 @@ export const fetchResponses = (identifier) => (dispatch, getState) =>
     ),
     pollSelector
   )(getState(), identifier)
+
+/**
+ * Post a login request through the api.
+ *
+ * @param  {string} username The username to login with
+ * @param  {string} password The password to login with
+ *
+ * @return {Function} redux-thunk callable function
+ */
+export const postLogin = (username, password) => (dispatch) =>
+  fetch(ROUTE_LOGIN, {
+    credentials : 'same-origin',
+    method      : 'POST',
+    body        : JSON.stringify({
+      username,
+      password,
+    })
+  })
+  .then(extractResponse)
+  .then((response) => dispatch(updateUser(response)))
+  .then((response) => prop('user')(response))
+  .catch(onError)

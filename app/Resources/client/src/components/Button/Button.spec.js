@@ -1,8 +1,8 @@
 /* eslint-env mocha */
 /* global expect, sinon */
 import React from 'react'
-import Button from 'components/Button'
 import { shallow, mount } from 'enzyme'
+import Button from './Button'
 import EventBus from 'components/EventBus'
 
 describe('(Component) Button', () => {

@@ -30,8 +30,8 @@ class Ask extends React.Component {
 
   render () {
     const { question, hasQuestion, canSubmitPoll, poll, answers } = this.props
-    let description = 'Wondering where to go or what to see?' +
-                      ' Start a vote and share it with your friends or colleagues.'
+    const description = 'Wondering where to go or what to see?' +
+                        ' Start a vote and share it with your friends or colleagues.'
 
     return (
       <div>
@@ -63,7 +63,7 @@ class Ask extends React.Component {
 }
 
 Ask.propTypes = {
-  question      : PropTypes.object.isRequired,
+  question      : PropTypes.string.isRequired,
   hasQuestion   : PropTypes.bool.isRequired,
   canSubmitPoll : PropTypes.bool.isRequired,
   poll          : PropTypes.object.isRequired,

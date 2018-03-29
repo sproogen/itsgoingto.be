@@ -14,7 +14,6 @@ use ItsGoingToBeBundle\Entity\Poll;
  */
 class PollEndServiceTest extends BaseTest
 {
-
     /**
      * Name of the class being tested.
      *

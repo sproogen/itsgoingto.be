@@ -74,7 +74,7 @@ class PollApiController extends BaseApiController implements ApiControllerInterf
             if (!$this->authorizationChecker->isGranted('ROLE_ADMIN') &&
                 $poll->hasPassphrase() &&
                 $poll->getPassphrase() !== (isset($data['passphrase']) ? $data['passphrase'] : '')) {
-                $response = new JsonResponse(['error' => 'incorrect-passphrase'], 401);
+                $response = new JsonResponse(['error' => 'incorrect-passphrase'], Response::HTTP_FORBIDDEN);
             } else {
                 $poll = $this->pollEndService->updateIfEnded($poll);
 
@@ -88,7 +88,7 @@ class PollApiController extends BaseApiController implements ApiControllerInterf
                 $response = new JsonResponse($extractedPoll);
             }
         } else {
-            $response = new JsonResponse([], 404);
+            $response = new JsonResponse([], Response::HTTP_NOT_FOUND);
         }
 
         return $response;
@@ -104,7 +104,7 @@ class PollApiController extends BaseApiController implements ApiControllerInterf
     protected function indexPolls($parameters)
     {
         if (!$this->authorizationChecker->isGranted('ROLE_ADMIN')) {
-            return new JsonResponse([], 401);
+            return new JsonResponse([], Response::HTTP_UNAUTHORIZED);
         }
 
         $queryBuilder = $this->em->getRepository(Poll::class)
@@ -190,7 +190,7 @@ class PollApiController extends BaseApiController implements ApiControllerInterf
 
             $response = new JsonResponse($extractedPoll);
         } else {
-            $response = new JsonResponse(['errors' => $errors], 400);
+            $response = new JsonResponse(['errors' => $errors], Response::HTTP_BAD_REQUEST);
         }
 
         return $response;
@@ -221,7 +221,7 @@ class PollApiController extends BaseApiController implements ApiControllerInterf
             $extractedPoll = $poll->extract();
             $response = new JsonResponse($extractedPoll);
         } else {
-            $response = new JsonResponse([], 404);
+            $response = new JsonResponse([], Response::HTTP_NOT_FOUND);
         }
 
         return $response;

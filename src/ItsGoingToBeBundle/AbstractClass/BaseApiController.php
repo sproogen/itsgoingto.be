@@ -108,6 +108,8 @@ abstract class BaseApiController extends Controller
     }
 
     /**
+     * TODO : Validation on page parameter
+     *
      * Applies the page to the get query.
      *
      * @param QueryBuilder $queryBuilder Query builder.

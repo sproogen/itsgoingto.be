@@ -25,7 +25,7 @@ export const ANSWERS_CLEAR        = 'ANSWERS_CLEAR'
  *
  * @return {array}             Answers
  */
-export const answersSelector = (state, identifier = '') => prop('answers')(state)
+export const answersSelector = (state) => prop('answers')(state)
 
 /**
  * Returns the max answer index using the answersSelector
@@ -37,7 +37,7 @@ export const answersSelector = (state, identifier = '') => prop('answers')(state
  */
 export const maxAnswerSelector = createSelector(
   answersSelector,
-  answers => findLastIndex(compose(not, isEmpty, trim))(answers)
+  (answers) => findLastIndex(compose(not, isEmpty, trim))(answers)
 )
 
 /**
@@ -90,14 +90,15 @@ export const addAnswer = () => ({
  * @return {Function}      redux-thunk callable function
  */
 export const updateAnswer = (index, value = '') => (dispatch, getState) => {
-  let hadAnswer = hasAnswerSelector(getState(), index)
+  const hadAnswer = hasAnswerSelector(getState(), index)
+
   dispatch({
     type  : ANSWER_UPDATE,
-    index : index,
+    index,
     text  : value
   })
-  let hasAnswer = hasAnswerSelector(getState(), index)
-  let countAnswers = length(answersSelector(getState()))
+  const hasAnswer = hasAnswerSelector(getState(), index)
+  const countAnswers = length(answersSelector(getState()))
 
   if (index === (countAnswers - 1) && hasAnswer && !hadAnswer) {
     dispatch(addAnswer())
@@ -180,7 +181,7 @@ const ACTION_HANDLERS = {
   [ANSWER_UPDATE]        : (previousState, action) => adjust(() => action.text, action.index, previousState),
   // Update all the answers in the state
   [ANSWERS_UPDATE]       : (previousState, action) => map(
-      answer => when(
+      (answer) => when(
         is(Object),
         merge(find(propEq('id', answer.id), previousState))
       )(answer)
@@ -215,5 +216,6 @@ const initialState = []
  */
 export default function answersReducer (state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
+
   return handler ? handler(state, action) : state
 }

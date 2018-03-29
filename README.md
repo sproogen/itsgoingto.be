@@ -20,10 +20,12 @@ Delete a Poll: [```DELETE /api/polls/:identifier```](#delete-a-poll)
 
 Retrieve responses info: [```GET /api/polls/:identifier/responses```](#retrieve-responses-info)
 
-Submit/Change  users response: [```POST /api/polls/:identifier/responses```](#submitchange-a-user-response)
+Submit/Change users response: [```POST /api/polls/:identifier/responses```](#submitchange-a-user-response)
+
+Login: [```POST /api/login```](#login)
 
 #### Retrieve Polls
-Only returns non deleted polls unless the user has `ROLE_ADMIN`
+Only returns polls if the user has `ROLE_ADMIN`
 ```
 GET /api/polls
 ```
@@ -32,7 +34,7 @@ GET /api/polls
 | ---- | ---- | ----------- |
 | page | integer | The page to return. Default: 1 |
 | pageSize | integer | The ammount of results to retur per page. Default: 20 |
-###### Response
+###### Example Response
 ```
 {
   'count': 20,
@@ -82,7 +84,7 @@ Only returns a non deleted poll unless the user has `ROLE_ADMIN`
 ```
 GET /api/polls/:identifier
 ```
-###### Response
+###### Example Response
 ```
 {
   "id": 1,
@@ -144,7 +146,7 @@ POST /api/polls
 | answers | array | true | Array of answers for the poll. Each answer should be a string |
 | multipleChoice | boolean | false | Is the poll multiple choice. Default: false |
 | endDate | string | false | The end date for the poll. Format: DateTime::ATOM (e.g. 2017-05-18T15:52:01+00:00). Default: null |
-###### Response
+###### Example Response
 ```
 {
   "id": 1,
@@ -198,7 +200,7 @@ Sets the deleted flag to true. Can only be accessed by `ROLE_ADMIN`
 ```
 DELETE /api/polls/:identifier
 ```
-###### Response
+###### Example Response
 ```
 {
   "id": 1,
@@ -241,7 +243,7 @@ Only returns non deleted poll's responses unless the user has `ROLE_ADMIN`
 ```
 GET /api/polls/:identifier/responses
 ```
-###### Response
+###### Example Response
 ```
 {
   "userResponses" : [
@@ -269,7 +271,7 @@ POST /api/polls/:identifier/responses
 | Name | Type | Required | Description |
 | ---- | ---- | -------- | ----------- |
 | answers | array | true | Array of answer ids the user has selected. If the poll is not multiple choice only the first will be used. |
-###### Response
+###### Example Response
 ```
 {
   "userResponses": [
@@ -292,6 +294,33 @@ POST /api/polls/:identifier/responses
 }
 ```
 
+#### Login
+```
+POST /api/login
+```
+###### Input
+| Name | Type | Required | Description |
+| ---- | ---- | -------- | ----------- |
+| username | string | true | The username of the user to login.
+| password | string | true | The plaintext password of the user to login. Must match the users password or will return a 400 error. |
+###### Example Response
+```
+{
+  "id": 1,
+  "username": "admin",
+  "created": {
+    "date": "2017-11-26 00:26:00",
+    "timezone_type": 3,
+    "timezone": "Europe/London"
+  },
+  "updated": {
+    "date": "2017-11-26 00:26:00",
+    "timezone_type": 3,
+    "timezone": "Europe\/London"
+  },
+  "token": "eyJhbGciOiJSUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWlu..." (Valid User Authentication Token)
+}
+```
 
 Copyright
 -------------

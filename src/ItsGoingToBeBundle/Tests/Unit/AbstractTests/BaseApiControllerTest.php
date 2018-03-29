@@ -18,6 +18,7 @@ use ItsGoingToBeBundle\Tests\Unit\AbstractTests\BaseTest;
 use ItsGoingToBeBundle\Entity\Poll;
 use ItsGoingToBeBundle\Entity\Answer;
 use ItsGoingToBeBundle\Entity\UserResponse;
+use ItsGoingToBeBundle\Entity\User;
 use ItsGoingToBeBundle\Service\IdentifierService;
 use ItsGoingToBeBundle\Service\PollEndService;
 
@@ -57,12 +58,22 @@ abstract class BaseApiControllerTest extends BaseTest
     /**
      * @var ObjectProphecy
      */
+    protected $user;
+
+    /**
+     * @var ObjectProphecy
+     */
     protected $answerRepository;
 
     /**
      * @var ObjectProphecy
      */
     protected $userResponseRepo;
+
+    /**
+     * @var ObjectProphecy
+     */
+    protected $userRepo;
 
     /**
      * @var ObjectProphecy
@@ -153,12 +164,18 @@ abstract class BaseApiControllerTest extends BaseTest
         $this->poll->getAnswers()->willReturn([$this->answer->reveal(), $this->answer->reveal()]);
         $this->poll->setDeleted(Argument::any())->willReturn($this->poll->reveal());
 
+        $this->user = $this->prophesize(User::class);
+        $this->user->getUsername()->willReturn('user');
+
         $this->answerRepository = $this->prophesize(EntityRepository::class);
         $this->answerRepository->findOneBy(Argument::any())->willReturn($this->answer->reveal());
 
         $this->userResponseRepo = $this->prophesize(EntityRepository::class);
         $this->userResponseRepo->findOneBy(Argument::any())->willReturn(null);
         $this->userResponseRepo->findBy(Argument::any())->willReturn(null);
+
+        $this->userRepo = $this->prophesize(EntityRepository::class);
+        $this->userRepo->findOneBy(Argument::any())->willReturn($this->user->reveal());
 
         $this->pollRepository = $this->prophesize(EntityRepository::class);
         $this->pollRepository->findOneBy(Argument::any())->willReturn($this->poll->reveal());
@@ -182,6 +199,8 @@ abstract class BaseApiControllerTest extends BaseTest
             ->willReturn($this->pollRepository->reveal());
         $this->entityManager->getRepository(UserResponse::class)
             ->willReturn($this->userResponseRepo->reveal());
+        $this->entityManager->getRepository(User::class)
+            ->willReturn($this->userRepo->reveal());
         $this->entityManager->persist(Argument::any())
             ->willReturn(true);
         $this->entityManager->remove(Argument::any())
