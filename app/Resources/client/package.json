@@ -6,15 +6,15 @@
   "scripts": {
     "postinstall": "npm run parameters && npm run build",
     "clean": "rimraf web/client",
-    "parameters": "cp -n app/Resources/client/project.config.js.dist app/Resources/client/project.config.js",
-    "compile": "node app/Resources/client/build/scripts/compile",
+    "parameters": "cp -n project.config.js.dist project.config.js",
+    "compile": "node build/scripts/compile",
     "build": "npm run clean && cross-env NODE_ENV=production npm run compile",
     "build-dev": "npm run clean && cross-env NODE_ENV=development npm run compile",
-    "start": "cross-env NODE_ENV=server node app/Resources/client/build/scripts/start",
-    "storybook": "start-storybook -p 6006 -c app/Resources/client/.storybook",
-    "test": "cross-env NODE_ENV=test karma start app/Resources/client/build/karma.config",
+    "start": "cross-env NODE_ENV=server node build/scripts/start",
+    "storybook": "start-storybook -p 6006 -c .storybook",
+    "test": "cross-env NODE_ENV=test karma start build/karma.config",
     "test:watch": "npm test -- --watch",
-    "lint": "eslint app/Resources/client/.",
+    "lint": "eslint client/.",
     "lint:fix": "npm run lint -- --fix"
   },
   "repository": {
@@ -119,5 +119,8 @@
     "sinon": "^2.4.1",
     "sinon-chai": "^2.14.0",
     "webpack-hot-middleware": "^2.19.1"
+  },
+  "optionalDependencies": {
+    "fsevents": "*"
   }
 }

@@ -1,0 +1,18 @@
+version: '2'
+services:
+  app:
+    build: 
+      context: ./app/Resources/client
+      dockerfile: dockerfiles/app/Dockerfile
+    volumes:
+      - ./app/Resources/client/src:/app/src 
+    ports:
+      - "3000:3000"
+  storybook:
+    build: 
+      context: ./app/Resources/client
+      dockerfile: dockerfiles/storybook/Dockerfile
+    volumes:
+      - ./app/Resources/client/src:/app/src 
+    ports:
+      - "6006:6006"

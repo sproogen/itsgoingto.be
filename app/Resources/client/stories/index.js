@@ -5,13 +5,13 @@ import enGB from 'antd/lib/locale-provider/en_GB'
 import createStore from 'store/createStore'
 import { storiesOf } from '@storybook/react'
 import { setLoading } from 'store/loader'
-import Back from 'components/Back/Back'
-import Button from 'components/Button/Button'
-import Footer from 'components/Footer/Footer'
-import Loader from 'components/Loader/Loader'
-import Modal from 'components/Modal/Modal'
-import Spinner from 'components/Spinner/Spinner'
-import WordRotate from 'components/WordRotate/WordRotate'
+import Back from 'components/Back'
+import Button from 'components/Button'
+import Loader from 'components/Loader'
+import Modal from 'components/Modal'
+import Spinner from 'components/Spinner'
+import WordRotate from 'components/WordRotate'
+import Footer from 'layouts/Footer'
 import OptionsModalWrapper from './OptionsModalWrapper'
 import Question from 'routes/Ask/components/Question/Question'
 import Sharing from 'routes/Answer/components/Sharing/Sharing'
@@ -35,9 +35,6 @@ storiesOf('Core.Button', module)
       })
     } />
   )
-
-storiesOf('Core.Footer', module)
-  .add('Default', () => <Footer />)
 
 storiesOf('Core.Loader', module)
   .addDecorator((getStory) => {
@@ -71,6 +68,9 @@ storiesOf('Core.WordRotate', module)
       <h1><WordRotate words='What,Where,When,Who' /></h1>
     </div>
   )
+
+storiesOf('Layouts.Footer', module)
+  .add('Default', () => <Footer />)
 
 let _optionsModal
 
