@@ -1,6 +1,5 @@
 FROM itsgoingtobe/base:latest
 
-WORKDIR /app
 COPY ./ ./
 
 CMD [ "npm", "start" ]

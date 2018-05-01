@@ -44,7 +44,7 @@ const config = {
       }
     ],
   },
-  devServer:{
+  devServer: {
     hot: __DEV__,
     inline: true,
     headers: {

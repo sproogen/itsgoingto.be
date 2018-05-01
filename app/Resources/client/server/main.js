@@ -24,6 +24,10 @@ if (project.env === 'development') {
     quiet       : false,
     noInfo      : false,
     lazy        : false,
+    watchOptions: {
+      aggregateTimeout: 300,
+      poll: true
+    },
     stats       : 'normal',
     headers     : {
       'Access-Control-Allow-Origin': '*',

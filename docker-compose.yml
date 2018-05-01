@@ -1,18 +1,48 @@
 version: '2'
 services:
   app:
-    build: 
+    build:
       context: ./app/Resources/client
       dockerfile: dockerfiles/app/Dockerfile
     volumes:
-      - ./app/Resources/client/src:/app/src 
+      - ./app/Resources/client/src:/app/src
     ports:
       - "3000:3000"
+
   storybook:
-    build: 
+    build:
       context: ./app/Resources/client
       dockerfile: dockerfiles/storybook/Dockerfile
     volumes:
-      - ./app/Resources/client/src:/app/src 
+      - ./app/Resources/client/src:/app/src
+      - ./app/Resources/client/stories:/app/stories
     ports:
       - "6006:6006"
+
+  webserver:
+    image: nginx:alpine
+    container_name: symfony-webserver
+    volumes:
+        - ./:/var/www/html
+        - ./docker/nginx/site.conf:/etc/nginx/conf.d/default.conf
+    ports:
+    - "8000:80"
+
+  php-fpm:
+    build: docker/php-fpm
+    container_name: symfony-php-fpm
+    working_dir: /var/www/html
+    volumes:
+      - ./:/var/www/html
+      - ./docker/php-fpm/php-ini-overrides.ini:/etc/php/7.0/fpm/conf.d/99-overrides.ini
+
+  mysql:
+    image: mysql:8.0
+    container_name: symfony-mysql
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=itsgoingtobe
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=password

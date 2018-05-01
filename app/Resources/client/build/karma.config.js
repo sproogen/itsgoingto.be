@@ -26,7 +26,7 @@ const karmaConfig = {
     skipFilesWithNoCoverage: false
   },
   files: [
-    '../../../node_modules/babel-polyfill/browser.js',
+    'node_modules/babel-polyfill/browser.js',
     {
       pattern  : TEST_BUNDLER,
       watched  : false,
