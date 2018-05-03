@@ -52,6 +52,13 @@ services:
 
   itsgoingtobe.user_listener:
     class: ItsGoingToBeBundle\Service\UserListener
-    arguments: ['@security.password_encoder']
+    arguments: ["@security.password_encoder"]
     tags:
       - { name: doctrine.event_subscriber }
+
+  itsgoingtobe.command.create_user:
+    class: ItsGoingToBeBundle\Command\CreateUserCommand
+    calls:
+      - [ setEntityManager, ["@doctrine.orm.default_entity_manager"]]
+    tags:
+      - { name: 'console.command', command: 'itsgoingtobe:create-user' }
