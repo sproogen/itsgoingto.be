@@ -1,4 +1,5 @@
-FROM itsgoingtobe/base:latest
+FROM itsgoingtobe/base
+LABEL maintainer="James Grant <james@jwgmedia.co.uk> (http://jameswgrant.co.uk)"
 
 COPY ./ ./
 

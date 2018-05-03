@@ -1,4 +1,5 @@
-FROM phpdockerio/php7-fpm:latest
+FROM phpdockerio/php7-fpm
+LABEL maintainer="James Grant <james@jwgmedia.co.uk> (http://jameswgrant.co.uk)"
 
 RUN apt-get update \
     && apt-get -y --no-install-recommends install  php7.0-mysql php7.0-pgsql php7.0-redis php7.0-gd php7.0-mbstring dos2unix \
@@ -14,4 +15,4 @@ RUN ln -s usr/local/bin/entrypoint.sh /
 ENTRYPOINT ["entrypoint.sh"]
 CMD ["php-fpm"]
 
-WORKDIR "/var/www/html"
+WORKDIR /var/www/html
