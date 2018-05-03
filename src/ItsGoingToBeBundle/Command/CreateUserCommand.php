@@ -45,6 +45,8 @@ class CreateUserCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        unset($output);
+
         $user = new User();
         $user->setUsername($input->getArgument('username'));
         $user->setPlainPassword($input->getArgument('password'));

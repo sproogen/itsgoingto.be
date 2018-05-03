@@ -1,4 +1,4 @@
-FROM phpdockerio/php7-fpm
+FROM phpdockerio/php7-fpm:latest
 LABEL maintainer="James Grant <james@jwgmedia.co.uk> (http://jameswgrant.co.uk)"
 
 RUN apt-get update \
