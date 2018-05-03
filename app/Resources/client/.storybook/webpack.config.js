@@ -26,6 +26,12 @@ module.exports = {
     ],
     extensions: ['*', '.js', '.jsx', '.json'],
   },
+  devServer: {
+    watchOptions: {
+      aggregateTimeout: 300,
+      poll: true
+    },
+  },
   module: {
     rules: [
       {

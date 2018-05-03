@@ -2,8 +2,8 @@
 /* global expect, sinon */
 import React from 'react'
 import { browserHistory } from 'react-router'
-import Back from 'components/Back'
 import { shallow, mount } from 'enzyme'
+import Back from './Back'
 
 describe('(Component) Back', () => {
   const wrapper = shallow(<Back />)

@@ -34,7 +34,7 @@ class ReactController extends Controller
      *
      * Matches / route exactly
      *
-     * @param  string $url The url passed in for the react app.
+     * @param string $url The url passed in for the react app.
      */
     public function indexAction($url)
     {

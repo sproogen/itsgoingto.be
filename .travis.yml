@@ -13,7 +13,7 @@ cache:
   directories:
     - $HOME/.composer/cache/file
     - vendor
-    - node_modules
+    - app/Resources/client/node_modules
 
 branches:
   only:
@@ -26,7 +26,7 @@ before_install:
 install:
   - rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm install $NODE_VERSION
   - composer install
-  - npm install
+  - (cd app/Resources/client && npm install)
 
 before_script:
   - php bin/console doctrine:database:create --env=test
@@ -37,8 +37,8 @@ script:
   - bin/phplint src
   - bin/phpunit
   - SYMFONY_DEPRECATIONS_HELPER=disabled bin/codecept run --ext DotReporter
-  - npm run lint
-  - npm run test
+  - (cd app/Resources/client && npm run lint)
+  - (cd app/Resources/client && npm run test)
 
 after_script:
   - bin/codacycoverage clover build/logs/clover.xml
