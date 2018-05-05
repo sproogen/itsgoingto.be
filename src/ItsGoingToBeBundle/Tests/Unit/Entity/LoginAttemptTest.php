@@ -45,7 +45,8 @@ class LoginAttemptTest extends BaseEntityTest
     {
         $now = new \DateTime();
         $this->entity->setCreated();
-        self::assertEquals($now, $this->entity->getCreated());
+        self::assertInstanceOf(\DateTime::class, $this->entity->getCreated());
+        self::assertEquals($now->format('Y-m-d H:i:s'), $this->entity->getCreated()->format('Y-m-d H:i:s'));
         $now->modify('+1 day');
         $this->entity->setCreated($now);
         self::assertEquals($now, $this->entity->getCreated());
@@ -57,6 +58,6 @@ class LoginAttemptTest extends BaseEntityTest
         $now = new \DateTime();
         $this->entity->prePersist();
         self::assertInstanceOf(\DateTime::class, $this->entity->getCreated());
-        self::assertEquals($now, $this->entity->getCreated());
+        self::assertEquals($now->format('Y-m-d H:i:s'), $this->entity->getCreated()->format('Y-m-d H:i:s'));
     }
 }
