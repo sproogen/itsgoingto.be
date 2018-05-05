@@ -14,6 +14,7 @@ const __TEST__ = project.env === 'test'
 const __PROD__ = project.env === 'production'
 
 const config = {
+  mode: project.env,
   entry: {
     normalize: [
       inProjectSrc('normalize'),
@@ -22,7 +23,7 @@ const config = {
       inProjectSrc(project.main),
     ],
   },
-  devtool: project.sourcemaps ? 'source-map' : false,
+  devtool: project.sourcemaps && !__PROD__ ? 'source-map' : false,
   output: {
     path: inProject(project.outDir),
     filename: __DEV__ ? '[name].js' : '[name].[chunkhash].js',
@@ -58,7 +59,8 @@ const config = {
       __DEV__,
       __TEST__,
       __PROD__,
-    }, project.globals))
+    }, project.globals)),
+    new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en-gb/),
   ],
 }
 
@@ -88,6 +90,12 @@ config.module.rules.push({
             useBuiltIns: true // we polyfill Object.assign in src/normalize.js
           },
         ],
+        [
+          'ramda',
+          {
+            'useES': true,
+          }
+        ]
       ],
       presets: [
         'babel-preset-react',
@@ -106,7 +114,7 @@ config.module.rules.push({
 // Styles
 // ------------------------------------
 const extractStyles = new ExtractTextPlugin({
-  filename: 'styles/[name].[contenthash].css',
+  filename: 'styles/[name].[md5:contenthash:hex:20].css',
   allChunks: true,
   disable: __DEV__,
 })
@@ -119,7 +127,7 @@ config.module.rules.push({
       {
         loader: 'css-loader',
         options: {
-          sourceMap: project.sourcemaps,
+          sourceMap: project.sourcemaps && !__PROD__,
           minimize: {
             autoprefixer: {
               add: true,
@@ -133,14 +141,14 @@ config.module.rules.push({
             mergeIdents: false,
             reduceIdents: false,
             safe: true,
-            sourcemap: project.sourcemaps,
+            sourcemap: project.sourcemaps && !__PROD__,
           },
         },
       },
       {
         loader: 'sass-loader',
         options: {
-          sourceMap: project.sourcemaps,
+          sourceMap: project.sourcemaps && !__PROD__,
           includePaths: [
             bourbon.includePaths,
             bourbonNeat.includePaths,
@@ -203,32 +211,32 @@ if (!__TEST__) {
     bundles.unshift('vendor')
     config.entry.vendor = project.vendors
   }
-  config.plugins.push(new webpack.optimize.CommonsChunkPlugin({ names: bundles }))
 }
 
 // Production Optimizations
 // ------------------------------------
 if (__PROD__) {
+  config.optimization = {
+    minimize: true,
+    runtimeChunk: {
+      name: 'vendor'
+    },
+    splitChunks: {
+      cacheGroups: {
+        default: false,
+        commons: {
+          test: /node_modules/,
+          name: 'vendor',
+          chunks: 'initial',
+          minSize: 1
+        }
+      }
+    }
+  }
   config.plugins.push(
     new webpack.LoaderOptionsPlugin({
       minimize: true,
       debug: false,
-    }),
-    new webpack.optimize.UglifyJsPlugin({
-      sourceMap: !!config.devtool,
-      comments: false,
-      compress: {
-        warnings: false,
-        screw_ie8: true,
-        conditionals: true,
-        unused: true,
-        comparisons: true,
-        sequences: true,
-        dead_code: true,
-        evaluate: true,
-        if_return: true,
-        join_vars: true,
-      },
     })
   )
 }

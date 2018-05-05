@@ -3,8 +3,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { CookiesProvider } from 'react-cookie'
-import { LocaleProvider } from 'antd'
-import enUS from 'antd/lib/locale-provider/en_US'
+import LocaleProvider from 'antd/lib/locale-provider'
+import enGB from 'antd/lib/locale-provider/en_GB'
 import createStore from 'store/createStore'
 import 'styles/main.scss'
 
@@ -22,7 +22,7 @@ let render = () => {
 
   ReactDOM.render(
     <CookiesProvider>
-      <LocaleProvider locale={enUS}>
+      <LocaleProvider locale={enGB}>
         <App store={store} routes={routes} />
       </LocaleProvider>
     </CookiesProvider>,
