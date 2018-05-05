@@ -56,7 +56,8 @@ class UserResponseTest extends BaseEntityTest
     {
         $now = new \DateTime();
         $this->entity->setCreated();
-        self::assertEquals($now, $this->entity->getCreated());
+        self::assertInstanceOf(\DateTime::class, $this->entity->getCreated());
+        self::assertEquals($now->format('Y-m-d H:i:s'), $this->entity->getCreated()->format('Y-m-d H:i:s'));
         $now->modify('+1 day');
         $this->entity->setCreated($now);
         self::assertEquals($now, $this->entity->getCreated());
@@ -66,7 +67,8 @@ class UserResponseTest extends BaseEntityTest
     {
         $now = new \DateTime();
         $this->entity->setUpdated();
-        self::assertEquals($now, $this->entity->getUpdated());
+        self::assertInstanceOf(\DateTime::class, $this->entity->getUpdated());
+        self::assertEquals($now->format('Y-m-d H:i:s'), $this->entity->getUpdated()->format('Y-m-d H:i:s'));
         $now->modify('+1 day');
         $this->entity->setUpdated($now);
         self::assertEquals($now, $this->entity->getUpdated());
@@ -79,9 +81,9 @@ class UserResponseTest extends BaseEntityTest
         $now = new \DateTime();
         $this->entity->prePersist();
         self::assertInstanceOf(\DateTime::class, $this->entity->getCreated());
-        self::assertEquals($now, $this->entity->getCreated());
+        self::assertEquals($now->format('Y-m-d H:i:s'), $this->entity->getCreated()->format('Y-m-d H:i:s'));
         self::assertInstanceOf(\DateTime::class, $this->entity->getUpdated());
-        self::assertEquals($now, $this->entity->getUpdated());
+        self::assertEquals($now->format('Y-m-d H:i:s'), $this->entity->getUpdated()->format('Y-m-d H:i:s'));
     }
 
     public function testPreUpdate()
@@ -90,6 +92,6 @@ class UserResponseTest extends BaseEntityTest
         $now = new \DateTime();
         $this->entity->preUpdate();
         self::assertInstanceOf(\DateTime::class, $this->entity->getUpdated());
-        self::assertEquals($now, $this->entity->getUpdated());
+        self::assertEquals($now->format('Y-m-d H:i:s'), $this->entity->getUpdated()->format('Y-m-d H:i:s'));
     }
 }
