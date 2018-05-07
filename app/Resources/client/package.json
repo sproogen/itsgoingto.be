@@ -5,9 +5,12 @@
   "main": "index.js",
   "private": true,
   "scripts": {
-    "start": "node scripts/start.js",
-    "build": "node scripts/build.js",
-    "test": "node scripts/test.js --env=jsdom"
+    "postinstall": "npm run build",
+    "start": "node scripts/start",
+    "build": "node scripts/build",
+    "test": "node scripts/test --env=jsdom",
+    "lint": "eslint client/.",
+    "storybook": "start-storybook -p 6006 -c .storybook"
   },
   "repository": {
     "type": "git",
@@ -88,15 +91,25 @@
   },
   "devDependencies": {
     "@storybook/react": "^3.2.12",
-    "codacy-coverage": "^2.0.3",
-    "codecov": "^2.3.0"
+    "codacy-coverage": "^2.0.3"
   },
   "optionalDependencies": {
     "fsevents": "*"
   },
   "jest": {
+    "coverageDirectory": "build/coverage",
     "collectCoverageFrom": [
       "src/**/*.{js,jsx,mjs}"
+    ],
+    "coveragePathIgnorePatterns": [
+      "<rootDir>/build/",
+      "<rootDir>/scripts/",
+      "<rootDir>/.storybook/",
+      "<rootDir>/stories/",
+      "<rootDir>/node_modules/"
+    ],
+    "coverageReporters": [
+      "lcov"
     ],
     "setupFiles": [
       "<rootDir>/config/polyfills.js"
