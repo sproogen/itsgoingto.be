@@ -5,7 +5,6 @@
   "main": "index.js",
   "private": true,
   "scripts": {
-    "postinstall": "npm run build",
     "start": "node scripts/start",
     "build": "node scripts/build",
     "test": "node scripts/test --env=jsdom",
