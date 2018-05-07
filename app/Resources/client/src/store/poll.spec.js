@@ -33,13 +33,13 @@ const initialState = {
 
 describe('(Store) Poll', () => {
   it('Should export a constant POLL_UPDATE.', () => {
-    expect(POLL_UPDATE).to.equal('POLL_UPDATE')
+    expect(POLL_UPDATE).toBe('POLL_UPDATE')
   })
   it('Should export a constant QUESTION_UPDATE.', () => {
-    expect(QUESTION_UPDATE).to.equal('QUESTION_UPDATE')
+    expect(QUESTION_UPDATE).toBe('QUESTION_UPDATE')
   })
   it('Should export a constant initialPoll.', () => {
-    expect(initialPoll).to.deep.equal({
+    expect(initialPoll).toEqual({
       question       : '',
       identifier     : '',
       multipleChoice : false,
@@ -51,23 +51,23 @@ describe('(Store) Poll', () => {
 
   describe('(Reducer)', () => {
     it('Should be a function.', () => {
-      expect(pollReducer).to.be.a('function')
+      expect(typeof pollReducer).toBe('function')
     })
 
     it('Should initialize with a initialState.', () => {
-      expect(pollReducer(undefined, {})).to.deep.equal(initialState)
+      expect(pollReducer(undefined, {})).toEqual(initialState)
     })
 
     it('Should return the previous state if an action was not matched.', () => {
       let state = pollReducer(undefined, {})
 
-      expect(state).to.deep.equal(initialState)
+      expect(state).toEqual(initialState)
       state = pollReducer(state, { type: '@@@@@@@' })
-      expect(state).to.deep.equal(initialState)
+      expect(state).toEqual(initialState)
 
       state = [initialPoll]
       state = pollReducer(state, { type: '@@@@@@@' })
-      expect(state).to.deep.equal([initialPoll])
+      expect(state).toEqual([initialPoll])
     })
   })
 
@@ -90,11 +90,11 @@ describe('(Store) Poll', () => {
 
     describe('(Selector) pollSelector', () => {
       it('Should be exported as a function.', () => {
-        expect(pollSelector).to.be.a('function')
+        expect(typeof pollSelector).toBe('function')
       })
 
       it('Should return a poll with an identifier from the global state.', () => {
-        expect(pollSelector(_globalState, 'hf0sd8fhoas')).to.deep.equal({
+        expect(pollSelector(_globalState, 'hf0sd8fhoas')).toEqual({
           question       : 'Question',
           identifier     : 'hf0sd8fhoas',
           responsesCount : 5
@@ -102,14 +102,14 @@ describe('(Store) Poll', () => {
       })
 
       it('Should return an empty poll from the global state.', () => {
-        expect(pollSelector(_globalState, 'dasdfasd')).to.deep.equal({
+        expect(pollSelector(_globalState, 'dasdfasd')).toEqual({
           question       : '',
           identifier     : '',
           multipleChoice : false,
           passphrase     : '',
           userResponses  : []
         })
-        expect(pollSelector(_globalState)).to.deep.equal({
+        expect(pollSelector(_globalState)).toEqual({
           question       : '',
           identifier     : '',
           multipleChoice : false,
@@ -128,11 +128,11 @@ describe('(Store) Poll', () => {
       })
 
       it('Should be exported as a function.', () => {
-        expect(pollsSelector).to.be.a('function')
+        expect(typeof pollsSelector).toBe('function')
       })
 
       it('Should return all polls from the global state.', () => {
-        expect(pollsSelector(_globalState)).to.deep.equal([
+        expect(pollsSelector(_globalState)).toEqual([
           {
             question       : 'Question',
             identifier     : 'hf0sd8fhoas',
@@ -146,7 +146,7 @@ describe('(Store) Poll', () => {
       })
 
       it('Should only return real polls from the global state when populated is true.', () => {
-        expect(pollsSelector(_globalState, true)).to.deep.equal([
+        expect(pollsSelector(_globalState, true)).toEqual([
           {
             question       : 'Question',
             identifier     : 'hf0sd8fhoas',
@@ -158,133 +158,133 @@ describe('(Store) Poll', () => {
 
     describe('(Selector) pollPageSelector', () => {
       it('Should be exported as a function.', () => {
-        expect(pollPageSelector).to.be.a('function')
+        expect(typeof pollPageSelector).toBe('function')
       })
 
       it('Should return the poll page in the global state.', () => {
-        expect(pollPageSelector(_globalState)).to.equal(0)
+        expect(pollPageSelector(_globalState)).toBe(0)
 
         _globalState.poll.page = 2
 
-        expect(pollPageSelector(_globalState)).to.equal(2)
+        expect(pollPageSelector(_globalState)).toBe(2)
       })
     })
 
     describe('(Selector) pollCountSelector', () => {
       it('Should be exported as a function.', () => {
-        expect(pollCountSelector).to.be.a('function')
+        expect(typeof pollCountSelector).toBe('function')
       })
 
       it('Should return the question text from a poll with an identifier in the global state.', () => {
-        expect(pollCountSelector(_globalState)).to.equal(0)
+        expect(pollCountSelector(_globalState)).toBe(0)
 
         _globalState.poll.count = 3
 
-        expect(pollCountSelector(_globalState)).to.equal(3)
+        expect(pollCountSelector(_globalState)).toBe(3)
       })
     })
 
     describe('(Selector) questionSelector', () => {
       it('Should be exported as a function.', () => {
-        expect(questionSelector).to.be.a('function')
+        expect(typeof questionSelector).toBe('function')
       })
 
       it('Should return the question text from a poll with an identifier in the global state.', () => {
-        expect(questionSelector(_globalState, 'hf0sd8fhoas')).to.equal('Question')
+        expect(questionSelector(_globalState, 'hf0sd8fhoas')).toBe('Question')
       })
     })
 
     describe('(Selector) hasQuestionSelector', () => {
       it('Should return true if question text from a poll with an identifier in the global state.', () => {
-        expect(hasQuestionSelector(_globalState, 'hf0sd8fhoas')).to.equal(true)
+        expect(hasQuestionSelector(_globalState, 'hf0sd8fhoas')).toBe(true)
       })
 
       it('Should return false if no question text from a poll with an identifier in the global state.', () => {
-        expect(hasQuestionSelector(_globalState, '')).to.equal(false)
+        expect(hasQuestionSelector(_globalState, '')).toBe(false)
       })
     })
 
     describe('(Selector) totalResponsesSelector', () => {
       it('Should be exported as a function.', () => {
-        expect(totalResponsesSelector).to.be.a('function')
+        expect(typeof totalResponsesSelector).toBe('function')
       })
 
       it('Should return the responses count from a poll with an identifier in the global state.', () => {
-        expect(totalResponsesSelector(_globalState, 'hf0sd8fhoas')).to.equal(5)
+        expect(totalResponsesSelector(_globalState, 'hf0sd8fhoas')).toBe(5)
       })
 
       it('Should return a default of 0 if there is no value.', () => {
         _globalState.poll.polls[0].responsesCount = undefined
 
-        expect(totalResponsesSelector(_globalState, 'hf0sd8fhoas')).to.equal(0)
+        expect(totalResponsesSelector(_globalState, 'hf0sd8fhoas')).toBe(0)
       })
     })
 
     describe('(Selector) userRespondedSelector', () => {
       it('Should be exported as a function.', () => {
-        expect(userRespondedSelector).to.be.a('function')
+        expect(typeof userRespondedSelector).toBe('function')
       })
 
       it('Should return false if there are no response from a poll with an identifier in the global state.', () => {
         _globalState.poll.polls[0].userResponses = []
 
-        expect(userRespondedSelector(_globalState, 'hf0sd8fhoas')).to.equal(false)
+        expect(userRespondedSelector(_globalState, 'hf0sd8fhoas')).toBe(false)
       })
 
       it('Should return true if there are response from a poll with an identifier in the global state.', () => {
         _globalState.poll.polls[0].userResponses = [1]
 
-        expect(userRespondedSelector(_globalState, 'hf0sd8fhoas')).to.equal(true)
+        expect(userRespondedSelector(_globalState, 'hf0sd8fhoas')).toBe(true)
       })
     })
   })
 
   describe('(Action Creators)', () => {
     let _globalState
-    let _dispatchSpy
-    let _getStateSpy
+    let _dispatch
+    let _getState
 
     beforeEach(() => {
       _globalState = {
         poll : pollReducer(undefined, {})
       }
-      _dispatchSpy = sinon.spy((action) => {
+      _dispatch = jest.fn((action) => {
         _globalState = {
           ..._globalState,
           poll : pollReducer(_globalState.poll, action)
         }
       })
-      _getStateSpy = sinon.spy(() => {
+      _getState = jest.fn(() => {
         return _globalState
       })
     })
 
     describe('(Action Creator) updatePoll', () => {
       it('Should be exported as a function.', () => {
-        expect(updatePoll).to.be.a('function')
+        expect(typeof updatePoll).toBe('function')
       })
 
       it('Should return a function (is a thunk).', () => {
-        expect(updatePoll(initialPoll)).to.be.a('function')
+        expect(typeof updatePoll(initialPoll)).toBe('function')
       })
 
       it('Should return a promise from that thunk that gets fulfilled.', () => {
-        return updatePoll(initialPoll)(_dispatchSpy, _getStateSpy).should.eventually.be.fulfilled
+        return updatePoll(initialPoll)(_dispatch, _getState).should.eventually.be.fulfilled
       })
 
       it('Should call dispatch exactly twice.', () => {
-        return updatePoll(initialPoll)(_dispatchSpy, _getStateSpy)
+        return updatePoll(initialPoll)(_dispatch, _getState)
           .then((response) => {
-            _dispatchSpy.should.have.been.calledTwice()
+            expect(_dispatch).toHaveBeenCalledTimes(2)
           })
       })
 
       it('Should dispatch POLL_UPDATE with data omitting answers.', () => {
         return updatePoll(
           { question : '', identifier : '', answers: [], userResponses: [245] }
-        )(_dispatchSpy, _getStateSpy)
+        )(_dispatch, _getState)
           .then(() => {
-            _dispatchSpy.should.have.been.calledWith({
+            expect(_dispatch).toHaveBeenCalledWith({
               type : POLL_UPDATE,
               poll : { question : '', identifier : '', userResponses: [245] }
             })
@@ -292,20 +292,20 @@ describe('(Store) Poll', () => {
       })
 
       it('Should dispatch updateAnswers with answers.', () => {
-        return updatePoll({ question : '', identifier : '', answers: [] })(_dispatchSpy, _getStateSpy)
+        return updatePoll({ question: '', identifier: '', answers: [] })(_dispatch, _getState)
           .then(() => {
-            _dispatchSpy.should.have.been.calledWith(updateAnswers([]))
+            expect(_dispatch).toHaveBeenCalledWith(updateAnswers([]))
           })
       })
     })
 
     describe('(Action Creator) setPolls', () => {
       it('Should be exported as a function.', () => {
-        expect(setPolls).to.be.a('function')
+        expect(typeof setPolls).toBe('function')
       })
 
       it('Should return an action with type "POLLS_SET".', () => {
-        expect(setPolls()).to.have.property('type', POLLS_SET)
+        expect(setPolls()).toHaveProperty('type', POLLS_SET)
       })
 
       it('Should assign the argument to the "polls" property with answers omitted.', () => {
@@ -314,7 +314,8 @@ describe('(Store) Poll', () => {
           { question : 'Question 2', identifier : 'awthscvg34', answers: [], userResponses: [8, 5] }
         ]
 
-        expect(setPolls(polls)).to.have.property('polls').to.deep.equal([
+        expect(setPolls(polls)).toHaveProperty('polls')
+        expect(setPolls(polls).polls).toEqual([
           { question : 'Question 1', identifier : 'asdfaw4esd', userResponses: [5] },
           { question : 'Question 2', identifier : 'awthscvg34', userResponses: [8, 5] }
         ])
@@ -323,61 +324,61 @@ describe('(Store) Poll', () => {
 
     describe('(Action Creator) setPollPage', () => {
       it('Should be exported as a function.', () => {
-        expect(setPollPage).to.be.a('function')
+        expect(typeof setPollPage).toBe('function')
       })
 
       it('Should return an action with type "POLL_PAGE_SET".', () => {
-        expect(setPollPage()).to.have.property('type', POLL_PAGE_SET)
+        expect(setPollPage()).toHaveProperty('type', POLL_PAGE_SET)
       })
 
       it('Should assign the argument to the "page" property.', () => {
         const page = 5
 
-        expect(setPollPage(page)).to.have.property('page', page)
+        expect(setPollPage(page)).toHaveProperty('page', page)
       })
     })
 
     describe('(Action Creator) setPollCount', () => {
       it('Should be exported as a function.', () => {
-        expect(setPollCount).to.be.a('function')
+        expect(typeof setPollCount).toBe('function')
       })
 
       it('Should return an action with type "POLL_COUNT_SET".', () => {
-        expect(setPollCount()).to.have.property('type', POLL_COUNT_SET)
+        expect(setPollCount()).toHaveProperty('type', POLL_COUNT_SET)
       })
 
       it('Should assign the argument to the "count" property.', () => {
         const count = 20
 
-        expect(setPollCount(count)).to.have.property('count', count)
+        expect(setPollCount(count)).toHaveProperty('count', count)
       })
     })
 
     describe('(Action Creator) updateQuestion', () => {
       it('Should be exported as a function.', () => {
-        expect(updateQuestion).to.be.a('function')
+        expect(typeof updateQuestion).toBe('function')
       })
 
       it('Should return a function (is a thunk).', () => {
-        expect(updateQuestion()).to.be.a('function')
+        expect(typeof updateQuestion()).toBe('function')
       })
 
       it('Should return a promise from that thunk that gets fulfilled.', () => {
-        return updateQuestion()(_dispatchSpy, _getStateSpy).should.eventually.be.fulfilled
+        return updateQuestion()(_dispatch, _getState).should.eventually.be.fulfilled
       })
 
       it('Should call dispatch exactly once and get state twice.', () => {
-        return updateQuestion()(_dispatchSpy, _getStateSpy)
+        return updateQuestion()(_dispatch, _getState)
           .then(() => {
-            _dispatchSpy.should.have.been.calledOnce()
-            _getStateSpy.should.have.been.calledTwice()
+            expect(_dispatch).toHaveBeenCalledTimes(1)
+            expect(_getState).toHaveBeenCalledTimes(2)
           })
       })
 
       it('Should call dispatch with QUESTION_UPDATE.', () => {
-        return updateQuestion('Question Text', 'hf0sd8fhoas')(_dispatchSpy, _getStateSpy)
+        return updateQuestion('Question Text', 'hf0sd8fhoas')(_dispatch, _getState)
           .then(() => {
-            _dispatchSpy.should.have.been.calledWith({
+            expect(_dispatch).toHaveBeenCalledWith({
               type       : QUESTION_UPDATE,
               question   : 'Question Text',
               identifier : 'hf0sd8fhoas'
@@ -386,9 +387,9 @@ describe('(Store) Poll', () => {
       })
 
       it('Should dispatch addAnswer() if now has question.', () => {
-        return updateQuestion('Question Text', '')(_dispatchSpy, _getStateSpy)
+        return updateQuestion('Question Text', '')(_dispatch, _getState)
           .then(() => {
-            _dispatchSpy.should.have.been.calledWith(addAnswer())
+            expect(_dispatch).toHaveBeenCalledWith(addAnswer())
           })
       })
 
@@ -400,9 +401,9 @@ describe('(Store) Poll', () => {
             count : 0
           }
         }
-        return updateQuestion('', 'hf0sd8fhoas')(_dispatchSpy, _getStateSpy)
+        return updateQuestion('', 'hf0sd8fhoas')(_dispatch, _getState)
           .then(() => {
-            _dispatchSpy.should.have.been.calledWith(clearAnswers())
+            expect(_dispatch).toHaveBeenCalledWith(clearAnswers())
           })
       })
     })
@@ -418,28 +419,28 @@ describe('(Store) Poll', () => {
       }
 
       it('Should be exported as a function.', () => {
-        expect(updateResponses).to.be.a('function')
+        expect(typeof updateResponses).toBe('function')
       })
 
       it('Should return a function (is a thunk).', () => {
-        expect(updateResponses(_responses, 'hf0sd8fhoas')).to.be.a('function')
+        expect(typeof updateResponses(_responses, 'hf0sd8fhoas')).toBe('function')
       })
 
       it('Should return a promise from that thunk that gets fulfilled.', () => {
-        return updateResponses(_responses, 'hf0sd8fhoas')(_dispatchSpy, _getStateSpy).should.eventually.be.fulfilled
+        return updateResponses(_responses, 'hf0sd8fhoas')(_dispatch, _getState).should.eventually.be.fulfilled
       })
 
       it('Should call dispatch exactly twice.', () => {
-        return updateResponses(_responses, 'hf0sd8fhoas')(_dispatchSpy, _getStateSpy)
+        return updateResponses(_responses, 'hf0sd8fhoas')(_dispatch, _getState)
           .then((response) => {
-            _dispatchSpy.should.have.been.calledTwice()
+            expect(_dispatch).toHaveBeenCalledTimes(2)
           })
       })
 
       it('Should dispatch POLL_UPDATE with data omitting answers.', () => {
-        return updateResponses(_responses, 'hf0sd8fhoas')(_dispatchSpy, _getStateSpy)
+        return updateResponses(_responses, 'hf0sd8fhoas')(_dispatch, _getState)
           .then(() => {
-            _dispatchSpy.should.have.been.calledWith({
+            expect(_dispatch).toHaveBeenCalledWith({
               type : POLL_UPDATE,
               poll : { identifier : 'hf0sd8fhoas', responsesCount : 5, userResponses: [245] }
             })
@@ -447,9 +448,9 @@ describe('(Store) Poll', () => {
       })
 
       it('Should dispatch updateAnswers with answers.', () => {
-        return updateResponses(_responses, 'hf0sd8fhoas')(_dispatchSpy, _getStateSpy)
+        return updateResponses(_responses, 'hf0sd8fhoas')(_dispatch, _getState)
           .then(() => {
-            _dispatchSpy.should.have.been.calledWith(updateAnswers([
+            expect(_dispatch).toHaveBeenCalledWith(updateAnswers([
               { id : 245, responsesCount: 3 },
               { id : 246, responsesCount: 2 }
             ]))
@@ -475,7 +476,7 @@ describe('(Store) Poll', () => {
             created    : 'Some Date or other'
           }
         })
-        expect(state).to.deep.equal({
+        expect(state).toEqual({
           polls : [{
             question   : 'Question Text',
             identifier : 'hf0sd8fhoas',
@@ -493,7 +494,7 @@ describe('(Store) Poll', () => {
             deleted    : true,
             created    : 'Some Date or other'
           } })
-        expect(state).to.deep.equal({
+        expect(state).toEqual({
           polls : [{
             question   : 'Different Question Text',
             identifier : 'hf0sd8fhoas',
@@ -518,7 +519,7 @@ describe('(Store) Poll', () => {
             userResponses  : [245],
             responsesCount : 6
           } })
-        expect(state).to.deep.equal({
+        expect(state).toEqual({
           polls : [{
             question       : 'Question',
             identifier     : 'hf0sd8fhoas',
@@ -535,7 +536,7 @@ describe('(Store) Poll', () => {
             userResponses  : [245, 246],
             responsesCount : 7
           } })
-        expect(state).to.deep.equal({
+        expect(state).toEqual({
           polls : [{
             question       : 'Question',
             identifier     : 'hf0sd8fhoas',
@@ -561,7 +562,7 @@ describe('(Store) Poll', () => {
             deleted    : false,
             created    : 'Some Date or other'
           } })
-        expect(state).to.deep.equal({
+        expect(state).toEqual({
           polls : [
             { question : 'Question', identifier : 'hf0sd8fhoas' },
             { question : 'Question', identifier : '' },
@@ -592,7 +593,7 @@ describe('(Store) Poll', () => {
             { question : 'Question 2', identifier : 'dfgbr5tfgdaf' }
           ]
         })
-        expect(state).to.deep.equal({
+        expect(state).toEqual({
           polls : [
             { question : 'Question 1', identifier : 'gf43wfasdfds' },
             { question : 'Question 2', identifier : 'dfgbr5tfgdaf' }
@@ -612,14 +613,14 @@ describe('(Store) Poll', () => {
         }
 
         state = pollReducer(state, { type : POLL_PAGE_SET, page : 5 })
-        expect(state).to.deep.equal({
+        expect(state).toEqual({
           polls : [{ question : 'Question', identifier : 'hf0sd8fhoas' }],
           page  : 5,
           count : 0
         })
 
         state = pollReducer(state, { type : POLL_PAGE_SET, page : 4 })
-        expect(state).to.deep.equal({
+        expect(state).toEqual({
           polls : [{ question : 'Question', identifier : 'hf0sd8fhoas' }],
           page  : 4,
           count : 0
@@ -636,14 +637,14 @@ describe('(Store) Poll', () => {
         }
 
         state = pollReducer(state, { type : POLL_COUNT_SET, count : 56 })
-        expect(state).to.deep.equal({
+        expect(state).toEqual({
           polls : [{ question : 'Question', identifier : 'hf0sd8fhoas' }],
           page  : null,
           count : 56
         })
 
         state = pollReducer(state, { type : POLL_COUNT_SET, count : 102 })
-        expect(state).to.deep.equal({
+        expect(state).toEqual({
           polls : [{ question : 'Question', identifier : 'hf0sd8fhoas' }],
           page  : null,
           count : 102
@@ -663,7 +664,7 @@ describe('(Store) Poll', () => {
           state,
           { type : QUESTION_UPDATE, question : 'Question Text', identifier : 'hf0sd8fhoas' }
         )
-        expect(state).to.deep.equal({
+        expect(state).toEqual({
           polls : [{ question : 'Question Text', identifier : 'hf0sd8fhoas' }],
           page  : null,
           count : 0
@@ -673,7 +674,7 @@ describe('(Store) Poll', () => {
           state,
           { type : QUESTION_UPDATE, question : 'Different Question Text', identifier : 'hf0sd8fhoas' }
         )
-        expect(state).to.deep.equal({
+        expect(state).toEqual({
           polls : [{ question : 'Different Question Text', identifier : 'hf0sd8fhoas' }],
           page  : null,
           count : 0
@@ -688,7 +689,7 @@ describe('(Store) Poll', () => {
         }
 
         state = pollReducer(state, { type : QUESTION_UPDATE, question : 'Question Text', identifier : '' })
-        expect(state).to.deep.equal({
+        expect(state).toEqual({
           polls : [
             { question : 'Question', identifier : 'hf0sd8fhoas' },
             {
@@ -715,7 +716,7 @@ describe('(Store) Poll', () => {
         }
 
         state = pollReducer(state, { type : QUESTION_UPDATE, question : 'Different Question Text', identifier : '' })
-        expect(state).to.deep.equal({
+        expect(state).toEqual({
           polls : [
             { question : 'Question', identifier : 'hf0sd8fhoas' },
             { question : 'Different Question Text', identifier : '' }

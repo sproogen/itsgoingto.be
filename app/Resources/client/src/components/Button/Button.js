@@ -78,9 +78,11 @@ Button.propTypes = {
 }
 
 Button.defaultProps = {
-  text      : '',
-  className : '',
-  disabled  : false,
+  text        : '',
+  className   : '',
+  disabled    : false,
+  callback    : null,
+  submitEvent : null,
 }
 
 export default Button

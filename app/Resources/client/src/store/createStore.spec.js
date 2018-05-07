@@ -1,4 +1,3 @@
-/* eslint-env mocha */
 /* global expect */
 import {
   default as createStore
@@ -7,13 +6,13 @@ import {
 describe('(Store) createStore', () => {
   let store
 
-  before(() => {
+  beforeEach(() => {
     store = createStore()
   })
 
   it('should have an empty asyncReducers object', () => {
-    expect(store.asyncReducers).to.be.an('object')
-    expect(store.asyncReducers).to.be.empty()
+    expect(typeof store.asyncReducers).toBe('object')
+    expect(store.asyncReducers).toEqual({})
   })
 
   describe('(Location)', () => {
@@ -26,7 +25,7 @@ describe('(Store) createStore', () => {
         type    : 'LOCATION_CHANGE',
         payload : location
       })
-      expect(store.getState().location).to.deep.equal(location)
+      expect(store.getState().location).toEqual(location)
     })
   })
 
@@ -34,7 +33,7 @@ describe('(Store) createStore', () => {
     it('store should be initialized with Loader state', () => {
       const loader = { loading : false, passphrase : false }
 
-      expect(store.getState().loader).to.deep.equal(loader)
+      expect(store.getState().loader).toEqual(loader)
     })
   })
 
@@ -46,7 +45,7 @@ describe('(Store) createStore', () => {
         count : 0
       }
 
-      expect(store.getState().poll).to.deep.equal(poll)
+      expect(store.getState().poll).toEqual(poll)
     })
   })
 
@@ -54,7 +53,7 @@ describe('(Store) createStore', () => {
     it('store should be initialized with Answers state', () => {
       const answers = []
 
-      expect(store.getState().answers).to.deep.equal(answers)
+      expect(store.getState().answers).toEqual(answers)
     })
   })
 
@@ -62,7 +61,7 @@ describe('(Store) createStore', () => {
     it('store should be initialized with User state', () => {
       const user = {}
 
-      expect(store.getState().user).to.deep.equal(user)
+      expect(store.getState().user).toEqual(user)
     })
   })
 })
