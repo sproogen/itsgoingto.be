@@ -1,5 +1,4 @@
-/* eslint-env mocha */
-/* global expect, sinon */
+/* global expect, jest */
 import {
   POLL_UPDATE,
   POLLS_SET,

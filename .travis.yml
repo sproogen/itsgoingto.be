@@ -39,7 +39,7 @@ script:
   - bin/phpunit
   - SYMFONY_DEPRECATIONS_HELPER=disabled bin/codecept run --ext DotReporter
   - (cd app/Resources/client && npm run lint)
-  - (cd app/Resources/client && npm run test -- --coverage)
+  - (cd app/Resources/client && npm run test -- --coverage --ci)
 
 after_script:
   - bin/codacycoverage clover build/logs/clover.xml

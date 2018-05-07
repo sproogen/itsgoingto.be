@@ -1,4 +1,3 @@
-/* eslint-env mocha */
 /* global expect */
 import {
   LOADING_UPDATE,

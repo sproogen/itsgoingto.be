@@ -1,4 +1,4 @@
-/* global expect */
+/* global expect, jest */
 import React from 'react'
 import { shallow } from 'enzyme'
 import Button from './Button'
@@ -89,6 +89,7 @@ describe('(Component) Button', () => {
   describe('(EventListener) submitEvent', () => {
     const wrapper = shallow(<Button submitEvent='submitButton' />)
     const instance = wrapper.instance()
+
     instance.handlePress = jest.fn()
 
     it('Should call handlePress', () => {

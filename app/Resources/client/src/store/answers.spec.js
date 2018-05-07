@@ -1,4 +1,4 @@
-/* global expect */
+/* global expect, jest */
 import {
   ANSWER_ADD,
   ANSWER_UPDATE,

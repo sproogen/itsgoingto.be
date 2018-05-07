@@ -1,7 +1,7 @@
 /* global expect */
 import React from 'react'
 import { shallow } from 'enzyme'
-import { Cookies } from 'react-cookie';
+import { Cookies } from 'react-cookie'
 import { PageLayout } from 'layouts/PageLayout/PageLayout'
 import Footer from 'layouts/Footer'
 import Loader from 'components/Loader'

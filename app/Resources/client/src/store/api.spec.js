@@ -1,4 +1,4 @@
-/* global expect */
+/* global expect, jest */
 import moment from 'moment'
 import {
   ROUTE_POLL,
