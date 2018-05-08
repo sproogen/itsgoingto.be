@@ -3,6 +3,7 @@
 node_modules
 dist
 coverage
+build
 .idea/
 .yarn-cache
 project.config.js

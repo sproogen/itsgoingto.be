@@ -107,7 +107,6 @@ describe('(Store) API', () => {
     let _globalState
     let _dispatch
     let _getState
-    let _userTokenSelector
 
     beforeEach(() => {
       window.fetch = jest.fn(() => jsonOk({}))
@@ -326,7 +325,6 @@ describe('(Store) API', () => {
           question: 'Question', identifier: 'hf0sd8fhoas', deleted: true
         }))
         const _updatePoll = jest.spyOn(poll, 'updatePoll').mockImplementation(() => ({}))
-
 
         return deletePoll('hf0sd8fhoas')(_dispatch, _getState).then((response) => {
           expect(_updatePoll).toHaveBeenCalledTimes(1)

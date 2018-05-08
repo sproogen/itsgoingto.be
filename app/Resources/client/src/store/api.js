@@ -1,5 +1,5 @@
 import { prop, compose, not, isEmpty, contains, without, append, ifElse, both, equals, length, when, path, omit,
-         merge } from 'ramda'
+  merge } from 'ramda'
 import moment from 'moment'
 import { pollSelector, updatePoll, setPolls, setPollCount, setPollPage, updateResponses, POLLS_PER_PAGE } from './poll'
 import { answersSelector } from './answers'
@@ -29,15 +29,15 @@ export const extractResponse = (response) => {
     return response.json()
   } else {
     return response.json()
-    .then((error) => {
-      return Promise.reject(
-        new APIError({
-          status     : response.status,
-          statusText : response.statusText,
-          error
-        })
-      )
-    })
+      .then((error) => {
+        return Promise.reject(
+          new APIError({
+            status     : response.status,
+            statusText : response.statusText,
+            error
+          })
+        )
+      })
   }
 }
 
@@ -60,10 +60,10 @@ export const getEndDateFromPoll = (poll) => {
     return poll.endAt.format(API_DATE_FORMAT)
   } else if (poll.endType === 'endIn') {
     return moment()
-            .add(poll.endIn, 'hours')
-            .seconds(0)
-            .milliseconds(0)
-            .format(API_DATE_FORMAT)
+      .add(poll.endIn, 'hours')
+      .seconds(0)
+      .milliseconds(0)
+      .format(API_DATE_FORMAT)
   } else {
     return null
   }
@@ -90,9 +90,9 @@ export const postPoll = () => (dispatch, getState) =>
         endDate         : getEndDateFromPoll(poll)
       })
     })
-    .then(extractResponse)
-    .then((response) => dispatch(updatePoll(response)))
-    .catch(onError),
+      .then(extractResponse)
+      .then((response) => dispatch(updatePoll(response)))
+      .catch(onError),
     pollSelector
   )(getState())
 
@@ -137,9 +137,9 @@ export const deletePoll = (identifier) => (dispatch, getState) =>
       'Authorization': 'Bearer ' + userTokenSelector(getState()),
     }
   })
-  .then(extractResponse)
-  .then((response) => dispatch(updatePoll(response)))
-  .catch(onError)
+    .then(extractResponse)
+    .then((response) => dispatch(updatePoll(response)))
+    .catch(onError)
 
 /**
  * Fetches polls from the api
@@ -155,13 +155,13 @@ export const fetchPolls = (page) => (dispatch, getState) =>
       'Authorization': 'Bearer ' + userTokenSelector(getState()),
     }
   })
-  .then(extractResponse)
-  .then((response) => Promise.all([
-    dispatch(setPolls(prop('entities', response))),
-    dispatch(setPollPage(page - 1)),
-    dispatch(setPollCount(prop('total', response)))
-  ]))
-  .catch(onError)
+    .then(extractResponse)
+    .then((response) => Promise.all([
+      dispatch(setPolls(prop('entities', response))),
+      dispatch(setPollPage(page - 1)),
+      dispatch(setPollCount(prop('total', response)))
+    ]))
+    .catch(onError)
 
 /**
  * Posts the response for a poll with the identifier to the api
@@ -246,7 +246,7 @@ export const postLogin = (username, password) => (dispatch) =>
       password,
     })
   })
-  .then(extractResponse)
-  .then((response) => dispatch(updateUser(response)))
-  .then((response) => prop('user')(response))
-  .catch(onError)
+    .then(extractResponse)
+    .then((response) => dispatch(updateUser(response)))
+    .then((response) => prop('user')(response))
+    .catch(onError)

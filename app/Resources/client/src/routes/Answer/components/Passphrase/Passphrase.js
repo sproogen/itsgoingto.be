@@ -26,18 +26,18 @@ class Passphrase extends React.Component {
 
   submit = () =>
     this.props.setPassphrase(this.refs.passphrase.value)
-    .then(
-      () => this.props.fetchPoll(this.props.identifier)
-      .then((response) => {
-        if (!(response instanceof APIError)) {
-          this.props.setRequiresPassphrase(false)
-        } else {
-          this.setState({
-            error : true
+      .then(
+        () => this.props.fetchPoll(this.props.identifier)
+          .then((response) => {
+            if (!(response instanceof APIError)) {
+              this.props.setRequiresPassphrase(false)
+            } else {
+              this.setState({
+                error : true
+              })
+            }
           })
-        }
-      })
-    )
+      )
 
   handleKeyPress = (event) => {
     event = event || window.event

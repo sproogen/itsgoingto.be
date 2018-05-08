@@ -1,5 +1,3 @@
-/* global __DEV__ __TEST__ */
-
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { CookiesProvider } from 'react-cookie'
@@ -32,39 +30,39 @@ let render = () => {
 
 // Development Tools
 // ------------------------------------
-if (__DEV__) {
-  if (module.hot) {
-    const renderApp = render
-    const renderError = (error) => {
-      const RedBox = require('redbox-react').default
+// if (__DEV__) {
+//   if (module.hot) {
+//     const renderApp = render
+//     const renderError = (error) => {
+//       const RedBox = require('redbox-react').default
 
-      ReactDOM.render(<RedBox error={error} />, MOUNT_NODE)
-    }
+//       ReactDOM.render(<RedBox error={error} />, MOUNT_NODE)
+//     }
 
-    render = () => {
-      try {
-        renderApp()
-      } catch (e) {
-        console.error(e)
-        renderError(e)
-      }
-    }
+//     render = () => {
+//       try {
+//         renderApp()
+//       } catch (e) {
+//         console.error(e)
+//         renderError(e)
+//       }
+//     }
 
-    // Setup hot module replacement
-    module.hot.accept([
-      './components/App',
-      './routes/index',
-    ], () =>
-      setImmediate(() => {
-        ReactDOM.unmountComponentAtNode(MOUNT_NODE)
-        render()
-      })
-    )
-  }
-}
+//     // Setup hot module replacement
+//     module.hot.accept([
+//       './components/App',
+//       './routes/index',
+//     ], () =>
+//       setImmediate(() => {
+//         ReactDOM.unmountComponentAtNode(MOUNT_NODE)
+//         render()
+//       })
+//     )
+//   }
+// }
 
 // Let's Go!
 // ------------------------------------
-if (!__TEST__) {
+if (process.env.NODE_ENV !== 'test') {
   render()
 }

@@ -53,8 +53,8 @@ export class Answer extends React.Component {
           id={'answer-' + index}
           name='answer'
           className={type === 'radio'
-                     ? 'input-radio input-radio-options'
-                     : 'input-checkbox input-checkbox-options'}
+            ? 'input-radio input-radio-options'
+            : 'input-checkbox input-checkbox-options'}
           type={type}
           value={index}
           checked={checked}

@@ -31,7 +31,7 @@ describe('(Layout) PageLayout', () => {
 
   it('renders its children inside of the viewport', () => {
     wrapper
-    .find('.page-layout__viewport')
-    .should.contain(<Child />)
+      .find('.page-layout__viewport')
+      .should.contain(<Child />)
   })
 })
