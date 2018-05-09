@@ -1,6 +1,6 @@
 import React from 'react'
 import { Provider } from 'react-redux'
-import { LocaleProvider } from 'antd'
+import LocaleProvider from 'antd/lib/locale-provider'
 import enGB from 'antd/lib/locale-provider/en_GB'
 import createStore from 'store/createStore'
 import { storiesOf } from '@storybook/react'

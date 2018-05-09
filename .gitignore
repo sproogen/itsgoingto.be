@@ -69,3 +69,5 @@ node_modules
 /web/client/
 /app/Resources/views/react/index.html
 /client/
+
+webpack-stats.json

@@ -8,13 +8,13 @@ import OptionsModal from '../OptionsModal'
 
 class Actions extends React.Component {
   submit = () => this.props.postPoll()
-  .then((response) => {
-    if (response !== false) {
-      browserHistory.push('/' + response.identifier)
-      return false
-    }
-    return true
-  })
+    .then((response) => {
+      if (response !== false) {
+        browserHistory.push('/' + response.identifier)
+        return false
+      }
+      return true
+    })
 
   options = () => {
     this._modal.getWrappedInstance().show()

@@ -16,7 +16,7 @@ $loader-animation-duration: 1.15s;
 
   .loader,
   .loader__figure {
-    @include position(absolute, 50% null null 50%)
+    @include position(absolute, 50% null null 50%);
     transform: translate(-50%, -50%);
   }
 
@@ -65,7 +65,7 @@ $loader-animation-duration: 1.15s;
 
 @keyframes loader-figure {
   0% {
-    @include size(0)
+    @include size(0);
     background-color: $loader-color;
     opacity: 0;
   }

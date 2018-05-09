@@ -1,7 +1,6 @@
-/* eslint-env mocha */
 /* global expect */
 import React from 'react'
-import { shallow, mount } from 'enzyme'
+import { shallow } from 'enzyme'
 import Spinner from './Spinner'
 
 describe('(Component) Spinner', () => {
@@ -12,18 +11,13 @@ describe('(Component) Spinner', () => {
       wrapper = shallow(<Spinner />)
     })
 
-    it('renders as a Spinner', () => {
-      wrapper = mount(<Spinner />)
-      expect(wrapper.name()).to.equal('Spinner')
-    })
-
     it('renders with class spinner', () => {
-      expect(wrapper.name()).to.equal('div')
-      expect(wrapper.hasClass('spinner')).to.equal(true)
+      expect(wrapper.name()).toBe('div')
+      expect(wrapper.hasClass('spinner')).toBe(true)
     })
 
     it('Should render three spans', () => {
-      expect(wrapper.find('span')).to.have.length(3)
+      expect(wrapper.find('span')).toHaveLength(3)
     })
   })
 })

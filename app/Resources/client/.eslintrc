@@ -10,7 +10,8 @@
     "promise"
   ],
   "env": {
-    "browser" : true
+    "browser" : true,
+    "jest"    : true
   },
   "globals": {
     "__DEV__"      : false,
@@ -19,11 +20,15 @@
     "__COVERAGE__" : false
   },
   "rules": {
-    "key-spacing"          : 0,
-    "jsx-quotes"           : [2, "prefer-single"],
-    "max-len"              : [2, 120, 2],
-    "object-curly-spacing" : [2, "always"],
-    "comma-dangle"         : 0,
-    "no-multi-spaces"      : [2, {"exceptions": {"VariableDeclarator": true}}]
+    "no-empty-label"          : "off",
+    "space-after-keywords"    : "off",
+    "space-before-keywords"   : "off",
+    "space-return-throw-case" : "off",
+    "key-spacing"             : 0,
+    "jsx-quotes"              : [2, "prefer-single"],
+    "max-len"                 : [2, 120, 2],
+    "object-curly-spacing"    : [2, "always"],
+    "comma-dangle"            : 0,
+    "no-multi-spaces"         : [2, {"exceptions": {"VariableDeclarator": true}}]
   }
 }

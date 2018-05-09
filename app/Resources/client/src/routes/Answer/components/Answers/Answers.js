@@ -16,11 +16,11 @@ class Answers extends React.Component {
       clearInterval(this.answersUpdater)
     } else {
       updateResponses()
-      .then((response) => {
-        if (response instanceof APIError) {
-          fetchPoll()
-        }
-      })
+        .then((response) => {
+          if (response instanceof APIError) {
+            fetchPoll()
+          }
+        })
     }
   }
 
