@@ -7,7 +7,7 @@
   "scripts": {
     "postinstall": "npm run build",
     "start": "node scripts/start",
-    "build": "node scripts/build",
+    "build": "cross-env PUBLIC_URL=/client node scripts/build",
     "test": "node scripts/test --env=jsdom",
     "lint": "eslint src/.",
     "storybook": "cross-env NODE_ENV=development start-storybook -p 6006 -c .storybook",
@@ -87,7 +87,6 @@
     "should": "^13.2.1",
     "should-enzyme": "^2.0.0",
     "style-loader": "^0.19.0",
-    "sw-precache-webpack-plugin": "0.11.4",
     "url-loader": "^1.0.1",
     "webpack": "3.8.1",
     "webpack-dev-server": "2.9.4",
