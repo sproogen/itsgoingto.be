@@ -5,6 +5,7 @@
   "main": "main.js",
   "private": true,
   "scripts": {
+    "postinstall": "npm run build",
     "start": "node scripts/start",
     "build": "node scripts/build",
     "test": "node scripts/test --env=jsdom",
@@ -94,7 +95,7 @@
     "whatwg-fetch": "^2.0.3"
   },
   "devDependencies": {
-    "@storybook/react": "^3.2.12",
+    "@storybook/react": "^3.4.3",
     "codacy-coverage": "^2.0.3"
   },
   "optionalDependencies": {
