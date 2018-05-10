@@ -273,7 +273,7 @@ describe('(Store) Poll', () => {
 
       it('Should call dispatch exactly twice.', () => {
         return updatePoll(initialPoll)(_dispatch, _getState)
-          .then((response) => {
+          .then(() => {
             expect(_dispatch).toHaveBeenCalledTimes(2)
           })
       })
@@ -431,7 +431,7 @@ describe('(Store) Poll', () => {
 
       it('Should call dispatch exactly twice.', () => {
         return updateResponses(_responses, 'hf0sd8fhoas')(_dispatch, _getState)
-          .then((response) => {
+          .then(() => {
             expect(_dispatch).toHaveBeenCalledTimes(2)
           })
       })

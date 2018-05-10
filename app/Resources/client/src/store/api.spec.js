@@ -191,7 +191,7 @@ describe('(Store) API', () => {
         }))
         const _updatePoll = jest.spyOn(poll, 'updatePoll').mockImplementation(() => ({}))
 
-        return postPoll()(_dispatch, _getState).then((response) => {
+        return postPoll()(_dispatch, _getState).then(() => {
           expect(_updatePoll).toHaveBeenCalledTimes(1)
           expect(_updatePoll).toHaveBeenCalledWith({ question: 'Question', identifier: 'hf0sd8fhoas' })
           expect(_dispatch).toHaveBeenCalledTimes(1)
@@ -268,7 +268,7 @@ describe('(Store) API', () => {
         }))
         const _updatePoll = jest.spyOn(poll, 'updatePoll').mockImplementation(() => ({}))
 
-        return fetchPoll('hf0sd8fhoas')(_dispatch, _getState).then((response) => {
+        return fetchPoll('hf0sd8fhoas')(_dispatch, _getState).then(() => {
           expect(_updatePoll).toHaveBeenCalledTimes(1)
           expect(_updatePoll).toHaveBeenCalledWith({ question: 'Question', identifier: 'hf0sd8fhoas' })
           expect(_dispatch).toHaveBeenCalledTimes(1)
@@ -326,7 +326,7 @@ describe('(Store) API', () => {
         }))
         const _updatePoll = jest.spyOn(poll, 'updatePoll').mockImplementation(() => ({}))
 
-        return deletePoll('hf0sd8fhoas')(_dispatch, _getState).then((response) => {
+        return deletePoll('hf0sd8fhoas')(_dispatch, _getState).then(() => {
           expect(_updatePoll).toHaveBeenCalledTimes(1)
           expect(_updatePoll).toHaveBeenCalledWith(
             { question: 'Question', identifier: 'hf0sd8fhoas', deleted: true }
@@ -631,7 +631,7 @@ describe('(Store) API', () => {
         window.fetch = jest.fn(() => jsonOk({ username: 'username', token: 'js7XZ&$£ZZSSu2389' }))
         const _updateUser = jest.spyOn(user, 'updateUser').mockImplementation(() => ({}))
 
-        return postLogin('username', 'password')(_dispatch).then((response) => {
+        return postLogin('username', 'password')(_dispatch).then(() => {
           expect(_updateUser).toHaveBeenCalledTimes(1)
           expect(_updateUser).toHaveBeenCalledWith({ username: 'username', token: 'js7XZ&$£ZZSSu2389' })
           expect(_dispatch).toHaveBeenCalledTimes(1)

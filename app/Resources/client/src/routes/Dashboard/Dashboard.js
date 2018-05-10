@@ -78,7 +78,7 @@ Dashboard.propTypes = {
   setLoading : PropTypes.func.isRequired,
 }
 
-const mapStateToProps = (state, props) => ({
+const mapStateToProps = (state) => ({
   hasUser : hasUserSelector(state),
 })
 

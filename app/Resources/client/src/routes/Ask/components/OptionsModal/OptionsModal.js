@@ -74,7 +74,7 @@ class OptionsModal extends React.Component {
     return []
   }
 
-  timePickerDisabledMinutes = (hour) => {
+  timePickerDisabledMinutes = () => {
     const { poll } = this.props
 
     if (poll.endAt.isSame(moment().add(1, 'hour'), 'hour')) {
@@ -150,7 +150,7 @@ class OptionsModal extends React.Component {
               <label
                 htmlFor='end-never'
                 className='input-label input-label-options input-label-endType'>
-                  Don't End Poll
+                  { 'Don\'t End Poll' }
               </label>
               <input
                 id='end-at'

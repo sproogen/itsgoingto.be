@@ -10,7 +10,7 @@ export function NotFound () {
         <div className='header center-text'>
           <h1 className='not-found'>
             Oh no!<br />
-            <span>It looks like we couldn't find that poll.</span>
+            <span>{ 'It looks like we couldn\'t find that poll.' }</span>
           </h1>
         </div>
       </div>
