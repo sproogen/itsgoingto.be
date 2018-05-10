@@ -176,7 +176,7 @@ export const actions = {
 // ------------------------------------
 const ACTION_HANDLERS = {
   // Add a new answer to the state
-  [ANSWER_ADD]           : (previousState, action) => [...previousState, ''],
+  [ANSWER_ADD]           : (previousState) => [...previousState, ''],
   // Update an answer in the state
   [ANSWER_UPDATE]        : (previousState, action) => adjust(() => action.text, action.index, previousState),
   // Update all the answers in the state
@@ -196,7 +196,7 @@ const ACTION_HANDLERS = {
   // Remove the answers after the index in the state
   [ANSWERS_REMOVE_AFTER] : (previousState, action) => slice(0, action.index + 1, previousState),
   // Clear all the answers from the state
-  [ANSWERS_CLEAR]        : (previousState, action) => []
+  [ANSWERS_CLEAR]        : () => []
 }
 
 // ------------------------------------

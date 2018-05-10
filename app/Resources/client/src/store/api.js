@@ -51,7 +51,7 @@ export const onError = (error) => {
       error
     })
   }
-  console.error('There was an error', error)
+  console.error('There was an error', error) // eslint-disable-line
   return error
 }
 

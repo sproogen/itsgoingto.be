@@ -138,7 +138,7 @@ export const userRespondedSelector = (state, identifier = '') =>
  *
  * @return {Function}      redux-thunk callable function
  */
-export const updatePoll = (poll) => (dispatch, getState) =>
+export const updatePoll = (poll) => (dispatch) =>
   ifElse(
     compose(isNil, (prop('answers'))),
     (poll) => Promise.resolve(
@@ -228,7 +228,7 @@ export const updateQuestion = (text = '', identifier = '') => (dispatch, getStat
  *
  * @return {Function}            redux-thunk callable function
  */
-export const updateResponses = (responses, identifier) => (dispatch, getState) => Promise.all([
+export const updateResponses = (responses, identifier) => (dispatch) => Promise.all([
   dispatch({
     type : POLL_UPDATE,
     poll : compose(omit(['answers']), merge(__, { identifier }))(responses)

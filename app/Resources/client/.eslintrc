@@ -1,8 +1,8 @@
 {
   "parser": "babel-eslint",
   "extends": [
-    "standard",
-    "standard-react"
+    "eslint:recommended",
+    "plugin:react/recommended"
   ],
   "plugins": [
     "babel",
@@ -11,7 +11,9 @@
   ],
   "env": {
     "browser" : true,
-    "jest"    : true
+    "jest"    : true,
+    "node"    : true,
+    "es6"     : true
   },
   "globals": {
     "__DEV__"      : false,
@@ -21,6 +23,8 @@
   },
   "rules": {
     "no-empty-label"          : "off",
+    "no-process-env"          : "off",
+    "react/no-string-refs"          : "off",
     "space-after-keywords"    : "off",
     "space-before-keywords"   : "off",
     "space-return-throw-case" : "off",

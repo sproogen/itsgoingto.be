@@ -9,8 +9,8 @@ const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin')
 const WatchMissingNodeModulesPlugin = require('react-dev-utils/WatchMissingNodeModulesPlugin')
 const eslintFormatter = require('react-dev-utils/eslintFormatter')
 const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin')
-const bourbon = require('bourbon')
-const bourbonNeat = require('bourbon-neat')
+const bourbon = require('bourbon').includePaths
+const neat = require('bourbon-neat').includePaths
 const getClientEnvironment = require('./env')
 const paths = require('./paths')
 
@@ -168,11 +168,10 @@ module.exports = {
               {
                 loader: require.resolve('sass-loader'),
                 options: {
-                  importLoaders: 1,
                   includePaths: [
-                    bourbon.includePaths,
-                    bourbonNeat.includePaths,
                     paths.styles,
+                    bourbon,
+                    neat,
                   ],
                 },
               },
@@ -208,7 +207,7 @@ module.exports = {
             // its runtime that would otherwise processed through "file" loader.
             // Also exclude `html` and `json` extensions so they get processed
             // by webpacks internal loaders.
-            exclude: [/\.(js|jsx|mjs)$/, /\.html$/, /\.json$/],
+            exclude: [/\.(js|jsx|mjs)$/, /\.html$/, /\.json$/, /\.(sass|scss)$/],
             loader: require.resolve('file-loader'),
             options: {
               name: 'static/media/[name].[hash:8].[ext]',

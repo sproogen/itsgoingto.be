@@ -171,7 +171,7 @@ Login.propTypes = {
   cookies    : PropTypes.instanceOf(Cookies).isRequired,
 }
 
-const mapStateToProps = (state, props) => ({
+const mapStateToProps = (state) => ({
   hasUser : hasUserSelector(state),
 })
 
