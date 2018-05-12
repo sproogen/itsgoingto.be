@@ -1,6 +1,6 @@
 <?php
 
-namespace ItsGoingToBeBundle\Controller\Api;
+namespace App\Controller\Api;
 
 use \Datetime;
 use Symfony\Component\HttpFoundation\Request;
@@ -9,8 +9,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface;
-use ItsGoingToBeBundle\Interfaces\ApiControllerInterface;
-use ItsGoingToBeBundle\AbstractClass\BaseApiController;
+use App\Interfaces\ApiControllerInterface;
+use App\AbstractClass\BaseApiController;
 use App\Entity\User;
 use App\Entity\LoginAttempt;
 

@@ -23,7 +23,7 @@ services:
     # this creates a service per class whose id is the fully-qualified class name
     App\:
         resource: '../src/*'
-        exclude: '../src/{Entity,Migrations,Tests,Kernel.php,ItsGoingToBeBundle}'
+        exclude: '../src/{Entity,Migrations,Tests,Kernel.php}'
 
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
@@ -31,82 +31,14 @@ services:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
 
-    # REMOVE when AppBundle is removed
-    ItsGoingToBeBundle\:
-        resource: '../src/ItsGoingToBeBundle/*'
-        # you can exclude directories or files
-        # but if a service is unused, it's removed anyway
-        exclude: '../src/ItsGoingToBeBundle/{Entity,Repository,Tests}'
-
-    ItsGoingToBeBundle\Controller\:
-        resource: '../src/ItsGoingToBeBundle/Controller'
-        public: true
-        tags: ['controller.service_arguments']
-    # END REMOVE
-
-    # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones
-
-    itsgoingtobe.security.token_authenticator:
-        class: ItsGoingToBeBundle\Security\TokenAuthenticator
-        arguments: ['@lexik_jwt_authentication.encoder.default']
-
-    itsgoingtobe.identifier_service:
-        class: ItsGoingToBeBundle\Service\IdentifierService
+    App\Controller\Api\LoginApiController:
         calls:
-        - [ setLogger, ["@logger"]]
-
-    itsgoingtobe.poll_end_service:
-        class: ItsGoingToBeBundle\Service\PollEndService
-        calls:
-        - [ setEntityManager, ["@doctrine.orm.default_entity_manager"]]
-
-    itsgoingtobe.poll_api_controller:
-        public: true
-        class: ItsGoingToBeBundle\Controller\Api\PollApiController
-        calls:
-        - [ setContainer, ["@service_container"]]
-        - [ setEntityManager, ["@doctrine.orm.default_entity_manager"]]
-        - [ setAuthorizationChecker, ["@security.authorization_checker"]]
-        - [ setIdentifierService, ["@itsgoingtobe.identifier_service"]]
-        - [ setPollEndService, ["@itsgoingtobe.poll_end_service"]]
-
-    itsgoingtobe.response_api_controller:
-        public: true
-        class: ItsGoingToBeBundle\Controller\Api\ResponseApiController
-        calls:
-        - [ setContainer, ["@service_container"]]
-        - [ setEntityManager, ["@doctrine.orm.default_entity_manager"]]
-        - [ setAuthorizationChecker, ["@security.authorization_checker"]]
-        - [ setIdentifierService, ["@itsgoingtobe.identifier_service"]]
-        - [ setPollEndService, ["@itsgoingtobe.poll_end_service"]]
-
-    itsgoingtobe.login_api_controller:
-        public: true
-        class: ItsGoingToBeBundle\Controller\Api\LoginApiController
-        calls:
-        - [ setContainer, ["@service_container"]]
-        - [ setEntityManager, ["@doctrine.orm.default_entity_manager"]]
         - [ setEncoder, ["@security.password_encoder"]]
         - [ setJWTEncoder, ["@lexik_jwt_authentication.encoder.default"]]
         - [ setTokenTTL, ["%lexik_jwt_authentication.token_ttl%"]]
 
-    itsgoingtobe.react_controller:
-        public: true
-        class: App\Controller\ReactController
-        calls:
-        - [ setContainer, ["@service_container"]]
-        - [ setEntityManager, ["@doctrine.orm.default_entity_manager"]]
-
-    itsgoingtobe.user_listener:
-        class: ItsGoingToBeBundle\Service\UserListener
-        arguments: ["@security.password_encoder"]
+    # add more service definitions when explicit configuration is needed
+    # please note that last definitions always *replace* previous ones
+    App\EventListener\UserSubscriber:
         tags:
-        - { name: doctrine.event_subscriber }
-
-    itsgoingtobe.command.create_user:
-        class: ItsGoingToBeBundle\Command\CreateUserCommand
-        calls:
-        - [ setEntityManager, ["@doctrine.orm.default_entity_manager"]]
-        tags:
-        - { name: 'console.command', command: 'itsgoingtobe:create-user' }
+            - { name: doctrine.event_subscriber, connection: default }

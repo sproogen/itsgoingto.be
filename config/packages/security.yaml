@@ -1,10 +1,10 @@
 security:
     providers:
         database_users:
-            entity: { class: ItsGoingToBeBundle:User, property: username }
+            entity: { class: App\Entity\User, property: username }
 
     encoders:
-        ItsGoingToBeBundle\Entity\User:
+        App\Entity\User:
             algorithm: bcrypt
             cost: 12
 
@@ -20,4 +20,4 @@ security:
 
             guard:
               authenticators:
-                  - 'itsgoingtobe.security.token_authenticator'
+                  - App\Security\TokenAuthenticator

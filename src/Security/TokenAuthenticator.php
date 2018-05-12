@@ -1,6 +1,6 @@
 <?php
 
-namespace ItsGoingToBeBundle\Security;
+namespace App\Security;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -16,7 +16,7 @@ use Lexik\Bundle\JWTAuthenticationBundle\TokenExtractor\AuthorizationHeaderToken
 use App\Entity\User;
 
 /**
- * ItsGoingToBeBundle\Security\TokenAuthenticator
+ * App\Security\TokenAuthenticator
  */
 class TokenAuthenticator extends AbstractGuardAuthenticator
 {
@@ -30,6 +30,9 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
      */
     private $extractor;
 
+    /**
+     * @param JWTEncoderInterface
+     */
     public function __construct(JWTEncoderInterface $jwtEncoder)
     {
         $this->jwtEncoder = $jwtEncoder;

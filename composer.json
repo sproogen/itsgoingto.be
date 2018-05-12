@@ -31,6 +31,7 @@
         "symfony/profiler-pack": "^1.0",
         "symfony/security-bundle": "^4.0",
         "symfony/twig-bundle": "^4.0",
+        "symfony/var-dumper": "^4.0",
         "symfony/yaml": "^4.0"
     },
     "require-dev": {

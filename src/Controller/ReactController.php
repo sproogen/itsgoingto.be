@@ -24,7 +24,7 @@ class ReactController extends Controller
     /**
      * @param EntityManagerInterface $entityManager
      */
-    public function setEntityManager(EntityManagerInterface $em)
+    public function __construct(EntityManagerInterface $em)
     {
         $this->em = $em;
     }

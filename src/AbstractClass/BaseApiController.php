@@ -1,14 +1,14 @@
 <?php
 
-namespace ItsGoingToBeBundle\AbstractClass;
+namespace App\AbstractClass;
 
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-use ItsGoingToBeBundle\Service\IdentifierService;
-use ItsGoingToBeBundle\Service\PollEndService;
+use App\Service\IdentifierService;
+use App\Service\PollEndService;
 use App\Entity\Poll;
 use App\Entity\UserResponse;
 
@@ -46,33 +46,20 @@ abstract class BaseApiController extends Controller
 
     /**
      * @param EntityManagerInterface $entityManager
-     */
-    public function setEntityManager(EntityManagerInterface $em)
-    {
-        $this->em = $em;
-    }
-
-    /**
      * @param AuthorizationCheckerInterface $authorizationChecker
-     */
-    public function setAuthorizationChecker(AuthorizationCheckerInterface $authorizationChecker)
-    {
-        $this->authorizationChecker = $authorizationChecker;
-    }
-
-    /**
      * @param IdentifierService $identifierService
-     */
-    public function setIdentifierService(IdentifierService $identifierService)
-    {
-        $this->identifierService = $identifierService;
-    }
-
-    /**
      * @param PollEndService $pollEndService
      */
-    public function setPollEndService(PollEndService $pollEndService)
+    public function __construct(
+        EntityManagerInterface $em,
+        AuthorizationCheckerInterface $authorizationChecker,
+        IdentifierService $identifierService,
+        PollEndService $pollEndService
+    )
     {
+        $this->em = $em;
+        $this->authorizationChecker = $authorizationChecker;
+        $this->identifierService = $identifierService;
         $this->pollEndService = $pollEndService;
     }
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace ItsGoingToBeBundle\Service;
+namespace App\Service;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Psr\Log\LoggerInterface;
 
 /**
- * ItsGoingToBeBundle\Service\IdentifierService
+ * App\Service\IdentifierService
  *
  * TODO : Test this
  */
@@ -23,7 +23,7 @@ class IdentifierService
     /**
      * @param LoggerInterface $logger
      */
-    public function setLogger(LoggerInterface $logger)
+    public function __construct(LoggerInterface $logger)
     {
         $this->logger = $logger;
     }

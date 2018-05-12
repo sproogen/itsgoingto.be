@@ -1,6 +1,6 @@
 <?php
 
-namespace ItsGoingToBeBundle\Interfaces;
+namespace App\Interfaces;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -11,7 +11,5 @@ use Symfony\Component\HttpFoundation\Request;
  */
 interface ApiControllerInterface
 {
-    public function setEntityManager(EntityManagerInterface $em);
-    public function setAuthorizationChecker(AuthorizationCheckerInterface $authorizationChecker);
     public function apiAction(Request $request, $identifier);
 }

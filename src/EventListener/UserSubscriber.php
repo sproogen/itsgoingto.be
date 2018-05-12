@@ -1,19 +1,22 @@
 <?php
 
-namespace ItsGoingToBeBundle\Service;
+namespace App\EventListener;
 
-use App\Entity\User;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use App\Entity\User;
 
 /**
- * ItsGoingToBeBundle\Service\UserListener
+ * App\EventListener\UserSubscriber
  */
-class UserListener implements EventSubscriber
+class UserSubscriber implements EventSubscriber
 {
     private $encoder;
 
+    /**
+     * @param UserPasswordEncoderInterface
+     */
     public function __construct(UserPasswordEncoderInterface $encoder)
     {
         $this->encoder = $encoder;

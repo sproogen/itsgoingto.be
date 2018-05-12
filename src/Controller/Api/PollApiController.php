@@ -1,14 +1,14 @@
 <?php
 
-namespace ItsGoingToBeBundle\Controller\Api;
+namespace App\Controller\Api;
 
 use \Datetime;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use ItsGoingToBeBundle\Interfaces\ApiControllerInterface;
-use ItsGoingToBeBundle\AbstractClass\BaseApiController;
+use App\Interfaces\ApiControllerInterface;
+use App\AbstractClass\BaseApiController;
 use App\Entity\Poll;
 use App\Entity\Answer;
 

@@ -1,12 +1,12 @@
 <?php
 
-namespace ItsGoingToBeBundle\Service;
+namespace App\Service;
 
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Poll;
 
 /**
- * ItsGoingToBeBundle\Service\PollEndService
+ * App\Service\PollEndService
  */
 class PollEndService
 {
@@ -16,9 +16,9 @@ class PollEndService
     protected $entityManager;
 
     /**
-     * @param EntityManager $entityManager
+     * @param EntityManagerInterface $entityManager
      */
-    public function setEntityManager(EntityManager $entityManager)
+    public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
     }

@@ -1,46 +1,8 @@
-# Cache and logs (Symfony2)
-/app/cache/*
-/app/logs/*
-!app/cache/.gitkeep
-!app/logs/.gitkeep
-
-# Cache and logs (Symfony3)
-/var/*
-!/var/cache
-/var/cache/*
-!var/cache/.gitkeep
-!/var/logs
-/var/logs/*
-!var/logs/.gitkeep
-!/var/sessions
-/var/sessions/*
-!var/sessions/.gitkeep
-!var/SymfonyRequirements.php
-!/var/jwt
-/var/jwt/*
-!var/jwt/.gitkeep
-
-# Parameters
-/app/config/parameters.yml
-/app/config/parameters.ini
-/app/config/parameters_dev.yml
-/app/config/parameters.php
-
 # Managed by Composer
-/app/bootstrap.php.cache
-/var/bootstrap.php.cache
 /bin/*
 !bin/console
 !bin/symfony_requirements
 /vendor/
-
-# Assets and user uploads
-/web/bundles/
-/web/uploads/
-
-# PHPUnit
-/app/phpunit.xml
-/phpunit.xml
 
 # Phplint
 .phplint-cache
@@ -66,9 +28,7 @@ npm-debug.log*
 node_modules
 
 #React Files
-/web/client/
-/app/Resources/views/react/index.html
-/client/
+/public/client/
 
 webpack-stats.json
 

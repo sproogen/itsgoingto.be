@@ -96,7 +96,11 @@ class Login extends React.Component {
         if (response instanceof APIError) {
           const errors = {}
 
-          errors.api = join('<br />', response.details.error.errors)
+          try {
+            errors.api = join('<br />', response.details.error.errors)
+          } catch (err) {
+            errors.api = 'There was an unknown error.'
+          }
           this.setState({ errors })
           return true
         } else {
@@ -117,6 +121,8 @@ class Login extends React.Component {
     if (loading) {
       return <div />
     }
+
+    join('-', ['1', '2', '3'])
 
     return (
       <div>

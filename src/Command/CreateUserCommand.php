@@ -1,6 +1,6 @@
 <?php
 
-namespace ItsGoingToBeBundle\Command;
+namespace App\Command;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
@@ -19,9 +19,11 @@ class CreateUserCommand extends Command
     /**
      * @param EntityManagerInterface $entityManager
      */
-    public function setEntityManager(EntityManagerInterface $em)
+    public function __construct(EntityManagerInterface $em)
     {
         $this->em = $em;
+
+        parent::__construct();
     }
 
     /**
