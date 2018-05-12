@@ -1,3 +1,6 @@
+parameters:
+    env(APP_SECRET): ''
+
 framework:
     secret: '%env(APP_SECRET)%'
     default_locale: en

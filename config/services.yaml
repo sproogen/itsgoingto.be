@@ -2,13 +2,6 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: en
-    database_host: localhost
-    database_port: null
-    database_name: itsgoingtobe
-    database_user: user
-    database_password: password
-    secret: jhsdfhoisadfqwh80
-    jwt_key_pass_phrase: null
 
 services:
     # default configuration for services in *this* file
@@ -31,14 +24,14 @@ services:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
 
+    # add more service definitions when explicit configuration is needed
+    # please note that last definitions always *replace* previous ones
     App\Controller\Api\LoginApiController:
         calls:
         - [ setEncoder, ["@security.password_encoder"]]
         - [ setJWTEncoder, ["@lexik_jwt_authentication.encoder.default"]]
         - [ setTokenTTL, ["%lexik_jwt_authentication.token_ttl%"]]
 
-    # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones
     App\EventListener\UserSubscriber:
         tags:
             - { name: doctrine.event_subscriber, connection: default }
