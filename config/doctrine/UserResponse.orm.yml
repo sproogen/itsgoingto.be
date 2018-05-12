@@ -1,0 +1,41 @@
+App\Entity\UserResponse:
+    type: entity
+    table: response
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        userIP:
+            type: string
+            column: user_ip
+            length: 100
+        userSessionID:
+            type: string
+            column: user_session_id
+            length: 100
+        customUserID:
+            type: string
+            column: custom_user_id
+            length: 100
+        created:
+            type: datetime
+        updated:
+            type: datetime
+    manyToOne:
+        poll:
+            targetEntity: App\Entity\Poll
+            inversedBy: responses
+            joinColumns:
+                poll_id:
+                    referencedColumnName: id
+        answer:
+            targetEntity: App\Entity\Answer
+            inversedBy: responses
+            joinColumns:
+                answer_id:
+                    referencedColumnName: id
+    lifecycleCallbacks:
+        prePersist: [ prePersist ]
+        preUpdate: [ preUpdate ]

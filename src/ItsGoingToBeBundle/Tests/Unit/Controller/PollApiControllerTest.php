@@ -8,8 +8,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use ItsGoingToBeBundle\Tests\Unit\AbstractTests\BaseApiControllerTest;
 use ItsGoingToBeBundle\Controller\Api\PollApiController;
-use ItsGoingToBeBundle\Entity\Poll;
-use ItsGoingToBeBundle\Entity\UserResponse;
+use App\Entity\Poll;
+use App\Entity\UserResponse;
 
 /**
  * Tests for ItsGoingToBeBundle\Controller\Api\PollApiController

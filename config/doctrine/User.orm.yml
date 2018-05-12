@@ -1,0 +1,22 @@
+App\Entity\User:
+    type: entity
+    table: user
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        username:
+            type: string
+            column: username
+        password:
+            type: string
+            column: password
+        created:
+            type: datetime
+        updated:
+            type: datetime
+    lifecycleCallbacks:
+        prePersist: [ prePersist ]
+        preUpdate: [ preUpdate ]

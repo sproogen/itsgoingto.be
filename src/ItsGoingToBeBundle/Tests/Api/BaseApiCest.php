@@ -3,10 +3,10 @@
 namespace ItsGoingToBeBundle\Tests\Api;
 
 use ItsGoingToBeBundle\ApiTester;
-use ItsGoingToBeBundle\Entity\Poll;
-use ItsGoingToBeBundle\Entity\Answer;
-use ItsGoingToBeBundle\Entity\UserResponse;
-use ItsGoingToBeBundle\Entity\User;
+use App\Entity\Poll;
+use App\Entity\Answer;
+use App\Entity\UserResponse;
+use App\Entity\User;
 
 /**
  * Base class for API tests

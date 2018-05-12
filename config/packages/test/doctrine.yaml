@@ -1,0 +1,6 @@
+parameters:
+    env(DATABASE_TEST_URL): ''
+
+doctrine:
+    dbal:
+        url: '%env(resolve:DATABASE_TEST_URL)%'

@@ -9,8 +9,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use ItsGoingToBeBundle\Interfaces\ApiControllerInterface;
 use ItsGoingToBeBundle\AbstractClass\BaseApiController;
-use ItsGoingToBeBundle\Entity\Poll;
-use ItsGoingToBeBundle\Entity\Answer;
+use App\Entity\Poll;
+use App\Entity\Answer;
 
 /**
  *  Api Controller to manage all APIy goodness for polls

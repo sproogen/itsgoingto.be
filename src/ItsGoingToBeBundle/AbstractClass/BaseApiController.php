@@ -9,8 +9,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use ItsGoingToBeBundle\Service\IdentifierService;
 use ItsGoingToBeBundle\Service\PollEndService;
-use ItsGoingToBeBundle\Entity\Poll;
-use ItsGoingToBeBundle\Entity\UserResponse;
+use App\Entity\Poll;
+use App\Entity\UserResponse;
 
 /**
  *  Base APIy goodness.

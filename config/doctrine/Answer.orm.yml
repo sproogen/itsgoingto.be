@@ -1,0 +1,23 @@
+App\Entity\Answer:
+    type: entity
+    table: answer
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        answer:
+            type: text
+            column: answer
+    manyToOne:
+        poll:
+            targetEntity: App\Entity\Poll
+            inversedBy: answers
+            joinColumns:
+                poll_id:
+                    referencedColumnName: id
+    oneToMany:
+        responses:
+            targetEntity: App\Entity\UserResponse
+            mappedBy: answer

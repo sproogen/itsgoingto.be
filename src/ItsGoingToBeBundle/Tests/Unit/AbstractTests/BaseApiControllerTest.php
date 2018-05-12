@@ -15,10 +15,10 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use ItsGoingToBeBundle\Interfaces\ApiControllerInterface;
 use ItsGoingToBeBundle\Controller\Api\PollApiController;
 use ItsGoingToBeBundle\Tests\Unit\AbstractTests\BaseTest;
-use ItsGoingToBeBundle\Entity\Poll;
-use ItsGoingToBeBundle\Entity\Answer;
-use ItsGoingToBeBundle\Entity\UserResponse;
-use ItsGoingToBeBundle\Entity\User;
+use App\Entity\Poll;
+use App\Entity\Answer;
+use App\Entity\UserResponse;
+use App\Entity\User;
 use ItsGoingToBeBundle\Service\IdentifierService;
 use ItsGoingToBeBundle\Service\PollEndService;
 

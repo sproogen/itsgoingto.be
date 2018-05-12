@@ -4,9 +4,9 @@ namespace ItsGoingToBeBundle\Tests\Unit\Entity;
 
 use Doctrine\Common\Collections\Collection;
 use ItsGoingToBeBundle\Tests\Unit\AbstractTests\BaseEntityTest;
-use ItsGoingToBeBundle\Entity\UserResponse;
-use ItsGoingToBeBundle\Entity\Poll;
-use ItsGoingToBeBundle\Entity\Answer;
+use App\Entity\UserResponse;
+use App\Entity\Poll;
+use App\Entity\Answer;
 
 /**
  * Test for UserResponse

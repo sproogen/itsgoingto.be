@@ -7,7 +7,7 @@ use Prophecy\ObjectProphecy;
 use Doctrine\ORM\EntityManager;
 use ItsGoingToBeBundle\Tests\Unit\AbstractTests\BaseTest;
 use ItsGoingToBeBundle\Service\PollEndService;
-use ItsGoingToBeBundle\Entity\Poll;
+use App\Entity\Poll;
 
 /**
  * Tests for ItsGoingToBeBundle\Service\PollEndService

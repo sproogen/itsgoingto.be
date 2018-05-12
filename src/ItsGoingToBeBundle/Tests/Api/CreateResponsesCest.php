@@ -5,7 +5,7 @@ namespace ItsGoingToBeBundle\Tests\Api;
 use Codeception\Util\HttpCode;
 use ItsGoingToBeBundle\Tests\Api\BaseApiCest;
 use ItsGoingToBeBundle\ApiTester;
-use ItsGoingToBeBundle\Entity\UserResponse;
+use App\Entity\UserResponse;
 
 /**
  * API Tests for POST /api/polls/:identifier/responses

@@ -3,7 +3,7 @@
 namespace ItsGoingToBeBundle\Service;
 
 use Doctrine\ORM\EntityManager;
-use ItsGoingToBeBundle\Entity\Poll;
+use App\Entity\Poll;
 
 /**
  * ItsGoingToBeBundle\Service\PollEndService

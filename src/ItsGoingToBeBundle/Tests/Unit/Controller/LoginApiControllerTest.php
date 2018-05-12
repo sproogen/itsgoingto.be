@@ -10,8 +10,8 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface;
 use ItsGoingToBeBundle\Tests\Unit\AbstractTests\BaseApiControllerTest;
 use ItsGoingToBeBundle\Controller\Api\LoginApiController;
-use ItsGoingToBeBundle\Entity\User;
-use ItsGoingToBeBundle\Entity\LoginAttempt;
+use App\Entity\User;
+use App\Entity\LoginAttempt;
 
 /**
  * Tests for ItsGoingToBeBundle\Controller\Api\PollApiController

@@ -3,7 +3,7 @@
 namespace ItsGoingToBeBundle\Tests\Unit\Entity;
 
 use ItsGoingToBeBundle\Tests\Unit\AbstractTests\BaseEntityTest;
-use ItsGoingToBeBundle\Entity\LoginAttempt;
+use App\Entity\LoginAttempt;
 
 /**
  * Test for LoginAttempt

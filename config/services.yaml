@@ -1,0 +1,112 @@
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+parameters:
+    locale: en
+    database_host: localhost
+    database_port: null
+    database_name: itsgoingtobe
+    database_user: user
+    database_password: password
+    secret: jhsdfhoisadfqwh80
+    jwt_key_pass_phrase: null
+
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        public: false       # Allows optimizing the container by removing unused services; this also means
+                            # fetching services directly from the container via $container->get() won't work.
+                            # The best practice is to be explicit about your dependencies anyway.
+
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    App\:
+        resource: '../src/*'
+        exclude: '../src/{Entity,Migrations,Tests,Kernel.php,ItsGoingToBeBundle}'
+
+    # controllers are imported separately to make sure services can be injected
+    # as action arguments even if you don't extend any base controller class
+    App\Controller\:
+        resource: '../src/Controller'
+        tags: ['controller.service_arguments']
+
+    # REMOVE when AppBundle is removed
+    ItsGoingToBeBundle\:
+        resource: '../src/ItsGoingToBeBundle/*'
+        # you can exclude directories or files
+        # but if a service is unused, it's removed anyway
+        exclude: '../src/ItsGoingToBeBundle/{Entity,Repository,Tests}'
+
+    ItsGoingToBeBundle\Controller\:
+        resource: '../src/ItsGoingToBeBundle/Controller'
+        public: true
+        tags: ['controller.service_arguments']
+    # END REMOVE
+
+    # add more service definitions when explicit configuration is needed
+    # please note that last definitions always *replace* previous ones
+
+    itsgoingtobe.security.token_authenticator:
+        class: ItsGoingToBeBundle\Security\TokenAuthenticator
+        arguments: ['@lexik_jwt_authentication.encoder.default']
+
+    itsgoingtobe.identifier_service:
+        class: ItsGoingToBeBundle\Service\IdentifierService
+        calls:
+        - [ setLogger, ["@logger"]]
+
+    itsgoingtobe.poll_end_service:
+        class: ItsGoingToBeBundle\Service\PollEndService
+        calls:
+        - [ setEntityManager, ["@doctrine.orm.default_entity_manager"]]
+
+    itsgoingtobe.poll_api_controller:
+        public: true
+        class: ItsGoingToBeBundle\Controller\Api\PollApiController
+        calls:
+        - [ setContainer, ["@service_container"]]
+        - [ setEntityManager, ["@doctrine.orm.default_entity_manager"]]
+        - [ setAuthorizationChecker, ["@security.authorization_checker"]]
+        - [ setIdentifierService, ["@itsgoingtobe.identifier_service"]]
+        - [ setPollEndService, ["@itsgoingtobe.poll_end_service"]]
+
+    itsgoingtobe.response_api_controller:
+        public: true
+        class: ItsGoingToBeBundle\Controller\Api\ResponseApiController
+        calls:
+        - [ setContainer, ["@service_container"]]
+        - [ setEntityManager, ["@doctrine.orm.default_entity_manager"]]
+        - [ setAuthorizationChecker, ["@security.authorization_checker"]]
+        - [ setIdentifierService, ["@itsgoingtobe.identifier_service"]]
+        - [ setPollEndService, ["@itsgoingtobe.poll_end_service"]]
+
+    itsgoingtobe.login_api_controller:
+        public: true
+        class: ItsGoingToBeBundle\Controller\Api\LoginApiController
+        calls:
+        - [ setContainer, ["@service_container"]]
+        - [ setEntityManager, ["@doctrine.orm.default_entity_manager"]]
+        - [ setEncoder, ["@security.password_encoder"]]
+        - [ setJWTEncoder, ["@lexik_jwt_authentication.encoder.default"]]
+        - [ setTokenTTL, ["%lexik_jwt_authentication.token_ttl%"]]
+
+    itsgoingtobe.react_controller:
+        public: true
+        class: App\Controller\ReactController
+        calls:
+        - [ setContainer, ["@service_container"]]
+        - [ setEntityManager, ["@doctrine.orm.default_entity_manager"]]
+
+    itsgoingtobe.user_listener:
+        class: ItsGoingToBeBundle\Service\UserListener
+        arguments: ["@security.password_encoder"]
+        tags:
+        - { name: doctrine.event_subscriber }
+
+    itsgoingtobe.command.create_user:
+        class: ItsGoingToBeBundle\Command\CreateUserCommand
+        calls:
+        - [ setEntityManager, ["@doctrine.orm.default_entity_manager"]]
+        tags:
+        - { name: 'console.command', command: 'itsgoingtobe:create-user' }

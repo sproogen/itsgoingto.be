@@ -11,8 +11,8 @@ use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use ItsGoingToBeBundle\Tests\Unit\AbstractTests\BaseTest;
 use ItsGoingToBeBundle\Service\UserListener;
-use ItsGoingToBeBundle\Entity\User;
-use ItsGoingToBeBundle\Entity\Poll;
+use App\Entity\User;
+use App\Entity\Poll;
 
 /**
  * Tests for ItsGoingToBeBundle\Service\UserListener

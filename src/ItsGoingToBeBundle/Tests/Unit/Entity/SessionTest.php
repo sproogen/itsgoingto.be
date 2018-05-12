@@ -3,7 +3,7 @@
 namespace ItsGoingToBeBundle\Tests\Unit\Entity;
 
 use ItsGoingToBeBundle\Tests\Unit\AbstractTests\BaseEntityTest;
-use ItsGoingToBeBundle\Entity\Session;
+use App\Entity\Session;
 
 /**
  * Test for Session
