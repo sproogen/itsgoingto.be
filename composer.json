@@ -5,13 +5,11 @@
     "description": "It's Going To Be Backend API",
     "autoload": {
         "psr-4": {
-            "ItsGoingToBeBundle\\": "src/ItsGoingToBeBundle",
             "App\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\ItsGoingToBeBundle\\": "tests/ItsGoingToBeBundle",
             "App\\Tests\\": "tests/"
         }
     },
