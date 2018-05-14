@@ -1,19 +1,19 @@
 <?php
 
-namespace ItsGoingToBeBundle\Tests\Unit\Controller;
+namespace App\Tests\Unit\Controller;
 
 use Prophecy\Argument;
 use Prophecy\ObjectProphecy;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use ItsGoingToBeBundle\Tests\Unit\AbstractTests\BaseApiControllerTest;
-use ItsGoingToBeBundle\Controller\Api\ResponseApiController;
+use App\Tests\Unit\AbstractTests\BaseApiControllerTest;
+use App\Controller\Api\ResponseApiController;
 use App\Entity\Poll;
 use App\Entity\Answer;
 use App\Entity\UserResponse;
 
 /**
- * Tests for ItsGoingToBeBundle\Controller\Api\ResponseApiController
+ * Tests for App\Controller\Api\ResponseApiController
  */
 class ResponseApiControllerTest extends BaseApiControllerTest
 {

@@ -1,10 +1,9 @@
 <?php
 
-namespace ItsGoingToBeBundle\Tests\Api;
+namespace App\Tests\Api;
 
 use Codeception\Util\HttpCode;
-use ItsGoingToBeBundle\Tests\Api\BaseApiCest;
-use ItsGoingToBeBundle\ApiTester;
+use App\Tests\Api\BaseApiCest;
 use App\Entity\UserResponse;
 
 /**
@@ -12,7 +11,7 @@ use App\Entity\UserResponse;
  */
 class CreateResponsesCest extends BaseApiCest
 {
-    public function checkRouteTest(ApiTester $I)
+    public function checkRouteTest(\ApiTester $I)
     {
         $I->wantTo('Check call return 400');
         $I->sendPOST('/polls/he7gis/responses');
@@ -20,7 +19,7 @@ class CreateResponsesCest extends BaseApiCest
         $I->seeResponseIsJson();
     }
 
-    public function returns404Test(ApiTester $I)
+    public function returns404Test(\ApiTester $I)
     {
         $I->wantTo('Check call return 404');
         $I->sendPOST('/polls/y3k0sn/responses');
@@ -28,7 +27,7 @@ class CreateResponsesCest extends BaseApiCest
         $I->seeResponseIsJson();
     }
 
-    public function returns404DeletedPollTest(ApiTester $I)
+    public function returns404DeletedPollTest(\ApiTester $I)
     {
         $this->polls[] = $this->createPoll($I, [
             'identifier'     => 'as46hg',
@@ -48,7 +47,7 @@ class CreateResponsesCest extends BaseApiCest
         $I->seeResponseIsJson();
     }
 
-    public function returns404EndedPollTest(ApiTester $I)
+    public function returns404EndedPollTest(\ApiTester $I)
     {
         $this->polls[] = $this->createPoll($I, [
             'identifier'     => 'hg7i3s',
@@ -69,7 +68,7 @@ class CreateResponsesCest extends BaseApiCest
         $I->seeResponseIsJson();
     }
 
-    public function returnsErrorMessagesAnd400Test(ApiTester $I)
+    public function returnsErrorMessagesAnd400Test(\ApiTester $I)
     {
         $I->wantTo('Check call returns errors');
         $I->sendPOST('/polls/he7gis/responses');
@@ -85,7 +84,7 @@ class CreateResponsesCest extends BaseApiCest
         ]);
     }
 
-    public function returnsResponseAndPersistsResponseTest(ApiTester $I)
+    public function returnsResponseAndPersistsResponseTest(\ApiTester $I)
     {
         $I->wantTo('Check call returns responses and persists responses');
         $I->sendPOST('/polls/he7gis/responses', [
@@ -127,7 +126,7 @@ class CreateResponsesCest extends BaseApiCest
         );
     }
 
-    public function returnsResponseAndUpdatesResponseTest(ApiTester $I)
+    public function returnsResponseAndUpdatesResponseTest(\ApiTester $I)
     {
         $I->sendPOST('/polls/he7gis/responses', [
             'answers' => [
@@ -175,7 +174,7 @@ class CreateResponsesCest extends BaseApiCest
         );
     }
 
-    public function returnsResponseAndPersistsMultipleResponsesTest(ApiTester $I)
+    public function returnsResponseAndPersistsMultipleResponsesTest(\ApiTester $I)
     {
         $poll = $this->createPoll($I, [
             'identifier'     => 'h27ngu',
@@ -273,7 +272,7 @@ class CreateResponsesCest extends BaseApiCest
         );
     }
 
-    public function returnsErrorAnd401ForResponsesPassphraseTest(ApiTester $I)
+    public function returnsErrorAnd401ForResponsesPassphraseTest(\ApiTester $I)
     {
         $this->polls[] = $this->createPoll($I, [
             'identifier'     => 'ic8ans',
@@ -299,7 +298,7 @@ class CreateResponsesCest extends BaseApiCest
         ]);
     }
 
-    public function returnsResponseAndPersistsResponseTestWithPassphrase(ApiTester $I)
+    public function returnsResponseAndPersistsResponseTestWithPassphrase(\ApiTester $I)
     {
         $this->polls[] = $this->createPoll($I, [
             'identifier'     => 'ic8ans',
@@ -336,7 +335,7 @@ class CreateResponsesCest extends BaseApiCest
         );
     }
 
-    public function returnsErrorAnd400ForNewlyEndedPollResponsesTest(ApiTester $I)
+    public function returnsErrorAnd400ForNewlyEndedPollResponsesTest(\ApiTester $I)
     {
         $this->polls[] = $this->createPoll($I, [
             'identifier'     => 'gfry89',

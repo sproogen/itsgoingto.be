@@ -1,17 +1,16 @@
 <?php
 
-namespace ItsGoingToBeBundle\Tests\Api;
+namespace App\Tests\Api;
 
 use Codeception\Util\HttpCode;
-use ItsGoingToBeBundle\Tests\Api\BaseApiCest;
-use ItsGoingToBeBundle\ApiTester;
+use App\Tests\Api\BaseApiCest;
 
 /**
  * API Tests for GET /api/polls
  */
 class RetrievePollsCest extends BaseApiCest
 {
-    public function checkRouteTest(ApiTester $I)
+    public function checkRouteTest(\ApiTester $I)
     {
         $user = $this->createUser($I, [
             'username' => 'admin',
@@ -31,7 +30,7 @@ class RetrievePollsCest extends BaseApiCest
         ]);
     }
 
-    public function returns401ForUnauthorizedUser(ApiTester $I)
+    public function returns401ForUnauthorizedUser(\ApiTester $I)
     {
         $I->wantTo('Check call returns 401');
         $I->sendDelete('/polls');
@@ -39,7 +38,7 @@ class RetrievePollsCest extends BaseApiCest
         $I->seeResponseIsJson();
     }
 
-    public function returnsPollTest(ApiTester $I)
+    public function returnsPollTest(\ApiTester $I)
     {
         $user = $this->createUser($I, [
             'username' => 'admin',
@@ -85,7 +84,7 @@ class RetrievePollsCest extends BaseApiCest
         );
     }
 
-    public function returnsPollWithValuesTest(ApiTester $I)
+    public function returnsPollWithValuesTest(\ApiTester $I)
     {
         $user = $this->createUser($I, [
             'username' => 'admin',
@@ -131,7 +130,7 @@ class RetrievePollsCest extends BaseApiCest
         );
     }
 
-    public function returnsPaginatedPollsTest(ApiTester $I)
+    public function returnsPaginatedPollsTest(\ApiTester $I)
     {
         for ($x = 0; $x < 50; $x++) {
             $this->polls[] = $this->createPoll($I, [

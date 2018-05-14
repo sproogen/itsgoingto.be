@@ -1,16 +1,16 @@
 <?php
 
-namespace ItsGoingToBeBundle\Tests\Unit\Service;
+namespace App\Tests\Unit\Service;
 
 use Prophecy\Argument;
 use Prophecy\ObjectProphecy;
 use Doctrine\ORM\EntityManager;
-use ItsGoingToBeBundle\Tests\Unit\AbstractTests\BaseTest;
-use ItsGoingToBeBundle\Service\PollEndService;
+use App\Tests\Unit\AbstractTests\BaseTest;
+use App\Service\PollEndService;
 use App\Entity\Poll;
 
 /**
- * Tests for ItsGoingToBeBundle\Service\PollEndService
+ * Tests for App\Service\PollEndService
  */
 class PollEndServiceTest extends BaseTest
 {
@@ -30,19 +30,18 @@ class PollEndServiceTest extends BaseTest
     {
         parent::setUp();
 
-        $this->service = new $this->serviceClass();
-
         $this->entityManager = $this->prophesize(EntityManager::class);
         $this->entityManager->persist(Argument::any())
             ->willReturn(true);
         $this->entityManager->flush(Argument::any())
             ->willReturn(true);
-        $this->service->setEntityManager($this->entityManager->reveal());
 
         $this->poll = $this->prophesize(Poll::class);
         $this->poll->isEnded()->willReturn(true);
         $this->poll->shouldHaveEnded()->willReturn(false);
         $this->poll->setEnded(true)->willReturn($this->poll->reveal());
+
+        $this->service = new $this->serviceClass($this->entityManager->reveal());
     }
 
     /**

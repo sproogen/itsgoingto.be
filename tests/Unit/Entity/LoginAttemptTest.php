@@ -1,8 +1,8 @@
 <?php
 
-namespace ItsGoingToBeBundle\Tests\Unit\Entity;
+namespace App\Tests\Unit\Entity;
 
-use ItsGoingToBeBundle\Tests\Unit\AbstractTests\BaseEntityTest;
+use App\Tests\Unit\AbstractTests\BaseEntityTest;
 use App\Entity\LoginAttempt;
 
 /**

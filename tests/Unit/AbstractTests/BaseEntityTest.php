@@ -1,8 +1,8 @@
 <?php
 
-namespace ItsGoingToBeBundle\Tests\Unit\AbstractTests;
+namespace App\Tests\Unit\AbstractTests;
 
-use ItsGoingToBeBundle\Tests\Unit\AbstractTests\BaseTest;
+use App\Tests\Unit\AbstractTests\BaseTest;
 
 abstract class BaseEntityTest extends BaseTest
 {

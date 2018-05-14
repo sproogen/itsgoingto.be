@@ -1,6 +1,6 @@
 <?php
 
-namespace ItsGoingToBeBundle\Helper;
+namespace Helper;
 
 use Flow\JSONPath\JSONPath;
 

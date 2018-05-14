@@ -1,6 +1,6 @@
 <?php
 
-namespace ItsGoingToBeBundle\Tests\Unit\Service;
+namespace App\Tests\Unit\Service;
 
 use Prophecy\Argument;
 use Prophecy\ObjectProphecy;
@@ -9,22 +9,22 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\UnitOfWork;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Mapping\ClassMetadata;
-use ItsGoingToBeBundle\Tests\Unit\AbstractTests\BaseTest;
-use ItsGoingToBeBundle\Service\UserListener;
+use App\Tests\Unit\AbstractTests\BaseTest;
+use App\EventListener\UserSubscriber;
 use App\Entity\User;
 use App\Entity\Poll;
 
 /**
- * Tests for ItsGoingToBeBundle\Service\UserListener
+ * Tests for App\EventListener\UserSubscriber
  */
-class UserListenerTest extends BaseTest
+class UserSubscriberTest extends BaseTest
 {
     /**
      * Name of the class being tested.
      *
      * @var string
      */
-    protected $serviceClass = UserListener::class;
+    protected $serviceClass = UserSubscriber::class;
 
     /**
      * @var ObjectProphecy

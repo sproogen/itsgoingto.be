@@ -5,11 +5,12 @@ modules:
             url: /api
             depends: Symfony
         - Symfony:
-            app_path: '../../app'
-            var_path: '../../var'
+            app_path: 'src'
+            var_path: '../var'
             environment: 'test'
             rebootable_client: false
         - Doctrine2:
             depends: Symfony
             cleanup: true
-        - \ItsGoingToBeBundle\Helper\Api
+        - Helper\Api
+

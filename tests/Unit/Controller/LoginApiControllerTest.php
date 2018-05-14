@@ -1,6 +1,6 @@
 <?php
 
-namespace ItsGoingToBeBundle\Tests\Unit\Controller;
+namespace App\Tests\Unit\Controller;
 
 use Prophecy\Argument;
 use Prophecy\ObjectProphecy;
@@ -8,13 +8,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface;
-use ItsGoingToBeBundle\Tests\Unit\AbstractTests\BaseApiControllerTest;
-use ItsGoingToBeBundle\Controller\Api\LoginApiController;
+use App\Tests\Unit\AbstractTests\BaseApiControllerTest;
+use App\Controller\Api\LoginApiController;
 use App\Entity\User;
 use App\Entity\LoginAttempt;
 
 /**
- * Tests for ItsGoingToBeBundle\Controller\Api\PollApiController
+ * Tests for App\Controller\Api\PollApiController
  */
 class LoginApiControllerTest extends BaseApiControllerTest
 {

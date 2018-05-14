@@ -39,9 +39,6 @@ class IdentifierService
     {
         $session = $request->getSession();
 
-        // var_dump("session");
-        // var_dump($session->getId());
-
         if (!$session instanceof Session) {
             $this->logger->info('Session Not Found');
             $session = new Session();
@@ -67,9 +64,6 @@ class IdentifierService
     public function getCustomUserID(Request $request)
     {
         $userID = $request->cookies->get('USERID');
-
-        // var_dump("userID");
-        // var_dump($userID);
 
         if (!$userID) {
             $this->logger->info('Custom User ID Not Found');

@@ -1,8 +1,7 @@
 <?php
 
-namespace ItsGoingToBeBundle\Tests\Api;
+namespace App\Tests\Api;
 
-use ItsGoingToBeBundle\ApiTester;
 use App\Entity\Poll;
 use App\Entity\Answer;
 use App\Entity\UserResponse;
@@ -17,7 +16,7 @@ abstract class BaseApiCest
 
     protected $polls;
 
-    protected function createPoll(ApiTester $I, $data)
+    protected function createPoll(\ApiTester $I, $data)
     {
         $answers = isset($data['answers']) ? $data['answers'] : [];
         unset($data['answers']);
@@ -35,7 +34,7 @@ abstract class BaseApiCest
         return $poll;
     }
 
-    protected function createAnswer(ApiTester $I, Poll $poll, $data)
+    protected function createAnswer(\ApiTester $I, Poll $poll, $data)
     {
         $data['poll'] = $poll;
         $responses = isset($data['responses']) ? $data['responses'] : [];
@@ -54,7 +53,7 @@ abstract class BaseApiCest
         return $answer;
     }
 
-    protected function createResponse(ApiTester $I, Poll $poll, Answer $answer, $data)
+    protected function createResponse(\ApiTester $I, Poll $poll, Answer $answer, $data)
     {
         $data['poll'] = $poll;
         $data['answer'] = $answer;
@@ -71,7 +70,7 @@ abstract class BaseApiCest
         return $response;
     }
 
-    protected function createUser(ApiTester $I, $data)
+    protected function createUser(\ApiTester $I, $data)
     {
         $userId = $I->haveInRepository(User::class, $data);
         $user = $this->em->find(User::class, $userId);
@@ -79,7 +78,7 @@ abstract class BaseApiCest
         return $user;
     }
 
-    protected function getTokenForUser(ApiTester $I, User $user)
+    protected function getTokenForUser(\ApiTester $I, User $user)
     {
         $jwtService = $I->getJWTService();
 
@@ -89,7 +88,7 @@ abstract class BaseApiCest
     }
 
     // @codingStandardsIgnoreLine
-    public function _before(ApiTester $I)
+    public function _before(\ApiTester $I)
     {
         $this->em = $I->getEntityManager();
 

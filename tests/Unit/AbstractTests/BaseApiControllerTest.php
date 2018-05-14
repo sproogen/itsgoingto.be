@@ -1,6 +1,6 @@
 <?php
 
-namespace ItsGoingToBeBundle\Tests\Unit\AbstractTests;
+namespace App\Tests\Unit\AbstractTests;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
@@ -12,15 +12,15 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-use ItsGoingToBeBundle\Interfaces\ApiControllerInterface;
-use ItsGoingToBeBundle\Controller\Api\PollApiController;
-use ItsGoingToBeBundle\Tests\Unit\AbstractTests\BaseTest;
+use App\Interfaces\ApiControllerInterface;
+use App\Controller\Api\PollApiController;
+use App\Tests\Unit\AbstractTests\BaseTest;
 use App\Entity\Poll;
 use App\Entity\Answer;
 use App\Entity\UserResponse;
 use App\Entity\User;
-use ItsGoingToBeBundle\Service\IdentifierService;
-use ItsGoingToBeBundle\Service\PollEndService;
+use App\Service\IdentifierService;
+use App\Service\PollEndService;
 
 abstract class BaseApiControllerTest extends BaseTest
 {
@@ -122,14 +122,6 @@ abstract class BaseApiControllerTest extends BaseTest
             throw new \Exception($message);
         }
 
-        $this->controller = new $this->controllerClass();
-        if (!$this->controller instanceof ApiControllerInterface) {
-            $message = '$controllerClass must represent a class implementing the '
-                       . ApiControllerInterface::class
-                       . ' interface.';
-            throw new \Exception($message);
-        }
-
         $this->answer = $this->prophesize(Answer::class);
         $this->answer->getId()->willReturn(5);
         $this->answer->getResponses()->willReturn([new UserResponse()]);
@@ -220,10 +212,18 @@ abstract class BaseApiControllerTest extends BaseTest
             return $args[0];
         });
 
-        $this->controller->setEntityManager($this->entityManager->reveal());
-        $this->controller->setAuthorizationChecker($this->authorizationChecker->reveal());
-        $this->controller->setIdentifierService($this->identifierService->reveal());
-        $this->controller->setPollEndService($this->pollEndService->reveal());
+        $this->controller = new $this->controllerClass(
+            $this->entityManager->reveal(),
+            $this->authorizationChecker->reveal(),
+            $this->identifierService->reveal(),
+            $this->pollEndService->reveal()
+        );
+        if (!$this->controller instanceof ApiControllerInterface) {
+            $message = '$controllerClass must represent a class implementing the '
+                       . ApiControllerInterface::class
+                       . ' interface.';
+            throw new \Exception($message);
+        }
     }
 
     /**

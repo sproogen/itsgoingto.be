@@ -1,17 +1,16 @@
 <?php
 
-namespace ItsGoingToBeBundle\Tests\Api;
+namespace App\Tests\Api;
 
 use Codeception\Util\HttpCode;
-use ItsGoingToBeBundle\Tests\Api\BaseApiCest;
-use ItsGoingToBeBundle\ApiTester;
+use App\Tests\Api\BaseApiCest;
 
 /**
  * API Tests for GET /api/polls/:identifier
  */
 class RetrievePollCest extends BaseApiCest
 {
-    public function checkRouteTest(ApiTester $I)
+    public function checkRouteTest(\ApiTester $I)
     {
         $I->wantTo('Check call return 200');
         $I->sendGet('/polls/he7gis');
@@ -19,7 +18,7 @@ class RetrievePollCest extends BaseApiCest
         $I->seeResponseIsJson();
     }
 
-    public function returns404Test(ApiTester $I)
+    public function returns404Test(\ApiTester $I)
     {
         $I->wantTo('Check call return 404');
         $I->sendGet('/polls/h2gUis');
@@ -27,7 +26,7 @@ class RetrievePollCest extends BaseApiCest
         $I->seeResponseIsJson();
     }
 
-    public function returnsPollTest(ApiTester $I)
+    public function returnsPollTest(\ApiTester $I)
     {
         $I->wantTo('Check returned polls match json structure');
         $I->sendGET('/polls/he7gis');
@@ -69,7 +68,7 @@ class RetrievePollCest extends BaseApiCest
         );
     }
 
-    public function returnsPollWithValues(ApiTester $I)
+    public function returnsPollWithValues(\ApiTester $I)
     {
         $I->wantTo('Check returned poll match correct values');
         $I->sendGET('/polls/he7gis');
@@ -111,7 +110,7 @@ class RetrievePollCest extends BaseApiCest
         );
     }
 
-    public function returns404ForDeletedTest(ApiTester $I)
+    public function returns404ForDeletedTest(\ApiTester $I)
     {
         $I->wantTo('Check call returns 404');
         $I->sendGet('/polls/y3k0sn');
@@ -119,7 +118,7 @@ class RetrievePollCest extends BaseApiCest
         $I->seeResponseIsJson();
     }
 
-    public function returnsDeletedPollForAdminTest(ApiTester $I)
+    public function returnsDeletedPollForAdminTest(\ApiTester $I)
     {
         $user = $this->createUser($I, [
             'username' => 'admin',
@@ -139,7 +138,7 @@ class RetrievePollCest extends BaseApiCest
         ]);
     }
 
-    public function returnsErrorAnd403ForPassphraseTest(ApiTester $I)
+    public function returnsErrorAnd403ForPassphraseTest(\ApiTester $I)
     {
         $this->polls[] = $this->createPoll($I, [
             'identifier'     => 'ic8ans',
@@ -165,7 +164,7 @@ class RetrievePollCest extends BaseApiCest
         ]);
     }
 
-    public function returnsPollWithPassphraseTest(ApiTester $I)
+    public function returnsPollWithPassphraseTest(\ApiTester $I)
     {
         $this->polls[] = $this->createPoll($I, [
             'identifier'     => 'ic8ans',
@@ -219,7 +218,7 @@ class RetrievePollCest extends BaseApiCest
         );
     }
 
-    public function endsPollAndreturnsEndedPollTest(ApiTester $I)
+    public function endsPollAndreturnsEndedPollTest(\ApiTester $I)
     {
         $now = new \DateTime();
         $this->polls[] = $this->createPoll($I, [

@@ -1,17 +1,16 @@
 <?php
 
-namespace ItsGoingToBeBundle\Tests\Api;
+namespace App\Tests\Api;
 
 use Codeception\Util\HttpCode;
-use ItsGoingToBeBundle\Tests\Api\BaseApiCest;
-use ItsGoingToBeBundle\ApiTester;
+use App\Tests\Api\BaseApiCest;
 
 /**
  * API Tests for POST /api/polls
  */
 class CreatePollCest extends BaseApiCest
 {
-    public function checkRouteTest(ApiTester $I)
+    public function checkRouteTest(\ApiTester $I)
     {
         $I->wantTo('Check call return 400');
         $I->sendPOST('/polls');
@@ -19,7 +18,7 @@ class CreatePollCest extends BaseApiCest
         $I->seeResponseIsJson();
     }
 
-    public function returnsErrorMessagesAnd400Test(ApiTester $I)
+    public function returnsErrorMessagesAnd400Test(\ApiTester $I)
     {
         $I->wantTo('Check call returns errors');
         $I->sendPOST('/polls');
@@ -36,7 +35,7 @@ class CreatePollCest extends BaseApiCest
         ]);
     }
 
-    public function returnsPersistedPollTest(ApiTester $I)
+    public function returnsPersistedPollTest(\ApiTester $I)
     {
         $I->wantTo('Check call returns persisted poll');
         $I->sendPOST('/polls', [
@@ -108,7 +107,7 @@ class CreatePollCest extends BaseApiCest
         );
     }
 
-    public function returnsPersistedPollWithEndDateTest(ApiTester $I)
+    public function returnsPersistedPollWithEndDateTest(\ApiTester $I)
     {
         $I->wantTo('Check call returns persisted poll with end date');
         $I->sendPOST('/polls', [

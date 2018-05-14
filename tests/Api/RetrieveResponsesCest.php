@@ -1,17 +1,16 @@
 <?php
 
-namespace ItsGoingToBeBundle\Tests\Api;
+namespace App\Tests\Api;
 
 use Codeception\Util\HttpCode;
-use ItsGoingToBeBundle\Tests\Api\BaseApiCest;
-use ItsGoingToBeBundle\ApiTester;
+use App\Tests\Api\BaseApiCest;
 
 /**
  * API Tests for GET /api/polls/:identifier/responses
  */
 class RetrieveResponsesCest extends BaseApiCest
 {
-    public function checkRouteTest(ApiTester $I)
+    public function checkRouteTest(\ApiTester $I)
     {
         $I->wantTo('Check call return 200');
         $I->sendGET('/polls/he7gis/responses');
@@ -19,7 +18,7 @@ class RetrieveResponsesCest extends BaseApiCest
         $I->seeResponseIsJson();
     }
 
-    public function returns404Test(ApiTester $I)
+    public function returns404Test(\ApiTester $I)
     {
         $I->wantTo('Check call return 404');
         $I->sendGet('/polls/y3k0sn/responses');
@@ -27,7 +26,7 @@ class RetrieveResponsesCest extends BaseApiCest
         $I->seeResponseIsJson();
     }
 
-    public function returns404DeletedPollTest(ApiTester $I)
+    public function returns404DeletedPollTest(\ApiTester $I)
     {
         $this->polls[] = $this->createPoll($I, [
             'identifier'     => 'as46hg',
@@ -47,7 +46,7 @@ class RetrieveResponsesCest extends BaseApiCest
         $I->seeResponseIsJson();
     }
 
-    public function returns404EndedPollTest(ApiTester $I)
+    public function returns404EndedPollTest(\ApiTester $I)
     {
         $this->polls[] = $this->createPoll($I, [
             'identifier'     => 'hg7i3s',
@@ -68,7 +67,7 @@ class RetrieveResponsesCest extends BaseApiCest
         $I->seeResponseIsJson();
     }
 
-    public function returnsResponsesTest(ApiTester $I)
+    public function returnsResponsesTest(\ApiTester $I)
     {
         $I->wantTo('Check returned responses match json structure');
         $I->sendGET('/polls/he7gis/responses');
@@ -88,7 +87,7 @@ class RetrieveResponsesCest extends BaseApiCest
         );
     }
 
-    public function returnsResponsesWithValues(ApiTester $I)
+    public function returnsResponsesWithValues(\ApiTester $I)
     {
         $I->wantTo('Check returned responses match correct values');
         $I->sendGET('/polls/he7gis/responses');
@@ -114,7 +113,7 @@ class RetrieveResponsesCest extends BaseApiCest
         );
     }
 
-    public function returnsUsersResponsesWithValues(ApiTester $I)
+    public function returnsUsersResponsesWithValues(\ApiTester $I)
     {
         $I->sendPOST('/polls/he7gis/responses', [
             'answers' => [
@@ -146,7 +145,7 @@ class RetrieveResponsesCest extends BaseApiCest
         );
     }
 
-    public function returnsErrorAnd401ForResponsesPassphraseTest(ApiTester $I)
+    public function returnsErrorAnd401ForResponsesPassphraseTest(\ApiTester $I)
     {
         $this->polls[] = $this->createPoll($I, [
             'identifier'     => 'ic8ans',
@@ -172,7 +171,7 @@ class RetrieveResponsesCest extends BaseApiCest
         ]);
     }
 
-    public function returnsResponsesWithPassphraseTest(ApiTester $I)
+    public function returnsResponsesWithPassphraseTest(\ApiTester $I)
     {
         $this->polls[] = $this->createPoll($I, [
             'identifier'     => 'ic8ans',

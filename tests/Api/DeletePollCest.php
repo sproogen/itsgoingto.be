@@ -1,17 +1,16 @@
 <?php
 
-namespace ItsGoingToBeBundle\Tests\Api;
+namespace App\Tests\Api;
 
 use Codeception\Util\HttpCode;
-use ItsGoingToBeBundle\Tests\Api\BaseApiCest;
-use ItsGoingToBeBundle\ApiTester;
+use App\Tests\Api\BaseApiCest;
 
 /**
  * API Tests for DELETE /api/polls/:identifier
  */
 class DeletePollCest extends BaseApiCest
 {
-    public function checkRouteTest(ApiTester $I)
+    public function checkRouteTest(\ApiTester $I)
     {
         $I->wantTo('Check call returns 401');
         $I->sendDelete('/polls/he7gis');
@@ -19,7 +18,7 @@ class DeletePollCest extends BaseApiCest
         $I->seeResponseIsJson();
     }
 
-    public function returns404Test(ApiTester $I)
+    public function returns404Test(\ApiTester $I)
     {
         $user = $this->createUser($I, [
             'username' => 'admin',
@@ -34,7 +33,7 @@ class DeletePollCest extends BaseApiCest
         $I->seeResponseIsJson();
     }
 
-    public function deletesPollAsAdminTest(ApiTester $I)
+    public function deletesPollAsAdminTest(\ApiTester $I)
     {
         $user = $this->createUser($I, [
             'username' => 'admin',

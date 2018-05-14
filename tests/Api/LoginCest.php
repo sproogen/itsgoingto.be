@@ -1,17 +1,16 @@
 <?php
 
-namespace ItsGoingToBeBundle\Tests\Api;
+namespace App\Tests\Api;
 
 use Codeception\Util\HttpCode;
-use ItsGoingToBeBundle\Tests\Api\BaseApiCest;
-use ItsGoingToBeBundle\ApiTester;
+use App\Tests\Api\BaseApiCest;
 
 /**
  * API Tests for POST /api/login
  */
 class LoginCest extends BaseApiCest
 {
-    public function checkRouteTest(ApiTester $I)
+    public function checkRouteTest(\ApiTester $I)
     {
         $I->wantTo('Check call return 400');
         $I->sendPOST('/login');
@@ -19,7 +18,7 @@ class LoginCest extends BaseApiCest
         $I->seeResponseIsJson();
     }
 
-    public function returnsErrorMessagesAnd400Test(ApiTester $I)
+    public function returnsErrorMessagesAnd400Test(\ApiTester $I)
     {
         $I->wantTo('Check call returns errors');
         $I->sendPOST('/login');
@@ -36,11 +35,11 @@ class LoginCest extends BaseApiCest
         ]);
     }
 
-    public function returns400IfUserDoesntExist(ApiTester $I)
+    public function returns400IfUserDoesntExist(\ApiTester $I)
     {
         $I->wantTo('Check call returns logged in user');
         $I->sendPOST('/login', [
-            'username' => 'admin',
+            'username' => 'test_admin',
             'password' => '$2y$12$SmJomfmyLDtfLT9HI.z.qunIMsYI50gG2h8kVFw3BVaHyUn3cmCy.'
         ]);
         $I->seeResponseCodeIs(HttpCode::BAD_REQUEST);
@@ -55,16 +54,16 @@ class LoginCest extends BaseApiCest
         ]);
     }
 
-    public function returns400IfPasswordDoesntMatch(ApiTester $I)
+    public function returns400IfPasswordDoesntMatch(\ApiTester $I)
     {
         $this->createUser($I, [
-            'username' => 'admin',
+            'username' => 'test_admin',
             'password' => '$2y$12$SmJomfmyLDtfLT9HI.z.qunIMsYI50gG2h8kVFw3BVaHyUn3cmCy.'
         ]);
 
         $I->wantTo('Check call returns logged in user');
         $I->sendPOST('/login', [
-            'username' => 'admin',
+            'username' => 'test_admin',
             'password' => 'password789'
         ]);
         $I->seeResponseCodeIs(HttpCode::BAD_REQUEST);
@@ -79,16 +78,16 @@ class LoginCest extends BaseApiCest
         ]);
     }
 
-    public function logsInAndReturnsUserTest(ApiTester $I)
+    public function logsInAndReturnsUserTest(\ApiTester $I)
     {
         $this->createUser($I, [
-            'username' => 'admin',
+            'username' => 'test_admin',
             'password' => '$2y$12$SmJomfmyLDtfLT9HI.z.qunIMsYI50gG2h8kVFw3BVaHyUn3cmCy.'
         ]);
 
         $I->wantTo('Check call returns logged in user');
         $I->sendPOST('/login', [
-            'username' => 'admin',
+            'username' => 'test_admin',
             'password' => 'password123'
         ]);
         $I->seeResponseCodeIs(HttpCode::OK);

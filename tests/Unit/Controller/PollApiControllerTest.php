@@ -1,18 +1,18 @@
 <?php
 
-namespace ItsGoingToBeBundle\Tests\Unit\Controller;
+namespace App\Tests\Unit\Controller;
 
 use Prophecy\Argument;
 use Prophecy\ObjectProphecy;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use ItsGoingToBeBundle\Tests\Unit\AbstractTests\BaseApiControllerTest;
-use ItsGoingToBeBundle\Controller\Api\PollApiController;
+use App\Tests\Unit\AbstractTests\BaseApiControllerTest;
+use App\Controller\Api\PollApiController;
 use App\Entity\Poll;
 use App\Entity\UserResponse;
 
 /**
- * Tests for ItsGoingToBeBundle\Controller\Api\PollApiController
+ * Tests for App\Controller\Api\PollApiController
  */
 class PollApiControllerTest extends BaseApiControllerTest
 {
@@ -48,12 +48,17 @@ class PollApiControllerTest extends BaseApiControllerTest
      */
     public function testIndexPollRequestReturnsPollsForAdmin()
     {
+        $this->authorizationChecker->isGranted('ROLE_ADMIN')->willReturn(true);
         $this->controller = $this->getMockBuilder(PollApiController::class)
+            ->setConstructorArgs(array(
+                $this->entityManager->reveal(),
+                $this->authorizationChecker->reveal(),
+                $this->identifierService->reveal(),
+                $this->pollEndService->reveal()
+            ))
             ->setMethods(array('countResults'))
             ->getMock();
-        $this->controller->setEntityManager($this->entityManager->reveal());
-        $this->authorizationChecker->isGranted('ROLE_ADMIN')->willReturn(true);
-        $this->controller->setAuthorizationChecker($this->authorizationChecker->reveal());
+
         $request = Request::create($this->apiUrl, Request::METHOD_GET);
 
         $this->controller
@@ -87,12 +92,17 @@ class PollApiControllerTest extends BaseApiControllerTest
      */
     public function testIndexPollsAppliesPagination()
     {
+        $this->authorizationChecker->isGranted('ROLE_ADMIN')->willReturn(true);
         $this->controller = $this->getMockBuilder(PollApiController::class)
+            ->setConstructorArgs(array(
+                    $this->entityManager->reveal(),
+                    $this->authorizationChecker->reveal(),
+                    $this->identifierService->reveal(),
+                    $this->pollEndService->reveal()
+                ))
             ->setMethods(array('countResults'))
             ->getMock();
-        $this->controller->setEntityManager($this->entityManager->reveal());
-        $this->authorizationChecker->isGranted('ROLE_ADMIN')->willReturn(true);
-        $this->controller->setAuthorizationChecker($this->authorizationChecker->reveal());
+
         $request = Request::create($this->apiUrl, Request::METHOD_GET);
 
         $response = $this->controller->apiAction($request, 0);

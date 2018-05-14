@@ -1,6 +1,6 @@
 <?php
 
-namespace ItsGoingToBeBundle\Tests\Unit\Security;
+namespace App\Tests\Unit\Security;
 
 use Prophecy\Argument;
 use Prophecy\ObjectProphecy;
@@ -13,11 +13,11 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTDecodeFailureException;
-use ItsGoingToBeBundle\Tests\Unit\AbstractTests\BaseTest;
-use ItsGoingToBeBundle\Security\TokenAuthenticator;
+use App\Tests\Unit\AbstractTests\BaseTest;
+use App\Security\TokenAuthenticator;
 
 /**
- * Tests for ItsGoingToBeBundle\Service\TokenAuthenticator
+ * Tests for App\Service\TokenAuthenticator
  */
 class TokenAuthenticatorTest extends BaseTest
 {
