@@ -1,7 +1,6 @@
 language: php
 
 php:
-  - '7.0'
   - '7.2'
 
 services:
@@ -14,7 +13,7 @@ cache:
   directories:
     - $HOME/.composer/cache/file
     - vendor
-    - app/Resources/client/node_modules
+    - app/node_modules
 
 branches:
   only:
@@ -22,12 +21,11 @@ branches:
     - develop
 
 before_install:
-  - cp app/config/parameters.yml.travis app/config/parameters.yml
 
 install:
   - rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm install $NODE_VERSION
   - composer install
-  - (cd app/Resources/client && npm install)
+  - (cd app && npm install)
 
 before_script:
   - php bin/console doctrine:database:create --env=test
@@ -38,13 +36,13 @@ script:
   - bin/phplint src
   - bin/phpunit
   - SYMFONY_DEPRECATIONS_HELPER=disabled bin/codecept run --ext DotReporter
-  - (cd app/Resources/client && npm run build)
-  - (cd app/Resources/client && npm run lint)
-  - (cd app/Resources/client && npm run test -- --coverage --ci)
+  - (cd app && npm run build)
+  - (cd app && npm run lint)
+  - (cd app && npm run test -- --coverage --ci)
 
 after_script:
   - bin/codacycoverage clover build/logs/clover.xml
-  - (cd app/Resources/client && cat build/coverage/lcov.info | node_modules/.bin/codacy-coverage .)
+  - (cd app && cat build/coverage/lcov.info | node_modules/.bin/codacy-coverage .)
 
 notifications:
   email:

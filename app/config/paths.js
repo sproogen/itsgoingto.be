@@ -42,7 +42,7 @@ function getServedPath (appPackageJson) {
 // config after eject: we're in ./config/
 module.exports = {
   dotenv: resolveApp('.env'),
-  appBuild: resolveApp('../../../web/client'),
+  appBuild: resolveApp('../web/client'),
   appPublic: resolveApp('public'),
   appHtml: resolveApp('public/index.html'),
   appIndexJs: resolveApp('src/main.js'),

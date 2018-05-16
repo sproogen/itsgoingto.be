@@ -2,22 +2,22 @@ version: '2'
 services:
   app:
     build:
-      context: ./app/Resources/client
-      dockerfile: docker/app/Dockerfile
+      context: ./app
+      dockerfile: ../docker/app/Dockerfile
     image: itsgoingtobe/app
     volumes:
-      - ./app/Resources/client/src:/app/src
+      - ./app/src:/app/src
     ports:
       - "3000:3000"
 
   storybook:
     build:
-      context: ./app/Resources/client
-      dockerfile: docker/storybook/Dockerfile
+      context: ./app
+      dockerfile: ../docker/storybook/Dockerfile
     image: itsgoingtobe/storybook
     volumes:
-      - ./app/Resources/client/src:/app/src
-      - ./app/Resources/client/stories:/app/stories
+      - ./app/src:/app/src
+      - ./app/stories:/app/stories
     ports:
       - "6006:6006"
 

@@ -2,7 +2,7 @@
   "name": "itsgoingtobe-heroku",
   "version": "1.0.0",
   "scripts": {
-    "postinstall": "cd app/Resources/client && npm install"
+    "postinstall": "cd app && npm install"
   },
   "author": "James Grant <james@jwgmedia.co.uk> (http://jameswgrant.co.uk)",
   "license": "GPLv3"
