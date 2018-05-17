@@ -29,7 +29,7 @@ install:
 
 before_script:
   - php bin/console doctrine:database:create --env=test
-  - composer compile-test
+  - composer compile
 
 script:
   - bin/phpcs --standard=PSR2 src/

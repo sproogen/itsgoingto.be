@@ -54,22 +54,18 @@
             "assets:install --symlink --relative %PUBLIC_DIR%": "symfony-cmd"
         },
         "post-install-cmd": [
-            "@auto-scripts"
+            "@auto-scripts",
+            "@generste-rsa"
         ],
         "post-update-cmd": [
             "@auto-scripts"
         ],
         "generate-rsa": [
-            "openssl genrsa -aes256 -passout pass:SuperSecretPassword -out config/jwt/private.pem 4096",
-            "openssl rsa -pubout -in config/jwt/private.pem -passin pass:SuperSecretPassword -out config/jwt/public.pem"
+            "openssl genrsa -aes256 -passout pass:JWT_PASSPHRASE -out config/jwt/private.pem 4096",
+            "openssl rsa -pubout -in config/jwt/private.pem -passin pass:JWT_PASSPHRASE -out config/jwt/public.pem"
         ],
         "compile": [
-            "php bin/console doctrine:migrations:migrate --no-interaction",
-            "@generate-rsa"
-        ],
-        "compile-test": [
-            "php bin/console doctrine:migrations:migrate --no-interaction --env=test",
-            "@generate-rsa"
+            "php bin/console doctrine:migrations:migrate --no-interaction"
         ]
     },
     "conflict": {
