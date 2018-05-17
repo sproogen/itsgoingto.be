@@ -7,7 +7,7 @@ services:
   - mysql
 
 env:
-  - NODE_VERSION="8" APP_ENV=test JWT_PRIVATE_KEY_PATH=config/jwt/private.pem JWT_PUBLIC_KEY_PATH=config/jwt/public.pem
+  - NODE_VERSION="8" APP_ENV=test
 
 cache:
   directories:
@@ -28,20 +28,20 @@ install:
   - (cd app && npm install)
 
 before_script:
-  - php bin/console doctrine:database:create --env=test
+  - php bin/console doctrine:database:create
   - composer compile
 
 script:
-  - bin/phpcs --standard=PSR2 src/
-  - bin/phplint src
-  - bin/phpunit
-  - SYMFONY_DEPRECATIONS_HELPER=disabled bin/codecept run --ext DotReporter
+  - vendor/bin/phpcs --standard=PSR2 src/
+  - vendor/bin/phplint src
+  - vendor/bin/phpunit
+  - SYMFONY_DEPRECATIONS_HELPER=disabled vendor/bin/codecept run
   - (cd app && npm run build)
   - (cd app && npm run lint)
   - (cd app && npm run test -- --coverage --ci)
 
 after_script:
-  - bin/codacycoverage clover build/logs/clover.xml
+  - vendor/bin/codacycoverage clover build/logs/clover.xml
   - (cd app && cat build/coverage/lcov.info | node_modules/.bin/codacy-coverage .)
 
 notifications:

@@ -55,7 +55,7 @@
         },
         "post-install-cmd": [
             "@auto-scripts",
-            "@generste-rsa"
+            "@generate-rsa"
         ],
         "post-update-cmd": [
             "@auto-scripts"
