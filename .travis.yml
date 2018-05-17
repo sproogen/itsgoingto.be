@@ -8,6 +8,9 @@ services:
 
 env:
   - NODE_VERSION="8"
+  - APP_ENV=test
+  - JWT_PRIVATE_KEY_PATH=config/jwt/private.pem
+  - JWT_PUBLIC_KEY_PATH=config/jwt/public.pem
 
 cache:
   directories:
