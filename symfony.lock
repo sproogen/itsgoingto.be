@@ -197,9 +197,6 @@
     "sebastian/version": {
         "version": "2.0.1"
     },
-    "sensio/framework-extra-bundle": {
-        "version": "v3.0.27"
-    },
     "squizlabs/php_codesniffer": {
         "version": "3.2.3"
     },
