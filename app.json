@@ -2,16 +2,16 @@
   "name": "itsgoingto.be",
   "scripts": {},
   "env": {
-    "JAWSDB_URL": {
+    "DATABASE_URL": {
       "required": true
     },
-    "SYMFONY_ENV": {
+    "APP_ENV": {
       "required": true
     },
-    "SECRET": {
+    "APP_SECRET": {
       "required": true
     },
-    "JWT_PASS_PHRASE": {
+    "JWT_PASSPHRASE": {
       "required": true
     }
   },
