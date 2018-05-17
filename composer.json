@@ -1,6 +1,6 @@
 {
-    "name": "james/itsgoingtobe",
-    "license": "proprietary",
+    "name": "itsgoingtobe/api",
+    "license": "GPLv3",
     "type": "project",
     "description": "It's Going To Be Backend API",
     "autoload": {
