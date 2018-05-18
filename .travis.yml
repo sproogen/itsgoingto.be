@@ -10,7 +10,7 @@ services:
   - mysql
 
 env:
-  - NODE_VERSION=8.x APP_ENV=test
+  - NODE_VERSION=8 APP_ENV=test
 
 cache:
   directories:
@@ -24,7 +24,7 @@ branches:
     - develop
 
 before_install:
-  - - rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm install $NODE_VERSION && nvm install-latest-npm
+  - rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm install $NODE_VERSION && nvm install-latest-npm
 
 install:
   - composer install
