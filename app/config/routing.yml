@@ -1,7 +1,0 @@
-logout:
-    path: /admin/logout
-app:
-    resource: "@ItsGoingToBeBundle/Resources/config/routing.yml"
-    prefix:   /
-base_url:
-    path:  /

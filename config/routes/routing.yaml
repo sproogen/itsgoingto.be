@@ -1,0 +1,9 @@
+itsgoingtobe_api:
+    resource: "api.yaml"
+    prefix: /api
+
+itsgoingtobe_react:
+    path: /{url}
+    defaults: { _controller: App\Controller\ReactController::indexAction, url: null }
+    requirements:
+        url: .*

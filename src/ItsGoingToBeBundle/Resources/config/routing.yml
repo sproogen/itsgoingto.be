@@ -1,9 +1,0 @@
-itsgoingtobe_api:
-    resource: "@ItsGoingToBeBundle/Resources/config/routing/api.yml"
-    prefix: /api
-
-itsgoingtobe_react:
-    path: /{url}
-    defaults: { _controller: itsgoingtobe.react_controller:indexAction, url: null }
-    requirements:
-        url: .*

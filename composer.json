@@ -1,82 +1,79 @@
 {
-    "name": "james/itsgoingtobe",
-    "license": "proprietary",
+    "name": "itsgoingtobe/api",
+    "license": "GPLv3",
     "type": "project",
     "description": "It's Going To Be Backend API",
     "autoload": {
-        "psr-4": { "": "src/" },
-        "classmap": [ "app/AppKernel.php", "app/AppCache.php" ]
+        "psr-4": {
+            "App\\": "src/"
+        }
     },
     "autoload-dev": {
-        "psr-4": { "Tests\\": "tests/" },
-        "files": [ "vendor/symfony/symfony/src/Symfony/Component/VarDumper/Resources/functions/dump.php" ]
+        "psr-4": {
+            "App\\Tests\\": "tests/"
+        }
     },
     "require": {
-        "php": "^7.0",
+        "php": "^7.1.3",
         "doctrine/doctrine-bundle": "^1.6",
         "doctrine/doctrine-migrations-bundle": "^1.0",
         "doctrine/orm": "^2.5",
-        "incenteev/composer-parameter-handler": "^2.0",
         "lexik/jwt-authentication-bundle": "^2.4",
-        "sensio/distribution-bundle": "^5.0.19",
-        "sensio/framework-extra-bundle": "^3.0.2",
-        "symfony/assetic-bundle": "~2.8",
+        "symfony/apache-pack": "^1.0",
+        "symfony/console": "^4.0",
+        "symfony/flex": "^1.0",
+        "symfony/framework-bundle": "^4.0",
+        "symfony/lts": "^4@dev",
         "symfony/monolog-bundle": "^3.1.0",
         "symfony/polyfill-apcu": "^1.0",
-        "symfony/symfony": "3.4.*",
-        "twig/twig": "^1.0||^2.0"
+        "symfony/profiler-pack": "^1.0",
+        "symfony/security-bundle": "^4.0",
+        "symfony/twig-bundle": "^4.0",
+        "symfony/var-dumper": "^4.0",
+        "symfony/yaml": "^4.0"
     },
     "require-dev": {
+        "symfony/dotenv": "^4.0",
         "codacy/coverage": "^1.1",
         "codeception/codeception": "2.3.*",
         "flow/jsonpath": "^0.3.4",
-        "overtrue/phplint": "^0.2.1",
+        "overtrue/phplint": "^1.1.2",
         "phpunit/phpunit": "~5.5",
         "squizlabs/php_codesniffer": "3.*",
-        "symfony/phpunit-bridge": "^3.0"
-    },
-    "scripts": {
-        "symfony-scripts": [
-            "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::prepareDeploymentTarget"
-        ],
-        "post-install-cmd": [
-            "@symfony-scripts"
-        ],
-        "post-update-cmd": [
-            "@symfony-scripts"
-        ],
-        "generate-rsa": [
-            "openssl genrsa -aes256 -passout pass:SuperSecretPassword -out var/jwt/private.pem 4096",
-            "openssl rsa -pubout -in var/jwt/private.pem -passin pass:SuperSecretPassword -out var/jwt/public.pem"
-        ],
-        "compile": [
-            "php bin/console doctrine:migrations:migrate --no-interaction",
-            "rm web/app_dev.php",
-            "@generate-rsa"
-        ],
-        "compile-test": [
-            "php bin/console doctrine:migrations:migrate --no-interaction --env=test",
-            "rm web/app_dev.php",
-            "@generate-rsa"
-        ]
+        "symfony/phpunit-bridge": "^4.0"
     },
     "config": {
-        "bin-dir": "bin",
+        "preferred-install": {
+            "*": "dist"
+        },
         "sort-packages": true
     },
+    "scripts": {
+        "auto-scripts": {
+            "cache:clear": "symfony-cmd",
+            "assets:install --symlink --relative %PUBLIC_DIR%": "symfony-cmd"
+        },
+        "post-install-cmd": [
+            "@auto-scripts",
+            "@generate-rsa"
+        ],
+        "post-update-cmd": [
+            "@auto-scripts"
+        ],
+        "generate-rsa": [
+            "openssl genrsa -aes256 -passout pass:$JWT_PASSPHRASE -out config/jwt/private.pem 4096",
+            "openssl rsa -pubout -in config/jwt/private.pem -passin pass:$JWT_PASSPHRASE -out config/jwt/public.pem"
+        ],
+        "compile": [
+            "php bin/console doctrine:migrations:migrate --no-interaction"
+        ]
+    },
+    "conflict": {
+        "symfony/symfony": "*"
+    },
     "extra": {
-        "symfony-app-dir": "app",
-        "symfony-bin-dir": "bin",
-        "symfony-var-dir": "var",
-        "symfony-web-dir": "web",
-        "symfony-assets-install": "relative",
-        "incenteev-parameters": {
-            "file": "app/config/parameters.yml"
+        "symfony": {
+            "allow-contrib": true
         }
     }
 }

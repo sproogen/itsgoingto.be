@@ -2,22 +2,22 @@ version: '2'
 services:
   app:
     build:
-      context: ./app/Resources/client
-      dockerfile: docker/app/Dockerfile
+      context: ./app
+      dockerfile: ../docker/app/Dockerfile
     image: itsgoingtobe/app
     volumes:
-      - ./app/Resources/client/src:/app/src
+      - ./app/src:/app/src
     ports:
       - "3000:3000"
 
   storybook:
     build:
-      context: ./app/Resources/client
-      dockerfile: docker/storybook/Dockerfile
+      context: ./app
+      dockerfile: ../docker/storybook/Dockerfile
     image: itsgoingtobe/storybook
     volumes:
-      - ./app/Resources/client/src:/app/src
-      - ./app/Resources/client/stories:/app/stories
+      - ./app/src:/app/src
+      - ./app/stories:/app/stories
     ports:
       - "6006:6006"
 
@@ -27,12 +27,13 @@ services:
       - php-fpm
     links:
       - mysql
-      - mysql:database
     volumes:
       - ./:/var/www/html
       - ./docker/nginx/site.conf:/etc/nginx/conf.d/default.conf
     ports:
       - "8000:80"
+    environment:
+      - DATABASE_URL=mysql://user:password@mysql:3306/itsgoingtobe
 
   php-fpm:
     build: docker/php-fpm
@@ -40,17 +41,33 @@ services:
     working_dir: /var/www/html
     depends_on:
       - mysql
+      - mysql_test
     links:
       - mysql
-      - mysql:database
+      - mysql_test
     volumes:
       - ./:/var/www/html
       - ./docker/php-fpm/php-ini-overrides.ini:/etc/php/7.0/fpm/conf.d/99-overrides.ini
+    environment:
+      - DATABASE_URL=mysql://user:password@mysql:3306/itsgoingtobe
+      - DATABASE_TEST_URL=mysql://user:password@mysql_test:3306/itsgoingtobe
 
   mysql:
     image: mysql:8.0
     ports:
       - "3306:3306"
+    volumes:
+      - ./docker/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=itsgoingtobe
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=password
+
+  mysql_test:
+    image: mysql:8.0
+    ports:
+      - "3307:3306"
     volumes:
       - ./docker/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
     environment:

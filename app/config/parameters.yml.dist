@@ -1,8 +1,0 @@
-parameters:
-    database_host: localhost
-    database_port: null
-    database_name: itsgoingtobe
-    database_user: root
-    database_password: null
-    secret: ~
-    jwt_key_pass_phrase: ~
