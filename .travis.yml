@@ -1,3 +1,6 @@
+sudo: required
+dist: trusty
+
 language: php
 
 php:
@@ -7,7 +10,7 @@ services:
   - mysql
 
 env:
-  - NODE_VERSION="8" APP_ENV=test
+  - NODE_VERSION=8.x APP_ENV=test
 
 cache:
   directories:
@@ -20,8 +23,11 @@ branches:
     - master
     - develop
 
+before_install:
+  - sudo rm -rf ~/.nvm - curl -sL "https://deb.nodesource.com/setup_${NODE_RELEASE}" | sudo -E bash -
+  - sudo apt-get install -y nodej
+
 install:
-  - rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm install $NODE_VERSION
   - composer install
   - (cd app && npm ci)
 
