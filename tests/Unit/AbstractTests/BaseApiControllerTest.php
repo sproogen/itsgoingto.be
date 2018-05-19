@@ -183,6 +183,7 @@ abstract class BaseApiControllerTest extends BaseTest
         $this->query->getResult()->willReturn([$this->poll->reveal()]);
         $this->queryBuilder->getQuery(Argument::any())->willReturn($this->query->reveal());
         $this->pollRepository->createQueryBuilder(Argument::any())->willReturn($this->queryBuilder->reveal());
+        $this->userResponseRepo->createQueryBuilder(Argument::any())->willReturn($this->queryBuilder->reveal());
 
         $this->entityManager = $this->prophesize(EntityManager::class);
         $this->entityManager->getRepository(Answer::class)
