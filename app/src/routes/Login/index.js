@@ -7,7 +7,7 @@ export default () => ({
     require.ensure([], (require) => {
       /*  Webpack - use require callback to define
           dependencies for bundling   */
-      const Login = require('./Login').default
+      const Login = require('./login').default
 
       /*  Return getComponent   */
       cb(null, Login)

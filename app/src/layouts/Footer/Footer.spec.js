@@ -1,6 +1,6 @@
 /* global expect */
 import React from 'react'
-import Footer from 'layouts/Footer'
+import Footer from 'layouts/footer'
 import JWGMediaImage from './assets/jwgmedia.png'
 import { mount, shallow } from 'enzyme'
 

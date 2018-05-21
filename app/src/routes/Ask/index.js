@@ -7,7 +7,7 @@ export default () => ({
     require.ensure([], (require) => {
       /*  Webpack - use require callback to define
           dependencies for bundling   */
-      const Ask = require('./Ask').default
+      const Ask = require('./ask').default
 
       /*  Return getComponent   */
       cb(null, Ask)

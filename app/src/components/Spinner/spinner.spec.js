@@ -1,7 +1,7 @@
 /* global expect */
 import React from 'react'
 import { shallow } from 'enzyme'
-import Spinner from './Spinner'
+import Spinner from './spinner'
 
 describe('(Component) Spinner', () => {
   let wrapper

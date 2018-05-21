@@ -1,6 +1,6 @@
 import React from 'react'
 import { browserHistory } from 'react-router'
-import './Back.scss'
+import './back.scss'
 
 export function Back () {
   const submit = () => {

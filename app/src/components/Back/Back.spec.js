@@ -2,7 +2,7 @@
 import React from 'react'
 import { browserHistory } from 'react-router'
 import { shallow } from 'enzyme'
-import Back from './Back'
+import Back from './back'
 
 describe('(Component) Back', () => {
   const wrapper = shallow(<Back />)

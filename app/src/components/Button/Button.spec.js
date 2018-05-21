@@ -1,8 +1,8 @@
 /* global expect, jest */
 import React from 'react'
 import { shallow } from 'enzyme'
-import Button from './Button'
-import EventBus from 'components/EventBus'
+import Button from './button'
+import EventBus from 'components/event-bus'
 
 describe('(Component) Button', () => {
   const wrapper = shallow(<Button />)
