@@ -2,7 +2,7 @@ import CoreLayout from 'layouts/PageLayout'
 import askRoute from './Ask'
 import answerRoute from './Answer'
 import loginRoute from './Login'
-import dashboardRoute from './Dashboard'
+import dashboardRoute from './dashboard'
 import notFoundRoute from './NotFound'
 import catchAllRoute from './CatchAll'
 

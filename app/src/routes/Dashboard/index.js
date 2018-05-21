@@ -7,7 +7,7 @@ export default () => ({
     require.ensure([], (require) => {
       /*  Webpack - use require callback to define
           dependencies for bundling   */
-      const Dashboard = require('./Dashboard').default
+      const Dashboard = require('./dashboard').default
 
       /*  Return getComponent   */
       cb(null, Dashboard)

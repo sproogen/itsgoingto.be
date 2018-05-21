@@ -4,6 +4,7 @@ import moment from 'moment'
 import { pollSelector, updatePoll, setPolls, setPollCount, setPollPage, updateResponses, POLLS_PER_PAGE } from './poll'
 import { answersSelector } from './answers'
 import { updateUser, userTokenSelector } from './user'
+import { updateStats } from './stats'
 
 // ------------------------------------
 // Constants
@@ -11,6 +12,7 @@ import { updateUser, userTokenSelector } from './user'
 export const ROUTE_POLL = '/api/polls'
 export const ROUTE_RESPONSES = '/responses'
 export const ROUTE_LOGIN = '/api/login'
+export const ROUTE_STATS = '/api/stats'
 export const API_DATE_FORMAT = 'YYYY-MM-DDTHH:mm:ssZ'
 
 // ------------------------------------
@@ -249,4 +251,22 @@ export const postLogin = (username, password) => (dispatch) =>
     .then(extractResponse)
     .then((response) => dispatch(updateUser(response)))
     .then((response) => prop('user')(response))
+    .catch(onError)
+
+/**
+ * TODO : Test this
+ *
+ * Fetches stats from the api
+ *
+ * @return {Function}  redux-thunk callable function
+ */
+export const fetchStats = () => (dispatch, getState) =>
+  fetch(ROUTE_STATS, {
+    credentials: 'same-origin',
+    headers: {
+      'Authorization': 'Bearer ' + userTokenSelector(getState()),
+    }
+  })
+    .then(extractResponse)
+    .then((response) => dispatch(updateStats(response)))
     .catch(onError)

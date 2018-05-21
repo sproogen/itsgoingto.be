@@ -4,8 +4,9 @@ import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
 import { hasUserSelector } from 'store/user'
 import { setLoading } from 'store/loader'
-import PollTable from './components/PollTable'
-import './Dashboard.scss'
+import PollTable from './components/poll-table'
+import Stats from './components/stats'
+import './dashboard.scss'
 
 class Dashboard extends React.Component {
   componentWillMount = () => {
@@ -41,26 +42,7 @@ class Dashboard extends React.Component {
             </div>
           </div>
           <div className='container info-container'>
-            <div className='info-block-column'>
-              <div className='info-block'>
-                <div className='info-header'>
-                  Total Polls
-                </div>
-                <div className='info-body'>
-                  500
-                </div>
-              </div>
-            </div>
-            <div className='info-block-column'>
-              <div className='info-block'>
-                <div className='info-header'>
-                  Total Responses
-                </div>
-                <div className='info-body'>
-                  800
-                </div>
-              </div>
-            </div>
+            <Stats />
           </div>
           <div className='container panel-container'>
             <PollTable />

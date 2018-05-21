@@ -1,3 +1,5 @@
+@import "variables";
+
 .panel {
   background: #fff;
   padding:1.6em;
@@ -23,6 +25,10 @@
   .panel-body {
     position: relative;
 
+    @media(max-width: $screen-xs-max) {
+      overflow-x: auto;
+    }
+
     .spinner-container {
       position: absolute;
       top: 2em;
@@ -39,6 +45,7 @@
 
     .table-container {
       opacity: 0.999;
+      min-width: 665px;
 
       &.hidden {
         opacity: 0;

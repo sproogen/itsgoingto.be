@@ -5,9 +5,9 @@ import CancelablePromise from 'cancelable-promise'
 import { fetchPolls, deletePoll } from 'store/api'
 import { pollsSelector, pollCountSelector, pollPageSelector, POLLS_PER_PAGE } from 'store/poll'
 import Spinner from 'components/Spinner'
-import PollTableRow from './PollTableRow'
-import Paginator from '../Paginator'
-import './PollTable.scss'
+import PollTableRow from './poll-table-row'
+import Paginator from '../paginator'
+import './poll-table.scss'
 
 let fetchPollsPromise
 

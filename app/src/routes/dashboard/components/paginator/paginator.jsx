@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import './Paginator.scss'
+import './paginator.scss'
 
 class Paginator extends React.Component {
   changePage = (page) => () => {
