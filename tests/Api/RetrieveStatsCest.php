@@ -28,7 +28,7 @@ class RetrieveStatsCest extends BaseApiCest
     public function returns401ForUnauthorizedUser(\ApiTester $I)
     {
         $I->wantTo('Check call returns 401');
-        $I->sendDelete('/stats');
+        $I->sendGET('/stats');
         $I->seeResponseCodeIs(HttpCode::UNAUTHORIZED);
         $I->seeResponseIsJson();
     }
