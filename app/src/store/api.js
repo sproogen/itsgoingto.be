@@ -254,8 +254,6 @@ export const postLogin = (username, password) => (dispatch) =>
     .catch(onError)
 
 /**
- * TODO : Test this
- *
  * Fetches stats from the api
  *
  * @return {Function}  redux-thunk callable function
@@ -269,4 +267,5 @@ export const fetchStats = () => (dispatch, getState) =>
   })
     .then(extractResponse)
     .then((response) => dispatch(updateStats(response)))
+    .then((response) => prop('stats')(response))
     .catch(onError)

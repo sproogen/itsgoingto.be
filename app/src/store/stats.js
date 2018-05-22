@@ -64,8 +64,8 @@ const ACTION_HANDLERS = {
  * Initial state for this store component
  */
 const initialState = {
-  polls:     null,
-  responses: null,
+  polls     : null,
+  responses : null,
 }
 
 /**
