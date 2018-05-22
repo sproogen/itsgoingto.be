@@ -6,7 +6,6 @@ import { hasUserSelector } from 'store/user'
 import { setLoading } from 'store/loader'
 import PollTable from './components/poll-table'
 import Stats from './components/stats'
-import './dashboard.scss'
 
 class Dashboard extends React.Component {
   componentWillMount = () => {
@@ -36,11 +35,6 @@ class Dashboard extends React.Component {
     if (hasUser) {
       return (
         <div>
-          <div className='container header-container dashboard-header-container'>
-            <div className='header dashboard-header'>
-              <h1>Dashboard</h1>
-            </div>
-          </div>
           <div className='container info-container'>
             <Stats />
           </div>
