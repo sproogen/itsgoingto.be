@@ -27,7 +27,7 @@ class Answer extends React.Component {
     clearAnswers()
     fetchPoll(this.props.identifier).then((response) => {
       if (response instanceof APIError) {
-        if (response.details.status === 401 && response.details.error.error === 'incorrect-passphrase') {
+        if (response.details.status === 403 && response.details.error.error === 'incorrect-passphrase') {
           setRequiresPassphrase(true)
         } else {
           browserHistory.push('/404')
