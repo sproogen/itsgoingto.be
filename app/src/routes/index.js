@@ -1,10 +1,10 @@
-import CoreLayout from 'layouts/PageLayout'
-import askRoute from './Ask'
-import answerRoute from './Answer'
-import loginRoute from './Login'
-import dashboardRoute from './Dashboard'
-import notFoundRoute from './NotFound'
-import catchAllRoute from './CatchAll'
+import CoreLayout from 'layouts/page-layout'
+import askRoute from './ask'
+import answerRoute from './answer'
+import loginRoute from './login'
+import dashboardRoute from './dashboard'
+import notFoundRoute from './not-found'
+import catchAllRoute from './catch-all'
 
 export const createRoutes = (store) => ({
   path        : '/',

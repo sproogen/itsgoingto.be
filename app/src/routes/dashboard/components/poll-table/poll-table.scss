@@ -1,0 +1,63 @@
+@import "variables";
+
+.panel {
+  background: #fff;
+  padding: 1.2em 1.6em;
+  border: 1px solid #E6E9ED;
+  border-radius: 2px;
+  margin-bottom: 5em;
+
+  .panel-header {
+    padding-bottom: 0.6em;
+    padding-left: 0.2em;
+    font-size: 2em;
+    line-height: 1em;
+    font-weight: 300;
+    border-bottom: 2px solid #e6e9ed;
+
+    a {
+      font-size: 0.8em;
+      margin-left: 5px;
+      cursor: pointer;
+    }
+  }
+
+  .panel-body {
+    position: relative;
+
+    @media(max-width: $screen-xs-max) {
+      overflow-x: auto;
+    }
+
+    .spinner-container {
+      position: absolute;
+      top: 2em;
+      top: calc(50% - 2em);
+      margin-left: auto;
+      margin-right: auto;
+      left: 0;
+      right: 0;
+
+      &.no-paginator {
+        top: calc(50%);
+      }
+    }
+
+    .table-container {
+      opacity: 0.999;
+      min-width: 665px;
+
+      &.hidden {
+        opacity: 0;
+      }
+
+      a {
+        cursor: pointer;
+      }
+    }
+
+    th, td {
+      text-align: center;
+    }
+  }
+}

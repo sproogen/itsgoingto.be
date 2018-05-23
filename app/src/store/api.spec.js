@@ -4,6 +4,7 @@ import {
   ROUTE_POLL,
   ROUTE_RESPONSES,
   ROUTE_LOGIN,
+  ROUTE_STATS,
   extractResponse,
   getEndDateFromPoll,
   APIError,
@@ -14,10 +15,12 @@ import {
   fetchPolls,
   postResponse,
   fetchResponses,
-  postLogin
+  postLogin,
+  fetchStats,
 } from 'store/api'
 import * as poll from 'store/poll'
 import * as user from 'store/user'
+import * as stats from 'store/stats'
 
 const jsonOk = (body) => {
   const mockResponse = new window.Response(JSON.stringify(body), {
@@ -638,6 +641,62 @@ describe('(Store) API', () => {
           expect(_dispatch).toHaveBeenCalledWith({})
 
           _updateUser.mockRestore()
+        })
+      })
+    })
+
+    describe('(API Call) fetchStats', () => {
+      it('Should be exported as a function.', () => {
+        expect(typeof fetchStats).toBe('function')
+      })
+
+      it('Should return a function (is a thunk).', () => {
+        expect(typeof fetchStats()).toBe('function')
+      })
+
+      it('Should return a promise from that thunk that gets fulfilled.', () => {
+        return fetchStats()(_dispatch, _getState).should.eventually.be.fulfilled
+      })
+
+      it('Should call fetch with the correct url.', () => {
+        return fetchStats()(_dispatch, _getState).then(() => {
+          expect(window.fetch).toHaveBeenCalledTimes(1)
+          expect(window.fetch).toHaveBeenCalledWith(
+            ROUTE_STATS,
+            { credentials: 'same-origin', headers: { Authorization: 'Bearer USERTOKEN' } }
+          )
+        })
+      })
+
+      it('Should return a promise with the response.', () => {
+        window.fetch = jest.fn(() => jsonOk({ polls: 523, responses: 1385 }))
+        return fetchStats()(_dispatch, _getState).then((response) => {
+          expect(response).toEqual({ polls: 523, responses: 1385 })
+        })
+      })
+
+      it('Should catch error.', () => {
+        window.fetch = jest.fn(() => jsonError(404, {
+          message: 'There was an error'
+        }))
+        return fetchStats()(_dispatch, _getState).then((response) => {
+          expect(response).toBeInstanceOf(APIError)
+          expect(response.name).toBe('APIError')
+          expect(response.details.status).toBe(404)
+        })
+      })
+
+      it('Should dispatch updateStats().', () => {
+        window.fetch = jest.fn(() => jsonOk({ polls: 523, responses: 1385 }))
+        const _updateStats = jest.spyOn(stats, 'updateStats').mockImplementation(() => ({}))
+
+        return fetchStats()(_dispatch, _getState).then(() => {
+          expect(_updateStats).toHaveBeenCalledTimes(1)
+          expect(_updateStats).toHaveBeenCalledWith({ polls: 523, responses: 1385 })
+          expect(_dispatch).toHaveBeenCalledTimes(1)
+          expect(_dispatch).toHaveBeenCalledWith({})
+
+          _updateStats.mockRestore()
         })
       })
     })

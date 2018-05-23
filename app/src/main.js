@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import { CookiesProvider } from 'react-cookie'
 import LocaleProvider from 'antd/lib/locale-provider'
 import enGB from 'antd/lib/locale-provider/en_GB'
-import createStore from 'store/createStore'
+import createStore from 'store/create-store'
 import 'styles/main.scss'
 
 // Store Initialization
@@ -15,7 +15,7 @@ const store = createStore(window.__INITIAL_STATE__)
 const MOUNT_NODE = document.getElementById('root')
 
 const render = () => {
-  const App = require('./components/App').default
+  const App = require('./components/app').default
   const routes = require('./routes/index').default(store)
 
   ReactDOM.render(
