@@ -40,19 +40,19 @@ To test the Symfony API, from the following from inside the root of the project.
 
 API
 -------------
-Retrieve Polls: [```GET /api/polls```](#retrieve-polls)
+[```GET /api/polls```](#retrieve-polls) - Retrieve Polls
 
-Retrieve a Poll: [```GET /api/polls/:identifier```](#retrieve-a-poll)
+[```POST /api/polls```](#create-a-poll) - Create a Poll
 
-Create a Poll: [```POST /api/polls```](#create-a-poll)
+[```GET /api/polls/:identifier```](#retrieve-a-poll) - Retrieve a Poll
 
-Delete a Poll: [```DELETE /api/polls/:identifier```](#delete-a-poll)
+[```DELETE /api/polls/:identifier```](#delete-a-poll) - Delete a Poll
 
-Retrieve responses info: [```GET /api/polls/:identifier/responses```](#retrieve-responses-info)
+[```GET /api/polls/:identifier/responses```](#retrieve-responses-info) - Retrieve responses info
 
-Submit/Change users response: [```POST /api/polls/:identifier/responses```](#submitchange-a-user-response)
+[```POST /api/polls/:identifier/responses```](#submitchange-a-user-response) - Submit/Change users response
 
-Login: [```POST /api/login```](#login)
+[```POST /api/login```](#login) - Login
 
 #### Retrieve Polls
 Only returns polls if the user has `ROLE_ADMIN`
@@ -106,62 +106,6 @@ GET /api/polls
     },
     ...
   ]
-}
-```
-
-#### Retrieve a Poll
-Only returns a non deleted poll unless the user has `ROLE_ADMIN`
-```
-GET /api/polls/:identifier
-```
-###### Example Response
-```
-{
-  "id": 1,
-  "identifier": "v90034d6",
-  "question": "Is this a question?",
-  "multipleChoice": false,
-  "endDate": {
-    "date": "2017-05-18 13:45:37.000000",
-    "timezone_type": 3,
-    "timezone": "Europe/London"
-  },
-  "ended": false,
-  "deleted": false,
-  "created": {
-    "date": "2017-05-18 13:45:37.000000",
-    "timezone_type": 3,
-    "timezone": "Europe/London"
-  },
-  "updated": {
-    "date": "2017-05-18 13:45:37.000000",
-    "timezone_type": 3,
-    "timezone": "Europe/London"
-  },
-  "answers": [
-    {
-      "id": 1,
-      "answer": "Answer Text",
-      "poll": {
-        "type": "Poll",
-        "id": 1
-      },
-      "responsesCount": 2
-    },
-    {
-      "id": 2,
-      "answer": "Answer Text",
-      "poll": {
-        "type": "Poll",
-        "id": 1
-      },
-      "responsesCount": 3
-    }
-  ],
-  "userResponses" : [
-    2
-  ],
-  "responsesCount": 5
 }
 ```
 
@@ -222,6 +166,62 @@ POST /api/polls
   ],
   "userResponses": [],
   "responsesCount": 0
+}
+```
+
+#### Retrieve a Poll
+Only returns a non deleted poll unless the user has `ROLE_ADMIN`
+```
+GET /api/polls/:identifier
+```
+###### Example Response
+```
+{
+  "id": 1,
+  "identifier": "v90034d6",
+  "question": "Is this a question?",
+  "multipleChoice": false,
+  "endDate": {
+    "date": "2017-05-18 13:45:37.000000",
+    "timezone_type": 3,
+    "timezone": "Europe/London"
+  },
+  "ended": false,
+  "deleted": false,
+  "created": {
+    "date": "2017-05-18 13:45:37.000000",
+    "timezone_type": 3,
+    "timezone": "Europe/London"
+  },
+  "updated": {
+    "date": "2017-05-18 13:45:37.000000",
+    "timezone_type": 3,
+    "timezone": "Europe/London"
+  },
+  "answers": [
+    {
+      "id": 1,
+      "answer": "Answer Text",
+      "poll": {
+        "type": "Poll",
+        "id": 1
+      },
+      "responsesCount": 2
+    },
+    {
+      "id": 2,
+      "answer": "Answer Text",
+      "poll": {
+        "type": "Poll",
+        "id": 1
+      },
+      "responsesCount": 3
+    }
+  ],
+  "userResponses" : [
+    2
+  ],
+  "responsesCount": 5
 }
 ```
 
