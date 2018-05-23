@@ -54,6 +54,8 @@ API
 
 [```POST /api/login```](#login) - Login
 
+Stats: [```GET /api/stats```](#retrieve-stats)
+
 #### Retrieve Polls
 Only returns polls if the user has `ROLE_ADMIN`
 ```
@@ -349,6 +351,19 @@ POST /api/login
     "timezone": "Europe\/London"
   },
   "token": "eyJhbGciOiJSUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWlu..." (Valid User Authentication Token)
+}
+```
+
+#### Retrieve Stats
+Only returns stats if the user has `ROLE_ADMIN`
+```
+GET /api/stats
+```
+###### Example Response
+```
+{
+  'polls': 156,
+  'responses': 549
 }
 ```
 

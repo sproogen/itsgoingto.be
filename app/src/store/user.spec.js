@@ -18,7 +18,7 @@ describe('(Store) User', () => {
       expect(typeof userReducer).toBe('function')
     })
 
-    it('Should initialize with a initialState.', () => {
+    it('Should initialize with an initialState.', () => {
       expect(userReducer(undefined, {})).toEqual({})
     })
 
@@ -87,7 +87,7 @@ describe('(Store) User', () => {
         expect(typeof updateUser).toBe('function')
       })
 
-      it('Should return an action with type "ANSWER_ADD".', () => {
+      it('Should return an action with type "USER_UPDATE".', () => {
         expect(updateUser({ username: 'admin', token: 'sdf32"£$FD' })).toHaveProperty('type', USER_UPDATE)
       })
 
