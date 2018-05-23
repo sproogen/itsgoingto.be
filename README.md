@@ -2,11 +2,41 @@
 
 Symfony and React magic behind itsgoingto.be
 
-The root of this project contains the Symfony app.
+The root of this project contains the Symfony app which provides the API.
 
-The React app can be found at app/Resources/client. This can been loaded through symfony for developing or compiled into the web folder for prodcution builds.
+The React app can be found in the `app` folder. During development this is loaded through a route in symfony to provide the Symfony debug toolbar.  
+In production the app is loaded from compiled files from the public folder via the `.htaccess`
 
-There are a number of number of NPM scripts that can be run from the project root.
+Getting started
+-------------
+You will need to have [Docker] installed and running, also make sure you have PHP 7.2 or higher and [Composer] installed.
+
+Clone the repository into a local folder.
+
+Now inside the project folder run
+```
+composer install
+./build.sh
+docker-compose up
+```
+
+You will now be able to access the app at `http://localhost:8000` and storybook at `http://localhost:6006`.  
+Everytime you make a change to the app or storybook stories the app will automatically rebuild and refresh in the browser.
+
+Running tests
+-------------
+###### Client
+To test the React client, run the folowwing from inside the `app` folder.
+
+`npm run lint` to run the js linter.  
+`npm run test` to run all the unit tests using jest.  
+
+###### API
+To test the Symfony API, from the following from inside the root of the project.
+
+`vendor/bin/phplint src` to run the php linter.  
+`vendor/bin/phpunit` to run the unit tests.  
+`vendor/bin/codecept run` to run the API end-to-end functional tests.  
 
 API
 -------------
@@ -344,3 +374,6 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with ItsGoingToBe.  If not, see <http://www.gnu.org/licenses/>.
 ```
+
+[Docker]: https://docs.docker.com/get-started/
+[Composer]: https://getcomposer.org/
