@@ -54,7 +54,7 @@ API
 
 [```POST /api/login```](#login) - Login
 
-Stats: [```GET /api/stats```](#retrieve-stats)
+[```GET /api/stats```](#retrieve-stats) - Stats
 
 #### Retrieve Polls
 Only returns polls if the user has `ROLE_ADMIN`
