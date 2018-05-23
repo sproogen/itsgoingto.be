@@ -2,29 +2,59 @@
 
 Symfony and React magic behind itsgoingto.be
 
-The root of this project contains the Symfony app.
+The root of this project contains the Symfony app which provides the API.
 
-The React app can be found at app/Resources/client. This can been loaded through symfony for developing or compiled into the web folder for prodcution builds.
+The React app can be found in the `app` folder. During development this is loaded through a route in symfony to provide the Symfony debug toolbar.  
+In production the app is loaded from compiled files from the public folder via the `.htaccess`
 
-There are a number of number of NPM scripts that can be run from the project root.
+Getting started
+-------------
+You will need to have [Docker] installed and running, also make sure you have PHP 7.2 or higher and [Composer] installed.
+
+Clone the repository into a local folder.
+
+Now inside the project folder run
+```
+composer install
+./build.sh
+docker-compose up
+```
+
+You will now be able to access the app at `http://localhost:8000` and storybook at `http://localhost:6006`.  
+Everytime you make a change to the app or storybook stories the app will automatically rebuild and refresh in the browser.
+
+Running tests
+-------------
+###### Client
+To test the React client, run the folowwing from inside the `app` folder.
+
+`npm run lint` to run the js linter.  
+`npm run test` to run all the unit tests using jest.  
+
+###### API
+To test the Symfony API, from the following from inside the root of the project.
+
+`vendor/bin/phplint src` to run the php linter.  
+`vendor/bin/phpunit` to run the unit tests.  
+`vendor/bin/codecept run` to run the API end-to-end functional tests.  
 
 API
 -------------
-Retrieve Polls: [```GET /api/polls```](#retrieve-polls)
+[```GET /api/polls```](#retrieve-polls) - Retrieve Polls
 
-Retrieve a Poll: [```GET /api/polls/:identifier```](#retrieve-a-poll)
+[```POST /api/polls```](#create-a-poll) - Create a Poll
 
-Create a Poll: [```POST /api/polls```](#create-a-poll)
+[```GET /api/polls/:identifier```](#retrieve-a-poll) - Retrieve a Poll
 
-Delete a Poll: [```DELETE /api/polls/:identifier```](#delete-a-poll)
+[```DELETE /api/polls/:identifier```](#delete-a-poll) - Delete a Poll
 
-Retrieve responses info: [```GET /api/polls/:identifier/responses```](#retrieve-responses-info)
+[```GET /api/polls/:identifier/responses```](#retrieve-responses-info) - Retrieve responses info
 
-Submit/Change users response: [```POST /api/polls/:identifier/responses```](#submitchange-a-user-response)
+[```POST /api/polls/:identifier/responses```](#submitchange-a-user-response) - Submit/Change users response
 
-Login: [```POST /api/login```](#login)
+[```POST /api/login```](#login) - Login
 
-Stats: [```GET /api/stats```](#retrieve-stats)
+[```GET /api/stats```](#retrieve-stats) - Stats
 
 #### Retrieve Polls
 Only returns polls if the user has `ROLE_ADMIN`
@@ -78,62 +108,6 @@ GET /api/polls
     },
     ...
   ]
-}
-```
-
-#### Retrieve a Poll
-Only returns a non deleted poll unless the user has `ROLE_ADMIN`
-```
-GET /api/polls/:identifier
-```
-###### Example Response
-```
-{
-  "id": 1,
-  "identifier": "v90034d6",
-  "question": "Is this a question?",
-  "multipleChoice": false,
-  "endDate": {
-    "date": "2017-05-18 13:45:37.000000",
-    "timezone_type": 3,
-    "timezone": "Europe/London"
-  },
-  "ended": false,
-  "deleted": false,
-  "created": {
-    "date": "2017-05-18 13:45:37.000000",
-    "timezone_type": 3,
-    "timezone": "Europe/London"
-  },
-  "updated": {
-    "date": "2017-05-18 13:45:37.000000",
-    "timezone_type": 3,
-    "timezone": "Europe/London"
-  },
-  "answers": [
-    {
-      "id": 1,
-      "answer": "Answer Text",
-      "poll": {
-        "type": "Poll",
-        "id": 1
-      },
-      "responsesCount": 2
-    },
-    {
-      "id": 2,
-      "answer": "Answer Text",
-      "poll": {
-        "type": "Poll",
-        "id": 1
-      },
-      "responsesCount": 3
-    }
-  ],
-  "userResponses" : [
-    2
-  ],
-  "responsesCount": 5
 }
 ```
 
@@ -194,6 +168,62 @@ POST /api/polls
   ],
   "userResponses": [],
   "responsesCount": 0
+}
+```
+
+#### Retrieve a Poll
+Only returns a non deleted poll unless the user has `ROLE_ADMIN`
+```
+GET /api/polls/:identifier
+```
+###### Example Response
+```
+{
+  "id": 1,
+  "identifier": "v90034d6",
+  "question": "Is this a question?",
+  "multipleChoice": false,
+  "endDate": {
+    "date": "2017-05-18 13:45:37.000000",
+    "timezone_type": 3,
+    "timezone": "Europe/London"
+  },
+  "ended": false,
+  "deleted": false,
+  "created": {
+    "date": "2017-05-18 13:45:37.000000",
+    "timezone_type": 3,
+    "timezone": "Europe/London"
+  },
+  "updated": {
+    "date": "2017-05-18 13:45:37.000000",
+    "timezone_type": 3,
+    "timezone": "Europe/London"
+  },
+  "answers": [
+    {
+      "id": 1,
+      "answer": "Answer Text",
+      "poll": {
+        "type": "Poll",
+        "id": 1
+      },
+      "responsesCount": 2
+    },
+    {
+      "id": 2,
+      "answer": "Answer Text",
+      "poll": {
+        "type": "Poll",
+        "id": 1
+      },
+      "responsesCount": 3
+    }
+  ],
+  "userResponses" : [
+    2
+  ],
+  "responsesCount": 5
 }
 ```
 
@@ -359,3 +389,6 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with ItsGoingToBe.  If not, see <http://www.gnu.org/licenses/>.
 ```
+
+[Docker]: https://docs.docker.com/get-started/
+[Composer]: https://getcomposer.org/
