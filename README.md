@@ -1,6 +1,6 @@
 # itsgoingto.be [![Build Status](https://travis-ci.org/sproogen/itsgoingto.be.svg)](https://travis-ci.org/sproogen/itsgoingto.be) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/95ef266848d44348a421142d2ed6f8cb)](https://www.codacy.com/app/sproogen/itsgoingto.be?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=sproogen/itsgoingto.be&amp;utm_campaign=Badge_Grade) [![Codacy Badge](https://api.codacy.com/project/badge/Coverage/95ef266848d44348a421142d2ed6f8cb)](https://www.codacy.com/app/sproogen/itsgoingto.be?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=sproogen/itsgoingto.be&amp;utm_campaign=Badge_Coverage)
 
-Symfony and React magic behind itsgoingto.be
+Symfony and React magic behind [itsgoingto.be]
 
 The root of this project contains the Symfony app which provides the API.
 
@@ -390,5 +390,6 @@ You should have received a copy of the GNU General Public License
 along with ItsGoingToBe.  If not, see <http://www.gnu.org/licenses/>.
 ```
 
+[itsgoingto.be]: http://itsgoingto.be/
 [Docker]: https://docs.docker.com/get-started/
 [Composer]: https://getcomposer.org/
