@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { browserHistory } from 'react-router'
 import { cond, propEq, always, T } from 'ramda'
+import moment from 'moment'
 
 class PollTableRow extends React.Component {
   constructor (props) {
@@ -35,6 +36,8 @@ class PollTableRow extends React.Component {
     const { poll : { id, identifier, question, responsesCount, deleted, created }, poll } = this.props
     const { deleting } = this.state
 
+    const createdDate = moment.utc(created.date).local()
+
     return (
       <tr>
         <td>{id}</td>
@@ -42,7 +45,7 @@ class PollTableRow extends React.Component {
         <td>{question}</td>
         <td>{responsesCount}</td>
         <td>{this.getStatus(poll)}</td>
-        <td>{created.date}</td>
+        <td>{createdDate.format('DD-MM-YYYY HH:mm')}</td>
         <td>
           {!deleted &&
             <span>
