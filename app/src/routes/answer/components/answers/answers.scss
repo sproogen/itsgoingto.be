@@ -1,0 +1,16 @@
+@import "~bourbon/core/bourbon";
+@import "variables";
+
+.answer-container {
+  text-align: center;
+  margin-bottom: 10em;
+
+  @media(max-width: $screen-sm-max) {
+    margin-top: 8em;
+  }
+
+  .options {
+    display: inline-block;
+    text-align: left;
+  }
+}

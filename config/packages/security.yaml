@@ -1,0 +1,36 @@
+security:
+    providers:
+        database_users:
+            entity: { class: App\Entity\User, property: username }
+
+    encoders:
+        App\Entity\User:
+            algorithm: bcrypt
+            cost: 12
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        api:
+            pattern: ^/api/
+            anonymous: true
+            stateless: true
+            guard:
+                authenticators:
+                    - App\Security\TokenAuthenticator
+
+        main:
+            pattern: ^/
+            anonymous: true
+            logout: ~
+
+        # main:
+        #     anonymous: ~
+        #     logout: ~
+        #     logout_on_user_change: true
+
+        #     guard:
+        #       authenticators:
+        #           - App\Security\TokenAuthenticator

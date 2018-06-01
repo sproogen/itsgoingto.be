@@ -1,19 +1,22 @@
+sudo: required
+dist: trusty
+
 language: php
 
 php:
-  - 5.6
+  - '7.2'
 
 services:
   - mysql
 
 env:
-  - NODE_VERSION="7"
+  - NODE_VERSION=8 APP_ENV=test
 
 cache:
   directories:
     - $HOME/.composer/cache/file
     - vendor
-    - node_modules
+    - app/node_modules
 
 branches:
   only:
@@ -21,28 +24,28 @@ branches:
     - develop
 
 before_install:
-  - cp app/config/parameters.yml.travis app/config/parameters.yml
+  - rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm install $NODE_VERSION && nvm install-latest-npm
 
 install:
-  - rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm install $NODE_VERSION
   - composer install
-  - npm install
+  - (cd app && npm ci)
 
 before_script:
-  - php bin/console doctrine:database:create --env=test
-  - composer compile-test
+  - php bin/console doctrine:database:create
+  - composer compile
 
 script:
-  - bin/phpcs --standard=PSR2 src/
-  - bin/phplint src
-  - bin/phpunit
-  - SYMFONY_DEPRECATIONS_HELPER=disabled bin/codecept run --ext DotReporter
-  - npm run lint
-  - npm run test
+  - vendor/bin/phpcs --standard=PSR2 --ignore=Migrations src/
+  - vendor/bin/phplint src
+  - vendor/bin/simple-phpunit
+  - SYMFONY_DEPRECATIONS_HELPER=disabled vendor/bin/codecept run
+  - (cd app && npm run build)
+  - (cd app && npm run lint)
+  - (cd app && npm run test -- --coverage --ci)
 
 after_script:
-  - bin/codacycoverage clover build/logs/clover.xml
-  - cat build/coverage/lcov.info | node_modules/.bin/codacy-coverage .
+  - vendor/bin/codacycoverage clover build/coverage/clover.xml
+  - (cd app && cat build/coverage/lcov.info | node_modules/.bin/codacy-coverage .)
 
 notifications:
   email:

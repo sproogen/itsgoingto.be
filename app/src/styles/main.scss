@@ -1,0 +1,59 @@
+@import "~bourbon/core/bourbon";
+@import "~bourbon-neat/core/neat";
+
+@import "variables";
+@import 'base/base';
+
+$fa-font-path: "~font-awesome/fonts";
+@import "~font-awesome/scss/font-awesome.scss";
+
+@import "components/input";
+@import "components/header";
+
+html {
+    overflow: hidden;
+    height: 100%;
+    font-size: 14px;
+}
+
+*,
+*:after,
+*:before {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+body {
+    height: 100%;
+    overflow: auto;
+
+    background: $base-background-color;
+    -webkit-font-smoothing: antialiased;
+
+    margin: 0px;
+    position: relative;
+    padding-bottom: 60px;
+
+    @media screen and (max-width: $screen-md-max) {
+        font-size: 0.7em;
+    }
+    @media screen and (max-width: $screen-sm-max) {
+        font-size: 0.5em;
+    }
+}
+
+.hideable {
+    /* A horrific hack to allow the labels to change opacity while moving */
+    opacity: .999;
+    visibility: visible;
+
+    transition: visibility 0s linear, opacity 0.3s ease;
+
+    &.gone {
+        opacity: 0;
+        visibility: hidden;
+
+        transition: visibility 0s linear 0.3s, opacity 0.3s ease;
+    }
+}

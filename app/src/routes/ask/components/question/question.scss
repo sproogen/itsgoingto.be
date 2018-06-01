@@ -1,0 +1,19 @@
+@import "~bourbon/core/bourbon";
+@import "~bourbon-neat/core/neat";
+@import "variables";
+
+.question-container {
+  transition: top 0.4s ease;
+  top: 0px;
+  &.move-up {
+    top: -10em;
+  }
+
+  .input-question {
+    margin-bottom: 1.875em;
+
+    .input-field-question {
+      font-size: 2em;
+    }
+  }
+}

@@ -1,8 +1,0 @@
-parameters:
-    database_host: 127.0.0.1
-    database_port: null
-    database_name: itsgoingtobe
-    database_user: root
-    database_password: ~
-    secret: hfdh8923hsaDFSD923yuahnsd92y30834hfsou
-    jwt_key_pass_phrase: SuperSecretPassword

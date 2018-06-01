@@ -1,0 +1,16 @@
+App\Entity\Session:
+    type: entity
+    table: sessions
+    id:
+        sess_id:
+            type: string
+    fields:
+        sess_data:
+            type: blob
+            column: sess_data
+        sess_time:
+            type: integer
+            column: sess_time
+        sess_lifetime:
+            type: bigint
+            column: sess_lifetime

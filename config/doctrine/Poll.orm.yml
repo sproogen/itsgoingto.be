@@ -1,0 +1,46 @@
+App\Entity\Poll:
+    type: entity
+    table: poll
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        identifier:
+            type: string
+            column: identifier
+        question:
+            type: text
+            column: question
+        multipleChoice:
+            type: boolean
+            column: multiple_choice
+        passphrase:
+            type: string
+            column: passphrase
+        endDate:
+            type: datetime
+            nullable: true
+            column: end_date
+        ended:
+            type: boolean
+            column: ended
+        deleted:
+            type: boolean
+            column: deleted
+        created:
+            type: datetime
+        updated:
+            type: datetime
+    oneToMany:
+        answers:
+            targetEntity: App\Entity\Answer
+            mappedBy: poll
+            cascade: ["persist", "remove"]
+        responses:
+            targetEntity: App\Entity\UserResponse
+            mappedBy: poll
+    lifecycleCallbacks:
+        prePersist: [ prePersist ]
+        preUpdate: [ preUpdate ]

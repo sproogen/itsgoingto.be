@@ -1,0 +1,15 @@
+{
+  "short_name": "It's going to be",
+  "name": "It's going to be",
+  "icons": [
+    {
+      "src": "favicon.png",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    }
+  ],
+  "start_url": "./index.html",
+  "display": "standalone",
+  "theme_color": "#f5fafa",
+  "background_color": "#f5fafa"
+}
