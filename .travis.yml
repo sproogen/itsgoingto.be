@@ -10,7 +10,12 @@ services:
   - mysql
 
 env:
-  - NODE_VERSION=8 APP_ENV=test
+  - NODE_VERSION=8
+  global:
+    - APP_ENV=test
+    - USER="Travis CI"
+    - EMAIL="travis@travis-ci.org"
+    - GITHUB_REPO="github.com/${TRAVIS_REPO_SLUG}.git"
 
 cache:
   directories:
@@ -25,6 +30,7 @@ branches:
 
 before_install:
   - rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm install $NODE_VERSION && nvm install-latest-npm
+  - ./scripts/bump-version.sh
 
 install:
   - composer install
