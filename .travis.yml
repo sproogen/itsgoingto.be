@@ -47,6 +47,5 @@ after_script:
   - vendor/bin/codacycoverage clover build/coverage/clover.xml
   - (cd app && cat build/coverage/lcov.info | node_modules/.bin/codacy-coverage .)
 
-notifications:
-  email:
-    -  sprog31@gmail.com
+after_success:
+  - ./scripts/merge-downstream.sh
