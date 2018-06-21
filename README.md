@@ -16,7 +16,7 @@ Clone the repository into a local folder.
 Now inside the project folder run
 ```
 composer install
-./build.sh
+./scripts/docker-build.sh
 docker-compose up
 ```
 
@@ -370,7 +370,7 @@ GET /api/stats
 Copyright
 -------------
 ```
-Copyright (c) 2015 James Grant
+Copyright (c) 2018 James Grant
 ```
 
 License
