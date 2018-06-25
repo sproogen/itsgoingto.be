@@ -10,13 +10,7 @@ services:
   - mysql
 
 env:
-  global:
-    - APP_ENV=test
-    - USER="Travis CI"
-    - EMAIL="travis@travis-ci.org"
-    - GITHUB_REPO="github.com/${TRAVIS_REPO_SLUG}.git"
-  matrix:
-    - NODE_VERSION=8
+  - NODE_VERSION=8 APP_ENV=test USER="Travis CI" EMAIL="travis@travis-ci.org" GITHUB_REPO="github.com/${TRAVIS_REPO_SLUG}.git"
 
 cache:
   directories:
@@ -41,7 +35,6 @@ before_script:
   - php bin/console about
   - php bin/console doctrine:database:create
   - composer compile
-  - php bin/console cache:warmup --no-debug
 
 script:
   - vendor/bin/phpcs --standard=PSR2 --ignore=Migrations src/
