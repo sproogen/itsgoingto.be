@@ -38,6 +38,7 @@ install:
   - (cd app && npm ci)
 
 before_script:
+  - php bin/console about
   - php bin/console doctrine:database:create
   - composer compile
 
