@@ -41,6 +41,7 @@ before_script:
   - php bin/console about
   - php bin/console doctrine:database:create
   - composer compile
+  - php bin/console cache:warmup --no-debug
 
 script:
   - vendor/bin/phpcs --standard=PSR2 --ignore=Migrations src/
