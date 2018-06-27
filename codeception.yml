@@ -7,7 +7,6 @@ paths:
 
 params:
     - .env
-    - .env.test
 
 settings:
     shuffle: false

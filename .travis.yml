@@ -46,7 +46,6 @@ script:
   - vendor/bin/phpcs --standard=PSR2 --ignore=Migrations src/
   - vendor/bin/phplint src
   - vendor/bin/simple-phpunit
-  - php bin/console cache:warmup --no-debug
   - SYMFONY_DEPRECATIONS_HELPER=disabled vendor/bin/codecept run
   - (cd app && npm run build)
   - (cd app && npm run lint)
