@@ -29,11 +29,11 @@ class PollApiController extends BaseApiController implements ApiControllerInterf
     {
         switch ($request->getMethod()) {
             case 'GET':
-                // If GET is used and a non-zero ID is passed, call the retrieve method.
                 if ($identifier) {
+                    // If GET is used and a non-zero ID is passed, call the retrieve method.
                     $response = $this->retrievePoll($identifier, $request, $this->getData($request));
-                } // Without an ID ($id is 0), call index
-                else {
+                } else {
+                    // Without an ID ($id is 0), call index
                     $response = $this->indexPolls($request->query->all());
                 }
                 break;
