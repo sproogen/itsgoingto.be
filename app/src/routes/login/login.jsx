@@ -34,7 +34,7 @@ class Login extends React.Component {
     }
   }
 
-  componentWillMount = () => {
+  componentDidMount = () => {
     const { setLoading } = this.props
 
     setLoading(false)
@@ -140,7 +140,6 @@ class Login extends React.Component {
               type='text'
               id='username'
               name='username'
-              ref='username'
               value={username}
               onChange={this.handleChange} />
             <span className='input-error-label'>{errors.username}</span>
@@ -152,7 +151,6 @@ class Login extends React.Component {
               type='password'
               id='password'
               name='password'
-              ref='password'
               value={password}
               onKeyDown={this.handleKeyPress}
               onChange={this.handleChange} />

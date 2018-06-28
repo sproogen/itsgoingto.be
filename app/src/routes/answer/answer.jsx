@@ -18,7 +18,7 @@ import Passphrase from './components/passphrase'
 import './answer.scss'
 
 class Answer extends React.Component {
-  componentWillMount = () => {
+  componentDidMount = () => {
     const { hasPoll, setLoading, fetchPoll, clearAnswers, setRequiresPassphrase } = this.props
 
     if (!hasPoll) {

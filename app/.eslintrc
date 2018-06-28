@@ -22,9 +22,9 @@
     "__COVERAGE__" : false
   },
   "rules": {
+    "strict"                  : [2, "safe"],
     "no-empty-label"          : "off",
     "no-process-env"          : "off",
-    "react/no-string-refs"          : "off",
     "space-after-keywords"    : "off",
     "space-before-keywords"   : "off",
     "space-return-throw-case" : "off",
@@ -33,6 +33,9 @@
     "max-len"                 : [2, 120, 2],
     "object-curly-spacing"    : [2, "always"],
     "comma-dangle"            : 0,
-    "no-multi-spaces"         : [2, {"exceptions": {"VariableDeclarator": true}}]
+    "no-multi-spaces"         : [2, {"exceptions": {"VariableDeclarator": true}}],
+    "react/prefer-es6-class"  : 1,
+    "no-extra-semi"           : 1,
+    "no-unreachable"          : 1
   }
 }

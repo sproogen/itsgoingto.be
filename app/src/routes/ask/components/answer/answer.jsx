@@ -44,7 +44,7 @@ class Answer extends React.Component {
     this.eventBus = EventBus.getEventBus()
     this.eventListener = this.eventBus.addListener('focus', (index) => {
       if (index === this.props.index) {
-        this.refs.answer.focus()
+        this._answer.focus()
       }
     })
   }
@@ -68,7 +68,7 @@ class Answer extends React.Component {
           type='text'
           id={'answer-' + index}
           name={'answer-' + index}
-          ref='answer'
+          ref={(c) => { this._answer = c; }}
           value={text}
           onChange={this.handleChange}
           onKeyDown={this.handleKeyPress}

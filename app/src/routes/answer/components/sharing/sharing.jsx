@@ -46,18 +46,21 @@ export function Sharing ({ poll }) {
         <a
           className='shareButton twitter'
           target='_blank'
+          rel='noopener noreferrer'
           href={twitterLink()}>
           <i className='fa fa-twitter' />
         </a>
         <a
           className='shareButton facebook'
           target='_blank'
+          rel='noopener noreferrer'
           href={facebookLink()}>
           <i className='fa fa-facebook' />
         </a>
         <a
           className='shareButton email'
           target='_blank'
+          rel='noopener noreferrer'
           href={emailLink()}>
           <i className='fa fa-envelope' />
         </a>

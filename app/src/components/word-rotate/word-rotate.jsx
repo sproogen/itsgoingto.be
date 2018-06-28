@@ -9,6 +9,32 @@ class WordRotate extends React.Component {
     this.state = { currentWord : 0 }
   }
 
+  componentDidMount = () => {
+    this.wordUpdater = setInterval(
+      this.updateWord,
+      5000
+    )
+  }
+
+  componentDidUpdate = () => {
+    if (this._current) {
+      this._current.animate([
+        { transform: 'translate(0, -0.8em)', opacity: 0 },
+        { transform: 'translate(0)', opacity: 1 }
+      ], 500, 'easeInOutQuart')
+    }
+    if (this._previous) {
+      this._previous.animate([
+        { transform: 'translate(0)', opacity: 1 },
+        { transform: 'translate(0, 0.6em)', opacity: 0 }
+      ], 350, 'easeInOutQuart')
+    }
+  }
+
+  componentWillUnmount = () => {
+    clearInterval(this.wordUpdater)
+  }
+
   getWord = (index) => compose(nth(index), split(','))(this.props.words)
 
   updateWord = () => {
@@ -21,41 +47,15 @@ class WordRotate extends React.Component {
     }))
   }
 
-  componentDidMount = () => {
-    this.wordUpdater = setInterval(
-      this.updateWord,
-      5000
-    )
-  }
-
-  componentWillUpdate = () => {
-    if (this.refs.current) {
-      this.refs.current.animate([
-        { transform : 'translate(0, -0.8em)', opacity : 0 },
-        { transform : 'translate(0)', opacity : 1 }
-      ], 500, 'easeInOutQuart')
-    }
-    if (this.refs.previous) {
-      this.refs.previous.animate([
-        { transform : 'translate(0)', opacity: 1 },
-        { transform : 'translate(0, 0.6em)', opacity : 0 }
-      ], 350, 'easeInOutQuart')
-    }
-  }
-
-  componentWillUnmount = () => {
-    clearInterval(this.wordUpdater)
-  }
-
   render () {
     const { currentWord } = this.state
 
     return (
       <span className='word-rotate'>
-        <span className='word-rotate_word' ref='current'>
+        <span className='word-rotate_word' ref={(c) => { this._current = c; }}>
           { this.getWord(currentWord) }
         </span>
-        <span className='word-rotate_word word-rotate_word--previous' ref='previous'>
+        <span className='word-rotate_word word-rotate_word--previous' ref={(c) => { this._previous = c; }}>
           { this.getWord(subtract(currentWord, 1)) }
         </span>
       </span>
