@@ -6,16 +6,9 @@ import { withCookies, Cookies } from 'react-cookie'
 import { updateUser } from 'store/user'
 
 class App extends React.Component {
-  static propTypes = {
-    store  : PropTypes.object.isRequired,
-    routes : PropTypes.object.isRequired,
-    cookies : PropTypes.instanceOf(Cookies).isRequired,
-    updateUserWithToken : PropTypes.func.isRequired,
-  }
-
   shouldComponentUpdate = () => false
 
-  componentWillMount = () => {
+  componentDidMount = () => {
     const { cookies, updateUserWithToken } = this.props
     const token = cookies.get('itsgoingtobeUserToken')
 
@@ -33,6 +26,13 @@ class App extends React.Component {
       </div>
     </Provider>
   )
+}
+
+App.propTypes = {
+  store: PropTypes.object.isRequired,
+  routes: PropTypes.object.isRequired,
+  cookies: PropTypes.instanceOf(Cookies).isRequired,
+  updateUserWithToken: PropTypes.func.isRequired,
 }
 
 const mapDispatchToProps = (dispatch) => ({

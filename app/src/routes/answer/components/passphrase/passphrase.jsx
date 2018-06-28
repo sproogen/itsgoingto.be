@@ -25,7 +25,7 @@ class Passphrase extends React.Component {
   }
 
   submit = () =>
-    this.props.setPassphrase(this.refs.passphrase.value)
+    this.props.setPassphrase(this._passphrase.value)
       .then(
         () => this.props.fetchPoll(this.props.identifier)
           .then((response) => {
@@ -60,7 +60,7 @@ class Passphrase extends React.Component {
             type='text'
             id='passphrase'
             name='passphrase'
-            ref='passphrase'
+            ref={(c) => { this._passphrase = c }}
             onKeyDown={this.handleKeyPress} />
           {error &&
             <span className='input-error-label'>

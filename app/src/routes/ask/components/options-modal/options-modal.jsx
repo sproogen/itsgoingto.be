@@ -16,6 +16,24 @@ import 'antd/lib/time-picker/style/index.css'
 import './options-modal.scss'
 
 class OptionsModal extends React.Component {
+
+  componentDidUpdate = () => {
+    const { poll } = this.props
+
+    if (typeof poll.endIn === 'undefined') {
+      this.props.updateOptions({
+        identifier: '',
+        endIn: 1
+      })
+    }
+    if (typeof poll.endAt === 'undefined') {
+      this.props.updateOptions({
+        identifier: '',
+        endAt: moment().add(1, 'days').seconds(0).milliseconds(0)
+      })
+    }
+  }
+
   show = () => {
     this._modal.show()
   }
@@ -84,30 +102,13 @@ class OptionsModal extends React.Component {
     return []
   }
 
-  componentWillReceiveProps = (nextProps) => {
-    const { poll } = nextProps
-
-    if (typeof poll.endIn === 'undefined') {
-      this.props.updateOptions({
-        identifier : '',
-        endIn      : 1
-      })
-    }
-    if (typeof poll.endAt === 'undefined') {
-      this.props.updateOptions({
-        identifier : '',
-        endAt      : moment().add(1, 'days').seconds(0).milliseconds(0)
-      })
-    }
-  }
-
   render () {
     const { poll } = this.props
 
     const formatEndin = (value) => value + ' hour' + (value > 1 ? 's' : '')
 
     return (
-      <Modal ref={(component) => { this._modal = component }}>
+      <Modal ref={(c) => { this._modal = c }}>
         <h2 className='modal-title'>Poll Options</h2>
         <div className='modal-options'>
           <div className='input-option'>
@@ -132,7 +133,6 @@ class OptionsModal extends React.Component {
               type='text'
               id='passphrase'
               name='passphrase'
-              ref='passphrase'
               value={poll.passphrase}
               onChange={this.handlePassphraseChange} />
           </div>

@@ -25,7 +25,7 @@ class PollTable extends React.Component {
     }
   }
 
-  componentWillMount = () => {
+  componentDidMount = () => {
     const { page } = this.state
 
     this.fetchPollsForPage(page)

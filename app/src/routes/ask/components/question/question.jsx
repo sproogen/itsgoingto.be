@@ -92,10 +92,10 @@ class Question extends React.Component {
     this.eventBus = EventBus.getEventBus()
     this.eventListener = this.eventBus.addListener('focus', (index) => {
       if (index === -1) {
-        this.refs.question.focus()
+        this._question.focus()
       }
     })
-    autosize(this.refs.question)
+    autosize(this._question)
     this.cursorUpdater = setInterval(
       this.toggleCursor,
       500
@@ -112,7 +112,7 @@ class Question extends React.Component {
 
   componentWillUnmount = () => {
     this.eventListener.remove()
-    autosize.destroy(this.refs.question)
+    autosize.destroy(this._question)
     clearInterval(this.cursorUpdater)
     clearTimeout(this.characterUpdate)
     clearInterval(this.placeholderUpdater)
@@ -133,7 +133,7 @@ class Question extends React.Component {
           rows='1'
           id='question'
           name='question'
-          ref='question' />
+          ref={(c) => { this._question = c }} />
       </div>
     )
   }
