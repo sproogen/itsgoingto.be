@@ -60,7 +60,7 @@ class Passphrase extends React.Component {
             type='text'
             id='passphrase'
             name='passphrase'
-            ref={(c) => { this._passphrase = c; }}
+            ref={(c) => { this._passphrase = c }}
             onKeyDown={this.handleKeyPress} />
           {error &&
             <span className='input-error-label'>

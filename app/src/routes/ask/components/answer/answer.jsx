@@ -68,7 +68,7 @@ class Answer extends React.Component {
           type='text'
           id={'answer-' + index}
           name={'answer-' + index}
-          ref={(c) => { this._answer = c; }}
+          ref={(c) => { this._answer = c }}
           value={text}
           onChange={this.handleChange}
           onKeyDown={this.handleKeyPress}

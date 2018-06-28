@@ -71,8 +71,8 @@ class Modal extends React.Component {
       const { children } = this.props
 
       modal = <span className={willHidden ? 'willHidden' : ''}>
-        <div ref={(c) => { this._backdrop = c; }} className='backdrop' onClick={this.hide} />
-        <div ref={(c) => { this._modal = c; }} className='modal'>
+        <div ref={(c) => { this._backdrop = c }} className='backdrop' onClick={this.hide} />
+        <div ref={(c) => { this._modal = c }} className='modal'>
           <div className='modal-container'>
             { children }
           </div>

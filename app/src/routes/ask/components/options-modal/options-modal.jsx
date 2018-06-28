@@ -108,7 +108,7 @@ class OptionsModal extends React.Component {
     const formatEndin = (value) => value + ' hour' + (value > 1 ? 's' : '')
 
     return (
-      <Modal ref={(c) => { this._modal = c; }}>
+      <Modal ref={(c) => { this._modal = c }}>
         <h2 className='modal-title'>Poll Options</h2>
         <div className='modal-options'>
           <div className='input-option'>

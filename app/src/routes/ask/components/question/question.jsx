@@ -133,7 +133,7 @@ class Question extends React.Component {
           rows='1'
           id='question'
           name='question'
-          ref={(c) => { this._question = c; }} />
+          ref={(c) => { this._question = c }} />
       </div>
     )
   }

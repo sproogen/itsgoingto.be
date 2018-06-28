@@ -30,7 +30,7 @@ class Actions extends React.Component {
           <Button className='pull-left' text='Options' callback={this.options} />
           <Button className='pull-right' text='Create Poll' disabled={!canSubmitPoll} callback={this.submit} />
         </div>
-        <OptionsModal ref={(c) => { this._modal = c; }} poll={poll} />
+        <OptionsModal ref={(c) => { this._modal = c }} poll={poll} />
       </div>
     )
   }

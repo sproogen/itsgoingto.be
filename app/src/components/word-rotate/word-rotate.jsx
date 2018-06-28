@@ -52,10 +52,10 @@ class WordRotate extends React.Component {
 
     return (
       <span className='word-rotate'>
-        <span className='word-rotate_word' ref={(c) => { this._current = c; }}>
+        <span className='word-rotate_word' ref={(c) => { this._current = c }}>
           { this.getWord(currentWord) }
         </span>
-        <span className='word-rotate_word word-rotate_word--previous' ref={(c) => { this._previous = c; }}>
+        <span className='word-rotate_word word-rotate_word--previous' ref={(c) => { this._previous = c }}>
           { this.getWord(subtract(currentWord, 1)) }
         </span>
       </span>
