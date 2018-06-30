@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`(Component) WordRotate (Render) snapshot renders correctly 1`] = `
+<span
+  className="word-rotate"
+>
+  <span
+    className="word-rotate_word"
+  >
+    word1
+  </span>
+  <span
+    className="word-rotate_word word-rotate_word--previous"
+  >
+    word2
+  </span>
+</span>
+`;

@@ -98,31 +98,30 @@ describe('(Component) Button', () => {
     })
   })
 
-  describe('(Render) button', () => {
+  describe('(Render) snapshot', () => {
     it('Should render the text', () => {
       const wrapper = shallow(<Button text='Click Me!' />)
 
-      expect(wrapper.text()).toBe('Click Me!')
+      expect(wrapper).toMatchSnapshot()
     })
 
     it('Should be disabled', () => {
       const wrapper = shallow(<Button text='Click Me!' disabled />)
 
-      expect(wrapper.props().disabled).toBe(true)
-      expect(wrapper.props().className).toBe('btn  disabled')
+      expect(wrapper).toMatchSnapshot()
     })
 
     it('Should have className', () => {
       const wrapper = shallow(<Button className='button button--class' disabled />)
 
-      expect(wrapper.props().className).toEqual('btn button button--class disabled')
+      expect(wrapper).toMatchSnapshot()
     })
 
     it('Should render spinner when loading', () => {
       const wrapper = shallow(<Button text='Click Me!' />)
 
       wrapper.setState({ disabled : true, loading : true })
-      expect(wrapper.text()).toBe('<Spinner />')
+      expect(wrapper).toMatchSnapshot()
     })
   })
 })

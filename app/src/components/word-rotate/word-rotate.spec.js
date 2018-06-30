@@ -49,13 +49,9 @@ describe('(Component) WordRotate', () => {
     })
   })
 
-  describe('(Render) WordRotate', () => {
-    it('Should render the first word', () => {
-      expect(wrapper.find('.word-rotate_word').at(0).text()).toBe('word1')
-    })
-
-    it('Should render the second word', () => {
-      expect(wrapper.find('.word-rotate_word').at(1).text()).toBe('word2')
+  describe('(Render) snapshot', () => {
+    it('renders correctly', () => {
+      expect(wrapper).toMatchSnapshot()
     })
   })
 })
