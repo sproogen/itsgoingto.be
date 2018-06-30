@@ -15,7 +15,7 @@ const store = createStore(window.__INITIAL_STATE__)
 const MOUNT_NODE = document.getElementById('root')
 
 const render = () => {
-  const App = require('./components/app').default
+  const App = require('./app').default
   const routes = require('./routes/index').default(store)
 
   ReactDOM.render(

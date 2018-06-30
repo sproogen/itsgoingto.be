@@ -28,7 +28,7 @@ storiesOf('Core.Button', module)
   .add('Disabled', () => <Button text='Click Me' disabled callback={() => Promise.resolve()} />)
   .add('Delayed Callback', () =>
     <Button text='Click Me' callback={() =>
-      new Promise((resolve, reject) => {
+      new Promise((resolve) => {
         setTimeout(() => {
           resolve()
         }, 1000)
