@@ -16,8 +16,8 @@ describe('(Component) Back', () => {
     })
   })
 
-  describe('(Render) snapshot', () => {
-    it('renders correctly', () => {
+  describe('(Render)', () => {
+    it('matches snapshot', () => {
       expect(wrapper).toMatchSnapshot()
     })
   })

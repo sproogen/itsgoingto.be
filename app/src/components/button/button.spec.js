@@ -5,22 +5,19 @@ import Button from './button'
 import EventBus from 'components/event-bus'
 
 describe('(Component) Button', () => {
-  const wrapper = shallow(<Button />)
-  const instance = wrapper.instance()
-
-  it('renders as a button', () => {
-    expect(instance).toBeInstanceOf(Button)
-    expect(wrapper.name()).toBe('button')
-  })
-
   describe('(State)', () => {
-    it('Should have initial state', () => {
+    it('should have initial state', () => {
+      const wrapper = shallow(<Button />)
+
       expect(wrapper.state()).toEqual({ disabled : false, loading : false })
     })
   })
 
   describe('(Props)', () => {
-    it('Should have default props', () => {
+    it('should have default props', () => {
+      const wrapper = shallow(<Button />)
+      const instance = wrapper.instance()
+
       expect(instance.props.text).toBe('')
       expect(instance.props.className).toBe('')
       expect(instance.props.disabled).toBe(false)
@@ -30,19 +27,19 @@ describe('(Component) Button', () => {
   })
 
   describe('(Method) isDisabled', () => {
-    it('Should return false as default', () => {
+    it('should return false as default', () => {
       const wrapper = shallow(<Button />).instance()
 
       expect(wrapper.isDisabled()).toBe(false)
     })
 
-    it('Should return true for prop', () => {
+    it('should return true for prop', () => {
       const wrapper = shallow(<Button disabled />).instance()
 
       expect(wrapper.isDisabled()).toBe(true)
     })
 
-    it('Should return true for state', () => {
+    it('should return true for state', () => {
       const wrapper = shallow(<Button />).instance()
 
       wrapper.setState({ disabled: true })
@@ -51,7 +48,7 @@ describe('(Component) Button', () => {
   })
 
   describe('(Method) handlePress', () => {
-    it('Should update the state', () => {
+    it('should update the state', () => {
       const wrapper = shallow(<Button callback={() => Promise.resolve()} />)
       const instance = wrapper.instance()
 
@@ -59,7 +56,7 @@ describe('(Component) Button', () => {
       expect(wrapper.state()).toEqual({ disabled : true, loading : true })
     })
 
-    it('Should call callback', () => {
+    it('should call callback', () => {
       const callback = jest.fn(() => (Promise.resolve()))
       const wrapper = shallow(<Button callback={callback} />)
 
@@ -67,7 +64,7 @@ describe('(Component) Button', () => {
       expect(callback).toHaveBeenCalledTimes(1)
     })
 
-    it('Shouldn\'t update the state when disabled', () => {
+    it('shouldn\'t update the state when disabled', () => {
       const wrapper = shallow(<Button disabled callback={() => Promise.resolve()} />)
       const instance = wrapper.instance()
 
@@ -75,7 +72,7 @@ describe('(Component) Button', () => {
       expect(wrapper.state()).toEqual({ disabled : false, loading : false })
     })
 
-    it('Shouldn\'t update the state with no callback', () => {
+    it('shouldn\'t update the state with no callback', () => {
       const wrapper = shallow(<Button />)
       const instance = wrapper.instance()
 
@@ -92,32 +89,38 @@ describe('(Component) Button', () => {
 
     instance.handlePress = jest.fn()
 
-    it('Should call handlePress', () => {
+    it('should call handlePress', () => {
       EventBus.getEventBus().emit('submitButton')
       expect(instance.handlePress).toHaveBeenCalledTimes(1)
     })
   })
 
-  describe('(Render) snapshot', () => {
-    it('Should render the text', () => {
+  describe('(Render) with text', () => {
+    it('should match snapshot', () => {
       const wrapper = shallow(<Button text='Click Me!' />)
 
       expect(wrapper).toMatchSnapshot()
     })
+  })
 
-    it('Should be disabled', () => {
+  describe('(Render) disabled', () => {
+    it('should match snapshot', () => {
       const wrapper = shallow(<Button text='Click Me!' disabled />)
 
       expect(wrapper).toMatchSnapshot()
     })
+  })
 
-    it('Should have className', () => {
+  describe('(Render) with className', () => {
+    it('should match snapshot', () => {
       const wrapper = shallow(<Button className='button button--class' disabled />)
 
       expect(wrapper).toMatchSnapshot()
     })
+  })
 
-    it('Should render spinner when loading', () => {
+  describe('(Render) loading animation', () => {
+    it('should match snapshot', () => {
       const wrapper = shallow(<Button text='Click Me!' />)
 
       wrapper.setState({ disabled : true, loading : true })

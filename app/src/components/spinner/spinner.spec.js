@@ -10,8 +10,8 @@ describe('(Component) Spinner', () => {
     wrapper = shallow(<Spinner />)
   })
 
-  describe('(Render) snapshot', () => {
-    it('renders correctly', () => {
+  describe('(Render) default', () => {
+    it('matches snapshot', () => {
       expect(wrapper).toMatchSnapshot()
     })
   })

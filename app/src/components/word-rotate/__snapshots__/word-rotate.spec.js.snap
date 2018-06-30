@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`(Component) WordRotate (Render) snapshot renders correctly 1`] = `
+exports[`(Component) WordRotate (Render) with words matches snapshot 1`] = `
 <span
   className="word-rotate"
 >
