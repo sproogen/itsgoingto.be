@@ -177,15 +177,15 @@ class LoginApiControllerTest extends BaseApiControllerTest
         ]);
         $request = Request::create($this->apiUrl, Request::METHOD_POST, [], [], [], [], $requestContent);
 
+        $now = new \DateTime();
+        $now->add(new \DateInterval('PT3600S'));
+
         $response = $this->controller->apiAction($request, 0);
 
         $this->userRepo->findOneBy(['username' => 'user'])
             ->shouldHaveBeenCalledTimes(1);
         $this->encoder->isPasswordValid(Argument::type(User::class), 'password')
             ->shouldHaveBeenCalledTimes(1);
-
-        $now = new \DateTime();
-        $now->add(new \DateInterval('PT3600S'));
 
         $this->jwtEncoder->encode([
             'username' => 'user',
