@@ -1,0 +1,12 @@
+@import "variables";
+
+.input-option.input-option-multipleChoice {
+  grid-column: 1 / span 1;
+
+  .input-label-multipleChoice {
+    line-height: 1em;
+    font-size: 1.2em;
+    padding-left: 0.7em;
+    color: $base-font-color;
+  }
+}

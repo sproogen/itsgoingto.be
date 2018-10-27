@@ -7,6 +7,7 @@ import { canSubmitPollSelector, answersSelector } from 'store/answers'
 import WordRotate from 'components/word-rotate'
 import Question from './components/question'
 import Answers from './components/answers'
+import Options from './components/options'
 import Actions from './components/actions'
 import './ask.scss'
 
@@ -55,7 +56,8 @@ class Ask extends React.Component {
             canSubmitPoll={canSubmitPoll}
             placeholderText={PLACEHOLDER_TEXT} />
           <Answers hasQuestion={hasQuestion} answers={answers} />
-          <Actions hasQuestion={hasQuestion} canSubmitPoll={canSubmitPoll} poll={poll} />
+          <Options hasQuestion={hasQuestion} poll={poll} />
+          <Actions hasQuestion={hasQuestion} canSubmitPoll={canSubmitPoll} />
         </div>
       </div>
     )

@@ -1,16 +1,21 @@
-@import "~bourbon/core/bourbon";
-@import "~bourbon-neat/core/neat";
 @import "variables";
 
-.input-option {
-  margin-bottom: 2em;
-
-  .input-field {
-    font-size: 1.5em;
+.input-option.input-option-endPoll {
+  grid-row: 1 / span 2;
+  grid-column: 2;
+  @media(max-width: $screen-xs-max) {
+    grid-row: auto;
+    grid-column: 1;
   }
+  text-align: center;
 
   .input-option-radios {
-    margin-bottom: 2em;
+    margin-bottom: 1.5em;
+
+    .input-label {
+      line-height: 1em;
+      font-size: 1.2em;
+    }
   }
 
   .input-option-slider {
@@ -19,20 +24,20 @@
     .input-option-slider-label {
       text-align: center;
       font-weight: 300;
-      font-size: 1.6em;
+      font-size: 1.4em;
     }
 
     .rangeslider {
       max-width: 80%;
       margin: 0 auto;
-      margin-top: 2em;
+      margin-top: 1em;
     }
   }
 
   .input-option-datepicker {
     text-align: center;
     font-weight: 300;
-    font-size: 1.6em;
+    font-size: 1.4em;
 
     .input-option-datepicker-label {
       cursor: pointer;
@@ -44,6 +49,7 @@
 
     .ant-time-picker {
       font-size: inherit;
+      width: 55px;
 
       .ant-time-picker-input {
         border: none;
@@ -57,7 +63,7 @@
         padding: 0;
         padding-left: 8px;
         margin: 0;
-        color: inherit;
+        color: $base-font-color;
       }
 
       .ant-time-picker-icon {
@@ -108,7 +114,7 @@
 
 .ant-time-picker-panel-inner:after {
   border-color: rgba(255, 255, 255, 0);
-  border-bottom-color: #fff;
+  border-bottom-color: #f5f5f5;
   border-width: 8px;
   margin-left: -8px;
 }
@@ -132,6 +138,30 @@
 
 .rangeslider .rangeslider__fill {
   background: $medium-grey;
+}
+
+.rangeslider-horizontal {
+  height: 12px;
+  @media(max-width: $screen-md-max) {
+    height: 10px;
+  }
+  @media(max-width: $screen-xs-max) {
+    height: 8px;
+  }
+}
+
+.rangeslider-horizontal .rangeslider__handle {
+  width: 25px;
+  height: 25px;
+  @media(max-width: $screen-md-max) {
+    width: 20px;
+    height: 20px;
+  }
+  @media(max-width: $screen-xs-max) {
+    width: 18px;
+    height: 18px;
+  }
+  border-radius: 25px;
 }
 
 .rangeslider-horizontal .rangeslider__handle:after {
