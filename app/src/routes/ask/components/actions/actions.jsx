@@ -16,11 +16,6 @@ class Actions extends React.Component {
       return true
     })
 
-  options = () => {
-    this._modal.getWrappedInstance().show()
-    return Promise.resolve()
-  }
-
   render () {
     const { hasQuestion, canSubmitPoll } = this.props
 
