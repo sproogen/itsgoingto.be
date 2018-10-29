@@ -1,5 +1,3 @@
-'use strict'
-
 const autoprefixer = require('autoprefixer')
 const path = require('path')
 const webpack = require('webpack')
@@ -9,8 +7,6 @@ const ManifestPlugin = require('webpack-manifest-plugin')
 const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin')
 const eslintFormatter = require('react-dev-utils/eslintFormatter')
 const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin')
-const bourbon = require('bourbon')
-const bourbonNeat = require('bourbon-neat')
 const paths = require('./paths')
 const getClientEnvironment = require('./env')
 
@@ -199,8 +195,6 @@ module.exports = {
                         minimize: true,
                         sourceMap: shouldUseSourceMap,
                         includePaths: [
-                          bourbon.includePaths,
-                          bourbonNeat.includePaths,
                           paths.styles,
                         ],
                       },

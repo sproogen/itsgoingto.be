@@ -1,8 +1,6 @@
 import React from 'react'
 import { Provider } from 'react-redux'
 import { storiesOf } from '@storybook/react'
-import LocaleProvider from 'antd/lib/locale-provider'
-import enGB from 'antd/lib/locale-provider/en_GB'
 import createStore from 'store/create-store'
 import { setLoading } from 'store/loader'
 import Back from 'components/back'
@@ -12,7 +10,6 @@ import Modal from 'components/modal'
 import Spinner from 'components/spinner'
 import WordRotate from 'components/word-rotate'
 import Footer from 'layouts/footer'
-import OptionsModalWrapper from './options-modal-wrapper'
 import Question from 'routes/ask/components/question/question'
 import Sharing from 'routes/answer/components/sharing/sharing'
 import Answer from 'routes/answer/components/answer/answer'
@@ -71,28 +68,6 @@ storiesOf('Core.WordRotate', module)
 
 storiesOf('Layouts.Footer', module)
   .add('Default', () => <Footer />)
-
-let _optionsModal
-
-storiesOf('Ask.OptionsModal', module)
-  .addDecorator((getStory) => {
-    return <LocaleProvider locale={enGB}>
-      <Provider store={store}>
-        { getStory() }
-      </Provider>
-    </LocaleProvider>
-  })
-  .add('Default', () => {
-    return (
-      <div>
-        <Button text='Show' callback={() => {
-          _optionsModal.getWrappedInstance().show()
-          return Promise.resolve()
-        }} />
-        <OptionsModalWrapper ref={(component) => { _optionsModal = component }} />
-      </div>
-    )
-  })
 
 storiesOf('Ask.Question', module)
   .addDecorator((getStory) => {
