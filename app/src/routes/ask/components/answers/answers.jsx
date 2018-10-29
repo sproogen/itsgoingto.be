@@ -1,11 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { length } from 'ramda'
-import Answer from '../answer'
+import Answer from './answer'
+import './answers.scss'
 
 export function Answers ({ hasQuestion, answers }) {
   return (
     <div className={'answers hideable' + (hasQuestion ? '' : ' gone')}>
+      <label className='input-label input-label-answers'>Add some responses</label>
       {answers.map((answer, index) =>
         <Answer key={index} index={index} text={answer.answer ? answer.answer : answer} />
       )}
