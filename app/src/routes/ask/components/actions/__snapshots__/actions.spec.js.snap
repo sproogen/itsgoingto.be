@@ -1,0 +1,65 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`(Route) Ask (Component) Actions (Render) when canSubmitPoll is false matches snapshot 1`] = `
+<div>
+  <div
+    className="actions hideable"
+  >
+    <Button
+      callback={[Function]}
+      className="pull-right"
+      disabled={false}
+      submitEvent={null}
+      text="Create Poll"
+    />
+  </div>
+</div>
+`;
+
+exports[`(Route) Ask (Component) Actions (Render) when canSubmitPoll is true matches snapshot 1`] = `
+<div>
+  <div
+    className="actions hideable"
+  >
+    <Button
+      callback={[Function]}
+      className="pull-right"
+      disabled={false}
+      submitEvent={null}
+      text="Create Poll"
+    />
+  </div>
+</div>
+`;
+
+exports[`(Route) Ask (Component) Actions (Render) when hasQuestion is false matches snapshot 1`] = `
+<div>
+  <div
+    className="actions hideable"
+  >
+    <Button
+      callback={[Function]}
+      className="pull-right"
+      disabled={false}
+      submitEvent={null}
+      text="Create Poll"
+    />
+  </div>
+</div>
+`;
+
+exports[`(Route) Ask (Component) Actions (Render) when hasQuestion is true matches snapshot 1`] = `
+<div>
+  <div
+    className="actions hideable"
+  >
+    <Button
+      callback={[Function]}
+      className="pull-right"
+      disabled={false}
+      submitEvent={null}
+      text="Create Poll"
+    />
+  </div>
+</div>
+`;
