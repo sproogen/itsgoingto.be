@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`(Component) Loader (Render) prop isLoading is false matches snapshot 1`] = `
+exports[`(Component) Loader (Render) when prop isLoading is false matches snapshot 1`] = `
 <div
   className="loader-container hideable gone"
 >
@@ -19,7 +19,7 @@ exports[`(Component) Loader (Render) prop isLoading is false matches snapshot 1`
 </div>
 `;
 
-exports[`(Component) Loader (Render) prop isLoading is true matches snapshot 1`] = `
+exports[`(Component) Loader (Render) when prop isLoading is true matches snapshot 1`] = `
 <div
   className="loader-container hideable"
 >

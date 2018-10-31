@@ -24,29 +24,28 @@ describe('(Component) WordRotate', () => {
     })
   })
 
-  describe('(Method) getWord', () => {
-    it('should return the word at index 0', () => {
-      expect(instance.getWord(0)).toBe('word1')
-    })
-
-    it('should return the word at index 1', () => {
-      expect(instance.getWord(1)).toBe('word2')
-    })
-  })
-
   describe('(Method) updateWord', () => {
     it('should update the state', () => {
       instance.updateWord()
-      expect(wrapper.state()).toEqual({ currentWord : 1 })
+      expect(wrapper.state('currentWord')).toEqual(1)
 
       instance.updateWord()
-      expect(wrapper.state()).toEqual({ currentWord : 0 })
+      expect(wrapper.state('currentWord')).toEqual(0)
     })
   })
 
-  describe('(Render) with words', () => {
-    it('matches snapshot', () => {
-      expect(wrapper).toMatchSnapshot()
+  describe('(Render)', () => {
+    describe('with words', () => {
+      it('matches snapshot', () => {
+        expect(wrapper).toMatchSnapshot()
+      })
+    })
+
+    describe('with word updated', () => {
+      it('matches snapshot', () => {
+        wrapper.setState({ currentWord: 1 })
+        expect(wrapper).toMatchSnapshot()
+      })
     })
   })
 })

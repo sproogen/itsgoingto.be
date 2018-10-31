@@ -10,7 +10,7 @@ import Loader from 'components/loader'
 import Button from 'components/button'
 import './page-layout.scss'
 
-export function PageLayout ({ children, isLoading, hasUser, clearUser, cookies }) {
+export const PageLayout = ({ children, isLoading, hasUser, clearUser, cookies }) => {
   const logout = () => {
     clearUser()
     cookies.remove('itsgoingtobeUserToken', { path: '/' })
@@ -28,8 +28,8 @@ export function PageLayout ({ children, isLoading, hasUser, clearUser, cookies }
       <div className='page-layout__viewport'>
         { hasUser &&
           <div className='logout-conatiner'>
-            <a className='view-polls' onClick={viewPolls}>View Polls</a>
-            <Button className='btn--small' text='Logout' callback={logout} />
+            <a id='view-polls' className='view-polls' onClick={viewPolls}>View Polls</a>
+            <Button id='logout' className='btn--small' text='Logout' callback={logout} />
           </div>
         }
         {children}
