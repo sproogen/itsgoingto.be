@@ -10,7 +10,7 @@ import './question.scss'
 const KEY_DOWN_ARROW = 40
 const KEY_ENTER = 13
 
-class Question extends React.Component {
+export class Question extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
