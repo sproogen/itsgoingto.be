@@ -8,7 +8,7 @@ exports[`(Route) Ask (Component) Actions (Render) when canSubmitPoll is false ma
     <Button
       callback={[Function]}
       className="pull-right"
-      disabled={false}
+      disabled={true}
       submitEvent={null}
       text="Create Poll"
     />
@@ -35,7 +35,7 @@ exports[`(Route) Ask (Component) Actions (Render) when canSubmitPoll is true mat
 exports[`(Route) Ask (Component) Actions (Render) when hasQuestion is false matches snapshot 1`] = `
 <div>
   <div
-    className="actions hideable"
+    className="actions hideable gone"
   >
     <Button
       callback={[Function]}

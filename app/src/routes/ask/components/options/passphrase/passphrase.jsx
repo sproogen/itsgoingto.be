@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { updatePoll } from 'store/poll'
 import './passphrase.scss'
 
-class Passphrase extends PureComponent {
+export class Passphrase extends PureComponent {
   handlePassphraseChange = (event) =>
     this.props.updateOptions({
       identifier : '',

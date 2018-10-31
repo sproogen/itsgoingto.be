@@ -46,29 +46,29 @@ describe('(Route) Ask', () => {
 
     describe('(Render)', () => {
       describe('when hasQuestion is true', () => {
-        wrapper = shallow(<Actions {...props} hasQuestion={true} />)
         it('matches snapshot', () => {
+          wrapper = shallow(<Actions {...props} hasQuestion={true} />)
           expect(wrapper).toMatchSnapshot()
         })
       })
 
       describe('when hasQuestion is false', () => {
-        wrapper = shallow(<Actions {...props} hasQuestion={false} />)
         it('matches snapshot', () => {
+          wrapper = shallow(<Actions {...props} hasQuestion={false} />)
           expect(wrapper).toMatchSnapshot()
         })
       })
 
       describe('when canSubmitPoll is true', () => {
-        wrapper = shallow(<Actions {...props} canSubmitPoll={true} />)
         it('matches snapshot', () => {
+          wrapper = shallow(<Actions {...props} canSubmitPoll={true} />)
           expect(wrapper).toMatchSnapshot()
         })
       })
 
       describe('when canSubmitPoll is false', () => {
-        wrapper = shallow(<Actions {...props} canSubmitPoll={false} />)
         it('matches snapshot', () => {
+          wrapper = shallow(<Actions {...props} canSubmitPoll={false} />)
           expect(wrapper).toMatchSnapshot()
         })
       })
