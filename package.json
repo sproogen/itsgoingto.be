@@ -8,6 +8,7 @@
     "heroku-postbuild": "rm -rf app"
   },
   "cacheDirectories": [
-    "app/node_modules"
+    "app/node_modules",
+    "socket-server/node_modules"
   ]
 }

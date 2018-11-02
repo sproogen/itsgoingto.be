@@ -6,9 +6,11 @@ import Helmet from 'react-helmet'
 import Linkify from 'react-linkify'
 import Countdown from 'react-countdown-now'
 import { browserHistory } from 'react-router'
-import { pollSelector, hasQuestionSelector, totalResponsesSelector, userRespondedSelector } from 'store/poll'
+import io from 'socket.io-client'
+import { fetchPoll, postResponse, APIError } from 'services/api'
+import { pollSelector, hasQuestionSelector, totalResponsesSelector, userRespondedSelector,
+  updateResponses } from 'store/poll'
 import { answersSelector, clearAnswers } from 'store/answers'
-import { fetchPoll, APIError } from 'store/api'
 import { setLoading, setRequiresPassphrase, requiresPassphraseSelector } from 'store/loader'
 import { hasUserSelector } from 'store/user'
 import Back from 'components/back'
@@ -19,13 +21,14 @@ import './answer.scss'
 
 class Answer extends React.Component {
   componentDidMount = () => {
-    const { hasPoll, setLoading, fetchPoll, clearAnswers, setRequiresPassphrase } = this.props
+    const { identifier, hasPoll, setLoading, fetchPoll, clearAnswers, setRequiresPassphrase,
+      updateResponses } = this.props
 
     if (!hasPoll) {
       setLoading(true)
     }
     clearAnswers()
-    fetchPoll(this.props.identifier).then((response) => {
+    fetchPoll().then((response) => {
       if (response instanceof APIError) {
         if (response.details.status === 403 && response.details.error.error === 'incorrect-passphrase') {
           setRequiresPassphrase(true)
@@ -34,6 +37,22 @@ class Answer extends React.Component {
         }
       }
       setLoading(false)
+    })
+
+    this.socket = io(`http://localhost:8001/responses?identifier=${identifier}`)
+    this.socket.on('responses-updated', (responses) => {
+      updateResponses(responses)
+    })
+  }
+
+  componentWillUnmount() {
+    this.socket.close()
+  }
+
+  onResponseSelected = (id) => {
+    const { postResponse } = this.props
+    postResponse(id).then(() => {
+      this.socket.emit('new-response')
     })
   }
 
@@ -95,6 +114,7 @@ class Answer extends React.Component {
               answers={answers}
               totalResponses={totalResponses}
               userResponded={userResponded}
+              onResponseSelected={this.onResponseSelected}
               viewOnly={hasUser} />
           </div>
         }
@@ -118,7 +138,9 @@ Answer.propTypes = {
   fetchPoll             : PropTypes.func.isRequired,
   clearAnswers          : PropTypes.func.isRequired,
   setLoading            : PropTypes.func.isRequired,
-  setRequiresPassphrase : PropTypes.func.isRequired
+  setRequiresPassphrase : PropTypes.func.isRequired,
+  postResponse          : PropTypes.func.isRequired,
+  updateResponses       : PropTypes.func.isRequired
 }
 
 Answer.defaultProps = {
@@ -135,11 +157,13 @@ const mapStateToProps = (state, props) => ({
   hasUser            : hasUserSelector(state),
 })
 
-const mapDispatchToProps = (dispatch) => ({
-  fetchPoll             : (identifier) => dispatch(fetchPoll(identifier)),
+const mapDispatchToProps = (dispatch, props) => ({
+  fetchPoll             : () => dispatch(fetchPoll(props.params.identifier)),
   clearAnswers          : () => dispatch(clearAnswers()),
   setLoading            : (value) => dispatch(setLoading(value)),
-  setRequiresPassphrase : (value) => dispatch(setRequiresPassphrase(value))
+  setRequiresPassphrase : (value) => dispatch(setRequiresPassphrase(value)),
+  postResponse          : (id) => dispatch(postResponse(id, props.params.identifier)),
+  updateResponses       : (responses) => dispatch(updateResponses(responses, props.params.identifier))
 })
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => mergeAll([stateProps, dispatchProps, ownProps.params])

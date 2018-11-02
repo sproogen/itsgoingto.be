@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
-import { postPoll } from 'store/api'
+import { postPoll } from 'services/api'
 import Button from 'components/button'
 import './actions.scss'
 

@@ -1,10 +1,11 @@
 import { prop, compose, not, isEmpty, contains, without, append, ifElse, both, equals, length, when, path, omit,
   merge } from 'ramda'
 import moment from 'moment'
-import { pollSelector, updatePoll, setPolls, setPollCount, setPollPage, updateResponses, POLLS_PER_PAGE } from './poll'
-import { answersSelector } from './answers'
-import { updateUser, userTokenSelector } from './user'
-import { updateStats } from './stats'
+import { pollSelector, updatePoll, setPolls, setPollCount, setPollPage, updateResponses, updateUserResponses,
+  POLLS_PER_PAGE } from 'store/poll'
+import { answersSelector } from 'store/answers'
+import { updateUser, userTokenSelector } from 'store/user'
+import { updateStats } from 'store/stats'
 
 // ------------------------------------
 // Constants
@@ -183,7 +184,7 @@ export const postResponse = (answer, identifier) => (dispatch, getState) =>
       }
     )
       .then(extractResponse)
-      .then((response) => dispatch(updateResponses(response, identifier)))
+      .then((response) => dispatch(updateUserResponses(response, identifier)))
       .catch(onError),
     omit(['poll']),
     when(

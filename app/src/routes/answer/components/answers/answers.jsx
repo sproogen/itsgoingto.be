@@ -3,43 +3,43 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import PropTypes from 'prop-types'
 import { prop, compose, contains, when, isNil } from 'ramda'
-import { fetchResponses, postResponse, fetchPoll, APIError } from 'store/api'
+import { fetchResponses, fetchPoll, APIError } from 'services/api' // eslint-disable-line
 import Spinner from 'components/spinner'
 import Answer from '../answer'
 import './answers.scss'
 
 class Answers extends React.Component {
-  updateAnswers = () => {
-    const { poll, updateResponses, fetchPoll } = this.props
+  // updateAnswers = () => {
+  //   const { poll, updateResponses, fetchPoll } = this.props
 
-    if (poll.ended || poll.deleted) {
-      clearInterval(this.answersUpdater)
-    } else {
-      updateResponses()
-        .then((response) => {
-          if (response instanceof APIError) {
-            fetchPoll()
-          }
-        })
-    }
-  }
+  //   if (poll.ended || poll.deleted) {
+  //     clearInterval(this.answersUpdater)
+  //   } else {
+  //     updateResponses()
+  //       .then((response) => {
+  //         if (response instanceof APIError) {
+  //           fetchPoll()
+  //         }
+  //       })
+  //   }
+  // }
 
-  componentDidMount = () => {
-    this.answersUpdater = setInterval(
-      this.updateAnswers,
-      5000
-    )
-  }
+  // componentDidMount = () => {
+  //   this.answersUpdater = setInterval(
+  //     this.updateAnswers,
+  //     5000
+  //   )
+  // }
 
-  componentWillUnmount = () => {
-    clearInterval(this.answersUpdater)
-  }
+  // componentWillUnmount = () => {
+  //   clearInterval(this.answersUpdater)
+  // }
 
   answerChecked = (answer) =>
     compose(contains(answer.id), when(isNil, () => []), prop('userResponses'))(this.props.poll)
 
   render () {
-    const { poll, answers, userResponded, postResponse, totalResponses, viewOnly } = this.props
+    const { poll, answers, userResponded, onResponseSelected, totalResponses, viewOnly } = this.props
 
     return (
       <div className='container answer-container'>
@@ -58,7 +58,7 @@ class Answers extends React.Component {
               poll={poll}
               viewOnly={viewOnly}
               checked={this.answerChecked(answer)}
-              postResponse={postResponse}
+              onResponseSelected={onResponseSelected}
               totalResponses={totalResponses} />
           )}
         </div>
@@ -68,14 +68,14 @@ class Answers extends React.Component {
 }
 
 Answers.propTypes = {
-  answers         : PropTypes.array.isRequired,
-  poll            : PropTypes.object.isRequired,
-  totalResponses  : PropTypes.number,
-  userResponded   : PropTypes.bool.isRequired,
-  viewOnly        : PropTypes.bool.isRequired,
-  updateResponses : PropTypes.func.isRequired,
-  postResponse    : PropTypes.func.isRequired,
-  fetchPoll       : PropTypes.func.isRequired
+  answers            : PropTypes.array.isRequired,
+  poll               : PropTypes.object.isRequired,
+  totalResponses     : PropTypes.number,
+  userResponded      : PropTypes.bool.isRequired,
+  viewOnly           : PropTypes.bool.isRequired,
+  updateResponses    : PropTypes.func.isRequired,
+  onResponseSelected : PropTypes.func.isRequired,
+  fetchPoll          : PropTypes.func.isRequired
 }
 
 Answers.defaultProps = {
@@ -84,7 +84,6 @@ Answers.defaultProps = {
 
 const mapDispatchToProps = (dispatch, props) => ({
   updateResponses : () => dispatch(fetchResponses(props.params.identifier)),
-  postResponse    : (id) => dispatch(postResponse(id, props.params.identifier)),
   fetchPoll       : () => dispatch(fetchPoll(props.params.identifier))
 })
 

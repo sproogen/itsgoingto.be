@@ -17,7 +17,7 @@ import {
   fetchResponses,
   postLogin,
   fetchStats,
-} from 'store/api'
+} from 'services/api'
 import * as poll from 'store/poll'
 import * as user from 'store/user'
 import * as stats from 'store/stats'
