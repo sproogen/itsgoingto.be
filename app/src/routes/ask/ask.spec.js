@@ -25,6 +25,7 @@ describe('(Route) Ask', () => {
     describe('with question', () => {
       it('matches snapshot', () => {
         const wrapper = shallow(<Ask {...props} question={'Some question'} />)
+
         expect(wrapper).toMatchSnapshot()
       })
     })
@@ -32,6 +33,7 @@ describe('(Route) Ask', () => {
     describe('when hasQuestion is true', () => {
       it('matches snapshot', () => {
         const wrapper = shallow(<Ask {...props} hasQuestion={true} />)
+
         expect(wrapper).toMatchSnapshot()
       })
     })
@@ -39,6 +41,7 @@ describe('(Route) Ask', () => {
     describe('when canSubmitPoll is true', () => {
       it('matches snapshot', () => {
         const wrapper = shallow(<Ask {...props} canSubmitPoll={true} />)
+
         expect(wrapper).toMatchSnapshot()
       })
     })
@@ -46,6 +49,7 @@ describe('(Route) Ask', () => {
     describe('with poll', () => {
       it('matches snapshot', () => {
         const wrapper = shallow(<Ask {...props} poll={{ question: 'Question', identifier: 'kdH98eJ' }} />)
+
         expect(wrapper).toMatchSnapshot()
       })
     })
@@ -53,6 +57,7 @@ describe('(Route) Ask', () => {
     describe('with answers', () => {
       it('matches snapshot', () => {
         const wrapper = shallow(<Ask {...props} answers={['Answer 1', 'Answer 2']} />)
+
         expect(wrapper).toMatchSnapshot()
       })
     })

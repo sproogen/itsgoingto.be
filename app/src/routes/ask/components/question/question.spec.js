@@ -61,12 +61,14 @@ describe('(Route) Ask', () => {
     describe('(Render)', () => {
       it('matches snapshot', () => {
         const wrapper = shallow(<Question {...props} />)
+
         expect(wrapper).toMatchSnapshot()
       })
 
       describe('with question text', () => {
         it('matches snapshot', () => {
           const wrapper = shallow(<Question {...props} question={'A real question'} />)
+
           expect(wrapper).toMatchSnapshot()
         })
       })
@@ -74,6 +76,7 @@ describe('(Route) Ask', () => {
       describe('with place holder text', () => {
         it('matches snapshot', () => {
           const wrapper = shallow(<Question {...props} />)
+
           wrapper.setState({
             placeholder : 1,
             character   : 12,

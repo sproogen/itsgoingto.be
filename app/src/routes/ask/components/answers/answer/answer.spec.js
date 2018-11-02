@@ -123,12 +123,14 @@ describe('(Route) Ask', () => {
     describe('(Render)', () => {
       it('matches snapshot', () => {
         const wrapper = shallow(<Answer {...props} />)
+
         expect(wrapper).toMatchSnapshot()
       })
 
       describe('with disabled is true', () => {
         it('matches snapshot', () => {
           const wrapper = shallow(<Answer {...props} disabled={true} />)
+
           expect(wrapper).toMatchSnapshot()
         })
       })

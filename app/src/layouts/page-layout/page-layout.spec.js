@@ -1,4 +1,4 @@
-/* global expect */
+/* global expect, jest */
 import React from 'react'
 import { shallow } from 'enzyme'
 import { browserHistory } from 'react-router'
@@ -9,7 +9,9 @@ browserHistory.push = jest.fn()
 
 const Child = () => <h2>child</h2>
 const cookies = new Cookies()
+
 cookies.remove = jest.fn()
+
 const props = {
   children: <Child />,
   isLoading: false,
@@ -35,6 +37,7 @@ describe('(Layout) PageLayout', () => {
   describe('(Action) Logout click', () => {
     beforeEach(() => {
       const wrapper = shallow(<PageLayout {...props} hasUser />)
+
       wrapper.find('#logout').props().callback()
     })
 

@@ -14,6 +14,7 @@ describe('(Route) Ask', () => {
       describe('when hasQuestion is true', () => {
         it('matches snapshot', () => {
           const wrapper = shallow(<Answers {...props} hasQuestion={true} />)
+
           expect(wrapper).toMatchSnapshot()
         })
       })
@@ -21,6 +22,7 @@ describe('(Route) Ask', () => {
       describe('when hasQuestion is false', () => {
         it('matches snapshot', () => {
           const wrapper = shallow(<Answers {...props} hasQuestion={false} />)
+
           expect(wrapper).toMatchSnapshot()
         })
       })
@@ -33,6 +35,7 @@ describe('(Route) Ask', () => {
         ]
         it('matches snapshot', () => {
           const wrapper = shallow(<Answers {...props} answers={answers} />)
+
           expect(wrapper).toMatchSnapshot()
         })
       })
@@ -45,6 +48,7 @@ describe('(Route) Ask', () => {
         ]
         it('matches snapshot', () => {
           const wrapper = shallow(<Answers {...props} answers={answers} />)
+
           expect(wrapper).toMatchSnapshot()
         })
       })

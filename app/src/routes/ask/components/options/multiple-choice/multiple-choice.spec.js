@@ -29,6 +29,7 @@ describe('(Route) Ask', () => {
     describe('(Render)', () => {
       it('matches snapshot', () => {
         const wrapper = shallow(<MultipleChoice {...props} />)
+
         expect(wrapper).toMatchSnapshot()
       })
     })

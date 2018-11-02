@@ -29,6 +29,7 @@ describe('(Route) Ask', () => {
     describe('(Render)', () => {
       it('matches snapshot', () => {
         const wrapper = shallow(<Passphrase {...props} />)
+
         expect(wrapper).toMatchSnapshot()
       })
     })

@@ -110,12 +110,14 @@ describe('(Route) Ask', () => {
     describe('(Render)', () => {
       it('matches snapshot', () => {
         const wrapper = shallow(<EndPoll {...props} />)
+
         expect(wrapper).toMatchSnapshot()
       })
 
       describe('when endType is endAt', () => {
         it('matches snapshot', () => {
           const wrapper = shallow(<EndPoll {...props} poll={{ endType: 'endAt' }} />)
+
           expect(wrapper).toMatchSnapshot()
         })
       })
@@ -123,6 +125,7 @@ describe('(Route) Ask', () => {
       describe('when endType is endIn', () => {
         it('matches snapshot', () => {
           const wrapper = shallow(<EndPoll {...props} poll={{ endType: 'endIn' }} />)
+
           expect(wrapper).toMatchSnapshot()
         })
       })
