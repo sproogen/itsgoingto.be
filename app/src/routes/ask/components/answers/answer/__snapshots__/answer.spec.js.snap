@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`(Route) Ask (Component) Answer (Render) matches snapshot 1`] = `
+<div
+  className="input input-answer"
+>
+  <label
+    className="input-label input-label-answer"
+    htmlFor="answer-0"
+  >
+    1
+  </label>
+  <input
+    className="input-field input-field-answer"
+    disabled={false}
+    id="answer-0"
+    name="answer-0"
+    onChange={[Function]}
+    onKeyDown={[Function]}
+    type="text"
+    value="Answer 1"
+  />
+</div>
+`;
+
+exports[`(Route) Ask (Component) Answer (Render) with disabled is true matches snapshot 1`] = `
+<div
+  className="input input-answer input-disabled"
+>
+  <label
+    className="input-label input-label-answer"
+    htmlFor="answer-0"
+  >
+    1
+  </label>
+  <input
+    className="input-field input-field-answer"
+    disabled={true}
+    id="answer-0"
+    name="answer-0"
+    onChange={[Function]}
+    onKeyDown={[Function]}
+    type="text"
+    value="Answer 1"
+  />
+</div>
+`;

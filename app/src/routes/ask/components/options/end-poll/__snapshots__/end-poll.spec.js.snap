@@ -1,0 +1,235 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`(Route) Ask (Component) EndPoll (Render) matches snapshot 1`] = `
+<div
+  className="input-option input-option-endPoll"
+>
+  <div
+    className="input-option-radios"
+  >
+    <input
+      checked={true}
+      className="input-radio input-checkbox-endType"
+      id="end-never"
+      name="endType"
+      onChange={[Function]}
+      type="checkbox"
+      value="endNever"
+    />
+    <label
+      className="input-label input-label-options input-label-endType"
+      htmlFor="end-never"
+    >
+      Don't End Poll
+    </label>
+    <input
+      checked={false}
+      className="input-radio input-checkbox-endType"
+      id="end-at"
+      name="endType"
+      onChange={[Function]}
+      type="checkbox"
+      value="endAt"
+    />
+    <label
+      className="input-label input-label-options input-label-endType"
+      htmlFor="end-at"
+    >
+      End Poll At
+    </label>
+    <input
+      checked={false}
+      className="input-radio input-checkbox-endType"
+      id="end-in"
+      name="endType"
+      onChange={[Function]}
+      type="radio"
+      value="endIn"
+    />
+    <label
+      className="input-label input-label-options input-label-endType"
+      htmlFor="end-in"
+    >
+      End Poll In
+    </label>
+  </div>
+</div>
+`;
+
+exports[`(Route) Ask (Component) EndPoll (Render) when endType is endAt matches snapshot 1`] = `
+<div
+  className="input-option input-option-endPoll"
+>
+  <div
+    className="input-option-radios"
+  >
+    <input
+      checked={false}
+      className="input-radio input-checkbox-endType"
+      id="end-never"
+      name="endType"
+      onChange={[Function]}
+      type="checkbox"
+      value="endNever"
+    />
+    <label
+      className="input-label input-label-options input-label-endType"
+      htmlFor="end-never"
+    >
+      Don't End Poll
+    </label>
+    <input
+      checked={true}
+      className="input-radio input-checkbox-endType"
+      id="end-at"
+      name="endType"
+      onChange={[Function]}
+      type="checkbox"
+      value="endAt"
+    />
+    <label
+      className="input-label input-label-options input-label-endType"
+      htmlFor="end-at"
+    >
+      End Poll At
+    </label>
+    <input
+      checked={false}
+      className="input-radio input-checkbox-endType"
+      id="end-in"
+      name="endType"
+      onChange={[Function]}
+      type="radio"
+      value="endIn"
+    />
+    <label
+      className="input-label input-label-options input-label-endType"
+      htmlFor="end-in"
+    >
+      End Poll In
+    </label>
+  </div>
+  <div
+    className="input-option-datepicker"
+  >
+    <t
+      allowSameDay={false}
+      customInput={<DatePickerInput />}
+      dateFormat="DD/MM/YYYY"
+      dateFormatCalendar="MMMM YYYY"
+      disabled={false}
+      disabledKeyboardNavigation={false}
+      dropdownMode="scroll"
+      minDate={"2018-03-10T10:30:00.000Z"}
+      monthsShown={1}
+      onBlur={[Function]}
+      onChange={[Function]}
+      onClickOutside={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onMonthChange={[Function]}
+      onSelect={[Function]}
+      shouldCloseOnSelect={true}
+      utcOffset={-0}
+      withPortal={false}
+    />
+    <TimePicker
+      align={
+        Object {
+          "offset": Array [
+            0,
+            -2,
+          ],
+        }
+      }
+      disabled={false}
+      disabledHours={[Function]}
+      disabledMinutes={[Function]}
+      focusOnOpen={true}
+      format="HH:mm"
+      hideDisabledOptions={true}
+      onChange={[Function]}
+      placement="bottomLeft"
+      prefixCls="ant-time-picker"
+      transitionName="slide-up"
+    />
+  </div>
+</div>
+`;
+
+exports[`(Route) Ask (Component) EndPoll (Render) when endType is endIn matches snapshot 1`] = `
+<div
+  className="input-option input-option-endPoll"
+>
+  <div
+    className="input-option-radios"
+  >
+    <input
+      checked={false}
+      className="input-radio input-checkbox-endType"
+      id="end-never"
+      name="endType"
+      onChange={[Function]}
+      type="checkbox"
+      value="endNever"
+    />
+    <label
+      className="input-label input-label-options input-label-endType"
+      htmlFor="end-never"
+    >
+      Don't End Poll
+    </label>
+    <input
+      checked={false}
+      className="input-radio input-checkbox-endType"
+      id="end-at"
+      name="endType"
+      onChange={[Function]}
+      type="checkbox"
+      value="endAt"
+    />
+    <label
+      className="input-label input-label-options input-label-endType"
+      htmlFor="end-at"
+    >
+      End Poll At
+    </label>
+    <input
+      checked={true}
+      className="input-radio input-checkbox-endType"
+      id="end-in"
+      name="endType"
+      onChange={[Function]}
+      type="radio"
+      value="endIn"
+    />
+    <label
+      className="input-label input-label-options input-label-endType"
+      htmlFor="end-in"
+    >
+      End Poll In
+    </label>
+  </div>
+  <div
+    className="input-option-slider"
+  >
+    <div
+      className="input-option-slider-label"
+    >
+      undefined hour
+    </div>
+    <Slider
+      handleLabel=""
+      labels={Object {}}
+      max={24}
+      min={1}
+      onChange={[Function]}
+      orientation="horizontal"
+      reverse={false}
+      step={1}
+      tooltip={false}
+      value={0}
+    />
+  </div>
+</div>
+`;

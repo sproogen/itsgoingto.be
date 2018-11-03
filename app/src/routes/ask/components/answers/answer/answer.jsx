@@ -12,7 +12,7 @@ const KEY_BACKSPACE  = 8
 const KEY_DELETE     = 46
 const KEY_ENTER      = 13
 
-class Answer extends React.Component {
+export class Answer extends React.Component {
   handleChange = (event) => {
     this.props.onAnswerChange(this.props.index, event.target.value)
   }
