@@ -1,0 +1,68 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`(Layout) PageLayout (Render) matchs snapshot 1`] = `
+<div
+  className="container"
+>
+  <Loader
+    isLoading={false}
+  />
+  <div
+    className="page-layout__viewport"
+  >
+    <Child />
+  </div>
+  <Component />
+</div>
+`;
+
+exports[`(Layout) PageLayout (Render) with prop hasUser true matchs snapshot 1`] = `
+<div
+  className="container"
+>
+  <Loader
+    isLoading={false}
+  />
+  <div
+    className="page-layout__viewport"
+  >
+    <div
+      className="logout-conatiner"
+    >
+      <a
+        className="view-polls"
+        id="view-polls"
+        onClick={[Function]}
+      >
+        View Polls
+      </a>
+      <Button
+        callback={[Function]}
+        className="btn--small"
+        disabled={false}
+        id="logout"
+        submitEvent={null}
+        text="Logout"
+      />
+    </div>
+    <Child />
+  </div>
+  <Component />
+</div>
+`;
+
+exports[`(Layout) PageLayout (Render) with prop isLoading true matchs snapshot 1`] = `
+<div
+  className="container"
+>
+  <Loader
+    isLoading={true}
+  />
+  <div
+    className="page-layout__viewport"
+  >
+    <Child />
+  </div>
+  <Component />
+</div>
+`;

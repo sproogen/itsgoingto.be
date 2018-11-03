@@ -1,0 +1,70 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`(Route) Ask (Component) Question (Render) matches snapshot 1`] = `
+<div
+  className="input input-question"
+>
+  <label
+    className="input-label input-label-question"
+    htmlFor="question"
+  >
+    Ask a question
+  </label>
+  <textarea
+    className="input-field input-field-question js-auto-size"
+    id="question"
+    name="question"
+    onChange={[Function]}
+    onKeyDown={[Function]}
+    placeholder=""
+    rows="1"
+    value=""
+  />
+</div>
+`;
+
+exports[`(Route) Ask (Component) Question (Render) with place holder text matches snapshot 1`] = `
+<div
+  className="input input-question"
+>
+  <label
+    className="input-label input-label-question"
+    htmlFor="question"
+  >
+    Ask a question
+  </label>
+  <textarea
+    className="input-field input-field-question js-auto-size"
+    id="question"
+    name="question"
+    onChange={[Function]}
+    onKeyDown={[Function]}
+    placeholder="Ask a differ|"
+    rows="1"
+    value=""
+  />
+</div>
+`;
+
+exports[`(Route) Ask (Component) Question (Render) with question text matches snapshot 1`] = `
+<div
+  className="input input-question"
+>
+  <label
+    className="input-label input-label-question"
+    htmlFor="question"
+  >
+    Ask a question
+  </label>
+  <textarea
+    className="input-field input-field-question js-auto-size"
+    id="question"
+    name="question"
+    onChange={[Function]}
+    onKeyDown={[Function]}
+    placeholder=""
+    rows="1"
+    value="A real question"
+  />
+</div>
+`;

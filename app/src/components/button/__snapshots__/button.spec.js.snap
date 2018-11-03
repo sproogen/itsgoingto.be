@@ -1,6 +1,26 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`(Component) Button (Render) disabled should match snapshot 1`] = `
+exports[`(Component) Button (Render) with className should match snapshot 1`] = `
+<button
+  className="btn button button--class disabled"
+  disabled={true}
+  onClick={[Function]}
+>
+  <span />
+</button>
+`;
+
+exports[`(Component) Button (Render) with loading true should match snapshot 1`] = `
+<button
+  className="btn  disabled"
+  disabled={false}
+  onClick={[Function]}
+>
+  <Spinner />
+</button>
+`;
+
+exports[`(Component) Button (Render) with prop disabled should match snapshot 1`] = `
 <button
   className="btn  disabled"
   disabled={true}
@@ -12,23 +32,15 @@ exports[`(Component) Button (Render) disabled should match snapshot 1`] = `
 </button>
 `;
 
-exports[`(Component) Button (Render) loading animation should match snapshot 1`] = `
+exports[`(Component) Button (Render) with state disabled should match snapshot 1`] = `
 <button
   className="btn  disabled"
   disabled={false}
   onClick={[Function]}
 >
-  <Spinner />
-</button>
-`;
-
-exports[`(Component) Button (Render) with className should match snapshot 1`] = `
-<button
-  className="btn button button--class disabled"
-  disabled={true}
-  onClick={[Function]}
->
-  <span />
+  <span>
+    Click Me!
+  </span>
 </button>
 `;
 

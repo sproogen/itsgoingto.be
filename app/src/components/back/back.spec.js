@@ -4,8 +4,12 @@ import { browserHistory } from 'react-router'
 import { shallow } from 'enzyme'
 import Back from './back'
 
+let wrapper
+
 describe('(Component) Back', () => {
-  const wrapper = shallow(<Back />)
+  beforeEach(() => {
+    wrapper = shallow(<Back />)
+  })
 
   describe('(Action) onClick', () => {
     browserHistory.push = jest.fn()

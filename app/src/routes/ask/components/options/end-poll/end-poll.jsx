@@ -16,7 +16,7 @@ import './end-poll.scss'
 
 const formatEndin = (value) => value + ' hour' + (value > 1 ? 's' : '')
 
-class EndPoll extends React.Component {
+export class EndPoll extends React.Component {
   componentDidUpdate = () => {
     const { poll } = this.props
 

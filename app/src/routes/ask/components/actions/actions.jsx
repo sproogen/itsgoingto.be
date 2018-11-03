@@ -6,7 +6,7 @@ import { postPoll } from 'store/api'
 import Button from 'components/button'
 import './actions.scss'
 
-class Actions extends React.Component {
+export class Actions extends React.Component {
   submit = () => this.props.postPoll()
     .then((response) => {
       if (response !== false) {

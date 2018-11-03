@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`(Component) Spinner (Render) default matches snapshot 1`] = `
+exports[`(Component) Spinner (Render) matches snapshot 1`] = `
 <div
   className="spinner"
 >

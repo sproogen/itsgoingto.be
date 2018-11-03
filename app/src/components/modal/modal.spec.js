@@ -31,9 +31,9 @@ describe('(Component) Modal', () => {
   describe('(Method) hide', () => {
     it('should update the state', () => {
       const wrapper = shallow(<Modal><MockContent /></Modal>)
-      wrapper.setState({ hidden: false })
-
       const instance = wrapper.instance()
+
+      wrapper.setState({ hidden: false })
       instance.hide()
 
       expect(wrapper.state()).toEqual({ hidden: false, willHidden: true })
@@ -43,9 +43,9 @@ describe('(Component) Modal', () => {
   describe('(Method) hidden', () => {
     it('should update the state', () => {
       const wrapper = shallow(<Modal><MockContent /></Modal>)
-      wrapper.setState({ hidden: false, willHidden: true })
-
       const instance = wrapper.instance()
+
+      wrapper.setState({ hidden: false, willHidden: true })
       instance.hidden()
 
       expect(wrapper.state()).toEqual({ hidden: true, willHidden: false })

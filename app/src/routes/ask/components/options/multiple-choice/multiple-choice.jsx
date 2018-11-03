@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { updatePoll } from 'store/poll'
 import './multiple-choice.scss'
 
-class MultipleChoice extends PureComponent {
+export class MultipleChoice extends PureComponent {
   handleMultipleChoiceChange = (event) =>
     this.props.updateOptions({
       identifier     : '',
