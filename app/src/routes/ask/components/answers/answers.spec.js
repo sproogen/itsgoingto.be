@@ -33,6 +33,7 @@ describe('(Route) Ask', () => {
           'Answer 2',
           'Answer 3'
         ]
+
         it('matches snapshot', () => {
           const wrapper = shallow(<Answers {...props} answers={answers} />)
 
@@ -46,6 +47,7 @@ describe('(Route) Ask', () => {
           { answer: 'Answer 5' },
           { answer: 'Answer 6' }
         ]
+
         it('matches snapshot', () => {
           const wrapper = shallow(<Answers {...props} answers={answers} />)
 
