@@ -4,9 +4,9 @@ import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
 import { postPoll } from 'store/api'
 import Button from 'components/button'
-import OptionsModal from '../options-modal'
+import './actions.scss'
 
-class Actions extends React.Component {
+export class Actions extends React.Component {
   submit = () => this.props.postPoll()
     .then((response) => {
       if (response !== false) {
@@ -16,21 +16,14 @@ class Actions extends React.Component {
       return true
     })
 
-  options = () => {
-    this._modal.getWrappedInstance().show()
-    return Promise.resolve()
-  }
-
   render () {
-    const { hasQuestion, canSubmitPoll, poll } = this.props
+    const { hasQuestion, canSubmitPoll } = this.props
 
     return (
       <div>
         <div className={'actions hideable' + (hasQuestion ? '' : ' gone')}>
-          <Button className='pull-left' text='Options' callback={this.options} />
           <Button className='pull-right' text='Create Poll' disabled={!canSubmitPoll} callback={this.submit} />
         </div>
-        <OptionsModal ref={(component) => { this._modal = component }} poll={poll} />
       </div>
     )
   }
@@ -40,7 +33,6 @@ Actions.propTypes = {
   hasQuestion   : PropTypes.bool.isRequired,
   canSubmitPoll : PropTypes.bool.isRequired,
   postPoll      : PropTypes.func.isRequired,
-  poll          : PropTypes.object.isRequired
 }
 
 const mapDispatchToProps = (dispatch) => ({

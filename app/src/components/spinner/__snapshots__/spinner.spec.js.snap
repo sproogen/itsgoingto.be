@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`(Component) Spinner (Render) matches snapshot 1`] = `
+<div
+  className="spinner"
+>
+  <span
+    className="spinner_dot spinner_dot--first"
+  />
+  <span
+    className="spinner_dot spinner_dot--second"
+  />
+  <span
+    className="spinner_dot spinner_dot--third"
+  />
+</div>
+`;

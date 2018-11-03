@@ -28,8 +28,7 @@ abstract class BaseTest extends WebTestCase
     {
         self::bootKernel();
 
-        $this->container = self::$kernel->getContainer();
-        $this->em        = $this->container->get('doctrine')->getManager();
+        $this->em        = self::$container->get('doctrine')->getManager();
         $this->now       = new \DateTime();
     }
 

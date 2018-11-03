@@ -10,7 +10,13 @@ services:
   - mysql
 
 env:
-  - NODE_VERSION=8 APP_ENV=test
+  global:
+    - APP_ENV=test
+    - USER="Travis CI"
+    - EMAIL="travis@travis-ci.org"
+    - GITHUB_REPO="github.com/${TRAVIS_REPO_SLUG}.git"
+  matrix:
+    - NODE_VERSION=8
 
 cache:
   directories:
@@ -25,12 +31,14 @@ branches:
 
 before_install:
   - rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm install $NODE_VERSION && nvm install-latest-npm
+  - ./scripts/bump-version.sh
 
 install:
   - composer install
   - (cd app && npm ci)
 
 before_script:
+  - php bin/console about
   - php bin/console doctrine:database:create
   - composer compile
 
@@ -47,6 +55,5 @@ after_script:
   - vendor/bin/codacycoverage clover build/coverage/clover.xml
   - (cd app && cat build/coverage/lcov.info | node_modules/.bin/codacy-coverage .)
 
-notifications:
-  email:
-    -  sprog31@gmail.com
+after_success:
+  - ./scripts/merge-downstream.sh

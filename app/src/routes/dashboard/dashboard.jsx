@@ -9,19 +9,13 @@ import Stats from './components/stats'
 import './dashboard.scss'
 
 class Dashboard extends React.Component {
-  componentWillMount = () => {
+  componentDidMount = () => this.checkPermissions()
+
+  componentDidUpdate = () => this.checkPermissions()
+
+  checkPermissions = () => {
     const { hasUser } = this.props
 
-    this.checkPermissions(hasUser)
-  }
-
-  componentWillReceiveProps = (nexProps) => {
-    const { hasUser } = nexProps
-
-    this.checkPermissions(hasUser)
-  }
-
-  checkPermissions = (hasUser) => {
     if (!hasUser) {
       this.props.setLoading(true)
       browserHistory.push('/login')

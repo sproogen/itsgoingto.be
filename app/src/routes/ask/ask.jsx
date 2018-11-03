@@ -7,6 +7,7 @@ import { canSubmitPollSelector, answersSelector } from 'store/answers'
 import WordRotate from 'components/word-rotate'
 import Question from './components/question'
 import Answers from './components/answers'
+import Options from './components/options'
 import Actions from './components/actions'
 import './ask.scss'
 
@@ -22,16 +23,15 @@ const PLACEHOLDER_TEXT = [
   'When will you start a poll?'
 ]
 
-class Ask extends React.Component {
-  constructor (props) {
-    super(props)
-    props.clearPoll()
+export class Ask extends React.Component {
+  componentDidMount = () => {
+    this.props.clearPoll()
   }
 
   render () {
     const { question, hasQuestion, canSubmitPoll, poll, answers } = this.props
     const description = 'Wondering where to go or what to see?' +
-                        ' Start a vote and share it with your friends or colleagues.'
+                        ' Start a poll and share it with your friends or colleagues.'
 
     return (
       <div>
@@ -51,11 +51,11 @@ class Ask extends React.Component {
         <div className={'container question-container' + (hasQuestion ? ' move-up' : '')}>
           <Question
             question={question}
-            hasQuestion={hasQuestion}
             canSubmitPoll={canSubmitPoll}
             placeholderText={PLACEHOLDER_TEXT} />
           <Answers hasQuestion={hasQuestion} answers={answers} />
-          <Actions hasQuestion={hasQuestion} canSubmitPoll={canSubmitPoll} poll={poll} />
+          <Options hasQuestion={hasQuestion} poll={poll} />
+          <Actions hasQuestion={hasQuestion} canSubmitPoll={canSubmitPoll} />
         </div>
       </div>
     )

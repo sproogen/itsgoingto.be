@@ -1,0 +1,67 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`(Route) Ask (Component) Options (Render) when hasQuestion is false matches snapshot 1`] = `
+<div>
+  <div
+    className="options hideable gone"
+  >
+    <Connect(MultipleChoice)
+      poll={
+        Object {
+          "answers": Array [],
+          "question": "Question",
+        }
+      }
+    />
+    <Connect(Passphrase)
+      poll={
+        Object {
+          "answers": Array [],
+          "question": "Question",
+        }
+      }
+    />
+    <Connect(EndPoll)
+      poll={
+        Object {
+          "answers": Array [],
+          "question": "Question",
+        }
+      }
+    />
+  </div>
+</div>
+`;
+
+exports[`(Route) Ask (Component) Options (Render) when hasQuestion is true matches snapshot 1`] = `
+<div>
+  <div
+    className="options hideable"
+  >
+    <Connect(MultipleChoice)
+      poll={
+        Object {
+          "answers": Array [],
+          "question": "Question",
+        }
+      }
+    />
+    <Connect(Passphrase)
+      poll={
+        Object {
+          "answers": Array [],
+          "question": "Question",
+        }
+      }
+    />
+    <Connect(EndPoll)
+      poll={
+        Object {
+          "answers": Array [],
+          "question": "Question",
+        }
+      }
+    />
+  </div>
+</div>
+`;

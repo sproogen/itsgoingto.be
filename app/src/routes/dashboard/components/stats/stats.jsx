@@ -7,7 +7,7 @@ import { statSelector } from 'store/stats'
 import './stats.scss'
 
 class Stats extends React.Component {
-  componentWillMount = () => {
+  componentDidMount = () => {
     const { fetchStats } = this.props
 
     fetchStats()

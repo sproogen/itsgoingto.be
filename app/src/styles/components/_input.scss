@@ -61,6 +61,7 @@ textarea {
 .input-radio, .input-checkbox {
 	opacity: 0;
   position: absolute;
+  left: -9999px;
 }
 
 .input-label-options {

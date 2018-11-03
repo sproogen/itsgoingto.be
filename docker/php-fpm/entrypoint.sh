@@ -1,5 +1,8 @@
 #!/bin/bash
 
+php bin/console cache:clear
+php bin/console cache:clear --env=test
+
 php bin/console doctrine:schema:drop --full-database --force
 php bin/console doctrine:schema:drop --full-database --force --env=test
 

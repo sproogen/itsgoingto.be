@@ -50,7 +50,7 @@ class Modal extends React.Component {
   }
 
   hide = function () {
-    this.addAnimationListener(this.refs._backdrop, this.hidden)
+    this.addAnimationListener(this._backdrop, this.hidden)
     this.setState({
       willHidden: true
     })
@@ -71,8 +71,8 @@ class Modal extends React.Component {
       const { children } = this.props
 
       modal = <span className={willHidden ? 'willHidden' : ''}>
-        <div ref='_backdrop' className='backdrop' onClick={this.hide} />
-        <div ref='_modal' className='modal'>
+        <div ref={(c) => { this._backdrop = c }} className='backdrop' onClick={this.hide} />
+        <div ref={(c) => { this._modal = c }} className='modal'>
           <div className='modal-container'>
             { children }
           </div>

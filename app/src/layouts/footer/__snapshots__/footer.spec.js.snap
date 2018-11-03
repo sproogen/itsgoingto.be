@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`(Layout) Footer (Render) matchs snapshot 1`] = `
+<div
+  className="footer-container"
+>
+  <div
+    className="footer"
+  >
+    <span
+      className="contact"
+    >
+      <a
+        href="mailto:itsgoingtobe@jwgmedia.co.uk"
+        target="_top"
+      >
+        itsgoingtobe@jwgmedia.co.uk
+      </a>
+    </span>
+    <span
+      className="jwg_logo"
+    >
+      <a
+        href="http://jwgmedia.co.uk"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <img
+          src="jwgmedia.png"
+        />
+      </a>
+    </span>
+  </div>
+</div>
+`;

@@ -1,9 +1,6 @@
 const autoprefixer = require('autoprefixer')
 const path = require('path')
 const webpack = require('webpack')
-const bourbon = require('bourbon')
-const bourbonNeat = require('bourbon-neat')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const getClientEnvironment = require('../config/env')
 const paths = require('../config/paths')
 
@@ -63,8 +60,6 @@ module.exports = {
             options: {
               importLoaders: 1,
               includePaths: [
-                bourbon.includePaths,
-                bourbonNeat.includePaths,
                 paths.styles,
               ],
             },
