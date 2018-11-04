@@ -21,8 +21,7 @@ import './answer.scss'
 
 class Answer extends React.Component {
   componentDidMount = () => {
-    const { identifier, hasPoll, setLoading, fetchPoll, clearAnswers, setRequiresPassphrase,
-      updateResponses } = this.props
+    const { hasPoll, setLoading, fetchPoll, clearAnswers, setRequiresPassphrase } = this.props
 
     if (!hasPoll) {
       setLoading(true)
@@ -38,14 +37,19 @@ class Answer extends React.Component {
       }
       setLoading(false)
     })
-
-    this.socket = io(`/responses?identifier=${identifier}`)
-    this.socket.on('responses-updated', (responses) => {
-      updateResponses(JSON.parse(responses))
-    })
   }
 
-  componentWillUnmount() {
+  componentDidUpdate = () => {
+    const { hasPoll, identifier, updateResponses } = this.props
+    if (hasPoll && !this.socket) {
+      this.socket = io(`/responses?identifier=${identifier}`)
+      this.socket.on('responses-updated', (responses) => {
+        updateResponses(JSON.parse(responses))
+      })
+    }
+  }
+
+  componentWillUnmount = () => {
     this.socket.close()
   }
 
