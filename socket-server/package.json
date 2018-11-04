@@ -2,9 +2,10 @@
   "name": "itsgoingtobe-socket-serer",
   "version": "0.0.1",
   "scripts": {
+    "postinstall": "npm run build",
     "start": "nodemon index.js --exec babel-node",
     "build": "babel index.js -d dist",
-    "serve": "npm run build && node dist/index.js"
+    "serve": "node dist/index.js"
   },
   "dependencies": {
     "express": "4.16.4",
