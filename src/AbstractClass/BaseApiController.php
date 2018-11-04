@@ -4,6 +4,7 @@ namespace App\AbstractClass;
 
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -38,6 +39,11 @@ abstract class BaseApiController extends Controller
     protected $pollEndService;
 
     /**
+     * @var LoggerInterface
+     */
+    protected $logger;
+
+    /**
      * Number of entities to return per page.
      *
      * @var integer
@@ -49,17 +55,20 @@ abstract class BaseApiController extends Controller
      * @param AuthorizationCheckerInterface $authorizationChecker
      * @param IdentifierService $identifierService
      * @param PollEndService $pollEndService
+     * @param LoggerInterface $logger
      */
     public function __construct(
         EntityManagerInterface $em,
         AuthorizationCheckerInterface $authorizationChecker,
         IdentifierService $identifierService,
-        PollEndService $pollEndService
+        PollEndService $pollEndService,
+        LoggerInterface $logger
     ) {
         $this->em = $em;
         $this->authorizationChecker = $authorizationChecker;
         $this->identifierService = $identifierService;
         $this->pollEndService = $pollEndService;
+        $this->logger = $logger;
     }
 
     /**

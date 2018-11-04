@@ -1,9 +1,8 @@
 import express from 'express'
 import http from 'http'
 import socketIO from 'socket.io'
-import fetch from 'node-fetch'
 
-const port = process.env.PORT || 8001
+const port = process.env.SOCKET_PORT || 8001
 
 const app = express()
 const server = http.createServer(app)
@@ -21,14 +20,12 @@ io
       socket.join(identifier)
     }
 
-    socket.on('new-response', () => {
-      console.log('User with id %s submitted new response', socket.id)
+    socket.on('new-responses', (responses, callback) => {
+      console.log('New responses for %s', identifier)
 
-      fetch(`http://localhost:8000/api/polls/${identifier}/responses`)
-        .then(response => response.json())
-        .then((response) => {
-          io.of('/responses').to(identifier).emit('responses-updated', response)
-        })
+      io.of('/responses').to(identifier).emit('responses-updated', responses)
+
+      callback(true)
     })
 
     socket.on('disconnect', () => {

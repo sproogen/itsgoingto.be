@@ -41,7 +41,7 @@ class Answer extends React.Component {
 
     this.socket = io(`http://localhost:8001/responses?identifier=${identifier}`)
     this.socket.on('responses-updated', (responses) => {
-      updateResponses(responses)
+      updateResponses(JSON.parse(responses))
     })
   }
 
@@ -51,9 +51,7 @@ class Answer extends React.Component {
 
   onResponseSelected = (id) => {
     const { postResponse } = this.props
-    postResponse(id).then(() => {
-      this.socket.emit('new-response')
-    })
+    postResponse(id)
   }
 
   endingToString = (days, hours, minutes, seconds) => {
