@@ -1,10 +1,19 @@
 const io = require('socket.io-client')
 
+const env = process.env.APP_ENV
 const identifier = process.argv[2]
 const responses = process.argv[3]
 
-const port = process.env.SOCKET_PORT || 8001
+let socketDomain
 
-const socket = io(`http://socket-server:8001/responses?identifier=${identifier}`)
+if (env === 'prod') {
+  socketDomain = 'localhost'
+} else if (env === 'dev') {
+  socketDomain = 'socket-server'
+}
 
-socket.emit('new-responses', responses, () => socket.close())
+if (socketDomain) {
+  const socket = io(`http://${socketDomain}:8001/responses?identifier=${identifier}`)
+
+  socket.emit('new-responses', responses, () => socket.close())
+}
