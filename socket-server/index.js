@@ -5,6 +5,10 @@ import socketIO from 'socket.io'
 const port = process.env.SOCKET_PORT || 8001
 
 const app = express()
+app.get('/', function (req, res) {
+  res.send('IT LIVES');
+})
+
 const server = http.createServer(app)
 const io = socketIO(server)
 
