@@ -40,8 +40,8 @@ class Answer extends React.Component {
   }
 
   componentDidUpdate = () => {
-    const { hasPoll, identifier, updateResponses } = this.props
-    if (hasPoll && !this.socket) {
+    const { hasPoll, poll, identifier, updateResponses } = this.props
+    if (hasPoll && !this.socket && !poll.ended) {
       this.socket = io(`/responses?identifier=${identifier}`)
       this.socket.on('responses-updated', (responses) => {
         updateResponses(JSON.parse(responses))
@@ -50,7 +50,9 @@ class Answer extends React.Component {
   }
 
   componentWillUnmount = () => {
-    this.socket.close()
+    if (this.socket) {
+      this.socket.close()
+    }
   }
 
   onResponseSelected = (id) => {
