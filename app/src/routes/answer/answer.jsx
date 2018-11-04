@@ -39,7 +39,7 @@ class Answer extends React.Component {
       setLoading(false)
     })
 
-    this.socket = io(`http://localhost:8001/responses?identifier=${identifier}`)
+    this.socket = io(`:8001/responses?identifier=${identifier}`)
     this.socket.on('responses-updated', (responses) => {
       updateResponses(JSON.parse(responses))
     })
