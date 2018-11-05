@@ -60,24 +60,29 @@ class Answer extends React.Component {
     postResponse(id)
   }
 
-  endingToString = (days, hours, minutes, seconds) => {
-    let endingString = ''
+  hasValue = (value) => value && value !== '00'
 
-    endingString += days ? ` ${days} days and` : ''
-    endingString += days || hours ? ` ${hours} hours ${!days ? 'and' : ''}` : ''
-    endingString += !days && (hours || minutes) ? ` ${minutes} minutes ${!hours ? 'and' : ''}` : ''
-    endingString += !days && !hours ? ` ${seconds} seconds` : ''
+  valueLabel = (value, label) => `${parseInt(value, 10)} ${label}${parseInt(value, 10) > 1 ? 's' : ''}`
 
-    return endingString
-  }
+  twoValueString = (value1, value2, label1, label2) =>
+    `${this.valueLabel(value1, label1)} and ${this.valueLabel(value2, label2)}`
 
   countdownRenderer = ({ days, hours, minutes, seconds, completed }) => {
+    const { poll, fetchPoll } = this.props
     let ending = ''
 
     if (completed) {
+      if (!poll.ended) {
+        fetchPoll()
+      }
       ending = 'This poll has now ended'
     } else {
-      ending = 'This poll will end in' + this.endingToString(days, hours, minutes, seconds)
+      ending = 'This poll will end in '
+
+      if (this.hasValue(days)) ending += this.twoValueString(days, hours, 'day', 'hour')
+      else if (this.hasValue(hours)) ending += this.twoValueString(hours, minutes, 'hour', 'minute')
+      else if (this.hasValue(minutes)) ending += this.twoValueString(minutes, seconds, 'minute', 'second')
+      else ending += this.valueLabel(seconds, 'second')
     }
 
     return <span>{ending}</span>
