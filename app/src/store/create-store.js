@@ -1,9 +1,8 @@
-/* global __DEV__ */
 import { applyMiddleware, compose, createStore as createReduxStore } from 'redux'
 import thunk from 'redux-thunk'
 import { browserHistory } from 'react-router'
 import makeRootReducer from './reducers'
-import { updateLocation } from './location'
+import { updateLocation } from 'store/location/actions'
 
 const createStore = (initialState = {}) => {
   // ======================================================

@@ -1,10 +1,13 @@
 import { prop, compose, not, isEmpty, contains, without, append, ifElse, both, equals, length, when, path, omit,
   merge } from 'ramda'
 import moment from 'moment'
-import { pollSelector, updatePoll, setPolls, setPollCount, setPollPage, updateResponses, POLLS_PER_PAGE } from './poll'
-import { answersSelector } from './answers'
-import { updateUser, userTokenSelector } from './user'
-import { updateStats } from './stats'
+import { pollSelector } from 'store/poll/selectors'
+import { updatePoll, setPolls, setPollCount, setPollPage, updateResponses } from 'store/poll/actions'
+import { POLLS_PER_PAGE } from 'store/poll'
+import { answersSelector } from 'store/answers/selectors'
+import { userTokenSelector } from 'store/user/selectors'
+import { updateUser } from 'store/user/actions'
+import { updateStats } from 'store/stats/actions'
 
 // ------------------------------------
 // Constants

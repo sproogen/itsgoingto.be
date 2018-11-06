@@ -18,9 +18,16 @@ import {
   postLogin,
   fetchStats,
 } from 'store/api'
-import * as poll from 'store/poll'
-import * as user from 'store/user'
-import * as stats from 'store/stats'
+import { userTokenSelector } from 'store/user/selectors' // eslint-disable-line
+import { updateUser } from 'store/user/actions'
+import { updateStats } from 'store/stats/actions'
+import { updatePoll, updateResponses, setPolls, setPollPage, setPollCount } from 'store/poll/actions'
+import { POLLS_PER_PAGE } from 'store/poll'
+
+jest.mock('store/user/selectors')
+jest.mock('store/user/actions')
+jest.mock('store/stats/actions')
+jest.mock('store/poll/actions')
 
 const jsonOk = (body) => {
   const mockResponse = new window.Response(JSON.stringify(body), {
@@ -51,6 +58,14 @@ describe('(Store) API', () => {
 
   it('Should export a constant ROUTE_RESPONSES.', () => {
     expect(ROUTE_RESPONSES).toBe('/responses')
+  })
+
+  it('Should export a constant ROUTE_LOGIN.', () => {
+    expect(ROUTE_LOGIN).toBe('/api/login')
+  })
+
+  it('Should export a constant ROUTE_STATS.', () => {
+    expect(ROUTE_STATS).toBe('/api/stats')
   })
 
   describe('(Helpers)', () => {
@@ -132,12 +147,11 @@ describe('(Store) API', () => {
       })
       _getState = jest.fn(() => _globalState)
 
-      user.userTokenSelector = jest.fn(() => 'USERTOKEN')
+      userTokenSelector.mockImplementation(() => 'USERTOKEN')
     })
 
     afterEach(() => {
-      _dispatch.mockReset()
-      _getState.mockReset()
+      jest.clearAllMocks()
     })
 
     describe('(API Call) postPoll', () => {
@@ -169,9 +183,8 @@ describe('(Store) API', () => {
       })
 
       it('Should return a promise with the response.', () => {
-        window.fetch = jest.fn(() => jsonOk({
-          question: 'Question', identifier: 'hf0sd8fhoas'
-        }))
+        window.fetch = jest.fn(() => jsonOk({}))
+        updatePoll.mockImplementation(() => ({ question: 'Question', identifier: 'hf0sd8fhoas' }))
         return postPoll()(_dispatch, _getState).then((response) => {
           expect(response).toEqual({ question: 'Question', identifier: 'hf0sd8fhoas' })
         })
@@ -192,15 +205,15 @@ describe('(Store) API', () => {
         window.fetch = jest.fn(() => jsonOk({
           question: 'Question', identifier: 'hf0sd8fhoas'
         }))
-        const _updatePoll = jest.spyOn(poll, 'updatePoll').mockImplementation(() => ({}))
+        updatePoll.mockImplementation(() => ({}))
 
         return postPoll()(_dispatch, _getState).then(() => {
-          expect(_updatePoll).toHaveBeenCalledTimes(1)
-          expect(_updatePoll).toHaveBeenCalledWith({ question: 'Question', identifier: 'hf0sd8fhoas' })
+          expect(updatePoll).toHaveBeenCalledTimes(1)
+          expect(updatePoll).toHaveBeenCalledWith({ question: 'Question', identifier: 'hf0sd8fhoas' })
           expect(_dispatch).toHaveBeenCalledTimes(1)
           expect(_dispatch).toHaveBeenCalledWith({})
 
-          _updatePoll.mockRestore()
+          updatePoll.mockRestore()
         })
       })
     })
@@ -246,9 +259,8 @@ describe('(Store) API', () => {
       })
 
       it('Should return a promise with the response.', () => {
-        window.fetch = jest.fn(() => jsonOk({
-          question: 'Question', identifier: 'hf0sd8fhoas'
-        }))
+        window.fetch = jest.fn(() => jsonOk({}))
+        updatePoll.mockImplementation(() => ({ question: 'Question', identifier: 'hf0sd8fhoas' }))
         return fetchPoll('hf0sd8fhoas')(_dispatch, _getState).then((response) => {
           expect(response).toEqual({ question: 'Question', identifier: 'hf0sd8fhoas' })
         })
@@ -269,15 +281,15 @@ describe('(Store) API', () => {
         window.fetch = jest.fn(() => jsonOk({
           question: 'Question', identifier: 'hf0sd8fhoas'
         }))
-        const _updatePoll = jest.spyOn(poll, 'updatePoll').mockImplementation(() => ({}))
+        updatePoll.mockImplementation(() => ({}))
 
         return fetchPoll('hf0sd8fhoas')(_dispatch, _getState).then(() => {
-          expect(_updatePoll).toHaveBeenCalledTimes(1)
-          expect(_updatePoll).toHaveBeenCalledWith({ question: 'Question', identifier: 'hf0sd8fhoas' })
+          expect(updatePoll).toHaveBeenCalledTimes(1)
+          expect(updatePoll).toHaveBeenCalledWith({ question: 'Question', identifier: 'hf0sd8fhoas' })
           expect(_dispatch).toHaveBeenCalledTimes(1)
           expect(_dispatch).toHaveBeenCalledWith({})
 
-          _updatePoll.mockRestore()
+          updatePoll.mockRestore()
         })
       })
     })
@@ -306,9 +318,8 @@ describe('(Store) API', () => {
       })
 
       it('Should return a promise with the response.', () => {
-        window.fetch = jest.fn(() => jsonOk({
-          question: 'Question', identifier: 'hf0sd8fhoas', deleted: true
-        }))
+        window.fetch = jest.fn(() => jsonOk({}))
+        updatePoll.mockImplementation(() => ({ question: 'Question', identifier: 'hf0sd8fhoas', deleted: true }))
         return deletePoll('hf0sd8fhoas')(_dispatch, _getState).then((response) => {
           expect(response).toEqual({ question: 'Question', identifier: 'hf0sd8fhoas', deleted: true })
         })
@@ -327,17 +338,17 @@ describe('(Store) API', () => {
         window.fetch = jest.fn(() => jsonOk({
           question: 'Question', identifier: 'hf0sd8fhoas', deleted: true
         }))
-        const _updatePoll = jest.spyOn(poll, 'updatePoll').mockImplementation(() => ({}))
+        updatePoll.mockImplementation(() => ({}))
 
         return deletePoll('hf0sd8fhoas')(_dispatch, _getState).then(() => {
-          expect(_updatePoll).toHaveBeenCalledTimes(1)
-          expect(_updatePoll).toHaveBeenCalledWith(
+          expect(updatePoll).toHaveBeenCalledTimes(1)
+          expect(updatePoll).toHaveBeenCalledWith(
             { question: 'Question', identifier: 'hf0sd8fhoas', deleted: true }
           )
           expect(_dispatch).toHaveBeenCalledTimes(1)
           expect(_dispatch).toHaveBeenCalledWith({})
 
-          _updatePoll.mockRestore()
+          updatePoll.mockRestore()
         })
       })
     })
@@ -359,7 +370,7 @@ describe('(Store) API', () => {
         return fetchPolls(1)(_dispatch, _getState).then(() => {
           expect(window.fetch).toHaveBeenCalledTimes(1)
           expect(window.fetch).toHaveBeenCalledWith(
-            ROUTE_POLL + '?page=1&pageSize=' + poll.POLLS_PER_PAGE,
+            ROUTE_POLL + '?page=1&pageSize=' + POLLS_PER_PAGE,
             { credentials: 'same-origin', headers: { Authorization: 'Bearer USERTOKEN' } }
           )
         })
@@ -369,26 +380,26 @@ describe('(Store) API', () => {
         window.fetch = jest.fn(() => jsonOk({
           entities: [{ question: 'Question', identifier: 'hf0sd8fhoas' }]
         }))
-        const _setPolls = jest.spyOn(poll, 'setPolls').mockImplementation(() => ({}))
+        setPolls.mockImplementation(() => ({}))
 
         return fetchPolls(1)(_dispatch, _getState).then(() => {
-          expect(_setPolls).toHaveBeenCalledTimes(1)
-          expect(_setPolls).toHaveBeenCalledWith([{ question: 'Question', identifier: 'hf0sd8fhoas' }])
+          expect(setPolls).toHaveBeenCalledTimes(1)
+          expect(setPolls).toHaveBeenCalledWith([{ question: 'Question', identifier: 'hf0sd8fhoas' }])
           expect(_dispatch).toHaveBeenCalledWith({})
 
-          _setPolls.mockRestore()
+          setPolls.mockRestore()
         })
       })
 
       it('Should dispatch setPollPage().', () => {
-        const _setPollPage = jest.spyOn(poll, 'setPollPage').mockImplementation(() => ({}))
+        setPollPage.mockImplementation(() => ({}))
 
         return fetchPolls(1)(_dispatch, _getState).then(() => {
-          expect(_setPollPage).toHaveBeenCalledTimes(1)
-          expect(_setPollPage).toHaveBeenCalledWith(0)
+          expect(setPollPage).toHaveBeenCalledTimes(1)
+          expect(setPollPage).toHaveBeenCalledWith(0)
           expect(_dispatch).toHaveBeenCalledWith({})
 
-          _setPollPage.mockRestore()
+          setPollPage.mockRestore()
         })
       })
 
@@ -396,14 +407,14 @@ describe('(Store) API', () => {
         window.fetch = jest.fn(() => jsonOk({
           total: 5
         }))
-        const _setPollCount = jest.spyOn(poll, 'setPollCount').mockImplementation(() => ({}))
+        setPollCount.mockImplementation(() => ({}))
 
         return fetchPolls(1)(_dispatch, _getState).then(() => {
-          expect(_setPollCount).toHaveBeenCalledTimes(1)
-          expect(_setPollCount).toHaveBeenCalledWith(5)
+          expect(setPollCount).toHaveBeenCalledTimes(1)
+          expect(setPollCount).toHaveBeenCalledWith(5)
           expect(_dispatch).toHaveBeenCalledWith({})
 
-          _setPollCount.mockRestore()
+          setPollCount.mockRestore()
         })
       })
     })
@@ -422,6 +433,8 @@ describe('(Store) API', () => {
       })
 
       it('Should return a promise with the response.', () => {
+        updateResponses.mockImplementation(() => ({}))
+
         return postResponse(434, 'hf0sd8fhoas')(_dispatch, _getState).then((response) => {
           expect(response).toEqual({})
         })
@@ -570,6 +583,8 @@ describe('(Store) API', () => {
       })
 
       it('Should return a promise with the response.', () => {
+        updateResponses.mockImplementation(() => ({}))
+
         return fetchResponses('hf0sd8fhoas')(_dispatch, _getState).then((response) => {
           expect(response).toEqual({})
         })
@@ -581,6 +596,20 @@ describe('(Store) API', () => {
           expect(response).toBeInstanceOf(APIError)
           expect(response.name).toBe('APIError')
           expect(response.details.status).toBe(404)
+        })
+      })
+
+      it('Should dispatch updateResponses().', () => {
+        window.fetch = jest.fn(() => jsonOk({ responses: [] }))
+        updateResponses.mockImplementation(() => ({}))
+
+        return fetchResponses('hf0sd8fhoas')(_dispatch, _getState).then(() => {
+          expect(updateResponses).toHaveBeenCalledTimes(1)
+          expect(updateResponses).toHaveBeenCalledWith({ responses: [] }, 'hf0sd8fhoas')
+          expect(_dispatch).toHaveBeenCalledTimes(1)
+          expect(_dispatch).toHaveBeenCalledWith({})
+
+          updateResponses.mockRestore()
         })
       })
     })
@@ -613,7 +642,7 @@ describe('(Store) API', () => {
       })
 
       it('Should return a promise with the response.', () => {
-        window.fetch = jest.fn(() => jsonOk({ username: 'username', token: 'js7XZ&$£ZZSSu2389' }))
+        updateUser.mockImplementation(() => ({ user: { username: 'username', token: 'js7XZ&$£ZZSSu2389' } }))
 
         return postLogin('username', 'password')(_dispatch).then((response) => {
           expect(response).toEqual({ username: 'username', token: 'js7XZ&$£ZZSSu2389' })
@@ -632,15 +661,15 @@ describe('(Store) API', () => {
 
       it('Should dispatch updateUser().', () => {
         window.fetch = jest.fn(() => jsonOk({ username: 'username', token: 'js7XZ&$£ZZSSu2389' }))
-        const _updateUser = jest.spyOn(user, 'updateUser').mockImplementation(() => ({}))
+        updateUser.mockImplementation(() => ({}))
 
         return postLogin('username', 'password')(_dispatch).then(() => {
-          expect(_updateUser).toHaveBeenCalledTimes(1)
-          expect(_updateUser).toHaveBeenCalledWith({ username: 'username', token: 'js7XZ&$£ZZSSu2389' })
+          expect(updateUser).toHaveBeenCalledTimes(1)
+          expect(updateUser).toHaveBeenCalledWith({ username: 'username', token: 'js7XZ&$£ZZSSu2389' })
           expect(_dispatch).toHaveBeenCalledTimes(1)
           expect(_dispatch).toHaveBeenCalledWith({})
 
-          _updateUser.mockRestore()
+          updateUser.mockRestore()
         })
       })
     })
@@ -668,8 +697,8 @@ describe('(Store) API', () => {
         })
       })
 
-      it('Should return a promise with the response.', () => {
-        window.fetch = jest.fn(() => jsonOk({ polls: 523, responses: 1385 }))
+      it('Should return a promise with the response fetchStats.', () => {
+        updateStats.mockImplementation(() => ({ stats: { polls: 523, responses: 1385 } }))
         return fetchStats()(_dispatch, _getState).then((response) => {
           expect(response).toEqual({ polls: 523, responses: 1385 })
         })
@@ -688,15 +717,15 @@ describe('(Store) API', () => {
 
       it('Should dispatch updateStats().', () => {
         window.fetch = jest.fn(() => jsonOk({ polls: 523, responses: 1385 }))
-        const _updateStats = jest.spyOn(stats, 'updateStats').mockImplementation(() => ({}))
+        updateStats.mockImplementation(() => ({}))
 
         return fetchStats()(_dispatch, _getState).then(() => {
-          expect(_updateStats).toHaveBeenCalledTimes(1)
-          expect(_updateStats).toHaveBeenCalledWith({ polls: 523, responses: 1385 })
+          expect(updateStats).toHaveBeenCalledTimes(1)
+          expect(updateStats).toHaveBeenCalledWith({ polls: 523, responses: 1385 })
           expect(_dispatch).toHaveBeenCalledTimes(1)
           expect(_dispatch).toHaveBeenCalledWith({})
 
-          _updateStats.mockRestore()
+          updateStats.mockRestore()
         })
       })
     })
