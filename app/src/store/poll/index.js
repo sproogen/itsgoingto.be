@@ -15,49 +15,6 @@ export const initialPoll     = {
 }
 
 // ------------------------------------
-// Action Handlers
-// ------------------------------------
-const ACTION_HANDLERS = {
-  // Insert the poll if it doesn't exist in the state else update the exisitng poll in the state
-  [POLL_UPDATE]     : (previousState, action) => merge(previousState)({ polls :
-    ifElse(
-      compose(
-        equals(-1),
-        findIndex(propEq('identifier', path(['poll', 'identifier'])(action)))
-      ),
-      () => [...prop('polls')(previousState), action.poll],
-      adjust(
-        merge(__, action.poll),
-        findIndex(propEq('identifier', path(['poll', 'identifier'])(action)))(prop('polls')(previousState))
-      )
-    )(prop('polls')(previousState))
-  }),
-  // Update the state and override the polls with the given polls
-  [POLLS_SET]       : (previousState, action) => merge(previousState)({ polls : action.polls }),
-  // Update the state with the given poll page
-  [POLL_PAGE_SET]   : (previousState, action) => merge(previousState)({ page : action.page }),
-  // Update the state with the given poll count
-  [POLL_COUNT_SET]  : (previousState, action) => merge(previousState)({ count : action.count }),
-  // Update the question for a poll in the state if it exists else insert a blank poll with the question
-  [QUESTION_UPDATE] : (previousState, action) => merge(previousState)({ polls :
-    ifElse(
-      compose(
-        equals(-1),
-        findIndex(propEq('identifier', action.identifier))
-      ),
-      () => [...prop('polls')(previousState), compose(
-        omit(['answers']),
-        set(lensProp('question'), action.question)
-      )(initialPoll)],
-      adjust(
-        set(lensProp('question'), action.question),
-        findIndex(propEq('identifier', action.identifier))(prop('polls')(previousState))
-      )
-    )(prop('polls')(previousState))
-  })
-}
-
-// ------------------------------------
 // Reducer
 // ------------------------------------
 /**
@@ -78,7 +35,50 @@ const initialState = {
  * @return {object}        The modified state
  */
 export default function pollReducer (state = initialState, action) {
-  const handler = ACTION_HANDLERS[action.type]
-
-  return handler ? handler(state, action) : state
+  switch (action.type) {
+    case POLL_UPDATE:
+    // Insert the poll if it doesn't exist in the state else update the exisitng poll in the state
+      return merge(state)({ polls :
+        ifElse(
+          compose(
+            equals(-1),
+            findIndex(propEq('identifier', path(['poll', 'identifier'])(action)))
+          ),
+          () => [...prop('polls')(state), action.poll],
+          adjust(
+            merge(__, action.poll),
+            findIndex(propEq('identifier', path(['poll', 'identifier'])(action)))(prop('polls')(state))
+          )
+        )(prop('polls')(state))
+      })
+    case POLLS_SET:
+    // Update the state and override the polls with the given polls
+      return merge(state)({ polls : action.polls })
+    case POLL_PAGE_SET:
+    // Update the state with the given poll page
+      return merge(state)({ page : action.page })
+    case POLL_COUNT_SET:
+    // Update the state with the given poll count
+      return merge(state)({ count : action.count })
+    case QUESTION_UPDATE:
+      // Update the question for a poll in the state if it exists else insert a blank poll with the question
+      return merge(state)({ polls :
+        ifElse(
+          compose(
+            equals(-1),
+            findIndex(propEq('identifier', action.identifier))
+          ),
+          () => [...prop('polls')(state), compose(
+            omit(['answers']),
+            set(lensProp('question'), action.question)
+          )(initialPoll)],
+          adjust(
+            set(lensProp('question'), action.question),
+            findIndex(propEq('identifier', action.identifier))(prop('polls')(state))
+          )
+        )(prop('polls')(state))
+      })
+    default:
+      return state
+  }
 }

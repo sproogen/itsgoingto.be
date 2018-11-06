@@ -7,7 +7,10 @@ import { LOCATION_CHANGE } from 'store/location/actions'
 const initialState = browserHistory.getCurrentLocation()
 
 export default function locationReducer (state = initialState, action) {
-  return action.type === LOCATION_CHANGE
-    ? action.payload
-    : state
+  switch (action.type) {
+    case LOCATION_CHANGE:
+      return action.payload
+    default:
+      return state
+  }
 }

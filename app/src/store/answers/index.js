@@ -56,4 +56,11 @@ export default function answersReducer (state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
 
   return handler ? handler(state, action) : state
+
+  // switch (action.type) {
+  //   case POLL_UPDATE:
+  //    return 
+  //   default:
+  //     return state
+  // }
 }

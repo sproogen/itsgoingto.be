@@ -2,14 +2,6 @@ import { merge } from 'ramda'
 import { LOADING_UPDATE, PASSPHRASE_UPDATE } from 'store/loader/actions'
 
 // ------------------------------------
-// Action Handlers
-// ------------------------------------
-const ACTION_HANDLERS = {
-  [LOADING_UPDATE]    : (previousState, action) => merge(previousState, { loading : action.loading }),
-  [PASSPHRASE_UPDATE] : (previousState, action) => merge(previousState, { passphrase : action.requiresPassphrase })
-}
-
-// ------------------------------------
 // Reducer
 // ------------------------------------
 /**
@@ -29,7 +21,12 @@ const initialState = {
  * @return {State}         The modified state
  */
 export default function loaderReducer (state = initialState, action) {
-  const handler = ACTION_HANDLERS[action.type]
-
-  return handler ? handler(state, action) : state
+  switch (action.type) {
+    case LOADING_UPDATE:
+      return merge(state, { loading: action.loading })
+    case PASSPHRASE_UPDATE:
+      return merge(state, { passphrase: action.requiresPassphrase })
+    default:
+      return state
+  }
 }
