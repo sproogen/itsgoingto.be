@@ -10,7 +10,7 @@ const io = socketIO(server)
 
 io
   .of('/responses')
-  .on('connection', socket => {
+  .on('connection', (socket) => {
     console.log('User connected with id %s', socket.id)
 
     const identifier = socket.handshake.query.identifier

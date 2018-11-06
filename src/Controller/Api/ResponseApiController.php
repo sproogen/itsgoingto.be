@@ -151,7 +151,12 @@ class ResponseApiController extends BaseApiController implements ApiControllerIn
 
             $response = $this->indexResponses($poll, $request);
 
-            $process = new Process(['node', $this->get('kernel')->getProjectDir() . '/socket-server/new-responses.js', $poll->getIdentifier(), $response->getContent()]);
+            $process = new Process([
+              'node',
+              $this->get('kernel')->getProjectDir() . '/socket-server/new-responses.js',
+              $poll->getIdentifier(),
+              $response->getContent()
+            ]);
             $process->run();
         } else {
             $response = new JsonResponse(['errors' => $errors], 400);

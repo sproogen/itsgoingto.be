@@ -41,6 +41,7 @@ class Answer extends React.Component {
 
   componentDidUpdate = () => {
     const { hasPoll, poll, identifier, updateResponses } = this.props
+
     if (hasPoll && !this.socket && !poll.ended) {
       this.socket = io(`/responses?identifier=${identifier}`)
       this.socket.on('responses-updated', (responses) => {
@@ -57,6 +58,7 @@ class Answer extends React.Component {
 
   onResponseSelected = (id) => {
     const { postResponse } = this.props
+
     postResponse(id)
   }
 
@@ -79,10 +81,15 @@ class Answer extends React.Component {
     } else {
       ending = 'This poll will end in '
 
-      if (this.hasValue(days)) ending += this.twoValueString(days, hours, 'day', 'hour')
-      else if (this.hasValue(hours)) ending += this.twoValueString(hours, minutes, 'hour', 'minute')
-      else if (this.hasValue(minutes)) ending += this.twoValueString(minutes, seconds, 'minute', 'second')
-      else ending += this.valueLabel(seconds, 'second')
+      if (this.hasValue(days)) {
+        ending += this.twoValueString(days, hours, 'day', 'hour')
+      } else if (this.hasValue(hours)) {
+        ending += this.twoValueString(hours, minutes, 'hour', 'minute')
+      } else if (this.hasValue(minutes)) {
+        ending += this.twoValueString(minutes, seconds, 'minute', 'second')
+      } else {
+        ending += this.valueLabel(seconds, 'second')
+      }
     }
 
     return <span>{ending}</span>
