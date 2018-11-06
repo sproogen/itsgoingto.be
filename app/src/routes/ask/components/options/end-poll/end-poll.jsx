@@ -6,7 +6,7 @@ import Slider from 'react-rangeslider'
 import DatePicker from 'react-datepicker'
 import TimePicker from 'antd/lib/time-picker'
 
-import { updatePoll } from 'store/poll'
+import { updatePoll } from 'store/poll/actions'
 import DatePickerInput from './date-picker-input'
 
 import 'react-rangeslider/lib/index.css'

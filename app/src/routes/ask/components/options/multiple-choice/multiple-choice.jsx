@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { updatePoll } from 'store/poll'
+import { updatePoll } from 'store/poll/actions'
 import './multiple-choice.scss'
 
 export class MultipleChoice extends PureComponent {

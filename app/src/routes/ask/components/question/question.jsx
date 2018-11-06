@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { compose, nth, slice, concat, __, when, merge, ifElse, add, equals, subtract, length } from 'ramda'
 import autosize from 'autosize'
-import { updateQuestion } from 'store/poll'
+import { updateQuestion } from 'store/poll/actions'
 import EventBus from 'components/event-bus'
 import './question.scss'
 
