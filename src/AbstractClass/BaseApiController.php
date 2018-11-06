@@ -54,7 +54,7 @@ abstract class BaseApiController extends Controller
         EntityManagerInterface $em,
         AuthorizationCheckerInterface $authorizationChecker,
         IdentifierService $identifierService,
-        PollEndService $pollEndService,
+        PollEndService $pollEndService
     ) {
         $this->em = $em;
         $this->authorizationChecker = $authorizationChecker;
