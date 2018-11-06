@@ -2,7 +2,7 @@ import { prop, compose, not, isEmpty, contains, without, append, ifElse, both, e
   merge } from 'ramda'
 import moment from 'moment'
 import { pollSelector } from 'store/poll/selectors'
-import { updatePoll, setPolls, setPollCount, setPollPage, updateResponses } from 'store/poll/actions'
+import { updatePoll, setPolls, setPollCount, setPollPage, updateResponses, updateUserResponses } from 'store/poll/actions'
 import { POLLS_PER_PAGE } from 'store/poll'
 import { answersSelector } from 'store/answers/selectors'
 import { userTokenSelector } from 'store/user/selectors'
