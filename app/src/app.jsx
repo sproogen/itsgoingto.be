@@ -3,7 +3,7 @@ import { browserHistory, Router } from 'react-router'
 import { Provider, connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { withCookies, Cookies } from 'react-cookie'
-import { updateUser } from 'store/user'
+import { updateUser } from 'store/user/actions'
 
 class App extends React.Component {
   shouldComponentUpdate = () => false

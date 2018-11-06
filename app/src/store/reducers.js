@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux'
-import locationReducer from './location'
-import loaderReducer from './loader'
+import locationReducer from 'store/location'
+import loaderReducer from 'store/loader'
 import pollReducer from './poll'
-import answersReducer from './answers'
-import userReducer from './user'
-import statsReducer from './stats'
+import answersReducer from 'store/answers'
+import userReducer from 'store/user'
+import statsReducer from 'store/stats'
 
 export const makeRootReducer = (asyncReducers) => {
   return combineReducers({

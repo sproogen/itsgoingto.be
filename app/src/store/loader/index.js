@@ -1,34 +1,5 @@
-import { prop, merge, compose } from 'ramda'
-
-// ------------------------------------
-// Constants
-// ------------------------------------
-export const LOADING_UPDATE    = 'LOADING_UPDATE'
-export const PASSPHRASE_UPDATE = 'PASSPHRASE_UPDATE'
-
-// ------------------------------------
-// Selectors
-// ------------------------------------
-export const isLoadingSelector = (state) => compose(prop('loading'), prop('loader'))(state)
-
-export const requiresPassphraseSelector = (state) => compose(prop('passphrase'), prop('loader'))(state)
-
-// ------------------------------------
-// Actions
-// ------------------------------------
-export const setLoading = (loading = false) => ({
-  type : LOADING_UPDATE,
-  loading
-})
-
-export const setRequiresPassphrase = (requiresPassphrase = false) => ({
-  type : PASSPHRASE_UPDATE,
-  requiresPassphrase
-})
-
-export const actions = {
-  setLoading
-}
+import { merge } from 'ramda'
+import { LOADING_UPDATE, PASSPHRASE_UPDATE } from 'store/loader/actions'
 
 // ------------------------------------
 // Action Handlers
