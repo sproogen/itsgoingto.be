@@ -18,6 +18,10 @@ env:
   matrix:
     - NODE_VERSION=8
 
+addons:
+  sonarcloud:
+    organization: "sproogen-github"
+
 cache:
   directories:
     - $HOME/.composer/cache/file
@@ -50,6 +54,7 @@ script:
   - (cd app && npm run build)
   - (cd app && npm run lint)
   - (cd app && npm run test -- --coverage --ci)
+  - sonar-scanner
 
 # after_script:
 #   - vendor/bin/codacycoverage clover build/coverage/clover.xml
