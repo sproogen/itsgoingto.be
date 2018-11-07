@@ -54,7 +54,8 @@ class StatsApiControllerTest extends BaseApiControllerTest
                 $this->entityManager->reveal(),
                 $this->authorizationChecker->reveal(),
                 $this->identifierService->reveal(),
-                $this->pollEndService->reveal()
+                $this->pollEndService->reveal(),
+                ''
             ))
             ->setMethods(array('countResults'))
             ->getMock();

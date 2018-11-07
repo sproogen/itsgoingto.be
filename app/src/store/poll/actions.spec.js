@@ -269,29 +269,15 @@ describe('(Store) Poll', () => {
         expect(typeof updateUserResponses).toBe('function')
       })
 
-      it('Should return a function (is a thunk).', () => {
-        expect(typeof updateUserResponses(_responses, 'hf0sd8fhoas')).toBe('function')
+      it('Should return an action with type "POLL_UPDATE".', () => {
+        expect(updateUserResponses(_responses, 'hf0sd8fhoas')).toHaveProperty('type', POLL_UPDATE)
       })
 
-      it('Should return a promise from that thunk that gets fulfilled.', () => {
-        return updateUserResponses(_responses, 'hf0sd8fhoas')(_dispatch, _getState).should.eventually.be.fulfilled
-      })
-
-      it('Should call dispatch exactly once.', () => {
-        return updateUserResponses(_responses, 'hf0sd8fhoas')(_dispatch, _getState)
-          .then(() => {
-            expect(_dispatch).toHaveBeenCalledTimes(1)
-          })
-      })
-
-      it('Should dispatch POLL_UPDATE with data with just users responses.', () => {
-        return updateUserResponses(_responses, 'hf0sd8fhoas')(_dispatch, _getState)
-          .then(() => {
-            expect(_dispatch).toHaveBeenCalledWith({
-              type : POLL_UPDATE,
-              poll : { identifier: 'hf0sd8fhoas', userResponses: [245] }
-            })
-          })
+      it('Should assign the poll argyment with just users responses.', () => {
+        expect(updateUserResponses(_responses, 'hf0sd8fhoas')).toHaveProperty('poll')
+        expect(updateUserResponses(_responses, 'hf0sd8fhoas').poll).toEqual([
+          { identifier: 'hf0sd8fhoas', userResponses: [245] }
+        ])
       })
     })
   })
