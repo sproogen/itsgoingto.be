@@ -546,7 +546,7 @@ describe('(Store) API', () => {
         window.fetch = jest.fn(() => jsonOk({ responses: [] }))
         updateUserResponses.mockImplementation(() => ({}))
 
-        return fetchResponses('hf0sd8fhoas')(_dispatch, _getState).then(() => {
+        return postResponse(433, 'hf0sd8fhoas')(_dispatch, _getState).then(() => {
           expect(updateUserResponses).toHaveBeenCalledTimes(1)
           expect(updateUserResponses).toHaveBeenCalledWith({ responses: [] }, 'hf0sd8fhoas')
           expect(_dispatch).toHaveBeenCalledTimes(1)

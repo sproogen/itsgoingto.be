@@ -275,9 +275,9 @@ describe('(Store) Poll', () => {
 
       it('Should assign the poll argyment with just users responses.', () => {
         expect(updateUserResponses(_responses, 'hf0sd8fhoas')).toHaveProperty('poll')
-        expect(updateUserResponses(_responses, 'hf0sd8fhoas').poll).toEqual([
+        expect(updateUserResponses(_responses, 'hf0sd8fhoas').poll).toEqual(
           { identifier: 'hf0sd8fhoas', userResponses: [245] }
-        ])
+        )
       })
     })
   })
