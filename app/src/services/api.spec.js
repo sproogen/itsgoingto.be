@@ -17,11 +17,13 @@ import {
   fetchResponses,
   postLogin,
   fetchStats,
-} from 'store/api'
+} from 'services/api'
 import { userTokenSelector } from 'store/user/selectors' // eslint-disable-line
 import { updateUser } from 'store/user/actions'
 import { updateStats } from 'store/stats/actions'
-import { updatePoll, updateResponses, setPolls, setPollPage, setPollCount } from 'store/poll/actions'
+import {
+  updatePoll, updateResponses, updateUserResponses, setPolls, setPollPage, setPollCount
+} from 'store/poll/actions'
 import { POLLS_PER_PAGE } from 'store/poll'
 
 jest.mock('store/user/selectors')
@@ -433,7 +435,7 @@ describe('(Store) API', () => {
       })
 
       it('Should return a promise with the response.', () => {
-        updateResponses.mockImplementation(() => ({}))
+        updateUserResponses.mockImplementation(() => ({}))
 
         return postResponse(434, 'hf0sd8fhoas')(_dispatch, _getState).then((response) => {
           expect(response).toEqual({})
@@ -532,14 +534,25 @@ describe('(Store) API', () => {
           },
           answers : ['Answer']
         }
-        // _getStateSpy = sinon.spy(() => {
-        //   return _globalState
-        // })
         return postResponse(433, 'hf0sd8fhoas')(_dispatch, _getState).then(() => {
           expect(window.fetch).toHaveBeenCalledTimes(1)
           expect(window.fetch).toHaveBeenCalledWith(
             ROUTE_POLL + '/hf0sd8fhoas' + ROUTE_RESPONSES,
             { method: 'POST', credentials: 'same-origin', body: '{"answers":[]}' })
+        })
+      })
+
+      it('Should dispatch updateUserResponses().', () => {
+        window.fetch = jest.fn(() => jsonOk({ responses: [] }))
+        updateUserResponses.mockImplementation(() => ({}))
+
+        return postResponse(433, 'hf0sd8fhoas')(_dispatch, _getState).then(() => {
+          expect(updateUserResponses).toHaveBeenCalledTimes(1)
+          expect(updateUserResponses).toHaveBeenCalledWith({ responses: [] }, 'hf0sd8fhoas')
+          expect(_dispatch).toHaveBeenCalledTimes(1)
+          expect(_dispatch).toHaveBeenCalledWith({})
+
+          updateResponses.mockRestore()
         })
       })
     })

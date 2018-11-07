@@ -15,6 +15,7 @@ import {
   setPollCount,
   updateQuestion,
   updateResponses,
+  updateUserResponses,
 } from 'store/poll/actions'
 import { addAnswer, updateAnswers, clearAnswers } from 'store/answers/actions'
 
@@ -77,12 +78,12 @@ describe('(Store) Poll', () => {
 
       it('Should dispatch POLL_UPDATE with data omitting answers.', () => {
         return updatePoll(
-          { question : '', identifier : '', answers: [], userResponses: [245] }
+          { question: '', identifier: '', answers: [], userResponses: [245] }
         )(_dispatch, _getState)
           .then(() => {
             expect(_dispatch).toHaveBeenCalledWith({
               type : POLL_UPDATE,
-              poll : { question : '', identifier : '', userResponses: [245] }
+              poll : { question: '', identifier: '', userResponses: [245] }
             })
           })
       })
@@ -106,14 +107,14 @@ describe('(Store) Poll', () => {
 
       it('Should assign the argument to the "polls" property with answers omitted.', () => {
         const polls = [
-          { question : 'Question 1', identifier : 'asdfaw4esd', answers: [], userResponses: [5] },
-          { question : 'Question 2', identifier : 'awthscvg34', answers: [], userResponses: [8, 5] }
+          { question: 'Question 1', identifier: 'asdfaw4esd', answers: [], userResponses: [5] },
+          { question: 'Question 2', identifier: 'awthscvg34', answers: [], userResponses: [8, 5] }
         ]
 
         expect(setPolls(polls)).toHaveProperty('polls')
         expect(setPolls(polls).polls).toEqual([
-          { question : 'Question 1', identifier : 'asdfaw4esd', userResponses: [5] },
-          { question : 'Question 2', identifier : 'awthscvg34', userResponses: [8, 5] }
+          { question: 'Question 1', identifier: 'asdfaw4esd', userResponses: [5] },
+          { question: 'Question 2', identifier: 'awthscvg34', userResponses: [8, 5] }
         ])
       })
     })
@@ -192,7 +193,7 @@ describe('(Store) Poll', () => {
       it('Should dispatch clearAnswers() if now doesn\'t have question.', () => {
         _globalState = {
           poll : {
-            polls : [{ question : 'Question Text', identifier : 'hf0sd8fhoas' }],
+            polls : [{ question: 'Question Text', identifier: 'hf0sd8fhoas' }],
             page  : null,
             count : 0
           }
@@ -209,8 +210,8 @@ describe('(Store) Poll', () => {
         userResponses  : [245],
         responsesCount : 5,
         answers        : [
-          { id : 245, responsesCount: 3 },
-          { id : 246, responsesCount: 2 }
+          { id: 245, responsesCount: 3 },
+          { id: 246, responsesCount: 2 }
         ]
       }
 
@@ -233,12 +234,12 @@ describe('(Store) Poll', () => {
           })
       })
 
-      it('Should dispatch POLL_UPDATE with data omitting answers.', () => {
+      it('Should dispatch POLL_UPDATE with data omitting answers and users responses.', () => {
         return updateResponses(_responses, 'hf0sd8fhoas')(_dispatch, _getState)
           .then(() => {
             expect(_dispatch).toHaveBeenCalledWith({
               type : POLL_UPDATE,
-              poll : { identifier : 'hf0sd8fhoas', responsesCount : 5, userResponses: [245] }
+              poll : { identifier: 'hf0sd8fhoas', responsesCount: 5 }
             })
           })
       })
@@ -247,10 +248,36 @@ describe('(Store) Poll', () => {
         return updateResponses(_responses, 'hf0sd8fhoas')(_dispatch, _getState)
           .then(() => {
             expect(_dispatch).toHaveBeenCalledWith(updateAnswers([
-              { id : 245, responsesCount: 3 },
-              { id : 246, responsesCount: 2 }
+              { id: 245, responsesCount: 3 },
+              { id: 246, responsesCount: 2 }
             ]))
           })
+      })
+    })
+
+    describe('(Action Creator) updateUserResponses', () => {
+      const _responses = {
+        userResponses  : [245],
+        responsesCount : 5,
+        answers        : [
+          { id: 245, responsesCount: 3 },
+          { id: 246, responsesCount: 2 }
+        ]
+      }
+
+      it('Should be exported as a function.', () => {
+        expect(typeof updateUserResponses).toBe('function')
+      })
+
+      it('Should return an action with type "POLL_UPDATE".', () => {
+        expect(updateUserResponses(_responses, 'hf0sd8fhoas')).toHaveProperty('type', POLL_UPDATE)
+      })
+
+      it('Should assign the poll argyment with just users responses.', () => {
+        expect(updateUserResponses(_responses, 'hf0sd8fhoas')).toHaveProperty('poll')
+        expect(updateUserResponses(_responses, 'hf0sd8fhoas').poll).toEqual(
+          { identifier: 'hf0sd8fhoas', userResponses: [245] }
+        )
       })
     })
   })

@@ -38,6 +38,11 @@ abstract class BaseApiController extends Controller
     protected $pollEndService;
 
     /**
+     * @var String
+     */
+    protected $projectDir;
+
+    /**
      * Number of entities to return per page.
      *
      * @var integer
@@ -54,12 +59,14 @@ abstract class BaseApiController extends Controller
         EntityManagerInterface $em,
         AuthorizationCheckerInterface $authorizationChecker,
         IdentifierService $identifierService,
-        PollEndService $pollEndService
+        PollEndService $pollEndService,
+        $projectDir
     ) {
         $this->em = $em;
         $this->authorizationChecker = $authorizationChecker;
         $this->identifierService = $identifierService;
         $this->pollEndService = $pollEndService;
+        $this->projectDir = $projectDir;
     }
 
     /**

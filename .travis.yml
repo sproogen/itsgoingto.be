@@ -45,15 +45,15 @@ before_script:
 script:
   - vendor/bin/phpcs --standard=PSR2 --ignore=Migrations src/
   - vendor/bin/phplint src
-  - vendor/bin/simple-phpunit
+  - SYMFONY_DEPRECATIONS_HELPER=disabled vendor/bin/simple-phpunit
   - SYMFONY_DEPRECATIONS_HELPER=disabled vendor/bin/codecept run
   - (cd app && npm run build)
   - (cd app && npm run lint)
   - (cd app && npm run test -- --coverage --ci)
 
-after_script:
-  - vendor/bin/codacycoverage clover build/coverage/clover.xml
-  - (cd app && cat build/coverage/lcov.info | node_modules/.bin/codacy-coverage .)
+# after_script:
+#   - vendor/bin/codacycoverage clover build/coverage/clover.xml
+#   - (cd app && cat build/coverage/lcov.info | node_modules/.bin/codacy-coverage .)
 
 after_success:
   - ./scripts/merge-downstream.sh

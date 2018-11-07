@@ -138,6 +138,7 @@ abstract class BaseApiControllerTest extends BaseTest
 
         $this->poll = $this->prophesize(Poll::class);
         $this->poll->getId()->willReturn(2);
+        $this->poll->getIdentifier()->willReturn('lkjas79h');
         $this->poll->isMultipleChoice()->willReturn(false);
         $this->poll->isEnded()->willReturn(false);
         $this->poll->getPassphrase()->willReturn('');
@@ -217,7 +218,8 @@ abstract class BaseApiControllerTest extends BaseTest
             $this->entityManager->reveal(),
             $this->authorizationChecker->reveal(),
             $this->identifierService->reveal(),
-            $this->pollEndService->reveal()
+            $this->pollEndService->reveal(),
+            ''
         );
         if (!$this->controller instanceof ApiControllerInterface) {
             $message = '$controllerClass must represent a class implementing the '

@@ -6,10 +6,12 @@ import Helmet from 'react-helmet'
 import Linkify from 'react-linkify'
 import Countdown from 'react-countdown-now'
 import { browserHistory } from 'react-router'
+import io from 'socket.io-client'
+import { fetchPoll, postResponse, APIError } from 'services/api'
 import { pollSelector, hasQuestionSelector, totalResponsesSelector, userRespondedSelector } from 'store/poll/selectors'
-import { clearAnswers } from 'store/answers/actions'
+import { updateResponses } from 'store/poll/actions'
 import { answersSelector } from 'store/answers/selectors'
-import { fetchPoll, APIError } from 'store/api'
+import { clearAnswers } from 'store/answers/actions'
 import { requiresPassphraseSelector } from 'store/loader/selectors'
 import { setLoading, setRequiresPassphrase } from 'store/loader/actions'
 import { hasUserSelector } from 'store/user/selectors'
@@ -27,7 +29,7 @@ class Answer extends React.Component {
       setLoading(true)
     }
     clearAnswers()
-    fetchPoll(this.props.identifier).then((response) => {
+    fetchPoll().then((response) => {
       if (response instanceof APIError) {
         if (response.details.status === 403 && response.details.error.error === 'incorrect-passphrase') {
           setRequiresPassphrase(true)
@@ -39,24 +41,57 @@ class Answer extends React.Component {
     })
   }
 
-  endingToString = (days, hours, minutes, seconds) => {
-    let endingString = ''
+  componentDidUpdate = () => {
+    const { hasPoll, poll, identifier, updateResponses } = this.props
 
-    endingString += days ? ` ${days} days and` : ''
-    endingString += days || hours ? ` ${hours} hours ${!days ? 'and' : ''}` : ''
-    endingString += !days && (hours || minutes) ? ` ${minutes} minutes ${!hours ? 'and' : ''}` : ''
-    endingString += !days && !hours ? ` ${seconds} seconds` : ''
-
-    return endingString
+    if (hasPoll && !this.socket && !poll.ended) {
+      this.socket = io(`/responses?identifier=${identifier}`)
+      this.socket.on('responses-updated', (responses) => {
+        updateResponses(JSON.parse(responses))
+      })
+    }
   }
 
+  componentWillUnmount = () => {
+    if (this.socket) {
+      this.socket.close()
+    }
+  }
+
+  onResponseSelected = (id) => {
+    const { postResponse } = this.props
+
+    postResponse(id)
+  }
+
+  hasValue = (value) => value && value !== '00'
+
+  valueLabel = (value, label) => `${parseInt(value, 10)} ${label}${parseInt(value, 10) > 1 ? 's' : ''}`
+
+  twoValueString = (value1, value2, label1, label2) =>
+    `${this.valueLabel(value1, label1)} and ${this.valueLabel(value2, label2)}`
+
   countdownRenderer = ({ days, hours, minutes, seconds, completed }) => {
+    const { poll, fetchPoll } = this.props
     let ending = ''
 
     if (completed) {
+      if (!poll.ended) {
+        fetchPoll()
+      }
       ending = 'This poll has now ended'
     } else {
-      ending = 'This poll will end in' + this.endingToString(days, hours, minutes, seconds)
+      ending = 'This poll will end in '
+
+      if (this.hasValue(days)) {
+        ending += this.twoValueString(days, hours, 'day', 'hour')
+      } else if (this.hasValue(hours)) {
+        ending += this.twoValueString(hours, minutes, 'hour', 'minute')
+      } else if (this.hasValue(minutes)) {
+        ending += this.twoValueString(minutes, seconds, 'minute', 'second')
+      } else {
+        ending += this.valueLabel(seconds, 'second')
+      }
     }
 
     return <span>{ending}</span>
@@ -97,6 +132,7 @@ class Answer extends React.Component {
               answers={answers}
               totalResponses={totalResponses}
               userResponded={userResponded}
+              onResponseSelected={this.onResponseSelected}
               viewOnly={hasUser} />
           </div>
         }
@@ -120,7 +156,9 @@ Answer.propTypes = {
   fetchPoll             : PropTypes.func.isRequired,
   clearAnswers          : PropTypes.func.isRequired,
   setLoading            : PropTypes.func.isRequired,
-  setRequiresPassphrase : PropTypes.func.isRequired
+  setRequiresPassphrase : PropTypes.func.isRequired,
+  postResponse          : PropTypes.func.isRequired,
+  updateResponses       : PropTypes.func.isRequired
 }
 
 Answer.defaultProps = {
@@ -137,11 +175,13 @@ const mapStateToProps = (state, props) => ({
   hasUser            : hasUserSelector(state),
 })
 
-const mapDispatchToProps = (dispatch) => ({
-  fetchPoll             : (identifier) => dispatch(fetchPoll(identifier)),
+const mapDispatchToProps = (dispatch, props) => ({
+  fetchPoll             : () => dispatch(fetchPoll(props.params.identifier)),
   clearAnswers          : () => dispatch(clearAnswers()),
   setLoading            : (value) => dispatch(setLoading(value)),
-  setRequiresPassphrase : (value) => dispatch(setRequiresPassphrase(value))
+  setRequiresPassphrase : (value) => dispatch(setRequiresPassphrase(value)),
+  postResponse          : (id) => dispatch(postResponse(id, props.params.identifier)),
+  updateResponses       : (responses) => dispatch(updateResponses(responses, props.params.identifier))
 })
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => mergeAll([stateProps, dispatchProps, ownProps.params])

@@ -4,10 +4,11 @@
   "author": "James Grant <james@jwgmedia.co.uk> (http://jameswgrant.co.uk)",
   "license": "GPLv3",
   "scripts": {
-    "postinstall": "cd app && npm install",
+    "postinstall": "(cd app && npm install) && (cd socket-server && npm install)",
     "heroku-postbuild": "rm -rf app"
   },
   "cacheDirectories": [
-    "app/node_modules"
+    "app/node_modules",
+    "socket-server/node_modules"
   ]
 }

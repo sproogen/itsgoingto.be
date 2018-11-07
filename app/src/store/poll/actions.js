@@ -114,7 +114,20 @@ export const updateQuestion = (text = '', identifier = '') => (dispatch, getStat
 export const updateResponses = (responses, identifier) => (dispatch) => Promise.all([
   dispatch({
     type : POLL_UPDATE,
-    poll : compose(omit(['answers']), merge(__, { identifier }))(responses)
+    poll: compose(omit(['answers', 'userResponses']), merge(__, { identifier }))(responses)
   }),
   dispatch(updateAnswers(prop('answers', responses)))
 ]).then(() => responses)
+
+/**
+ * Update the users responses for the poll
+ *
+ * @param  {object}   responses  The responses object
+ * @param  {string}   identifier The poll identifier to update
+ *
+ * @return {Function}            redux-thunk callable function
+ */
+export const updateUserResponses = (responses, identifier) => ({
+  type: POLL_UPDATE,
+  poll: compose(omit(['answers', 'responsesCount']), merge(__, { identifier }))(responses)
+})
