@@ -51,9 +51,9 @@ script:
   - (cd app && npm run lint)
   - (cd app && npm run test -- --coverage --ci)
 
-after_script:
-  - vendor/bin/codacycoverage clover build/coverage/clover.xml
-  - (cd app && cat build/coverage/lcov.info | node_modules/.bin/codacy-coverage .)
+# after_script:
+#   - vendor/bin/codacycoverage clover build/coverage/clover.xml
+#   - (cd app && cat build/coverage/lcov.info | node_modules/.bin/codacy-coverage .)
 
 after_success:
   - ./scripts/merge-downstream.sh
