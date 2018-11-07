@@ -51,7 +51,6 @@ script:
   - vendor/bin/phplint src
   - vendor/bin/simple-phpunit
   - SYMFONY_DEPRECATIONS_HELPER=disabled vendor/bin/codecept run
-  - (cd app && npm run build)
   - (cd app && npm run lint)
   - (cd app && npm run test -- --coverage --ci)
   - sonar-scanner
