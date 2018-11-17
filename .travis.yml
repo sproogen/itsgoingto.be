@@ -53,11 +53,7 @@ script:
   - SYMFONY_DEPRECATIONS_HELPER=disabled vendor/bin/codecept run
   - (cd app && npm run lint)
   - (cd app && npm run test -- --coverage --ci)
-  - sonar-scanner
-
-# after_script:
-#   - vendor/bin/codacycoverage clover build/coverage/clover.xml
-#   - (cd app && cat build/coverage/lcov.info | node_modules/.bin/codacy-coverage .)
+  - ./scripts/update-sonar-version.sh && sonar-scanner
 
 after_success:
   - ./scripts/merge-downstream.sh
