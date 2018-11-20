@@ -61,4 +61,4 @@ after_success:
 notifications:
   slack:
     rooms:
-      - $SLACK_TOKEN_ITSGOINGTOBE
+      - jamesgrantpersonal:XPzkMQR6YO7YPc04rwEbNSMT#general
