@@ -57,3 +57,8 @@ script:
 
 after_success:
   - ./scripts/merge-downstream.sh
+
+notifications:
+  slack:
+    rooms:
+      - $SLACK_TOKEN_ITSGOINGTOBE
