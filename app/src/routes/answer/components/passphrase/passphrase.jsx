@@ -39,8 +39,8 @@ export class Passphrase extends React.Component {
         })
       )
 
-  handleChange = (value) => {
-    this.setState({ value })
+  handleChange = (e) => {
+    this.setState({ value: e.target.value })
   }
 
   handleKeyPress = (event) => {

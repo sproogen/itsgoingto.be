@@ -42,7 +42,9 @@ describe('(Route) answer', () => {
 
     describe('(Action) onChange', () => {
       it('updates local state', () => {
-        wrapper.find('input').simulate('change', 'new passphrase')
+        wrapper.find('input').simulate('change', {
+          target: { value: 'new passphrase' },
+        })
         expect(wrapper.state().value).toBe('new passphrase')
       })
     })
