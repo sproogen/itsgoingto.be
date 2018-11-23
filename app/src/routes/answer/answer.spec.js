@@ -1,8 +1,6 @@
 /* global expect */
 import React from 'react'
 import { shallow } from 'enzyme'
-import { browserHistory } from 'react-router'
-import { APIError } from 'services/api'
 import { Answer } from './answer'
 
 const props = {
