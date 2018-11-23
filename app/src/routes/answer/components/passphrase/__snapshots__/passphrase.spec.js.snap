@@ -1,0 +1,72 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`(Route) answer (Component) passphrase (Render) error is true matches snapshot 1`] = `
+<div
+  className="passphrase-container"
+>
+  <div
+    className="input-passphrase input-error"
+  >
+    <label
+      className="input-label input-label-passphrase"
+      htmlFor="passphrase"
+    >
+      Passphrase
+    </label>
+    <input
+      className="input-field input-field-passphrase"
+      id="passphrase"
+      name="passphrase"
+      onChange={[Function]}
+      onKeyDown={[Function]}
+      type="text"
+      value=""
+    />
+    <span
+      className="input-error-label"
+    >
+      Passphrase incorrect
+    </span>
+  </div>
+  <Button
+    callback={[Function]}
+    className="btn pull-right"
+    disabled={false}
+    submitEvent="passphrase-submit"
+    text="Enter"
+  />
+</div>
+`;
+
+exports[`(Route) answer (Component) passphrase (Render) matches snapshot 1`] = `
+<div
+  className="passphrase-container"
+>
+  <div
+    className="input-passphrase"
+  >
+    <label
+      className="input-label input-label-passphrase"
+      htmlFor="passphrase"
+    >
+      Passphrase
+    </label>
+    <input
+      className="input-field input-field-passphrase"
+      id="passphrase"
+      name="passphrase"
+      onChange={[Function]}
+      onKeyDown={[Function]}
+      type="text"
+      value=""
+    />
+  </div>
+  <Button
+    callback={[Function]}
+    className="btn pull-right"
+    disabled={false}
+    submitEvent="passphrase-submit"
+    text="Enter"
+  />
+</div>
+`;

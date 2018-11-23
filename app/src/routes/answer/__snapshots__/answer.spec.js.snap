@@ -1,0 +1,261 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`(Route) answer (Render) !hasPoll and requiresPassphrase matches snapshot 1`] = `
+<div>
+  <HelmetWrapper
+    defer={true}
+    encodeSpecialCharacters={true}
+  >
+    <meta
+      charSet="utf-8"
+    />
+    <title>
+      Question?
+    </title>
+    <meta
+      content="Join in the vote and answer this poll at itsgoingto.be"
+      name="description"
+    />
+    <meta
+      content="question vote poll result"
+      name="keywords"
+    />
+  </HelmetWrapper>
+  <withRouter(Connect(Passphrase)) />
+</div>
+`;
+
+exports[`(Route) answer (Render) Poll has end date matches snapshot 1`] = `
+<div>
+  <HelmetWrapper
+    defer={true}
+    encodeSpecialCharacters={true}
+  >
+    <meta
+      charSet="utf-8"
+    />
+    <title>
+      Question?
+    </title>
+    <meta
+      content="Join in the vote and answer this poll at itsgoingto.be"
+      name="description"
+    />
+    <meta
+      content="question vote poll result"
+      name="keywords"
+    />
+  </HelmetWrapper>
+  <div>
+    <Back />
+    <div
+      className="container header-container answer-header-container"
+    >
+      <div
+        className="header center-text"
+      >
+        <h2>
+          <Linkify
+            className="Linkify"
+            component="a"
+            properties={
+              Object {
+                "target": "_blank",
+              }
+            }
+          >
+            Question?
+          </Linkify>
+        </h2>
+        <Sharing
+          poll={
+            Object {
+              "endDate": Object {
+                "date": "22/11/2018",
+              },
+              "ended": false,
+              "question": "Question?",
+            }
+          }
+        />
+        <div
+          className="alert alert-success"
+        >
+          <Countdown
+            controlled={false}
+            date="22/11/2018"
+            daysInHours={false}
+            intervalDelay={1000}
+            precision={0}
+            renderer={[Function]}
+            zeroPadLength={2}
+          />
+        </div>
+      </div>
+    </div>
+    <withRouter(Connect(Answers))
+      answers={Array []}
+      onResponseSelected={[Function]}
+      poll={
+        Object {
+          "endDate": Object {
+            "date": "22/11/2018",
+          },
+          "ended": false,
+          "question": "Question?",
+        }
+      }
+      totalResponses={0}
+      userResponded={false}
+      viewOnly={false}
+    />
+  </div>
+</div>
+`;
+
+exports[`(Route) answer (Render) Poll is ended matches snapshot 1`] = `
+<div>
+  <HelmetWrapper
+    defer={true}
+    encodeSpecialCharacters={true}
+  >
+    <meta
+      charSet="utf-8"
+    />
+    <title>
+      Question?
+    </title>
+    <meta
+      content="Join in the vote and answer this poll at itsgoingto.be"
+      name="description"
+    />
+    <meta
+      content="question vote poll result"
+      name="keywords"
+    />
+  </HelmetWrapper>
+  <div>
+    <Back />
+    <div
+      className="container header-container answer-header-container"
+    >
+      <div
+        className="header center-text"
+      >
+        <h2>
+          <Linkify
+            className="Linkify"
+            component="a"
+            properties={
+              Object {
+                "target": "_blank",
+              }
+            }
+          >
+            Question?
+          </Linkify>
+        </h2>
+        <Sharing
+          poll={
+            Object {
+              "ended": true,
+              "question": "Question?",
+            }
+          }
+        />
+        <div
+          className="alert alert-success"
+        >
+          <span>
+            This poll has now ended
+          </span>
+        </div>
+      </div>
+    </div>
+    <withRouter(Connect(Answers))
+      answers={Array []}
+      onResponseSelected={[Function]}
+      poll={
+        Object {
+          "ended": true,
+          "question": "Question?",
+        }
+      }
+      totalResponses={0}
+      userResponded={false}
+      viewOnly={false}
+    />
+  </div>
+</div>
+`;
+
+exports[`(Route) answer (Render) hasPoll matches snapshot 1`] = `
+<div>
+  <HelmetWrapper
+    defer={true}
+    encodeSpecialCharacters={true}
+  >
+    <meta
+      charSet="utf-8"
+    />
+    <title>
+      Question?
+    </title>
+    <meta
+      content="Join in the vote and answer this poll at itsgoingto.be"
+      name="description"
+    />
+    <meta
+      content="question vote poll result"
+      name="keywords"
+    />
+  </HelmetWrapper>
+  <div>
+    <Back />
+    <div
+      className="container header-container answer-header-container"
+    >
+      <div
+        className="header center-text"
+      >
+        <h2>
+          <Linkify
+            className="Linkify"
+            component="a"
+            properties={
+              Object {
+                "target": "_blank",
+              }
+            }
+          >
+            Question?
+          </Linkify>
+        </h2>
+        <Sharing
+          poll={
+            Object {
+              "ended": false,
+              "multipleChoice": false,
+              "question": "Question?",
+            }
+          }
+        />
+      </div>
+    </div>
+    <withRouter(Connect(Answers))
+      answers={Array []}
+      onResponseSelected={[Function]}
+      poll={
+        Object {
+          "ended": false,
+          "multipleChoice": false,
+          "question": "Question?",
+        }
+      }
+      totalResponses={0}
+      userResponded={false}
+      viewOnly={false}
+    />
+  </div>
+</div>
+`;
