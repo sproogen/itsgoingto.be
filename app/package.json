@@ -108,8 +108,7 @@
       "<rootDir>/scripts/",
       "<rootDir>/.storybook/",
       "<rootDir>/stories/",
-      "<rootDir>/node_modules/",
-      "index.js"
+      "<rootDir>/node_modules/"
     ],
     "coverageReporters": [
       "lcov"
