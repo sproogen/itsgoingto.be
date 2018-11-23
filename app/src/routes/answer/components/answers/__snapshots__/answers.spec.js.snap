@@ -1,0 +1,407 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`(Route) answer (Component) answers (Render) Poll is ended matches snapshot 1`] = `
+<div
+  className="container answer-container"
+>
+  <div
+    className="options show-results"
+  >
+    <Answer
+      answer={
+        Object {
+          "answer": "A",
+          "id": 1,
+        }
+      }
+      checked={false}
+      index={0}
+      key="0"
+      onResponseSelected={[Function]}
+      poll={
+        Object {
+          "ended": true,
+          "multipleChoice": false,
+          "question": "Question?",
+        }
+      }
+      totalResponses={0}
+      type="radio"
+      viewOnly={false}
+    />
+    <Answer
+      answer={
+        Object {
+          "answer": "B",
+          "id": 2,
+        }
+      }
+      checked={false}
+      index={1}
+      key="1"
+      onResponseSelected={[Function]}
+      poll={
+        Object {
+          "ended": true,
+          "multipleChoice": false,
+          "question": "Question?",
+        }
+      }
+      totalResponses={0}
+      type="radio"
+      viewOnly={false}
+    />
+  </div>
+</div>
+`;
+
+exports[`(Route) answer (Component) answers (Render) Poll is multiple choice matches snapshot 1`] = `
+<div
+  className="container answer-container"
+>
+  <div
+    className="options"
+  >
+    <Answer
+      answer={
+        Object {
+          "answer": "A",
+          "id": 1,
+        }
+      }
+      checked={false}
+      index={0}
+      key="0"
+      onResponseSelected={[Function]}
+      poll={
+        Object {
+          "ended": false,
+          "multipleChoice": true,
+          "question": "Question?",
+        }
+      }
+      totalResponses={0}
+      type="checkbox"
+      viewOnly={false}
+    />
+    <Answer
+      answer={
+        Object {
+          "answer": "B",
+          "id": 2,
+        }
+      }
+      checked={false}
+      index={1}
+      key="1"
+      onResponseSelected={[Function]}
+      poll={
+        Object {
+          "ended": false,
+          "multipleChoice": true,
+          "question": "Question?",
+        }
+      }
+      totalResponses={0}
+      type="checkbox"
+      viewOnly={false}
+    />
+  </div>
+</div>
+`;
+
+exports[`(Route) answer (Component) answers (Render) User has responded matches snapshot 1`] = `
+<div
+  className="container answer-container"
+>
+  <div
+    className="options show-results"
+  >
+    <Answer
+      answer={
+        Object {
+          "answer": "A",
+          "id": 1,
+        }
+      }
+      checked={false}
+      index={0}
+      key="0"
+      onResponseSelected={[Function]}
+      poll={
+        Object {
+          "ended": false,
+          "multipleChoice": false,
+          "question": "Question?",
+        }
+      }
+      totalResponses={0}
+      type="radio"
+      viewOnly={false}
+    />
+    <Answer
+      answer={
+        Object {
+          "answer": "B",
+          "id": 2,
+        }
+      }
+      checked={false}
+      index={1}
+      key="1"
+      onResponseSelected={[Function]}
+      poll={
+        Object {
+          "ended": false,
+          "multipleChoice": false,
+          "question": "Question?",
+        }
+      }
+      totalResponses={0}
+      type="radio"
+      viewOnly={false}
+    />
+  </div>
+</div>
+`;
+
+exports[`(Route) answer (Component) answers (Render) User has responded to answer matches snapshot 1`] = `
+<div
+  className="container answer-container"
+>
+  <div
+    className="options show-results"
+  >
+    <Answer
+      answer={
+        Object {
+          "answer": "A",
+          "id": 1,
+        }
+      }
+      checked={true}
+      index={0}
+      key="0"
+      onResponseSelected={[Function]}
+      poll={
+        Object {
+          "ended": true,
+          "multipleChoice": false,
+          "question": "Question?",
+          "userResponses": Array [
+            1,
+          ],
+        }
+      }
+      totalResponses={0}
+      type="radio"
+      viewOnly={false}
+    />
+    <Answer
+      answer={
+        Object {
+          "answer": "B",
+          "id": 2,
+        }
+      }
+      checked={false}
+      index={1}
+      key="1"
+      onResponseSelected={[Function]}
+      poll={
+        Object {
+          "ended": true,
+          "multipleChoice": false,
+          "question": "Question?",
+          "userResponses": Array [
+            1,
+          ],
+        }
+      }
+      totalResponses={0}
+      type="radio"
+      viewOnly={false}
+    />
+  </div>
+</div>
+`;
+
+exports[`(Route) answer (Component) answers (Render) has answers matches snapshot 1`] = `
+<div
+  className="container answer-container"
+>
+  <div
+    className="options"
+  >
+    <Answer
+      answer={
+        Object {
+          "answer": "A",
+          "id": 1,
+        }
+      }
+      checked={false}
+      index={0}
+      key="0"
+      onResponseSelected={[Function]}
+      poll={
+        Object {
+          "ended": false,
+          "multipleChoice": false,
+          "question": "Question?",
+        }
+      }
+      totalResponses={0}
+      type="radio"
+      viewOnly={false}
+    />
+    <Answer
+      answer={
+        Object {
+          "answer": "B",
+          "id": 2,
+        }
+      }
+      checked={false}
+      index={1}
+      key="1"
+      onResponseSelected={[Function]}
+      poll={
+        Object {
+          "ended": false,
+          "multipleChoice": false,
+          "question": "Question?",
+        }
+      }
+      totalResponses={0}
+      type="radio"
+      viewOnly={false}
+    />
+  </div>
+</div>
+`;
+
+exports[`(Route) answer (Component) answers (Render) has no answers matches snapshot 1`] = `
+<div
+  className="container answer-container"
+>
+  <div
+    className="spinner-container center-text"
+  >
+    <Spinner />
+  </div>
+  <div
+    className="options"
+  />
+</div>
+`;
+
+exports[`(Route) answer (Component) answers (Render) is view only matches snapshot 1`] = `
+<div
+  className="container answer-container"
+>
+  <div
+    className="options show-results"
+  >
+    <Answer
+      answer={
+        Object {
+          "answer": "A",
+          "id": 1,
+        }
+      }
+      checked={false}
+      index={0}
+      key="0"
+      onResponseSelected={[Function]}
+      poll={
+        Object {
+          "ended": false,
+          "multipleChoice": false,
+          "question": "Question?",
+        }
+      }
+      totalResponses={0}
+      type="radio"
+      viewOnly={true}
+    />
+    <Answer
+      answer={
+        Object {
+          "answer": "B",
+          "id": 2,
+        }
+      }
+      checked={false}
+      index={1}
+      key="1"
+      onResponseSelected={[Function]}
+      poll={
+        Object {
+          "ended": false,
+          "multipleChoice": false,
+          "question": "Question?",
+        }
+      }
+      totalResponses={0}
+      type="radio"
+      viewOnly={true}
+    />
+  </div>
+</div>
+`;
+
+exports[`(Route) answer (Component) answers (Render) with responses matches snapshot 1`] = `
+<div
+  className="container answer-container"
+>
+  <div
+    className="options"
+  >
+    <Answer
+      answer={
+        Object {
+          "answer": "A",
+          "id": 1,
+        }
+      }
+      checked={false}
+      index={0}
+      key="0"
+      onResponseSelected={[Function]}
+      poll={
+        Object {
+          "ended": false,
+          "multipleChoice": false,
+          "question": "Question?",
+        }
+      }
+      totalResponses={10}
+      type="radio"
+      viewOnly={false}
+    />
+    <Answer
+      answer={
+        Object {
+          "answer": "B",
+          "id": 2,
+        }
+      }
+      checked={false}
+      index={1}
+      key="1"
+      onResponseSelected={[Function]}
+      poll={
+        Object {
+          "ended": false,
+          "multipleChoice": false,
+          "question": "Question?",
+        }
+      }
+      totalResponses={10}
+      type="radio"
+      viewOnly={false}
+    />
+  </div>
+</div>
+`;

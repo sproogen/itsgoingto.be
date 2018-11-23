@@ -8,33 +8,7 @@ import Spinner from 'components/spinner'
 import Answer from '../answer'
 import './answers.scss'
 
-class Answers extends React.Component {
-  // updateAnswers = () => {
-  //   const { poll, updateResponses, fetchPoll } = this.props
-
-  //   if (poll.ended || poll.deleted) {
-  //     clearInterval(this.answersUpdater)
-  //   } else {
-  //     updateResponses()
-  //       .then((response) => {
-  //         if (response instanceof APIError) {
-  //           fetchPoll()
-  //         }
-  //       })
-  //   }
-  // }
-
-  // componentDidMount = () => {
-  //   this.answersUpdater = setInterval(
-  //     this.updateAnswers,
-  //     5000
-  //   )
-  // }
-
-  // componentWillUnmount = () => {
-  //   clearInterval(this.answersUpdater)
-  // }
-
+export class Answers extends React.Component {
   answerChecked = (answer) =>
     compose(contains(answer.id), when(isNil, () => []), prop('userResponses'))(this.props.poll)
 

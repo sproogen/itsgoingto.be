@@ -21,7 +21,7 @@ import Answers from './components/answers'
 import Passphrase from './components/passphrase'
 import './answer.scss'
 
-class Answer extends React.Component {
+export class Answer extends React.Component {
   componentDidMount = () => {
     const { hasPoll, setLoading, fetchPoll, clearAnswers, setRequiresPassphrase } = this.props
 
