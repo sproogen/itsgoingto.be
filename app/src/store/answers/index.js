@@ -9,34 +9,6 @@ import {
 // TODO : Update answers to reference by identifier and index
 
 // ------------------------------------
-// Action Handlers
-// ------------------------------------
-const ACTION_HANDLERS = {
-  // Add a new answer to the state
-  [ANSWER_ADD]           : (previousState) => [...previousState, ''],
-  // Update an answer in the state
-  [ANSWER_UPDATE]        : (previousState, action) => adjust(() => action.text, action.index, previousState),
-  // Update all the answers in the state
-  [ANSWERS_UPDATE]       : (previousState, action) =>
-    map(
-      (answer) => when(
-        is(Object),
-        merge(find(propEq('id', answer.id), previousState))
-      )(answer)
-    )(action.answers),
-  // Remove an answer in the state
-  [ANSWER_REMOVE]        : (previousState, action) =>
-    when(
-      compose(not, equals(action.index), subtract(__, 1), length),
-      remove(action.index, 1)
-    )(previousState),
-  // Remove the answers after the index in the state
-  [ANSWERS_REMOVE_AFTER] : (previousState, action) => slice(0, action.index + 1, previousState),
-  // Clear all the answers from the state
-  [ANSWERS_CLEAR]        : () => []
-}
-
-// ------------------------------------
 // Reducer
 // ------------------------------------
 /**
@@ -52,15 +24,34 @@ const initialState = []
  *
  * @return {State}         The modified state
  */
-export default function answersReducer (state = initialState, action) {
-  const handler = ACTION_HANDLERS[action.type]
-
-  return handler ? handler(state, action) : state
-
-  // switch (action.type) {
-  //   case POLL_UPDATE:
-  //    return 
-  //   default:
-  //     return state
-  // }
+export default function answersReducer (state = initialState, action = null) {
+  switch (action.type) {
+    case ANSWER_ADD:
+      // Add a new answer to the state
+      return [...state, '']
+    case ANSWER_UPDATE:
+      // Update an answer in the state
+      return adjust(() => action.text, action.index, state)
+    case ANSWERS_UPDATE:
+      // Update all the answers in the state
+      return map(
+        (answer) => when(
+          is(Object),
+          merge(find(propEq('id', answer.id), state))
+        )(answer)
+      )(action.answers)
+    case ANSWER_REMOVE:
+      // Remove an answer in the state
+      return when(
+        compose(not, equals(action.index), subtract(__, 1), length),
+        remove(action.index, 1)
+      )(state)
+    case ANSWERS_REMOVE_AFTER:
+      // Remove the answers after the index in the state
+      return slice(0, action.index + 1, state)
+    case ANSWERS_CLEAR:
+      return []
+    default:
+      return state
+  }
 }

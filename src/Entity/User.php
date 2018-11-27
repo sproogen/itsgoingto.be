@@ -81,14 +81,12 @@ class User implements UserInterface
      */
     public function extract()
     {
-        $data = [
+        return [
             'id'             => $this->getId(),
             'username'       => $this->getUsername(),
             'created'        => $this->getCreated(),
             'updated'        => $this->getUpdated()
         ];
-
-        return $data;
     }
 
     public function getRoles()

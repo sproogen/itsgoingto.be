@@ -20,7 +20,7 @@ const initialState = {
  *
  * @return {State}         The modified state
  */
-export default function loaderReducer (state = initialState, action) {
+export default function loaderReducer (state = initialState, action = null) {
   switch (action.type) {
     case LOADING_UPDATE:
       return merge(state, { loading: action.loading })

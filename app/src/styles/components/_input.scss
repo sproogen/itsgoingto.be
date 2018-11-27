@@ -106,7 +106,7 @@ textarea {
 
 .input-checkbox:checked + .input-label-options:before {
   content: "\f00c";
-  font-family: 'FontAwesome';
+  font-family: 'FontAwesome', sans-serif;
   color: $base-font-color;
   text-indent: 0px;
 }
@@ -117,7 +117,7 @@ textarea {
 
 .input-radio:checked + .input-label-options:before {
   content: "\f00c";
-  font-family: 'FontAwesome';
+  font-family: 'FontAwesome', sans-serif;
   color: $base-font-color;
 }
 

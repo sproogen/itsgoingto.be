@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import PropTypes from 'prop-types'
 import { prop, compose, contains, when, isNil } from 'ramda'
-import { fetchResponses, fetchPoll, APIError } from 'services/api' // eslint-disable-line
+import { fetchResponses, fetchPoll } from 'services/api'
 import Spinner from 'components/spinner'
 import Answer from '../answer'
 import './answers.scss'

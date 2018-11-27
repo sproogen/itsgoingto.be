@@ -139,7 +139,7 @@ class PollApiController extends BaseApiController implements ApiControllerInterf
     {
         $errors = [];
         $question = isset($data['question']) ? $data['question'] : null;
-        $multipleChoice = isset($data['multipleChoice']) ? $data['multipleChoice'] : false;
+        $multipleChoice = isset($data['multipleChoice']) && $data['multipleChoice'];
         $passphrase = isset($data['passphrase']) ? $data['passphrase'] : '';
         $endDate = isset($data['endDate']) ? $data['endDate'] : null;
         $answers = [];

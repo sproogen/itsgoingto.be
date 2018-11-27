@@ -34,7 +34,7 @@ const initialState = {
  *
  * @return {object}        The modified state
  */
-export default function pollReducer (state = initialState, action) {
+export default function pollReducer (state = initialState, action = null) {
   switch (action.type) {
     case POLL_UPDATE:
     // Insert the poll if it doesn't exist in the state else update the exisitng poll in the state

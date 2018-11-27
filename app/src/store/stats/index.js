@@ -19,11 +19,9 @@ export const initialState = {
  *
  * @return {object}        The modified state
  */
-export default function statsReducer (state = initialState, action) {
-  switch (action.type) {
-    case STATS_UPDATE:
+export default function statsReducer (state = initialState, action = null) {
+  if (action.type === STATS_UPDATE) {
      return action.stats
-    default:
-      return state
   }
+  return state
 }
