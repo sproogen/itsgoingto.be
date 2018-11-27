@@ -47,7 +47,7 @@ abstract class BaseApiController extends Controller
      *
      * @var integer
      */
-    protected $pageSize = 20;
+    protected $defaultPageSize = 20;
 
     /**
      * @param EntityManagerInterface $entityManager
@@ -78,11 +78,10 @@ abstract class BaseApiController extends Controller
      */
     protected function getData(Request $request)
     {
-        $data = (array) json_decode($request->getContent(), true);
-        $data += $request->request->all();
-        $data += $request->query->all();
-
-        return $data;
+        return
+            (array) json_decode($request->getContent(), true)
+            + $request->request->all()
+            + $request->query->all();
     }
 
     /**
@@ -112,7 +111,7 @@ abstract class BaseApiController extends Controller
     {
         $page = isset($parameters['page']) ? ($parameters['page']-1) : 0;
 
-        $pageSize = isset($parameters['pageSize']) ? $parameters['pageSize'] : $this->pageSize;
+        $pageSize = isset($parameters['pageSize']) ? $parameters['pageSize'] : $this->defaultPageSize;
 
         $queryBuilder->setFirstResult($page * $pageSize);
         $queryBuilder->setMaxResults($pageSize);

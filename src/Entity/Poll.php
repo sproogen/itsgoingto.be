@@ -145,14 +145,14 @@ class Poll
             'created'        => $this->getCreated(),
             'updated'        => $this->getUpdated()
         ];
-        $answers = [];
+        $extractedAnswers = [];
         foreach ($this->getAnswers() as $answer) {
-            $answers[] = [
+            $extractedAnswers[] = [
                 'type' => 'Answer',
                 'id'   => $answer->getId()
             ];
         }
-        $data['answers'] = $answers;
+        $data['answers'] = $extractedAnswers;
         $data['responsesCount'] = count($this->getResponses());
         return $data;
     }

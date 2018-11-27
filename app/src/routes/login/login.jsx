@@ -45,10 +45,10 @@ class Login extends React.Component {
     const data = { ...this.state.data, [target.id] : target.value }
 
     this.setState({ data })
-    this.validate(true, data)
+    this.validate(data, true)
   }
 
-  validate = (removeOnly = false, data) => {
+  validate = (data, removeOnly = false) => {
     if (!data) {
       data = this.state.data
     }

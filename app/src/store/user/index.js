@@ -16,11 +16,9 @@ const initialState = {}
  *
  * @return {object}        The modified state
  */
-export default function userReducer(state = initialState, action) {
-  switch (action.type) {
-    case USER_UPDATE:
-      return action.user
-    default:
-      return state
+export default function userReducer(state = initialState, action = null) {
+  if (action.type === USER_UPDATE) {
+    return action.user
   }
+  return state
 }
