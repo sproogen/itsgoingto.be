@@ -2,6 +2,7 @@ import {
   prop, compose, not, isEmpty, contains, without, append, ifElse, both, equals, length, when, path, omit, merge
 } from 'ramda'
 import moment from 'moment'
+import { browserHistory } from 'react-router'
 import { pollSelector } from 'store/poll/selectors'
 import {
   updatePoll, setPolls, setPollCount, setPollPage, updateResponses, updateUserResponses
@@ -59,7 +60,13 @@ export const onError = (error) => {
       error
     })
   }
+
   console.error('There was an error', error) // eslint-disable-line
+
+  if (error.details.status === 401) {
+    browserHistory.push('/login')
+  }
+
   return error
 }
 
