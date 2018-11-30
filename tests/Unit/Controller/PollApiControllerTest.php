@@ -54,7 +54,8 @@ class PollApiControllerTest extends BaseApiControllerTest
                 $this->entityManager->reveal(),
                 $this->authorizationChecker->reveal(),
                 $this->identifierService->reveal(),
-                $this->pollEndService->reveal()
+                $this->pollEndService->reveal(),
+                ''
             ))
             ->setMethods(array('countResults'))
             ->getMock();
@@ -95,11 +96,12 @@ class PollApiControllerTest extends BaseApiControllerTest
         $this->authorizationChecker->isGranted('ROLE_ADMIN')->willReturn(true);
         $this->controller = $this->getMockBuilder(PollApiController::class)
             ->setConstructorArgs(array(
-                    $this->entityManager->reveal(),
-                    $this->authorizationChecker->reveal(),
-                    $this->identifierService->reveal(),
-                    $this->pollEndService->reveal()
-                ))
+                $this->entityManager->reveal(),
+                $this->authorizationChecker->reveal(),
+                $this->identifierService->reveal(),
+                $this->pollEndService->reveal(),
+                ''
+            ))
             ->setMethods(array('countResults'))
             ->getMock();
 

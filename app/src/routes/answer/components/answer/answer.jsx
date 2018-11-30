@@ -12,7 +12,7 @@ export class Answer extends React.Component {
   }
 
   handleClick = () => {
-    const { answer, poll, postResponse, viewOnly } = this.props
+    const { answer, poll, onResponseSelected, viewOnly } = this.props
 
     if (!this.linkClicked) {
       if (!poll.ended && !viewOnly) {
@@ -25,7 +25,7 @@ export class Answer extends React.Component {
           )
         }, 550)
 
-        postResponse(answer.id)
+        onResponseSelected(answer.id)
       }
     } else {
       this.linkClicked = false
@@ -76,14 +76,14 @@ export class Answer extends React.Component {
 }
 
 Answer.propTypes = {
-  index          : PropTypes.number.isRequired,
-  type           : PropTypes.string.isRequired,
-  answer         : PropTypes.object.isRequired,
-  poll           : PropTypes.object.isRequired,
-  totalResponses : PropTypes.number.isRequired,
-  checked        : PropTypes.bool.isRequired,
-  viewOnly       : PropTypes.bool.isRequired,
-  postResponse   : PropTypes.func.isRequired
+  index              : PropTypes.number.isRequired,
+  type               : PropTypes.string.isRequired,
+  answer             : PropTypes.object.isRequired,
+  poll               : PropTypes.object.isRequired,
+  totalResponses     : PropTypes.number.isRequired,
+  checked            : PropTypes.bool.isRequired,
+  viewOnly           : PropTypes.bool.isRequired,
+  onResponseSelected : PropTypes.func.isRequired
 }
 
 export default Answer

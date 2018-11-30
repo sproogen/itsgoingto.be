@@ -79,6 +79,7 @@
     "reselect": "^3.0.1",
     "resolve": "^1.8.1",
     "sass-loader": "^7.0.3",
+    "socket.io-client": "^2.1.1",
     "style-loader": "^0.21.0",
     "url-loader": "^1.0.1",
     "webpack": "3.8.1",
@@ -107,8 +108,7 @@
       "<rootDir>/scripts/",
       "<rootDir>/.storybook/",
       "<rootDir>/stories/",
-      "<rootDir>/node_modules/",
-      "index.js"
+      "<rootDir>/node_modules/"
     ],
     "coverageReporters": [
       "lcov"

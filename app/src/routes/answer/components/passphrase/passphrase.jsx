@@ -3,20 +3,21 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import { mergeAll } from 'ramda'
-import { updatePoll } from 'store/poll'
-import { fetchPoll, APIError } from 'store/api'
-import { setRequiresPassphrase } from 'store/loader'
+import { fetchPoll, APIError } from 'services/api'
+import { updatePoll } from 'store/poll/actions'
+import { setRequiresPassphrase } from 'store/loader/actions'
 import EventBus from 'components/event-bus'
 import Button from 'components/button'
 import './passphrase.scss'
 
 const KEY_ENTER = 13
 
-class Passphrase extends React.Component {
+export class Passphrase extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      error : false
+      error : false,
+      value : '',
     }
   }
 
@@ -25,19 +26,22 @@ class Passphrase extends React.Component {
   }
 
   submit = () =>
-    this.props.setPassphrase(this._passphrase.value)
-      .then(
-        () => this.props.fetchPoll(this.props.identifier)
-          .then((response) => {
-            if (!(response instanceof APIError)) {
-              this.props.setRequiresPassphrase(false)
-            } else {
-              this.setState({
-                error : true
-              })
-            }
-          })
+    this.props.setPassphrase(this.state.value)
+      .then(() => this.props.fetchPoll(this.props.identifier)
+        .then((response) => {
+          if (!(response instanceof APIError)) {
+            this.props.setRequiresPassphrase(false)
+          } else {
+            this.setState({
+              error : true
+            })
+          }
+        })
       )
+
+  handleChange = (e) => {
+    this.setState({ value: e.target.value })
+  }
 
   handleKeyPress = (event) => {
     event = event || window.event
@@ -49,7 +53,7 @@ class Passphrase extends React.Component {
   }
 
   render () {
-    const { error } = this.state
+    const { error, value } = this.state
 
     return (
       <div className='passphrase-container'>
@@ -60,7 +64,8 @@ class Passphrase extends React.Component {
             type='text'
             id='passphrase'
             name='passphrase'
-            ref={(c) => { this._passphrase = c }}
+            value={value}
+            onChange={this.handleChange}
             onKeyDown={this.handleKeyPress} />
           {error &&
             <span className='input-error-label'>

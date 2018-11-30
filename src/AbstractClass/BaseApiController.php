@@ -38,11 +38,16 @@ abstract class BaseApiController extends Controller
     protected $pollEndService;
 
     /**
+     * @var String
+     */
+    protected $projectDir;
+
+    /**
      * Number of entities to return per page.
      *
      * @var integer
      */
-    protected $pageSize = 20;
+    protected $defaultPageSize = 20;
 
     /**
      * @param EntityManagerInterface $entityManager
@@ -54,12 +59,14 @@ abstract class BaseApiController extends Controller
         EntityManagerInterface $em,
         AuthorizationCheckerInterface $authorizationChecker,
         IdentifierService $identifierService,
-        PollEndService $pollEndService
+        PollEndService $pollEndService,
+        $projectDir
     ) {
         $this->em = $em;
         $this->authorizationChecker = $authorizationChecker;
         $this->identifierService = $identifierService;
         $this->pollEndService = $pollEndService;
+        $this->projectDir = $projectDir;
     }
 
     /**
@@ -71,11 +78,10 @@ abstract class BaseApiController extends Controller
      */
     protected function getData(Request $request)
     {
-        $data = (array) json_decode($request->getContent(), true);
-        $data += $request->request->all();
-        $data += $request->query->all();
-
-        return $data;
+        return
+            (array) json_decode($request->getContent(), true)
+            + $request->request->all()
+            + $request->query->all();
     }
 
     /**
@@ -105,7 +111,7 @@ abstract class BaseApiController extends Controller
     {
         $page = isset($parameters['page']) ? ($parameters['page']-1) : 0;
 
-        $pageSize = isset($parameters['pageSize']) ? $parameters['pageSize'] : $this->pageSize;
+        $pageSize = isset($parameters['pageSize']) ? $parameters['pageSize'] : $this->defaultPageSize;
 
         $queryBuilder->setFirstResult($page * $pageSize);
         $queryBuilder->setMaxResults($pageSize);

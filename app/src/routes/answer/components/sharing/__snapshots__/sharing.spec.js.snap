@@ -1,0 +1,44 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`(Route) answer (Component) sharing (Render) matches snapshot 1`] = `
+<div>
+  <h3>
+    <span
+      className="share-link"
+      onClick={[Function]}
+    >
+      localhost/
+    </span>
+    <a
+      className="shareButton twitter"
+      href="https://twitter.com/home?status=This is a question - Answer this poll at http://localhost/"
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      <i
+        className="fa fa-twitter"
+      />
+    </a>
+    <a
+      className="shareButton facebook"
+      href="https://www.facebook.com/sharer/sharer.php?u=http://localhost/"
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      <i
+        className="fa fa-facebook"
+      />
+    </a>
+    <a
+      className="shareButton email"
+      href="mailto:?&subject=This is a question&body=Answer%20this%20poll%20at%20http://localhost/"
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      <i
+        className="fa fa-envelope"
+      />
+    </a>
+  </h3>
+</div>
+`;

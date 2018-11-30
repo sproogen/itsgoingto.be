@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\Process\Process;
 use App\Interfaces\ApiControllerInterface;
 use App\AbstractClass\BaseApiController;
 use App\Entity\Poll;
@@ -149,6 +150,14 @@ class ResponseApiController extends BaseApiController implements ApiControllerIn
             $this->em->flush();
 
             $response = $this->indexResponses($poll, $request);
+
+            $process = new Process([
+              'node',
+              $this->projectDir . '/socket-server/new-responses.js',
+              $poll->getIdentifier(),
+              $response->getContent()
+            ]);
+            $process->run();
         } else {
             $response = new JsonResponse(['errors' => $errors], 400);
         }

@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { compose, equals, length, trim } from 'ramda'
-import { updateAnswer, removeAnswer } from 'store/answers'
+import { updateAnswer, removeAnswer } from 'store/answers/actions'
 import EventBus from 'components/event-bus'
 import './answer.scss'
 

@@ -1,0 +1,325 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`(Route) answer (Component) answer (Render) Poll is ended matches snapshot 1`] = `
+<span
+  className="input input-options"
+>
+  <span
+    className="result-wrapper"
+  >
+    <span
+      className="result"
+      name="answer-1"
+      style={
+        Object {
+          "width": "100%",
+        }
+      }
+    />
+  </span>
+  <input
+    checked={false}
+    className="input-radio input-radio-options"
+    id="answer-1"
+    name="answer"
+    readOnly={true}
+    type="radio"
+    value={1}
+  />
+  <label
+    className="input-label input-label-options input-label-options--hidden"
+    htmlFor="answer-1"
+    onClick={[Function]}
+  >
+    <Linkify
+      className="Linkify"
+      component="a"
+      properties={
+        Object {
+          "onClick": [Function],
+          "target": "_blank",
+        }
+      }
+    >
+      A
+    </Linkify>
+  </label>
+  <span
+    className="input-label-votes"
+    htmlFor="answer-1"
+  >
+    1
+     votes
+  </span>
+</span>
+`;
+
+exports[`(Route) answer (Component) answer (Render) is animating matches snapshot 1`] = `
+<span
+  className="input input-options"
+>
+  <span
+    className="result-wrapper"
+  >
+    <span
+      className="result"
+      name="answer-1"
+      style={
+        Object {
+          "width": "100%",
+        }
+      }
+    />
+  </span>
+  <input
+    checked={false}
+    className="input-radio input-radio-options"
+    id="answer-1"
+    name="answer"
+    readOnly={true}
+    type="radio"
+    value={1}
+  />
+  <label
+    className="input-label input-label-options input-label-options--click"
+    htmlFor="answer-1"
+    onClick={[Function]}
+  >
+    <Linkify
+      className="Linkify"
+      component="a"
+      properties={
+        Object {
+          "onClick": [Function],
+          "target": "_blank",
+        }
+      }
+    >
+      A
+    </Linkify>
+  </label>
+  <span
+    className="input-label-votes"
+    htmlFor="answer-1"
+  >
+    1
+     votes
+  </span>
+</span>
+`;
+
+exports[`(Route) answer (Component) answer (Render) is checked matches snapshot 1`] = `
+<span
+  className="input input-options"
+>
+  <span
+    className="result-wrapper"
+  >
+    <span
+      className="result"
+      name="answer-1"
+      style={
+        Object {
+          "width": "100%",
+        }
+      }
+    />
+  </span>
+  <input
+    checked={true}
+    className="input-radio input-radio-options"
+    id="answer-1"
+    name="answer"
+    readOnly={true}
+    type="radio"
+    value={1}
+  />
+  <label
+    className="input-label input-label-options"
+    htmlFor="answer-1"
+    onClick={[Function]}
+  >
+    <Linkify
+      className="Linkify"
+      component="a"
+      properties={
+        Object {
+          "onClick": [Function],
+          "target": "_blank",
+        }
+      }
+    >
+      A
+    </Linkify>
+  </label>
+  <span
+    className="input-label-votes"
+    htmlFor="answer-1"
+  >
+    1
+     votes
+  </span>
+</span>
+`;
+
+exports[`(Route) answer (Component) answer (Render) is type checkbox matches snapshot 1`] = `
+<span
+  className="input input-options"
+>
+  <span
+    className="result-wrapper"
+  >
+    <span
+      className="result"
+      name="answer-1"
+      style={
+        Object {
+          "width": "100%",
+        }
+      }
+    />
+  </span>
+  <input
+    checked={false}
+    className="input-checkbox input-checkbox-options"
+    id="answer-1"
+    name="answer"
+    readOnly={true}
+    type="checkbox"
+    value={1}
+  />
+  <label
+    className="input-label input-label-options"
+    htmlFor="answer-1"
+    onClick={[Function]}
+  >
+    <Linkify
+      className="Linkify"
+      component="a"
+      properties={
+        Object {
+          "onClick": [Function],
+          "target": "_blank",
+        }
+      }
+    >
+      A
+    </Linkify>
+  </label>
+  <span
+    className="input-label-votes"
+    htmlFor="answer-1"
+  >
+    1
+     votes
+  </span>
+</span>
+`;
+
+exports[`(Route) answer (Component) answer (Render) is type radio matches snapshot 1`] = `
+<span
+  className="input input-options"
+>
+  <span
+    className="result-wrapper"
+  >
+    <span
+      className="result"
+      name="answer-1"
+      style={
+        Object {
+          "width": "100%",
+        }
+      }
+    />
+  </span>
+  <input
+    checked={false}
+    className="input-radio input-radio-options"
+    id="answer-1"
+    name="answer"
+    readOnly={true}
+    type="radio"
+    value={1}
+  />
+  <label
+    className="input-label input-label-options"
+    htmlFor="answer-1"
+    onClick={[Function]}
+  >
+    <Linkify
+      className="Linkify"
+      component="a"
+      properties={
+        Object {
+          "onClick": [Function],
+          "target": "_blank",
+        }
+      }
+    >
+      A
+    </Linkify>
+  </label>
+  <span
+    className="input-label-votes"
+    htmlFor="answer-1"
+  >
+    1
+     votes
+  </span>
+</span>
+`;
+
+exports[`(Route) answer (Component) answer (Render) is view only matches snapshot 1`] = `
+<span
+  className="input input-options"
+>
+  <span
+    className="result-wrapper"
+  >
+    <span
+      className="result"
+      name="answer-1"
+      style={
+        Object {
+          "width": "100%",
+        }
+      }
+    />
+  </span>
+  <input
+    checked={false}
+    className="input-radio input-radio-options"
+    id="answer-1"
+    name="answer"
+    readOnly={true}
+    type="radio"
+    value={1}
+  />
+  <label
+    className="input-label input-label-options input-label-options--hidden"
+    htmlFor="answer-1"
+    onClick={[Function]}
+  >
+    <Linkify
+      className="Linkify"
+      component="a"
+      properties={
+        Object {
+          "onClick": [Function],
+          "target": "_blank",
+        }
+      }
+    >
+      A
+    </Linkify>
+  </label>
+  <span
+    className="input-label-votes"
+    htmlFor="answer-1"
+  >
+    1
+     votes
+  </span>
+</span>
+`;

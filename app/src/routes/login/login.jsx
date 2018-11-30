@@ -4,9 +4,10 @@ import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
 import { withCookies, Cookies } from 'react-cookie'
 import { isEmpty, dissoc, join } from 'ramda'
-import { postLogin, APIError } from 'store/api'
-import { hasUserSelector } from 'store/user'
-import { setLoading } from 'store/loader'
+import { postLogin, APIError } from 'services/api'
+import { hasUserSelector } from 'store/user/selectors'
+import { clearUser } from 'store/user/actions'
+import { setLoading } from 'store/loader/actions'
 import Button from 'components/button'
 import EventBus from 'components/event-bus'
 import Back from 'components/back'
@@ -26,16 +27,15 @@ class Login extends React.Component {
       errors : { },
       loading: false,
     }
-
-    if (props.hasUser) {
-      props.setLoading(true)
-      this.state.loading = true
-      browserHistory.push('/admin')
-    }
   }
 
   componentDidMount = () => {
-    const { setLoading } = this.props
+    const { setLoading, hasUser, clearUser, cookies } = this.props
+
+    if (hasUser) {
+      clearUser()
+      cookies.remove('itsgoingtobeUserToken', { path: '/' })
+    }
 
     setLoading(false)
     this.eventBus = EventBus.getEventBus()
@@ -45,10 +45,10 @@ class Login extends React.Component {
     const data = { ...this.state.data, [target.id] : target.value }
 
     this.setState({ data })
-    this.validate(true, data)
+    this.validate(data, true)
   }
 
-  validate = (removeOnly = false, data) => {
+  validate = (data, removeOnly = false) => {
     if (!data) {
       data = this.state.data
     }
@@ -172,6 +172,7 @@ Login.propTypes = {
   postLogin  : PropTypes.func.isRequired,
   hasUser    : PropTypes.bool.isRequired,
   setLoading : PropTypes.func.isRequired,
+  clearUser : PropTypes.func.isRequired,
   cookies    : PropTypes.instanceOf(Cookies).isRequired,
 }
 
@@ -182,6 +183,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   postLogin  : (username, password) => dispatch(postLogin(username, password)),
   setLoading : (value) => dispatch(setLoading(value)),
+  clearUser  : () => dispatch(clearUser()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(withCookies(Login))

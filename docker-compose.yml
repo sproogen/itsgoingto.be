@@ -21,6 +21,16 @@ services:
     ports:
       - "6006:6006"
 
+  socket-server:
+    build:
+      context: ./socket-server
+      dockerfile: ../docker/socket-server/Dockerfile
+    image: itsgoingtobe/socket-server
+    volumes:
+      - ./socket-server:/socket-server
+    ports:
+      - "8001:8001"
+
   webserver:
     image: nginx:alpine
     depends_on:
@@ -42,9 +52,11 @@ services:
     depends_on:
       - mysql
       - mysql_test
+      - socket-server
     links:
       - mysql
       - mysql_test
+      - socket-server
     volumes:
       - ./:/var/www/html
       - ./docker/php-fpm/php-ini-overrides.ini:/etc/php/7.0/fpm/conf.d/99-overrides.ini
