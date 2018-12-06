@@ -184,7 +184,6 @@ class ResponseApiController extends BaseApiController implements ApiControllerIn
         if ($poll->isMultipleChoice() && $answer !== null) {
             $findOneBy['answer'] = $answer->getId();
         }
-        $userResponse = $responseRepository->findOneBy($findOneBy);
-        return $userResponse;
+        return $responseRepository->findOneBy($findOneBy);
     }
 }
