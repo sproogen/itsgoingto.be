@@ -14,15 +14,21 @@ io
     console.log('User connected with id %s', socket.id)
 
     const identifier = socket.handshake.query.identifier
+    const USERID = socket.handshake.query.USERID
     let fetchResponses
 
     if (identifier) {
       socket.join(identifier)
     }
 
+    if (identifier && USERID) {
+      socket.join(identifier + '/' + USERID)
+    }
+
     socket.on('new-responses', (responses, callback) => {
       console.log('New responses for %s', identifier)
 
+      io.of('/responses').to(identifier + '/' + USERID).emit('own-responses-updated', responses)
       io.of('/responses').to(identifier).emit('responses-updated', responses)
 
       callback(true)

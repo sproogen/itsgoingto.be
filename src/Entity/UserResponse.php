@@ -40,13 +40,6 @@ class UserResponse
     protected $userIP;
 
     /**
-     * The session id of the user for the response.
-     *
-     * @var string
-     */
-    protected $userSessionID;
-
-    /**
      * A custom id for the user for the response.
      *
      * @var string
@@ -170,30 +163,6 @@ class UserResponse
     public function getUserIP()
     {
         return $this->userIP;
-    }
-
-    /**
-     * Set userSessionID
-     *
-     * @param string $userSessionID
-     *
-     * @return UserResponse
-     */
-    public function setUserSessionID($userSessionID)
-    {
-        $this->userSessionID = $userSessionID;
-
-        return $this;
-    }
-
-    /**
-     * Get userSessionID
-     *
-     * @return string
-     */
-    public function getUserSessionID()
-    {
-        return $this->userSessionID;
     }
 
     /**
