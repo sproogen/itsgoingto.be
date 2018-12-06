@@ -142,7 +142,6 @@ class ResponseApiController extends BaseApiController implements ApiControllerIn
                 }
                 $userResponse->setAnswer($answer);
                 $userResponse->setCustomUserID($this->identifierService->getCustomUserID($request));
-                $userResponse->setUserSessionID($this->identifierService->getSessionID($request));
                 $userResponse->setUserIP($request->server->get('REMOTE_ADDR'));
 
                 $this->em->persist($userResponse);
@@ -155,7 +154,8 @@ class ResponseApiController extends BaseApiController implements ApiControllerIn
               'node',
               $this->projectDir . '/socket-server/new-responses.js',
               $poll->getIdentifier(),
-              $response->getContent()
+              $response->getContent(),
+              $this->identifierService->getCustomUserID($request)
             ]);
             $process->run();
         } else {
@@ -184,12 +184,6 @@ class ResponseApiController extends BaseApiController implements ApiControllerIn
         if ($poll->isMultipleChoice() && $answer !== null) {
             $findOneBy['answer'] = $answer->getId();
         }
-        $userResponse = $responseRepository->findOneBy($findOneBy);
-        if (!$userResponse) {
-            unset($findOneBy['customUserID']);
-            $findOneBy['userSessionID'] = $this->identifierService->getSessionID($request);
-            $userResponse = $responseRepository->findOneBy($findOneBy);
-        }
-        return $userResponse;
+        return $responseRepository->findOneBy($findOneBy);
     }
 }

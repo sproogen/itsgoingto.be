@@ -87,6 +87,7 @@ class CreateResponsesCest extends BaseApiCest
     public function returnsResponseAndPersistsResponseTest(\ApiTester $I)
     {
         $I->wantTo('Check call returns responses and persists responses');
+        $I->setCookie('USERID', '823hfso230fdjsn209');
         $I->sendPOST('/polls/he7gis/responses', [
             'answers' => [
                 $this->polls[0]->getAnswers()[1]->getId()
@@ -128,6 +129,7 @@ class CreateResponsesCest extends BaseApiCest
 
     public function returnsResponseAndUpdatesResponseTest(\ApiTester $I)
     {
+        $I->setCookie('USERID', '823hfso230fdjsn209');
         $I->sendPOST('/polls/he7gis/responses', [
             'answers' => [
                 $this->polls[0]->getAnswers()[1]->getId()
@@ -189,6 +191,7 @@ class CreateResponsesCest extends BaseApiCest
         ]);
 
         $I->wantTo('Check call returns responses and persists multiple responses');
+        $I->setCookie('USERID', '823hfso230fdjsn209');
         $I->sendPOST('/polls/h27ngu/responses', [
             'answers' => [
                 $poll->getAnswers()[0]->getId(),
@@ -313,6 +316,7 @@ class CreateResponsesCest extends BaseApiCest
         ]);
 
         $I->wantTo('Check call returns responses and persists responses');
+        $I->setCookie('USERID', '823hfso230fdjsn209');
         $I->sendPOST('/polls/ic8ans/responses', [
             'answers' => [
                 $this->polls[count($this->polls)-1]->getAnswers()[1]->getId()

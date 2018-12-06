@@ -144,14 +144,11 @@ class ResponseApiControllerTest extends BaseApiControllerTest
             ->shouldHaveBeenCalledTimes(1);
         $this->userResponseRepo->findOneBy(array('customUserID' => '9873fdanba8qge9dfsaq39', 'poll' => 2))
             ->shouldHaveBeenCalledTimes(1);
-        $this->userResponseRepo->findOneBy(array('userSessionID' => '12354321897467', 'poll' => 2))
-            ->shouldHaveBeenCalledTimes(1);
 
         $userResponse = new UserResponse();
         $userResponse->setPoll($this->poll->reveal());
         $userResponse->setAnswer($this->answer->reveal());
         $userResponse->setCustomUserID('9873fdanba8qge9dfsaq39');
-        $userResponse->setUserSessionID('12354321897467');
         $userResponse->setUserIP($request->server->get('REMOTE_ADDR'));
         $this->entityManager->persist($userResponse)
             ->shouldHaveBeenCalledTimes(1);
@@ -215,8 +212,6 @@ class ResponseApiControllerTest extends BaseApiControllerTest
             ->shouldHaveBeenCalledTimes(1);
         $this->userResponseRepo->findOneBy(array('customUserID' => '9873fdanba8qge9dfsaq39', 'poll' => 2))
             ->shouldHaveBeenCalledTimes(1);
-        $this->userResponseRepo->findOneBy(array('userSessionID' => '12354321897467', 'poll' => 2))
-            ->shouldHaveBeenCalledTimes(0);
 
         $userResponse->setAnswer($this->answer->reveal())
             ->shouldHaveBeenCalledTimes(1);
@@ -254,7 +249,7 @@ class ResponseApiControllerTest extends BaseApiControllerTest
         $userResponse3->getAnswer()->willReturn($answer3->reveal());
         $this->answerRepository->findOneBy(array('id' => 6, 'poll' => 2))->willReturn($answer2->reveal());
 
-        $this->userResponseRepo->findBy(array('userSessionID' => '12354321897467', 'poll' => 2))
+        $this->userResponseRepo->findBy(array('customUserID' => '9873fdanba8qge9dfsaq39', 'poll' => 2))
             ->willReturn([$userResponse2->reveal(), $userResponse3->reveal()]);
 
         $requestContent = json_encode([
@@ -274,8 +269,6 @@ class ResponseApiControllerTest extends BaseApiControllerTest
 
         $this->userResponseRepo->findBy(array('customUserID' => '9873fdanba8qge9dfsaq39', 'poll' => 2))
             ->shouldHaveBeenCalledTimes(2);
-        $this->userResponseRepo->findBy(array('userSessionID' => '12354321897467', 'poll' => 2))
-            ->shouldHaveBeenCalledTimes(2);
 
         $this->userResponseRepo
             ->findOneBy(array('customUserID' => '9873fdanba8qge9dfsaq39', 'poll' => 2, 'answer' => 5))
@@ -288,7 +281,6 @@ class ResponseApiControllerTest extends BaseApiControllerTest
         $userResponse->setPoll($this->poll->reveal());
         $userResponse->setAnswer($this->answer->reveal());
         $userResponse->setCustomUserID('9873fdanba8qge9dfsaq39');
-        $userResponse->setUserSessionID('12354321897467');
         $userResponse->setUserIP($request->server->get('REMOTE_ADDR'));
         $this->entityManager->persist($userResponse)
             ->shouldHaveBeenCalledTimes(1);
@@ -403,14 +395,11 @@ class ResponseApiControllerTest extends BaseApiControllerTest
             ->shouldHaveBeenCalledTimes(1);
         $this->userResponseRepo->findOneBy(array('customUserID' => '9873fdanba8qge9dfsaq39', 'poll' => 2))
             ->shouldHaveBeenCalledTimes(1);
-        $this->userResponseRepo->findOneBy(array('userSessionID' => '12354321897467', 'poll' => 2))
-            ->shouldHaveBeenCalledTimes(1);
 
         $userResponse = new UserResponse();
         $userResponse->setPoll($this->poll->reveal());
         $userResponse->setAnswer($this->answer->reveal());
         $userResponse->setCustomUserID('9873fdanba8qge9dfsaq39');
-        $userResponse->setUserSessionID('12354321897467');
         $userResponse->setUserIP($request->server->get('REMOTE_ADDR'));
         $this->entityManager->persist($userResponse)
             ->shouldHaveBeenCalledTimes(1);

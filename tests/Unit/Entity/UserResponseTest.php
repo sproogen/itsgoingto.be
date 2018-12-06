@@ -40,12 +40,6 @@ class UserResponseTest extends BaseEntityTest
         self::assertEquals('56.98.62.32', $this->entity->getUserIP());
     }
 
-    public function testGetSetUserSessionID()
-    {
-        $this->entity->setUserSessionID('asdfsdf32r21fsf');
-        self::assertEquals('asdfsdf32r21fsf', $this->entity->getUserSessionID());
-    }
-
     public function testGetSetCustomUserID()
     {
         $this->entity->setCustomUserID('oihjnsd98jiksndf');

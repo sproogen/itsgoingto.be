@@ -230,6 +230,9 @@
             "ref": "c82bead70f9a4f656354a193df7bf0ca2114efa0"
         }
     },
+    "symfony/asset": {
+        "version": "v4.2.1"
+    },
     "symfony/browser-kit": {
         "version": "v4.0.9"
     },

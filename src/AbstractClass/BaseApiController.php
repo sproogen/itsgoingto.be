@@ -146,13 +146,7 @@ abstract class BaseApiController extends Controller
             'poll' => $poll->getId()
         ]);
         if (!$userResponses) {
-            $userResponses = $responseRepository->findBy([
-                'userSessionID' => $this->identifierService->getSessionID($request),
-                'poll' => $poll->getId()
-            ]);
-            if (!$userResponses) {
-                $userResponses = [];
-            }
+            $userResponses = [];
         }
         if ($idsOnly) {
             foreach ($userResponses as &$userResponse) {
