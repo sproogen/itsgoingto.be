@@ -118,6 +118,22 @@ abstract class BaseApiController extends Controller
     }
 
     /**
+     * Applies the sort options to the get query.
+     *
+     * @param QueryBuilder $queryBuilder Query builder.
+     * @param string       $sort         Sort by field.
+     * @param string       $direction    The sort direction (asc|desc).
+     */
+    protected function applySort(QueryBuilder &$queryBuilder, $sort = 'id', $direction = 'asc')
+    {
+        if ($direction !== 'asc' && $direction !== 'desc') {
+          $direction = 'asc';
+        }
+
+        $queryBuilder->orderBy($sort, strtoupper($direction));
+    }
+
+    /**
      * Map function to get entity ids
      *
      * @param $entity

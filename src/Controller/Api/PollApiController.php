@@ -108,10 +108,28 @@ class PollApiController extends BaseApiController implements ApiControllerInterf
         }
 
         $queryBuilder = $this->em->getRepository(Poll::class)
-            ->createQueryBuilder('a')
-            ->where('1 = 1');
+            ->createQueryBuilder('a');
 
         $count = $this->countResults($queryBuilder);
+
+        $sort = isset($parameters['sort']) ? $parameters['sort'] : 'responsesCount';
+        $direction = isset($parameters['sortDirection']) ? $parameters['sortDirection'] : 'asc';
+
+        $availableSortFields = array("id", "identifier", "question", "responsesCount", "created");
+        if (!in_array($sort, $availableSortFields)) {
+          return new JsonResponse(['error' => 'Invalid sort option'], Response::HTTP_BAD_REQUEST);
+        }
+
+        if ($sort === "responsesCount") {
+          $queryBuilder->leftJoin('a.responses', 'b');
+          $queryBuilder->groupBy('a.id');
+          $sort = "COUNT(b.id)";
+        } else {
+          $queryBuilder->where('1 = 1');
+          $sort = "a." . $sort;
+        }
+
+        $this->applySort($queryBuilder, $sort, $direction);
 
         $this->applyPage($queryBuilder, $parameters);
         $polls = $queryBuilder->getQuery()->getResult();
