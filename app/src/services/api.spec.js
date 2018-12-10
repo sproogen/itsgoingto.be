@@ -22,7 +22,7 @@ import { userTokenSelector } from 'store/user/selectors' // eslint-disable-line
 import { updateUser } from 'store/user/actions'
 import { updateStats } from 'store/stats/actions'
 import {
-  updatePoll, updateResponses, updateUserResponses, setPolls, setPollPage, setPollCount
+  updatePoll, updateResponses, updateUserResponses, setPolls, setPollCount
 } from 'store/poll/actions'
 import { POLLS_PER_PAGE } from 'store/poll'
 
@@ -368,11 +368,21 @@ describe('(Store) API', () => {
         return fetchPolls()(_dispatch, _getState).should.eventually.be.fulfilled
       })
 
-      it('Should call fetch with the correct url.', () => {
+      it('Should call fetch with the correct url and default sort props.', () => {
         return fetchPolls(1)(_dispatch, _getState).then(() => {
           expect(window.fetch).toHaveBeenCalledTimes(1)
           expect(window.fetch).toHaveBeenCalledWith(
-            ROUTE_POLL + '?page=1&pageSize=' + POLLS_PER_PAGE,
+            ROUTE_POLL + '?page=1&pageSize=' + POLLS_PER_PAGE + '&sort=id&sortDirection=asc',
+            { credentials: 'same-origin', headers: { Authorization: 'Bearer USERTOKEN' } }
+          )
+        })
+      })
+
+      it('Should call fetch with the correct url and sort props.', () => {
+        return fetchPolls(1, 'identifier', 'desc')(_dispatch, _getState).then(() => {
+          expect(window.fetch).toHaveBeenCalledTimes(1)
+          expect(window.fetch).toHaveBeenCalledWith(
+            ROUTE_POLL + '?page=1&pageSize=' + POLLS_PER_PAGE + '&sort=identifier&sortDirection=desc',
             { credentials: 'same-origin', headers: { Authorization: 'Bearer USERTOKEN' } }
           )
         })
@@ -390,18 +400,6 @@ describe('(Store) API', () => {
           expect(_dispatch).toHaveBeenCalledWith({})
 
           setPolls.mockRestore()
-        })
-      })
-
-      it('Should dispatch setPollPage().', () => {
-        setPollPage.mockImplementation(() => ({}))
-
-        return fetchPolls(1)(_dispatch, _getState).then(() => {
-          expect(setPollPage).toHaveBeenCalledTimes(1)
-          expect(setPollPage).toHaveBeenCalledWith(0)
-          expect(_dispatch).toHaveBeenCalledWith({})
-
-          setPollPage.mockRestore()
         })
       })
 

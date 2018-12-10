@@ -1,0 +1,1041 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`(Route) dashboard (Component) poll table (Render) sort equals created asc should match snapshot 1`] = `
+<div
+  className="panel"
+>
+  <div
+    className="panel-header"
+  >
+    Polls
+  </div>
+  <div
+    className="panel-body"
+  >
+    <div
+      className="spinner-container center-text no-paginator"
+    >
+      <Spinner />
+    </div>
+    <div
+      className="table-container hidden"
+    >
+      <table>
+        <thead>
+          <tr>
+            <Component
+              label="ID"
+              onSort={[Function]}
+              sortDirection={false}
+              style={
+                Object {
+                  "width": "4em",
+                }
+              }
+            />
+            <Component
+              label="Identifier"
+              onSort={[Function]}
+              sortDirection={false}
+              style={
+                Object {
+                  "width": "8em",
+                }
+              }
+            />
+            <Component
+              label="Question"
+              onSort={[Function]}
+              sortDirection={false}
+              style={Object {}}
+            />
+            <Component
+              label="Responses"
+              onSort={[Function]}
+              sortDirection={false}
+              style={
+                Object {
+                  "width": "8em",
+                }
+              }
+            />
+            <Component
+              label="Status"
+              onSort={null}
+              sortDirection={null}
+              style={
+                Object {
+                  "width": "8em",
+                }
+              }
+            />
+            <Component
+              label="Created At"
+              onSort={[Function]}
+              sortDirection="asc"
+              style={
+                Object {
+                  "width": "12em",
+                }
+              }
+            />
+            <Component
+              label="Delete"
+              onSort={null}
+              sortDirection={null}
+              style={
+                Object {
+                  "width": "4em",
+                }
+              }
+            />
+          </tr>
+        </thead>
+        <tbody />
+      </table>
+    </div>
+    <Paginator
+      itemCount={0}
+      itemsPerPage={10}
+      page={0}
+      pageCallback={[Function]}
+    />
+  </div>
+</div>
+`;
+
+exports[`(Route) dashboard (Component) poll table (Render) sort equals created desc should match snapshot 1`] = `
+<div
+  className="panel"
+>
+  <div
+    className="panel-header"
+  >
+    Polls
+  </div>
+  <div
+    className="panel-body"
+  >
+    <div
+      className="spinner-container center-text no-paginator"
+    >
+      <Spinner />
+    </div>
+    <div
+      className="table-container hidden"
+    >
+      <table>
+        <thead>
+          <tr>
+            <Component
+              label="ID"
+              onSort={[Function]}
+              sortDirection={false}
+              style={
+                Object {
+                  "width": "4em",
+                }
+              }
+            />
+            <Component
+              label="Identifier"
+              onSort={[Function]}
+              sortDirection={false}
+              style={
+                Object {
+                  "width": "8em",
+                }
+              }
+            />
+            <Component
+              label="Question"
+              onSort={[Function]}
+              sortDirection={false}
+              style={Object {}}
+            />
+            <Component
+              label="Responses"
+              onSort={[Function]}
+              sortDirection={false}
+              style={
+                Object {
+                  "width": "8em",
+                }
+              }
+            />
+            <Component
+              label="Status"
+              onSort={null}
+              sortDirection={null}
+              style={
+                Object {
+                  "width": "8em",
+                }
+              }
+            />
+            <Component
+              label="Created At"
+              onSort={[Function]}
+              sortDirection="desc"
+              style={
+                Object {
+                  "width": "12em",
+                }
+              }
+            />
+            <Component
+              label="Delete"
+              onSort={null}
+              sortDirection={null}
+              style={
+                Object {
+                  "width": "4em",
+                }
+              }
+            />
+          </tr>
+        </thead>
+        <tbody />
+      </table>
+    </div>
+    <Paginator
+      itemCount={0}
+      itemsPerPage={10}
+      page={0}
+      pageCallback={[Function]}
+    />
+  </div>
+</div>
+`;
+
+exports[`(Route) dashboard (Component) poll table (Render) sort equals id asc should match snapshot 1`] = `
+<div
+  className="panel"
+>
+  <div
+    className="panel-header"
+  >
+    Polls
+  </div>
+  <div
+    className="panel-body"
+  >
+    <div
+      className="spinner-container center-text no-paginator"
+    >
+      <Spinner />
+    </div>
+    <div
+      className="table-container hidden"
+    >
+      <table>
+        <thead>
+          <tr>
+            <Component
+              label="ID"
+              onSort={[Function]}
+              sortDirection="asc"
+              style={
+                Object {
+                  "width": "4em",
+                }
+              }
+            />
+            <Component
+              label="Identifier"
+              onSort={[Function]}
+              sortDirection={false}
+              style={
+                Object {
+                  "width": "8em",
+                }
+              }
+            />
+            <Component
+              label="Question"
+              onSort={[Function]}
+              sortDirection={false}
+              style={Object {}}
+            />
+            <Component
+              label="Responses"
+              onSort={[Function]}
+              sortDirection={false}
+              style={
+                Object {
+                  "width": "8em",
+                }
+              }
+            />
+            <Component
+              label="Status"
+              onSort={null}
+              sortDirection={null}
+              style={
+                Object {
+                  "width": "8em",
+                }
+              }
+            />
+            <Component
+              label="Created At"
+              onSort={[Function]}
+              sortDirection={false}
+              style={
+                Object {
+                  "width": "12em",
+                }
+              }
+            />
+            <Component
+              label="Delete"
+              onSort={null}
+              sortDirection={null}
+              style={
+                Object {
+                  "width": "4em",
+                }
+              }
+            />
+          </tr>
+        </thead>
+        <tbody />
+      </table>
+    </div>
+    <Paginator
+      itemCount={0}
+      itemsPerPage={10}
+      page={0}
+      pageCallback={[Function]}
+    />
+  </div>
+</div>
+`;
+
+exports[`(Route) dashboard (Component) poll table (Render) sort equals id desc should match snapshot 1`] = `
+<div
+  className="panel"
+>
+  <div
+    className="panel-header"
+  >
+    Polls
+  </div>
+  <div
+    className="panel-body"
+  >
+    <div
+      className="spinner-container center-text no-paginator"
+    >
+      <Spinner />
+    </div>
+    <div
+      className="table-container hidden"
+    >
+      <table>
+        <thead>
+          <tr>
+            <Component
+              label="ID"
+              onSort={[Function]}
+              sortDirection="desc"
+              style={
+                Object {
+                  "width": "4em",
+                }
+              }
+            />
+            <Component
+              label="Identifier"
+              onSort={[Function]}
+              sortDirection={false}
+              style={
+                Object {
+                  "width": "8em",
+                }
+              }
+            />
+            <Component
+              label="Question"
+              onSort={[Function]}
+              sortDirection={false}
+              style={Object {}}
+            />
+            <Component
+              label="Responses"
+              onSort={[Function]}
+              sortDirection={false}
+              style={
+                Object {
+                  "width": "8em",
+                }
+              }
+            />
+            <Component
+              label="Status"
+              onSort={null}
+              sortDirection={null}
+              style={
+                Object {
+                  "width": "8em",
+                }
+              }
+            />
+            <Component
+              label="Created At"
+              onSort={[Function]}
+              sortDirection={false}
+              style={
+                Object {
+                  "width": "12em",
+                }
+              }
+            />
+            <Component
+              label="Delete"
+              onSort={null}
+              sortDirection={null}
+              style={
+                Object {
+                  "width": "4em",
+                }
+              }
+            />
+          </tr>
+        </thead>
+        <tbody />
+      </table>
+    </div>
+    <Paginator
+      itemCount={0}
+      itemsPerPage={10}
+      page={0}
+      pageCallback={[Function]}
+    />
+  </div>
+</div>
+`;
+
+exports[`(Route) dashboard (Component) poll table (Render) sort equals identifier asc should match snapshot 1`] = `
+<div
+  className="panel"
+>
+  <div
+    className="panel-header"
+  >
+    Polls
+  </div>
+  <div
+    className="panel-body"
+  >
+    <div
+      className="spinner-container center-text no-paginator"
+    >
+      <Spinner />
+    </div>
+    <div
+      className="table-container hidden"
+    >
+      <table>
+        <thead>
+          <tr>
+            <Component
+              label="ID"
+              onSort={[Function]}
+              sortDirection={false}
+              style={
+                Object {
+                  "width": "4em",
+                }
+              }
+            />
+            <Component
+              label="Identifier"
+              onSort={[Function]}
+              sortDirection="asc"
+              style={
+                Object {
+                  "width": "8em",
+                }
+              }
+            />
+            <Component
+              label="Question"
+              onSort={[Function]}
+              sortDirection={false}
+              style={Object {}}
+            />
+            <Component
+              label="Responses"
+              onSort={[Function]}
+              sortDirection={false}
+              style={
+                Object {
+                  "width": "8em",
+                }
+              }
+            />
+            <Component
+              label="Status"
+              onSort={null}
+              sortDirection={null}
+              style={
+                Object {
+                  "width": "8em",
+                }
+              }
+            />
+            <Component
+              label="Created At"
+              onSort={[Function]}
+              sortDirection={false}
+              style={
+                Object {
+                  "width": "12em",
+                }
+              }
+            />
+            <Component
+              label="Delete"
+              onSort={null}
+              sortDirection={null}
+              style={
+                Object {
+                  "width": "4em",
+                }
+              }
+            />
+          </tr>
+        </thead>
+        <tbody />
+      </table>
+    </div>
+    <Paginator
+      itemCount={0}
+      itemsPerPage={10}
+      page={0}
+      pageCallback={[Function]}
+    />
+  </div>
+</div>
+`;
+
+exports[`(Route) dashboard (Component) poll table (Render) sort equals identifier desc should match snapshot 1`] = `
+<div
+  className="panel"
+>
+  <div
+    className="panel-header"
+  >
+    Polls
+  </div>
+  <div
+    className="panel-body"
+  >
+    <div
+      className="spinner-container center-text no-paginator"
+    >
+      <Spinner />
+    </div>
+    <div
+      className="table-container hidden"
+    >
+      <table>
+        <thead>
+          <tr>
+            <Component
+              label="ID"
+              onSort={[Function]}
+              sortDirection={false}
+              style={
+                Object {
+                  "width": "4em",
+                }
+              }
+            />
+            <Component
+              label="Identifier"
+              onSort={[Function]}
+              sortDirection="desc"
+              style={
+                Object {
+                  "width": "8em",
+                }
+              }
+            />
+            <Component
+              label="Question"
+              onSort={[Function]}
+              sortDirection={false}
+              style={Object {}}
+            />
+            <Component
+              label="Responses"
+              onSort={[Function]}
+              sortDirection={false}
+              style={
+                Object {
+                  "width": "8em",
+                }
+              }
+            />
+            <Component
+              label="Status"
+              onSort={null}
+              sortDirection={null}
+              style={
+                Object {
+                  "width": "8em",
+                }
+              }
+            />
+            <Component
+              label="Created At"
+              onSort={[Function]}
+              sortDirection={false}
+              style={
+                Object {
+                  "width": "12em",
+                }
+              }
+            />
+            <Component
+              label="Delete"
+              onSort={null}
+              sortDirection={null}
+              style={
+                Object {
+                  "width": "4em",
+                }
+              }
+            />
+          </tr>
+        </thead>
+        <tbody />
+      </table>
+    </div>
+    <Paginator
+      itemCount={0}
+      itemsPerPage={10}
+      page={0}
+      pageCallback={[Function]}
+    />
+  </div>
+</div>
+`;
+
+exports[`(Route) dashboard (Component) poll table (Render) sort equals question asc should match snapshot 1`] = `
+<div
+  className="panel"
+>
+  <div
+    className="panel-header"
+  >
+    Polls
+  </div>
+  <div
+    className="panel-body"
+  >
+    <div
+      className="spinner-container center-text no-paginator"
+    >
+      <Spinner />
+    </div>
+    <div
+      className="table-container hidden"
+    >
+      <table>
+        <thead>
+          <tr>
+            <Component
+              label="ID"
+              onSort={[Function]}
+              sortDirection={false}
+              style={
+                Object {
+                  "width": "4em",
+                }
+              }
+            />
+            <Component
+              label="Identifier"
+              onSort={[Function]}
+              sortDirection={false}
+              style={
+                Object {
+                  "width": "8em",
+                }
+              }
+            />
+            <Component
+              label="Question"
+              onSort={[Function]}
+              sortDirection="asc"
+              style={Object {}}
+            />
+            <Component
+              label="Responses"
+              onSort={[Function]}
+              sortDirection={false}
+              style={
+                Object {
+                  "width": "8em",
+                }
+              }
+            />
+            <Component
+              label="Status"
+              onSort={null}
+              sortDirection={null}
+              style={
+                Object {
+                  "width": "8em",
+                }
+              }
+            />
+            <Component
+              label="Created At"
+              onSort={[Function]}
+              sortDirection={false}
+              style={
+                Object {
+                  "width": "12em",
+                }
+              }
+            />
+            <Component
+              label="Delete"
+              onSort={null}
+              sortDirection={null}
+              style={
+                Object {
+                  "width": "4em",
+                }
+              }
+            />
+          </tr>
+        </thead>
+        <tbody />
+      </table>
+    </div>
+    <Paginator
+      itemCount={0}
+      itemsPerPage={10}
+      page={0}
+      pageCallback={[Function]}
+    />
+  </div>
+</div>
+`;
+
+exports[`(Route) dashboard (Component) poll table (Render) sort equals question desc should match snapshot 1`] = `
+<div
+  className="panel"
+>
+  <div
+    className="panel-header"
+  >
+    Polls
+  </div>
+  <div
+    className="panel-body"
+  >
+    <div
+      className="spinner-container center-text no-paginator"
+    >
+      <Spinner />
+    </div>
+    <div
+      className="table-container hidden"
+    >
+      <table>
+        <thead>
+          <tr>
+            <Component
+              label="ID"
+              onSort={[Function]}
+              sortDirection={false}
+              style={
+                Object {
+                  "width": "4em",
+                }
+              }
+            />
+            <Component
+              label="Identifier"
+              onSort={[Function]}
+              sortDirection={false}
+              style={
+                Object {
+                  "width": "8em",
+                }
+              }
+            />
+            <Component
+              label="Question"
+              onSort={[Function]}
+              sortDirection="desc"
+              style={Object {}}
+            />
+            <Component
+              label="Responses"
+              onSort={[Function]}
+              sortDirection={false}
+              style={
+                Object {
+                  "width": "8em",
+                }
+              }
+            />
+            <Component
+              label="Status"
+              onSort={null}
+              sortDirection={null}
+              style={
+                Object {
+                  "width": "8em",
+                }
+              }
+            />
+            <Component
+              label="Created At"
+              onSort={[Function]}
+              sortDirection={false}
+              style={
+                Object {
+                  "width": "12em",
+                }
+              }
+            />
+            <Component
+              label="Delete"
+              onSort={null}
+              sortDirection={null}
+              style={
+                Object {
+                  "width": "4em",
+                }
+              }
+            />
+          </tr>
+        </thead>
+        <tbody />
+      </table>
+    </div>
+    <Paginator
+      itemCount={0}
+      itemsPerPage={10}
+      page={0}
+      pageCallback={[Function]}
+    />
+  </div>
+</div>
+`;
+
+exports[`(Route) dashboard (Component) poll table (Render) sort equals responsesCount asc should match snapshot 1`] = `
+<div
+  className="panel"
+>
+  <div
+    className="panel-header"
+  >
+    Polls
+  </div>
+  <div
+    className="panel-body"
+  >
+    <div
+      className="spinner-container center-text no-paginator"
+    >
+      <Spinner />
+    </div>
+    <div
+      className="table-container hidden"
+    >
+      <table>
+        <thead>
+          <tr>
+            <Component
+              label="ID"
+              onSort={[Function]}
+              sortDirection={false}
+              style={
+                Object {
+                  "width": "4em",
+                }
+              }
+            />
+            <Component
+              label="Identifier"
+              onSort={[Function]}
+              sortDirection={false}
+              style={
+                Object {
+                  "width": "8em",
+                }
+              }
+            />
+            <Component
+              label="Question"
+              onSort={[Function]}
+              sortDirection={false}
+              style={Object {}}
+            />
+            <Component
+              label="Responses"
+              onSort={[Function]}
+              sortDirection="asc"
+              style={
+                Object {
+                  "width": "8em",
+                }
+              }
+            />
+            <Component
+              label="Status"
+              onSort={null}
+              sortDirection={null}
+              style={
+                Object {
+                  "width": "8em",
+                }
+              }
+            />
+            <Component
+              label="Created At"
+              onSort={[Function]}
+              sortDirection={false}
+              style={
+                Object {
+                  "width": "12em",
+                }
+              }
+            />
+            <Component
+              label="Delete"
+              onSort={null}
+              sortDirection={null}
+              style={
+                Object {
+                  "width": "4em",
+                }
+              }
+            />
+          </tr>
+        </thead>
+        <tbody />
+      </table>
+    </div>
+    <Paginator
+      itemCount={0}
+      itemsPerPage={10}
+      page={0}
+      pageCallback={[Function]}
+    />
+  </div>
+</div>
+`;
+
+exports[`(Route) dashboard (Component) poll table (Render) sort equals responsesCount desc should match snapshot 1`] = `
+<div
+  className="panel"
+>
+  <div
+    className="panel-header"
+  >
+    Polls
+  </div>
+  <div
+    className="panel-body"
+  >
+    <div
+      className="spinner-container center-text no-paginator"
+    >
+      <Spinner />
+    </div>
+    <div
+      className="table-container hidden"
+    >
+      <table>
+        <thead>
+          <tr>
+            <Component
+              label="ID"
+              onSort={[Function]}
+              sortDirection={false}
+              style={
+                Object {
+                  "width": "4em",
+                }
+              }
+            />
+            <Component
+              label="Identifier"
+              onSort={[Function]}
+              sortDirection={false}
+              style={
+                Object {
+                  "width": "8em",
+                }
+              }
+            />
+            <Component
+              label="Question"
+              onSort={[Function]}
+              sortDirection={false}
+              style={Object {}}
+            />
+            <Component
+              label="Responses"
+              onSort={[Function]}
+              sortDirection="desc"
+              style={
+                Object {
+                  "width": "8em",
+                }
+              }
+            />
+            <Component
+              label="Status"
+              onSort={null}
+              sortDirection={null}
+              style={
+                Object {
+                  "width": "8em",
+                }
+              }
+            />
+            <Component
+              label="Created At"
+              onSort={[Function]}
+              sortDirection={false}
+              style={
+                Object {
+                  "width": "12em",
+                }
+              }
+            />
+            <Component
+              label="Delete"
+              onSort={null}
+              sortDirection={null}
+              style={
+                Object {
+                  "width": "4em",
+                }
+              }
+            />
+          </tr>
+        </thead>
+        <tbody />
+      </table>
+    </div>
+    <Paginator
+      itemCount={0}
+      itemsPerPage={10}
+      page={0}
+      pageCallback={[Function]}
+    />
+  </div>
+</div>
+`;

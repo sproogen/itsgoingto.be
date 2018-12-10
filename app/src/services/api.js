@@ -163,7 +163,7 @@ export const deletePoll = (identifier) => (dispatch, getState) =>
  *
  * @return {Function}     redux-thunk callable function
  */
-export const fetchPolls = (page, sort = 'id', direction = 'desc') => (dispatch, getState) =>
+export const fetchPolls = (page, sort = 'id', direction = 'asc') => (dispatch, getState) =>
   fetch(
     ROUTE_POLL + '?page=' + page + '&pageSize=' + POLLS_PER_PAGE + '&sort=' + sort + '&sortDirection=' + direction,
     {

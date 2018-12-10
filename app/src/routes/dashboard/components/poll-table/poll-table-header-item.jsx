@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { isNil, equals } from 'ramda'
 
-const PollTableHeaderItem = ({ label, style, onSort, sortDirection }) => {
+export const PollTableHeaderItem = ({ label, style, onSort, sortDirection }) => {
   let sortIcon = null
 
   if (equals('asc', sortDirection)) {
@@ -15,7 +15,7 @@ const PollTableHeaderItem = ({ label, style, onSort, sortDirection }) => {
 
   return (
     <th style={style} className={sortDirection && 'sort-active'}>
-      {!isNil(onSort) ? <a onClick={onSort}>{label} {sortIcon}</a> : <span>{label}</span> }
+      {!isNil(onSort) ? <a onClick={onSort}>{label} {sortIcon}</a> : <span>{label}</span>}
     </th>
   )
 }

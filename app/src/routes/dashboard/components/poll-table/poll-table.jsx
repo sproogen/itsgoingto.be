@@ -15,7 +15,7 @@ import './poll-table.scss'
 
 let fetchPollsPromise
 
-class PollTable extends React.Component {
+export class PollTable extends React.Component {
   constructor (props) {
     super(props)
 
