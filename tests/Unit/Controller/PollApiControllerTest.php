@@ -89,7 +89,7 @@ class PollApiControllerTest extends BaseApiControllerTest
     }
 
     /**
-     * Test that if a GET request is made, a JsonResponse is returned.
+     * Test that the pagination is applied.
      */
     public function testIndexPollsAppliesPagination()
     {
@@ -118,6 +118,72 @@ class PollApiControllerTest extends BaseApiControllerTest
         $this->queryBuilder->setFirstResult(60)
             ->shouldHaveBeenCalledTimes(1);
         $this->queryBuilder->setMaxResults(30)
+            ->shouldHaveBeenCalledTimes(1);
+    }
+
+    /**
+     * Test that 400 is returned for bad sort option.
+     */
+    public function testIndexPollsInvalidSortReturns400()
+    {
+        $this->authorizationChecker->isGranted('ROLE_ADMIN')->willReturn(true);
+        $this->controller = $this->getMockBuilder(PollApiController::class)
+            ->setConstructorArgs(array(
+                $this->entityManager->reveal(),
+                $this->authorizationChecker->reveal(),
+                $this->identifierService->reveal(),
+                $this->pollEndService->reveal(),
+                ''
+            ))
+            ->setMethods(array('countResults'))
+            ->getMock();
+
+        $request = Request::create($this->apiUrl . '?sort=something', Request::METHOD_GET);
+
+        $response = $this->controller->apiAction($request, 0);
+
+        self::assertInstanceOf(JsonResponse::class, $response);
+        self::assertEquals(400, $response->getStatusCode());
+    }
+
+    /**
+     * Test that sorting is applied.
+     */
+    public function testIndexPollsAppliesSort()
+    {
+        $this->authorizationChecker->isGranted('ROLE_ADMIN')->willReturn(true);
+        $this->controller = $this->getMockBuilder(PollApiController::class)
+            ->setConstructorArgs(array(
+                $this->entityManager->reveal(),
+                $this->authorizationChecker->reveal(),
+                $this->identifierService->reveal(),
+                $this->pollEndService->reveal(),
+                ''
+            ))
+            ->setMethods(array('countResults'))
+            ->getMock();
+
+        $request = Request::create($this->apiUrl, Request::METHOD_GET);
+
+        // Default sort options
+        $response = $this->controller->apiAction($request, 0);
+        $this->queryBuilder->orderBy('a.id', 'ASC')
+            ->shouldHaveBeenCalledTimes(1);
+
+        // Custom sort options
+        $request = Request::create($this->apiUrl . '?sort=question&sortDirection=desc', Request::METHOD_GET);
+        $response = $this->controller->apiAction($request, 0);
+        $this->queryBuilder->orderBy('a.question', 'DESC')
+            ->shouldHaveBeenCalledTimes(1);
+
+        // responsesCount sort option
+        $request = Request::create($this->apiUrl . '?sort=responsesCount&sortDirection=desc', Request::METHOD_GET);
+        $response = $this->controller->apiAction($request, 0);
+        $this->queryBuilder->leftJoin('a.responses', 'b')
+            ->shouldHaveBeenCalledTimes(1);
+        $this->queryBuilder->groupBy('a.id')
+            ->shouldHaveBeenCalledTimes(1);
+        $this->queryBuilder->orderBy('COUNT(b.id)', 'DESC')
             ->shouldHaveBeenCalledTimes(1);
     }
 

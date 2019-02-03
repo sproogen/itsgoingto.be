@@ -112,7 +112,7 @@ class PollApiController extends BaseApiController implements ApiControllerInterf
 
         $count = $this->countResults($queryBuilder);
 
-        $sort = isset($parameters['sort']) ? $parameters['sort'] : 'responsesCount';
+        $sort = isset($parameters['sort']) ? $parameters['sort'] : 'id';
         $direction = isset($parameters['sortDirection']) ? $parameters['sortDirection'] : 'asc';
 
         $availableSortFields = array("id", "identifier", "question", "responsesCount", "created");
