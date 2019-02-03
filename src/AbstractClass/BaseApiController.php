@@ -127,7 +127,7 @@ abstract class BaseApiController extends Controller
     protected function applySort(QueryBuilder &$queryBuilder, $sort = 'id', $direction = 'asc')
     {
         if ($direction !== 'asc' && $direction !== 'desc') {
-          $direction = 'asc';
+            $direction = 'asc';
         }
 
         $queryBuilder->orderBy($sort, strtoupper($direction));

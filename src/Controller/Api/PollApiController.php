@@ -117,16 +117,16 @@ class PollApiController extends BaseApiController implements ApiControllerInterf
 
         $availableSortFields = array("id", "identifier", "question", "responsesCount", "created");
         if (!in_array($sort, $availableSortFields)) {
-          return new JsonResponse(['error' => 'Invalid sort option'], Response::HTTP_BAD_REQUEST);
+            return new JsonResponse(['error' => 'Invalid sort option'], Response::HTTP_BAD_REQUEST);
         }
 
         if ($sort === "responsesCount") {
-          $queryBuilder->leftJoin('a.responses', 'b');
-          $queryBuilder->groupBy('a.id');
-          $sort = "COUNT(b.id)";
+            $queryBuilder->leftJoin('a.responses', 'b');
+            $queryBuilder->groupBy('a.id');
+            $sort = "COUNT(b.id)";
         } else {
-          $queryBuilder->where('1 = 1');
-          $sort = "a." . $sort;
+            $queryBuilder->where('1 = 1');
+            $sort = "a." . $sort;
         }
 
         $this->applySort($queryBuilder, $sort, $direction);
