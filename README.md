@@ -4,7 +4,7 @@ Symfony and React magic behind [itsgoingto.be]
 
 The root of this project contains the Symfony app which provides the API.
 
-The React app can be found in the `app` folder. During development this is loaded through a route in symfony to provide the Symfony debug toolbar.  
+The React app can be found in the `app` folder. During development this is loaded through a route in symfony to provide the Symfony debug toolbar.
 In production the app is loaded from compiled files from the public folder via the `.htaccess`
 
 Getting started
@@ -20,7 +20,7 @@ composer install
 docker-compose up
 ```
 
-You will now be able to access the app at `http://localhost:8000` and storybook at `http://localhost:6006`.  
+You will now be able to access the app at `http://localhost:8000` and storybook at `http://localhost:6006`.
 Everytime you make a change to the app or storybook stories the app will automatically rebuild and refresh in the browser.
 
 Running tests
@@ -28,15 +28,15 @@ Running tests
 ###### Client
 To test the React client, run the folowwing from inside the `app` folder.
 
-`npm run lint` to run the js linter.  
-`npm run test` to run all the unit tests using jest.  
+`npm run lint` to run the js linter.
+`npm run test` to run all the unit tests using jest.
 
 ###### API
 To test the Symfony API, from the following from inside the root of the project.
 
-`vendor/bin/phplint src` to run the php linter.  
-`vendor/bin/phpunit` to run the unit tests.  
-`vendor/bin/codecept run` to run the API end-to-end functional tests.  
+`vendor/bin/phplint src` to run the php linter.
+`vendor/bin/phpunit` to run the unit tests.
+`vendor/bin/codecept run` to run the API end-to-end functional tests.
 
 API
 -------------
@@ -66,6 +66,8 @@ GET /api/polls
 | ---- | ---- | ----------- |
 | page | integer | The page to return. Default: 1 |
 | pageSize | integer | The ammount of results to retur per page. Default: 20 |
+| sort | string | The field to sort on. Options: id, identifier, question, responsesCount, created. Default: id |
+| sortDirection | string | The direction to sort. Options: asc, desc. Default: asc |
 ###### Example Response
 ```
 {

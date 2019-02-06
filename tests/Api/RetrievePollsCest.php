@@ -33,12 +33,12 @@ class RetrievePollsCest extends BaseApiCest
     public function returns401ForUnauthorizedUser(\ApiTester $I)
     {
         $I->wantTo('Check call returns 401');
-        $I->sendDelete('/polls');
+        $I->sendGET('/polls');
         $I->seeResponseCodeIs(HttpCode::UNAUTHORIZED);
         $I->seeResponseIsJson();
     }
 
-    public function returnsPollTest(\ApiTester $I)
+    public function returnsPollsTest(\ApiTester $I)
     {
         $user = $this->createUser($I, [
             'username' => 'admin',
@@ -84,7 +84,7 @@ class RetrievePollsCest extends BaseApiCest
         );
     }
 
-    public function returnsPollWithValuesTest(\ApiTester $I)
+    public function returnsPollsWithValuesTest(\ApiTester $I)
     {
         $user = $this->createUser($I, [
             'username' => 'admin',
@@ -217,5 +217,166 @@ class RetrievePollsCest extends BaseApiCest
             ],
             '$.entities[0]'
         );
+    }
+
+    public function returnsSortedPollsTest(\ApiTester $I)
+    {
+        $user = $this->createUser($I, [
+            'username' => 'admin',
+            'password' => 'password123'
+        ]);
+        $token = $this->getTokenForUser($I, $user);
+        $I->amBearerAuthenticated($token);
+
+        $I->wantTo('Check polls are returned with default sort of ID and asc');
+        $I->sendGET('/polls');
+        $I->seeResponseCodeIs(HttpCode::OK);
+        $I->seeResponseIsJson();
+        $I->seeResponseContainsJson([
+            'count' => 2,
+            'total' => 2,
+        ]);
+        $I->seeResponsePathContainsJson(
+            [
+                'id'             => $this->polls[0]->getId(),
+                'identifier'     => 'he7gis',
+                'question'       => 'Test Question 1',
+            ],
+            '$.entities[0]'
+        );
+
+        $I->wantTo('Check polls are returned with default sort of ID and desc');
+        $I->sendGET('/polls', ['sortDirection' => 'desc']);
+        $I->seeResponseCodeIs(HttpCode::OK);
+        $I->seeResponseIsJson();
+        $I->seeResponseContainsJson([
+            'count' => 2,
+            'total' => 2,
+        ]);
+        $I->seeResponsePathContainsJson(
+            [
+                'id'             => $this->polls[1]->getId(),
+                'identifier'     => 'y3k0sn',
+                'question'       => 'Test Question Deleted',
+            ],
+            '$.entities[0]'
+        );
+
+        $I->wantTo('Check polls are returned with sort = identifier and sortDirection = asc');
+        $I->sendGET('/polls', ['sort' => 'identifier', 'sortDirection' => 'asc']);
+        $I->seeResponseCodeIs(HttpCode::OK);
+        $I->seeResponseIsJson();
+        $I->seeResponseContainsJson([
+            'count' => 2,
+            'total' => 2,
+        ]);
+        $I->seeResponsePathContainsJson(
+            [
+                'id'             => $this->polls[0]->getId(),
+                'identifier'     => 'he7gis',
+                'question'       => 'Test Question 1',
+            ],
+            '$.entities[0]'
+        );
+
+        $I->wantTo('Check polls are returned with sort = identifier and sortDirection = desc');
+        $I->sendGET('/polls', ['sort' => 'identifier', 'sortDirection' => 'desc']);
+        $I->seeResponseCodeIs(HttpCode::OK);
+        $I->seeResponseIsJson();
+        $I->seeResponseContainsJson([
+            'count' => 2,
+            'total' => 2,
+        ]);
+        $I->seeResponsePathContainsJson(
+            [
+                'id'             => $this->polls[1]->getId(),
+                'identifier'     => 'y3k0sn',
+                'question'       => 'Test Question Deleted',
+            ],
+            '$.entities[0]'
+        );
+
+        $I->wantTo('Check polls are returned with sort = question and sortDirection = asc');
+        $I->sendGET('/polls', ['sort' => 'question', 'sortDirection' => 'asc']);
+        $I->seeResponseCodeIs(HttpCode::OK);
+        $I->seeResponseIsJson();
+        $I->seeResponseContainsJson([
+            'count' => 2,
+            'total' => 2,
+        ]);
+        $I->seeResponsePathContainsJson(
+            [
+                'id'             => $this->polls[0]->getId(),
+                'identifier'     => 'he7gis',
+                'question'       => 'Test Question 1',
+            ],
+            '$.entities[0]'
+        );
+
+        $I->wantTo('Check polls are returned with sort = question and sortDirection = desc');
+        $I->sendGET('/polls', ['sort' => 'question', 'sortDirection' => 'desc']);
+        $I->seeResponseCodeIs(HttpCode::OK);
+        $I->seeResponseIsJson();
+        $I->seeResponseContainsJson([
+            'count' => 2,
+            'total' => 2,
+        ]);
+        $I->seeResponsePathContainsJson(
+            [
+                'id'             => $this->polls[1]->getId(),
+                'identifier'     => 'y3k0sn',
+                'question'       => 'Test Question Deleted',
+            ],
+            '$.entities[0]'
+        );
+
+        $I->wantTo('Check polls are returned with sort = responsesCount and sortDirection = asc');
+        $I->sendGET('/polls', ['sort' => 'responsesCount', 'sortDirection' => 'asc']);
+        $I->seeResponseCodeIs(HttpCode::OK);
+        $I->seeResponseIsJson();
+        $I->seeResponseContainsJson([
+            'count' => 2,
+            'total' => 2,
+        ]);
+        $I->seeResponsePathContainsJson(
+            [
+                'id'             => $this->polls[1]->getId(),
+                'identifier'     => 'y3k0sn',
+                'question'       => 'Test Question Deleted',
+            ],
+            '$.entities[0]'
+        );
+
+        $I->wantTo('Check polls are returned with sort = responsesCount and sortDirection = desc');
+        $I->sendGET('/polls', ['sort' => 'responsesCount', 'sortDirection' => 'desc']);
+        $I->seeResponseCodeIs(HttpCode::OK);
+        $I->seeResponseIsJson();
+        $I->seeResponseContainsJson([
+            'count' => 2,
+            'total' => 2,
+        ]);
+        $I->seeResponsePathContainsJson(
+            [
+                'id'             => $this->polls[0]->getId(),
+                'identifier'     => 'he7gis',
+                'question'       => 'Test Question 1',
+            ],
+            '$.entities[0]'
+        );
+    }
+
+    public function returns400ForInvalidSortOption(\ApiTester $I)
+    {
+        $user = $this->createUser($I, [
+            'username' => 'admin',
+            'password' => 'password123'
+        ]);
+        $token = $this->getTokenForUser($I, $user);
+        $I->amBearerAuthenticated($token);
+
+        $I->wantTo('Check call returns 400');
+        $I->sendGET('/polls', ['sort' => 'something', 'sortDirection' => 'desc']);
+        $I->seeResponseCodeIs(HttpCode::BAD_REQUEST);
+        $I->seeResponseIsJson();
     }
 }

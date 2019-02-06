@@ -56,8 +56,37 @@
       }
     }
 
-    th, td {
-      text-align: center;
+    th {
+      padding-left: 0.2em;
+      padding-right: 0.2em;
+      position: relative;
+
+      a {
+        color: $base-font-color;
+      }
+
+      i {
+        position: absolute;
+        right: 1.1em;
+        line-height: 1.5em;
+        color: $disabled-label-text-color;
+      }
+
+      &.sort-active:before {
+        content : "";
+        position: absolute;
+        left: 0.2em;
+        right: 1.1em;
+        bottom  : 0;
+        height  : 2px;
+        border-bottom: solid 2px $base-font-color;
+      }
+
+      &.sort-active, &:hover {
+        i {
+          color: $base-font-color;
+        }
+      }
     }
   }
 }

@@ -4,8 +4,8 @@ import { POLL_UPDATE, POLLS_SET, POLL_PAGE_SET, POLL_COUNT_SET, QUESTION_UPDATE 
 // ------------------------------------
 // Constants
 // ------------------------------------
-export const POLLS_PER_PAGE  = 10
-export const initialPoll     = {
+export const POLLS_PER_PAGE = 10
+export const initialPoll    = {
   question       : '',
   identifier     : '',
   multipleChoice : false,
