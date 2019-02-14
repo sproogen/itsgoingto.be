@@ -15,7 +15,7 @@ import './login.scss'
 
 const KEY_ENTER = 13
 
-class Login extends React.Component {
+export class Login extends React.Component {
   constructor (props) {
     super(props)
 
@@ -118,11 +118,11 @@ class Login extends React.Component {
   render () {
     const { data : { username, password }, errors, loading } = this.state
 
-    if (loading) {
+    if (loading) { // TODO: remove?
       return <div />
     }
 
-    join('-', ['1', '2', '3'])
+    join('-', ['1', '2', '3']) // TODO: remove?
 
     return (
       <div>
@@ -172,7 +172,7 @@ Login.propTypes = {
   postLogin  : PropTypes.func.isRequired,
   hasUser    : PropTypes.bool.isRequired,
   setLoading : PropTypes.func.isRequired,
-  clearUser : PropTypes.func.isRequired,
+  clearUser  : PropTypes.func.isRequired,
   cookies    : PropTypes.instanceOf(Cookies).isRequired,
 }
 

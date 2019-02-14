@@ -1,0 +1,72 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`(Route) Login (Render) initial login page matches snapshot 1`] = `
+<div>
+  <Back />
+  <div
+    className="container header-container"
+  >
+    <div
+      className="header center-text"
+    >
+      <h1>
+        Login
+      </h1>
+    </div>
+  </div>
+  <div
+    className="container login-container"
+  >
+    <div
+      className="input input-username"
+    >
+      <label
+        className="input-label input-label-username"
+        htmlFor="question"
+      >
+        Username
+      </label>
+      <input
+        className="input-field input-field-username"
+        id="username"
+        name="username"
+        onChange={[Function]}
+        type="text"
+        value=""
+      />
+      <span
+        className="input-error-label"
+      />
+    </div>
+    <div
+      className="input input-password"
+    >
+      <label
+        className="input-label input-label-password"
+        htmlFor="question"
+      >
+        Password
+      </label>
+      <input
+        className="input-field input-field-password"
+        id="password"
+        name="password"
+        onChange={[Function]}
+        onKeyDown={[Function]}
+        type="password"
+        value=""
+      />
+      <span
+        className="input-error-label"
+      />
+    </div>
+    <Button
+      callback={[Function]}
+      className="pull-right btn--small"
+      disabled={false}
+      submitEvent="login-submit"
+      text="Login"
+    />
+  </div>
+</div>
+`;
