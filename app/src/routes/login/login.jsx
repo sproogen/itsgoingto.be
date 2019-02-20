@@ -24,8 +24,7 @@ export class Login extends React.Component {
         username : '',
         password : '',
       },
-      errors : { },
-      loading: false,
+      errors : {},
     }
   }
 
@@ -116,13 +115,7 @@ export class Login extends React.Component {
   }
 
   render () {
-    const { data : { username, password }, errors, loading } = this.state
-
-    if (loading) { // TODO: remove?
-      return <div />
-    }
-
-    join('-', ['1', '2', '3']) // TODO: remove?
+    const { data : { username, password }, errors } = this.state
 
     return (
       <div>
@@ -159,6 +152,7 @@ export class Login extends React.Component {
           <Button
             className='pull-right btn--small'
             text='Login'
+            id='submit'
             disabled={!isEmpty(errors)}
             callback={this.submit}
             submitEvent='login-submit' />
