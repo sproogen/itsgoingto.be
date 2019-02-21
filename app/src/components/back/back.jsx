@@ -8,6 +8,7 @@ export function Back () {
   }
 
   let abc = 1
+  console.log('hi')
 
   return (
     <div className='container back-container'>
