@@ -7,6 +7,8 @@ export function Back () {
     browserHistory.push('/')
   }
 
+  let abc = 1
+
   return (
     <div className='container back-container'>
       <div className='back-button'>
