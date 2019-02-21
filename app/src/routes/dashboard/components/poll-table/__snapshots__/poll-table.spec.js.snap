@@ -13,12 +13,7 @@ exports[`(Route) dashboard (Component) poll table (Render) sort equals created a
     className="panel-body"
   >
     <div
-      className="spinner-container center-text no-paginator"
-    >
-      <Spinner />
-    </div>
-    <div
-      className="table-container hidden"
+      className="table-container"
     >
       <table>
         <thead>
@@ -117,12 +112,7 @@ exports[`(Route) dashboard (Component) poll table (Render) sort equals created d
     className="panel-body"
   >
     <div
-      className="spinner-container center-text no-paginator"
-    >
-      <Spinner />
-    </div>
-    <div
-      className="table-container hidden"
+      className="table-container"
     >
       <table>
         <thead>
@@ -221,12 +211,7 @@ exports[`(Route) dashboard (Component) poll table (Render) sort equals id asc sh
     className="panel-body"
   >
     <div
-      className="spinner-container center-text no-paginator"
-    >
-      <Spinner />
-    </div>
-    <div
-      className="table-container hidden"
+      className="table-container"
     >
       <table>
         <thead>
@@ -325,12 +310,7 @@ exports[`(Route) dashboard (Component) poll table (Render) sort equals id desc s
     className="panel-body"
   >
     <div
-      className="spinner-container center-text no-paginator"
-    >
-      <Spinner />
-    </div>
-    <div
-      className="table-container hidden"
+      className="table-container"
     >
       <table>
         <thead>
@@ -429,12 +409,7 @@ exports[`(Route) dashboard (Component) poll table (Render) sort equals identifie
     className="panel-body"
   >
     <div
-      className="spinner-container center-text no-paginator"
-    >
-      <Spinner />
-    </div>
-    <div
-      className="table-container hidden"
+      className="table-container"
     >
       <table>
         <thead>
@@ -533,12 +508,7 @@ exports[`(Route) dashboard (Component) poll table (Render) sort equals identifie
     className="panel-body"
   >
     <div
-      className="spinner-container center-text no-paginator"
-    >
-      <Spinner />
-    </div>
-    <div
-      className="table-container hidden"
+      className="table-container"
     >
       <table>
         <thead>
@@ -637,12 +607,7 @@ exports[`(Route) dashboard (Component) poll table (Render) sort equals question 
     className="panel-body"
   >
     <div
-      className="spinner-container center-text no-paginator"
-    >
-      <Spinner />
-    </div>
-    <div
-      className="table-container hidden"
+      className="table-container"
     >
       <table>
         <thead>
@@ -741,12 +706,7 @@ exports[`(Route) dashboard (Component) poll table (Render) sort equals question 
     className="panel-body"
   >
     <div
-      className="spinner-container center-text no-paginator"
-    >
-      <Spinner />
-    </div>
-    <div
-      className="table-container hidden"
+      className="table-container"
     >
       <table>
         <thead>
@@ -845,12 +805,7 @@ exports[`(Route) dashboard (Component) poll table (Render) sort equals responses
     className="panel-body"
   >
     <div
-      className="spinner-container center-text no-paginator"
-    >
-      <Spinner />
-    </div>
-    <div
-      className="table-container hidden"
+      className="table-container"
     >
       <table>
         <thead>
@@ -949,12 +904,7 @@ exports[`(Route) dashboard (Component) poll table (Render) sort equals responses
     className="panel-body"
   >
     <div
-      className="spinner-container center-text no-paginator"
-    >
-      <Spinner />
-    </div>
-    <div
-      className="table-container hidden"
+      className="table-container"
     >
       <table>
         <thead>

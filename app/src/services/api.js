@@ -61,8 +61,6 @@ export const onError = (error) => {
     })
   }
 
-  console.error('There was an error', error) // eslint-disable-line
-
   if (error.details.status === 401) {
     browserHistory.push('/login')
   }
