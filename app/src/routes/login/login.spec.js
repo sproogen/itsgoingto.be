@@ -18,7 +18,7 @@ EventBus.getEventBus = jest.fn(() => eventBus)
 browserHistory.push = jest.fn()
 
 const props = {
-  postLogin: jest.fn(() => Promise.resolve()),
+  postLogin: jest.fn(() => Promise.resolve({ token: 'loginToken' })),
   hasUser: false,
   setLoading: jest.fn(),
   clearUser: jest.fn(),
@@ -123,11 +123,6 @@ describe('(Route) Login', () => {
 
     describe('postLogin success', () => {
       beforeEach(() => {
-        const postLogin = jest.fn(() => Promise.resolve({
-          token: 'loginToken',
-        }))
-
-        wrapper = shallow(<Login {...props} postLogin={postLogin} />)
         wrapper.setState({ data: { username: 'username', password: 'password' } })
       })
 

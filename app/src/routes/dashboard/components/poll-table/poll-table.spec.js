@@ -7,7 +7,7 @@ const props = {
   polls       : [],
   pollCount   : 0,
   page        : 0,
-  fetchPolls  : jest.fn(),
+  fetchPolls  : jest.fn(() => Promise.resolve()),
   setPollPage : jest.fn(),
   deletePoll  : jest.fn(),
 }

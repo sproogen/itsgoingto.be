@@ -1,6 +1,7 @@
 /* global expect */
 import React from 'react'
 import { shallow } from 'enzyme'
+import { Cookies } from 'react-cookie'
 import { Answer } from './answer'
 
 const props = {
@@ -21,7 +22,9 @@ const props = {
   setLoading: jest.fn(),
   setRequiresPassphrase: jest.fn(),
   postResponse: jest.fn(),
-  updateResponses: jest.fn()
+  updateResponses: jest.fn(),
+  updateUserResponses: jest.fn(),
+  cookies: new Cookies(),
 }
 let wrapper
 
@@ -34,7 +37,7 @@ describe('(Route) answer', () => {
     jest.clearAllMocks()
   })
 
-  describe('componentDidMount', () => {
+  describe('(Lifecycle) componentDidMount', () => {
     describe('!hasPoll', () => {
       it('should set loading', () => {
         wrapper = shallow(<Answer {...props} hasPoll={false} />)
