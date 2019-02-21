@@ -53,7 +53,7 @@ script:
   - vendor/bin/phplint src
   - SYMFONY_DEPRECATIONS_HELPER=disabled vendor/bin/simple-phpunit
   - SYMFONY_DEPRECATIONS_HELPER=disabled vendor/bin/codecept run --coverage-xml
-  - (cd app && npm run lint)
+  - (cd app && npm run lint -- -f json -o build/report.json)
   - (cd app && npm run test -- --coverage --ci)
   - ./scripts/update-sonar-version.sh && sonar-scanner
 

@@ -105,17 +105,14 @@ module.exports = {
       // First, run the linter.
       // It's important to do this before Babel processes the JS.
       {
+        enforce: "pre",
         test: /\.(js|jsx|mjs)$/,
-        enforce: 'pre',
-        use: [
-          {
-            options: {
-              formatter: eslintFormatter,
-              eslintPath: require.resolve('eslint'),
-            },
-            loader: require.resolve('eslint-loader'),
-          },
-        ],
+        loader: require.resolve('eslint-loader'),
+        options: {
+          emitWarning: true,
+          formatter: eslintFormatter,
+          eslintPath: require.resolve('eslint'),
+        },
         include: paths.appSrc,
       },
       {
