@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { isNil } from 'ramda'
@@ -6,7 +6,7 @@ import { fetchStats } from 'services/api'
 import { statSelector } from 'store/stats/selectors'
 import './stats.scss'
 
-class Stats extends React.Component {
+export class Stats extends Component {
   componentDidMount = () => {
     const { fetchStats } = this.props
 

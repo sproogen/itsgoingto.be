@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
@@ -8,7 +8,7 @@ import PollTable from './components/poll-table'
 import Stats from './components/stats'
 import './dashboard.scss'
 
-class Dashboard extends React.Component {
+export class Dashboard extends Component {
   componentDidMount = () => this.checkPermissions()
 
   componentDidUpdate = () => this.checkPermissions()

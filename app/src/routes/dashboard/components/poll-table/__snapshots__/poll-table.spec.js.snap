@@ -1,5 +1,200 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`(Route) dashboard (Component) poll table (Render) loading should match snapshot 1`] = `
+<div
+  className="panel"
+>
+  <div
+    className="panel-header"
+  >
+    Polls
+  </div>
+  <div
+    className="panel-body"
+  >
+    <div
+      className="spinner-container center-text"
+    >
+      <Spinner />
+    </div>
+    <div
+      className="table-container hidden"
+    >
+      <table>
+        <thead>
+          <tr>
+            <Component
+              label="ID"
+              onSort={[Function]}
+              sortDirection="desc"
+              style={
+                Object {
+                  "width": "4em",
+                }
+              }
+            />
+            <Component
+              label="Identifier"
+              onSort={[Function]}
+              sortDirection={false}
+              style={
+                Object {
+                  "width": "8em",
+                }
+              }
+            />
+            <Component
+              label="Question"
+              onSort={[Function]}
+              sortDirection={false}
+              style={Object {}}
+            />
+            <Component
+              label="Responses"
+              onSort={[Function]}
+              sortDirection={false}
+              style={
+                Object {
+                  "width": "8em",
+                }
+              }
+            />
+            <Component
+              label="Status"
+              onSort={null}
+              sortDirection={null}
+              style={
+                Object {
+                  "width": "8em",
+                }
+              }
+            />
+            <Component
+              label="Created At"
+              onSort={[Function]}
+              sortDirection={false}
+              style={
+                Object {
+                  "width": "12em",
+                }
+              }
+            />
+            <Component
+              label="Delete"
+              onSort={null}
+              sortDirection={null}
+              style={
+                Object {
+                  "width": "4em",
+                }
+              }
+            />
+          </tr>
+        </thead>
+        <tbody>
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="0"
+            poll={
+              Object {
+                "id": 0,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="1"
+            poll={
+              Object {
+                "id": 1,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="2"
+            poll={
+              Object {
+                "id": 2,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="3"
+            poll={
+              Object {
+                "id": 3,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="4"
+            poll={
+              Object {
+                "id": 4,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="5"
+            poll={
+              Object {
+                "id": 5,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="6"
+            poll={
+              Object {
+                "id": 6,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="7"
+            poll={
+              Object {
+                "id": 7,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="8"
+            poll={
+              Object {
+                "id": 8,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="9"
+            poll={
+              Object {
+                "id": 9,
+              }
+            }
+          />
+        </tbody>
+      </table>
+    </div>
+    <Paginator
+      itemCount={30}
+      itemsPerPage={10}
+      page={0}
+      pageCallback={[Function]}
+    />
+  </div>
+</div>
+`;
+
 exports[`(Route) dashboard (Component) poll table (Render) sort equals created asc should match snapshot 1`] = `
 <div
   className="panel"
@@ -86,11 +281,102 @@ exports[`(Route) dashboard (Component) poll table (Render) sort equals created a
             />
           </tr>
         </thead>
-        <tbody />
+        <tbody>
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="0"
+            poll={
+              Object {
+                "id": 0,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="1"
+            poll={
+              Object {
+                "id": 1,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="2"
+            poll={
+              Object {
+                "id": 2,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="3"
+            poll={
+              Object {
+                "id": 3,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="4"
+            poll={
+              Object {
+                "id": 4,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="5"
+            poll={
+              Object {
+                "id": 5,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="6"
+            poll={
+              Object {
+                "id": 6,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="7"
+            poll={
+              Object {
+                "id": 7,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="8"
+            poll={
+              Object {
+                "id": 8,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="9"
+            poll={
+              Object {
+                "id": 9,
+              }
+            }
+          />
+        </tbody>
       </table>
     </div>
     <Paginator
-      itemCount={0}
+      itemCount={30}
       itemsPerPage={10}
       page={0}
       pageCallback={[Function]}
@@ -185,11 +471,102 @@ exports[`(Route) dashboard (Component) poll table (Render) sort equals created d
             />
           </tr>
         </thead>
-        <tbody />
+        <tbody>
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="0"
+            poll={
+              Object {
+                "id": 0,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="1"
+            poll={
+              Object {
+                "id": 1,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="2"
+            poll={
+              Object {
+                "id": 2,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="3"
+            poll={
+              Object {
+                "id": 3,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="4"
+            poll={
+              Object {
+                "id": 4,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="5"
+            poll={
+              Object {
+                "id": 5,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="6"
+            poll={
+              Object {
+                "id": 6,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="7"
+            poll={
+              Object {
+                "id": 7,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="8"
+            poll={
+              Object {
+                "id": 8,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="9"
+            poll={
+              Object {
+                "id": 9,
+              }
+            }
+          />
+        </tbody>
       </table>
     </div>
     <Paginator
-      itemCount={0}
+      itemCount={30}
       itemsPerPage={10}
       page={0}
       pageCallback={[Function]}
@@ -284,11 +661,102 @@ exports[`(Route) dashboard (Component) poll table (Render) sort equals id asc sh
             />
           </tr>
         </thead>
-        <tbody />
+        <tbody>
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="0"
+            poll={
+              Object {
+                "id": 0,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="1"
+            poll={
+              Object {
+                "id": 1,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="2"
+            poll={
+              Object {
+                "id": 2,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="3"
+            poll={
+              Object {
+                "id": 3,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="4"
+            poll={
+              Object {
+                "id": 4,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="5"
+            poll={
+              Object {
+                "id": 5,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="6"
+            poll={
+              Object {
+                "id": 6,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="7"
+            poll={
+              Object {
+                "id": 7,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="8"
+            poll={
+              Object {
+                "id": 8,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="9"
+            poll={
+              Object {
+                "id": 9,
+              }
+            }
+          />
+        </tbody>
       </table>
     </div>
     <Paginator
-      itemCount={0}
+      itemCount={30}
       itemsPerPage={10}
       page={0}
       pageCallback={[Function]}
@@ -383,11 +851,102 @@ exports[`(Route) dashboard (Component) poll table (Render) sort equals id desc s
             />
           </tr>
         </thead>
-        <tbody />
+        <tbody>
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="0"
+            poll={
+              Object {
+                "id": 0,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="1"
+            poll={
+              Object {
+                "id": 1,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="2"
+            poll={
+              Object {
+                "id": 2,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="3"
+            poll={
+              Object {
+                "id": 3,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="4"
+            poll={
+              Object {
+                "id": 4,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="5"
+            poll={
+              Object {
+                "id": 5,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="6"
+            poll={
+              Object {
+                "id": 6,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="7"
+            poll={
+              Object {
+                "id": 7,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="8"
+            poll={
+              Object {
+                "id": 8,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="9"
+            poll={
+              Object {
+                "id": 9,
+              }
+            }
+          />
+        </tbody>
       </table>
     </div>
     <Paginator
-      itemCount={0}
+      itemCount={30}
       itemsPerPage={10}
       page={0}
       pageCallback={[Function]}
@@ -482,11 +1041,102 @@ exports[`(Route) dashboard (Component) poll table (Render) sort equals identifie
             />
           </tr>
         </thead>
-        <tbody />
+        <tbody>
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="0"
+            poll={
+              Object {
+                "id": 0,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="1"
+            poll={
+              Object {
+                "id": 1,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="2"
+            poll={
+              Object {
+                "id": 2,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="3"
+            poll={
+              Object {
+                "id": 3,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="4"
+            poll={
+              Object {
+                "id": 4,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="5"
+            poll={
+              Object {
+                "id": 5,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="6"
+            poll={
+              Object {
+                "id": 6,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="7"
+            poll={
+              Object {
+                "id": 7,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="8"
+            poll={
+              Object {
+                "id": 8,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="9"
+            poll={
+              Object {
+                "id": 9,
+              }
+            }
+          />
+        </tbody>
       </table>
     </div>
     <Paginator
-      itemCount={0}
+      itemCount={30}
       itemsPerPage={10}
       page={0}
       pageCallback={[Function]}
@@ -581,11 +1231,102 @@ exports[`(Route) dashboard (Component) poll table (Render) sort equals identifie
             />
           </tr>
         </thead>
-        <tbody />
+        <tbody>
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="0"
+            poll={
+              Object {
+                "id": 0,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="1"
+            poll={
+              Object {
+                "id": 1,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="2"
+            poll={
+              Object {
+                "id": 2,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="3"
+            poll={
+              Object {
+                "id": 3,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="4"
+            poll={
+              Object {
+                "id": 4,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="5"
+            poll={
+              Object {
+                "id": 5,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="6"
+            poll={
+              Object {
+                "id": 6,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="7"
+            poll={
+              Object {
+                "id": 7,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="8"
+            poll={
+              Object {
+                "id": 8,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="9"
+            poll={
+              Object {
+                "id": 9,
+              }
+            }
+          />
+        </tbody>
       </table>
     </div>
     <Paginator
-      itemCount={0}
+      itemCount={30}
       itemsPerPage={10}
       page={0}
       pageCallback={[Function]}
@@ -680,11 +1421,102 @@ exports[`(Route) dashboard (Component) poll table (Render) sort equals question 
             />
           </tr>
         </thead>
-        <tbody />
+        <tbody>
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="0"
+            poll={
+              Object {
+                "id": 0,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="1"
+            poll={
+              Object {
+                "id": 1,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="2"
+            poll={
+              Object {
+                "id": 2,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="3"
+            poll={
+              Object {
+                "id": 3,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="4"
+            poll={
+              Object {
+                "id": 4,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="5"
+            poll={
+              Object {
+                "id": 5,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="6"
+            poll={
+              Object {
+                "id": 6,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="7"
+            poll={
+              Object {
+                "id": 7,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="8"
+            poll={
+              Object {
+                "id": 8,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="9"
+            poll={
+              Object {
+                "id": 9,
+              }
+            }
+          />
+        </tbody>
       </table>
     </div>
     <Paginator
-      itemCount={0}
+      itemCount={30}
       itemsPerPage={10}
       page={0}
       pageCallback={[Function]}
@@ -779,11 +1611,102 @@ exports[`(Route) dashboard (Component) poll table (Render) sort equals question 
             />
           </tr>
         </thead>
-        <tbody />
+        <tbody>
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="0"
+            poll={
+              Object {
+                "id": 0,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="1"
+            poll={
+              Object {
+                "id": 1,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="2"
+            poll={
+              Object {
+                "id": 2,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="3"
+            poll={
+              Object {
+                "id": 3,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="4"
+            poll={
+              Object {
+                "id": 4,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="5"
+            poll={
+              Object {
+                "id": 5,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="6"
+            poll={
+              Object {
+                "id": 6,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="7"
+            poll={
+              Object {
+                "id": 7,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="8"
+            poll={
+              Object {
+                "id": 8,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="9"
+            poll={
+              Object {
+                "id": 9,
+              }
+            }
+          />
+        </tbody>
       </table>
     </div>
     <Paginator
-      itemCount={0}
+      itemCount={30}
       itemsPerPage={10}
       page={0}
       pageCallback={[Function]}
@@ -878,11 +1801,102 @@ exports[`(Route) dashboard (Component) poll table (Render) sort equals responses
             />
           </tr>
         </thead>
-        <tbody />
+        <tbody>
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="0"
+            poll={
+              Object {
+                "id": 0,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="1"
+            poll={
+              Object {
+                "id": 1,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="2"
+            poll={
+              Object {
+                "id": 2,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="3"
+            poll={
+              Object {
+                "id": 3,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="4"
+            poll={
+              Object {
+                "id": 4,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="5"
+            poll={
+              Object {
+                "id": 5,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="6"
+            poll={
+              Object {
+                "id": 6,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="7"
+            poll={
+              Object {
+                "id": 7,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="8"
+            poll={
+              Object {
+                "id": 8,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="9"
+            poll={
+              Object {
+                "id": 9,
+              }
+            }
+          />
+        </tbody>
       </table>
     </div>
     <Paginator
-      itemCount={0}
+      itemCount={30}
       itemsPerPage={10}
       page={0}
       pageCallback={[Function]}
@@ -939,6 +1953,341 @@ exports[`(Route) dashboard (Component) poll table (Render) sort equals responses
               label="Responses"
               onSort={[Function]}
               sortDirection="desc"
+              style={
+                Object {
+                  "width": "8em",
+                }
+              }
+            />
+            <Component
+              label="Status"
+              onSort={null}
+              sortDirection={null}
+              style={
+                Object {
+                  "width": "8em",
+                }
+              }
+            />
+            <Component
+              label="Created At"
+              onSort={[Function]}
+              sortDirection={false}
+              style={
+                Object {
+                  "width": "12em",
+                }
+              }
+            />
+            <Component
+              label="Delete"
+              onSort={null}
+              sortDirection={null}
+              style={
+                Object {
+                  "width": "4em",
+                }
+              }
+            />
+          </tr>
+        </thead>
+        <tbody>
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="0"
+            poll={
+              Object {
+                "id": 0,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="1"
+            poll={
+              Object {
+                "id": 1,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="2"
+            poll={
+              Object {
+                "id": 2,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="3"
+            poll={
+              Object {
+                "id": 3,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="4"
+            poll={
+              Object {
+                "id": 4,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="5"
+            poll={
+              Object {
+                "id": 5,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="6"
+            poll={
+              Object {
+                "id": 6,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="7"
+            poll={
+              Object {
+                "id": 7,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="8"
+            poll={
+              Object {
+                "id": 8,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="9"
+            poll={
+              Object {
+                "id": 9,
+              }
+            }
+          />
+        </tbody>
+      </table>
+    </div>
+    <Paginator
+      itemCount={30}
+      itemsPerPage={10}
+      page={0}
+      pageCallback={[Function]}
+    />
+  </div>
+</div>
+`;
+
+exports[`(Route) dashboard (Component) poll table (Render) with less than 1 page polls should match snapshot 1`] = `
+<div
+  className="panel"
+>
+  <div
+    className="panel-header"
+  >
+    Polls
+  </div>
+  <div
+    className="panel-body"
+  >
+    <div
+      className="table-container"
+    >
+      <table>
+        <thead>
+          <tr>
+            <Component
+              label="ID"
+              onSort={[Function]}
+              sortDirection="desc"
+              style={
+                Object {
+                  "width": "4em",
+                }
+              }
+            />
+            <Component
+              label="Identifier"
+              onSort={[Function]}
+              sortDirection={false}
+              style={
+                Object {
+                  "width": "8em",
+                }
+              }
+            />
+            <Component
+              label="Question"
+              onSort={[Function]}
+              sortDirection={false}
+              style={Object {}}
+            />
+            <Component
+              label="Responses"
+              onSort={[Function]}
+              sortDirection={false}
+              style={
+                Object {
+                  "width": "8em",
+                }
+              }
+            />
+            <Component
+              label="Status"
+              onSort={null}
+              sortDirection={null}
+              style={
+                Object {
+                  "width": "8em",
+                }
+              }
+            />
+            <Component
+              label="Created At"
+              onSort={[Function]}
+              sortDirection={false}
+              style={
+                Object {
+                  "width": "12em",
+                }
+              }
+            />
+            <Component
+              label="Delete"
+              onSort={null}
+              sortDirection={null}
+              style={
+                Object {
+                  "width": "4em",
+                }
+              }
+            />
+          </tr>
+        </thead>
+        <tbody>
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="0"
+            poll={
+              Object {
+                "id": 0,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="1"
+            poll={
+              Object {
+                "id": 1,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="2"
+            poll={
+              Object {
+                "id": 2,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="3"
+            poll={
+              Object {
+                "id": 3,
+              }
+            }
+          />
+          <PollTableRow
+            deletePoll={[MockFunction]}
+            key="4"
+            poll={
+              Object {
+                "id": 4,
+              }
+            }
+          />
+        </tbody>
+      </table>
+    </div>
+    <Paginator
+      itemCount={5}
+      itemsPerPage={10}
+      page={0}
+      pageCallback={[Function]}
+    />
+  </div>
+</div>
+`;
+
+exports[`(Route) dashboard (Component) poll table (Render) with no polls should match snapshot 1`] = `
+<div
+  className="panel"
+>
+  <div
+    className="panel-header"
+  >
+    Polls
+  </div>
+  <div
+    className="panel-body"
+  >
+    <div
+      className="table-container"
+    >
+      <table>
+        <thead>
+          <tr>
+            <Component
+              label="ID"
+              onSort={[Function]}
+              sortDirection="desc"
+              style={
+                Object {
+                  "width": "4em",
+                }
+              }
+            />
+            <Component
+              label="Identifier"
+              onSort={[Function]}
+              sortDirection={false}
+              style={
+                Object {
+                  "width": "8em",
+                }
+              }
+            />
+            <Component
+              label="Question"
+              onSort={[Function]}
+              sortDirection={false}
+              style={Object {}}
+            />
+            <Component
+              label="Responses"
+              onSort={[Function]}
+              sortDirection={false}
               style={
                 Object {
                   "width": "8em",

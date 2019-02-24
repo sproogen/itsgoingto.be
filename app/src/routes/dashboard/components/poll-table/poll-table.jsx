@@ -8,9 +8,9 @@ import { pollsSelector, pollCountSelector, pollPageSelector } from 'store/poll/s
 import { setPollPage } from 'store/poll/actions'
 import { POLLS_PER_PAGE } from 'store/poll'
 import Spinner from 'components/spinner'
+import Paginator from 'components/paginator'
 import PollTableRow from './poll-table-row'
 import PollTableHeaderItem from './poll-table-header-item'
-import Paginator from '../paginator'
 import './poll-table.scss'
 
 let fetchPollsPromise
