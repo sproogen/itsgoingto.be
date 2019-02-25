@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`(Route) Login (Render) hasUser false matches snapshot 1`] = `<div />`;
+
+exports[`(Route) Login (Render) hasUser true matches snapshot 1`] = `
+<div>
+  <div
+    className="container info-container"
+  >
+    <Connect(Stats) />
+  </div>
+  <div
+    className="container panel-container"
+  >
+    <Connect(PollTable) />
+  </div>
+</div>
+`;

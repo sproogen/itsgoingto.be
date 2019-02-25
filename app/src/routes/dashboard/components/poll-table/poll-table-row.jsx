@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { browserHistory } from 'react-router'
 import { cond, propEq, always, T } from 'ramda'
 import moment from 'moment'
 
-class PollTableRow extends React.Component {
+export class PollTableRow extends Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -41,7 +41,7 @@ class PollTableRow extends React.Component {
     return (
       <tr>
         <td>{id}</td>
-        <td><a onClick={this.goToPoll(identifier)}>{identifier}</a></td>
+        <td><a id={`identifier-${id}`} onClick={this.goToPoll(identifier)}>{identifier}</a></td>
         <td>{question}</td>
         <td>{responsesCount}</td>
         <td>{this.getStatus(poll)}</td>
@@ -50,7 +50,7 @@ class PollTableRow extends React.Component {
           {!deleted &&
             <span>
               {!deleting &&
-                <a onClick={this.deletePoll(identifier)}>
+                <a id={`delete-${id}`} onClick={this.deletePoll(identifier)}>
                   <i className='fa fa-times' />
                 </a>
               }

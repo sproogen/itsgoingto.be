@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import './paginator.scss'
 
-class Paginator extends React.Component {
+class Paginator extends Component {
   changePage = (page) => () => {
     const { pageCallback } = this.props
 
