@@ -179,6 +179,9 @@ abstract class BaseApiControllerTest extends BaseTest
         $this->queryBuilder->select(Argument::any())->willReturn($this->queryBuilder->reveal());
         $this->queryBuilder->setFirstResult(Argument::any())->willReturn($this->queryBuilder->reveal());
         $this->queryBuilder->setMaxResults(Argument::any())->willReturn($this->queryBuilder->reveal());
+        $this->queryBuilder->leftJoin(Argument::any(), Argument::any())->willReturn($this->queryBuilder->reveal());
+        $this->queryBuilder->groupBy(Argument::any())->willReturn($this->queryBuilder->reveal());
+        $this->queryBuilder->orderBy(Argument::any(), Argument::any())->willReturn($this->queryBuilder->reveal());
 
         $this->query = $this->prophesize(AbstractQuery::class);
         $this->query->getResult()->willReturn([$this->poll->reveal()]);
@@ -207,7 +210,6 @@ abstract class BaseApiControllerTest extends BaseTest
 
         $this->identifierService = $this->prophesize(IdentifierService::class);
         $this->identifierService->getCustomUserID(Argument::any())->willReturn('9873fdanba8qge9dfsaq39');
-        $this->identifierService->getSessionID(Argument::any())->willReturn('12354321897467');
 
         $this->pollEndService = $this->prophesize(PollEndService::class);
         $this->pollEndService->updateIfEnded(Argument::any())->will(function ($args) {

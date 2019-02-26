@@ -14,4 +14,10 @@ modules:
             depends: Symfony
             cleanup: true
         - Helper\Api
+coverage:
+    enabled: true
+    include:
+        - src/*
+    exclude:
+        - src/Migrations/*
 

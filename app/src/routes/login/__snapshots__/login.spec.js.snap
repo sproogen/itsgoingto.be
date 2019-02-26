@@ -1,0 +1,367 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`(Route) Login (Render) initial login page matches snapshot 1`] = `
+<div>
+  <Back />
+  <div
+    className="container header-container"
+  >
+    <div
+      className="header center-text"
+    >
+      <h1>
+        Login
+      </h1>
+    </div>
+  </div>
+  <div
+    className="container login-container"
+  >
+    <div
+      className="input input-username"
+    >
+      <label
+        className="input-label input-label-username"
+        htmlFor="question"
+      >
+        Username
+      </label>
+      <input
+        className="input-field input-field-username"
+        id="username"
+        name="username"
+        onChange={[Function]}
+        type="text"
+        value=""
+      />
+      <span
+        className="input-error-label"
+      />
+    </div>
+    <div
+      className="input input-password"
+    >
+      <label
+        className="input-label input-label-password"
+        htmlFor="question"
+      >
+        Password
+      </label>
+      <input
+        className="input-field input-field-password"
+        id="password"
+        name="password"
+        onChange={[Function]}
+        onKeyDown={[Function]}
+        type="password"
+        value=""
+      />
+      <span
+        className="input-error-label"
+      />
+    </div>
+    <Button
+      callback={[Function]}
+      className="pull-right btn--small"
+      disabled={false}
+      id="submit"
+      submitEvent="login-submit"
+      text="Login"
+    />
+  </div>
+</div>
+`;
+
+exports[`(Route) Login (Render) with api error matches snapshot 1`] = `
+<div>
+  <Back />
+  <div
+    className="container header-container"
+  >
+    <div
+      className="header center-text"
+    >
+      <h1>
+        Login
+      </h1>
+    </div>
+  </div>
+  <div
+    className="container login-container"
+  >
+    <div
+      className="input input-username input-error"
+    >
+      <label
+        className="input-label input-label-username"
+        htmlFor="question"
+      >
+        Username
+      </label>
+      <input
+        className="input-field input-field-username"
+        id="username"
+        name="username"
+        onChange={[Function]}
+        type="text"
+        value=""
+      />
+      <span
+        className="input-error-label"
+      />
+    </div>
+    <div
+      className="input input-password input-error"
+    >
+      <label
+        className="input-label input-label-password"
+        htmlFor="question"
+      >
+        Password
+      </label>
+      <input
+        className="input-field input-field-password"
+        id="password"
+        name="password"
+        onChange={[Function]}
+        onKeyDown={[Function]}
+        type="password"
+        value=""
+      />
+      <span
+        className="input-error-label"
+      >
+        There is an API error
+      </span>
+    </div>
+    <Button
+      callback={[Function]}
+      className="pull-right btn--small"
+      disabled={true}
+      id="submit"
+      submitEvent="login-submit"
+      text="Login"
+    />
+  </div>
+</div>
+`;
+
+exports[`(Route) Login (Render) with data matches snapshot 1`] = `
+<div>
+  <Back />
+  <div
+    className="container header-container"
+  >
+    <div
+      className="header center-text"
+    >
+      <h1>
+        Login
+      </h1>
+    </div>
+  </div>
+  <div
+    className="container login-container"
+  >
+    <div
+      className="input input-username"
+    >
+      <label
+        className="input-label input-label-username"
+        htmlFor="question"
+      >
+        Username
+      </label>
+      <input
+        className="input-field input-field-username"
+        id="username"
+        name="username"
+        onChange={[Function]}
+        type="text"
+        value="username"
+      />
+      <span
+        className="input-error-label"
+      />
+    </div>
+    <div
+      className="input input-password"
+    >
+      <label
+        className="input-label input-label-password"
+        htmlFor="question"
+      >
+        Password
+      </label>
+      <input
+        className="input-field input-field-password"
+        id="password"
+        name="password"
+        onChange={[Function]}
+        onKeyDown={[Function]}
+        type="password"
+        value="password"
+      />
+      <span
+        className="input-error-label"
+      />
+    </div>
+    <Button
+      callback={[Function]}
+      className="pull-right btn--small"
+      disabled={false}
+      id="submit"
+      submitEvent="login-submit"
+      text="Login"
+    />
+  </div>
+</div>
+`;
+
+exports[`(Route) Login (Render) with password error matches snapshot 1`] = `
+<div>
+  <Back />
+  <div
+    className="container header-container"
+  >
+    <div
+      className="header center-text"
+    >
+      <h1>
+        Login
+      </h1>
+    </div>
+  </div>
+  <div
+    className="container login-container"
+  >
+    <div
+      className="input input-username"
+    >
+      <label
+        className="input-label input-label-username"
+        htmlFor="question"
+      >
+        Username
+      </label>
+      <input
+        className="input-field input-field-username"
+        id="username"
+        name="username"
+        onChange={[Function]}
+        type="text"
+        value=""
+      />
+      <span
+        className="input-error-label"
+      />
+    </div>
+    <div
+      className="input input-password"
+    >
+      <label
+        className="input-label input-label-password"
+        htmlFor="question"
+      >
+        Password
+      </label>
+      <input
+        className="input-field input-field-password"
+        id="password"
+        name="password"
+        onChange={[Function]}
+        onKeyDown={[Function]}
+        type="password"
+        value=""
+      />
+      <span
+        className="input-error-label"
+      >
+        There is an error
+      </span>
+    </div>
+    <Button
+      callback={[Function]}
+      className="pull-right btn--small"
+      disabled={true}
+      id="submit"
+      submitEvent="login-submit"
+      text="Login"
+    />
+  </div>
+</div>
+`;
+
+exports[`(Route) Login (Render) with username error matches snapshot 1`] = `
+<div>
+  <Back />
+  <div
+    className="container header-container"
+  >
+    <div
+      className="header center-text"
+    >
+      <h1>
+        Login
+      </h1>
+    </div>
+  </div>
+  <div
+    className="container login-container"
+  >
+    <div
+      className="input input-username input-error"
+    >
+      <label
+        className="input-label input-label-username"
+        htmlFor="question"
+      >
+        Username
+      </label>
+      <input
+        className="input-field input-field-username"
+        id="username"
+        name="username"
+        onChange={[Function]}
+        type="text"
+        value=""
+      />
+      <span
+        className="input-error-label"
+      >
+        There is an error
+      </span>
+    </div>
+    <div
+      className="input input-password input-error"
+    >
+      <label
+        className="input-label input-label-password"
+        htmlFor="question"
+      >
+        Password
+      </label>
+      <input
+        className="input-field input-field-password"
+        id="password"
+        name="password"
+        onChange={[Function]}
+        onKeyDown={[Function]}
+        type="password"
+        value=""
+      />
+      <span
+        className="input-error-label"
+      />
+    </div>
+    <Button
+      callback={[Function]}
+      className="pull-right btn--small"
+      disabled={true}
+      id="submit"
+      submitEvent="login-submit"
+      text="Login"
+    />
+  </div>
+</div>
+`;

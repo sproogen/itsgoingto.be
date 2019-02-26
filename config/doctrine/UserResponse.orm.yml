@@ -11,10 +11,6 @@ App\Entity\UserResponse:
             type: string
             column: user_ip
             length: 100
-        userSessionID:
-            type: string
-            column: user_session_id
-            length: 100
         customUserID:
             type: string
             column: custom_user_id

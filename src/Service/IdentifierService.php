@@ -29,32 +29,6 @@ class IdentifierService
     }
 
     /**
-     * Get the session ID for the user
-     *
-     * @param  Request $request
-     *
-     * @return string Session id
-     */
-    public function getSessionID(Request $request)
-    {
-        $session = $request->getSession();
-
-        if (!$session instanceof Session) {
-            $this->logger->info('Session Not Found');
-            $session = new Session();
-            $session->start();
-        } else {
-            if (!$session->isStarted()) {
-                $this->logger->info('Session Started');
-                $session->start();
-            }
-            $this->logger->info('Session Found = '.$session->getId());
-        }
-        $this->logger->info('Session ID = '.$session->getId());
-        return $session->getId();
-    }
-
-    /**
      * Get or generate a custom user id
      *
      * @param  Request $request
@@ -65,15 +39,6 @@ class IdentifierService
     {
         $userID = $request->cookies->get('USERID');
 
-        if (!$userID) {
-            $this->logger->info('Custom User ID Not Found');
-
-            $userID = bin2hex(openssl_random_pseudo_bytes(32));
-            $cookie = new Cookie('USERID', $userID, time() + 315360000);
-            $response = new Response();
-            $response->headers->setCookie($cookie);
-            $response->sendHeaders();
-        }
         $this->logger->info('Custom User ID = '.$userID);
         return $userID;
     }

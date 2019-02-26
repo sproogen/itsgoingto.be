@@ -5,7 +5,7 @@ import moment from 'moment'
 import { browserHistory } from 'react-router'
 import { pollSelector } from 'store/poll/selectors'
 import {
-  updatePoll, setPolls, setPollCount, setPollPage, updateResponses, updateUserResponses
+  updatePoll, setPolls, setPollCount, updateResponses, updateUserResponses
 } from 'store/poll/actions'
 import { POLLS_PER_PAGE } from 'store/poll'
 import { answersSelector } from 'store/answers/selectors'
@@ -60,8 +60,6 @@ export const onError = (error) => {
       error
     })
   }
-
-  console.error('There was an error', error) // eslint-disable-line
 
   if (error.details.status === 401) {
     browserHistory.push('/login')
@@ -163,17 +161,19 @@ export const deletePoll = (identifier) => (dispatch, getState) =>
  *
  * @return {Function}     redux-thunk callable function
  */
-export const fetchPolls = (page) => (dispatch, getState) =>
-  fetch(ROUTE_POLL + '?page=' + page + '&pageSize=' + POLLS_PER_PAGE, {
-    credentials : 'same-origin',
-    headers: {
-      'Authorization': 'Bearer ' + userTokenSelector(getState()),
+export const fetchPolls = (page, sort = 'id', direction = 'asc') => (dispatch, getState) =>
+  fetch(
+    ROUTE_POLL + '?page=' + page + '&pageSize=' + POLLS_PER_PAGE + '&sort=' + sort + '&sortDirection=' + direction,
+    {
+      credentials : 'same-origin',
+      headers: {
+        'Authorization': 'Bearer ' + userTokenSelector(getState()),
+      }
     }
-  })
+  )
     .then(extractResponse)
     .then((response) => Promise.all([
       dispatch(setPolls(prop('entities', response))),
-      dispatch(setPollPage(page - 1)),
       dispatch(setPollCount(prop('total', response)))
     ]))
     .catch(onError)

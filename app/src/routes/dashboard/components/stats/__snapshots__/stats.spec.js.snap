@@ -1,0 +1,87 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`(Route) dashoard (Component) stats (Render) with no stats matches snapshot 1`] = `
+<div
+  className="info"
+>
+  <div
+    className="info-block-column"
+  >
+    <div
+      className="info-block"
+    >
+      <div
+        className="info-header"
+      >
+        Total Polls
+      </div>
+      <div
+        className="info-body"
+      >
+        -
+      </div>
+    </div>
+  </div>
+  <div
+    className="info-block-column"
+  >
+    <div
+      className="info-block"
+    >
+      <div
+        className="info-header"
+      >
+        Total Responses
+      </div>
+      <div
+        className="info-body"
+      >
+        -
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`(Route) dashoard (Component) stats (Render) with stats matches snapshot 1`] = `
+<div
+  className="info"
+>
+  <div
+    className="info-block-column"
+  >
+    <div
+      className="info-block"
+    >
+      <div
+        className="info-header"
+      >
+        Total Polls
+      </div>
+      <div
+        className="info-body"
+      >
+        15
+      </div>
+    </div>
+  </div>
+  <div
+    className="info-block-column"
+  >
+    <div
+      className="info-block"
+    >
+      <div
+        className="info-header"
+      >
+        Total Responses
+      </div>
+      <div
+        className="info-body"
+      >
+        39
+      </div>
+    </div>
+  </div>
+</div>
+`;

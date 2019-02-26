@@ -106,12 +106,10 @@ abstract class BaseApiCest
                     'responses' => [
                         [
                             'userIP'        => '198.0.1.66',
-                            'userSessionID' => 'jf0983ryasjd98hud',
                             'customUserID'  => 'jd7s6jhd78'
                         ],
                         [
                             'userIP'        => '198.0.1.62',
-                            'userSessionID' => 'ft65gd43sdgjasdrhg',
                             'customUserID'  => 'syj5bdj64f'
                         ],
                     ],

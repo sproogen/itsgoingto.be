@@ -115,6 +115,7 @@ class RetrieveResponsesCest extends BaseApiCest
 
     public function returnsUsersResponsesWithValues(\ApiTester $I)
     {
+        $I->setCookie('USERID', '823hfso230fdjsn209');
         $I->sendPOST('/polls/he7gis/responses', [
             'answers' => [
                 $this->polls[0]->getAnswers()[1]->getId()

@@ -36,6 +36,8 @@ branches:
 before_install:
   - rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm install $NODE_VERSION && nvm install-latest-npm
   - ./scripts/bump-version.sh
+  - git fetch origin +refs/heads/*:refs/remotes/origin/*
+  - git fetch --unshallow
 
 install:
   - composer install
@@ -50,8 +52,8 @@ script:
   - vendor/bin/phpcs --standard=PSR2 --ignore=Migrations src/
   - vendor/bin/phplint src
   - SYMFONY_DEPRECATIONS_HELPER=disabled vendor/bin/simple-phpunit
-  - SYMFONY_DEPRECATIONS_HELPER=disabled vendor/bin/codecept run
-  - (cd app && npm run lint)
+  - SYMFONY_DEPRECATIONS_HELPER=disabled vendor/bin/codecept run --coverage-xml
+  - (cd app && npm run lint -- -f json -o build/report.json)
   - (cd app && npm run test -- --coverage --ci)
   - ./scripts/update-sonar-version.sh && sonar-scanner
 

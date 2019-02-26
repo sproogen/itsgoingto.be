@@ -6,10 +6,11 @@ import Helmet from 'react-helmet'
 import Linkify from 'react-linkify'
 import Countdown from 'react-countdown-now'
 import { browserHistory } from 'react-router'
+import { withCookies, Cookies } from 'react-cookie'
 import io from 'socket.io-client'
 import { fetchPoll, postResponse, APIError } from 'services/api'
 import { pollSelector, hasQuestionSelector, totalResponsesSelector, userRespondedSelector } from 'store/poll/selectors'
-import { updateResponses } from 'store/poll/actions'
+import { updateResponses, updateUserResponses } from 'store/poll/actions'
 import { answersSelector } from 'store/answers/selectors'
 import { clearAnswers } from 'store/answers/actions'
 import { requiresPassphraseSelector } from 'store/loader/selectors'
@@ -42,12 +43,23 @@ export class Answer extends React.Component {
   }
 
   componentDidUpdate = () => {
-    const { hasPoll, poll, identifier, updateResponses } = this.props
+    const { hasPoll, poll, identifier, updateResponses, updateUserResponses, cookies } = this.props
 
     if (hasPoll && !this.socket && !poll.ended) {
-      this.socket = io(`/responses?identifier=${identifier}`)
+
+      let userID = cookies.get('USERID')
+
+      if (!userID) {
+        userID = [...Array(20)].map(() => (Math.random() * 36 | 0).toString(36)).join``
+        cookies.set('USERID', userID, { path: '/' })
+      }
+
+      this.socket = io(`/responses?identifier=${identifier}&USERID=${userID}`)
       this.socket.on('responses-updated', (responses) => {
         updateResponses(JSON.parse(responses))
+      })
+      this.socket.on('own-responses-updated', (responses) => {
+        updateUserResponses(JSON.parse(responses))
       })
     }
   }
@@ -158,7 +170,9 @@ Answer.propTypes = {
   setLoading            : PropTypes.func.isRequired,
   setRequiresPassphrase : PropTypes.func.isRequired,
   postResponse          : PropTypes.func.isRequired,
-  updateResponses       : PropTypes.func.isRequired
+  updateResponses       : PropTypes.func.isRequired,
+  updateUserResponses   : PropTypes.func.isRequired,
+  cookies               : PropTypes.instanceOf(Cookies).isRequired,
 }
 
 Answer.defaultProps = {
@@ -181,9 +195,10 @@ const mapDispatchToProps = (dispatch, props) => ({
   setLoading            : (value) => dispatch(setLoading(value)),
   setRequiresPassphrase : (value) => dispatch(setRequiresPassphrase(value)),
   postResponse          : (id) => dispatch(postResponse(id, props.params.identifier)),
-  updateResponses       : (responses) => dispatch(updateResponses(responses, props.params.identifier))
+  updateResponses       : (responses) => dispatch(updateResponses(responses, props.params.identifier)),
+  updateUserResponses   : (responses) => dispatch(updateUserResponses(responses, props.params.identifier))
 })
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => mergeAll([stateProps, dispatchProps, ownProps.params])
 
-export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(Answer)
+export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(withCookies(Answer))

@@ -15,7 +15,7 @@ import './login.scss'
 
 const KEY_ENTER = 13
 
-class Login extends React.Component {
+export class Login extends React.Component {
   constructor (props) {
     super(props)
 
@@ -24,8 +24,7 @@ class Login extends React.Component {
         username : '',
         password : '',
       },
-      errors : { },
-      loading: false,
+      errors : {},
     }
   }
 
@@ -116,13 +115,7 @@ class Login extends React.Component {
   }
 
   render () {
-    const { data : { username, password }, errors, loading } = this.state
-
-    if (loading) {
-      return <div />
-    }
-
-    join('-', ['1', '2', '3'])
+    const { data : { username, password }, errors } = this.state
 
     return (
       <div>
@@ -159,6 +152,7 @@ class Login extends React.Component {
           <Button
             className='pull-right btn--small'
             text='Login'
+            id='submit'
             disabled={!isEmpty(errors)}
             callback={this.submit}
             submitEvent='login-submit' />
@@ -172,7 +166,7 @@ Login.propTypes = {
   postLogin  : PropTypes.func.isRequired,
   hasUser    : PropTypes.bool.isRequired,
   setLoading : PropTypes.func.isRequired,
-  clearUser : PropTypes.func.isRequired,
+  clearUser  : PropTypes.func.isRequired,
   cookies    : PropTypes.instanceOf(Cookies).isRequired,
 }
 

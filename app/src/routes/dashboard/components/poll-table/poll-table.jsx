@@ -1,33 +1,36 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { equals } from 'ramda'
 import CancelablePromise from 'cancelable-promise'
 import { fetchPolls, deletePoll } from 'services/api'
 import { pollsSelector, pollCountSelector, pollPageSelector } from 'store/poll/selectors'
+import { setPollPage } from 'store/poll/actions'
 import { POLLS_PER_PAGE } from 'store/poll'
 import Spinner from 'components/spinner'
+import Paginator from 'components/paginator'
 import PollTableRow from './poll-table-row'
-import Paginator from '../paginator'
+import PollTableHeaderItem from './poll-table-header-item'
 import './poll-table.scss'
 
 let fetchPollsPromise
 
-class PollTable extends React.Component {
+export class PollTable extends React.Component {
   constructor (props) {
     super(props)
 
-    const { pollPage, pollCount } = props
+    const { pollCount } = props
 
     // TODO : Store ID's of polls for the page in a dashboard store
-    // Also store the page number in the dashboard store
     this.state = {
-      page    : pollPage,
-      loading : pollCount === 0
+      loading       : pollCount === 0,
+      sort          : 'id',
+      sortDirection : 'desc',
     }
   }
 
   componentDidMount = () => {
-    const { page } = this.state
+    const { page } = this.props
 
     this.fetchPollsForPage(page)
   }
@@ -37,10 +40,12 @@ class PollTable extends React.Component {
   }
 
   fetchPollsForPage = (page) => {
-    const { fetchPolls } = this.props
+    const { sort, sortDirection } = this.state
+    const { fetchPolls, setPollPage } = this.props
 
+    setPollPage(page)
     fetchPollsPromise = new CancelablePromise(
-      (resolve) => fetchPolls(page + 1).then(resolve)
+      (resolve) => fetchPolls(page + 1, sort, sortDirection).then(resolve)
     )
     fetchPollsPromise.then(() => {
       this.setState({ loading : false })
@@ -49,12 +54,24 @@ class PollTable extends React.Component {
 
   changePage = (page) => {
     fetchPollsPromise.cancel()
-    this.setState({ page, loading : true }, () => this.fetchPollsForPage(page))
+    this.setState({ loading : true }, () => this.fetchPollsForPage(page))
+  }
+
+  changeSort = (newSort) => {
+    const { page } = this.props
+
+    this.setState(({ sort, sortDirection }) => (
+      {
+        sort: newSort,
+        sortDirection: equals(sort, newSort) && equals('asc', sortDirection) ? 'desc' : 'asc',
+        loading: true,
+      }
+    ), () => this.fetchPollsForPage(page))
   }
 
   render () {
-    const { loading, page } = this.state
-    const { polls, pollCount, deletePoll } = this.props
+    const { loading, sort, sortDirection } = this.state
+    const { polls, pollCount, deletePoll, page } = this.props
     const hasPaginator = Math.ceil(pollCount / POLLS_PER_PAGE) > 1
 
     return (
@@ -72,13 +89,42 @@ class PollTable extends React.Component {
             <table>
               <thead>
                 <tr>
-                  <th style={{ width: '4em' }}>ID</th>
-                  <th style={{ width: '8em' }}>Identifier</th>
-                  <th>Question</th>
-                  <th style={{ width: '8em' }}>Responses</th>
-                  <th style={{ width: '8em' }}>Status</th>
-                  <th style={{ width: '12em' }}>Created At</th>
-                  <th style={{ width: '4em' }}>Delete</th>
+                  <PollTableHeaderItem
+                    label='ID'
+                    style={{ width: '4em' }}
+                    onSort={() => this.changeSort('id')}
+                    sortDirection={equals('id', sort) && sortDirection}
+                  />
+                  <PollTableHeaderItem
+                    label='Identifier'
+                    style={{ width: '8em' }}
+                    onSort={() => this.changeSort('identifier')}
+                    sortDirection={equals('identifier', sort) && sortDirection}
+                  />
+                  <PollTableHeaderItem
+                    label='Question'
+                    onSort={() => this.changeSort('question')}
+                    sortDirection={equals('question', sort) && sortDirection}
+                  />
+                  <PollTableHeaderItem
+                    label='Responses'
+                    style={{ width: '8em' }}
+                    onSort={() => this.changeSort('responsesCount')}
+                    sortDirection={equals('responsesCount', sort) && sortDirection}
+                  />
+                  <PollTableHeaderItem
+                    label='Status'
+                    style={{ width: '8em' }} />
+                  <PollTableHeaderItem
+                    label='Created At'
+                    style={{ width: '12em' }}
+                    onSort={() => this.changeSort('created')}
+                    sortDirection={equals('created', sort) && sortDirection}
+                  />
+                  <PollTableHeaderItem
+                    label='Delete'
+                    style={{ width: '4em' }}
+                  />
                 </tr>
               </thead>
               <tbody>
@@ -103,22 +149,24 @@ class PollTable extends React.Component {
 }
 
 PollTable.propTypes = {
-  polls      : PropTypes.array.isRequired,
-  pollCount  : PropTypes.number.isRequired,
-  pollPage   : PropTypes.number.isRequired,
-  fetchPolls : PropTypes.func.isRequired,
-  deletePoll : PropTypes.func.isRequired,
+  polls       : PropTypes.array.isRequired,
+  pollCount   : PropTypes.number.isRequired,
+  page        : PropTypes.number.isRequired,
+  fetchPolls  : PropTypes.func.isRequired,
+  setPollPage : PropTypes.func.isRequired,
+  deletePoll  : PropTypes.func.isRequired,
 }
 
 const mapStateToProps = (state) => ({
   polls     : pollsSelector(state, true),
   pollCount : pollCountSelector(state),
-  pollPage  : pollPageSelector(state)
+  page      : pollPageSelector(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchPolls : (page) => dispatch(fetchPolls(page)),
-  deletePoll : (identifier) => dispatch(deletePoll(identifier))
+  fetchPolls  : (page, sort, sortDirection) => dispatch(fetchPolls(page, sort, sortDirection)),
+  setPollPage : (page) => dispatch(setPollPage(page)),
+  deletePoll  : (identifier) => dispatch(deletePoll(identifier))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(PollTable)
