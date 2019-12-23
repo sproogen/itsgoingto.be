@@ -1,9 +1,14 @@
 {
   "name": "itsgoingtobe-server",
   "version": "0.0.1",
+  "engines": {
+    "node": ">=10.0.0"
+  },
+  "main": "app.js",
   "scripts": {
     "build": "",
-    "start": "nodemon --exec babel-node app.js"
+    "start": "nodemon --exec babel-node app.js",
+    "test": "eslint ."
   },
   "dependencies": {
     "express": "^4.17.1",
@@ -14,6 +19,9 @@
     "@babel/core": "^7.7.7",
     "@babel/node": "^7.7.7",
     "@babel/preset-env": "^7.7.7",
+    "eslint": "^6.1.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.19.1",
     "nodemon": "^2.0.2"
   }
 }

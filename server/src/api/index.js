@@ -1,5 +1,4 @@
 import express from 'express'
-import sequelize from '../db'
 import { getPoll } from './controllers'
 
 const api = express()

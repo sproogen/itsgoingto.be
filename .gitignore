@@ -53,5 +53,6 @@ webpack-stats.json
 ###< symfony/framework-bundle ###
 
 *.code-workspace
+.vscode/
 
 dist
