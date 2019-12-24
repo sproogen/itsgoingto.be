@@ -1,3 +1,4 @@
+import { isNil } from 'ramda'
 import { Model, DataTypes } from 'sequelize'
 
 const poll = (sequelize) => {
@@ -45,6 +46,15 @@ const poll = (sequelize) => {
     updatedAt: 'updated',
     freezeTableName: true,
     sequelize
+  })
+  Poll.addHook('beforeValidate', async (model) => {
+    while (isNil(model.identifier)) {
+      const identifier = Math.round((36 ** 9) - Math.random() * (36 ** 8)).toString(36).slice(1)
+      const existingPoll = await Poll.findOne({ where: { identifier } }) // eslint-disable-line no-await-in-loop
+      if (isNil(existingPoll)) {
+        model.identifier = identifier // eslint-disable-line no-param-reassign
+      }
+    }
   })
   return Poll
 }

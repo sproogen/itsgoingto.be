@@ -41,11 +41,14 @@ Response.belongsTo(Answer, { foreignKey: 'answer_id' })
 if (process.env.NODE_ENV !== 'production') {
   sequelize.sync({ force: true })
     .then(() => Poll.create({
-      identifier: 'v90034d6',
+      identifier: 'aaaaaaaa',
       question: 'This is a question?'
     }))
+    .then(() => Poll.create({
+      question: 'This is another question?'
+    }))
     .then(() => {
-      console.log(`Database & tables created!`)
+      console.log('Database & tables created!')
     })
 }
 

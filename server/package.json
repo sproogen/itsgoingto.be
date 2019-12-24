@@ -13,6 +13,7 @@
   "dependencies": {
     "express": "^4.17.1",
     "mysql2": "^2.0.2",
+    "ramda": "^0.26.1",
     "sequelize": "^5.21.3"
   },
   "devDependencies": {
