@@ -56,6 +56,16 @@ const poll = (sequelize) => {
       }
     }
   })
+  Poll.addHook('afterFind', async (model) => {
+    if (
+      !isNil(model)
+      && !isNil(model.endDate)
+      && model.ended === false
+      && new Date(model.endDate).getTime() <= new Date().getTime()
+    ) {
+      await model.update({ ended: true })
+    }
+  })
   return Poll
 }
 

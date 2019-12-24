@@ -1,5 +1,5 @@
 import express from 'express'
-import { getPoll } from './controllers'
+import { getPolls, getPoll, deletePoll } from './controllers'
 
 const api = express()
 
@@ -11,6 +11,8 @@ api.get('/', (req, res) => {
   })
 })
 
+api.get('/polls', getPolls)
 api.get('/polls/:identifier', getPoll)
+api.delete('/polls/:identifier', deletePoll)
 
 export default api
