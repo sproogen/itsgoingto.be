@@ -1,4 +1,4 @@
-import { isNil, dissoc } from 'ramda'
+import { isNil } from 'ramda'
 import { Poll } from '../../db'
 
 const getPoll = async (req, res) => {
@@ -15,7 +15,7 @@ const getPoll = async (req, res) => {
 
   // TODO: Allow admin to bypass passphrase
   if (
-    !isNil(poll.passphrase)
+    poll.isProtected
     && poll.passphrase !== (req.query.passphrase ? req.query.passphrase : '')
   ) {
     return res.status(403).send({ error: 'incorrect-passphrase' })
@@ -25,7 +25,7 @@ const getPoll = async (req, res) => {
 
   // TODO: Get responses for user
 
-  return res.json(dissoc('passphrase', poll.get({ plain: true })))
+  return res.json(poll)
 }
 
 export default getPoll

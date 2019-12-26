@@ -1,4 +1,4 @@
-import { isNil, dissoc } from 'ramda'
+import { isNil } from 'ramda'
 import { Poll } from '../../db'
 
 // TODO: Allow only admin to deleted
@@ -19,8 +19,7 @@ const deletePoll = async (req, res) => {
 
   await poll.update({ deleted: true })
 
-  // TODO: Generic poll response mapper
-  return res.json(dissoc('passphrase', poll.get({ plain: true })))
+  return res.json(poll)
 }
 
 export default deletePoll

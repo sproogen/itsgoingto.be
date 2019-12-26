@@ -1,9 +1,13 @@
 import express from 'express'
-import { getPolls, getPoll, deletePoll } from './controllers'
+import {
+  getPolls, createPoll, getPoll, deletePoll
+} from './controllers'
 
 const api = express()
 
 // middleware
+api.use(express.json())
+api.use(express.urlencoded())
 
 api.get('/', (req, res) => {
   res.send({
@@ -12,6 +16,7 @@ api.get('/', (req, res) => {
 })
 
 api.get('/polls', getPolls)
+api.post('/polls', createPoll)
 api.get('/polls/:identifier', getPoll)
 api.delete('/polls/:identifier', deletePoll)
 

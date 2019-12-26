@@ -1,8 +1,14 @@
-import { isNil } from 'ramda'
+import {
+  isNil, compose, dissoc, assoc
+} from 'ramda'
 import { Model, DataTypes } from 'sequelize'
 
 const poll = (sequelize) => {
-  class Poll extends Model {}
+  class Poll extends Model {
+    get isProtected() {
+      return !isNil(this.passphrase) && this.passphrase !== ''
+    }
+  }
   Poll.init({
     id: {
       type: DataTypes.INTEGER,
@@ -66,6 +72,14 @@ const poll = (sequelize) => {
       await model.update({ ended: true })
     }
   })
+  Poll.prototype.toJSON = function () { // eslint-disable-line func-names
+    const { isProtected } = this
+
+    return compose(
+      dissoc('passphrase'),
+      assoc('isProtected', isProtected),
+    )(this.get({ plain: true }))
+  }
   return Poll
 }
 

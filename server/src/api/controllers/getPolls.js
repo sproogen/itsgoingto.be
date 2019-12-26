@@ -1,4 +1,6 @@
-import { includes, toUpper } from 'ramda'
+import {
+  includes, toUpper
+} from 'ramda'
 import { Poll } from '../../db'
 
 const availableSortFields = ['id', 'identifier', 'question', 'responsesCount', 'created']
@@ -20,7 +22,7 @@ const getPolls = async (req, res) => {
   }
 
   // TODO: Sort on response count
-  const polls = await Poll.findAll({
+  const polls = await Poll.findAndCountAll({
     limit: pageSize,
     offset: page * pageSize,
     order: [
@@ -28,8 +30,11 @@ const getPolls = async (req, res) => {
     ]
   })
 
-  // TODO: Return page count and total polls
-  return res.json(polls)
+  return res.json({
+    count: polls.rows.length,
+    total: polls.count,
+    entities: polls.rows
+  })
 }
 
 export default getPolls
