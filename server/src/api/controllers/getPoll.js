@@ -1,4 +1,4 @@
-import { isNil } from 'ramda'
+import { isNil, defaultTo } from 'ramda'
 import { Poll } from '../../db'
 
 const getPoll = async (req, res) => {
@@ -6,7 +6,8 @@ const getPoll = async (req, res) => {
     where: {
       identifier: req.params.identifier,
       deleted: false // TODO: Allow admin to fetch deleted
-    }
+    },
+    include: ['answers']
   })
 
   if (isNil(poll)) {
@@ -16,12 +17,10 @@ const getPoll = async (req, res) => {
   // TODO: Allow admin to bypass passphrase
   if (
     poll.isProtected
-    && poll.passphrase !== (req.query.passphrase ? req.query.passphrase : '')
+    && poll.passphrase !== defaultTo('', req.query.passphrase)
   ) {
     return res.status(403).send({ error: 'incorrect-passphrase' })
   }
-
-  // TODO: Get answers
 
   // TODO: Get responses for user
 

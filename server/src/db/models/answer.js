@@ -1,8 +1,10 @@
+
+import { compose, omit, assoc } from 'ramda'
 import { Model, DataTypes } from 'sequelize'
 
 const answer = (sequelize) => {
   class Answer extends Model {}
-  return Answer.init({
+  Answer.init({
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
@@ -17,6 +19,13 @@ const answer = (sequelize) => {
     freezeTableName: true,
     sequelize
   })
+  Answer.prototype.toJSON = function () { // eslint-disable-line func-names
+    return compose(
+      omit(['poll_id']),
+      assoc('responsesCount', 0)
+    )(this.get({ plain: true }))
+  }
+  return Answer
 }
 
 export default answer

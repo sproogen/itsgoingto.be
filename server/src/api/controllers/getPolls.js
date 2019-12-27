@@ -21,6 +21,8 @@ const getPolls = async (req, res) => {
     return res.status(400).send({ error: 'invalid-sort-direction' })
   }
 
+  // TODO: Updated ended for polls
+
   // TODO: Sort on response count
   const polls = await Poll.findAndCountAll({
     limit: pageSize,

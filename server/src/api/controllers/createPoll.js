@@ -1,7 +1,9 @@
 import {
-  trim, forEach, isEmpty, defaultTo, map
+  trim, forEach, isEmpty, defaultTo, map, isNil
 } from 'ramda'
-import { Poll, Answer } from '../../db'
+import { Poll } from '../../db'
+
+const ISO_8601_FULL = /^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d(\.\d+)?(([+-]\d\d:\d\d)|Z)?$/i
 
 const createPoll = async (req, res) => {
   const question = trim(defaultTo('', req.body.question))
@@ -23,7 +25,9 @@ const createPoll = async (req, res) => {
   if (answers.length === 0) {
     errors.push('No answers have been provided')
   }
-  // TODO: Validate endDate
+  if (!isNil(endDate) && ISO_8601_FULL.test(endDate) === false) {
+    errors.push('Invalid end date format')
+  }
 
   if (!isEmpty(errors)) {
     return res.status(400).send({ errors })
@@ -34,12 +38,11 @@ const createPoll = async (req, res) => {
     multipleChoice,
     passphrase,
     endDate,
-    Answers: map((answer) => ({ answer }), answers)
+    answers: map((answer) => ({ answer }), answers)
   }, {
-    include: [Answer]
+    include: ['answers']
   })
 
-  // TODO: Fix poll response
   return res.json(poll)
 }
 

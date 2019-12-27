@@ -1,5 +1,5 @@
 import {
-  isNil, compose, dissoc, assoc
+  isNil, compose, omit, assoc
 } from 'ramda'
 import { Model, DataTypes } from 'sequelize'
 
@@ -73,10 +73,13 @@ const poll = (sequelize) => {
     }
   })
   Poll.prototype.toJSON = function () { // eslint-disable-line func-names
-    const { isProtected } = this
+    const { isProtected, answers } = this
 
     return compose(
-      dissoc('passphrase'),
+      omit(['passphrase']),
+      assoc('userResponses', []),
+      assoc('responsesCount', 0),
+      assoc('answers', answers),
       assoc('isProtected', isProtected),
     )(this.get({ plain: true }))
   }

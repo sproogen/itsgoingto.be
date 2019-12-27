@@ -4,6 +4,7 @@ import {
   AnswerModel,
   ResponseModel
 } from './models'
+import createStubData from './create-stub-data'
 
 const sequelize = new Sequelize(process.env.DATABASE_URL, {
   host: 'localhost',
@@ -29,7 +30,7 @@ const Poll = sequelize.import('poll', PollModel)
 const Answer = sequelize.import('answer', AnswerModel)
 const Response = sequelize.import('response', ResponseModel)
 
-Poll.Answers = Poll.hasMany(Answer, { foreignKey: 'poll_id' })
+Poll.hasMany(Answer, { foreignKey: 'poll_id', as: 'answers' })
 // Answer.belongsTo(Poll, { foreignKey: 'poll_id' })
 
 Poll.hasMany(Response, { foreignKey: 'poll_id' })
@@ -40,23 +41,7 @@ Answer.hasMany(Response, { foreignKey: 'answer_id' })
 
 if (process.env.NODE_ENV !== 'production') {
   sequelize.sync({ force: true })
-    .then(() => Poll.create({
-      identifier: 'a',
-      question: 'This is a question?'
-    }))
-    .then(() => Poll.create({
-      question: 'This is another question?'
-    }))
-    .then(() => Poll.create({
-      identifier: 'b',
-      question: 'This a protected poll?',
-      passphrase: 'abc'
-    }))
-    .then(() => Poll.create({
-      identifier: 'c',
-      question: 'This an ended poll?',
-      endDate: new Date()
-    }))
+    .then(createStubData(Poll))
     .then(() => {
       console.log('Database & tables created!')
     })
