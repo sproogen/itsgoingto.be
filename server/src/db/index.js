@@ -31,13 +31,13 @@ const Answer = sequelize.import('answer', AnswerModel)
 const Response = sequelize.import('response', ResponseModel)
 
 Poll.hasMany(Answer, { foreignKey: 'poll_id', as: 'answers' })
-// Answer.belongsTo(Poll, { foreignKey: 'poll_id' })
+Answer.belongsTo(Poll, { foreignKey: 'poll_id', as: 'poll' })
 
-Poll.hasMany(Response, { foreignKey: 'poll_id' })
-// Response.belongsTo(Poll, { foreignKey: 'poll_id' })
+Poll.hasMany(Response, { foreignKey: 'poll_id', as: 'responses' })
+Response.belongsTo(Poll, { foreignKey: 'poll_id', as: 'poll' })
 
-Answer.hasMany(Response, { foreignKey: 'answer_id' })
-// Response.belongsTo(Answer, { foreignKey: 'answer_id' })
+Answer.hasMany(Response, { foreignKey: 'answer_id', as: 'responses' })
+Response.belongsTo(Answer, { foreignKey: 'answer_id', as: 'answer' })
 
 if (process.env.NODE_ENV !== 'production') {
   sequelize.sync({ force: true })

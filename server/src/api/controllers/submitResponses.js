@@ -1,7 +1,7 @@
 import {
-  isEmpty, defaultTo, isNil, is
+  isEmpty, defaultTo, isNil, is, pipe, unless, append, __, reduceWhile, pathEq, find
 } from 'ramda'
-import { Poll, Answer } from '../../db'
+import { Poll, Response } from '../../db'
 
 
 const submitResponses = async (req, res) => {
@@ -10,7 +10,8 @@ const submitResponses = async (req, res) => {
       identifier: req.params.identifier,
       deleted: false,
       ended: false
-    }
+    },
+    include: ['answers']
   })
 
   if (isNil(poll)) {
@@ -29,35 +30,28 @@ const submitResponses = async (req, res) => {
     return res.status(400).send({ error: 'poll-ended' })
   }
 
-  let answerIds = defaultTo([], req.body.answers)
-  if (!is(Array, answerIds)) {
-    answerIds = [answerIds]
-  }
-
-  console.log('answerIds', answerIds)
-
-  // TODO: Refactor this
-  const answers = []
-  for (const id of answerIds) {
-    if (is(Number, id) && (!poll.multipleChoice || isEmpty(answers))) {
-      const answer = await Answer.findOne({
-        where: {
-          id,
-          poll_id: poll.id,
+  const answers = pipe(
+    defaultTo([]),
+    unless(
+      is(Array),
+      append(__, [])
+    ),
+    reduceWhile(
+      (acc) => poll.multipleChoice || isEmpty(acc),
+      (acc, answerId) => {
+        const answer = find(pathEq(['dataValues', 'id'], answerId), poll.answers)
+        if (!isNil(answer)) {
+          return append(answer, acc)
         }
-      })
-      console.log('answer', answer)
-      if (!isNil(answer)) {
-        answers.push(answer)
-      }
-    }
-  }
-
-  console.log('answers', answers)
+        return acc
+      },
+      []
+    )
+  )(req.body.answers)
 
   const errors = []
 
-  if (answers.length === 0) {
+  if (answers.length === 0 && !poll.multipleChoice) {
     errors.push('No answers have been provided')
   }
 
@@ -65,11 +59,44 @@ const submitResponses = async (req, res) => {
     return res.status(400).send({ errors })
   }
 
-  // TODO: Remove / Add reponses
+  // TODO: User identifiers
+  const customUserID = '0'
+  const userIP = '0.0.0.0'
+
+  if (poll.multipleChoice) {
+    // TODO: Remove / Add reponses
+  } else {
+    let response = await Response.findOne({
+      where: {
+        poll_id: poll.id,
+        customUserID
+      },
+    })
+
+    if (isNil(response)) {
+      response = await Response.create({
+        customUserID,
+        userIP
+      })
+      await poll.addResponse(response)
+    }
+
+    await answers[0].addResponse(response)
+  }
+  // for(const answer of answers) { // eslint-disable-line
+  //   await Response.create({ // eslint-disable-line
+  //     poll,
+  //     answer,
+  //     customUserID,
+  //     userIP
+  //   })
+  // }
 
   // TODO: Push new responses to socket
 
-  return res.json({ yoo: '' })
+  // TODO: Generate user responses
+  const userResponses = await Response.findAndCountAll()
+  return res.json(userResponses)
 }
 
 export default submitResponses
