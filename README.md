@@ -1,4 +1,4 @@
-# itsgoingto.be [![Build Status](https://travis-ci.org/sproogen/itsgoingto.be.svg)](https://travis-ci.org/sproogen/itsgoingto.be) [![Maintainability](https://sonarcloud.io/api/project_badges/measure?project=sproogen%3Aitsgoingto.be&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=sproogen%3Aitsgoingto.be) [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=sproogen%3Aitsgoingto.be&metric=coverage)](https://sonarcloud.io/dashboard?id=sproogen%3Aitsgoingto.be)
+aaaaa# itsgoingto.be [![Build Status](https://travis-ci.org/sproogen/itsgoingto.be.svg)](https://travis-ci.org/sproogen/itsgoingto.be) [![Maintainability](https://sonarcloud.io/api/project_badges/measure?project=sproogen%3Aitsgoingto.be&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=sproogen%3Aitsgoingto.be) [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=sproogen%3Aitsgoingto.be&metric=coverage)](https://sonarcloud.io/dashboard?id=sproogen%3Aitsgoingto.be)
 
 Symfony and React magic behind [itsgoingto.be]
 
