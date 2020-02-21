@@ -5,9 +5,8 @@ import { Op } from 'sequelize'
 import { Poll, Response } from '../../db'
 
 // TODO: Get USERID from cookies
-// TODO: Push new responses to socket
 
-const submitResponses = async (req, res) => {
+const submitResponses = (io) => async (req, res) => {
   const poll = await Poll.findOne({
     where: {
       identifier: req.params.identifier,
@@ -99,6 +98,9 @@ const submitResponses = async (req, res) => {
       id: poll.id,
     }
   })
+
+  io.of('/responses').to(identifier + '/' + USERID).emit('own-responses-updated', responses.toJson())
+  io.of('/responses').to(identifier).emit('responses-updated', responses.toJson())
 
   return res.json(response)
 }

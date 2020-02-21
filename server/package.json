@@ -6,16 +6,19 @@
   },
   "main": "app.js",
   "scripts": {
-    "build": "",
+    "postinstall": "npm run build",
+    "build": "babel app.js -d dist",
+    "serve": "node dist/app.js",
     "start": "npm run sync && nodemon --exec babel-node app.js",
-    "test": "eslint .",
-    "sync": "babel-node src/db/sync.js"
+    "sync": "babel-node src/db/sync.js",
+    "test": "eslint ."
   },
   "dependencies": {
     "express": "^4.17.1",
     "mysql2": "^2.0.2",
     "ramda": "^0.26.1",
-    "sequelize": "^5.21.3"
+    "sequelize": "^5.21.3",
+    "socket.io": "2.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.7.7",

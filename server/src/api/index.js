@@ -3,22 +3,24 @@ import {
   getPolls, createPoll, getPoll, deletePoll, submitResponses
 } from './controllers'
 
-const api = express()
+export default (io) => {
+  const api = express()
 
-// middleware
-api.use(express.json())
-api.use(express.urlencoded())
+  // middleware
+  api.use(express.json())
+  api.use(express.urlencoded())
 
-api.get('/', (req, res) => {
-  res.send({
-    message: 'Hello from the API',
+  api.get('/', (req, res) => {
+    res.send({
+      message: 'Hello from the API',
+    })
   })
-})
 
-api.get('/polls', getPolls)
-api.post('/polls', createPoll)
-api.get('/polls/:identifier', getPoll)
-api.delete('/polls/:identifier', deletePoll)
-api.post('/polls/:identifier/responses', submitResponses)
+  api.get('/polls', getPolls)
+  api.post('/polls', createPoll)
+  api.get('/polls/:identifier', getPoll)
+  api.delete('/polls/:identifier', deletePoll)
+  api.post('/polls/:identifier/responses', submitResponses(io))
 
-export default api
+  return api
+}

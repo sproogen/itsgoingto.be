@@ -1,9 +1,0 @@
-logout:
-    path: /admin/logout
-
-app:
-    resource: "routes/routing.yaml"
-    prefix:   /
-
-base_url:
-    path:  /

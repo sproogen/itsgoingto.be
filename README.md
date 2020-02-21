@@ -1,21 +1,17 @@
 # itsgoingto.be [![Build Status](https://travis-ci.org/sproogen/itsgoingto.be.svg)](https://travis-ci.org/sproogen/itsgoingto.be) [![Maintainability](https://sonarcloud.io/api/project_badges/measure?project=sproogen%3Aitsgoingto.be&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=sproogen%3Aitsgoingto.be) [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=sproogen%3Aitsgoingto.be&metric=coverage)](https://sonarcloud.io/dashboard?id=sproogen%3Aitsgoingto.be)
 
-Symfony and React magic behind [itsgoingto.be]
+NodeJS and React magic behind [itsgoingto.be]
 
-The root of this project contains the Symfony app which provides the API.
-
-The React app can be found in the `app` folder. During development this is loaded through a route in symfony to provide the Symfony debug toolbar.
-In production the app is loaded from compiled files from the public folder via the `.htaccess`
+The Node backend can be found in the `server` folder and the React app can be found in the `app` folder.
 
 Getting started
 -------------
-You will need to have [Docker] installed and running, also make sure you have PHP 7.2 or higher and [Composer] installed.
+You will need to have [Docker] installed and running, aswell as Node and NPM.
 
 Clone the repository into a local folder.
 
 Now inside the project folder run
 ```
-composer install
 ./scripts/docker-build.sh
 docker-compose up
 ```
@@ -32,11 +28,7 @@ To test the React client, run the folowwing from inside the `app` folder.
 `npm run test` to run all the unit tests using jest.
 
 ###### API
-To test the Symfony API, from the following from inside the root of the project.
-
-`vendor/bin/phplint src` to run the php linter.
-`vendor/bin/phpunit` to run the unit tests.
-`vendor/bin/codecept run` to run the API end-to-end functional tests.
+To test the Node API
 
 API
 -------------
@@ -394,4 +386,3 @@ along with ItsGoingToBe.  If not, see <http://www.gnu.org/licenses/>.
 
 [itsgoingto.be]: http://itsgoingto.be/
 [Docker]: https://docs.docker.com/get-started/
-[Composer]: https://getcomposer.org/
