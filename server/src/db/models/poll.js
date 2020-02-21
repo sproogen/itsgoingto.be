@@ -8,6 +8,30 @@ const poll = (sequelize) => {
     get isProtected() {
       return !isNil(this.passphrase) && this.passphrase !== ''
     }
+
+    get responsesCount() {
+      return this._responsesCount // eslint-disable-line
+    }
+
+    set responsesCount(responsesCount) {
+      this._responsesCount = responsesCount // eslint-disable-line
+    }
+
+    get userResponses() {
+      return this._userResponses // eslint-disable-line
+    }
+
+    set userResponses(userResponses) {
+      this._userResponses = userResponses // eslint-disable-line
+    }
+
+    get fullAnswers() {
+      return this._fullAnswers // eslint-disable-line
+    }
+
+    set fullAnswers(answers) {
+      this._fullAnswers = answers // eslint-disable-line
+    }
   }
   Poll.init({
     id: {
@@ -53,6 +77,11 @@ const poll = (sequelize) => {
     freezeTableName: true,
     sequelize
   })
+  Poll.addScope('defaultScope', {
+    where: {
+      deleted: false
+    }
+  })
   Poll.addHook('beforeValidate', async (model) => {
     while (isNil(model.identifier)) {
       const identifier = Math.round((36 ** 9) - Math.random() * (36 ** 8)).toString(36).slice(1)
@@ -63,6 +92,7 @@ const poll = (sequelize) => {
     }
   })
   Poll.addHook('afterFind', async (model) => {
+    // TODO: This doesn't work when fetching multiple polls
     if (
       !isNil(model)
       && !isNil(model.endDate)
@@ -73,14 +103,15 @@ const poll = (sequelize) => {
     }
   })
   Poll.prototype.toJSON = function () { // eslint-disable-line func-names
-    const { isProtected, answers } = this
+    const {
+      responsesCount, userResponses, fullAnswers
+    } = this
 
     return compose(
-      omit(['passphrase']),
-      assoc('userResponses', []),
-      assoc('responsesCount', 0),
-      assoc('answers', answers),
-      assoc('isProtected', isProtected),
+      omit(['id', 'passphrase']),
+      assoc('responsesCount', responsesCount),
+      assoc('userResponses', userResponses),
+      assoc('answers', fullAnswers),
     )(this.get({ plain: true }))
   }
   return Poll

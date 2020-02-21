@@ -7,8 +7,9 @@
   "main": "app.js",
   "scripts": {
     "build": "",
-    "start": "nodemon --exec babel-node app.js",
-    "test": "eslint ."
+    "start": "npm run sync && nodemon --exec babel-node app.js",
+    "test": "eslint .",
+    "sync": "babel-node src/db/sync.js"
   },
   "dependencies": {
     "express": "^4.17.1",

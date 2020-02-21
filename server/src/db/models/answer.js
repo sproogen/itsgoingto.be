@@ -1,5 +1,3 @@
-
-import { compose, omit, assoc } from 'ramda'
 import { Model, DataTypes } from 'sequelize'
 
 const answer = (sequelize) => {
@@ -19,12 +17,6 @@ const answer = (sequelize) => {
     freezeTableName: true,
     sequelize
   })
-  Answer.prototype.toJSON = function () { // eslint-disable-line func-names
-    return compose(
-      omit(['poll_id']),
-      assoc('responsesCount', 0)
-    )(this.get({ plain: true }))
-  }
   return Answer
 }
 

@@ -1,7 +1,8 @@
 import { isNil } from 'ramda'
 import { Poll } from '../../db'
 
-// TODO: Allow only admin to deleted
+// TODO: Restrict endpoint to admin
+
 const deletePoll = async (req, res) => {
   const poll = await Poll.findOne({
     where: {

@@ -1,11 +1,14 @@
 import { map } from 'ramda'
 
+// TODO: Add responses to stub
+
 const formatAnswers = map((answer) => ({ answer }))
 
 const createStubData = (Poll) => async () => {
   await Poll.create({
     identifier: 'a',
     question: 'This is a question?',
+    multipleChoice: true,
     answers: formatAnswers(['Answer a1', 'Answer a2', 'Answer a3'])
   }, {
     include: ['answers']

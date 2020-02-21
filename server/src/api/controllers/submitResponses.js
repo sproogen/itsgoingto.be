@@ -1,14 +1,16 @@
 import {
-  isEmpty, defaultTo, isNil, is, pipe, unless, append, __, reduceWhile, pathEq, find
+  isEmpty, defaultTo, isNil, is, pipe, unless, append, __, reduceWhile, pathEq, find, map, prop
 } from 'ramda'
+import { Op } from 'sequelize'
 import { Poll, Response } from '../../db'
 
+// TODO: Get USERID from cookies
+// TODO: Push new responses to socket
 
 const submitResponses = async (req, res) => {
   const poll = await Poll.findOne({
     where: {
       identifier: req.params.identifier,
-      deleted: false,
       ended: false
     },
     include: ['answers']
@@ -18,7 +20,6 @@ const submitResponses = async (req, res) => {
     return res.status(404).send({ error: 'poll-not-found' })
   }
 
-  // TODO: Allow admin to bypass passphrase
   if (
     poll.isProtected
     && poll.passphrase !== defaultTo('', req.query.passphrase)
@@ -59,44 +60,47 @@ const submitResponses = async (req, res) => {
     return res.status(400).send({ errors })
   }
 
-  // TODO: User identifiers
-  const customUserID = '0'
-  const userIP = '0.0.0.0'
+  const customUserID = '00000'
+  const userIP = req.headers['x-forwarded-for'] || req.connection.remoteAddress
 
-  if (poll.multipleChoice) {
-    // TODO: Remove / Add reponses
-  } else {
+  await Response.destroy({
+    where: {
+      poll_id: poll.id,
+      customUserID,
+      answer_id: {
+        [Op.notIn]: map(prop('id'), answers)
+      }
+    }
+  })
+
+  for await(const answer of answers) { // eslint-disable-line
     let response = await Response.findOne({
       where: {
         poll_id: poll.id,
+        answer_id: answer.id,
         customUserID
       },
     })
 
     if (isNil(response)) {
-      response = await Response.create({
+      response = await Response.create({ // eslint-disable-line
         customUserID,
         userIP
       })
-      await poll.addResponse(response)
+
+      await poll.addResponse(response) // eslint-disable-line
+      await answer.addResponse(response) // eslint-disable-line
     }
-
-    await answers[0].addResponse(response)
   }
-  // for(const answer of answers) { // eslint-disable-line
-  //   await Response.create({ // eslint-disable-line
-  //     poll,
-  //     answer,
-  //     customUserID,
-  //     userIP
-  //   })
-  // }
 
-  // TODO: Push new responses to socket
+  const response = await Poll.findOne({
+    attributes: ['id'],
+    where: {
+      id: poll.id,
+    }
+  })
 
-  // TODO: Generate user responses
-  const userResponses = await Response.findAndCountAll()
-  return res.json(userResponses)
+  return res.json(response)
 }
 
 export default submitResponses
