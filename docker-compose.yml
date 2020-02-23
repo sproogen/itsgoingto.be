@@ -33,9 +33,20 @@ services:
     volumes:
       - ./server:/server
     ports:
-      - "8000:8000"
+      - "8001:8001"
     environment:
       - DATABASE_URL=mysql://user:password@mysql:3306/itsgoingtobe
+
+  webserver:
+    image: nginx:alpine
+    depends_on:
+      - app
+      - server
+    volumes:
+      - ./:/var/www/html
+      - ./docker/nginx/site.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - "8000:80"
 
   mysql:
     image: mysql:8.0
@@ -48,15 +59,3 @@ services:
       - MYSQL_DATABASE=itsgoingtobe
       - MYSQL_USER=user
       - MYSQL_PASSWORD=password
-
-  # mysql_test:
-  #   image: mysql:8.0
-  #   ports:
-  #     - "3307:3306"
-  #   volumes:
-  #     - ./docker/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
-  #   environment:
-  #     - MYSQL_ROOT_PASSWORD=root
-  #     - MYSQL_DATABASE=itsgoingtobe
-  #     - MYSQL_USER=user
-  #     - MYSQL_PASSWORD=password
