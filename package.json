@@ -2,7 +2,7 @@
   "name": "itsgoingtobe-heroku",
   "version": "2.7.0",
   "engines": {
-    "node": "8.11.1"
+    "node": "12.16.x"
   },
   "author": "James Grant <james@jwgmedia.co.uk> (http://jameswgrant.co.uk)",
   "license": "GPLv3",
