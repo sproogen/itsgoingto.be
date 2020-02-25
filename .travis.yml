@@ -10,10 +10,11 @@ services:
 
 env:
   global:
-    - APP_ENV=test
+    - NODE_ENV=test
     - USER="Travis CI"
     - EMAIL="travis@travis-ci.org"
     - GITHUB_REPO="github.com/${TRAVIS_REPO_SLUG}.git"
+    - DATABASE_URL="mysql://root@127.0.0.1:3306/itsgoingtobe"
 
 addons:
   sonarcloud:
