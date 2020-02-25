@@ -11,7 +11,8 @@
     "serve": "node dist/app.js",
     "start": "npm run sync && nodemon --exec babel-node src/app.js",
     "sync": "babel-node src/db/sync.js",
-    "test": "eslint ."
+    "lint": "eslint --ext js,jsx src/.",
+    "test": ""
   },
   "dependencies": {
     "express": "^4.17.1",

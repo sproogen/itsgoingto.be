@@ -1,10 +1,9 @@
-sudo: required
 dist: trusty
 
-language: php
+language: node_js
 
-php:
-  - '7.2'
+node_js:
+  - '8'
 
 services:
   - mysql
@@ -15,8 +14,6 @@ env:
     - USER="Travis CI"
     - EMAIL="travis@travis-ci.org"
     - GITHUB_REPO="github.com/${TRAVIS_REPO_SLUG}.git"
-  matrix:
-    - NODE_VERSION=8
 
 addons:
   sonarcloud:
@@ -24,9 +21,9 @@ addons:
 
 cache:
   directories:
-    - $HOME/.composer/cache/file
-    - vendor
+    - "$HOME/.npm"
     - app/node_modules
+    - server/node_modules
 
 branches:
   only:
@@ -34,27 +31,22 @@ branches:
     - develop
 
 before_install:
-  - rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm install $NODE_VERSION && nvm install-latest-npm
   - ./scripts/bump-version.sh
   - git fetch origin +refs/heads/*:refs/remotes/origin/*
   - git fetch --unshallow
 
 install:
-  - composer install
   - (cd app && npm ci)
+  - (cd server && npm ci)
 
 before_script:
-  - php bin/console about
-  - php bin/console doctrine:database:create
-  - composer compile
+  - (cd server && npm run sync)
 
 script:
-  - vendor/bin/phpcs --standard=PSR2 --ignore=Migrations src/
-  - vendor/bin/phplint src
-  - SYMFONY_DEPRECATIONS_HELPER=disabled vendor/bin/simple-phpunit
-  - SYMFONY_DEPRECATIONS_HELPER=disabled vendor/bin/codecept run --coverage-xml
   - (cd app && npm run lint -- -f json -o build/report.json)
   - (cd app && npm run test -- --coverage --ci)
+  - (cd server && npm run lint -- -f json -o build/report.json)
+  - (cd server && npm run test -- --coverage --ci)
   - ./scripts/update-sonar-version.sh && sonar-scanner
 
 after_success:
