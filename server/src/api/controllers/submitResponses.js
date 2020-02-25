@@ -99,8 +99,8 @@ const submitResponses = (io) => async (req, res) => {
     }
   })
 
-  io.of('/responses').to(identifier + '/' + USERID).emit('own-responses-updated', responses.toJson())
-  io.of('/responses').to(identifier).emit('responses-updated', responses.toJson())
+  io.of('/responses').to(`${poll.identifier}/${customUserID}`).emit('own-responses-updated', response.toJson())
+  io.of('/responses').to(poll.identifier).emit('responses-updated', response.toJson())
 
   return res.json(response)
 }
