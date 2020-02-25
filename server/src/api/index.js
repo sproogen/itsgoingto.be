@@ -8,7 +8,7 @@ export default (io) => {
 
   // middleware
   api.use(express.json())
-  api.use(express.urlencoded())
+  api.use(express.urlencoded({ extended: false }))
 
   api.get('/', (req, res) => {
     res.send({

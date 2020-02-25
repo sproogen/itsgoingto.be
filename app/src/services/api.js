@@ -94,13 +94,16 @@ export const postPoll = () => (dispatch, getState) =>
   compose(
     (poll) => fetch(ROUTE_POLL, {
       credentials : 'same-origin',
+      headers     : {
+        'Content-Type' : 'application/json'
+      },
       method      : 'POST',
       body        : JSON.stringify({
-        question        : poll.question,
-        answers         : answersSelector(getState()),
-        multipleChoice  : poll.multipleChoice,
-        passphrase      : poll.passphrase,
-        endDate         : getEndDateFromPoll(poll)
+        question       : poll.question,
+        answers        : answersSelector(getState()),
+        multipleChoice : poll.multipleChoice,
+        passphrase     : poll.passphrase,
+        endDate        : getEndDateFromPoll(poll)
       })
     })
       .then(extractResponse)
@@ -191,6 +194,9 @@ export const postResponse = (answer, identifier) => (dispatch, getState) =>
     (requestData) => fetch(ROUTE_POLL + '/' + identifier + ROUTE_RESPONSES,
       {
         credentials : 'same-origin',
+        headers     : {
+          'Content-Type' : 'application/json'
+        },
         method      : 'POST',
         body        : JSON.stringify(requestData)
       }
@@ -255,6 +261,9 @@ export const fetchResponses = (identifier) => (dispatch, getState) =>
 export const postLogin = (username, password) => (dispatch) =>
   fetch(ROUTE_LOGIN, {
     credentials : 'same-origin',
+    headers     : {
+      'Content-Type' : 'application/json'
+    },
     method      : 'POST',
     body        : JSON.stringify({
       username,
