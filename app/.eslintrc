@@ -2,39 +2,33 @@
   "parser": "babel-eslint",
   "extends": [
     "eslint:recommended",
-    "plugin:react/recommended"
-  ],
-  "plugins": [
-    "babel",
-    "react",
-    "promise"
+    "airbnb"
   ],
   "env": {
-    "browser" : true,
-    "jest"    : true,
-    "node"    : true,
-    "es6"     : true
+    "browser": true,
+    "es6": true,
+    "node": true
   },
-  "globals": {
-    "__DEV__"      : false,
-    "__TEST__"     : false,
-    "__PROD__"     : false,
-    "__COVERAGE__" : false
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "sourceType": "module"
+  },
+  "settings": {
+    "import/resolver": "webpack"
   },
   "rules": {
     "strict"                  : [2, "safe"],
+    "semi"                    : "off",
     "no-empty-label"          : "off",
     "no-process-env"          : "off",
     "space-after-keywords"    : "off",
     "space-before-keywords"   : "off",
     "space-return-throw-case" : "off",
     "key-spacing"             : 0,
-    "jsx-quotes"              : [2, "prefer-single"],
     "max-len"                 : [2, 120, 2],
     "object-curly-spacing"    : [2, "always"],
     "comma-dangle"            : 0,
     "no-multi-spaces"         : [2, {"exceptions": {"VariableDeclarator": true}}],
-    "react/prefer-es6-class"  : 1,
     "no-extra-semi"           : 1,
     "no-unreachable"          : 1
   }

@@ -3,7 +3,7 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import { browserHistory } from 'react-router'
 import { Cookies } from 'react-cookie'
-import { PageLayout } from 'layouts/page-layout/page-layout'
+import { App } from './app'
 
 browserHistory.push = jest.fn()
 
