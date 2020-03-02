@@ -25,7 +25,7 @@ const PLACEHOLDER_TEXT = [
   'When will you start a poll?'
 ]
 
-export class Ask extends React.Component {
+class Ask extends React.Component {
   componentDidMount = () => {
     this.props.clearPoll()
   }

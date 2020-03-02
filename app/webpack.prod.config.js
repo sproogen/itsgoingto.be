@@ -1,7 +1,7 @@
 const merge = require('webpack-merge')
 const ManifestPlugin = require('webpack-manifest-plugin')
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
-const common = require('./webpack.common.js')
+const common = require('./webpack.common.config.js')
 
 module.exports = merge(common, {
   mode: 'production',

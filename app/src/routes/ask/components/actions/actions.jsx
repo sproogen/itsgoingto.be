@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { browserHistory } from 'react-router'
+import { withRouter } from 'react-router-dom'
 import { postPoll } from 'services/api'
 import Button from 'components/button'
 import './actions.scss'
@@ -10,7 +10,7 @@ export class Actions extends React.Component {
   submit = () => this.props.postPoll()
     .then((response) => {
       if (response !== false) {
-        browserHistory.push('/' + response.identifier)
+        this.props.history.push('/' + response.identifier)
         return false
       }
       return true
@@ -30,13 +30,16 @@ export class Actions extends React.Component {
 }
 
 Actions.propTypes = {
-  hasQuestion   : PropTypes.bool.isRequired,
-  canSubmitPoll : PropTypes.bool.isRequired,
-  postPoll      : PropTypes.func.isRequired,
+  hasQuestion: PropTypes.bool.isRequired,
+  canSubmitPoll: PropTypes.bool.isRequired,
+  postPoll: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func
+  }).isRequired
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  postPoll : () => dispatch(postPoll())
+  postPoll: () => dispatch(postPoll())
 })
 
-export default connect(null, mapDispatchToProps)(Actions)
+export default connect(null, mapDispatchToProps)(withRouter(Actions))

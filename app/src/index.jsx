@@ -6,7 +6,7 @@ import LocaleProvider from 'antd/lib/locale-provider'
 import enGB from 'antd/lib/locale-provider/en_GB'
 import RedBox from 'redbox-react'
 import createStore from 'store/create-store'
-import App from './app.jsx'
+import App from './app'
 import 'styles/main.scss'
 
 // Store Initialization
