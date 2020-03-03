@@ -1,15 +1,17 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { mergeAll } from 'ramda'
 import Helmet from 'react-helmet'
 import Linkify from 'react-linkify'
 import Countdown from 'react-countdown-now'
-import { browserHistory } from 'react-router'
+import { useHistory } from 'react-router-dom'
 import { withCookies, Cookies } from 'react-cookie'
 import io from 'socket.io-client'
 import { fetchPoll, postResponse, APIError } from 'services/api'
-import { pollSelector, hasQuestionSelector, totalResponsesSelector, userRespondedSelector } from 'store/poll/selectors'
+import {
+  pollSelector, hasQuestionSelector, totalResponsesSelector, userRespondedSelector
+} from 'store/poll/selectors'
 import { updateResponses, updateUserResponses } from 'store/poll/actions'
 import { answersSelector } from 'store/answers/selectors'
 import { clearAnswers } from 'store/answers/actions'
@@ -22,10 +24,12 @@ import Answers from './components/answers'
 import Passphrase from './components/passphrase'
 import './answer.scss'
 
-export class Answer extends React.Component {
-  componentDidMount = () => {
-    const { hasPoll, setLoading, fetchPoll, clearAnswers, setRequiresPassphrase } = this.props
+const Answer = ({
+  hasPoll, poll, setLoading, fetchPoll, clearAnswers, setRequiresPassphrase, postResponse, requiresPassphrase
+}) => {
+  const history = useHistory()
 
+  useEffect(() => {
     if (!hasPoll) {
       setLoading(true)
     }
@@ -35,56 +39,52 @@ export class Answer extends React.Component {
         if (response.details.status === 403 && response.details.error.error === 'incorrect-passphrase') {
           setRequiresPassphrase(true)
         } else {
-          browserHistory.push('/404')
+          history.push('/404')
         }
       }
       setLoading(false)
     })
-  }
+  }, [])
 
-  componentDidUpdate = () => {
-    const { hasPoll, poll, identifier, updateResponses, updateUserResponses, cookies } = this.props
+  // componentDidUpdate = () => {
+  //   const { hasPoll, poll, identifier, updateResponses, updateUserResponses, cookies } = this.props
 
-    if (hasPoll && !this.socket && !poll.ended) {
+  //   if (hasPoll && !this.socket && !poll.ended) {
 
-      let userID = cookies.get('USERID')
+  //     let userID = cookies.get('USERID')
 
-      if (!userID) {
-        userID = [...Array(20)].map(() => (Math.random() * 36 | 0).toString(36)).join``
-        cookies.set('USERID', userID, { path: '/' })
-      }
+  //     if (!userID) {
+  //       userID = [...Array(20)].map(() => (Math.random() * 36 | 0).toString(36)).join``
+  //       cookies.set('USERID', userID, { path: '/' })
+  //     }
 
-      this.socket = io(`/responses?identifier=${identifier}&USERID=${userID}`)
-      this.socket.on('responses-updated', (responses) => {
-        updateResponses(JSON.parse(responses))
-      })
-      this.socket.on('own-responses-updated', (responses) => {
-        updateUserResponses(JSON.parse(responses))
-      })
-    }
-  }
+  //     this.socket = io(`/responses?identifier=${identifier}&USERID=${userID}`)
+  //     this.socket.on('responses-updated', (responses) => {
+  //       updateResponses(JSON.parse(responses))
+  //     })
+  //     this.socket.on('own-responses-updated', (responses) => {
+  //       updateUserResponses(JSON.parse(responses))
+  //     })
+  //   }
+  // }
 
-  componentWillUnmount = () => {
-    if (this.socket) {
-      this.socket.close()
-    }
-  }
+  // componentWillUnmount = () => {
+  //   if (this.socket) {
+  //     this.socket.close()
+  //   }
+  // }
 
-  onResponseSelected = (id) => {
-    const { postResponse } = this.props
+  const onResponseSelected = (id) => postResponse(id)
 
-    postResponse(id)
-  }
+  const hasValue = (value) => value && value !== '00'
 
-  hasValue = (value) => value && value !== '00'
+  const valueLabel = (value, label) => `${parseInt(value, 10)} ${label}${parseInt(value, 10) > 1 ? 's' : ''}`
 
-  valueLabel = (value, label) => `${parseInt(value, 10)} ${label}${parseInt(value, 10) > 1 ? 's' : ''}`
+  const twoValueString = (value1, value2, label1, label2) => `${this.valueLabel(value1, label1)} and ${this.valueLabel(value2, label2)}`
 
-  twoValueString = (value1, value2, label1, label2) =>
-    `${this.valueLabel(value1, label1)} and ${this.valueLabel(value2, label2)}`
-
-  countdownRenderer = ({ days, hours, minutes, seconds, completed }) => {
-    const { poll, fetchPoll } = this.props
+  const countdownRenderer = ({
+    days, hours, minutes, seconds, completed
+  }) => {
     let ending = ''
 
     if (completed) {
@@ -95,65 +95,61 @@ export class Answer extends React.Component {
     } else {
       ending = 'This poll will end in '
 
-      if (this.hasValue(days)) {
-        ending += this.twoValueString(days, hours, 'day', 'hour')
-      } else if (this.hasValue(hours)) {
-        ending += this.twoValueString(hours, minutes, 'hour', 'minute')
-      } else if (this.hasValue(minutes)) {
-        ending += this.twoValueString(minutes, seconds, 'minute', 'second')
+      if (hasValue(days)) {
+        ending += twoValueString(days, hours, 'day', 'hour')
+      } else if (hasValue(hours)) {
+        ending += twoValueString(hours, minutes, 'hour', 'minute')
+      } else if (hasValue(minutes)) {
+        ending += twoValueString(minutes, seconds, 'minute', 'second')
       } else {
-        ending += this.valueLabel(seconds, 'second')
+        ending += valueLabel(seconds, 'second')
       }
     }
 
     return <span>{ending}</span>
   }
 
-  render () {
-    const { hasPoll, poll, requiresPassphrase, answers, totalResponses, userResponded, hasUser } = this.props
-
-    return (
-      <div>
-        <Helmet>
-          <meta charSet='utf-8' />
-          <title>{ poll.question }</title>
-          <meta name='description' content='Join in the vote and answer this poll at itsgoingto.be' />
-          <meta name='keywords' content='question vote poll result' />
-        </Helmet>
-        { hasPoll &&
-          <div>
-            <Back />
-            <div className='container header-container answer-header-container'>
-              <div className='header center-text'>
-                <h2><Linkify properties={{ target: '_blank' }}>{ poll.question }</Linkify></h2>
-                <Sharing poll={poll} />
-                { poll.ended &&
-                  <div className='alert alert-success'><span>This poll has now ended</span></div>
-                }
-                { poll.endDate && !poll.ended &&
-                  <div className='alert alert-success'>
-                    <Countdown
-                      date={poll.endDate.date}
-                      renderer={this.countdownRenderer} />
-                  </div>
-                }
-              </div>
+  return (
+    <div>
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>{ poll.question }</title>
+        <meta name="description" content="Join in the vote and answer this poll at itsgoingto.be" />
+        <meta name="keywords" content="question vote poll result" />
+      </Helmet>
+      { hasPoll && (
+        <div>
+          <Back />
+          <div className="container header-container answer-header-container">
+            <div className="header center-text">
+              <h2><Linkify properties={{ target: '_blank' }}>{ poll.question }</Linkify></h2>
+              <Sharing poll={poll} />
+              { poll.ended && (
+                <div className="alert alert-success"><span>This poll has now ended</span></div>
+              )}
+              { poll.endDate && !poll.ended && (
+                <div className="alert alert-success">
+                  <Countdown
+                    date={poll.endDate.date}
+                    renderer={countdownRenderer}
+                  />
+                </div>
+              )}
             </div>
-            <Answers
-              poll={poll}
-              answers={answers}
-              totalResponses={totalResponses}
-              userResponded={userResponded}
-              onResponseSelected={this.onResponseSelected}
-              viewOnly={hasUser} />
           </div>
-        }
-        { requiresPassphrase &&
-          <Passphrase />
-        }
-      </div>
-    )
-  }
+          <Answers
+            poll={poll}
+            answers={answers}
+            totalResponses={totalResponses}
+            userResponded={userResponded}
+            onResponseSelected={onResponseSelected}
+            viewOnly={hasUser}
+          />
+        </div>
+      )}
+      { requiresPassphrase && <Passphrase /> }
+    </div>
+  )
 }
 
 Answer.propTypes = {

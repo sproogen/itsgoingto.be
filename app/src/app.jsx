@@ -13,6 +13,7 @@ import Footer from 'components/footer'
 import Loader from 'components/loader'
 import AdminNavigation from 'components/admin-navigation'
 import Ask from 'routes/ask'
+import Answer from 'routes/answer'
 import './app.scss'
 
 const App = ({ isLoading, cookies, updateUserWithToken }) => {
@@ -33,6 +34,7 @@ const App = ({ isLoading, cookies, updateUserWithToken }) => {
             <AdminNavigation />
             <Switch>
               <Route exact path="/"><Ask /></Route>
+              <Route path="/:identifier"><Answer /></Route>
               <Route path="*">Nope</Route>
             </Switch>
           </div>
