@@ -24,7 +24,7 @@ export const API_DATE_FORMAT = 'YYYY-MM-DDTHH:mm:ssZ'
 // ------------------------------------
 // Helpers
 // ------------------------------------
-export function APIError (details) {
+export function APIError(details) {
   this.name = 'APIError'
   this.details = details
 }

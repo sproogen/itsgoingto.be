@@ -2,8 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import './modal.scss'
 
+// TODO : Improve this
+
 class Modal extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       hidden: true,
@@ -14,18 +16,19 @@ class Modal extends React.Component {
   whichAnimationEvent = () => {
     const element = document.createElement('fakeelement')
     const transitions = {
-      'transition':'animationend',
-      'OTransition':'oAnimationEnd',
-      'MozTransition':'animationend',
-      'WebkitTransition':'webkitAnimationEnd'
+      transition: 'animationend',
+      OTransition: 'oAnimationEnd',
+      MozTransition: 'animationend',
+      WebkitTransition: 'webkitAnimationEnd'
     }
     let transition
 
-    for (transition in transitions) {
+    for (transition in transitions) { // eslint-disable-line
       if (element.style[transition] !== undefined) {
         return transitions[transition]
       }
     }
+    return null
   }
 
   addAnimationListener = (node, handle) => {
@@ -39,7 +42,9 @@ class Modal extends React.Component {
         handle()
       }
 
-      animationEvent && node.addEventListener(animationEvent, endListener)
+      if (animationEvent) {
+        node.addEventListener(animationEvent, endListener)
+      }
     }
   }
 
@@ -49,46 +54,54 @@ class Modal extends React.Component {
     })
   }
 
-  hide = function () {
-    this.addAnimationListener(this._backdrop, this.hidden)
+  hide = function () { // eslint-disable-line
+    this.addAnimationListener(this._backdrop, this.hidden) // eslint-disable-line
     this.setState({
       willHidden: true
     })
   }.bind(this)
 
-  hidden = function () {
+  hidden = function () { // eslint-disable-line
     this.setState({
       hidden: true,
       willHidden: false
     })
   }.bind(this)
 
-  render () {
-    let modal
+  render() {
+    const { hidden } = this.state
 
-    if (!this.state.hidden) {
-      const { willHidden } = this.state
-      const { children } = this.props
-
-      modal = <span className={willHidden ? 'willHidden' : ''}>
-        <div ref={(c) => { this._backdrop = c }} className='backdrop' onClick={this.hide} />
-        <div ref={(c) => { this._modal = c }} className='modal'>
-          <div className='modal-container'>
-            { children }
-          </div>
-        </div>
-      </span>
+    if (hidden) {
+      return null
     }
+
+    const { willHidden } = this.state
+    const { children } = this.props
+
     return (
       <span>
-        { modal }
+        <span className={willHidden ? 'willHidden' : ''}>
+          <div // eslint-disable-line
+            ref={(c) => { this._backdrop = c }} // eslint-disable-line
+            className="backdrop"
+            onClick={this.hide}
+          />
+          <div
+            ref={(c) => { this._modal = c }} // eslint-disable-line
+            className="modal"
+          >
+            <div className="modal-container">
+              { children }
+            </div>
+          </div>
+        </span>
       </span>
     )
   }
 }
 
 Modal.propTypes = {
-  children : PropTypes.node.isRequired
+  children: PropTypes.node.isRequired
 }
 
 export default Modal
