@@ -7,8 +7,8 @@ import { STATS_UPDATE } from './actions'
  * Initial state for this store component
  */
 export const initialState = {
-  polls     : null,
-  responses : null,
+  polls: null,
+  responses: null,
 }
 
 /**
@@ -19,9 +19,9 @@ export const initialState = {
  *
  * @return {object}        The modified state
  */
-export default function statsReducer (state = initialState, action = null) {
+export default function statsReducer(state = initialState, action = null) {
   if (action.type === STATS_UPDATE) {
-     return action.stats
+    return action.stats
   }
   return state
 }

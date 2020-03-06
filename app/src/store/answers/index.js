@@ -24,7 +24,7 @@ const initialState = []
  *
  * @return {State}         The modified state
  */
-export default function answersReducer (state = initialState, action = null) {
+export default function answersReducer(state = initialState, action = null) {
   switch (action.type) {
     case ANSWER_ADD:
       // Add a new answer to the state

@@ -8,8 +8,7 @@ import { prop, compose } from 'ramda'
  *
  * @return {boolean}       The stat
  */
-export const statSelector = (state, stat) =>
-  compose(
-    prop(stat),
-    prop('stats')
-  )(state)
+export const statSelector = (state, stat) => compose( // eslint-disable-line
+  prop(stat),
+  prop('stats')
+)(state)

@@ -8,8 +8,8 @@ import { LOADING_UPDATE, PASSPHRASE_UPDATE } from 'store/loader/actions'
  * Initial state for this store component
  */
 const initialState = {
-  loading    : false,
-  passphrase : false
+  loading: false,
+  passphrase: false
 }
 
 /**
@@ -20,7 +20,7 @@ const initialState = {
  *
  * @return {State}         The modified state
  */
-export default function loaderReducer (state = initialState, action = null) {
+export default function loaderReducer(state = initialState, action = null) {
   switch (action.type) {
     case LOADING_UPDATE:
       return merge(state, { loading: action.loading })
