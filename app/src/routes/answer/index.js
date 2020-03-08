@@ -1,3 +1,3 @@
-import Answer from './answer'
+import Answer from './answer-container'
 
 export default Answer

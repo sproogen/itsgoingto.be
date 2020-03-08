@@ -1,11 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { mergeAll } from 'ramda'
-import { fetchPoll, APIError } from 'services/api'
-import { updatePoll } from 'store/poll/actions'
-import { setRequiresPassphrase } from 'store/loader/actions'
-import EventBus from 'components/event-bus'
+import { APIError } from 'services/api'
+import EventBus from 'services/event-bus'
 import Button from 'components/button'
 import './passphrase.scss'
 
@@ -45,16 +41,21 @@ const Passphrase = ({
   return (
     <div className="passphrase-container">
       <div className={`input-passphrase${error ? ' input-error' : ''}`}>
-        <label className="input-label input-label-passphrase" htmlFor="passphrase">Passphrase</label>
-        <input
-          className="input-field input-field-passphrase"
-          type="text"
-          id="passphrase"
-          name="passphrase"
-          value={value}
-          onChange={handleChange}
-          onKeyDown={handleKeyPress}
-        />
+        <label
+          className="input-label input-label-passphrase"
+          htmlFor="passphrase"
+        >
+          Passphrase
+          <input
+            className="input-field input-field-passphrase"
+            type="text"
+            id="passphrase"
+            name="passphrase"
+            value={value}
+            onChange={handleChange}
+            onKeyDown={handleKeyPress}
+          />
+        </label>
         {error && (
           <span className="input-error-label">
             Passphrase incorrect
@@ -73,12 +74,4 @@ Passphrase.propTypes = {
   setRequiresPassphrase: PropTypes.func.isRequired
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  setPassphrase: (value, identifier) => dispatch(updatePoll({ passphrase : value, identifier })),
-  fetchPoll: (identifier) => dispatch(fetchPoll(identifier)),
-  setRequiresPassphrase: (value) => dispatch(setRequiresPassphrase(value))
-})
-
-const mergeProps = (stateProps, dispatchProps, ownProps) => mergeAll([stateProps, dispatchProps, ownProps.params])
-
-export default connect(null, mapDispatchToProps, mergeProps)(Passphrase)
+export default Passphrase

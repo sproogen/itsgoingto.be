@@ -1,11 +1,6 @@
 import React from 'react'
 import { Helmet } from 'react-helmet'
-import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { questionSelector, hasQuestionSelector, pollSelector } from 'store/poll/selectors'
-import { updatePoll } from 'store/poll/actions'
-import { initialPoll } from 'store/poll'
-import { canSubmitPollSelector, answersSelector } from 'store/answers/selectors'
 import WordRotate from 'components/word-rotate'
 import Question from './components/question'
 import Answers from './components/answers'
@@ -65,24 +60,12 @@ class Ask extends React.Component {
 }
 
 Ask.propTypes = {
-  question      : PropTypes.string.isRequired,
-  hasQuestion   : PropTypes.bool.isRequired,
-  canSubmitPoll : PropTypes.bool.isRequired,
-  poll          : PropTypes.object.isRequired,
-  answers       : PropTypes.array.isRequired,
-  clearPoll     : PropTypes.func.isRequired
+  question: PropTypes.string.isRequired,
+  hasQuestion: PropTypes.bool.isRequired,
+  canSubmitPoll: PropTypes.bool.isRequired,
+  poll: PropTypes.object.isRequired,
+  answers: PropTypes.array.isRequired,
+  clearPoll: PropTypes.func.isRequired
 }
 
-const mapStateToProps = (state) => ({
-  question      : questionSelector(state),
-  hasQuestion   : hasQuestionSelector(state),
-  canSubmitPoll : canSubmitPollSelector(state),
-  poll          : pollSelector(state),
-  answers       : answersSelector(state)
-})
-
-const mapDispatchToProps = (dispatch) => ({
-  clearPoll : () => dispatch(updatePoll(initialPoll))
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(Ask)
+export default Ask

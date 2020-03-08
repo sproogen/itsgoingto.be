@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import {
   BrowserRouter as Router,
   Route,
+  Redirect,
   Switch
 } from 'react-router-dom'
 import { connect } from 'react-redux'
@@ -14,6 +15,7 @@ import Loader from 'components/loader'
 import AdminNavigation from 'components/admin-navigation'
 import Ask from 'routes/ask'
 import Answer from 'routes/answer'
+import NotFound from 'routes/not-found'
 import './app.scss'
 
 const App = ({ isLoading, cookies, updateUserWithToken }) => {
@@ -34,8 +36,9 @@ const App = ({ isLoading, cookies, updateUserWithToken }) => {
             <AdminNavigation />
             <Switch>
               <Route exact path="/"><Ask /></Route>
+              <Route exact path="/404"><NotFound /></Route>
               <Route path="/:identifier"><Answer /></Route>
-              <Route path="*">Nope</Route>
+              <Route path="*"><Redirect to="/404" /></Route>
             </Switch>
           </div>
           <Footer />

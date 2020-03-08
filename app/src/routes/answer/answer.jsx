@@ -1,29 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { mergeAll } from 'ramda'
 import Helmet from 'react-helmet'
 import Linkify from 'react-linkify'
 import Countdown from 'react-countdown-now'
 import { useHistory } from 'react-router-dom'
-import { withCookies, Cookies } from 'react-cookie'
+import { Cookies } from 'react-cookie'
 import io from 'socket.io-client'
-import { fetchPoll as fetchPollAPI, postResponse as postResponseAPI, APIError } from 'services/api'
-import {
-  pollSelector, hasQuestionSelector, totalResponsesSelector, userRespondedSelector
-} from 'store/poll/selectors'
-import {
-  updateResponses as updateResponsesAction,
-  updateUserResponses as updateUserResponsesAction
-} from 'store/poll/actions'
-import { answersSelector } from 'store/answers/selectors'
-import { clearAnswers as clearAnswersAction } from 'store/answers/actions'
-import { requiresPassphraseSelector } from 'store/loader/selectors'
-import {
-  setLoading as setLoadingAction,
-  setRequiresPassphrase as setRequiresPassphraseAction
-} from 'store/loader/actions'
-import { hasUserSelector } from 'store/user/selectors'
+import { APIError } from 'services/api'
 import Back from 'components/back'
 import Sharing from './components/sharing'
 import Answers from './components/answers'
@@ -189,26 +172,4 @@ Answer.defaultProps = {
   totalResponses: 0
 }
 
-const mapStateToProps = (state, props) => ({
-  poll: pollSelector(state, props.params.identifier),
-  hasPoll: hasQuestionSelector(state, props.params.identifier),
-  requiresPassphrase: requiresPassphraseSelector(state),
-  answers: answersSelector(state),
-  totalResponses: totalResponsesSelector(state, props.params.identifier),
-  userResponded: userRespondedSelector(state, props.params.identifier),
-  hasUser: hasUserSelector(state),
-})
-
-const mapDispatchToProps = (dispatch, props) => ({
-  fetchPoll: () => dispatch(fetchPollAPI(props.params.identifier)),
-  clearAnswers: () => dispatch(clearAnswersAction()),
-  setLoading: (value) => dispatch(setLoadingAction(value)),
-  setRequiresPassphrase: (value) => dispatch(setRequiresPassphraseAction(value)),
-  postResponse: (id) => dispatch(postResponseAPI(id, props.params.identifier)),
-  updateResponses: (responses) => dispatch(updateResponsesAction(responses, props.params.identifier)),
-  updateUserResponses: (responses) => dispatch(updateUserResponsesAction(responses, props.params.identifier))
-})
-
-const mergeProps = (stateProps, dispatchProps, ownProps) => mergeAll([stateProps, dispatchProps, ownProps.params])
-
-export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(withCookies(Answer))
+export default Answer

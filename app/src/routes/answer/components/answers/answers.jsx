@@ -22,7 +22,7 @@ const Answers = ({
       <div className={`options${(userResponded || viewOnly || poll.ended ? ' show-results' : '')}`}>
         {answers.map((answer, index) => (
           <Answer
-            key={index}
+            key={index} // eslint-disable-line react/no-array-index-key
             index={index}
             type={poll.multipleChoice ? 'checkbox' : 'radio'}
             answer={answer}
@@ -39,8 +39,15 @@ const Answers = ({
 }
 
 Answers.propTypes = {
-  answers: PropTypes.array.isRequired,
-  poll: PropTypes.object.isRequired,
+  answers: PropTypes.arrayOf({
+    id: PropTypes.number,
+    answer: PropTypes.string,
+    responsesCount: PropTypes.number
+  }).isRequired,
+  poll: PropTypes.shape({
+    ended: PropTypes.bool,
+    multipleChoice: PropTypes.bool
+  }).isRequired,
   totalResponses: PropTypes.number,
   userResponded: PropTypes.bool.isRequired,
   viewOnly: PropTypes.bool.isRequired,

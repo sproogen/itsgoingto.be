@@ -1,89 +1,89 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { merge } from 'ramda'
+import classNames from 'classnames'
 import Linkify from 'react-linkify'
 import './answer.scss'
 
-export class Answer extends React.Component {
-  constructor (props) {
-    super(props)
-    this.state = { animating : false }
-    this.linkClicked = false
-  }
+const Answer = ({
+  index, type, checked, answer, poll, viewOnly, totalResponses, onResponseSelected
+}) => {
+  const [animating, setAnimating] = useState(false)
 
-  handleClick = () => {
-    const { answer, poll, onResponseSelected, viewOnly } = this.props
-
-    if (!this.linkClicked) {
+  const handleClick = () => {
+    if (!this._linkClicked) { // eslint-disable-line
       if (!poll.ended && !viewOnly) {
-        this.setState((prevState) =>
-          merge(prevState, { animating : true })
-        )
+        setAnimating(true)
         setTimeout(() => {
-          this.setState((prevState) =>
-            merge(prevState, { animating : false })
-          )
+          setAnimating(false)
         }, 550)
 
         onResponseSelected(answer.id)
       }
     } else {
-      this.linkClicked = false
+      this._linkClicked = false // eslint-disable-line
     }
   }
 
-  linkClick = () => {
-    this.linkClicked = true
+  const linkClick = () => {
+    this._linkClicked = true // eslint-disable-line
   }
 
-  calculateWidth = () =>
-    (this.props.answer.responsesCount / this.props.totalResponses) * 100 + '%'
+  const calculateWidth = () => ({
+    width: `${(answer.responsesCount / totalResponses) * 100}%`
+  })
 
-  render () {
-    const { index, type, checked, answer, poll, viewOnly } = this.props
-    const { animating } = this.state
-    const width = this.calculateWidth()
-
-    return (
-      <span className='input input-options'>
-        <span className='result-wrapper'>
-          <span className='result' name={'answer-' + index} style={{ width }} />
-        </span>
-        <input
-          id={'answer-' + index}
-          name='answer'
-          className={type === 'radio'
-            ? 'input-radio input-radio-options'
-            : 'input-checkbox input-checkbox-options'}
-          type={type}
-          value={index}
-          checked={checked}
-          readOnly />
-        <label
-          htmlFor={'answer-' + index}
-          className={'input-label input-label-options' +
-                     (animating ? ' input-label-options--click' : '') +
-                     (poll.ended || viewOnly ? ' input-label-options--hidden' : '')}
-          onClick={this.handleClick}>
-          <Linkify properties={{ target: '_blank', onClick: this.linkClick }}>{ answer.answer }</Linkify>
-        </label>
-        <span htmlFor={'answer-' + index} className='input-label-votes'>
-          {answer.responsesCount} votes
-        </span>
+  return (
+    <span className="input input-options">
+      <span className="result-wrapper">
+        <span className="result" name={`answer-${index}`} style={calculateWidth()} />
       </span>
-    )
-  }
+      <input
+        id={`answer-${index}`}
+        name="answer"
+        className={classNames({
+          'input-radio input-radio-options': type === 'radio',
+          'input-checkbox input-checkbox-options': type !== 'radio'
+        })}
+        type={type}
+        value={index}
+        checked={checked}
+        readOnly
+      />
+      <label // eslint-disable-line
+        htmlFor={`answer-${index}`}
+        className={classNames(
+          'input-label input-label-options',
+          {
+            'input-label-options--click': animating,
+            'input-label-options--hidden': poll.ended || viewOnly
+          }
+        )}
+        onClick={handleClick}
+      >
+        <Linkify properties={{ target: '_blank', onClick: linkClick }}>{ answer.answer }</Linkify>
+      </label>
+      <span htmlFor={`answer-${index}`} className="input-label-votes">
+        {`${answer.responsesCount} votes`}
+      </span>
+    </span>
+  )
 }
 
 Answer.propTypes = {
-  index              : PropTypes.number.isRequired,
-  type               : PropTypes.string.isRequired,
-  answer             : PropTypes.object.isRequired,
-  poll               : PropTypes.object.isRequired,
-  totalResponses     : PropTypes.number.isRequired,
-  checked            : PropTypes.bool.isRequired,
-  viewOnly           : PropTypes.bool.isRequired,
-  onResponseSelected : PropTypes.func.isRequired
+  index: PropTypes.number.isRequired,
+  type: PropTypes.string.isRequired,
+  answer: PropTypes.shape({
+    id: PropTypes.number,
+    answer: PropTypes.string,
+    responsesCount: PropTypes.number
+  }).isRequired,
+  poll: PropTypes.shape({
+    ended: PropTypes.bool
+  }).isRequired,
+  totalResponses: PropTypes.number.isRequired,
+  checked: PropTypes.bool.isRequired,
+  viewOnly: PropTypes.bool.isRequired,
+  onResponseSelected: PropTypes.func.isRequired
 }
 
 export default Answer
