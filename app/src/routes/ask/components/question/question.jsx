@@ -1,152 +1,145 @@
-import React from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { compose, nth, slice, concat, __, when, merge, ifElse, add, equals, subtract, length } from 'ramda'
+import {
+  compose, nth, slice, concat, __, when, ifElse, add, equals, subtract, length
+} from 'ramda'
 import autosize from 'autosize'
-import { updateQuestion } from 'store/poll/actions'
-import EventBus from 'components/event-bus'
+import EventBus from 'services/event-bus'
 import './question.scss'
 
 const KEY_DOWN_ARROW = 40
 const KEY_ENTER = 13
+const PLACEHOLDER_TEXT = [
+  'What film should we watch?',
+  'Who is going to win the league?',
+  'Where should we go for drinks?',
+  'You talking to me?',
+  'What should we do this weekend?',
+  'When should we go to Paris?',
+  'Who ya gonna call?',
+  'When will you start a poll?'
+]
 
-export class Question extends React.Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      placeholder : 0,
-      character : 0,
-      cursor : false,
-    }
-  }
+const Question = ({ question, onQuestionChange }) => {
+  const [placeholder, setPlaceholder] = useState(0)
+  const [character, setCharacter] = useState(0)
+  const [cursor, setCursor] = useState(false)
+  const [cursorUpdater, setCursorUpdater] = useState(false)
+  const [characterUpdater, setCharacterUpdater] = useState(false)
+  const textarea = useRef(null)
 
-  handleChange = (event) => {
-    const { onQuestionChange } = this.props
+  const eventBus = EventBus.getEventBus()
 
-    onQuestionChange(event.target.value)
-  }
+  const handleChange = (event) => onQuestionChange(event.target.value)
 
-  handleKeyPress = (event) => {
-    event = event || window.event
+  const handleKeyPress = (event) => {
+    // event = event || window.event
     const key = event.keyCode || event.charCode
 
     switch (key) {
       case KEY_DOWN_ARROW:
       case KEY_ENTER:
         event.preventDefault()
-        this.eventBus.emit('focus', 0)
+        eventBus.emit('focus', 0)
+        break
+      default:
         break
     }
   }
 
-  humanize = () => Math.round(Math.random() * (150 - 30)) + 30
+  const humanize = () => Math.round(Math.random() * (150 - 30)) + 30
 
-  toggleCursor = () => {
-    this.setState((prevState) =>
-      merge(prevState, { cursor : !prevState.cursor })
-    )
-  }
+  const toggleCursor = () => setCursor(!cursor)
 
-  type = () => {
-    this.setState((prevState) =>
-      merge(prevState, { character : prevState.character + 1 })
-    )
-    this.characterUpdate = setTimeout(
-      this.type,
-      this.humanize()
-    )
-    if (this.state.character <= this.props.placeholderText[this.state.placeholder].length) {
-      clearInterval(this.cursorUpdater)
-      this.setState(merge(this.state, { cursor : true }))
-      this.cursorUpdater = setInterval(
-        this.toggleCursor,
+  const type = () => {
+    setCharacter(character + 1)
+    setCharacterUpdater(setTimeout(
+      type,
+      humanize()
+    ))
+    if (character <= PLACEHOLDER_TEXT[placeholder].length) {
+      clearInterval(cursorUpdater)
+      setCursor(true)
+      setCursorUpdater(setInterval(
+        toggleCursor,
         500
-      )
+      ))
     }
   }
 
-  updatePlaceholder = () => {
-    this.setState((prevState, props) =>
-      merge(prevState, {
-        character   : 0,
-        placeholder : ifElse(
-          equals(compose(subtract(__, 1), length)(props.placeholderText)),
-          () => 0,
-          add(1)
-        )(prevState.placeholder)
-      })
+  const updatePlaceholder = () => {
+    setCharacter(0)
+    setPlaceholder(
+      ifElse(
+        equals(compose(subtract(__, 1), length)(PLACEHOLDER_TEXT)),
+        () => 0,
+        add(1)
+      )(placeholder)
     )
   }
 
-  placeholderSelector = (state) =>
-    compose(
-      when(
-        () => state.cursor,
-        concat(__, '|')
-      ),
-      slice(0, state.character),
-      nth(state.placeholder)
-    )(this.props.placeholderText)
+  const placeholderSelector = () => compose(
+    when(
+      () => cursor,
+      concat(__, '|')
+    ),
+    slice(0, character),
+    nth(placeholder)
+  )(PLACEHOLDER_TEXT)
 
-  componentDidMount = () => {
-    this.eventBus = EventBus.getEventBus()
-    this.eventListener = this.eventBus.addListener('focus', (index) => {
+  useEffect(() => {
+    const eventListener = EventBus.getEventBus().addListener('focus', (index) => {
       if (index === -1) {
-        this._question.focus()
+        textarea.current.focus()
       }
     })
-    autosize(this._question)
-    this.cursorUpdater = setInterval(
-      this.toggleCursor,
+    autosize(textarea.current)
+    setCursorUpdater(setInterval(
+      toggleCursor,
       500
-    )
-    this.characterUpdate = setTimeout(
-      this.type,
-      this.humanize()
-    )
-    this.placeholderUpdater = setInterval(
-      this.updatePlaceholder,
+    ))
+    setCharacterUpdater(setTimeout(
+      type,
+      humanize()
+    ))
+    const placeholderUpdater = setInterval(
+      updatePlaceholder,
       5000
     )
-  }
 
-  componentWillUnmount = () => {
-    this.eventListener.remove()
-    autosize.destroy(this._question)
-    clearInterval(this.cursorUpdater)
-    clearTimeout(this.characterUpdate)
-    clearInterval(this.placeholderUpdater)
-  }
+    return () => {
+      eventListener.remove()
+      autosize.destroy(textarea.current)
+      clearInterval(cursorUpdater)
+      clearTimeout(characterUpdater)
+      clearInterval(placeholderUpdater)
+    }
+  }, [])
 
-  render () {
-    const { question } = this.props
 
-    return (
-      <div className='input input-question'>
-        <label className='input-label input-label-question' htmlFor='question'>Ask a question</label>
+  return (
+    <div className="input input-question">
+      <label className="input-label input-label-question" htmlFor="question">
+        Ask a question
         <textarea
-          className='input-field input-field-question js-auto-size'
+          className="input-field input-field-question js-auto-size"
           value={question}
-          onChange={this.handleChange}
-          onKeyDown={this.handleKeyPress}
-          placeholder={this.placeholderSelector(this.state)}
-          rows='1'
-          id='question'
-          name='question'
-          ref={(c) => { this._question = c }} />
-      </div>
-    )
-  }
+          onChange={handleChange}
+          onKeyDown={handleKeyPress}
+          placeholder={placeholderSelector()}
+          rows="1"
+          id="question"
+          name="question"
+          ref={textarea}
+        />
+      </label>
+    </div>
+  )
 }
 
 Question.propTypes = {
-  placeholderText  : PropTypes.array.isRequired,
-  question         : PropTypes.string.isRequired,
-  onQuestionChange : PropTypes.func.isRequired
+  question: PropTypes.string.isRequired,
+  onQuestionChange: PropTypes.func.isRequired
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  onQuestionChange : (value) => dispatch(updateQuestion(value))
-})
-
-export default connect(null, mapDispatchToProps)(Question)
+export default Question

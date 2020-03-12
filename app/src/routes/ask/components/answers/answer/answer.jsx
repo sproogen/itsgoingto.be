@@ -1,99 +1,101 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { compose, equals, length, trim } from 'ramda'
-import { updateAnswer, removeAnswer } from 'store/answers/actions'
-import EventBus from 'components/event-bus'
+import {
+  compose, equals, length, trim
+} from 'ramda'
+import classNames from 'classnames'
+import EventBus from 'services/event-bus'
 import './answer.scss'
 
-const KEY_UP_ARROW   = 38
+const KEY_UP_ARROW = 38
 const KEY_DOWN_ARROW = 40
-const KEY_BACKSPACE  = 8
-const KEY_DELETE     = 46
-const KEY_ENTER      = 13
+const KEY_BACKSPACE = 8
+const KEY_DELETE = 46
+const KEY_ENTER = 13
 
-export class Answer extends React.Component {
-  handleChange = (event) => {
-    this.props.onAnswerChange(this.props.index, event.target.value)
-  }
+const Answer = ({
+  index, text, disabled, onAnswerChange, onRemoveAnswer
+}) => {
+  const answer = useRef(null)
+  const eventBus = EventBus.getEventBus()
 
-  handleKeyPress = (event) => {
-    event = event || window.event
+  const handleChange = (event) => onAnswerChange(index, event.target.value)
+
+  const handleKeyPress = (event) => {
+    // event = event || window.event
     const key = event.keyCode || event.charCode
 
     switch (key) {
       case KEY_UP_ARROW:
-        this.eventBus.emit('focus', this.props.index - 1)
+        eventBus.emit('focus', index - 1)
         break
       case KEY_DOWN_ARROW:
       case KEY_ENTER:
-        this.eventBus.emit('focus', this.props.index + 1)
+        eventBus.emit('focus', index + 1)
         break
       case KEY_BACKSPACE:
       case KEY_DELETE:
-        if (compose(equals(0), length, trim)(this.props.text)) {
+        if (compose(equals(0), length, trim)(text)) {
           event.preventDefault()
-          this.props.onRemoveAnswer(this.props.index)
-          this.eventBus.emit('focus', this.props.index - 1)
+          onRemoveAnswer(index)
+          eventBus.emit('focus', index - 1)
         }
         break
+      default:
     }
   }
 
-  componentDidMount = () => {
-    this.eventBus = EventBus.getEventBus()
-    this.eventListener = this.eventBus.addListener('focus', (index) => {
-      if (index === this.props.index) {
-        this._answer.focus()
+  useEffect(() => {
+    const eventListener = eventBus.addListener('focus', (i) => {
+      if (i === index) {
+        answer.current.focus()
       }
     })
-  }
 
-  componentWillUnmount = () => {
-    this.eventListener.remove()
-  }
+    return () => eventListener.remove()
+  }, [])
 
-  render () {
-    const { index, text, disabled } = this.props
-
-    return (
-      <div className={'input input-answer' + (disabled ? ' input-disabled' : '')}>
-        <label
-          className='input-label input-label-answer'
-          htmlFor={'answer-' + index} >
-          {index + 1}
-        </label>
-        <input
-          className='input-field input-field-answer'
-          type='text'
-          id={'answer-' + index}
-          name={'answer-' + index}
-          ref={(c) => { this._answer = c }}
-          value={text}
-          onChange={this.handleChange}
-          onKeyDown={this.handleKeyPress}
-          disabled={disabled} />
-      </div>
-    )
-  }
+  return (
+    <div
+      className={classNames(
+        'input input-answer',
+        {
+          'input-disabled': disabled
+        }
+      )}
+    >
+      <label
+        className="input-label input-label-answer"
+        htmlFor={`answer-${index}`}
+      >
+        {index + 1}
+      </label>
+      <input
+        className="input-field input-field-answer"
+        type="text"
+        id={`answer-${index}`}
+        name={`answer-${index}`}
+        ref={answer}
+        value={text}
+        onChange={handleChange}
+        onKeyDown={handleKeyPress}
+        disabled={disabled}
+      />
+    </div>
+  )
 }
 
 Answer.propTypes = {
-  index          : PropTypes.number.isRequired,
-  text           : PropTypes.string,
-  disabled       : PropTypes.bool,
-  onAnswerChange : PropTypes.func.isRequired,
-  onRemoveAnswer : PropTypes.func.isRequired
+  index: PropTypes.number.isRequired,
+  text: PropTypes.string,
+  disabled: PropTypes.bool,
+  onAnswerChange: PropTypes.func.isRequired,
+  onRemoveAnswer: PropTypes.func.isRequired
 }
 
 Answer.defaultProps = {
-  text     : '',
-  disabled : false,
+  text: '',
+  disabled: false,
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  onAnswerChange : (index, value) => dispatch(updateAnswer(index, value)),
-  onRemoveAnswer : (index) => dispatch(removeAnswer(index))
-})
-
-export default connect(null, mapDispatchToProps)(Answer)
+export default Answer
