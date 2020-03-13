@@ -1,8 +1,8 @@
 {
-  "parser": "babel-eslint",
   "extends": [
     "eslint:recommended",
-    "airbnb"
+    "airbnb",
+    "plugin:jest/recommended"
   ],
   "env": {
     "browser": true,
@@ -36,6 +36,18 @@
     "no-multi-spaces": [2, {"exceptions": {"VariableDeclarator": true}}],
     "no-extra-semi": 1,
     "no-unreachable": 1,
-    "import/no-extraneous-dependencies": ["error", {"devDependencies": ["**/*.config.js"]}]
+    "import/no-extraneous-dependencies": [
+      "error",
+      {"devDependencies": ["**/*.config.js", "**/*.spec.js"]}
+    ],
+    "react/jsx-filename-extension": [
+      1,
+      {
+        "extensions": [
+          ".jsx",
+          ".spec.js"
+        ]
+      }
+    ]
   }
 }

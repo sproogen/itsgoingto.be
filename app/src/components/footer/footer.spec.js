@@ -1,6 +1,5 @@
-/* global expect */
 import React from 'react'
-import Footer from 'layouts/footer'
+import Footer from 'components/footer'
 import { shallow } from 'enzyme'
 
 describe('(Layout) Footer', () => {

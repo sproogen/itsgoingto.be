@@ -1,4 +1,3 @@
-/* global expect */
 import React from 'react'
 import { shallow } from 'enzyme'
 import WordRotate from './word-rotate'
@@ -8,7 +7,7 @@ describe('(Component) WordRotate', () => {
   let instance
 
   beforeEach(() => {
-    wrapper = shallow(<WordRotate words='word1,word2' />)
+    wrapper = shallow(<WordRotate words="word1,word2" />)
     instance = wrapper.instance()
   })
 

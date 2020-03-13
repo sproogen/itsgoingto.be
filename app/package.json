@@ -70,10 +70,12 @@
     "eslint-config-airbnb": "^18.0.1",
     "eslint-import-resolver-webpack": "^0.12.1",
     "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-jest": "^23.8.2",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.18.3",
     "eslint-plugin-react-hooks": "^1.7.0",
     "html-webpack-plugin": "^3.2.0",
+    "identity-obj-proxy": "^3.0.0",
     "interpolate-html-plugin": "^3.0.0",
     "jest": "^25.1.0",
     "mini-css-extract-plugin": "^0.9.0",
@@ -96,6 +98,23 @@
     "webpack-merge": "^4.2.2"
   },
   "jest": {
+    "testEnvironment": "node",
+    "testMatch": ["<rootDir>/src/components/**/?(*.)(spec|test).js"],
+
+    "transform": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/config/file-transform.js",
+      "\\.(js|jsx)$": "babel-jest"
+    },
+    "moduleNameMapper": {
+      "\\.(css|scss)$": "<rootDir>/config/style-mock.js"
+    },
+    "setupFilesAfterEnv": ["<rootDir>/config/test-setup.js"],
+    "snapshotSerializers": ["enzyme-to-json/serializer"],
+
+    "modulePaths": ["<rootDir>/src/"],
+    "moduleFileExtensions": ["js", "jsx"],
+    "moduleDirectories": ["node_modules"],
+
     "coverageDirectory": "build/coverage",
     "collectCoverageFrom": [
       "src/**/*.{js,jsx}"
@@ -107,29 +126,6 @@
       "<rootDir>/stories/",
       "<rootDir>/node_modules/"
     ],
-    "coverageReporters": [
-      "lcov"
-    ],
-    "testMatch": [
-      "<rootDir>/src/**/?(*.)(spec|test).js"
-    ],
-    "transformIgnorePatterns": [
-      "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs)$"
-    ],
-    "setupFilesAfterEnv": [
-      "<rootDir>/setup-tests.js"
-    ],
-    "snapshotSerializers": [
-      "enzyme-to-json/serializer"
-    ],
-    "modulePaths": [
-      "<rootDir>/src/"
-    ],
-    "moduleFileExtensions": [
-      "js",
-      "json",
-      "jsx",
-      "node"
-    ]
+    "coverageReporters": ["lcov"]
   }
 }

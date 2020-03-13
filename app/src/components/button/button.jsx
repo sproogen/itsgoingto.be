@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import EventBus from 'components/event-bus'
+import EventBus from 'services/event-bus'
 import Spinner from 'components/spinner'
 import './button.scss'
 
@@ -34,11 +34,11 @@ const Button = ({
         () => handlePress
       ))
     }
-  },
-  () => {
-    this._mounted = false // eslint-disable-line
-    if (eventListener) {
-      eventListener.remove()
+    return () => {
+      this._mounted = false // eslint-disable-line
+      if (eventListener) {
+        eventListener.remove()
+      }
     }
   }, [])
 
