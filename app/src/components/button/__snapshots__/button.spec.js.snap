@@ -5,6 +5,7 @@ exports[`(Component) Button (Render) with className should match snapshot 1`] = 
   className="btn button button--class disabled"
   disabled={true}
   onClick={[Function]}
+  type="button"
 >
   <span />
 </button>
@@ -25,6 +26,7 @@ exports[`(Component) Button (Render) with prop disabled should match snapshot 1`
   className="btn  disabled"
   disabled={true}
   onClick={[Function]}
+  type="button"
 >
   <span>
     Click Me!
@@ -49,6 +51,7 @@ exports[`(Component) Button (Render) with text should match snapshot 1`] = `
   className="btn "
   disabled={false}
   onClick={[Function]}
+  type="button"
 >
   <span>
     Click Me!

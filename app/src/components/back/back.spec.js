@@ -1,6 +1,4 @@
-/* global expect, jest */
 import React from 'react'
-import { browserHistory } from 'react-router'
 import { shallow } from 'enzyme'
 import Back from './back'
 

@@ -26,6 +26,7 @@ exports[`(Layout) Footer (Render) matchs snapshot 1`] = `
         target="_blank"
       >
         <img
+          alt="JWGMedia logo"
           src="jwgmedia.png"
         />
       </a>

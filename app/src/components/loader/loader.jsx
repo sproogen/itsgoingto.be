@@ -1,9 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import classNames from 'classnames'
 import './loader.scss'
 
 const Loader = ({ isLoading }) => (
-  <div className={`loader-container hideable ${isLoading ? '' : ' gone'}`}>
+  <div className={classNames('loader-container hideable', { gone: !isLoading })}>
     <div className="loader">
       <p className="loader__label">?</p>
       <div className="loader__figure" />

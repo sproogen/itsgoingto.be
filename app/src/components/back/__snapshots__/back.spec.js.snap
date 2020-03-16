@@ -7,14 +7,14 @@ exports[`(Component) Back (Render) matches snapshot 1`] = `
   <div
     className="back-button"
   >
-    <a
-      onClick={[Function]}
+    <Link
+      to="/"
     >
       <i
         className="fa fa-arrow-left"
       />
-       New Poll
-    </a>
+      New Poll
+    </Link>
   </div>
 </div>
 `;
