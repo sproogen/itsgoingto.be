@@ -1,60 +1,68 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`(Component) Button (Render) with className should match snapshot 1`] = `
-<button
-  className="btn button button--class disabled"
-  disabled={true}
-  onClick={[Function]}
-  type="button"
->
-  <span />
-</button>
+<DocumentFragment>
+  <button
+    class="btn button button--class disabled"
+    data-testid="button-"
+    disabled=""
+    type="button"
+  >
+    <span />
+  </button>
+</DocumentFragment>
 `;
 
 exports[`(Component) Button (Render) with loading true should match snapshot 1`] = `
-<button
-  className="btn  disabled"
-  disabled={false}
-  onClick={[Function]}
->
-  <Spinner />
-</button>
+<DocumentFragment>
+  <button
+    class="btn disabled"
+    data-testid="button-Click-Me-"
+    disabled=""
+    type="button"
+  >
+    <div
+      class="spinner"
+    >
+      <span
+        class="spinner_dot spinner_dot--first"
+      />
+      <span
+        class="spinner_dot spinner_dot--second"
+      />
+      <span
+        class="spinner_dot spinner_dot--third"
+      />
+    </div>
+  </button>
+</DocumentFragment>
 `;
 
 exports[`(Component) Button (Render) with prop disabled should match snapshot 1`] = `
-<button
-  className="btn  disabled"
-  disabled={true}
-  onClick={[Function]}
-  type="button"
->
-  <span>
-    Click Me!
-  </span>
-</button>
-`;
-
-exports[`(Component) Button (Render) with state disabled should match snapshot 1`] = `
-<button
-  className="btn  disabled"
-  disabled={false}
-  onClick={[Function]}
->
-  <span>
-    Click Me!
-  </span>
-</button>
+<DocumentFragment>
+  <button
+    class="btn disabled"
+    data-testid="button-Click-Me-"
+    disabled=""
+    type="button"
+  >
+    <span>
+      Click Me!
+    </span>
+  </button>
+</DocumentFragment>
 `;
 
 exports[`(Component) Button (Render) with text should match snapshot 1`] = `
-<button
-  className="btn "
-  disabled={false}
-  onClick={[Function]}
-  type="button"
->
-  <span>
-    Click Me!
-  </span>
-</button>
+<DocumentFragment>
+  <button
+    class="btn"
+    data-testid="button-Click-Me-"
+    type="button"
+  >
+    <span>
+      Click Me!
+    </span>
+  </button>
+</DocumentFragment>
 `;

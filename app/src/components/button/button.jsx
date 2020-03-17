@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
+import classNames from 'classnames'
 import EventBus from 'services/event-bus'
 import Spinner from 'components/spinner'
 import './button.scss'
@@ -19,7 +20,7 @@ const Button = ({
     if (!isDisabled() && callback) {
       setLoading(true)
       callback().then((reset) => {
-        if (reset !== false && this._mounted) { // eslint-disable-line
+        if (reset !== false) {
           setLoading(false)
         }
       })
@@ -27,15 +28,13 @@ const Button = ({
   }
 
   useEffect(() => {
-    this._mounted = true // eslint-disable-line
     if (submitEvent) {
       setEventListener(EventBus.getEventBus().addListener(
         submitEvent,
-        () => handlePress
+        () => handlePress()
       ))
     }
     return () => {
-      this._mounted = false // eslint-disable-line
       if (eventListener) {
         eventListener.remove()
       }
@@ -44,9 +43,10 @@ const Button = ({
 
   return (
     <button
+      data-testid={`button-${text.replace(/\W/g, '-')}`}
       type="button"
-      className={`btn ${className}${isDisabled() ? ' disabled' : ''}`}
-      disabled={disabled}
+      className={classNames('btn', className, { disabled: isDisabled() })}
+      disabled={isDisabled()}
       onClick={handlePress}
     >
       {loading && <Spinner />}
