@@ -1,13 +1,13 @@
 import React from 'react'
+import { render } from '@testing-library/react'
 import Footer from 'components/footer'
-import { shallow } from 'enzyme'
 
 describe('(Layout) Footer', () => {
   describe('(Render)', () => {
     it('matchs snapshot', () => {
-      const wrapper = shallow(<Footer />)
+      const { asFragment } = render(<Footer />)
 
-      expect(wrapper).toMatchSnapshot()
+      expect(asFragment()).toMatchSnapshot()
     })
   })
 })

@@ -1,20 +1,22 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`(Component) Back (Render) matches snapshot 1`] = `
-<div
-  className="container back-container"
->
+<DocumentFragment>
   <div
-    className="back-button"
+    class="container back-container"
   >
-    <Link
-      to="/"
+    <div
+      class="back-button"
     >
-      <i
-        className="fa fa-arrow-left"
-      />
-      New Poll
-    </Link>
+      <a
+        href="/"
+      >
+        <i
+          class="fa fa-arrow-left"
+        />
+        New Poll
+      </a>
+    </div>
   </div>
-</div>
+</DocumentFragment>
 `;

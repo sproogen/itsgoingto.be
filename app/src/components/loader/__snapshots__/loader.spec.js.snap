@@ -1,39 +1,43 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`(Component) Loader (Render) when prop isLoading is false matches snapshot 1`] = `
-<div
-  className="loader-container hideable gone"
->
+<DocumentFragment>
   <div
-    className="loader"
+    class="loader-container hideable gone"
   >
-    <p
-      className="loader__label"
-    >
-      ?
-    </p>
     <div
-      className="loader__figure"
-    />
+      class="loader"
+    >
+      <p
+        class="loader__label"
+      >
+        ?
+      </p>
+      <div
+        class="loader__figure"
+      />
+    </div>
   </div>
-</div>
+</DocumentFragment>
 `;
 
 exports[`(Component) Loader (Render) when prop isLoading is true matches snapshot 1`] = `
-<div
-  className="loader-container hideable"
->
+<DocumentFragment>
   <div
-    className="loader"
+    class="loader-container hideable"
   >
-    <p
-      className="loader__label"
-    >
-      ?
-    </p>
     <div
-      className="loader__figure"
-    />
+      class="loader"
+    >
+      <p
+        class="loader__label"
+      >
+        ?
+      </p>
+      <div
+        class="loader__figure"
+      />
+    </div>
   </div>
-</div>
+</DocumentFragment>
 `;

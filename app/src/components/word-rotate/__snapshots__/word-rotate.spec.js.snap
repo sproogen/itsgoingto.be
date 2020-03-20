@@ -1,35 +1,58 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`(Component) WordRotate (Render) with word updated matches snapshot 1`] = `
-<span
-  className="word-rotate"
->
+exports[`(Component) WordRotate (Render) after interval passed (back to first word) matches snapshot 1`] = `
+<DocumentFragment>
   <span
-    className="word-rotate_word"
+    class="word-rotate"
   >
-    word2
+    <span
+      class="word-rotate_word"
+    >
+      word1
+    </span>
+    <span
+      class="word-rotate_word word-rotate_word--previous"
+    >
+      word2
+    </span>
   </span>
-  <span
-    className="word-rotate_word word-rotate_word--previous"
-  >
-    word1
-  </span>
-</span>
+</DocumentFragment>
 `;
 
-exports[`(Component) WordRotate (Render) with words matches snapshot 1`] = `
-<span
-  className="word-rotate"
->
+exports[`(Component) WordRotate (Render) after interval passed (second word) matches snapshot 1`] = `
+<DocumentFragment>
   <span
-    className="word-rotate_word"
+    class="word-rotate"
   >
-    word1
+    <span
+      class="word-rotate_word"
+    >
+      word2
+    </span>
+    <span
+      class="word-rotate_word word-rotate_word--previous"
+    >
+      word1
+    </span>
   </span>
+</DocumentFragment>
+`;
+
+exports[`(Component) WordRotate (Render) initial word (first word) matches snapshot 1`] = `
+<DocumentFragment>
   <span
-    className="word-rotate_word word-rotate_word--previous"
+    class="word-rotate"
   >
-    word2
+    <span
+      class="word-rotate_word"
+    >
+      word1
+    </span>
+    <span
+      class="word-rotate_word word-rotate_word--previous"
+    >
+      word2
+    </span>
   </span>
-</span>
+</DocumentFragment>
 `;

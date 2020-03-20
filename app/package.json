@@ -96,14 +96,14 @@
   },
   "jest": {
     "testMatch": [
-      "<rootDir>/src/components/button/**/*?(*.)(spec|test).js"
+      "<rootDir>/src/components/word-rotate/**/*?(*.)(spec|test).js"
     ],
     "transform": {
-      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/config/file-transform.js",
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/test-utils/file-transform.js",
       "\\.(js|jsx)$": "babel-jest"
     },
     "moduleNameMapper": {
-      "\\.(css|scss)$": "<rootDir>/config/style-mock.js"
+      "\\.(css|scss)$": "<rootDir>/test-utils/style-mock.js"
     },
     "modulePaths": [
       "<rootDir>/src/"
@@ -116,7 +116,7 @@
       "node_modules"
     ],
     "setupFilesAfterEnv": [
-      "<rootDir>/config/test-setup.js"
+      "<rootDir>/test-utils/test-setup.js"
     ],
     "coverageDirectory": "build/coverage",
     "collectCoverageFrom": [

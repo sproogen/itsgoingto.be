@@ -7,17 +7,18 @@ import './word-rotate.scss'
 
 const WordRotate = ({ words }) => {
   const [currentWord, setCurrentWord] = useState(0)
+  const currentWordRef = useRef(0)
   const current = useRef(null)
   const previous = useRef(null)
 
   const updateWord = () => {
-    setCurrentWord(
-      ifElse(
-        equals(compose(subtract(__, 1), length, split(','))(words)),
-        () => 0,
-        add(1)
-      )(currentWord)
-    )
+    console.log('currentWord', currentWordRef.current)
+    currentWordRef.current = ifElse(
+      equals(compose(subtract(__, 1), length, split(','))(words)),
+      () => 0,
+      add(1)
+    )(currentWordRef.current)
+    setCurrentWord(currentWordRef.current)
   }
 
   useEffect(() => {
@@ -29,13 +30,13 @@ const WordRotate = ({ words }) => {
   }, [])
 
   useEffect(() => {
-    if (current.current) {
+    if (current.current && typeof current.current.animate === 'function') {
       current.current.animate([
         { transform: 'translate(0, -0.8em)', opacity: 0 },
         { transform: 'translate(0)', opacity: 1 }
       ], 500, 'easeInOutQuart')
     }
-    if (previous.current) {
+    if (previous.current && typeof previous.current.animate === 'function') {
       previous.current.animate([
         { transform: 'translate(0)', opacity: 1 },
         { transform: 'translate(0, 0.6em)', opacity: 0 }

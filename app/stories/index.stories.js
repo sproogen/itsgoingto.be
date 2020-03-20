@@ -6,7 +6,6 @@ import { setLoading } from 'store/loader/actions'
 import Back from 'components/back'
 import Button from 'components/button'
 import Loader from 'components/loader'
-import Modal from 'components/modal'
 import Spinner from 'components/spinner'
 import WordRotate from 'components/word-rotate'
 import Footer from 'layouts/footer'
@@ -41,20 +40,6 @@ storiesOf('Core.Loader', module)
     </Provider>
   })
   .add('Default', () => <Loader isLoading />)
-
-let _modal
-
-storiesOf('Core.Modal', module)
-  .add('Default', () =>
-    <div>
-      <Button text='Show' callback={() => {
-        _modal.show()
-        return Promise.resolve()
-      }} />
-      <Modal ref={(component) => { _modal = component }}>
-        <h2 className='modal-title'>Poll Options</h2>
-      </Modal>
-    </div>)
 
 storiesOf('Core.Spinner', module)
   .add('Default', () => <Spinner />)

@@ -1,23 +1,22 @@
-/* global expect, jest */
 import React from 'react'
-import { shallow } from 'enzyme'
+import { render } from '@testing-library/react'
 import Loader from './loader'
 
 describe('(Component) Loader', () => {
   describe('(Render)', () => {
     describe('when prop isLoading is false', () => {
       it('matches snapshot', () => {
-        const wrapper = shallow(<Loader isLoading={false} />)
+        const { asFragment } = render(<Loader isLoading={false} />)
 
-        expect(wrapper).toMatchSnapshot()
+        expect(asFragment()).toMatchSnapshot()
       })
     })
 
     describe('when prop isLoading is true', () => {
       it('matches snapshot', () => {
-        const wrapper = shallow(<Loader isLoading={true} />)
+        const { asFragment } = render(<Loader isLoading />)
 
-        expect(wrapper).toMatchSnapshot()
+        expect(asFragment()).toMatchSnapshot()
       })
     })
   })
