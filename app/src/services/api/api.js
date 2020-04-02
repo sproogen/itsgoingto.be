@@ -6,7 +6,7 @@ import { pollSelector } from 'store/poll/selectors'
 import {
   updatePoll, setPolls, setPollCount, updateResponses, updateUserResponses
 } from 'store/poll/actions'
-import { POLLS_PER_PAGE } from 'store/poll'
+import { POLLS_PER_PAGE } from 'store/poll/constants'
 import { answersSelector } from 'store/answers/selectors'
 import { userTokenSelector } from 'store/user/selectors'
 import { updateUser } from 'store/user/actions'

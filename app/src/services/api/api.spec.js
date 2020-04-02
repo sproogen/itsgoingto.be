@@ -1,4 +1,3 @@
-/* global expect, jest */
 import moment from 'moment'
 import {
   ROUTE_POLL,
@@ -24,7 +23,7 @@ import { updateStats } from 'store/stats/actions'
 import {
   updatePoll, updateResponses, updateUserResponses, setPolls, setPollCount
 } from 'store/poll/actions'
-import { POLLS_PER_PAGE } from 'store/poll'
+import { POLLS_PER_PAGE } from 'store/poll/constants'
 
 jest.mock('store/user/selectors')
 jest.mock('store/user/actions')
@@ -32,23 +31,20 @@ jest.mock('store/stats/actions')
 jest.mock('store/poll/actions')
 
 const jsonOk = (body) => {
-  const mockResponse = new window.Response(JSON.stringify(body), {
+  const mockResponse = {
     status: 200,
-    headers: {
-      'Content-type': 'application/json'
-    }
-  })
+    json: () => Promise.resolve(body)
+  }
 
   return Promise.resolve(mockResponse)
 }
 
 const jsonError = (status, body) => {
-  const mockResponse = new window.Response(JSON.stringify(body), {
+  const mockResponse = {
     status,
-    headers: {
-      'Content-type': 'application/json'
-    }
-  })
+    statusText: 'Error',
+    json: () => Promise.resolve(body)
+  }
 
   return Promise.resolve(mockResponse)
 }
@@ -86,7 +82,7 @@ describe('(Store) API', () => {
     describe('(Helper) getEndDateFromPoll', () => {
       let poll
 
-      beforeEach(function () {
+      beforeEach(() => {
         poll = { question: 'Question', identifier: '', endType: null }
       })
 
@@ -124,30 +120,32 @@ describe('(Store) API', () => {
   })
 
   describe('(API Calls)', () => {
-    let _globalState
-    let _dispatch
-    let _getState
+    let globalState
+    let dispatch
+    let getState
 
     beforeEach(() => {
       window.fetch = jest.fn(() => jsonOk({}))
 
-      _globalState = {
-        poll    : {
-          polls : [{ question: 'Question', identifier: '', multipleChoice: false, passphrase: '' }],
-          page  : null,
-          count : 0
+      globalState = {
+        poll: {
+          polls: [{
+            question: 'Question', identifier: '', multipleChoice: false, passphrase: ''
+          }],
+          page: null,
+          count: 0
         },
-        answers : ['Answer'],
-        user    : {},
+        answers: ['Answer'],
+        user: {},
       }
-      _dispatch = jest.fn((action) => {
+      dispatch = jest.fn((action) => {
         if (typeof action === 'function') {
-          return action(_dispatch, _getState)
-        } else {
-          return action
+          return action(dispatch, getState)
         }
+
+        return action
       })
-      _getState = jest.fn(() => _globalState)
+      getState = jest.fn(() => globalState)
 
       userTokenSelector.mockImplementation(() => 'USERTOKEN')
     })
@@ -165,29 +163,26 @@ describe('(Store) API', () => {
         expect(typeof postPoll()).toBe('function')
       })
 
-      it('Should return a promise from that thunk that gets fulfilled.', () => {
-        return postPoll()(_dispatch, _getState).should.eventually.be.fulfilled
-      })
-
-      it('Should call fetch with the correct url and data.', () => {
-        return postPoll()(_dispatch, _getState).then(() => {
+      it('Should call fetch with the correct url and data.', () => postPoll()(dispatch, getState)
+        .then(() => {
           expect(window.fetch).toHaveBeenCalledTimes(1)
           expect(window.fetch).toHaveBeenCalledWith(
             ROUTE_POLL,
             {
-              method      : 'POST',
-              credentials : 'same-origin',
-              body        : '{"question":"Question","answers":["Answer"],' +
-                            '"multipleChoice":false,"passphrase":"","endDate":null}'
+              method: 'POST',
+              credentials: 'same-origin',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: '{"question":"Question","answers":["Answer"],"multipleChoice":false,"passphrase":"","endDate":null}'
             }
           )
-        })
-      })
+        }))
 
       it('Should return a promise with the response.', () => {
         window.fetch = jest.fn(() => jsonOk({}))
         updatePoll.mockImplementation(() => ({ question: 'Question', identifier: 'hf0sd8fhoas' }))
-        return postPoll()(_dispatch, _getState).then((response) => {
+        return postPoll()(dispatch, getState).then((response) => {
           expect(response).toEqual({ question: 'Question', identifier: 'hf0sd8fhoas' })
         })
       })
@@ -196,7 +191,7 @@ describe('(Store) API', () => {
         window.fetch = jest.fn(() => jsonError(404, {
           message: 'There was an error'
         }))
-        return postPoll()(_dispatch, _getState).then((response) => {
+        return postPoll()(dispatch, getState).then((response) => {
           expect(response).toBeInstanceOf(APIError)
           expect(response.name).toBe('APIError')
           expect(response.details.status).toBe(404)
@@ -209,11 +204,11 @@ describe('(Store) API', () => {
         }))
         updatePoll.mockImplementation(() => ({}))
 
-        return postPoll()(_dispatch, _getState).then(() => {
+        return postPoll()(dispatch, getState).then(() => {
           expect(updatePoll).toHaveBeenCalledTimes(1)
           expect(updatePoll).toHaveBeenCalledWith({ question: 'Question', identifier: 'hf0sd8fhoas' })
-          expect(_dispatch).toHaveBeenCalledTimes(1)
-          expect(_dispatch).toHaveBeenCalledWith({})
+          expect(dispatch).toHaveBeenCalledTimes(1)
+          expect(dispatch).toHaveBeenCalledWith({})
 
           updatePoll.mockRestore()
         })
@@ -229,32 +224,27 @@ describe('(Store) API', () => {
         expect(typeof fetchPoll()).toBe('function')
       })
 
-      it('Should return a promise from that thunk that gets fulfilled.', () => {
-        return fetchPoll('hf0sd8fhoas')(_dispatch, _getState).should.eventually.be.fulfilled
-      })
-
-      it('Should call fetch with the correct url.', () => {
-        return fetchPoll('hf0sd8fhoas')(_dispatch, _getState).then(() => {
+      it('Should call fetch with the correct url.', () => fetchPoll('hf0sd8fhoas')(dispatch, getState)
+        .then(() => {
           expect(window.fetch).toHaveBeenCalledTimes(1)
           expect(window.fetch).toHaveBeenCalledWith(
-            ROUTE_POLL + '/hf0sd8fhoas',
+            `${ROUTE_POLL}/hf0sd8fhoas`,
             { credentials: 'same-origin', headers: { Authorization: 'Bearer USERTOKEN' } }
           )
-        })
-      })
+        }))
 
       it('Should call fetch with the passphrase.', () => {
-        _globalState.poll.polls = [{
-          question       : 'Question',
-          identifier     : 'hf0sd8fhoas',
-          multipleChoice : false,
-          passphrase     : '1234'
+        globalState.poll.polls = [{
+          question: 'Question',
+          identifier: 'hf0sd8fhoas',
+          multipleChoice: false,
+          passphrase: '1234'
         }]
 
-        return fetchPoll('hf0sd8fhoas')(_dispatch, _getState).then(() => {
+        return fetchPoll('hf0sd8fhoas')(dispatch, getState).then(() => {
           expect(window.fetch).toHaveBeenCalledTimes(1)
           expect(window.fetch).toHaveBeenCalledWith(
-            ROUTE_POLL + '/hf0sd8fhoas?passphrase=1234',
+            `${ROUTE_POLL}/hf0sd8fhoas?passphrase=1234`,
             { credentials: 'same-origin', headers: { Authorization: 'Bearer USERTOKEN' } }
           )
         })
@@ -263,7 +253,7 @@ describe('(Store) API', () => {
       it('Should return a promise with the response.', () => {
         window.fetch = jest.fn(() => jsonOk({}))
         updatePoll.mockImplementation(() => ({ question: 'Question', identifier: 'hf0sd8fhoas' }))
-        return fetchPoll('hf0sd8fhoas')(_dispatch, _getState).then((response) => {
+        return fetchPoll('hf0sd8fhoas')(dispatch, getState).then((response) => {
           expect(response).toEqual({ question: 'Question', identifier: 'hf0sd8fhoas' })
         })
       })
@@ -272,7 +262,7 @@ describe('(Store) API', () => {
         window.fetch = jest.fn(() => jsonError(404, {
           message: 'There was an error'
         }))
-        return fetchPoll('hf0sd8fhoas')(_dispatch, _getState).then((response) => {
+        return fetchPoll('hf0sd8fhoas')(dispatch, getState).then((response) => {
           expect(response).toBeInstanceOf(APIError)
           expect(response.name).toBe('APIError')
           expect(response.details.status).toBe(404)
@@ -285,11 +275,11 @@ describe('(Store) API', () => {
         }))
         updatePoll.mockImplementation(() => ({}))
 
-        return fetchPoll('hf0sd8fhoas')(_dispatch, _getState).then(() => {
+        return fetchPoll('hf0sd8fhoas')(dispatch, getState).then(() => {
           expect(updatePoll).toHaveBeenCalledTimes(1)
           expect(updatePoll).toHaveBeenCalledWith({ question: 'Question', identifier: 'hf0sd8fhoas' })
-          expect(_dispatch).toHaveBeenCalledTimes(1)
-          expect(_dispatch).toHaveBeenCalledWith({})
+          expect(dispatch).toHaveBeenCalledTimes(1)
+          expect(dispatch).toHaveBeenCalledWith({})
 
           updatePoll.mockRestore()
         })
@@ -305,31 +295,26 @@ describe('(Store) API', () => {
         expect(typeof deletePoll()).toBe('function')
       })
 
-      it('Should return a promise from that thunk that gets fulfilled.', () => {
-        return deletePoll('hf0sd8fhoas')(_dispatch, _getState).should.eventually.be.fulfilled
-      })
-
-      it('Should call fetch with the correct url and data.', () => {
-        return deletePoll('hf0sd8fhoas')(_dispatch, _getState).then(() => {
+      it('Should call fetch with the correct url and data.', () => deletePoll('hf0sd8fhoas')(dispatch, getState)
+        .then(() => {
           expect(window.fetch).toHaveBeenCalledTimes(1)
           expect(window.fetch).toHaveBeenCalledWith(
-            ROUTE_POLL + '/hf0sd8fhoas',
+            `${ROUTE_POLL}/hf0sd8fhoas`,
             { method: 'DELETE', credentials: 'same-origin', headers: { Authorization: 'Bearer USERTOKEN' } }
           )
-        })
-      })
+        }))
 
       it('Should return a promise with the response.', () => {
         window.fetch = jest.fn(() => jsonOk({}))
         updatePoll.mockImplementation(() => ({ question: 'Question', identifier: 'hf0sd8fhoas', deleted: true }))
-        return deletePoll('hf0sd8fhoas')(_dispatch, _getState).then((response) => {
+        return deletePoll('hf0sd8fhoas')(dispatch, getState).then((response) => {
           expect(response).toEqual({ question: 'Question', identifier: 'hf0sd8fhoas', deleted: true })
         })
       })
 
       it('Should catch error.', () => {
         window.fetch = jest.fn(() => jsonError(404, { message: 'There was an error' }))
-        return deletePoll('hf0sd8fhoas')(_dispatch, _getState).then((response) => {
+        return deletePoll('hf0sd8fhoas')(dispatch, getState).then((response) => {
           expect(response).toBeInstanceOf(APIError)
           expect(response.name).toBe('APIError')
           expect(response.details.status).toBe(404)
@@ -342,13 +327,13 @@ describe('(Store) API', () => {
         }))
         updatePoll.mockImplementation(() => ({}))
 
-        return deletePoll('hf0sd8fhoas')(_dispatch, _getState).then(() => {
+        return deletePoll('hf0sd8fhoas')(dispatch, getState).then(() => {
           expect(updatePoll).toHaveBeenCalledTimes(1)
           expect(updatePoll).toHaveBeenCalledWith(
             { question: 'Question', identifier: 'hf0sd8fhoas', deleted: true }
           )
-          expect(_dispatch).toHaveBeenCalledTimes(1)
-          expect(_dispatch).toHaveBeenCalledWith({})
+          expect(dispatch).toHaveBeenCalledTimes(1)
+          expect(dispatch).toHaveBeenCalledWith({})
 
           updatePoll.mockRestore()
         })
@@ -364,29 +349,24 @@ describe('(Store) API', () => {
         expect(typeof fetchPolls()).toBe('function')
       })
 
-      it('Should return a promise from that thunk that gets fulfilled.', () => {
-        return fetchPolls()(_dispatch, _getState).should.eventually.be.fulfilled
-      })
-
-      it('Should call fetch with the correct url and default sort props.', () => {
-        return fetchPolls(1)(_dispatch, _getState).then(() => {
+      it('Should call fetch with the correct url and default sort props.', () => fetchPolls(1)(dispatch, getState)
+        .then(() => {
           expect(window.fetch).toHaveBeenCalledTimes(1)
           expect(window.fetch).toHaveBeenCalledWith(
-            ROUTE_POLL + '?page=1&pageSize=' + POLLS_PER_PAGE + '&sort=id&sortDirection=asc',
+            `${ROUTE_POLL}?page=1&pageSize=${POLLS_PER_PAGE}&sort=id&sortDirection=asc`,
             { credentials: 'same-origin', headers: { Authorization: 'Bearer USERTOKEN' } }
           )
-        })
-      })
+        }))
 
-      it('Should call fetch with the correct url and sort props.', () => {
-        return fetchPolls(1, 'identifier', 'desc')(_dispatch, _getState).then(() => {
-          expect(window.fetch).toHaveBeenCalledTimes(1)
-          expect(window.fetch).toHaveBeenCalledWith(
-            ROUTE_POLL + '?page=1&pageSize=' + POLLS_PER_PAGE + '&sort=identifier&sortDirection=desc',
-            { credentials: 'same-origin', headers: { Authorization: 'Bearer USERTOKEN' } }
-          )
-        })
-      })
+      it('Should call fetch with the correct url and sort props.',
+        () => fetchPolls(1, 'identifier', 'desc')(dispatch, getState)
+          .then(() => {
+            expect(window.fetch).toHaveBeenCalledTimes(1)
+            expect(window.fetch).toHaveBeenCalledWith(
+              `${ROUTE_POLL}?page=1&pageSize=${POLLS_PER_PAGE}&sort=identifier&sortDirection=desc`,
+              { credentials: 'same-origin', headers: { Authorization: 'Bearer USERTOKEN' } }
+            )
+          }))
 
       it('Should dispatch setPolls().', () => {
         window.fetch = jest.fn(() => jsonOk({
@@ -394,10 +374,10 @@ describe('(Store) API', () => {
         }))
         setPolls.mockImplementation(() => ({}))
 
-        return fetchPolls(1)(_dispatch, _getState).then(() => {
+        return fetchPolls(1)(dispatch, getState).then(() => {
           expect(setPolls).toHaveBeenCalledTimes(1)
           expect(setPolls).toHaveBeenCalledWith([{ question: 'Question', identifier: 'hf0sd8fhoas' }])
-          expect(_dispatch).toHaveBeenCalledWith({})
+          expect(dispatch).toHaveBeenCalledWith({})
 
           setPolls.mockRestore()
         })
@@ -409,10 +389,10 @@ describe('(Store) API', () => {
         }))
         setPollCount.mockImplementation(() => ({}))
 
-        return fetchPolls(1)(_dispatch, _getState).then(() => {
+        return fetchPolls(1)(dispatch, getState).then(() => {
           expect(setPollCount).toHaveBeenCalledTimes(1)
           expect(setPollCount).toHaveBeenCalledWith(5)
-          expect(_dispatch).toHaveBeenCalledWith({})
+          expect(dispatch).toHaveBeenCalledWith({})
 
           setPollCount.mockRestore()
         })
@@ -428,115 +408,150 @@ describe('(Store) API', () => {
         expect(typeof postResponse()).toBe('function')
       })
 
-      it('Should return a promise from that thunk that gets fulfilled.', () => {
-        return postResponse()(_dispatch, _getState).should.eventually.be.fulfilled
-      })
-
       it('Should return a promise with the response.', () => {
         updateUserResponses.mockImplementation(() => ({}))
 
-        return postResponse(434, 'hf0sd8fhoas')(_dispatch, _getState).then((response) => {
+        return postResponse(434, 'hf0sd8fhoas')(dispatch, getState).then((response) => {
           expect(response).toEqual({})
         })
       })
 
       it('Should catch error.', () => {
         window.fetch = jest.fn(() => jsonError(404, { message: 'There was an error' }))
-        return postResponse()(_dispatch, _getState).then((response) => {
+        return postResponse()(dispatch, getState).then((response) => {
           expect(response).toBeInstanceOf(APIError)
           expect(response.name).toBe('APIError')
           expect(response.details.status).toBe(404)
         })
       })
 
-      it('Should call fetch with the correct url and data.', () => {
-        return postResponse(434, 'hf0sd8fhoas')(_dispatch, _getState).then(() => {
+      it('Should call fetch with the correct url and data.', () => postResponse(434, 'hf0sd8fhoas')(dispatch, getState)
+        .then(() => {
           expect(window.fetch).toHaveBeenCalledTimes(1)
           expect(window.fetch).toHaveBeenCalledWith(
-            ROUTE_POLL + '/hf0sd8fhoas' + ROUTE_RESPONSES,
-            { method: 'POST', credentials: 'same-origin', body: '{"answers":[434]}' })
-        })
-      })
+            `${ROUTE_POLL}/hf0sd8fhoas${ROUTE_RESPONSES}`,
+            {
+              method: 'POST',
+              credentials: 'same-origin',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: '{"answers":[434]}'
+            }
+          )
+        }))
 
       it('Should call fetch with the correct url and data with passphrase.', () => {
-        _globalState.poll.polls = [{
-          question       : 'Question',
-          identifier     : 'hf0sd8fhoas',
-          multipleChoice : false,
-          passphrase     : '1234'
+        globalState.poll.polls = [{
+          question: 'Question',
+          identifier: 'hf0sd8fhoas',
+          multipleChoice: false,
+          passphrase: '1234'
         }]
 
-        return postResponse(434, 'hf0sd8fhoas')(_dispatch, _getState).then(() => {
+        return postResponse(434, 'hf0sd8fhoas')(dispatch, getState).then(() => {
           expect(window.fetch).toHaveBeenCalledTimes(1)
           expect(window.fetch).toHaveBeenCalledWith(
-            ROUTE_POLL + '/hf0sd8fhoas' + ROUTE_RESPONSES,
-            { method: 'POST', credentials: 'same-origin', body: '{"answers":[434],"passphrase":"1234"}' })
+            `${ROUTE_POLL}/hf0sd8fhoas${ROUTE_RESPONSES}`,
+            {
+              method: 'POST',
+              credentials: 'same-origin',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: '{"answers":[434],"passphrase":"1234"}'
+            }
+          )
         })
       })
 
       it('Should call fetch with the correct data for multiple choice initial answer.', () => {
-        _globalState = {
-          poll    : {
-            polls : [{
-              question       : 'Question',
-              identifier     : 'hf0sd8fhoas',
-              multipleChoice : true,
-              userResponses  : []
+        globalState = {
+          poll: {
+            polls: [{
+              question: 'Question',
+              identifier: 'hf0sd8fhoas',
+              multipleChoice: true,
+              userResponses: []
             }],
-            page  : null,
-            count : 0
+            page: null,
+            count: 0
           },
-          answers : ['Answer']
+          answers: ['Answer']
         }
-        return postResponse(434, 'hf0sd8fhoas')(_dispatch, _getState).then(() => {
+        return postResponse(434, 'hf0sd8fhoas')(dispatch, getState).then(() => {
           expect(window.fetch).toHaveBeenCalledTimes(1)
           expect(window.fetch).toHaveBeenCalledWith(
-            ROUTE_POLL + '/hf0sd8fhoas' + ROUTE_RESPONSES,
-            { method: 'POST', credentials: 'same-origin', body: '{"answers":[434]}' })
+            `${ROUTE_POLL}/hf0sd8fhoas${ROUTE_RESPONSES}`,
+            {
+              method: 'POST',
+              credentials: 'same-origin',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: '{"answers":[434]}'
+            }
+          )
         })
       })
 
       it('Should call fetch with the correct data for multiple choice add answer.', () => {
-        _globalState = {
-          poll    : {
-            polls : [{
-              question       : 'Question',
-              identifier     : 'hf0sd8fhoas',
-              multipleChoice : true,
-              userResponses  : [433]
+        globalState = {
+          poll: {
+            polls: [{
+              question: 'Question',
+              identifier: 'hf0sd8fhoas',
+              multipleChoice: true,
+              userResponses: [433]
             }],
-            page  : null,
-            count : 0
+            page: null,
+            count: 0
           },
-          answers : ['Answer']
+          answers: ['Answer']
         }
-        return postResponse(434, 'hf0sd8fhoas')(_dispatch, _getState).then(() => {
+        return postResponse(434, 'hf0sd8fhoas')(dispatch, getState).then(() => {
           expect(window.fetch).toHaveBeenCalledTimes(1)
           expect(window.fetch).toHaveBeenCalledWith(
-            ROUTE_POLL + '/hf0sd8fhoas' + ROUTE_RESPONSES,
-            { method: 'POST', credentials: 'same-origin', body: '{"answers":[433,434]}' })
+            `${ROUTE_POLL}/hf0sd8fhoas${ROUTE_RESPONSES}`,
+            {
+              method: 'POST',
+              credentials: 'same-origin',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: '{"answers":[433,434]}'
+            }
+          )
         })
       })
 
       it('Should call fetch with the correct data for multiple choice remove answer.', () => {
-        _globalState = {
-          poll    : {
-            polls : [{
-              question       : 'Question',
-              identifier     : 'hf0sd8fhoas',
-              multipleChoice : true,
-              userResponses  : [433]
+        globalState = {
+          poll: {
+            polls: [{
+              question: 'Question',
+              identifier: 'hf0sd8fhoas',
+              multipleChoice: true,
+              userResponses: [433]
             }],
-            page  : null,
-            count : 0
+            page: null,
+            count: 0
           },
-          answers : ['Answer']
+          answers: ['Answer']
         }
-        return postResponse(433, 'hf0sd8fhoas')(_dispatch, _getState).then(() => {
+        return postResponse(433, 'hf0sd8fhoas')(dispatch, getState).then(() => {
           expect(window.fetch).toHaveBeenCalledTimes(1)
           expect(window.fetch).toHaveBeenCalledWith(
-            ROUTE_POLL + '/hf0sd8fhoas' + ROUTE_RESPONSES,
-            { method: 'POST', credentials: 'same-origin', body: '{"answers":[]}' })
+            `${ROUTE_POLL}/hf0sd8fhoas${ROUTE_RESPONSES}`,
+            {
+              method: 'POST',
+              credentials: 'same-origin',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: '{"answers":[]}'
+            }
+          )
         })
       })
 
@@ -544,11 +559,11 @@ describe('(Store) API', () => {
         window.fetch = jest.fn(() => jsonOk({ responses: [] }))
         updateUserResponses.mockImplementation(() => ({}))
 
-        return postResponse(433, 'hf0sd8fhoas')(_dispatch, _getState).then(() => {
+        return postResponse(433, 'hf0sd8fhoas')(dispatch, getState).then(() => {
           expect(updateUserResponses).toHaveBeenCalledTimes(1)
           expect(updateUserResponses).toHaveBeenCalledWith({ responses: [] }, 'hf0sd8fhoas')
-          expect(_dispatch).toHaveBeenCalledTimes(1)
-          expect(_dispatch).toHaveBeenCalledWith({})
+          expect(dispatch).toHaveBeenCalledTimes(1)
+          expect(dispatch).toHaveBeenCalledWith({})
 
           updateResponses.mockRestore()
         })
@@ -564,46 +579,43 @@ describe('(Store) API', () => {
         expect(typeof fetchResponses()).toBe('function')
       })
 
-      it('Should return a promise from that thunk that gets fulfilled.', () => {
-        return fetchResponses()(_dispatch, _getState).should.eventually.be.fulfilled
-      })
-
-      it('Should call fetch with the correct url and data.', () => {
-        return fetchResponses('hf0sd8fhoas')(_dispatch, _getState).then(() => {
+      it('Should call fetch with the correct url and data.', () => fetchResponses('hf0sd8fhoas')(dispatch, getState)
+        .then(() => {
           expect(window.fetch).toHaveBeenCalledTimes(1)
           expect(window.fetch).toHaveBeenCalledWith(
-            ROUTE_POLL + '/hf0sd8fhoas' + ROUTE_RESPONSES,
-            { credentials: 'same-origin' })
-        })
-      })
+            `${ROUTE_POLL}/hf0sd8fhoas${ROUTE_RESPONSES}`,
+            { credentials: 'same-origin' }
+          )
+        }))
 
       it('Should call fetch with the passphrase.', () => {
-        _globalState.poll.polls = [{
-          question       : 'Question',
-          identifier     : 'hf0sd8fhoas',
-          multipleChoice : false,
-          passphrase     : '1234'
+        globalState.poll.polls = [{
+          question: 'Question',
+          identifier: 'hf0sd8fhoas',
+          multipleChoice: false,
+          passphrase: '1234'
         }]
 
-        return fetchResponses('hf0sd8fhoas')(_dispatch, _getState).then(() => {
+        return fetchResponses('hf0sd8fhoas')(dispatch, getState).then(() => {
           expect(window.fetch).toHaveBeenCalledTimes(1)
           expect(window.fetch).toHaveBeenCalledWith(
-            ROUTE_POLL + '/hf0sd8fhoas' + ROUTE_RESPONSES + '?passphrase=1234',
-            { credentials: 'same-origin' })
+            `${ROUTE_POLL}/hf0sd8fhoas${ROUTE_RESPONSES}?passphrase=1234`,
+            { credentials: 'same-origin' }
+          )
         })
       })
 
       it('Should return a promise with the response.', () => {
         updateResponses.mockImplementation(() => ({}))
 
-        return fetchResponses('hf0sd8fhoas')(_dispatch, _getState).then((response) => {
+        return fetchResponses('hf0sd8fhoas')(dispatch, getState).then((response) => {
           expect(response).toEqual({})
         })
       })
 
       it('Should catch error.', () => {
         window.fetch = jest.fn(() => jsonError(404, { message: 'There was an error' }))
-        return fetchResponses()(_dispatch, _getState).then((response) => {
+        return fetchResponses()(dispatch, getState).then((response) => {
           expect(response).toBeInstanceOf(APIError)
           expect(response.name).toBe('APIError')
           expect(response.details.status).toBe(404)
@@ -614,11 +626,11 @@ describe('(Store) API', () => {
         window.fetch = jest.fn(() => jsonOk({ responses: [] }))
         updateResponses.mockImplementation(() => ({}))
 
-        return fetchResponses('hf0sd8fhoas')(_dispatch, _getState).then(() => {
+        return fetchResponses('hf0sd8fhoas')(dispatch, getState).then(() => {
           expect(updateResponses).toHaveBeenCalledTimes(1)
           expect(updateResponses).toHaveBeenCalledWith({ responses: [] }, 'hf0sd8fhoas')
-          expect(_dispatch).toHaveBeenCalledTimes(1)
-          expect(_dispatch).toHaveBeenCalledWith({})
+          expect(dispatch).toHaveBeenCalledTimes(1)
+          expect(dispatch).toHaveBeenCalledWith({})
 
           updateResponses.mockRestore()
         })
@@ -634,28 +646,26 @@ describe('(Store) API', () => {
         expect(typeof postLogin()).toBe('function')
       })
 
-      it('Should return a promise from that thunk that gets fulfilled.', () => {
-        return postLogin()(_dispatch).should.eventually.be.fulfilled
-      })
-
-      it('Should call fetch with the correct url and data.', () => {
-        return postLogin('username', 'password')(_dispatch).then(() => {
+      it('Should call fetch with the correct url and data.', () => postLogin('username', 'password')(dispatch)
+        .then(() => {
           expect(window.fetch).toHaveBeenCalledTimes(1)
           expect(window.fetch).toHaveBeenCalledWith(
             ROUTE_LOGIN,
             {
-              method      : 'POST',
-              credentials : 'same-origin',
-              body        : '{"username":"username","password":"password"}'
+              method: 'POST',
+              credentials: 'same-origin',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: '{"username":"username","password":"password"}'
             }
           )
-        })
-      })
+        }))
 
       it('Should return a promise with the response.', () => {
         updateUser.mockImplementation(() => ({ user: { username: 'username', token: 'js7XZ&$£ZZSSu2389' } }))
 
-        return postLogin('username', 'password')(_dispatch).then((response) => {
+        return postLogin('username', 'password')(dispatch).then((response) => {
           expect(response).toEqual({ username: 'username', token: 'js7XZ&$£ZZSSu2389' })
         })
       })
@@ -663,7 +673,7 @@ describe('(Store) API', () => {
       it('Should catch error.', () => {
         window.fetch = jest.fn(() => jsonError(400, { message: 'There password is incorrect' }))
 
-        return postLogin('username', 'wrongpassword')(_dispatch).then((response) => {
+        return postLogin('username', 'wrongpassword')(dispatch).then((response) => {
           expect(response).toBeInstanceOf(APIError)
           expect(response.name).toBe('APIError')
           expect(response.details.status).toBe(400)
@@ -674,11 +684,11 @@ describe('(Store) API', () => {
         window.fetch = jest.fn(() => jsonOk({ username: 'username', token: 'js7XZ&$£ZZSSu2389' }))
         updateUser.mockImplementation(() => ({}))
 
-        return postLogin('username', 'password')(_dispatch).then(() => {
+        return postLogin('username', 'password')(dispatch).then(() => {
           expect(updateUser).toHaveBeenCalledTimes(1)
           expect(updateUser).toHaveBeenCalledWith({ username: 'username', token: 'js7XZ&$£ZZSSu2389' })
-          expect(_dispatch).toHaveBeenCalledTimes(1)
-          expect(_dispatch).toHaveBeenCalledWith({})
+          expect(dispatch).toHaveBeenCalledTimes(1)
+          expect(dispatch).toHaveBeenCalledWith({})
 
           updateUser.mockRestore()
         })
@@ -694,23 +704,18 @@ describe('(Store) API', () => {
         expect(typeof fetchStats()).toBe('function')
       })
 
-      it('Should return a promise from that thunk that gets fulfilled.', () => {
-        return fetchStats()(_dispatch, _getState).should.eventually.be.fulfilled
-      })
-
-      it('Should call fetch with the correct url.', () => {
-        return fetchStats()(_dispatch, _getState).then(() => {
+      it('Should call fetch with the correct url.', () => fetchStats()(dispatch, getState)
+        .then(() => {
           expect(window.fetch).toHaveBeenCalledTimes(1)
           expect(window.fetch).toHaveBeenCalledWith(
             ROUTE_STATS,
             { credentials: 'same-origin', headers: { Authorization: 'Bearer USERTOKEN' } }
           )
-        })
-      })
+        }))
 
       it('Should return a promise with the response fetchStats.', () => {
         updateStats.mockImplementation(() => ({ stats: { polls: 523, responses: 1385 } }))
-        return fetchStats()(_dispatch, _getState).then((response) => {
+        return fetchStats()(dispatch, getState).then((response) => {
           expect(response).toEqual({ polls: 523, responses: 1385 })
         })
       })
@@ -719,7 +724,7 @@ describe('(Store) API', () => {
         window.fetch = jest.fn(() => jsonError(404, {
           message: 'There was an error'
         }))
-        return fetchStats()(_dispatch, _getState).then((response) => {
+        return fetchStats()(dispatch, getState).then((response) => {
           expect(response).toBeInstanceOf(APIError)
           expect(response.name).toBe('APIError')
           expect(response.details.status).toBe(404)
@@ -730,11 +735,11 @@ describe('(Store) API', () => {
         window.fetch = jest.fn(() => jsonOk({ polls: 523, responses: 1385 }))
         updateStats.mockImplementation(() => ({}))
 
-        return fetchStats()(_dispatch, _getState).then(() => {
+        return fetchStats()(dispatch, getState).then(() => {
           expect(updateStats).toHaveBeenCalledTimes(1)
           expect(updateStats).toHaveBeenCalledWith({ polls: 523, responses: 1385 })
-          expect(_dispatch).toHaveBeenCalledTimes(1)
-          expect(_dispatch).toHaveBeenCalledWith({})
+          expect(dispatch).toHaveBeenCalledTimes(1)
+          expect(dispatch).toHaveBeenCalledWith({})
 
           updateStats.mockRestore()
         })
