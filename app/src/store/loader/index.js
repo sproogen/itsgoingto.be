@@ -1,5 +1,5 @@
 import { merge } from 'ramda'
-import { LOADING_UPDATE, PASSPHRASE_UPDATE } from 'store/loader/actions'
+import { LOADING_UPDATE, PASSPHRASE_UPDATE } from './constants'
 
 // ------------------------------------
 // Reducer

@@ -3,15 +3,13 @@ import {
 } from 'ramda'
 import { addAnswer, clearAnswers, updateAnswers } from 'store/answers/actions'
 import { hasQuestionSelector } from './selectors'
-
-// ------------------------------------
-// Constants
-// ------------------------------------
-export const POLL_UPDATE = 'POLL_UPDATE'
-export const POLLS_SET = 'POLLS_SET'
-export const POLL_PAGE_SET = 'POLL_PAGE_SET'
-export const POLL_COUNT_SET = 'POLL_COUNT_SET'
-export const QUESTION_UPDATE = 'QUESTION_UPDATE'
+import {
+  POLL_UPDATE,
+  POLLS_SET,
+  POLL_PAGE_SET,
+  POLL_COUNT_SET,
+  QUESTION_UPDATE
+} from './constants'
 
 // ------------------------------------
 // Actions

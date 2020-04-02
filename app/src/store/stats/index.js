@@ -1,4 +1,4 @@
-import { STATS_UPDATE } from './actions'
+import { STATS_UPDATE } from './constants'
 
 // ------------------------------------
 // Reducer

@@ -1,7 +1,4 @@
-// ------------------------------------
-// Constants
-// ------------------------------------
-export const STATS_UPDATE = 'STATS_UPDATE'
+import { STATS_UPDATE } from './constants'
 
 // ------------------------------------
 // Actions

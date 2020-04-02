@@ -96,7 +96,7 @@
   },
   "jest": {
     "testMatch": [
-      "<rootDir>/src/components/word-rotate/**/*?(*.)(spec|test).js"
+      "<rootDir>/src/**/*?(*.)(spec|test).js"
     ],
     "transform": {
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/test-utils/file-transform.js",

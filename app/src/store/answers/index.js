@@ -4,7 +4,7 @@ import {
 } from 'ramda'
 import {
   ANSWER_ADD, ANSWER_UPDATE, ANSWERS_UPDATE, ANSWER_REMOVE, ANSWERS_REMOVE_AFTER, ANSWERS_CLEAR
-} from 'store/answers/actions'
+} from './constants'
 
 // TODO : Update answers to reference by identifier and index
 

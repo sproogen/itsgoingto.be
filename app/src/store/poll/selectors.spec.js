@@ -1,4 +1,3 @@
-/* global expect, jest */
 import {
   pollSelector,
   pollsSelector,
@@ -12,18 +11,18 @@ import {
 
 describe('(Store) Poll', () => {
   describe('(Selectors)', () => {
-    let _globalState
+    let globalState
 
     beforeEach(() => {
-      _globalState = {
-        poll : {
-          polls : [{
-            question       : 'Question',
-            identifier     : 'hf0sd8fhoas',
-            responsesCount : 5
+      globalState = {
+        poll: {
+          polls: [{
+            question: 'Question',
+            identifier: 'hf0sd8fhoas',
+            responsesCount: 5
           }],
-          page  : 0,
-          count : 0
+          page: 0,
+          count: 0
         }
       }
     })
@@ -34,36 +33,36 @@ describe('(Store) Poll', () => {
       })
 
       it('Should return a poll with an identifier from the global state.', () => {
-        expect(pollSelector(_globalState, 'hf0sd8fhoas')).toEqual({
-          question       : 'Question',
-          identifier     : 'hf0sd8fhoas',
-          responsesCount : 5
+        expect(pollSelector(globalState, 'hf0sd8fhoas')).toEqual({
+          question: 'Question',
+          identifier: 'hf0sd8fhoas',
+          responsesCount: 5
         })
       })
 
       it('Should return an empty poll from the global state.', () => {
-        expect(pollSelector(_globalState, 'dasdfasd')).toEqual({
-          question       : '',
-          identifier     : '',
-          multipleChoice : false,
-          passphrase     : '',
-          userResponses  : []
+        expect(pollSelector(globalState, 'dasdfasd')).toEqual({
+          question: '',
+          identifier: '',
+          multipleChoice: false,
+          passphrase: '',
+          userResponses: []
         })
-        expect(pollSelector(_globalState)).toEqual({
-          question       : '',
-          identifier     : '',
-          multipleChoice : false,
-          passphrase     : '',
-          userResponses  : []
+        expect(pollSelector(globalState)).toEqual({
+          question: '',
+          identifier: '',
+          multipleChoice: false,
+          passphrase: '',
+          userResponses: []
         })
       })
     })
 
     describe('(Selector) pollsSelector', () => {
       beforeEach(() => {
-        _globalState.poll.polls.push({
-          question       : 'Question 2',
-          identifier     : '',
+        globalState.poll.polls.push({
+          question: 'Question 2',
+          identifier: '',
         })
       })
 
@@ -72,25 +71,25 @@ describe('(Store) Poll', () => {
       })
 
       it('Should return all polls from the global state.', () => {
-        expect(pollsSelector(_globalState)).toEqual([
+        expect(pollsSelector(globalState)).toEqual([
           {
-            question       : 'Question',
-            identifier     : 'hf0sd8fhoas',
-            responsesCount : 5
+            question: 'Question',
+            identifier: 'hf0sd8fhoas',
+            responsesCount: 5
           },
           {
-            question       : 'Question 2',
-            identifier     : '',
+            question: 'Question 2',
+            identifier: '',
           }
         ])
       })
 
       it('Should only return real polls from the global state when populated is true.', () => {
-        expect(pollsSelector(_globalState, true)).toEqual([
+        expect(pollsSelector(globalState, true)).toEqual([
           {
-            question       : 'Question',
-            identifier     : 'hf0sd8fhoas',
-            responsesCount : 5
+            question: 'Question',
+            identifier: 'hf0sd8fhoas',
+            responsesCount: 5
           }
         ])
       })
@@ -102,11 +101,11 @@ describe('(Store) Poll', () => {
       })
 
       it('Should return the poll page in the global state.', () => {
-        expect(pollPageSelector(_globalState)).toBe(0)
+        expect(pollPageSelector(globalState)).toBe(0)
 
-        _globalState.poll.page = 2
+        globalState.poll.page = 2
 
-        expect(pollPageSelector(_globalState)).toBe(2)
+        expect(pollPageSelector(globalState)).toBe(2)
       })
     })
 
@@ -116,11 +115,11 @@ describe('(Store) Poll', () => {
       })
 
       it('Should return the question text from a poll with an identifier in the global state.', () => {
-        expect(pollCountSelector(_globalState)).toBe(0)
+        expect(pollCountSelector(globalState)).toBe(0)
 
-        _globalState.poll.count = 3
+        globalState.poll.count = 3
 
-        expect(pollCountSelector(_globalState)).toBe(3)
+        expect(pollCountSelector(globalState)).toBe(3)
       })
     })
 
@@ -130,17 +129,17 @@ describe('(Store) Poll', () => {
       })
 
       it('Should return the question text from a poll with an identifier in the global state.', () => {
-        expect(questionSelector(_globalState, 'hf0sd8fhoas')).toBe('Question')
+        expect(questionSelector(globalState, 'hf0sd8fhoas')).toBe('Question')
       })
     })
 
     describe('(Selector) hasQuestionSelector', () => {
       it('Should return true if question text from a poll with an identifier in the global state.', () => {
-        expect(hasQuestionSelector(_globalState, 'hf0sd8fhoas')).toBe(true)
+        expect(hasQuestionSelector(globalState, 'hf0sd8fhoas')).toBe(true)
       })
 
       it('Should return false if no question text from a poll with an identifier in the global state.', () => {
-        expect(hasQuestionSelector(_globalState, '')).toBe(false)
+        expect(hasQuestionSelector(globalState, '')).toBe(false)
       })
     })
 
@@ -150,13 +149,13 @@ describe('(Store) Poll', () => {
       })
 
       it('Should return the responses count from a poll with an identifier in the global state.', () => {
-        expect(totalResponsesSelector(_globalState, 'hf0sd8fhoas')).toBe(5)
+        expect(totalResponsesSelector(globalState, 'hf0sd8fhoas')).toBe(5)
       })
 
       it('Should return a default of 0 if there is no value.', () => {
-        _globalState.poll.polls[0].responsesCount = undefined
+        globalState.poll.polls[0].responsesCount = undefined
 
-        expect(totalResponsesSelector(_globalState, 'hf0sd8fhoas')).toBe(0)
+        expect(totalResponsesSelector(globalState, 'hf0sd8fhoas')).toBe(0)
       })
     })
 
@@ -166,15 +165,15 @@ describe('(Store) Poll', () => {
       })
 
       it('Should return false if there are no response from a poll with an identifier in the global state.', () => {
-        _globalState.poll.polls[0].userResponses = []
+        globalState.poll.polls[0].userResponses = []
 
-        expect(userRespondedSelector(_globalState, 'hf0sd8fhoas')).toBe(false)
+        expect(userRespondedSelector(globalState, 'hf0sd8fhoas')).toBe(false)
       })
 
       it('Should return true if there are response from a poll with an identifier in the global state.', () => {
-        _globalState.poll.polls[0].userResponses = [1]
+        globalState.poll.polls[0].userResponses = [1]
 
-        expect(userRespondedSelector(_globalState, 'hf0sd8fhoas')).toBe(true)
+        expect(userRespondedSelector(globalState, 'hf0sd8fhoas')).toBe(true)
       })
     })
   })

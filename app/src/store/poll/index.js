@@ -2,9 +2,13 @@ import {
   prop, compose, equals, omit, propEq, adjust, set, lensProp, findIndex, ifElse, path, merge, __
 } from 'ramda'
 import {
-  POLL_UPDATE, POLLS_SET, POLL_PAGE_SET, POLL_COUNT_SET, QUESTION_UPDATE
-} from './actions'
-import { initialPoll } from './constants'
+  POLL_UPDATE,
+  POLLS_SET,
+  POLL_PAGE_SET,
+  POLL_COUNT_SET,
+  QUESTION_UPDATE,
+  initialPoll
+} from './constants'
 
 // ------------------------------------
 // Reducer
@@ -13,9 +17,9 @@ import { initialPoll } from './constants'
  * Initial state for this store component
  */
 const initialState = {
-  polls : [],
-  page  : 0,
-  count : 0
+  polls: [],
+  page: 0,
+  count: 0
 }
 
 /**
