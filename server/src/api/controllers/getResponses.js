@@ -8,6 +8,8 @@ import {
   getAnswersWithResponsesSelector
 } from '../../db'
 
+// TODO: Swagger docs
+
 const getResponses = async (req, res) => {
   const poll = await Poll.scope([...(req.user ? [] : ['excludeDeleted'])]).findOne({
     attributes: ['id', 'passphrase', 'ended'],

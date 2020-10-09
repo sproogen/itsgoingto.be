@@ -3,6 +3,8 @@ import {
 } from 'ramda'
 import { User } from '../../db'
 
+// TODO: Swagger docs
+
 const login = async (req, res) => {
   const username = trim(defaultTo('', req.body.username))
   const password = trim(defaultTo('', req.body.password))

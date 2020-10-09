@@ -1,6 +1,8 @@
 import { isNil } from 'ramda'
 import { Poll, getResponsesCountForPollSelector } from '../../db'
 
+// TODO: Swagger docs
+
 const deletePoll = async (req, res) => {
   const poll = await Poll.findOne({
     where: {

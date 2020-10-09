@@ -63,20 +63,32 @@ paths:
           schema:
             type: "object"
             properties:
-              count: 
+              count:
                 type: "integer"
                 example: 20
               total:
                 type: "integer"
                 example: 100
-              entities: 
+              entities:
                 type: "array"
                 items:
                   $ref: "#/definitions/Poll"
         "400":
           description: "Bad request. Invalid **sort** option or **sortDirection** provided."
+          schema:
+            type: "object"
+            properties:
+              error:
+                type: "string"
+                example: "invalid-sort-option"
         "401":
           description: "Authorization information is missing or invalid."
+          schema:
+            type: "object"
+            properties:
+              error:
+                type: "string"
+                example: "unauthorised"
     post:
       tags:
       - "polls"
@@ -111,16 +123,55 @@ paths:
       responses:
         "200":
         "400":
+  /polls/{identifier}:
+    get:
+      tags:
+      - "polls"
+      summary: "Retrieve poll"
+      description: ""
+      operationId: ""
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: identifier
+        in: path
+        description: The poll identifier
+        required: true
+        type: "string"
+        example: "v90034d6"
+      - name: "passphrase"
+        in: "query"
+        description: "Passphrase to access the poll"
+        type: "string"
+      responses:
+        "200":
+          description: "Ok"
+          schema:
+            $ref: "#/definitions/Poll"
+        "403":
+          description: "Forbidden. Poll has a passcode which is not provided or invallid."
+          schema:
+            type: "object"
+            properties:
+              error:
+                type: "string"
+                example: "incorrect-passphrase"
+        "404":
+          description: "Not found. Poll could not be found."
+          schema:
+            type: "object"
+            properties:
+              error:
+                type: "string"
+                example: "poll-not-found"
 definitions:
   Poll:
     type: "object"
     required:
     - "question"
     properties:
-      id:
-        type: "integer"
-        example: "1"
-        description: "Unique server generated ID"
       identifier:
         type: "string"
         example: "v90034d6"
@@ -137,7 +188,7 @@ definitions:
       endDate:
         type: "string"
         format: "date-time"
-        example: "2017-07-21T17:32:28Z"
+        example: "2020-10-09T19:56:35Z"
         default: ""
         description: "The end date for the poll, can be empty if no end date"
       ended:
@@ -151,12 +202,12 @@ definitions:
       created:
         type: "string"
         format: "date-time"
-        example: "2017-07-21T17:32:28Z"
+        example: "2020-10-09T19:56:35Z"
         description: "When the poll was created"
       updated:
         type: "string"
         format: "date-time"
-        example: "2017-07-21T17:32:28Z"
+        example: "2020-10-09T19:56:35Z"
         description: "When the poll was last updated"
       answers:
         type: "array"
@@ -164,7 +215,14 @@ definitions:
           $ref: "#/definitions/Answer"
       responsesCount:
         type: "integer"
-        example: "5"
+        example: 5
+        description: "Total number of responses for all answers"
+      userResponses:
+        type: "array"
+        items:
+          type: "integer"
+        example:
+          - 1
         description: "Total number of responses for all answers"
   Answer:
     type: "object"
@@ -173,7 +231,7 @@ definitions:
     properties:
       id:
         type: "integer"
-        example: "1"
+        example: 1
         description: "Unique server generated ID"
       answer:
         type: "string"
@@ -181,7 +239,7 @@ definitions:
         description: "The answer"
       responsesCount:
         type: "integer"
-        example: "5"
+        example: 5
         description: "Total number of responses for the answer"
 externalDocs:
   description: "Find out more about Swagger"
