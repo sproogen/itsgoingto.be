@@ -6,5 +6,3 @@ COPY ./ ./
 ENV CHOKIDAR_USEPOLLING "true"
 
 CMD [ "npm", "start" ]
-
-EXPOSE 3000

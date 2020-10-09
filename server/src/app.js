@@ -1,13 +1,18 @@
 import express from 'express'
 import http from 'http'
+import cors from 'cors'
 import socketIO from 'socket.io'
+import cookieParser from 'cookie-parser'
 import morgan from 'morgan'
 import api from './api'
 
 const port = process.env.PORT || 8001
 
 const app = express()
-api.use(morgan('combined'))
+
+app.use(cors())
+app.use(morgan('combined'))
+app.use(cookieParser())
 
 const server = http.createServer(app)
 const io = socketIO(server)

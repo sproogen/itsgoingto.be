@@ -12,7 +12,7 @@ import './ask.scss'
 const WORDS = 'What,Where,When,Who'
 
 const Ask = ({
-  question, hasQuestion, canSubmitPoll, poll, answers, clearPoll, postPoll, updateQuestion, onAnswerChange, onRemoveAnswer
+  question, hasQuestion, canSubmitPoll, poll, answers, clearPoll, postPoll, updateQuestion, onAnswerChange, onRemoveAnswer, updateOptions
 }) => {
   useEffect(() => {
     clearPoll()
@@ -41,7 +41,7 @@ const Ask = ({
         )}
       >
         <div className="header center-text">
-          <h1>{`${<WordRotate words={WORDS} />} is it going to be?`}</h1>
+          <h1><WordRotate words={WORDS} /> is it going to be?</h1>
         </div>
       </div>
       <div
@@ -87,7 +87,7 @@ Ask.propTypes = {
   postPoll: PropTypes.func.isRequired,
   updateQuestion: PropTypes.func.isRequired,
   onAnswerChange: PropTypes.func.isRequired,
-  onRemoveAnswer: PropTypes.func.isRequired
+  onRemoveAnswer: PropTypes.func.isRequired,
   updateOptions: PropTypes.func.isRequired
 }
 

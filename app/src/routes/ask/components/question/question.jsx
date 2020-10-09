@@ -23,9 +23,11 @@ const PLACEHOLDER_TEXT = [
 const Question = ({ question, onQuestionChange }) => {
   const [placeholder, setPlaceholder] = useState(0)
   const [character, setCharacter] = useState(0)
+  const characterRef = useRef(0)
   const [cursor, setCursor] = useState(false)
-  const [cursorUpdater, setCursorUpdater] = useState(false)
-  const [characterUpdater, setCharacterUpdater] = useState(false)
+  const cursorRef = useRef(false)
+  const cursorUpdater = useRef(false)
+  const characterUpdater = useRef(false)
   const textarea = useRef(null)
 
   const eventBus = EventBus.getEventBus()
@@ -49,26 +51,32 @@ const Question = ({ question, onQuestionChange }) => {
 
   const humanize = () => Math.round(Math.random() * (150 - 30)) + 30
 
-  const toggleCursor = () => setCursor(!cursor)
+  const toggleCursor = () => {
+    cursorRef.current = !cursorRef.current
+    setCursor(cursorRef.current)
+  }
 
   const type = () => {
-    setCharacter(character + 1)
-    setCharacterUpdater(setTimeout(
+    characterRef.current = characterRef.current + 1
+    setCharacter(characterRef.current)
+    characterUpdater.current = setTimeout(
       type,
       humanize()
-    ))
-    if (character <= PLACEHOLDER_TEXT[placeholder].length) {
-      clearInterval(cursorUpdater)
-      setCursor(true)
-      setCursorUpdater(setInterval(
+    )
+    if (characterRef.current <= PLACEHOLDER_TEXT[placeholder].length) {
+      clearInterval(cursorUpdater.current)
+      cursorRef.current = true
+      setCursor(cursorRef.current)
+      cursorUpdater.current = setInterval(
         toggleCursor,
         500
-      ))
+      )
     }
   }
 
   const updatePlaceholder = () => {
-    setCharacter(0)
+    characterRef.current = 0
+    setCharacter(characterRef.current)
     setPlaceholder(
       ifElse(
         equals(compose(subtract(__, 1), length)(PLACEHOLDER_TEXT)),
@@ -94,14 +102,14 @@ const Question = ({ question, onQuestionChange }) => {
       }
     })
     autosize(textarea.current)
-    setCursorUpdater(setInterval(
+    cursorUpdater.current = setInterval(
       toggleCursor,
       500
-    ))
-    setCharacterUpdater(setTimeout(
+    )
+    characterUpdater.current = setTimeout(
       type,
       humanize()
-    ))
+    )
     const placeholderUpdater = setInterval(
       updatePlaceholder,
       5000
@@ -110,8 +118,8 @@ const Question = ({ question, onQuestionChange }) => {
     return () => {
       eventListener.remove()
       autosize.destroy(textarea.current)
-      clearInterval(cursorUpdater)
-      clearTimeout(characterUpdater)
+      clearInterval(cursorUpdater.current)
+      clearTimeout(characterUpdater.current)
       clearInterval(placeholderUpdater)
     }
   }, [])

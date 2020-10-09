@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import { initialPoll } from 'store/poll/constants'
 import { questionSelector, hasQuestionSelector, pollSelector } from 'store/poll/selectors'
-import { updatePoll, updateQuestion, updatePoll } from 'store/poll/actions'
+import { updatePoll, updateQuestion } from 'store/poll/actions'
 import { canSubmitPollSelector, answersSelector } from 'store/answers/selectors'
 import { updateAnswer, removeAnswer } from 'store/answers/actions'
 import { postPoll } from 'services/api'

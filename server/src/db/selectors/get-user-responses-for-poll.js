@@ -1,12 +1,11 @@
-const getUserResponsesForPoll = (Response) => async (poll) => {
-  console.log('getUserResponsesForPoll', poll)
-  return Response.findAll({
+const getUserResponsesForPoll = (Response) => async (poll, customUserID) => (
+  Response.findAll({
     attributes: ['id', 'answer_id'],
     where: {
       poll_id: poll.id,
-      customUserID: '00000' // TODO: Get this from cookie
+      customUserID
     }
   })
-}
+)
 
 export default getUserResponsesForPoll

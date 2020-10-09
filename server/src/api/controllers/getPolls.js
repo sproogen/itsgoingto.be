@@ -3,7 +3,6 @@ import {
 } from 'ramda'
 import { Poll } from '../../db'
 
-// TODO: Restrict endpoint to admin
 // TODO: Sort on response count
 
 const availableSortFields = ['id', 'identifier', 'question', 'created']

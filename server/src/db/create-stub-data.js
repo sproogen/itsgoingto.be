@@ -4,7 +4,7 @@ import { map } from 'ramda'
 
 const formatAnswers = map((answer) => ({ answer }))
 
-const createStubData = (Poll) => async () => {
+const createStubData = (Poll, User) => async () => {
   await Poll.create({
     identifier: 'a',
     question: 'This is a question?',
@@ -14,7 +14,8 @@ const createStubData = (Poll) => async () => {
     include: ['answers']
   })
   await Poll.create({
-    question: 'This is another question?'
+    question: 'This is another question?',
+    answers: formatAnswers(['Answer 1', 'Answer 2', 'Answer 3'])
   }, {
     include: ['answers']
   })
@@ -34,6 +35,10 @@ const createStubData = (Poll) => async () => {
   }, {
     include: ['answers']
   })
+
+  const user = User.build({ username: 'username' })
+  user.password = 'password'
+  await user.save()
 }
 
 export default createStubData

@@ -12,7 +12,6 @@ const WordRotate = ({ words }) => {
   const previous = useRef(null)
 
   const updateWord = () => {
-    console.log('currentWord', currentWordRef.current)
     currentWordRef.current = ifElse(
       equals(compose(subtract(__, 1), length, split(','))(words)),
       () => 0,

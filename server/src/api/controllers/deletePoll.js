@@ -1,7 +1,5 @@
 import { isNil } from 'ramda'
-import { Poll } from '../../db'
-
-// TODO: Restrict endpoint to admin
+import { Poll, getResponsesCountForPollSelector } from '../../db'
 
 const deletePoll = async (req, res) => {
   const poll = await Poll.findOne({
@@ -19,6 +17,8 @@ const deletePoll = async (req, res) => {
   }
 
   await poll.update({ deleted: true })
+
+  poll.responsesCount = await getResponsesCountForPollSelector(poll)
 
   return res.json(poll)
 }

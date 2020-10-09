@@ -1,5 +1,5 @@
 import {
-  isNil, defaultTo, map, prop
+  defaultTo, isNil, map, prop
 } from 'ramda'
 import {
   Poll,
@@ -8,11 +8,12 @@ import {
   getAnswersWithResponsesSelector
 } from '../../db'
 
-const getPoll = async (req, res) => {
+const getResponses = async (req, res) => {
   const poll = await Poll.scope([...(req.user ? [] : ['excludeDeleted'])]).findOne({
+    attributes: ['id', 'passphrase', 'ended'],
     where: {
       identifier: req.params.identifier,
-    }
+    },
   })
 
   if (isNil(poll)) {
@@ -22,7 +23,6 @@ const getPoll = async (req, res) => {
   if (
     poll.isProtected
     && poll.passphrase !== defaultTo('', req.query.passphrase)
-    && !req.user
   ) {
     return res.status(403).send({ error: 'incorrect-passphrase' })
   }
@@ -39,4 +39,4 @@ const getPoll = async (req, res) => {
   return res.json(poll)
 }
 
-export default getPoll
+export default getResponses

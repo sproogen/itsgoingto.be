@@ -35,9 +35,9 @@ const App = ({ isLoading, cookies, updateUserWithToken }) => {
           <div className="page-layout__viewport">
             <AdminNavigation />
             <Switch>
-              <Route exact path="/"><Ask /></Route>
-              <Route exact path="/404"><NotFound /></Route>
-              <Route path="/:identifier"><Answer /></Route>
+              <Route exact path="/" component={Ask} />
+              <Route exact path="/404" component={NotFound} />
+              <Route path="/:identifier" component={Answer} />
               <Route path="*"><Redirect to="/404" /></Route>
             </Switch>
           </div>

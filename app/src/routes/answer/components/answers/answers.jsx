@@ -12,6 +12,8 @@ const Answers = ({
 }) => {
   const answerChecked = (answer) => compose(contains(answer.id), when(isNil, () => []), prop('userResponses'))(poll)
 
+  console.log('answers', answers)
+
   return (
     <div className="container answer-container">
       {answers.length === 0 && (

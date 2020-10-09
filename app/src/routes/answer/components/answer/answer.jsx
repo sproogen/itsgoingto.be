@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import Linkify from 'react-linkify'
@@ -8,9 +8,10 @@ const Answer = ({
   index, type, checked, answer, poll, viewOnly, totalResponses, onResponseSelected
 }) => {
   const [animating, setAnimating] = useState(false)
+  const linkClicked = useRef(false)
 
   const handleClick = () => {
-    if (!this._linkClicked) { // eslint-disable-line
+    if (!linkClicked.current) {
       if (!poll.ended && !viewOnly) {
         setAnimating(true)
         setTimeout(() => {
@@ -20,12 +21,12 @@ const Answer = ({
         onResponseSelected(answer.id)
       }
     } else {
-      this._linkClicked = false // eslint-disable-line
+      linkClicked.current = false
     }
   }
 
   const linkClick = () => {
-    this._linkClicked = true // eslint-disable-line
+    linkClicked.current = true
   }
 
   const calculateWidth = () => ({

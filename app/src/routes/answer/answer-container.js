@@ -14,26 +14,26 @@ import { hasUserSelector } from 'store/user/selectors'
 
 import Answer from './answer'
 
-const mapStateToProps = (state, props) => ({
-  poll: pollSelector(state, props.params.identifier),
-  hasPoll: hasQuestionSelector(state, props.params.identifier),
+const mapStateToProps = (state, { match: { params: { identifier } } }) => ({
+  poll: pollSelector(state, identifier),
+  hasPoll: hasQuestionSelector(state, identifier),
   requiresPassphrase: requiresPassphraseSelector(state),
   answers: answersSelector(state),
-  totalResponses: totalResponsesSelector(state, props.params.identifier),
-  userResponded: userRespondedSelector(state, props.params.identifier),
+  totalResponses: totalResponsesSelector(state, identifier),
+  userResponded: userRespondedSelector(state, identifier),
   hasUser: hasUserSelector(state),
 })
 
-const mapDispatchToProps = (dispatch, props) => ({
-  fetchPoll: () => dispatch(fetchPoll(props.params.identifier)),
+const mapDispatchToProps = (dispatch, { match: { params: { identifier } } }) => ({
+  fetchPoll: () => dispatch(fetchPoll(identifier)),
   clearAnswers: () => dispatch(clearAnswers()),
   setLoading: (value) => dispatch(setLoading(value)),
   setRequiresPassphrase: (value) => dispatch(setRequiresPassphrase(value)),
-  postResponse: (id) => dispatch(postResponse(id, props.params.identifier)),
-  updateResponses: (responses) => dispatch(updateResponses(responses, props.params.identifier)),
-  updateUserResponses: (responses) => dispatch(updateUserResponses(responses, props.params.identifier))
+  postResponse: (id) => dispatch(postResponse(id, identifier)),
+  updateResponses: (responses) => dispatch(updateResponses(responses, identifier)),
+  updateUserResponses: (responses) => dispatch(updateUserResponses(responses, identifier))
 })
 
-const mergeProps = (stateProps, dispatchProps, ownProps) => mergeAll([stateProps, dispatchProps, ownProps.params])
+const mergeProps = (stateProps, dispatchProps, ownProps) => mergeAll([stateProps, dispatchProps, ownProps.match.params])
 
 export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(withCookies(Answer))

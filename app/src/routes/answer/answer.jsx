@@ -46,6 +46,8 @@ const Answer = ({
     if (hasPoll && !socket && !poll.ended) {
       let userID = cookies.get('USERID')
 
+      // Also add local storage
+      // https://blog.logrocket.com/the-complete-guide-to-using-localstorage-in-javascript-apps-ba44edb53a36/#:~:text=localStorage%20is%20a%20type%20of,browser%20window%20has%20been%20closed.
       if (!userID) {
         userID = [...Array(20)].map(() => (Math.random() * 36 | 0).toString(36)).join`` // eslint-disable-line
         cookies.set('USERID', userID, { path: '/' })
@@ -147,7 +149,7 @@ Answer.propTypes = {
     question: PropTypes.string,
     ended: PropTypes.bool,
     endDate: PropTypes.object,
-  }).isRequired,
+  }),
   hasPoll: PropTypes.bool.isRequired,
   requiresPassphrase: PropTypes.bool.isRequired,
   answers: PropTypes.arrayOf({

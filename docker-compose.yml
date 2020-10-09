@@ -9,6 +9,8 @@ services:
       - ./app/src:/app/src
     ports:
       - "3000:3000"
+    environment:
+      - PORT=3000
 
   # storybook:
   #   build:
@@ -36,6 +38,8 @@ services:
       - "8001:8001"
     environment:
       - DATABASE_URL=mysql://user:password@mysql:3306/itsgoingtobe
+      - PORT=8001
+      - JWT_TOKEN_SECRET=secret
 
   webserver:
     image: nginx:alpine

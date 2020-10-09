@@ -1,0 +1,188 @@
+swagger: "2.0"
+info:
+  description: ""
+  version: "0.0.1"
+  title: "Its Going To Be API"
+  contact:
+    email: "james@jwgmedia.co.uk"
+  license:
+    name: "GPLv3"
+    url: "https://www.gnu.org/licenses/gpl-3.0.en.html"
+host: "itsgoingto.be"
+basePath: "/api"
+tags:
+- name: "polls"
+  description: ""
+schemes:
+- "https"
+- "http"
+paths:
+  /polls:
+    get:
+      tags:
+      - "polls"
+      summary: "Retrieve all polls, only accessible as admin user"
+      description: ""
+      operationId: ""
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "page"
+        in: "query"
+        description: "The page to return."
+        type: "integer"
+        default: 1
+      - name: "pageSize"
+        in: "query"
+        description: "The ammount of results to retur per page."
+        type: "integer"
+        default: 20
+      - name: "sort"
+        in: "query"
+        description: "The field to sort on."
+        type: "string"
+        enum:
+        - "id"
+        - "identifier"
+        - "question"
+        - "responsesCount"
+        default: "id"
+      - name: "sortDirection"
+        in: "query"
+        description: "The direction to sort."
+        type: "string"
+        enum:
+        - "asc"
+        - "desc"
+        default: "asc"
+      responses:
+        "200":
+          description: "Ok"
+          schema:
+            type: "object"
+            properties:
+              count: 
+                type: "integer"
+                example: 20
+              total:
+                type: "integer"
+                example: 100
+              entities: 
+                type: "array"
+                items:
+                  $ref: "#/definitions/Poll"
+        "400":
+          description: "Bad request. Invalid **sort** option or **sortDirection** provided."
+        "401":
+          description: "Authorization information is missing or invalid."
+    post:
+      tags:
+      - "polls"
+      summary: "Create a new poll"
+      description: ""
+      operationId: ""
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+        - in: "body"
+          name: "poll"
+          description: "The poll to create."
+          schema:
+            type: "object"
+            required:
+              - question
+              - answers
+            properties:
+              question:
+                type: "string"
+              answers:
+                type: "array"
+                items:
+                  type: "string"
+              multipleChoice:
+                type: "boolean"
+              endDate:
+                type: "string"
+                format: "datetime"
+      responses:
+        "200":
+        "400":
+definitions:
+  Poll:
+    type: "object"
+    required:
+    - "question"
+    properties:
+      id:
+        type: "integer"
+        example: "1"
+        description: "Unique server generated ID"
+      identifier:
+        type: "string"
+        example: "v90034d6"
+        description: "Unique generate poll identifier"
+      question:
+        type: "string"
+        example: "Is this a question?"
+        description: "The question asked"
+      multipleChoice:
+        type: "boolean"
+        example: false
+        default: false
+        description: "Does the poll allow multiple choice responses"
+      endDate:
+        type: "string"
+        format: "date-time"
+        example: "2017-07-21T17:32:28Z"
+        default: ""
+        description: "The end date for the poll, can be empty if no end date"
+      ended:
+        type: "boolean"
+        example: false
+        description: "Has the poll ended"
+      deleted:
+        type: "boolean"
+        example: false
+        description: "Has the poll been deleted"
+      created:
+        type: "string"
+        format: "date-time"
+        example: "2017-07-21T17:32:28Z"
+        description: "When the poll was created"
+      updated:
+        type: "string"
+        format: "date-time"
+        example: "2017-07-21T17:32:28Z"
+        description: "When the poll was last updated"
+      answers:
+        type: "array"
+        items:
+          $ref: "#/definitions/Answer"
+      responsesCount:
+        type: "integer"
+        example: "5"
+        description: "Total number of responses for all answers"
+  Answer:
+    type: "object"
+    required:
+    - "answer"
+    properties:
+      id:
+        type: "integer"
+        example: "1"
+        description: "Unique server generated ID"
+      answer:
+        type: "string"
+        example: "Answer Text"
+        description: "The answer"
+      responsesCount:
+        type: "integer"
+        example: "5"
+        description: "Total number of responses for the answer"
+externalDocs:
+  description: "Find out more about Swagger"
+  url: "http://swagger.io"

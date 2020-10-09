@@ -7,13 +7,16 @@
   "main": "app.js",
   "scripts": {
     "start": "run-s sync serve",
-    "sync": "node src/db/sync.js",
-    "serve": "nodemon --exec src/app.js",
+    "sync": "babel-node src/db/sync.js",
+    "serve": "nodemon --exec babel-node src/app.js",
     "lint": "eslint --ext js,jsx src/.",
     "test": ""
   },
   "dependencies": {
+    "cookie-parser": "^1.4.5",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
     "morgan": "^1.9.1",
     "mysql2": "^2.1.0",
     "ramda": "^0.26.1",
@@ -21,6 +24,10 @@
     "socket.io": "2.1.1"
   },
   "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.8.4",
+    "@babel/node": "^7.8.4",
+    "@babel/preset-env": "^7.8.4",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.20.1",

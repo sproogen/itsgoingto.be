@@ -2,15 +2,19 @@ import {
   isEmpty, defaultTo, isNil, is, pipe, unless, append, __, reduceWhile, pathEq, find, map, prop
 } from 'ramda'
 import { Op } from 'sequelize'
-import { Poll, Response } from '../../db'
-
-// TODO: Get USERID from cookies
+import {
+  Poll,
+  Response,
+  getUserResponsesForPollSelector,
+  getResponsesCountForPollSelector,
+  getAnswersWithResponsesSelector
+} from '../../db'
 
 const submitResponses = (io) => async (req, res) => {
-  const poll = await Poll.findOne({
+  let poll = await Poll.scope(['excludeDeleted']).findOne({
+    attributes: ['id', 'passphrase', 'multipleChoice', 'ended'],
     where: {
       identifier: req.params.identifier,
-      ended: false
     },
     include: ['answers']
   })
@@ -55,11 +59,15 @@ const submitResponses = (io) => async (req, res) => {
     errors.push('No answers have been provided')
   }
 
+  const customUserID = req.cookies.USERID
+  if (!customUserID) {
+    errors.push('USERID is required')
+  }
+
   if (!isEmpty(errors)) {
     return res.status(400).send({ errors })
   }
 
-  const customUserID = '00000'
   const userIP = req.headers['x-forwarded-for'] || req.connection.remoteAddress
 
   await Response.destroy({
@@ -72,7 +80,7 @@ const submitResponses = (io) => async (req, res) => {
     }
   })
 
-  for await(const answer of answers) { // eslint-disable-line
+  for await (const answer of answers) { // eslint-disable-line no-restricted-syntax
     let response = await Response.findOne({
       where: {
         poll_id: poll.id,
@@ -82,27 +90,32 @@ const submitResponses = (io) => async (req, res) => {
     })
 
     if (isNil(response)) {
-      response = await Response.create({ // eslint-disable-line
+      response = await Response.create({
         customUserID,
         userIP
       })
 
-      await poll.addResponse(response) // eslint-disable-line
-      await answer.addResponse(response) // eslint-disable-line
+      await poll.addResponse(response)
+      await answer.addResponse(response)
     }
   }
 
-  const response = await Poll.findOne({
-    attributes: ['id'],
+  poll = await Poll.findOne({
+    attributes: ['id', 'ended'],
     where: {
       id: poll.id,
     }
   })
 
-  io.of('/responses').to(`${poll.identifier}/${customUserID}`).emit('own-responses-updated', response.toJson())
-  io.of('/responses').to(poll.identifier).emit('responses-updated', response.toJson())
+  poll.userResponses = map(prop('answer_id'), await getUserResponsesForPollSelector(poll, customUserID))
+  poll.responsesCount = await getResponsesCountForPollSelector(poll)
+  poll.fullAnswers = await getAnswersWithResponsesSelector(poll)
 
-  return res.json(response)
+  const responseAsJson = JSON.parse(JSON.stringify(poll))
+  io.of('/responses').to(`${poll.identifier}/${customUserID}`).emit('own-responses-updated', responseAsJson)
+  io.of('/responses').to(poll.identifier).emit('responses-updated', responseAsJson)
+
+  return res.json(poll)
 }
 
 export default submitResponses

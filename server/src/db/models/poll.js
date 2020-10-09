@@ -77,7 +77,7 @@ const poll = (sequelize) => {
     freezeTableName: true,
     sequelize
   })
-  Poll.addScope('defaultScope', {
+  Poll.addScope('excludeDeleted', {
     where: {
       deleted: false
     }
