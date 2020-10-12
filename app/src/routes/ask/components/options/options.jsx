@@ -28,7 +28,7 @@ Options.propTypes = {
   poll: PropTypes.shape({
     endType: PropTypes.string,
     endIn: PropTypes.number,
-    endAt: PropTypes.string,
+    endAt: PropTypes.object,
     passphrase: PropTypes.string,
     multipleChoice: PropTypes.bool
   }).isRequired,

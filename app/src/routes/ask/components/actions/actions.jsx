@@ -13,7 +13,7 @@ const Actions = ({
   const submit = () => postPoll()
     .then((response) => {
       if (response !== false) {
-        history.push(`/'${response.identifier}`)
+        history.push(`/${response.identifier}`)
         return false
       }
       return true

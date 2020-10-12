@@ -25,7 +25,12 @@ const EndPoll = ({ poll, updateOptions }) => {
     if (typeof poll.endAt === 'undefined') {
       updateOptions({
         identifier: '',
-        endAt: moment().add(1, 'days').seconds(0).milliseconds(0)
+        endAt: (
+          moment()
+            .add(1, 'days')
+            .seconds(0)
+            .milliseconds(0)
+        )
       })
     }
   }, [poll])
@@ -162,7 +167,7 @@ EndPoll.propTypes = {
   poll: PropTypes.shape({
     endType: PropTypes.string,
     endIn: PropTypes.number,
-    endAt: PropTypes.string
+    endAt: PropTypes.object
   }).isRequired,
   updateOptions: PropTypes.func.isRequired
 }

@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { isNil, equals } from 'ramda'
 
-export const PollTableHeaderItem = ({ label, style, onSort, sortDirection }) => {
+const PollTableHeaderItem = ({ label, style, onSort, sortDirection }) => {
   let sortIcon = null
 
   if (equals('asc', sortDirection)) {
@@ -21,19 +21,16 @@ export const PollTableHeaderItem = ({ label, style, onSort, sortDirection }) => 
 }
 
 PollTableHeaderItem.propTypes = {
-  label         : PropTypes.string.isRequired,
-  style         : PropTypes.object,
-  sortDirection : PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool,
-  ]),
-  onSort        : PropTypes.func,
+  label: PropTypes.string.isRequired,
+  style: PropTypes.object,
+  sortDirection: PropTypes.string,
+  onSort: PropTypes.func,
 }
 
 PollTableHeaderItem.defaultProps = {
-  style         : {},
-  sortDirection : null,
-  onSort        : null,
+  style: {},
+  sortDirection: null,
+  onSort: null,
 }
 
 export default PollTableHeaderItem

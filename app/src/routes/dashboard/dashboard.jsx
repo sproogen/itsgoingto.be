@@ -1,60 +1,43 @@
-import React, { Component } from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { browserHistory } from 'react-router'
-import { hasUserSelector } from 'store/user/selectors'
-import { setLoading } from 'store/loader/actions'
+import { useHistory } from 'react-router-dom'
 import PollTable from './components/poll-table'
 import Stats from './components/stats'
 import './dashboard.scss'
 
-export class Dashboard extends Component {
-  componentDidMount = () => this.checkPermissions()
+// TODO: Fix all this up
+// TODO: Elsewhere fix up useEffect that use useRef
 
-  componentDidUpdate = () => this.checkPermissions()
+const Dashboard = ({ hasUser, setLoading }) => {
+  const history = useHistory()
 
-  checkPermissions = () => {
-    const { hasUser } = this.props
-
+  useEffect(() => {
+    console.log('useEffect hasUser', hasUser)
     if (!hasUser) {
-      this.props.setLoading(true)
-      browserHistory.push('/login')
+      setLoading(true)
+      history.push('/login')
     } else {
-      this.props.setLoading(false)
+      setLoading(false)
     }
-  }
+  }, [hasUser])
 
-  render () {
-    const { hasUser } = this.props
-
-    if (hasUser) {
-      return (
-        <div>
-          <div className='container info-container'>
-            <Stats />
-          </div>
-          <div className='container panel-container'>
-            <PollTable />
-          </div>
+  return (
+    hasUser ? (
+      <div>
+        <div className="container info-container">
+          <Stats />
         </div>
-      )
-    }
-
-    return <div />
-  }
+        <div className="container panel-container">
+          <PollTable />
+        </div>
+      </div>
+    ) : <div />
+  )
 }
 
 Dashboard.propTypes = {
-  hasUser    : PropTypes.bool.isRequired,
-  setLoading : PropTypes.func.isRequired,
+  hasUser: PropTypes.bool.isRequired,
+  setLoading: PropTypes.func.isRequired,
 }
 
-const mapStateToProps = (state) => ({
-  hasUser : hasUserSelector(state),
-})
-
-const mapDispatchToProps = (dispatch) => ({
-  setLoading : (value) => dispatch(setLoading(value)),
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(Dashboard)
+export default Dashboard

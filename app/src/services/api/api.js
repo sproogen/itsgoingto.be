@@ -19,7 +19,6 @@ export const ROUTE_POLL = '/api/polls'
 export const ROUTE_RESPONSES = '/responses'
 export const ROUTE_LOGIN = '/api/login'
 export const ROUTE_STATS = '/api/stats'
-export const API_DATE_FORMAT = 'YYYY-MM-DDTHH:mm:ssZ'
 
 // ------------------------------------
 // Helpers
@@ -69,7 +68,7 @@ export const onError = (error) => {
 
 export const getEndDateFromPoll = (poll) => {
   if (poll.endType === 'endAt') {
-    return poll.endAt.format(API_DATE_FORMAT)
+    return poll.endAt.toISOString() // https://momentjs.com/docs/#/displaying/as-iso-string/
   }
 
   if (poll.endType === 'endIn') {
@@ -77,7 +76,7 @@ export const getEndDateFromPoll = (poll) => {
       .add(poll.endIn, 'hours')
       .seconds(0)
       .milliseconds(0)
-      .format(API_DATE_FORMAT)
+      .toISOString()
   }
 
   return null

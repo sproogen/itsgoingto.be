@@ -1,9 +1,12 @@
 import {
   trim, forEach, isEmpty, defaultTo, map, isNil
 } from 'ramda'
-import { Poll } from '../../db'
-
-// TODO: Swagger docs
+import {
+  Poll,
+  getUserResponsesForPollSelector,
+  getResponsesCountForPollSelector,
+  getAnswersWithResponsesSelector
+} from '../../db'
 
 const ISO_8601_FULL = /^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d(\.\d+)?(([+-]\d\d:\d\d)|Z)?$/i
 
@@ -44,6 +47,10 @@ const createPoll = async (req, res) => {
   }, {
     include: ['answers']
   })
+
+  poll.userResponses = []
+  poll.responsesCount = await getResponsesCountForPollSelector(poll)
+  poll.fullAnswers = await getAnswersWithResponsesSelector(poll)
 
   return res.json(poll)
 }

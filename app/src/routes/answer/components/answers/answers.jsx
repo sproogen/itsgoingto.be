@@ -12,8 +12,6 @@ const Answers = ({
 }) => {
   const answerChecked = (answer) => compose(contains(answer.id), when(isNil, () => []), prop('userResponses'))(poll)
 
-  console.log('answers', answers)
-
   return (
     <div className="container answer-container">
       {answers.length === 0 && (
@@ -41,11 +39,13 @@ const Answers = ({
 }
 
 Answers.propTypes = {
-  answers: PropTypes.arrayOf({
-    id: PropTypes.number,
-    answer: PropTypes.string,
-    responsesCount: PropTypes.number
-  }).isRequired,
+  answers: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number,
+      answer: PropTypes.string,
+      responsesCount: PropTypes.number
+    })
+  ).isRequired,
   poll: PropTypes.shape({
     ended: PropTypes.bool,
     multipleChoice: PropTypes.bool

@@ -8,8 +8,6 @@ import {
   getAnswersWithResponsesSelector
 } from '../../db'
 
-// TODO: Swagger docs
-
 const getResponses = async (req, res) => {
   const poll = await Poll.scope([...(req.user ? [] : ['excludeDeleted'])]).findOne({
     attributes: ['id', 'passphrase', 'ended'],
@@ -25,6 +23,7 @@ const getResponses = async (req, res) => {
   if (
     poll.isProtected
     && poll.passphrase !== defaultTo('', req.query.passphrase)
+    && !req.user
   ) {
     return res.status(403).send({ error: 'incorrect-passphrase' })
   }

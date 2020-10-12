@@ -32,13 +32,27 @@ const Answers = ({
         />
       ))
     }
-    <Answer key={length(answers)} index={length(answers)} disabled />
+    <div className={classNames('input input-answer input-disabled')}>
+      <label
+        className="input-label input-label-answer"
+        htmlFor={`answer-${length(answers)}`}
+      >
+        {length(answers) + 1}
+      </label>
+      <input
+        className="input-field input-field-answer"
+        type="text"
+        id={`answer-${length(answers)}`}
+        name={`answer-${length(answers)}`}
+        disabled
+      />
+    </div>
   </div>
 )
 
 Answers.propTypes = {
   hasQuestion: PropTypes.bool.isRequired,
-  answers: PropTypes.oneOf([
+  answers: PropTypes.oneOfType([
     PropTypes.arrayOf({
       id: PropTypes.number,
       answer: PropTypes.string

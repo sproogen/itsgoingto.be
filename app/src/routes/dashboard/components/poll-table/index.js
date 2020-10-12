@@ -1,3 +1,3 @@
-import PollTable from './poll-table'
+import PollTable from './poll-table-container'
 
 export default PollTable

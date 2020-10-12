@@ -41,7 +41,10 @@ const Ask = ({
         )}
       >
         <div className="header center-text">
-          <h1><WordRotate words={WORDS} /> is it going to be?</h1>
+          <h1>
+            <WordRotate words={WORDS} />
+            is it going to be?
+          </h1>
         </div>
       </div>
       <div
@@ -56,12 +59,11 @@ const Ask = ({
         <Answers
           hasQuestion={hasQuestion}
           answers={answers}
-          postPoll={postPoll}
           onAnswerChange={onAnswerChange}
           onRemoveAnswer={onRemoveAnswer}
         />
         <Options hasQuestion={hasQuestion} poll={poll} updateOptions={updateOptions} />
-        <Actions hasQuestion={hasQuestion} canSubmitPoll={canSubmitPoll} />
+        <Actions hasQuestion={hasQuestion} canSubmitPoll={canSubmitPoll} postPoll={postPoll} />
       </div>
     </div>
   )
@@ -76,7 +78,7 @@ Ask.propTypes = {
     passphrase: PropTypes.string,
     endType: PropTypes.string,
   }).isRequired,
-  answers: PropTypes.oneOf([
+  answers: PropTypes.oneOfType([
     PropTypes.arrayOf({
       id: PropTypes.number,
       answer: PropTypes.string

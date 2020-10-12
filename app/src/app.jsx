@@ -15,17 +15,16 @@ import Loader from 'components/loader'
 import AdminNavigation from 'components/admin-navigation'
 import Ask from 'routes/ask'
 import Answer from 'routes/answer'
+import Login from 'routes/login'
+import Dashboard from 'routes/dashboard'
 import NotFound from 'routes/not-found'
 import './app.scss'
 
 const App = ({ isLoading, cookies, updateUserWithToken }) => {
-  useEffect(() => {
-    const token = cookies.get('itsgoingtobeUserToken')
-
-    if (token) {
-      updateUserWithToken(token)
-    }
-  }, [])
+  const token = cookies.get('itsgoingtobeUserToken')
+  if (token) {
+    updateUserWithToken(token)
+  }
 
   return (
     <Router>
@@ -37,6 +36,8 @@ const App = ({ isLoading, cookies, updateUserWithToken }) => {
             <Switch>
               <Route exact path="/" component={Ask} />
               <Route exact path="/404" component={NotFound} />
+              <Route path="/login" component={Login} />
+              <Route path="/admin" component={Dashboard} />
               <Route path="/:identifier" component={Answer} />
               <Route path="*"><Redirect to="/404" /></Route>
             </Switch>
