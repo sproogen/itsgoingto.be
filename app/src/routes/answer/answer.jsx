@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import Helmet from 'react-helmet'
 import Linkify from 'react-linkify'
@@ -36,33 +36,33 @@ const Answer = ({
     })
   }, [])
 
-  // useEffect(() => {
-  //   let socket
+  useEffect(() => {
+    let socket
 
-  //   if (hasPoll && !socket && !poll.ended) {
-  //     let userID = cookies.get('USERID')
+    if (hasPoll && !socket && !poll.ended) {
+      let userID = cookies.get('USERID')
 
-  //     // Also add local storage
-  //     // https://blog.logrocket.com/the-complete-guide-to-using-localstorage-in-javascript-apps-ba44edb53a36/#:~:text=localStorage%20is%20a%20type%20of,browser%20window%20has%20been%20closed.
-  //     if (!userID) {
-  //       userID = [...Array(20)].map(() => (Math.random() * 36 | 0).toString(36)).join`` // eslint-disable-line
-  //       cookies.set('USERID', userID, { path: '/' })
-  //     }
+      // Also add local storage
+      // https://blog.logrocket.com/the-complete-guide-to-using-localstorage-in-javascript-apps-ba44edb53a36/#:~:text=localStorage%20is%20a%20type%20of,browser%20window%20has%20been%20closed.
+      if (!userID) {
+        userID = [...Array(20)].map(() => (Math.random() * 36 | 0).toString(36)).join`` // eslint-disable-line
+        cookies.set('USERID', userID, { path: '/' })
+      }
 
-  //     socket = io(`/responses?identifier=${identifier}&USERID=${userID}`)
-  //     socket.on('responses-updated', (responses) => {
-  //       updateResponses(JSON.parse(responses))
-  //     })
-  //     socket.on('own-responses-updated', (responses) => {
-  //       updateUserResponses(JSON.parse(responses))
-  //     })
-  //   }
-  //   return () => {
-  //     if (socket) {
-  //       socket.close()
-  //     }
-  //   }
-  // }, [hasPoll])
+      socket = io(`/responses?identifier=${identifier}&USERID=${userID}`)
+      socket.on('responses-updated', (responses) => {
+        updateResponses(responses)
+      })
+      socket.on('own-responses-updated', (responses) => {
+        updateUserResponses(responses)
+      })
+    }
+    return () => {
+      if (socket) {
+        socket.close()
+      }
+    }
+  }, [hasPoll])
 
   const onResponseSelected = (id) => postResponse(id)
 

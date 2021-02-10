@@ -57,7 +57,7 @@ const Question = ({ question, onQuestionChange }) => {
   }
 
   const type = () => {
-    characterRef.current = characterRef.current + 1
+    characterRef.current = characterRef.current + 1 // eslint-disable-line
     setCharacter(characterRef.current)
     characterUpdater.current = setTimeout(
       type,
@@ -138,6 +138,7 @@ const Question = ({ question, onQuestionChange }) => {
           rows="1"
           id="question"
           name="question"
+          data-testid="question"
           ref={textarea}
         />
       </label>

@@ -11,43 +11,36 @@ import './poll-table.scss'
 
 let fetchPollsPromise
 
-const PollTable = ({ polls, pollCount, page, fetchPolls, setPollPage, deletePoll }) => {
-  // TODO : Store ID's of polls for the page in a dashboard store
+const PollTable = ({
+  polls, pollCount, page, fetchPolls, setPollPage, deletePoll
+}) => {
   const [loading, setLoading] = useState(pollCount === 0)
   const [sort, setSort] = useState('id')
   const [sortDirection, setSortDirection] = useState('desc')
   const hasPaginator = Math.ceil(pollCount / POLLS_PER_PAGE) > 1
 
-  const fetchPollsForPage = (newPage) => {
-    setPollPage(newPage)
+  useEffect(() => {
+    setLoading(true)
+    if (fetchPollsPromise) {
+      fetchPollsPromise.cancel()
+    }
     fetchPollsPromise = new CancelablePromise(
-      (resolve) => fetchPolls(newPage + 1, sort, sortDirection).then(resolve)
+      (resolve) => fetchPolls(page + 1, sort, sortDirection).then(resolve)
     )
     fetchPollsPromise.then(() => {
       setLoading(false)
     })
-  }
-
-  useEffect(() => {
-    fetchPollsForPage(page)
 
     return () => {
-      fetchPollsPromise.cancel()
+      if (fetchPollsPromise) {
+        fetchPollsPromise.cancel()
+      }
     }
-  }, [page])
-
-  const changePage = (newPage) => {
-    fetchPollsPromise.cancel()
-    setLoading(true)
-    fetchPollsForPage(newPage)
-  }
+  }, [page, sort, sortDirection])
 
   const changeSort = (newSort) => {
     setSort(newSort)
     setSortDirection(equals(sort, newSort) && equals('asc', sortDirection) ? 'desc' : 'asc')
-    setLoading(true)
-
-    fetchPollsForPage(page)
   }
 
   return (
@@ -55,50 +48,52 @@ const PollTable = ({ polls, pollCount, page, fetchPolls, setPollPage, deletePoll
       <div className="panel-header">
         Polls
       </div>
-      <div className='panel-body'>
-        {loading &&
-          <div className={'spinner-container center-text' + (!hasPaginator ? ' no-paginator' : '')}>
+      <div className="panel-body">
+        {loading
+          && (
+          <div className={`spinner-container center-text${!hasPaginator ? ' no-paginator' : ''}`}>
             <Spinner />
           </div>
-        }
-        <div className={'table-container' + (loading ? ' hidden' : '')}>
+          )}
+        <div className={`table-container${loading ? ' hidden' : ''}`}>
           <table>
             <thead>
               <tr>
                 <PollTableHeaderItem
-                  label='ID'
+                  label="ID"
                   style={{ width: '4em' }}
                   onSort={() => changeSort('id')}
                   sortDirection={equals('id', sort) && sortDirection}
                 />
                 <PollTableHeaderItem
-                  label='Identifier'
+                  label="Identifier"
                   style={{ width: '8em' }}
                   onSort={() => changeSort('identifier')}
                   sortDirection={equals('identifier', sort) && sortDirection}
                 />
                 <PollTableHeaderItem
-                  label='Question'
+                  label="Question"
                   onSort={() => changeSort('question')}
                   sortDirection={equals('question', sort) && sortDirection}
                 />
                 <PollTableHeaderItem
-                  label='Responses'
+                  label="Responses"
                   style={{ width: '8em' }}
-                  onSort={() => changeSort('responsesCount')}
-                  sortDirection={equals('responsesCount', sort) && sortDirection}
+                  // onSort={() => changeSort('responsesCount')}
+                  // sortDirection={equals('responsesCount', sort) && sortDirection}
                 />
                 <PollTableHeaderItem
-                  label='Status'
-                  style={{ width: '8em' }} />
+                  label="Status"
+                  style={{ width: '8em' }}
+                />
                 <PollTableHeaderItem
-                  label='Created At'
+                  label="Created At"
                   style={{ width: '12em' }}
                   onSort={() => changeSort('created')}
                   sortDirection={equals('created', sort) && sortDirection}
                 />
                 <PollTableHeaderItem
-                  label='Delete'
+                  label="Delete"
                   style={{ width: '4em' }}
                 />
               </tr>
@@ -106,7 +101,7 @@ const PollTable = ({ polls, pollCount, page, fetchPolls, setPollPage, deletePoll
             <tbody>
               {
                 polls.map((poll) => (
-                  <PollTableRow key={poll.id} poll={poll} deletePoll={deletePoll} />
+                  <PollTableRow key={poll.identifier} poll={poll} deletePoll={deletePoll} />
                 ))
               }
             </tbody>
@@ -116,7 +111,7 @@ const PollTable = ({ polls, pollCount, page, fetchPolls, setPollPage, deletePoll
           itemCount={pollCount}
           itemsPerPage={POLLS_PER_PAGE}
           page={page}
-          pageCallback={changePage}
+          pageCallback={setPollPage}
         />
       </div>
     </div>
@@ -124,7 +119,17 @@ const PollTable = ({ polls, pollCount, page, fetchPolls, setPollPage, deletePoll
 }
 
 PollTable.propTypes = {
-  polls: PropTypes.array.isRequired, // TODO
+  polls: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number,
+      identifier: PropTypes.string,
+      question: PropTypes.string,
+      responsesCount: PropTypes.number,
+      deleted: PropTypes.bool,
+      ended: PropTypes.bool,
+      created: PropTypes.string,
+    })
+  ).isRequired,
   pollCount: PropTypes.number.isRequired,
   page: PropTypes.number.isRequired,
   fetchPolls: PropTypes.func.isRequired,

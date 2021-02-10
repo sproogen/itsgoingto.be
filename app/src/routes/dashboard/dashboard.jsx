@@ -5,14 +5,10 @@ import PollTable from './components/poll-table'
 import Stats from './components/stats'
 import './dashboard.scss'
 
-// TODO: Fix all this up
-// TODO: Elsewhere fix up useEffect that use useRef
-
 const Dashboard = ({ hasUser, setLoading }) => {
   const history = useHistory()
 
   useEffect(() => {
-    console.log('useEffect hasUser', hasUser)
     if (!hasUser) {
       setLoading(true)
       history.push('/login')

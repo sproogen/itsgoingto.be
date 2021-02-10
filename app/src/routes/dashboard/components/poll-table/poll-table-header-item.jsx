@@ -2,34 +2,46 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { isNil, equals } from 'ramda'
 
-const PollTableHeaderItem = ({ label, style, onSort, sortDirection }) => {
-  let sortIcon = null
+const PollTableHeaderItem = ({
+  label, style, onSort, sortDirection
+}) => {
+  let sortIcon = 'fa fa-sort'
 
   if (equals('asc', sortDirection)) {
-    sortIcon = <i className='fa fa-sort-up' />
+    sortIcon += '-up'
   } else if (equals('desc', sortDirection)) {
-    sortIcon = <i className='fa fa-sort-down' />
-  } else {
-    sortIcon = <i className='fa fa-sort' />
+    sortIcon += '-down'
   }
 
   return (
-    <th style={style} className={sortDirection && 'sort-active'}>
-      {!isNil(onSort) ? <a onClick={onSort}>{label} {sortIcon}</a> : <span>{label}</span>}
+    <th style={style} className={sortDirection ? 'sort-active' : ''}>
+      {
+        !isNil(onSort)
+          ? (
+            <button onClick={onSort} type="button" tabIndex={0}>
+              {label}
+              <i className={sortIcon} />
+            </button>
+          )
+          : <span>{label}</span>
+      }
     </th>
   )
 }
 
 PollTableHeaderItem.propTypes = {
   label: PropTypes.string.isRequired,
-  style: PropTypes.object,
-  sortDirection: PropTypes.string,
+  style: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  sortDirection: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool,
+  ]),
   onSort: PropTypes.func,
 }
 
 PollTableHeaderItem.defaultProps = {
   style: {},
-  sortDirection: null,
+  sortDirection: false,
   onSort: null,
 }
 

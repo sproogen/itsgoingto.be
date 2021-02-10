@@ -11,19 +11,16 @@ import './login.scss'
 
 const KEY_ENTER = 13
 
-// TODO: Really tidy this up
-
 const Login = ({
   setLoading, hasUser, clearUser, cookies, postLogin
 }) => {
   const history = useHistory()
-  const [data, setData] = useState({ username: '', password: '' })
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
   const [errors, setErrors] = useState({})
   const eventListener = useRef(EventBus.getEventBus())
 
-  const validate = (newData, removeOnly = false) => {
-    const { username, password } = newData
-
+  const validate = (removeOnly = false) => {
     let newErrors = dissoc('api', errors)
 
     if (username.length === 0) {
@@ -31,7 +28,7 @@ const Login = ({
         newErrors.username = 'Please enter a username.'
       }
     } else {
-      newErrors = dissoc('username', errors)
+      newErrors = dissoc('username', newErrors)
     }
 
     if (password.length === 0) {
@@ -39,7 +36,7 @@ const Login = ({
         newErrors.password = 'Please enter a password.'
       }
     } else {
-      newErrors = dissoc('password', errors)
+      newErrors = dissoc('password', newErrors)
     }
 
     setErrors(newErrors)
@@ -47,11 +44,14 @@ const Login = ({
     return isEmpty(newErrors)
   }
 
-  const handleChange = ({ target }) => {
-    const newData = { ...data, [target.id] : target.value }
+  const onUsernameChange = ({ target }) => {
+    setUsername(target.value)
+    validate(true)
+  }
 
-    setData(newData)
-    validate(newData, true)
+  const onPasswordChange = ({ target }) => {
+    setPassword(target.value)
+    validate(true)
   }
 
   const handleKeyPress = (event) => {
@@ -64,14 +64,11 @@ const Login = ({
   }
 
   const submit = () => {
-    const { username, password } = data
-
-    if (validate(data)) {
+    if (validate()) {
       return postLogin(username, password).then((response) => {
         if (response instanceof APIError) {
           const newErrors = {}
 
-          // TODO : Fix this error handling
           try {
             newErrors.api = join('<br />', response.details.error.errors)
           } catch (err) {
@@ -115,13 +112,13 @@ const Login = ({
               type="text"
               id="username"
               name="username"
-              value={data.username}
-              onChange={handleChange}
+              value={username}
+              onChange={onUsernameChange}
             />
           </label>
           <span className="input-error-label">{errors.username}</span>
         </div>
-        <div className={`input input-password${errors.username || errors.api ? ' input-error' : ''}`}>
+        <div className={`input input-password${errors.password || errors.api ? ' input-error' : ''}`}>
           <label className="input-label input-label-password" htmlFor="password">
             Password
             <input
@@ -129,9 +126,9 @@ const Login = ({
               type="password"
               id="password"
               name="password"
-              value={data.password}
+              value={password}
               onKeyDown={handleKeyPress}
-              onChange={handleChange}
+              onChange={onPasswordChange}
             />
           </label>
           <span className="input-error-label">{errors.password || errors.api}</span>

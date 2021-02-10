@@ -20,7 +20,7 @@ const user = (sequelize) => {
           username: this.username,
           exp: Math.floor(Date.now() / 1000) + (60 * 60)
         },
-        process.env.JWT_TOKEN_SECRET
+        process.env.JWT_PASSPHRASE
       )
     }
   }

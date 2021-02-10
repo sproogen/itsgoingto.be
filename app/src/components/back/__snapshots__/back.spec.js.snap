@@ -3,7 +3,7 @@
 exports[`(Component) Back (Render) matches snapshot 1`] = `
 <DocumentFragment>
   <div
-    class="container back-container"
+    class="back-container"
   >
     <div
       class="back-button"

@@ -1,23 +1,23 @@
-/* global expect, jest */
 import React from 'react'
-import { shallow } from 'enzyme'
-import EventBus from 'components/event-bus'
-import { Question } from './question'
+import { render, fireEvent, screen } from '@testing-library/react'
+import { act } from 'react-dom/test-utils'
+import EventBus from 'services/event-bus'
+import Question from './question'
+
+const eventListener = {
+  remove: jest.fn()
+}
 
 const eventBus = {
-  emit        : jest.fn(),
-  addListener : jest.fn(),
+  emit: jest.fn(),
+  addListener: jest.fn(() => eventListener),
 }
 
 EventBus.getEventBus = jest.fn(() => eventBus)
 
 const props = {
-  placeholderText: [
-    'Ask a question?',
-    'Ask a different question?',
-  ],
-  question         : '',
-  onQuestionChange : jest.fn(),
+  question: '',
+  onQuestionChange: jest.fn(),
 }
 
 describe('(Route) Ask', () => {
@@ -28,13 +28,11 @@ describe('(Route) Ask', () => {
   describe('(Component) Question', () => {
     describe('(Action) onChange', () => {
       it('should call prop onQuestionChange', () => {
-        const wrapper = shallow(<Question {...props} />)
-        const event = {
-          preventDefault() { },
-          target: { value: 'A question' }
-        }
+        render(<Question {...props} />)
 
-        wrapper.find('textarea').simulate('change', event)
+        const textarea = screen.getByTestId('question')
+        fireEvent.change(textarea, { target: { value: 'A question' } })
+
         expect(props.onQuestionChange).toHaveBeenCalledWith('A question')
       })
     })
@@ -42,9 +40,11 @@ describe('(Route) Ask', () => {
     describe('(Action) onKeyDown', () => {
       const emitFocusPlusZero = (keyCode) => {
         it('emits focus request on index + 1', () => {
-          const wrapper = shallow(<Question {...props} />)
+          render(<Question {...props} />)
 
-          wrapper.find('textarea').simulate('keyDown', { keyCode, preventDefault: () => { } })
+          const textarea = screen.getByTestId('question')
+          fireEvent.keyDown(textarea, { keyCode, preventDefault: () => { } })
+
           expect(eventBus.emit).toHaveBeenCalledWith('focus', 0)
         })
       }
@@ -60,29 +60,29 @@ describe('(Route) Ask', () => {
 
     describe('(Render)', () => {
       it('matches snapshot', () => {
-        const wrapper = shallow(<Question {...props} />)
+        const { asFragment } = render(<Question {...props} />)
 
-        expect(wrapper).toMatchSnapshot()
+        expect(asFragment()).toMatchSnapshot()
       })
 
       describe('with question text', () => {
         it('matches snapshot', () => {
-          const wrapper = shallow(<Question {...props} question={'A real question'} />)
+          const { asFragment } = render(<Question {...props} question="A real question" />)
 
-          expect(wrapper).toMatchSnapshot()
+          expect(asFragment()).toMatchSnapshot()
         })
       })
 
       describe('with place holder text', () => {
+        jest.useFakeTimers()
         it('matches snapshot', () => {
-          const wrapper = shallow(<Question {...props} />)
+          const { asFragment } = render(<Question {...props} />)
 
-          wrapper.setState({
-            placeholder : 1,
-            character   : 12,
-            cursor      : true,
+          act(() => {
+            jest.advanceTimersByTime(5001)
           })
-          expect(wrapper).toMatchSnapshot()
+
+          expect(asFragment()).toMatchSnapshot()
         })
       })
     })

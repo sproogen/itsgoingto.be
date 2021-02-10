@@ -23,6 +23,17 @@ services:
   #   ports:
   #     - "6006:6006"
 
+  # swagger:
+  #   build:
+  #     context: ./app
+  #     dockerfile: ../docker/storybook/Dockerfile
+  #   image: itsgoingtobe/storybook
+  #   volumes:
+  #     - ./app/src:/app/src
+  #     - ./app/stories:/app/stories
+  #   ports:
+  #     - "6006:6006"
+
   server:
     build:
       context: ./server
@@ -39,7 +50,7 @@ services:
     environment:
       - DATABASE_URL=mysql://user:password@mysql:3306/itsgoingtobe
       - PORT=8001
-      - JWT_TOKEN_SECRET=secret
+      - JWT_PASSPHRASE=secret
 
   webserver:
     image: nginx:alpine

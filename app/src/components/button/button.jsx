@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import EventBus from 'services/event-bus'
@@ -9,7 +9,6 @@ const Button = ({
   submitEvent, className, disabled, text, callback
 }) => {
   const [loading, setLoading] = useState(false)
-  const [eventListener, setEventListener] = useState(null)
 
   const isDisabled = () => disabled || loading
 
@@ -28,18 +27,19 @@ const Button = ({
   }
 
   useEffect(() => {
+    let subsctiption
     if (submitEvent) {
-      setEventListener(EventBus.getEventBus().addListener(
+      subsctiption = EventBus.getEventBus().addListener(
         submitEvent,
         () => handlePress()
-      ))
+      )
     }
     return () => {
-      if (eventListener) {
-        eventListener.remove()
+      if (subsctiption) {
+        subsctiption.remove()
       }
     }
-  }, [])
+  }, [handlePress])
 
   return (
     <button

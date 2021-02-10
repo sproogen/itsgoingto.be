@@ -1,29 +1,31 @@
-import React, { Component, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { isNil } from 'ramda'
 import './stats.scss'
 
 const Stats = ({ polls, responses, fetchStats }) => {
-  useEffect(fetchStats, [])
+  useEffect(() => {
+    fetchStats()
+  }, [])
 
   return (
-    <div className='info'>
-      <div className='info-block-column'>
-        <div className='info-block'>
-          <div className='info-header'>
+    <div className="info">
+      <div className="info-block-column">
+        <div className="info-block">
+          <div className="info-header">
             Total Polls
           </div>
-          <div className='info-body'>
+          <div className="info-body">
             {!isNil(polls) ? polls : '-'}
           </div>
         </div>
       </div>
-      <div className='info-block-column'>
-        <div className='info-block'>
-          <div className='info-header'>
+      <div className="info-block-column">
+        <div className="info-block">
+          <div className="info-header">
             Total Responses
           </div>
-          <div className='info-body'>
+          <div className="info-body">
             {!isNil(responses) ? responses : '-'}
           </div>
         </div>

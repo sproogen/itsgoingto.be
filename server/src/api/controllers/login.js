@@ -23,7 +23,7 @@ const login = async (req, res) => {
   return User.findOne({ username })
     .then((user) => {
       if (!user || !user.validatePassword(password)) {
-        return res.status(400).send({ error: 'Invalid Username or Password' })
+        return res.status(400).send({ errors: ['Invalid Username or Password'] })
       }
 
       return res.json({

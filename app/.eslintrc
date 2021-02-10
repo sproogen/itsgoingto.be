@@ -30,7 +30,7 @@
     "space-before-keywords": "off",
     "space-return-throw-case": "off",
     "key-spacing": 0,
-    "max-len": [2, 120, 2],
+    "max-len": ["error", { "code": 120, "ignoreComments": true, "ignoreTrailingComments": true }],
     "object-curly-spacing": [2, "always"],
     "comma-dangle": 0,
     "no-multi-spaces": [2, {"exceptions": {"VariableDeclarator": true}}],
@@ -38,16 +38,27 @@
     "no-unreachable": 1,
     "import/no-extraneous-dependencies": [
       "error",
-      {"devDependencies": ["**/*.config.js", "**/*.spec.js"]}
-    ],
-    "react/jsx-filename-extension": [
-      1,
       {
-        "extensions": [
-          ".jsx",
-          ".spec.js"
+        "devDependencies": [
+          "**/*.config.js",
+          "**/*.spec.js"
         ]
       }
+    ],
+    "react/jsx-filename-extension": [
+      1
     ]
-  }
+  },
+  "overrides": [
+    {
+      "files": [
+        "*.config.js",
+        "*.spec.js"
+      ],
+      "rules": {
+        "react/jsx-props-no-spreading": "off",
+        "react/jsx-filename-extension": "off"
+      }
+    }
+  ]
 }

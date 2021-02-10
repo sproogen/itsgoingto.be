@@ -14,12 +14,6 @@
     line-height: 1em;
     font-weight: 300;
     border-bottom: 2px solid #e6e9ed;
-
-    a {
-      font-size: 0.8em;
-      margin-left: 5px;
-      cursor: pointer;
-    }
   }
 
   .panel-body {
@@ -61,14 +55,20 @@
       padding-right: 0.2em;
       position: relative;
 
-      a {
+      button {
+        background: none!important;
+        border: none;
+        font-weight: 600;
+        padding: 0!important;
         color: $base-font-color;
+        text-decoration: none;
+        cursor: pointer;
       }
 
       i {
         position: absolute;
         right: 1.1em;
-        line-height: 1.5em;
+        line-height: 2.5em;
         color: $disabled-label-text-color;
       }
 
@@ -85,6 +85,22 @@
       &.sort-active, &:hover {
         i {
           color: $base-font-color;
+        }
+      }
+    }
+
+    td {
+      button {
+        background: none!important;
+        border: none;
+        font-weight: 600;
+        padding: 0!important;
+        color: $action-color;
+        text-decoration: none;
+        cursor: pointer;
+
+        &:hover {
+          text-decoration: underline;
         }
       }
     }

@@ -4,12 +4,13 @@ import {
 import { Poll } from '../../db'
 
 // TODO: Sort on response count
+// TODO: Validation on pageSize & page not numerical
 
 const availableSortFields = ['id', 'identifier', 'question', 'created']
 const defaultPageSize = 20
 
 const getPolls = async (req, res) => {
-  const pageSize = req.query.pageSize ? req.query.pageSize : defaultPageSize
+  const pageSize = req.query.pageSize ? parseInt(req.query.pageSize, 10) : defaultPageSize
   const page = req.query.page ? req.query.page - 1 : 0
   const sort = req.query.sort ? req.query.sort : 'id'
   const direction = req.query.sortDirection ? req.query.sortDirection : 'asc'

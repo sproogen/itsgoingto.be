@@ -37,7 +37,7 @@ paths:
           default: 1
       - name: pageSize
         in: query
-        description: The ammount of results to retur per page.
+        description: The ammount of results to return per page.
         schema:
           type: integer
           default: 20
@@ -389,9 +389,11 @@ paths:
               schema:
                 type: object
                 properties:
-                  error:
-                    type: string
-                    example: poll-ended
+                  errors:
+                    type: array
+                    items:
+                      type: integer
+                    example: [Username is required, Password is required, Invalid Username or Password.]
   /stats:
     get:
       tags:
@@ -431,6 +433,10 @@ components:
       - question
       type: object
       properties:
+        id:
+          type: integer
+          description: Unique server generated ID
+          example: 1
         identifier:
           type: string
           description: Unique generate poll identifier
@@ -525,4 +531,4 @@ components:
     bearerAuth:            # arbitrary name for the security scheme
       type: http
       scheme: bearer
-      bearerFormat: JWT 
+      bearerFormat: JWT

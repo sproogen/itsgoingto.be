@@ -108,7 +108,7 @@ const poll = (sequelize) => {
     } = this
 
     return compose(
-      omit(['id', 'passphrase']),
+      omit(['passphrase']),
       assoc('responsesCount', responsesCount),
       assoc('userResponses', userResponses),
       assoc('answers', fullAnswers),

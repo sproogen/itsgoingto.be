@@ -35,6 +35,14 @@ const createStubData = (Poll, User) => async () => {
   }, {
     include: ['answers']
   })
+  await Poll.create({
+    identifier: 'd',
+    question: 'This a deleted poll?',
+    deleted: true,
+    answers: formatAnswers(['Answer d1', 'Answer d2', 'Answer d3'])
+  }, {
+    include: ['answers']
+  })
 
   const user = User.build({ username: 'username' })
   user.password = 'password'

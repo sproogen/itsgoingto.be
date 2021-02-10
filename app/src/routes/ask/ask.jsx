@@ -12,7 +12,8 @@ import './ask.scss'
 const WORDS = 'What,Where,When,Who'
 
 const Ask = ({
-  question, hasQuestion, canSubmitPoll, poll, answers, clearPoll, postPoll, updateQuestion, onAnswerChange, onRemoveAnswer, updateOptions
+  question, hasQuestion, canSubmitPoll, poll, answers, clearPoll,
+  postPoll, updateQuestion, onAnswerChange, onRemoveAnswer, updateOptions
 }) => {
   useEffect(() => {
     clearPoll()

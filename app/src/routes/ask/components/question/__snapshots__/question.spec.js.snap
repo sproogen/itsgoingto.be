@@ -1,70 +1,75 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`(Route) Ask (Component) Question (Render) matches snapshot 1`] = `
-<div
-  className="input input-question"
->
-  <label
-    className="input-label input-label-question"
-    htmlFor="question"
+<DocumentFragment>
+  <div
+    class="input input-question"
   >
-    Ask a question
-  </label>
-  <textarea
-    className="input-field input-field-question js-auto-size"
-    id="question"
-    name="question"
-    onChange={[Function]}
-    onKeyDown={[Function]}
-    placeholder=""
-    rows="1"
-    value=""
-  />
-</div>
+    <label
+      class="input-label input-label-question"
+      for="question"
+    >
+      Ask a question
+      <textarea
+        class="input-field input-field-question js-auto-size"
+        data-testid="question"
+        id="question"
+        name="question"
+        placeholder=""
+        rows="1"
+        style="overflow-x: hidden; word-wrap: break-word; overflow-y: hidden;"
+      />
+    </label>
+  </div>
+</DocumentFragment>
 `;
 
 exports[`(Route) Ask (Component) Question (Render) with place holder text matches snapshot 1`] = `
-<div
-  className="input input-question"
->
-  <label
-    className="input-label input-label-question"
-    htmlFor="question"
+<DocumentFragment>
+  <div
+    class="input input-question"
   >
-    Ask a question
-  </label>
-  <textarea
-    className="input-field input-field-question js-auto-size"
-    id="question"
-    name="question"
-    onChange={[Function]}
-    onKeyDown={[Function]}
-    placeholder="Ask a differ|"
-    rows="1"
-    value=""
-  />
-</div>
+    <label
+      class="input-label input-label-question"
+      for="question"
+    >
+      Ask a question
+      <textarea
+        class="input-field input-field-question js-auto-size"
+        data-testid="question"
+        id="question"
+        name="question"
+        placeholder=""
+        rows="1"
+        style="overflow-x: hidden; word-wrap: break-word; overflow-y: hidden;"
+      />
+    </label>
+  </div>
+</DocumentFragment>
 `;
 
 exports[`(Route) Ask (Component) Question (Render) with question text matches snapshot 1`] = `
-<div
-  className="input input-question"
->
-  <label
-    className="input-label input-label-question"
-    htmlFor="question"
+<DocumentFragment>
+  <div
+    class="input input-question"
   >
-    Ask a question
-  </label>
-  <textarea
-    className="input-field input-field-question js-auto-size"
-    id="question"
-    name="question"
-    onChange={[Function]}
-    onKeyDown={[Function]}
-    placeholder=""
-    rows="1"
-    value="A real question"
-  />
-</div>
+    <label
+      class="input-label input-label-question"
+      for="question"
+    >
+      Ask a question
+      <textarea
+        class="input-field input-field-question js-auto-size"
+        data-testid="question"
+        id="question"
+        name="question"
+        placeholder=""
+        rows="1"
+        style="overflow-x: hidden; word-wrap: break-word; overflow-y: hidden;"
+      >
+        A real question
+      </textarea>
+    </label>
+  </div>
+</DocumentFragment>
 `;

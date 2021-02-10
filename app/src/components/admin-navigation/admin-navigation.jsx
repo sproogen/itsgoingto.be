@@ -11,26 +11,31 @@ const AdminNavigation = ({ hasUser, clearUser, cookies }) => {
   const history = useHistory()
 
   const logout = () => {
-    clearUser()
     cookies.remove('itsgoingtobeUserToken', { path: '/' })
-    history.push('/login')
+    clearUser()
     return Promise.resolve()
   }
 
-  const viewPolls = () => history.push('/admin')
+  const viewPolls = () => {
+    history.push('/admin')
+    return Promise.resolve()
+  }
 
   return (
     hasUser && (
       <div className="logout-conatiner">
-        <button
-          type="button"
+        <Button
           id="view-polls"
-          className="view-polls"
-          onClick={viewPolls}
-        >
-          View Polls
-        </button>
-        <Button id="logout" className="btn--small" text="Logout" callback={logout} />
+          className="btn--small"
+          text="View Polls"
+          callback={viewPolls}
+        />
+        <Button
+          id="logout"
+          className="btn--small"
+          text="Logout"
+          callback={logout}
+        />
       </div>
     )
   )

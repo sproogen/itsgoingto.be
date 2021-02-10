@@ -112,8 +112,8 @@ const submitResponses = (io) => async (req, res) => {
   poll.fullAnswers = await getAnswersWithResponsesSelector(poll)
 
   const responseAsJson = JSON.parse(JSON.stringify(poll))
-  io.of('/responses').to(`${poll.identifier}/${customUserID}`).emit('own-responses-updated', responseAsJson)
-  io.of('/responses').to(poll.identifier).emit('responses-updated', responseAsJson)
+  io.of('/responses').to(`${req.params.identifier}/${customUserID}`).emit('own-responses-updated', responseAsJson)
+  io.of('/responses').to(req.params.identifier).emit('responses-updated', responseAsJson)
 
   return res.json(poll)
 }
