@@ -6,12 +6,12 @@ import cookieParser from 'cookie-parser'
 import morgan from 'morgan'
 import api from './api'
 
-const port = process.env.PORT || 8001
-
 const app = express()
 
 app.use(cors())
-app.use(morgan('combined'))
+if (process.env.NODE_ENV !== 'test') {
+  app.use(morgan('combined'))
+}
 app.use(cookieParser())
 
 const server = http.createServer(app)
@@ -41,7 +41,5 @@ io
       clearInterval(fetchResponses)
     })
   })
-
-server.listen(port, () => console.log(`Server listening on port ${port}!`))
 
 export default server

@@ -4,8 +4,8 @@ import { map } from 'ramda'
 
 const formatAnswers = map((answer) => ({ answer }))
 
-const createStubData = (Poll, User) => async () => {
-  await Poll.create({
+const createStubData = (Poll, Response, User) => async () => {
+  const pollA = await Poll.create({
     identifier: 'a',
     question: 'This is a question?',
     multipleChoice: true,
@@ -13,6 +13,27 @@ const createStubData = (Poll, User) => async () => {
   }, {
     include: ['answers']
   })
+  const responseA1 = await Response.create({
+    customUserID: '98djhfdjs098321dsafhf2309',
+    userIP: '83.151.98.136'
+  })
+  await pollA.addResponse(responseA1)
+  await pollA.answers[0].addResponse(responseA1)
+
+  const responseA2 = await Response.create({
+    customUserID: '98djhfdjs098321dsafhf2309',
+    userIP: '83.151.98.136'
+  })
+  await pollA.addResponse(responseA2)
+  await pollA.answers[1].addResponse(responseA2)
+
+  const responseA3 = await Response.create({
+    customUserID: '89sdhfhjssodsifhfhfh8393',
+    userIP: '83.151.98.136'
+  })
+  await pollA.addResponse(responseA3)
+  await pollA.answers[2].addResponse(responseA3)
+
   await Poll.create({
     question: 'This is another question?',
     answers: formatAnswers(['Answer 1', 'Answer 2', 'Answer 3'])

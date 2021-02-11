@@ -1,75 +1,9 @@
-import { all, is } from 'ramda'
 import supertest from 'supertest'
 import { User, Poll } from '../src/db'
+import { matchesPollFormat } from './test-utils'
 import app from '../src/app'
 
-const DATE_REGEX = /^\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+([+-][0-2]\d:[0-5]\d|Z)$/
-
-expect.extend({
-  toBeISODateString(received) {
-    if (received !== null && DATE_REGEX.test(received)) {
-      return {
-        message: () => `expected ${received} not to be an ISO 8601 date time formatted string`,
-        pass: true
-      }
-    }
-    return {
-      message: () => `expected ${received} to be an ISO 8601 date time formatted string`,
-      pass: false
-    }
-  },
-  toBeISODateStringOrNull(received) {
-    if (received === null || DATE_REGEX.test(received)) {
-      return {
-        message: () => `expected ${received} not to be an ISO 8601 date time formatted string`,
-        pass: true
-      }
-    }
-    return {
-      message: () => `expected ${received} to be an ISO 8601 date time formatted string`,
-      pass: false
-    }
-  },
-  toBeArrayContainingNumbers(received) {
-    if (Array.isArray(received) && all(is(Number), received)) {
-      return {
-        message: () => `expected ${received} not to be an array containing only numbers`,
-        pass: true
-      }
-    }
-    return {
-      message: () => `expected ${received} to be an array containing only numbers`,
-      pass: false
-    }
-  }
-})
-
-const matchesPollFormat = (poll) => {
-  expect(Object.keys(poll)).toStrictEqual([
-    'id', 'identifier', 'question', 'multipleChoice', 'endDate', 'ended',
-    'deleted', 'created', 'updated', 'answers', 'userResponses', 'responsesCount'
-  ])
-  expect(poll.id).toEqual(expect.any(Number))
-  expect(poll.identifier).toEqual(expect.any(String))
-  expect(poll.question).toEqual(expect.any(String))
-  expect(poll.multipleChoice).toEqual(expect.any(Boolean))
-  expect(poll.endDate).toBeISODateStringOrNull()
-  expect(poll.ended).toEqual(expect.any(Boolean))
-  expect(poll.deleted).toEqual(expect.any(Boolean))
-  expect(poll.created).toBeISODateString()
-  expect(poll.updated).toBeISODateString()
-  expect(Array.isArray(poll.answers)).toBe(true)
-  poll.answers.forEach((answer) => {
-    expect(Object.keys(answer)).toStrictEqual(['id', 'answer', 'responsesCount'])
-    expect(answer.id).toEqual(expect.any(Number))
-    expect(answer.answer).toEqual(expect.any(String))
-    expect(answer.responsesCount).toEqual(expect.any(Number))
-  })
-  expect(poll.userResponses).toBeArrayContainingNumbers()
-  expect(poll.responsesCount).toEqual(expect.any(Number))
-}
-
-describe('Poll API', () => {
+describe('GET Poll API', () => {
   it('returns poll object', async () => {
     const response = await supertest(app).get('/api/polls/a')
     expect(response.statusCode).toEqual(200)
@@ -78,7 +12,18 @@ describe('Poll API', () => {
     expect(response.body.question).toBe('This is a question?')
   })
 
-  // it('returns user responses for user', async () => {
+  it('returns user responses for user', async () => {
+    const poll = await Poll.findOne({
+      where: {
+        identifier: 'a',
+      },
+      include: ['answers']
+    })
+    const response = await supertest(app).get('/api/polls/a').set('Cookie', ['USERID=98djhfdjs098321dsafhf2309'])
+    expect(response.statusCode).toEqual(200)
+    matchesPollFormat(response.body)
+    expect(response.body.userResponses.sort()).toEqual([poll.answers[0].id, poll.answers[1].id].sort())
+  })
 
   it('updates ended value when fetching poll', async () => {
     const poll = await Poll.findOne({
