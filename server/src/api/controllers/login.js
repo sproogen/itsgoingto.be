@@ -20,7 +20,7 @@ const login = async (req, res) => {
     return res.status(400).send({ errors })
   }
 
-  return User.findOne({ username })
+  return User.findOne({ where: { username } })
     .then((user) => {
       if (!user || !user.validatePassword(password)) {
         return res.status(400).send({ errors: ['Invalid Username or Password'] })
