@@ -10,9 +10,11 @@ describe('GET Poll API', () => {
     matchesPollFormat(response.body)
     expect(response.body.identifier).toBe('a')
     expect(response.body.question).toBe('This is a question?')
+    expect(response.body.answers).toHaveLength(3)
+    expect(response.body.responsesCount).toBe(3)
   })
 
-  it('returns user responses for user', async () => {
+  it('returns user responses with poll', async () => {
     const poll = await Poll.findOne({
       where: {
         identifier: 'a',
@@ -40,6 +42,8 @@ describe('GET Poll API', () => {
     expect(response.body.question).toBe('This an ended poll?')
     expect(response.body.ended).toBe(true)
   })
+
+  // TODO: Check doesn't update ended
 
   it('returns 404 when poll not found', async () => {
     const response = await supertest(app).get('/api/polls/hs8Hgsi')

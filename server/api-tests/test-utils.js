@@ -69,3 +69,19 @@ export const matchesPollFormat = (poll, expectAnswers = true, expectUserResponse
   }
   expect(poll.responsesCount).toEqual(expect.any(Number))
 }
+
+export const matchesResponsesFormat = (responses) => {
+  expect(Object.keys(responses)).toStrictEqual([
+    'id', 'ended', 'answers', 'userResponses', 'responsesCount'
+  ])
+  expect(responses.ended).toEqual(expect.any(Boolean))
+  expect(Array.isArray(responses.answers)).toBe(true)
+  responses.answers.forEach((answer) => {
+    expect(Object.keys(answer)).toStrictEqual(['id', 'answer', 'responsesCount'])
+    expect(answer.id).toEqual(expect.any(Number))
+    expect(answer.answer).toEqual(expect.any(String))
+    expect(answer.responsesCount).toEqual(expect.any(Number))
+  })
+  expect(responses.userResponses).toBeArrayContainingNumbers()
+  expect(responses.responsesCount).toEqual(expect.any(Number))
+}

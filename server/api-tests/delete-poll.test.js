@@ -30,6 +30,18 @@ describe('DELETE Poll API', () => {
     expect(response.body.error).toBe('poll-not-found')
   })
 
+  it('returns 400 when poll already deleted', async () => {
+    const user = await User.findOne({
+      where: {
+        username: 'username'
+      }
+    })
+    const response = await supertest(app).delete('/api/polls/d').auth(user.generateJWT(), { type: 'bearer' })
+    expect(response.statusCode).toEqual(400)
+    expect(response.body).toHaveProperty('error')
+    expect(response.body.error).toBe('poll-already-deleted')
+  })
+
   it('deleted and returns poll', async () => {
     const user = await User.findOne({
       where: {
