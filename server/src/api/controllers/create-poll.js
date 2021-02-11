@@ -3,8 +3,6 @@ import {
 } from 'ramda'
 import {
   Poll,
-  getUserResponsesForPollSelector,
-  getResponsesCountForPollSelector,
   getAnswersWithResponsesSelector
 } from '../../db'
 
@@ -49,7 +47,7 @@ const createPoll = async (req, res) => {
   })
 
   poll.userResponses = []
-  poll.responsesCount = await getResponsesCountForPollSelector(poll)
+  poll.responsesCount = 0
   poll.fullAnswers = await getAnswersWithResponsesSelector(poll)
 
   return res.json(poll)

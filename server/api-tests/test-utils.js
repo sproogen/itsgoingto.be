@@ -42,10 +42,10 @@ expect.extend({
 })
 
 export const matchesPollFormat = (poll, expectAnswers = true, expectUserResponses = true) => {
-  expect(Object.keys(poll)).toStrictEqual([
+  expect(Object.keys(poll).sort()).toStrictEqual([
     'id', 'identifier', 'question', 'multipleChoice', 'endDate', 'ended', 'deleted', 'created', 'updated',
     ...(expectAnswers ? ['answers'] : []), ...(expectUserResponses ? ['userResponses'] : []), 'responsesCount'
-  ])
+  ].sort())
   expect(poll.id).toEqual(expect.any(Number))
   expect(poll.identifier).toEqual(expect.any(String))
   expect(poll.question).toEqual(expect.any(String))
@@ -71,9 +71,9 @@ export const matchesPollFormat = (poll, expectAnswers = true, expectUserResponse
 }
 
 export const matchesResponsesFormat = (responses) => {
-  expect(Object.keys(responses)).toStrictEqual([
+  expect(Object.keys(responses).sort()).toStrictEqual([
     'id', 'ended', 'answers', 'userResponses', 'responsesCount'
-  ])
+  ].sort())
   expect(responses.ended).toEqual(expect.any(Boolean))
   expect(Array.isArray(responses.answers)).toBe(true)
   responses.answers.forEach((answer) => {
