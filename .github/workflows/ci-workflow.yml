@@ -1,0 +1,48 @@
+name: CI workflow
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build-test:
+    name: Build and Test
+    runs-on: ubuntu-latest
+    env:
+      NODE_ENV: test
+    steps:
+    - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+    - uses: actions/setup-node@v2
+        with:
+          node-version: 12
+    - uses: actions/cache@v2
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-
+    - run: (cd app && npm ci)
+    - run: (cd server && npm ci)
+    - run: (cd app && npm run lint -- -f json -o build/report.json)
+    - run: (cd server && npm run lint -- -f json -o build/report.json)
+    - run: ./scripts/update-sonar-version.sh
+    - uses: sonarsource/sonarcloud-github-action@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+  ci-skip:
+    runs-on: ubuntu-latest
+    outputs:
+      skip: ${{ steps.ci-skip-step.outputs.ci-skip }}
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - id: ci-skip-step
+        uses: mstachniuk/ci-skip@v1
+        with:
+          commit-filter: '[skip ci]'
