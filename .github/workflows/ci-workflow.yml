@@ -12,6 +12,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       NODE_ENV: test
+    defaults:
+      run:
+        working-directory: ./app
     steps:
     - uses: actions/checkout@v2
     - uses: actions/setup-node@v2
@@ -30,12 +33,15 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: app-eslint-report
-        path: build/report.json
+        path: ./app/build/report.json
   build-test-server:
     name: Build and Test Server
     runs-on: ubuntu-latest
     env:
       NODE_ENV: test
+    defaults:
+      run:
+        working-directory: ./server
     steps:
     - uses: actions/checkout@v2
     - uses: actions/setup-node@v2
@@ -54,7 +60,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: server-eslint-report
-        path: build/report.json
+        path: ./server/build/report.json
   sonar-scanner:
     name: Run Sonar Scanner
     runs-on: ubuntu-latest
@@ -67,12 +73,12 @@ jobs:
       uses: actions/download-artifact@v2
       with:
         name: app-eslint-report
-        path: app/build
+        path: ./app/build
     - name: Download server eslint report
       uses: actions/download-artifact@v2
       with:
         name: server-eslint-report
-        path: server/build
+        path: ./server/build
     - run: ./scripts/update-sonar-version.sh
     - uses: sonarsource/sonarcloud-github-action@master
       env:
