@@ -4,12 +4,16 @@
   "engines": {
     "node": "12.16.x"
   },
-  "main": "index.js",
+  "author": "James Grant <james@jwgmedia.co.uk> (http://jameswgrant.co.uk)",
+  "license": "GPLv3",
+  "description": "It's Going To Be node backend",
+  "main": "src/app.js",
   "scripts": {
     "start": "run-s sync serve",
     "sync": "babel-node src/db/sync.js",
     "serve": "nodemon --exec babel-node src/app.js",
     "lint": "eslint src/.",
+    "eslint-output": "eslint-output",
     "test": "cross-env NODE_ENV=test jest"
   },
   "dependencies": {

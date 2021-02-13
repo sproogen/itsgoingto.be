@@ -14,8 +14,6 @@ jobs:
       NODE_ENV: test
     steps:
     - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
     - uses: actions/setup-node@v2
       with:
         node-version: 12
@@ -28,6 +26,11 @@ jobs:
     - run: cd app
     - run: npm ci
     - run: npm run eslint-output
+    - name: Upload eslint report
+      uses: actions/upload-artifact@v2
+      with:
+        name: app-eslint-report
+        path: build/report.json
   build-test-server:
     name: Build and Test Server
     runs-on: ubuntu-latest
@@ -35,8 +38,6 @@ jobs:
       NODE_ENV: test
     steps:
     - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
     - uses: actions/setup-node@v2
       with:
         node-version: 12
@@ -49,6 +50,34 @@ jobs:
     - run: cd server
     - run: npm ci
     - run: npm run eslint-output
+    - name: Upload eslint report
+      uses: actions/upload-artifact@v2
+      with:
+        name: server-eslint-report
+        path: build/report.json
+  sonar-scanner:
+    name: Run Sonar Scanner
+    runs-on: ubuntu-latest
+    needs: [ build-test-app, build-test-server ]
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - name: Download app eslint report
+      uses: actions/download-artifact@v2
+      with:
+        name: app-eslint-report
+        path: app/build
+    - name: Download server eslint report
+      uses: actions/download-artifact@v2
+      with:
+        name: server-eslint-report
+        path: server/build
+    - run: ./scripts/update-sonar-version.sh
+    - uses: sonarsource/sonarcloud-github-action@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
   ci-skip:
     runs-on: ubuntu-latest
     outputs:
