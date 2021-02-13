@@ -69,8 +69,6 @@ describe('GET Responses API', () => {
     expect(response.statusCode).toEqual(200)
     matchesResponsesFormat(response.body)
     expect(response.body.answers).toHaveLength(3)
-    expect(response.body.answers[0].responsesCount).toBe(0)
-    expect(response.body.responsesCount).toBe(0)
   })
 
   it('returns responses for protected poll for authenticated user', async () => {
@@ -83,8 +81,6 @@ describe('GET Responses API', () => {
     expect(response.statusCode).toEqual(200)
     matchesResponsesFormat(response.body)
     expect(response.body.answers).toHaveLength(3)
-    expect(response.body.answers[0].responsesCount).toBe(0)
-    expect(response.body.responsesCount).toBe(0)
   })
 
   it('returns 404 for deleted poll', async () => {

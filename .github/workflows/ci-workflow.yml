@@ -33,6 +33,11 @@ jobs:
       with:
         name: app-eslint-report
         path: ./app/build/report.json
+    - name: Upload coverage report
+      uses: actions/upload-artifact@v2
+      with:
+        name: app-coverage-report
+        path: app/build/coverage/lcov.info
   build-test-server:
     name: Build and Test Server
     runs-on: ubuntu-latest
@@ -60,6 +65,11 @@ jobs:
       with:
         name: server-eslint-report
         path: server/build/report.json
+    - name: Upload coverage report
+      uses: actions/upload-artifact@v2
+      with:
+        name: server-coverage-report
+        path: server/build/coverage/lcov.info
   sonar-scanner:
     name: Run Sonar Scanner
     runs-on: ubuntu-latest
@@ -77,7 +87,17 @@ jobs:
       uses: actions/download-artifact@v2
       with:
         name: server-eslint-report
-        path: ./server/build
+        path: server/build
+    - name: Download app coverage report
+      uses: actions/download-artifact@v2
+      with:
+        name: app-coverage-report
+        path: app/build/coverage
+    - name: Download server coverage report
+      uses: actions/download-artifact@v2
+      with:
+        name: server-coverage-report
+        path: server/build/coverage
     - run: ./scripts/update-sonar-version.sh
     - uses: sonarsource/sonarcloud-github-action@master
       env:
