@@ -14,7 +14,7 @@ jobs:
       NODE_ENV: test
     defaults:
       run:
-        working-directory: ./app
+        working-directory: app
     steps:
     - uses: actions/checkout@v2
     - uses: actions/setup-node@v2
@@ -26,7 +26,6 @@ jobs:
         key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
         restore-keys: |
           ${{ runner.os }}-node-
-    - run: cd app
     - run: npm ci
     - run: npm run eslint-output
     - name: Upload eslint report
@@ -41,7 +40,7 @@ jobs:
       NODE_ENV: test
     defaults:
       run:
-        working-directory: ./server
+        working-directory: server
     steps:
     - uses: actions/checkout@v2
     - uses: actions/setup-node@v2
@@ -53,14 +52,13 @@ jobs:
         key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
         restore-keys: |
           ${{ runner.os }}-node-
-    - run: cd server
     - run: npm ci
     - run: npm run eslint-output
     - name: Upload eslint report
       uses: actions/upload-artifact@v2
       with:
         name: server-eslint-report
-        path: ./server/build/report.json
+        path: server/build/report.json
   sonar-scanner:
     name: Run Sonar Scanner
     runs-on: ubuntu-latest
@@ -73,7 +71,7 @@ jobs:
       uses: actions/download-artifact@v2
       with:
         name: app-eslint-report
-        path: ./app/build
+        path: app/build
     - name: Download server eslint report
       uses: actions/download-artifact@v2
       with:
