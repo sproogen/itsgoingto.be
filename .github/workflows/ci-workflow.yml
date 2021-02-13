@@ -54,6 +54,7 @@ jobs:
           ${{ runner.os }}-node-
     - run: npm ci
     - run: npm run eslint-output
+    - run: npm run test -- --coverage
     - name: Upload eslint report
       uses: actions/upload-artifact@v2
       with:
