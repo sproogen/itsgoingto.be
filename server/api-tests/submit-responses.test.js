@@ -38,7 +38,7 @@ describe('Submit Responses API', () => {
   })
 
   it('returns 403 for protected poll with incorrect passphrase', async () => {
-    const response = await supertest(app).post('/api/polls/b/responses').send({ passphrase: 'bad pass' })
+    const response = await supertest(app).post('/api/polls/b/responses').query({ passphrase: 'bad pass' })
     expect(response.statusCode).toEqual(403)
     expect(response.body).toHaveProperty('error')
     expect(response.body.error).toBe('incorrect-passphrase')
@@ -55,7 +55,8 @@ describe('Submit Responses API', () => {
     const response = await supertest(app)
       .post('/api/polls/b/responses')
       .set('Cookie', ['USERID=sdfsdfg43tdgfdfgdf'])
-      .send({ answers: [poll.answers[0].id], passphrase: 'abc' })
+      .query({ passphrase: 'abc' })
+      .send({ answers: [poll.answers[0].id] })
     expect(response.statusCode).toEqual(200)
     matchesResponsesFormat(response.body)
     expect(response.body.answers).toHaveLength(3)
