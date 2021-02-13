@@ -1,0 +1,14 @@
+{
+  "files": ["src/."],
+  "formats": [
+    {
+      "name": "stylish",
+      "output": "console"
+    },
+    {
+      "name": "report",
+      "output": "file",
+      "path": "build/report.json"
+    }
+  ]
+}

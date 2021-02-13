@@ -18,7 +18,7 @@
     "build": "webpack --config webpack.prod.config.js --profile --json > build/stats.json",
     "build:dev": "webpack --config webpack.dev.config.js",
     "test": "jest",
-    "lint": "eslint --ext js,jsx src/.",
+    "lint": "eslint src/.",
     "storybook": "",
     "analyze": "webpack-bundle-analyzer build/stats.json"
   },
@@ -69,6 +69,7 @@
     "eslint": "^6.1.0",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-import-resolver-webpack": "^0.12.1",
+    "eslint-output": "^2.0.3",
     "eslint-plugin-import": "^2.20.1",
     "eslint-plugin-jest": "^23.8.2",
     "eslint-plugin-jsx-a11y": "^6.2.3",

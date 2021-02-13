@@ -27,8 +27,8 @@ jobs:
           ${{ runner.os }}-node-
     - run: (cd app && npm ci)
     - run: (cd server && npm ci)
-    - run: (cd app && npm run lint -- -f json -o build/report.json)
-    - run: (cd server && npm run lint -- -f json -o build/report.json)
+    - run: (cd app && npm run eslint-output)
+    - run: (cd server && npm run eslint-output)
     - run: ./scripts/update-sonar-version.sh
     - uses: sonarsource/sonarcloud-github-action@master
       env:
