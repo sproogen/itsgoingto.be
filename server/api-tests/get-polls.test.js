@@ -135,6 +135,8 @@ describe('GET Polls API', () => {
   })
 
   // TODO: Test total is correct number
-  // TODO: Test default sort
+  // TODO: Test default sort option
+  // TODO: Test default sort direction
   // TODO: Test all sort options and directions
+  // TODO: Test upated ended
 })

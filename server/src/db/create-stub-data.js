@@ -64,6 +64,21 @@ const createStubData = (Poll, Response, User) => async () => {
   }, {
     include: ['answers']
   })
+  await Poll.create({
+    identifier: 'e',
+    question: 'This another poll?',
+    answers: formatAnswers(['Answer e1', 'Answer e2', 'Answer e3'])
+  }, {
+    include: ['answers']
+  })
+  await Poll.create({
+    identifier: 'f',
+    question: 'This another multiple choice poll?',
+    multipleChoice: true,
+    answers: formatAnswers(['Answer f1', 'Answer f2', 'Answer f3'])
+  }, {
+    include: ['answers']
+  })
 
   const user = User.build({ username: 'username' })
   user.password = 'password'
