@@ -22,7 +22,6 @@ const Answer = ({
   const handleChange = (event) => onAnswerChange(index, event.target.value)
 
   const handleKeyPress = (event) => {
-    // event = event || window.event
     const key = event.keyCode || event.charCode
 
     switch (key) {

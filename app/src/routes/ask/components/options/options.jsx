@@ -9,6 +9,7 @@ import './options.scss'
 const Options = ({ hasQuestion, poll, updateOptions }) => (
   <div>
     <div
+      data-testid="options"
       className={classNames(
         'options hideable',
         {

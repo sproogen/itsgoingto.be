@@ -32,22 +32,22 @@ const PollTableRow = ({ poll, deletePoll }) => {
   return (
     <tr>
       <td>{id}</td>
-      <td><button id={`identifier-${id}`} onClick={goToPoll} type="button">{identifier}</button></td>
+      <td><button onClick={goToPoll} type="button">{identifier}</button></td>
       <td>{question}</td>
       <td>{responsesCount}</td>
-      <td>{status}</td>
-      <td>{moment.utc(created.date).local().format('DD-MM-YYYY HH:mm')}</td>
+      <td data-testid={`status-${id}`}>{status}</td>
+      <td>{moment.utc(created).local().format('DD-MM-YYYY HH:mm')}</td>
       <td>
         {!deleted
           && (
           <span>
             {!deleting
               && (
-              <button id={`delete-${id}`} onClick={onDeletePoll} type="button">
+              <button data-testid={`delete-${id}`} onClick={onDeletePoll} type="button">
                 <i className="fa fa-times" />
               </button>
               )}
-            {deleting && <i className="fa fa-circle-o-notch fa-spin" />}
+            {deleting && <i data-testid={`delete-${id}-spinner`} className="fa fa-circle-o-notch fa-spin" />}
           </span>
           )}
       </td>

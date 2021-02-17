@@ -1,67 +1,94 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`(Route) Ask (Component) Options (Render) when hasQuestion is false matches snapshot 1`] = `
-<div>
-  <div
-    className="options hideable gone"
-  >
-    <Connect(MultipleChoice)
-      poll={
-        Object {
-          "answers": Array [],
-          "question": "Question",
-        }
-      }
-    />
-    <Connect(Passphrase)
-      poll={
-        Object {
-          "answers": Array [],
-          "question": "Question",
-        }
-      }
-    />
-    <Connect(EndPoll)
-      poll={
-        Object {
-          "answers": Array [],
-          "question": "Question",
-        }
-      }
-    />
+exports[`(Route) Ask (Component) Options (Render) matches snapshot 1`] = `
+<DocumentFragment>
+  <div>
+    <div
+      class="options hideable"
+      data-testid="options"
+    >
+      <div
+        class="input-option input-option-multipleChoice"
+      >
+        <label
+          class="input-label input-label-options input-label-multipleChoice"
+          for="multiple-choice"
+        >
+          <input
+            class="input-checkbox input-checkbox-multipleChoice"
+            id="multiple-choice"
+            name="multiple"
+            type="checkbox"
+          />
+          Multiple choice responses
+        </label>
+      </div>
+      <div
+        class="input-option input-option-passphrase"
+      >
+        <label
+          class="input-label input-label-passphrase"
+          for="passphrase"
+        >
+          Set a passphrase (optional)
+          <input
+            class="input-field input-field-passphrase"
+            id="passphrase"
+            name="passphrase"
+            type="text"
+            value=""
+          />
+        </label>
+      </div>
+      <div
+        class="input-option input-option-endPoll"
+      >
+        <div
+          class="input-option-radios"
+        >
+          <input
+            checked=""
+            class="input-radio input-checkbox-endType"
+            id="end-never"
+            name="endType"
+            type="checkbox"
+            value="endNever"
+          />
+          <label
+            class="input-label input-label-options input-label-endType"
+            for="end-never"
+          >
+            Don't End Poll
+          </label>
+          <input
+            class="input-radio input-checkbox-endType"
+            id="end-at"
+            name="endType"
+            type="checkbox"
+            value="endAt"
+          />
+          <label
+            class="input-label input-label-options input-label-endType"
+            for="end-at"
+          >
+            End Poll At
+          </label>
+          <input
+            class="input-radio input-checkbox-endType"
+            id="end-in"
+            name="endType"
+            type="radio"
+            value="endIn"
+          />
+          <label
+            class="input-label input-label-options input-label-endType"
+            for="end-in"
+          >
+            End Poll In
+          </label>
+        </div>
+      </div>
+    </div>
   </div>
-</div>
-`;
-
-exports[`(Route) Ask (Component) Options (Render) when hasQuestion is true matches snapshot 1`] = `
-<div>
-  <div
-    className="options hideable"
-  >
-    <Connect(MultipleChoice)
-      poll={
-        Object {
-          "answers": Array [],
-          "question": "Question",
-        }
-      }
-    />
-    <Connect(Passphrase)
-      poll={
-        Object {
-          "answers": Array [],
-          "question": "Question",
-        }
-      }
-    />
-    <Connect(EndPoll)
-      poll={
-        Object {
-          "answers": Array [],
-          "question": "Question",
-        }
-      }
-    />
-  </div>
-</div>
+</DocumentFragment>
 `;

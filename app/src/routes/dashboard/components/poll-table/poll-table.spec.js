@@ -1,219 +1,245 @@
-/* global expect, jest */
 import React from 'react'
-import { shallow } from 'enzyme'
+import {
+  render, fireEvent, screen, waitForElementToBeRemoved, act
+} from '@testing-library/react'
 import { map } from 'ramda'
-import Paginator from 'components/paginator'
-import { PollTable } from './poll-table'
+import PollTable from './poll-table'
 
-const props = {
-  polls       : map((id) => ({ id }), [...Array(10).keys()]),
-  pollCount   : 30,
-  page        : 0,
-  fetchPolls  : jest.fn(() => Promise.resolve()),
-  setPollPage : jest.fn(),
-  deletePoll  : jest.fn(),
+jest.mock('./poll-table-row', () => () => <tr><td>Mocked PollTableRow</td></tr>)
+jest.mock('components/paginator', () => () => <div>Mocked Paginator</div>)
+
+const defaultProps = {
+  polls: map((id) => ({ id }), [...Array(10).keys()]),
+  pollCount: 30,
+  page: 0,
+  fetchPolls: jest.fn(() => Promise.resolve()),
+  setPollPage: jest.fn(),
+  deletePoll: jest.fn(),
 }
-let wrapper
 
 describe('(Route) dashboard', () => {
-  beforeEach(() => {
-    wrapper = shallow(<PollTable {...props} />)
-  })
-
   afterEach(() => {
     jest.clearAllMocks()
   })
 
   describe('(Component) poll table', () => {
-    describe('(State)', () => {
-      it('should have initial state for loading', () => {
-        wrapper = shallow(<PollTable {...props} pollCount={0} />, { disableLifecycleMethods: true })
-        expect(wrapper.state().loading).toBe(true)
+    describe('(Lifecycle) fetchPolls useEffect', () => {
+      let fetchPollsCallbackResolve
+      const fetchPollsCallback = new Promise((resolve) => {
+        fetchPollsCallbackResolve = resolve
       })
+      const fetchPolls = jest.fn(() => fetchPollsCallback)
 
-      it('should have initial state for sorting', () => {
-        expect(wrapper.state().sort).toBe('id')
-        expect(wrapper.state().sortDirection).toBe('desc' )
-      })
-    })
+      const fetchesPollsForPage = async (page, sort, sortDirection) => {
+        // Loading spinner is visible
+        expect(screen.queryByTestId('spinner-container')).toBeInTheDocument()
 
-    const fetchesPollsForPage = (page, sort, sortDirection) => {
-      it('should call setPollPage with initial page', () => {
-        expect(props.setPollPage).toHaveBeenCalledWith(page)
-      })
+        // Table container has class hidden
+        expect(screen.getByTestId('table-container')).toHaveClass('hidden')
 
-      it('should call fetch polls with page, sort and sortDirection', () => {
-        expect(props.fetchPolls).toHaveBeenCalledWith(page + 1, sort, sortDirection)
-      })
+        // TODO: Test cancels fetchPolls already in progress
 
-      it('set loading to false', () => {
-        expect(wrapper.state().loading).toBe(false)
-      })
-    }
+        // Makes call to fetchPolls
+        expect(fetchPolls).toHaveBeenCalledWith(page + 1, sort, sortDirection)
 
-    describe('(Lifecycle) componentDidMount', () => {
-      describe('fetch polls for page', () => {
-        fetchesPollsForPage(0, 'id', 'desc')
-      })
-    })
+        fetchPollsCallbackResolve()
 
-    describe('(Action) onSort', () => {
-      const testHeaderItem = (label, value) => {
-        let headerItem
+        // Loading spinner is not visible once call resolves
+        await waitForElementToBeRemoved(() => screen.queryByTestId('spinner-container'))
 
-        beforeEach(() => {
-          headerItem = wrapper.find({ label })
-          wrapper.setState({ sort: value, sortDirection: 'asc' })
-          headerItem.props().onSort()
-        })
-
-        it('toggles state sortDirection if already sorted on column', () => {
-          expect(wrapper.state().sort).toBe(value)
-          expect(wrapper.state().sortDirection).toBe('desc')
-        })
-
-        it('updates state to column ascending if not already sorted on column', () => {
-          wrapper.setState({ sort: 'otherColumn' })
-          headerItem.props().onSort()
-
-          expect(wrapper.state().sort).toBe(value)
-          expect(wrapper.state().sortDirection).toBe('asc')
-        })
-
-        fetchesPollsForPage(0, value, 'desc')
+        // Table container doesn't have class hidden
+        expect(screen.getByTestId('table-container')).not.toHaveClass('hidden')
       }
 
-      describe('ID', () => {
-        testHeaderItem('ID', 'id')
+      describe('on initial load', () => {
+        it('fetch polls for page', async () => { // eslint-disable-line
+          render(<PollTable {...defaultProps} fetchPolls={fetchPolls} />)
+
+          await fetchesPollsForPage(0, 'id', 'desc')
+        })
       })
 
-      describe('Identifier', () => {
-        testHeaderItem('Identifier', 'identifier')
+      describe('on page prop change', () => {
+        it('fetch polls for page', async () => { // eslint-disable-line
+          const { rerender } = render(<PollTable {...defaultProps} fetchPolls={fetchPolls} />)
+          fetchPollsCallbackResolve()
+          rerender(<PollTable {...defaultProps} fetchPolls={fetchPolls} page={1} />)
+
+          await fetchesPollsForPage(1, 'id', 'desc')
+        })
       })
 
-      describe('Question', () => {
-        testHeaderItem('Question', 'question')
+      describe('(Action) on sort by id', () => {
+        it('fetch polls for page', async () => { // eslint-disable-line
+          render(<PollTable {...defaultProps} fetchPolls={fetchPolls} />)
+          fetchPollsCallbackResolve()
+
+          fireEvent.click(screen.getByRole('button', { name: /ID/ }))
+          await fetchesPollsForPage(0, 'id', 'desc')
+
+          fireEvent.click(screen.getByRole('button', { name: /ID/ }))
+          await fetchesPollsForPage(0, 'id', 'asc')
+        })
       })
 
-      describe('Responses', () => {
-        testHeaderItem('Responses', 'responsesCount')
+      describe('(Action) on sort by identifier', () => {
+        it('fetch polls for page', async () => { // eslint-disable-line
+          render(<PollTable {...defaultProps} fetchPolls={fetchPolls} />)
+          fetchPollsCallbackResolve()
+
+          fireEvent.click(screen.getByRole('button', { name: /Identifier/ }))
+          await fetchesPollsForPage(0, 'identifier', 'asc')
+
+          fireEvent.click(screen.getByRole('button', { name: /Identifier/ }))
+          await fetchesPollsForPage(0, 'identifier', 'desc')
+        })
       })
 
-      describe('Created At', () => {
-        testHeaderItem('Created At', 'created')
-      })
-    })
+      describe('(Action) on sort by question', () => {
+        it('fetch polls for page', async () => { // eslint-disable-line
+          render(<PollTable {...defaultProps} fetchPolls={fetchPolls} />)
+          fetchPollsCallbackResolve()
 
-    describe('(Action) paginator callback', () => {
-      beforeEach(() => {
-        wrapper.find(Paginator).props().pageCallback(2)
+          fireEvent.click(screen.getByRole('button', { name: /Question/ }))
+          await fetchesPollsForPage(0, 'question', 'asc')
+
+          fireEvent.click(screen.getByRole('button', { name: /Question/ }))
+          await fetchesPollsForPage(0, 'question', 'desc')
+        })
       })
 
-      fetchesPollsForPage(2, 'id', 'desc')
+      describe('(Action) on sort by created', () => {
+        it('fetch polls for page', async () => { // eslint-disable-line
+          render(<PollTable {...defaultProps} fetchPolls={fetchPolls} />)
+          fetchPollsCallbackResolve()
+
+          fireEvent.click(screen.getByRole('button', { name: /Created At/ }))
+          await fetchesPollsForPage(0, 'created', 'asc')
+
+          fireEvent.click(screen.getByRole('button', { name: /Created At/ }))
+          await fetchesPollsForPage(0, 'created', 'desc')
+        })
+      })
     })
 
     describe('(Render)', () => {
-      describe('sort equals id asc', () => {
-        it('should match snapshot', () => {
-          wrapper.setState({ sort: 'id', sortDirection: 'asc' })
+      it('should match snapshot', () => {
+        const { asFragment } = render(<PollTable {...defaultProps} />)
 
-          expect(wrapper).toMatchSnapshot()
+        expect(asFragment()).toMatchSnapshot()
+      })
+
+      describe('loading', () => {
+        it('should match snapshot', () => {
+          const { asFragment } = render(
+            <PollTable {...defaultProps} fetchPolls={jest.fn(() => new Promise(() => {}))} />
+          )
+
+          expect(asFragment()).toMatchSnapshot()
         })
       })
 
       describe('sort equals id desc', () => {
         it('should match snapshot', () => {
-          wrapper.setState({ sort: 'id', sortDirection: 'desc' })
+          render(<PollTable {...defaultProps} />)
+          act(() => {
+            fireEvent.click(screen.getByRole('button', { name: /ID/ }))
+          })
 
-          expect(wrapper).toMatchSnapshot()
+          expect(screen.getByRole('button', { name: /ID/ }).childNodes[1]).toHaveClass('fa-sort-up')
+        })
+      })
+
+      describe('sort equals id asc', () => {
+        it('should match snapshot', async () => {
+          render(<PollTable {...defaultProps} />)
+          fireEvent.click(screen.getByRole('button', { name: /ID/ }))
+          fireEvent.click(screen.getByRole('button', { name: /ID/ }))
+
+          expect(screen.getByRole('button', { name: /ID/ }).childNodes[1]).toHaveClass('fa-sort-down')
         })
       })
 
       describe('sort equals identifier asc', () => {
         it('should match snapshot', () => {
-          wrapper.setState({ sort: 'identifier', sortDirection: 'asc' })
+          render(<PollTable {...defaultProps} />)
+          act(() => {
+            fireEvent.click(screen.getByRole('button', { name: /Identifier/ }))
+          })
 
-          expect(wrapper).toMatchSnapshot()
+          expect(screen.getByRole('button', { name: /Identifier/ }).childNodes[1]).toHaveClass('fa-sort-up')
         })
       })
 
       describe('sort equals identifier desc', () => {
-        it('should match snapshot', () => {
-          wrapper.setState({ sort: 'identifier', sortDirection: 'desc' })
+        it('should match snapshot', async () => {
+          render(<PollTable {...defaultProps} />)
+          fireEvent.click(screen.getByRole('button', { name: /Identifier/ }))
+          fireEvent.click(screen.getByRole('button', { name: /Identifier/ }))
 
-          expect(wrapper).toMatchSnapshot()
+          expect(screen.getByRole('button', { name: /Identifier/ }).childNodes[1]).toHaveClass('fa-sort-down')
         })
       })
 
       describe('sort equals question asc', () => {
         it('should match snapshot', () => {
-          wrapper.setState({ sort: 'question', sortDirection: 'asc' })
+          render(<PollTable {...defaultProps} />)
+          act(() => {
+            fireEvent.click(screen.getByRole('button', { name: /Question/ }))
+          })
 
-          expect(wrapper).toMatchSnapshot()
+          expect(screen.getByRole('button', { name: /Question/ }).childNodes[1]).toHaveClass('fa-sort-up')
         })
       })
 
       describe('sort equals question desc', () => {
-        it('should match snapshot', () => {
-          wrapper.setState({ sort: 'question', sortDirection: 'desc' })
+        it('should match snapshot', async () => {
+          render(<PollTable {...defaultProps} />)
+          fireEvent.click(screen.getByRole('button', { name: /Question/ }))
+          fireEvent.click(screen.getByRole('button', { name: /Question/ }))
 
-          expect(wrapper).toMatchSnapshot()
-        })
-      })
-
-      describe('sort equals responsesCount asc', () => {
-        it('should match snapshot', () => {
-          wrapper.setState({ sort: 'responsesCount', sortDirection: 'asc' })
-
-          expect(wrapper).toMatchSnapshot()
-        })
-      })
-
-      describe('sort equals responsesCount desc', () => {
-        it('should match snapshot', () => {
-          wrapper.setState({ sort: 'responsesCount', sortDirection: 'desc' })
-
-          expect(wrapper).toMatchSnapshot()
+          expect(screen.getByRole('button', { name: /Question/ }).childNodes[1]).toHaveClass('fa-sort-down')
         })
       })
 
       describe('sort equals created asc', () => {
         it('should match snapshot', () => {
-          wrapper.setState({ sort: 'created', sortDirection: 'asc' })
+          render(<PollTable {...defaultProps} />)
+          act(() => {
+            fireEvent.click(screen.getByRole('button', { name: /Created At/ }))
+          })
 
-          expect(wrapper).toMatchSnapshot()
+          expect(screen.getByRole('button', { name: /Created At/ }).childNodes[1]).toHaveClass('fa-sort-up')
         })
       })
 
       describe('sort equals created desc', () => {
-        it('should match snapshot', () => {
-          wrapper.setState({ sort: 'created', sortDirection: 'desc' })
+        it('should match snapshot', async () => {
+          render(<PollTable {...defaultProps} />)
+          fireEvent.click(screen.getByRole('button', { name: /Created At/ }))
+          fireEvent.click(screen.getByRole('button', { name: /Created At/ }))
 
-          expect(wrapper).toMatchSnapshot()
-        })
-      })
-
-      describe('loading', () => {
-        it('should match snapshot', () => {
-          wrapper.setState({ loading: true })
-
-          expect(wrapper).toMatchSnapshot()
+          expect(screen.getByRole('button', { name: /Created At/ }).childNodes[1]).toHaveClass('fa-sort-down')
         })
       })
 
       describe('with less than 1 page polls', () => {
         it('should match snapshot', () => {
-          wrapper.setProps({ polls: map((id) => ({ id }), [...Array(5).keys()]), pollCount: 5 })
+          const { asFragment } = render(
+            <PollTable {...defaultProps} polls={map((id) => ({ id }), [...Array(5).keys()])} pollCount={5} />
+          )
 
-          expect(wrapper).toMatchSnapshot()
+          expect(asFragment()).toMatchSnapshot()
         })
       })
 
       describe('with no polls', () => {
         it('should match snapshot', () => {
-          wrapper.setProps({ polls: [], pollCount: 0 })
+          const { asFragment } = render(
+            <PollTable {...defaultProps} polls={[]} pollCount={0} />
+          )
 
-          expect(wrapper).toMatchSnapshot()
+          expect(asFragment()).toMatchSnapshot()
         })
       })
     })

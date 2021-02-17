@@ -2,7 +2,9 @@
   "extends": [
     "eslint:recommended",
     "airbnb",
-    "plugin:jest/recommended"
+    "plugin:jest/recommended",
+    "plugin:jest-dom/recommended",
+    "plugin:testing-library/react"
   ],
   "env": {
     "browser": true,

@@ -6,7 +6,6 @@ import { isEmpty, dissoc, join } from 'ramda'
 import { APIError } from 'services/api'
 import EventBus from 'services/event-bus'
 import Button from 'components/button'
-import Back from 'components/back'
 import './login.scss'
 
 const KEY_ENTER = 13
@@ -55,7 +54,6 @@ const Login = ({
   }
 
   const handleKeyPress = (event) => {
-    // event = event || window.event
     const key = event.keyCode || event.charCode
 
     if (key === KEY_ENTER) {
@@ -97,7 +95,6 @@ const Login = ({
 
   return (
     <div>
-      <Back />
       <div className="container header-container">
         <div className="header center-text">
           <h1>Login</h1>

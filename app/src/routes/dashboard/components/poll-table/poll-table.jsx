@@ -51,11 +51,17 @@ const PollTable = ({
       <div className="panel-body">
         {loading
           && (
-          <div className={`spinner-container center-text${!hasPaginator ? ' no-paginator' : ''}`}>
+          <div
+            className={`spinner-container center-text${!hasPaginator ? ' no-paginator' : ''}`}
+            data-testid="spinner-container"
+          >
             <Spinner />
           </div>
           )}
-        <div className={`table-container${loading ? ' hidden' : ''}`}>
+        <div
+          className={`table-container${loading ? ' hidden' : ''}`}
+          data-testid="table-container"
+        >
           <table>
             <thead>
               <tr>

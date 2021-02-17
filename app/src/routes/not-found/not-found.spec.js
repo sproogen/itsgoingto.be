@@ -1,18 +1,15 @@
-/* global expect */
 import React from 'react'
-import { shallow } from 'enzyme'
+import { render } from '@testing-library/react'
+import WithRouter from '../../../test-utils/with-router'
 import NotFound from './not-found'
 
 describe('(Route) NotFound', () => {
-  let wrapper
-
-  beforeEach(() => {
-    wrapper = shallow(<NotFound />)
-  })
-
   describe('(Render)', () => {
     it('matches snapshot', () => {
-      expect(wrapper).toMatchSnapshot()
+      const { asFragment } = render(<NotFound />, {
+        wrapper: WithRouter
+      })
+      expect(asFragment()).toMatchSnapshot()
     })
   })
 })

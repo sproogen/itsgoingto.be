@@ -32,7 +32,7 @@ describe('(Component) Button', () => {
       resolve(true)
 
       await promise.then(() => {
-        expect(button).not.toBeDisabled()
+        expect(button).toBeEnabled()
         expect(button).not.toHaveClass('disabled')
       })
     })
@@ -60,7 +60,7 @@ describe('(Component) Button', () => {
       const button = screen.getByTestId('button-go')
 
       fireEvent.click(button)
-      expect(button).not.toBeDisabled()
+      expect(button).toBeEnabled()
       expect(button).not.toHaveClass('disabled')
     })
   })

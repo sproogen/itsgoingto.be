@@ -1,29 +1,34 @@
-/* global expect, jest */
 import React from 'react'
-import { shallow } from 'enzyme'
-import { Answers } from './answers'
+import {
+  render, screen
+} from '@testing-library/react'
+import Answers from './answers'
 
-const props = {
-  hasQuestion : true,
-  answers     : [],
+const defaultProps = {
+  hasQuestion: true,
+  answers: [],
+  onAnswerChange: jest.fn(),
+  onRemoveAnswer: jest.fn()
 }
 
 describe('(Route) Ask', () => {
   describe('(Component) Answers', () => {
     describe('(Render)', () => {
       describe('when hasQuestion is true', () => {
-        it('matches snapshot', () => {
-          const wrapper = shallow(<Answers {...props} hasQuestion={true} />)
+        it('answers does not have class gone', () => {
+          render(<Answers {...defaultProps} hasQuestion />)
 
-          expect(wrapper).toMatchSnapshot()
+          const options = screen.getByTestId('answers')
+          expect(options).not.toHaveClass('gone')
         })
       })
 
       describe('when hasQuestion is false', () => {
-        it('matches snapshot', () => {
-          const wrapper = shallow(<Answers {...props} hasQuestion={false} />)
+        it('answers has class gone', () => {
+          render(<Answers {...defaultProps} hasQuestion={false} />)
 
-          expect(wrapper).toMatchSnapshot()
+          const options = screen.getByTestId('answers')
+          expect(options).toHaveClass('gone')
         })
       })
 
@@ -35,23 +40,23 @@ describe('(Route) Ask', () => {
         ]
 
         it('matches snapshot', () => {
-          const wrapper = shallow(<Answers {...props} answers={answers} />)
+          const { asFragment } = render(<Answers {...defaultProps} answers={answers} />)
 
-          expect(wrapper).toMatchSnapshot()
+          expect(asFragment()).toMatchSnapshot()
         })
       })
 
       describe('with answers as objects', () => {
         const answers = [
-          { answer: 'Answer 4' },
-          { answer: 'Answer 5' },
-          { answer: 'Answer 6' }
+          { id: 4, answer: 'Answer 4' },
+          { id: 5, answer: 'Answer 5' },
+          { id: 6, answer: 'Answer 6' }
         ]
 
         it('matches snapshot', () => {
-          const wrapper = shallow(<Answers {...props} answers={answers} />)
+          const { asFragment } = render(<Answers {...defaultProps} answers={answers} />)
 
-          expect(wrapper).toMatchSnapshot()
+          expect(asFragment()).toMatchSnapshot()
         })
       })
     })

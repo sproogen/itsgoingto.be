@@ -1,15 +1,12 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import {
   BrowserRouter as Router,
   Route,
   Redirect,
   Switch
 } from 'react-router-dom'
-import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { withCookies, Cookies } from 'react-cookie'
-import { isLoadingSelector } from 'store/loader/selectors'
-import { updateUser } from 'store/user/actions'
+import { Cookies } from 'react-cookie'
 import Footer from 'components/footer'
 import Loader from 'components/loader'
 import AdminNavigation from 'components/admin-navigation'
@@ -55,12 +52,4 @@ App.propTypes = {
   updateUserWithToken: PropTypes.func.isRequired,
 }
 
-const mapStateToProps = (state) => ({
-  isLoading: isLoadingSelector(state),
-})
-
-const mapDispatchToProps = (dispatch) => ({
-  updateUserWithToken: (token) => dispatch(updateUser({ token })),
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(withCookies(App))
+export default App

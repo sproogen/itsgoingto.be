@@ -1,6 +1,5 @@
 import React from 'react'
 import { render, fireEvent, screen } from '@testing-library/react'
-import Button from 'components/button'
 import WithRouter from '../../../../../test-utils/with-router'
 import Actions from './actions'
 

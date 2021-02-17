@@ -1,145 +1,48 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`(Route) dashboard (Component) poll table row (Render) poll is active matches snapshot 1`] = `
-<tr>
-  <td>
-    1
-  </td>
-  <td>
-    <a
-      id="identifier-1"
-      onClick={[Function]}
-    >
-      sk93jn28d
-    </a>
-  </td>
-  <td>
-    This is a question
-  </td>
-  <td>
-    5
-  </td>
-  <td>
-    Active
-  </td>
-  <td>
-    23-02-2019 13:45
-  </td>
-  <td>
-    <span>
-      <a
-        id="delete-1"
-        onClick={[Function]}
-      >
-        <i
-          className="fa fa-times"
-        />
-      </a>
-    </span>
-  </td>
-</tr>
-`;
-
-exports[`(Route) dashboard (Component) poll table row (Render) poll is deleted matches snapshot 1`] = `
-<tr>
-  <td>
-    1
-  </td>
-  <td>
-    <a
-      id="identifier-1"
-      onClick={[Function]}
-    >
-      sk93jn28d
-    </a>
-  </td>
-  <td>
-    This is a question
-  </td>
-  <td>
-    5
-  </td>
-  <td>
-    Deleted
-  </td>
-  <td>
-    23-02-2019 13:45
-  </td>
-  <td />
-</tr>
-`;
-
-exports[`(Route) dashboard (Component) poll table row (Render) poll is deleting matches snapshot 1`] = `
-<tr>
-  <td>
-    1
-  </td>
-  <td>
-    <a
-      id="identifier-1"
-      onClick={[Function]}
-    >
-      sk93jn28d
-    </a>
-  </td>
-  <td>
-    This is a question
-  </td>
-  <td>
-    5
-  </td>
-  <td>
-    Active
-  </td>
-  <td>
-    23-02-2019 13:45
-  </td>
-  <td>
-    <span>
-      <i
-        className="fa fa-circle-o-notch fa-spin"
-      />
-    </span>
-  </td>
-</tr>
-`;
-
-exports[`(Route) dashboard (Component) poll table row (Render) poll is ended matches snapshot 1`] = `
-<tr>
-  <td>
-    1
-  </td>
-  <td>
-    <a
-      id="identifier-1"
-      onClick={[Function]}
-    >
-      sk93jn28d
-    </a>
-  </td>
-  <td>
-    This is a question
-  </td>
-  <td>
-    5
-  </td>
-  <td>
-    Ended
-  </td>
-  <td>
-    23-02-2019 13:45
-  </td>
-  <td>
-    <span>
-      <a
-        id="delete-1"
-        onClick={[Function]}
-      >
-        <i
-          className="fa fa-times"
-        />
-      </a>
-    </span>
-  </td>
-</tr>
+exports[`(Route) dashboard (Component) poll table row (Render) default props matches snapshot 1`] = `
+<DocumentFragment>
+  <table>
+    <tbody>
+      <tr>
+        <td>
+          1
+        </td>
+        <td>
+          <button
+            type="button"
+          >
+            sk93jn28d
+          </button>
+        </td>
+        <td>
+          This is a question
+        </td>
+        <td>
+          5
+        </td>
+        <td
+          data-testid="status-1"
+        >
+          Active
+        </td>
+        <td>
+          17-02-2021 17:02
+        </td>
+        <td>
+          <span>
+            <button
+              data-testid="delete-1"
+              type="button"
+            >
+              <i
+                class="fa fa-times"
+              />
+            </button>
+          </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</DocumentFragment>
 `;

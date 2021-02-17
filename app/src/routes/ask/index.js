@@ -1,3 +1,3 @@
-import Ask from './ask-container'
+import Ask from './container'
 
 export default Ask

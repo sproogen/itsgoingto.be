@@ -9,6 +9,7 @@ const Answers = ({
   hasQuestion, answers, onAnswerChange, onRemoveAnswer
 }) => (
   <div
+    data-testid="answers"
     className={classNames(
       'answers hideable',
       {
@@ -53,10 +54,12 @@ const Answers = ({
 Answers.propTypes = {
   hasQuestion: PropTypes.bool.isRequired,
   answers: PropTypes.oneOfType([
-    PropTypes.arrayOf({
-      id: PropTypes.number,
-      answer: PropTypes.string
-    }),
+    PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.number,
+        answer: PropTypes.string
+      })
+    ),
     PropTypes.arrayOf(PropTypes.string)
   ]).isRequired,
   onAnswerChange: PropTypes.func.isRequired,
