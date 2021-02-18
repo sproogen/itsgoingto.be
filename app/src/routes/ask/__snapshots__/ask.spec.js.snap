@@ -41,6 +41,7 @@ exports[`(Route) Ask (Render) when canSubmitPoll is true matches snapshot 1`] = 
           Ask a question
           <textarea
             class="input-field input-field-question js-auto-size"
+            data-testid="question"
             id="question"
             name="question"
             placeholder=""
@@ -51,6 +52,7 @@ exports[`(Route) Ask (Render) when canSubmitPoll is true matches snapshot 1`] = 
       </div>
       <div
         class="answers hideable gone"
+        data-testid="answers"
       >
         <label
           class="input-label input-label-answers"
@@ -78,6 +80,7 @@ exports[`(Route) Ask (Render) when canSubmitPoll is true matches snapshot 1`] = 
       <div>
         <div
           class="options hideable gone"
+          data-testid="options"
         >
           <div
             class="input-option input-option-multipleChoice"
@@ -223,6 +226,7 @@ exports[`(Route) Ask (Render) when hasQuestion is true matches snapshot 1`] = `
           Ask a question
           <textarea
             class="input-field input-field-question js-auto-size"
+            data-testid="question"
             id="question"
             name="question"
             placeholder=""
@@ -233,6 +237,7 @@ exports[`(Route) Ask (Render) when hasQuestion is true matches snapshot 1`] = `
       </div>
       <div
         class="answers hideable"
+        data-testid="answers"
       >
         <label
           class="input-label input-label-answers"
@@ -260,6 +265,7 @@ exports[`(Route) Ask (Render) when hasQuestion is true matches snapshot 1`] = `
       <div>
         <div
           class="options hideable"
+          data-testid="options"
         >
           <div
             class="input-option input-option-multipleChoice"
@@ -406,6 +412,7 @@ exports[`(Route) Ask (Render) with answers matches snapshot 1`] = `
           Ask a question
           <textarea
             class="input-field input-field-question js-auto-size"
+            data-testid="question"
             id="question"
             name="question"
             placeholder=""
@@ -416,6 +423,7 @@ exports[`(Route) Ask (Render) with answers matches snapshot 1`] = `
       </div>
       <div
         class="answers hideable gone"
+        data-testid="answers"
       >
         <label
           class="input-label input-label-answers"
@@ -477,6 +485,7 @@ exports[`(Route) Ask (Render) with answers matches snapshot 1`] = `
       <div>
         <div
           class="options hideable gone"
+          data-testid="options"
         >
           <div
             class="input-option input-option-multipleChoice"
@@ -623,6 +632,7 @@ exports[`(Route) Ask (Render) with poll matches snapshot 1`] = `
           Ask a question
           <textarea
             class="input-field input-field-question js-auto-size"
+            data-testid="question"
             id="question"
             name="question"
             placeholder=""
@@ -633,6 +643,7 @@ exports[`(Route) Ask (Render) with poll matches snapshot 1`] = `
       </div>
       <div
         class="answers hideable gone"
+        data-testid="answers"
       >
         <label
           class="input-label input-label-answers"
@@ -660,6 +671,7 @@ exports[`(Route) Ask (Render) with poll matches snapshot 1`] = `
       <div>
         <div
           class="options hideable gone"
+          data-testid="options"
         >
           <div
             class="input-option input-option-multipleChoice"
@@ -806,6 +818,7 @@ exports[`(Route) Ask (Render) with question matches snapshot 1`] = `
           Ask a question
           <textarea
             class="input-field input-field-question js-auto-size"
+            data-testid="question"
             id="question"
             name="question"
             placeholder=""
@@ -818,6 +831,7 @@ exports[`(Route) Ask (Render) with question matches snapshot 1`] = `
       </div>
       <div
         class="answers hideable gone"
+        data-testid="answers"
       >
         <label
           class="input-label input-label-answers"
@@ -845,6 +859,7 @@ exports[`(Route) Ask (Render) with question matches snapshot 1`] = `
       <div>
         <div
           class="options hideable gone"
+          data-testid="options"
         >
           <div
             class="input-option input-option-multipleChoice"

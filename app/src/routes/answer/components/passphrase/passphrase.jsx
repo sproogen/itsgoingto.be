@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { APIError } from 'services/api'
 import EventBus from 'services/event-bus'
@@ -12,11 +12,8 @@ const Passphrase = ({
 }) => {
   const [error, setError] = useState(false)
   const [value, setValue] = useState('')
-  const [eventBus, setEventBus] = useState()
+  const eventBus = EventBus.getEventBus()
 
-  useEffect(() => {
-    setEventBus(EventBus.getEventBus())
-  }, [])
 
   const submit = () => setPassphrase(value)
     .then(() => fetchPoll(identifier)

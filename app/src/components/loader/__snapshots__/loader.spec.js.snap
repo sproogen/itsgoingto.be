@@ -4,6 +4,7 @@ exports[`(Component) Loader (Render) when prop isLoading is false matches snapsh
 <DocumentFragment>
   <div
     class="loader-container hideable gone"
+    data-testid="loader"
   >
     <div
       class="loader"
@@ -25,6 +26,7 @@ exports[`(Component) Loader (Render) when prop isLoading is true matches snapsho
 <DocumentFragment>
   <div
     class="loader-container hideable"
+    data-testid="loader"
   >
     <div
       class="loader"

@@ -1,6 +1,6 @@
 import React from 'react'
 import {
-  render, screen, fireEvent
+  render, screen, fireEvent, act
 } from '@testing-library/react'
 import EventBus from 'services/event-bus'
 import Answer from './answer'
@@ -37,11 +37,13 @@ describe('(Route) Ask', () => {
 
   describe('(Component) Answer', () => {
     describe('(Action) onChange', () => {
-      it('should call prop onAnswerChange', () => {
+      it('should call prop onAnswerChange', async () => {
         render(<Answer {...defaultProps} />)
 
         const input = screen.getByLabelText('1')
-        fireEvent.change(input, { target: { value: 'Answer 2' } })
+        await act(async () => {
+          fireEvent.change(input, { target: { value: 'Answer 2' } })
+        })
 
         expect(defaultProps.onAnswerChange).toHaveBeenCalledWith(0, 'Answer 2')
       })
@@ -49,22 +51,26 @@ describe('(Route) Ask', () => {
 
     describe('(Action) onKeyDown', () => {
       describe('key is KEY_UP_ARROW', () => {
-        it('emits focus request with index - 1', () => {
+        it('emits focus request with index - 1', async () => {
           render(<Answer {...defaultProps} />)
 
           const input = screen.getByLabelText('1')
-          fireEvent.keyDown(input, KEY_UP_ARROW)
+          await act(async () => {
+            fireEvent.keyDown(input, KEY_UP_ARROW)
+          })
 
           expect(eventBus.emit).toHaveBeenCalledWith('focus', -1)
         })
       })
 
       const emitFocusPlusOne = (keyCode) => {
-        it('emits focus request on index + 1', () => {
+        it('emits focus request on index + 1', async () => {
           render(<Answer {...defaultProps} />)
 
           const input = screen.getByLabelText('1')
-          fireEvent.keyDown(input, keyCode)
+          await act(async () => {
+            fireEvent.keyDown(input, keyCode)
+          })
 
           expect(eventBus.emit).toHaveBeenCalledWith('focus', 1)
         })
@@ -80,11 +86,13 @@ describe('(Route) Ask', () => {
 
       const removeAnswerEmitFocusMinusOne = (keyCode) => {
         describe(('has text'), () => {
-          beforeEach(() => {
+          beforeEach(async () => {
             render(<Answer {...defaultProps} />)
 
             const input = screen.getByLabelText('1')
-            fireEvent.keyDown(input, keyCode)
+            await act(async () => {
+              fireEvent.keyDown(input, keyCode)
+            })
           })
 
           it('should not remove answer', () => {
@@ -97,11 +105,13 @@ describe('(Route) Ask', () => {
         })
 
         describe(('doesn\'t have text'), () => {
-          beforeEach(() => {
+          beforeEach(async () => {
             render(<Answer {...defaultProps} text="" />)
 
             const input = screen.getByLabelText('1')
-            fireEvent.keyDown(input, keyCode)
+            await act(async () => {
+              fireEvent.keyDown(input, keyCode)
+            })
           })
 
           it('should call prop remove answer', () => {

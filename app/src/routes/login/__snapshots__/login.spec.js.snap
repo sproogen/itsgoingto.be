@@ -3,6 +3,9 @@
 exports[`(Route) Login (Render) matches snapshot 1`] = `
 <DocumentFragment>
   <div>
+    <div>
+      Mocked BackComponent
+    </div>
     <div
       class="container header-container"
     >

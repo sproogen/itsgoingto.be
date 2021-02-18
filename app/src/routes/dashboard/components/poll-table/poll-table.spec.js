@@ -123,7 +123,7 @@ describe('(Route) dashboard', () => {
     })
 
     describe('(Render)', () => {
-      it('should match snapshot', () => {
+      it('should match snapshot', async () => {
         const { asFragment } = render(<PollTable {...defaultProps} />)
 
         expect(asFragment()).toMatchSnapshot()
@@ -140,9 +140,9 @@ describe('(Route) dashboard', () => {
       })
 
       describe('sort equals id desc', () => {
-        it('should match snapshot', () => {
+        it('should match snapshot', async () => {
           render(<PollTable {...defaultProps} />)
-          act(() => {
+          await act(async () => {
             fireEvent.click(screen.getByRole('button', { name: /ID/ }))
           })
 
@@ -153,17 +153,21 @@ describe('(Route) dashboard', () => {
       describe('sort equals id asc', () => {
         it('should match snapshot', async () => {
           render(<PollTable {...defaultProps} />)
-          fireEvent.click(screen.getByRole('button', { name: /ID/ }))
-          fireEvent.click(screen.getByRole('button', { name: /ID/ }))
+          await act(async () => {
+            fireEvent.click(screen.getByRole('button', { name: /ID/ }))
+          })
+          await act(async () => {
+            fireEvent.click(screen.getByRole('button', { name: /ID/ }))
+          })
 
           expect(screen.getByRole('button', { name: /ID/ }).childNodes[1]).toHaveClass('fa-sort-down')
         })
       })
 
       describe('sort equals identifier asc', () => {
-        it('should match snapshot', () => {
+        it('should match snapshot', async () => {
           render(<PollTable {...defaultProps} />)
-          act(() => {
+          await act(async () => {
             fireEvent.click(screen.getByRole('button', { name: /Identifier/ }))
           })
 
@@ -174,17 +178,21 @@ describe('(Route) dashboard', () => {
       describe('sort equals identifier desc', () => {
         it('should match snapshot', async () => {
           render(<PollTable {...defaultProps} />)
-          fireEvent.click(screen.getByRole('button', { name: /Identifier/ }))
-          fireEvent.click(screen.getByRole('button', { name: /Identifier/ }))
+          await act(async () => {
+            fireEvent.click(screen.getByRole('button', { name: /Identifier/ }))
+          })
+          await act(async () => {
+            fireEvent.click(screen.getByRole('button', { name: /Identifier/ }))
+          })
 
           expect(screen.getByRole('button', { name: /Identifier/ }).childNodes[1]).toHaveClass('fa-sort-down')
         })
       })
 
       describe('sort equals question asc', () => {
-        it('should match snapshot', () => {
+        it('should match snapshot', async () => {
           render(<PollTable {...defaultProps} />)
-          act(() => {
+          await act(async () => {
             fireEvent.click(screen.getByRole('button', { name: /Question/ }))
           })
 
@@ -195,17 +203,21 @@ describe('(Route) dashboard', () => {
       describe('sort equals question desc', () => {
         it('should match snapshot', async () => {
           render(<PollTable {...defaultProps} />)
-          fireEvent.click(screen.getByRole('button', { name: /Question/ }))
-          fireEvent.click(screen.getByRole('button', { name: /Question/ }))
+          await act(async () => {
+            fireEvent.click(screen.getByRole('button', { name: /Question/ }))
+          })
+          await act(async () => {
+            fireEvent.click(screen.getByRole('button', { name: /Question/ }))
+          })
 
           expect(screen.getByRole('button', { name: /Question/ }).childNodes[1]).toHaveClass('fa-sort-down')
         })
       })
 
       describe('sort equals created asc', () => {
-        it('should match snapshot', () => {
+        it('should match snapshot', async () => {
           render(<PollTable {...defaultProps} />)
-          act(() => {
+          await act(async () => {
             fireEvent.click(screen.getByRole('button', { name: /Created At/ }))
           })
 
@@ -216,8 +228,12 @@ describe('(Route) dashboard', () => {
       describe('sort equals created desc', () => {
         it('should match snapshot', async () => {
           render(<PollTable {...defaultProps} />)
-          fireEvent.click(screen.getByRole('button', { name: /Created At/ }))
-          fireEvent.click(screen.getByRole('button', { name: /Created At/ }))
+          await act(async () => {
+            fireEvent.click(screen.getByRole('button', { name: /Created At/ }))
+          })
+          await act(async () => {
+            fireEvent.click(screen.getByRole('button', { name: /Created At/ }))
+          })
 
           expect(screen.getByRole('button', { name: /Created At/ }).childNodes[1]).toHaveClass('fa-sort-down')
         })

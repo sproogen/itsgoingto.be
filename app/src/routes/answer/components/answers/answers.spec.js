@@ -1,95 +1,80 @@
-/* global expect */
 import React from 'react'
-import { shallow } from 'enzyme'
-import { Answers } from './answers'
+import {
+  render, screen
+} from '@testing-library/react'
+import Answers from './answers'
 
-const props = {
-  answers: [{ id: 1, answer: 'A' }, { id: 2, answer: 'B' }],
+jest.mock('components/spinner', () => () => <div>Mocked SpinnerComponent</div>)
+jest.mock('../answer', () => ({ type, viewOnly, checked }) => <div>Mocked AnswerComponent ({type}/{viewOnly && 'viewOnly'}/{checked && 'checked'})</div>) // eslint-disable-line
+
+const defaultProps = {
+  answers: [{ id: 1, answer: 'A', responseCount: 0 }, { id: 2, answer: 'B', responseCount: 0 }],
   poll: {
-    question: 'Question?',
     ended: false,
     multipleChoice: false,
   },
   userResponded: false,
   viewOnly: false,
-  updateResponses: () => {},
   onResponseSelected: () => {},
-  fetchPoll: () => {},
 }
-let wrapper
 
 describe('(Route) answer', () => {
   describe('(Component) answers', () => {
-    beforeEach(() => {
-      wrapper = shallow(<Answers {...props} />)
-    })
-
     describe('(Render)', () => {
       describe('has no answers', () => {
-        it('matches snapshot', () => {
-          wrapper = shallow(<Answers {...props} answers={[]} />)
-          expect(wrapper).toMatchSnapshot()
+        it('renders spinner component', () => {
+          render(<Answers {...defaultProps} answers={[]} />)
+          expect(screen.getByText('Mocked SpinnerComponent')).toBeInTheDocument()
         })
       })
 
       describe('has answers', () => {
-        it('matches snapshot', () => {
-          expect(wrapper).toMatchSnapshot()
+        it('renders answers', () => {
+          render(<Answers {...defaultProps} />)
+          expect(screen.getAllByText(/Mocked AnswerComponent/)).toHaveLength(2)
+          expect(screen.getAllByText(/radio/)).toHaveLength(2)
         })
       })
 
       describe('Poll is multiple choice', () => {
-        it('matches snapshot', () => {
-          wrapper = shallow(<Answers {...props} poll={{
-            question: 'Question?',
-            ended: false,
-            multipleChoice: true,
-          }} />)
-          expect(wrapper).toMatchSnapshot()
-        })
-      })
-
-      describe('Poll is ended', () => {
-        it('matches snapshot', () => {
-          wrapper = shallow(<Answers {...props} poll={{
-            question: 'Question?',
-            ended: true,
-            multipleChoice: false,
-          }} />)
-          expect(wrapper).toMatchSnapshot()
-        })
-      })
-
-      describe('User has responded', () => {
-        it('matches snapshot', () => {
-          wrapper = shallow(<Answers {...props} userResponded={true} />)
-          expect(wrapper).toMatchSnapshot()
+        it('answer type is checkbox', () => {
+          render(
+            <Answers
+              {...defaultProps}
+              poll={{
+                ended: false,
+                multipleChoice: true,
+              }}
+            />
+          )
+          expect(screen.getAllByText(/Mocked AnswerComponent/)).toHaveLength(2)
+          expect(screen.getAllByText(/checkbox/)).toHaveLength(2)
         })
       })
 
       describe('User has responded to answer', () => {
-        it('matches snapshot', () => {
-          wrapper = shallow(<Answers {...props} userResponded={true} poll={{
-            question: 'Question?',
-            ended: true,
-            multipleChoice: false,
-            userResponses: [1],
-          }} />)
-          expect(wrapper).toMatchSnapshot()
+        it('renders checked answer', () => {
+          render(
+            <Answers
+              {...defaultProps}
+              userResponded
+              poll={{
+                ended: false,
+                multipleChoice: false,
+                userResponses: [1],
+              }}
+            />
+          )
+          expect(screen.getAllByText(/Mocked AnswerComponent/)).toHaveLength(2)
+          expect(screen.getAllByText(/checked/)).toHaveLength(1) // eslint-disable-line
         })
       })
 
       describe('is view only', () => {
-        it('matches snapshot', () => {
-          wrapper = shallow(<Answers {...props} viewOnly={true} />)
-          expect(wrapper).toMatchSnapshot()
-        })
-      })
-
-      describe('with responses', () => {
-        it('matches snapshot', () => {
-          wrapper = shallow(<Answers {...props} totalResponses={10} />)
-          expect(wrapper).toMatchSnapshot()
+        it('renders answers with viewOnly', () => {
+          render(<Answers {...defaultProps} viewOnly />)
+          expect(screen.getAllByText(/Mocked AnswerComponent/)).toHaveLength(2)
+          expect(screen.getAllByText(/viewOnly/)).toHaveLength(2)
         })
       })
     })

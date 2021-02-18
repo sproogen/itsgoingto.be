@@ -250,16 +250,44 @@ describe('(Store) Poll', () => {
         expect(typeof updateUserResponses).toBe('function')
       })
 
-      it('Should return an action with type "POLL_UPDATE".', () => {
-        expect(updateUserResponses(responses, 'hf0sd8fhoas')).toHaveProperty('type', POLL_UPDATE)
+      it('Should return a function (is a thunk).', () => {
+        expect(typeof updateUserResponses(responses, 'hf0sd8fhoas')).toBe('function')
       })
 
-      it('Should assign the poll argyment with just users responses.', () => {
-        expect(updateUserResponses(responses, 'hf0sd8fhoas')).toHaveProperty('poll')
-        expect(updateUserResponses(responses, 'hf0sd8fhoas').poll).toEqual(
-          { identifier: 'hf0sd8fhoas', userResponses: [245] }
-        )
-      })
+      it('Should call dispatch exactly twice.', () => updateUserResponses(
+        responses, 'hf0sd8fhoas'
+      )(dispatch, getState)
+        .then(() => {
+          expect(dispatch).toHaveBeenCalledTimes(2)
+        }))
+
+      it('Should dispatch POLL_UPDATE.', () => updateUserResponses(
+        responses, 'hf0sd8fhoas'
+      )(dispatch, getState)
+        .then(() => {
+          expect(dispatch).toHaveBeenCalledWith({
+            type: POLL_UPDATE,
+            poll: {
+              identifier: 'hf0sd8fhoas',
+              responsesCount: 5,
+              userResponses: [245],
+              answers: [
+                { id: 245, responsesCount: 3 },
+                { id: 246, responsesCount: 2 }
+              ]
+            }
+          })
+        }))
+
+      it('Should dispatch updateAnswers with answers.', () => updateUserResponses(
+        responses, 'hf0sd8fhoas'
+      )(dispatch, getState)
+        .then(() => {
+          expect(dispatch).toHaveBeenCalledWith(updateAnswers([
+            { id: 245, responsesCount: 3 },
+            { id: 246, responsesCount: 2 }
+          ]))
+        }))
     })
   })
 })

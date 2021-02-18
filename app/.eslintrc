@@ -43,7 +43,8 @@
       {
         "devDependencies": [
           "**/*.config.js",
-          "**/*.spec.js"
+          "**/*.spec.js",
+          "**/test-utils.js"
         ]
       }
     ],
@@ -55,11 +56,13 @@
     {
       "files": [
         "*.config.js",
-        "*.spec.js"
+        "*.spec.js",
+        "test-utils.js"
       ],
       "rules": {
         "react/jsx-props-no-spreading": "off",
-        "react/jsx-filename-extension": "off"
+        "react/jsx-filename-extension": "off",
+        "react/prop-types": "off"
       }
     }
   ]

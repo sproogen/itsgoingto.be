@@ -102,7 +102,7 @@ describe('(Store) API', () => {
       it('Should return a date string when endType is endAt.', () => {
         poll.endType = 'endAt'
         poll.endAt = moment()
-        expect(getEndDateFromPoll(poll)).toBe(poll.endAt.format('YYYY-MM-DDTHH:mm:ssZ'))
+        expect(getEndDateFromPoll(poll)).toBe(poll.endAt.toISOString())
       })
 
       it('Should return a date string when endType is endIn.', () => {
@@ -113,7 +113,7 @@ describe('(Store) API', () => {
             .add(poll.endIn, 'hours')
             .seconds(0)
             .milliseconds(0)
-            .format('YYYY-MM-DDTHH:mm:ssZ')
+            .toISOString()
         )
       })
     })

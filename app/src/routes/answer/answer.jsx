@@ -111,7 +111,7 @@ const Answer = ({
       { hasPoll && (
         <div>
           <Back />
-          <div className="container header-container answer-header-container">
+          <div data-testid="answer-container" className="container header-container answer-header-container">
             <div className="header center-text">
               <h2><Linkify properties={{ target: '_blank' }}>{ poll.question }</Linkify></h2>
               <Sharing poll={poll} />

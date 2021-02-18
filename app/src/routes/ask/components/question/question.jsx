@@ -35,7 +35,6 @@ const Question = ({ question, onQuestionChange }) => {
   const handleChange = (event) => onQuestionChange(event.target.value)
 
   const handleKeyPress = (event) => {
-    // event = event || window.event
     const key = event.keyCode || event.charCode
 
     switch (key) {

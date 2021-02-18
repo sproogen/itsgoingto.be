@@ -24,30 +24,6 @@ exports[`(Route) Ask (Component) Question (Render) matches snapshot 1`] = `
 </DocumentFragment>
 `;
 
-exports[`(Route) Ask (Component) Question (Render) with place holder text matches snapshot 1`] = `
-<DocumentFragment>
-  <div
-    class="input input-question"
-  >
-    <label
-      class="input-label input-label-question"
-      for="question"
-    >
-      Ask a question
-      <textarea
-        class="input-field input-field-question js-auto-size"
-        data-testid="question"
-        id="question"
-        name="question"
-        placeholder=""
-        rows="1"
-        style="overflow-x: hidden; word-wrap: break-word; overflow-y: hidden;"
-      />
-    </label>
-  </div>
-</DocumentFragment>
-`;
-
 exports[`(Route) Ask (Component) Question (Render) with question text matches snapshot 1`] = `
 <DocumentFragment>
   <div

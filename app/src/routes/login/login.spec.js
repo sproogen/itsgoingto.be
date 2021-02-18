@@ -18,6 +18,7 @@ const mockHistory = {
 jest.mock('react-router-dom', () => ({
   useHistory: () => mockHistory
 }))
+jest.mock('components/back', () => () => <div>Mocked BackComponent</div>)
 
 cookies.remove = jest.fn()
 cookies.set = jest.fn()

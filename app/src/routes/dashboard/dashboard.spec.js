@@ -1,109 +1,104 @@
-/* global expect, jest */
 import React from 'react'
-import { shallow } from 'enzyme'
-import { browserHistory } from 'react-router'
-import { Dashboard } from './dashboard'
+import {
+  render, screen
+} from '@testing-library/react'
+import Dashboard from './dashboard'
 
-browserHistory.push = jest.fn()
+jest.mock('./components/stats', () => () => <div>Mocked Stats</div>)
+jest.mock('./components/poll-table', () => () => <div>Mocked PollTable</div>)
 
-const props = {
-  hasUser: false,
+const mockHistory = {
+  push: jest.fn()
+}
+jest.mock('react-router-dom', () => ({
+  useHistory: () => mockHistory
+}))
+
+const defaultProps = {
+  hasUser: true,
   setLoading: jest.fn(),
 }
 
 describe('(Route) Login', () => {
-  describe('(Lifecycle) componentDidMount', () => {
-    describe('checkPermissions', () => {
-      beforeEach(() => {
-        shallow(<Dashboard {...props} />)
+  afterEach(() => {
+    jest.clearAllMocks()
+  })
+
+  describe('(Lifecycle) component did load', () => {
+    describe('hasUser false', () => {
+      it('should call setLoading true', () => {
+        render(<Dashboard {...defaultProps} hasUser={false} />)
+
+        expect(defaultProps.setLoading).toHaveBeenCalledTimes(1)
+        expect(defaultProps.setLoading).toHaveBeenCalledWith(true)
       })
 
-      afterEach(() => {
-        jest.clearAllMocks()
+      it('should redirect to /login', () => {
+        render(<Dashboard {...defaultProps} hasUser={false} />)
+
+        expect(mockHistory.push).toHaveBeenCalledTimes(1)
+        expect(mockHistory.push).toHaveBeenCalledWith('/login')
       })
+    })
 
-      describe('hasUser false', () => {
-        it('should call setLoading true', () => {
-          expect(props.setLoading).toHaveBeenCalledTimes(1)
-          expect(props.setLoading).toHaveBeenCalledWith(true)
-        })
+    describe('hasUser true', () => {
+      it('should call setLoading false', () => {
+        render(<Dashboard {...defaultProps} hasUser />)
 
-        it('should redirect to /login', () => {
-          expect(browserHistory.push).toHaveBeenCalledTimes(1)
-          expect(browserHistory.push).toHaveBeenCalledWith('/login')
-        })
-      })
-
-      describe('hasUser true', () => {
-        it('should call setLoading false', () => {
-          jest.clearAllMocks()
-          shallow(<Dashboard {...props} hasUser />)
-
-          expect(props.setLoading).toHaveBeenCalledTimes(1)
-          expect(props.setLoading).toHaveBeenCalledWith(false)
-        })
+        expect(defaultProps.setLoading).toHaveBeenCalledTimes(1)
+        expect(defaultProps.setLoading).toHaveBeenCalledWith(false)
       })
     })
   })
 
-  describe('(Lifecycle) componentDidUpdate', () => {
-    describe('checkPermissions', () => {
-      beforeEach(() => {
-        const wrapper = shallow(<Dashboard {...props} />)
+  describe('(Lifecycle) hasUser prop changed', () => {
+    describe('hasUser changes to false', () => {
+      it('should call setLoading true', () => {
+        const { rerender } = render(<Dashboard {...defaultProps} hasUser />)
         jest.clearAllMocks()
-        wrapper.setProps()
+        rerender(<Dashboard {...defaultProps} hasUser={false} />)
+
+        expect(defaultProps.setLoading).toHaveBeenCalledTimes(1)
+        expect(defaultProps.setLoading).toHaveBeenCalledWith(true)
       })
 
-      afterEach(() => {
+      it('should redirect to /login', () => {
+        const { rerender } = render(<Dashboard {...defaultProps} hasUser />)
         jest.clearAllMocks()
+        rerender(<Dashboard {...defaultProps} hasUser={false} />)
+
+        expect(mockHistory.push).toHaveBeenCalledTimes(1)
+        expect(mockHistory.push).toHaveBeenCalledWith('/login')
       })
+    })
 
-      describe('hasUser false', () => {
-        it('should call setLoading true', () => {
-          expect(props.setLoading).toHaveBeenCalledTimes(1)
-          expect(props.setLoading).toHaveBeenCalledWith(true)
-        })
+    describe('hasUser true', () => {
+      it('should call setLoading false', () => {
+        const { rerender } = render(<Dashboard {...defaultProps} hasUser={false} />)
+        jest.clearAllMocks()
+        rerender(<Dashboard {...defaultProps} hasUser />)
 
-        it('should redirect to /login', () => {
-          expect(browserHistory.push).toHaveBeenCalledTimes(1)
-          expect(browserHistory.push).toHaveBeenCalledWith('/login')
-        })
-      })
-
-      describe('hasUser true', () => {
-        it('should call setLoading false', () => {
-          const wrapper = shallow(<Dashboard {...props} hasUser />)
-          jest.clearAllMocks()
-          wrapper.setProps()
-
-          expect(props.setLoading).toHaveBeenCalledTimes(1)
-          expect(props.setLoading).toHaveBeenCalledWith(false)
-        })
+        expect(defaultProps.setLoading).toHaveBeenCalledTimes(1)
+        expect(defaultProps.setLoading).toHaveBeenCalledWith(false)
       })
     })
   })
 
   describe('(Render)', () => {
-    let wrapper
-
-    beforeEach(() => {
-      wrapper = shallow(<Dashboard {...props} />)
-    })
-
-    afterEach(() => {
-      jest.clearAllMocks()
-    })
-
     describe('hasUser false', () => {
-      it('matches snapshot', () => {
-        expect(wrapper).toMatchSnapshot()
+      it('deos not show any components', () => {
+        render(<Dashboard {...defaultProps} hasUser={false} />)
+
+        expect(screen.queryByText('Mocked Stats')).not.toBeInTheDocument()
+        expect(screen.queryByText('Mocked PollTable')).not.toBeInTheDocument()
       })
     })
 
     describe('hasUser true', () => {
-      it('matches snapshot', () => {
-        wrapper.setProps({ hasUser: true })
-        expect(wrapper).toMatchSnapshot()
+      it('shows stats and poll table components', () => {
+        render(<Dashboard {...defaultProps} hasUser />)
+        expect(screen.getByText('Mocked Stats')).toBeInTheDocument()
+        expect(screen.getByText('Mocked PollTable')).toBeInTheDocument()
       })
     })
   })

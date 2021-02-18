@@ -72,19 +72,6 @@ describe('(Route) Ask', () => {
           expect(asFragment()).toMatchSnapshot()
         })
       })
-
-      describe('with place holder text', () => {
-        jest.useFakeTimers()
-        it('matches snapshot', () => {
-          const { asFragment } = render(<Question {...props} />)
-
-          act(() => {
-            jest.advanceTimersByTime(5001)
-          })
-
-          expect(asFragment()).toMatchSnapshot()
-        })
-      })
     })
   })
 })
