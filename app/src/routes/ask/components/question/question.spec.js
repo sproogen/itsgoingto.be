@@ -1,6 +1,5 @@
 import React from 'react'
 import { render, fireEvent, screen } from '@testing-library/react'
-import { act } from 'react-dom/test-utils'
 import EventBus from 'services/event-bus'
 import Question from './question'
 
