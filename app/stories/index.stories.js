@@ -3,10 +3,7 @@ import { Provider } from 'react-redux'
 import { storiesOf } from '@storybook/react'
 import createStore from 'store/create-store'
 import { setLoading } from 'store/loader/actions'
-import Back from 'components/back'
-import Button from 'components/button'
 import Loader from 'components/loader'
-import Spinner from 'components/spinner'
 import WordRotate from 'components/word-rotate'
 import Footer from 'components/footer'
 import Question from 'routes/ask/components/question/question'
@@ -16,22 +13,6 @@ import '../src/styles/main.scss'
 
 const store = createStore(window.__INITIAL_STATE__)
 
-storiesOf('Core.Back', module)
-  .add('Default', () => <Back />)
-
-storiesOf('Core.Button', module)
-  .add('Default', () => <Button text='Click Me' callback={() => Promise.resolve()} />)
-  .add('Disabled', () => <Button text='Click Me' disabled callback={() => Promise.resolve()} />)
-  .add('Delayed Callback', () =>
-    <Button text='Click Me' callback={() =>
-      new Promise((resolve) => {
-        setTimeout(() => {
-          resolve()
-        }, 1000)
-      })
-    } />
-  )
-
 storiesOf('Core.Loader', module)
   .addDecorator((getStory) => {
     store.dispatch(setLoading(true))
@@ -40,9 +21,6 @@ storiesOf('Core.Loader', module)
     </Provider>
   })
   .add('Default', () => <Loader isLoading />)
-
-storiesOf('Core.Spinner', module)
-  .add('Default', () => <Spinner />)
 
 storiesOf('Core.WordRotate', module)
   .add('Default', () =>

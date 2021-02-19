@@ -3,5 +3,9 @@ const path = require('path')
 const custom = require('../webpack.dev.config.js')
 
 module.exports = async ({ config, mode }) => {
-  return { ...config, module: { ...config.module, rules: custom.module.rules } }
+  return {
+    ...config,
+    resolve: { ...config.resolve, alias: { ...config.resolve.alias, ...custom.resolve.alias } },
+    module: { ...config.module, rules: custom.module.rules }
+  }
 }
