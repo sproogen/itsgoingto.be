@@ -1,56 +1,49 @@
-version: '2'
+version: '3.8'
 services:
   app:
-    build:
-      context: ./app
-      dockerfile: ../docker/app/Dockerfile
-    image: itsgoingtobe/app
+    image: itsgoingtobe/app:latest
+    command: npm run start
     volumes:
-      - ./app/src:/app/src
-    ports:
-      - "3000:3000"
+      - ./app:/app
+      - /app/node_modules
+    expose:
+      - "3000"
     environment:
       - PORT=3000
 
-  # storybook:
-  #   build:
-  #     context: ./app
-  #     dockerfile: ../docker/storybook/Dockerfile
-  #   image: itsgoingtobe/storybook
-  #   volumes:
-  #     - ./app/src:/app/src
-  #     - ./app/stories:/app/stories
-  #   ports:
-  #     - "6006:6006"
+  storybook:
+    image: itsgoingtobe/app:latest
+    command: npm run storybook
+    volumes:
+      - ./app:/app
+      - ./app/node_modules
+    ports:
+      - "6006:6006"
 
-  # swagger:
-  #   build:
-  #     context: ./app
-  #     dockerfile: ../docker/storybook/Dockerfile
-  #   image: itsgoingtobe/storybook
-  #   volumes:
-  #     - ./app/src:/app/src
-  #     - ./app/stories:/app/stories
-  #   ports:
-  #     - "6006:6006"
+  swagger:
+    image: swaggerapi/swagger-ui
+    volumes:
+      - ./server/swagger.yml:/swagger.yml
+    environment:
+      SWAGGER_JSON: /swagger.yml
+    ports:
+      - "4000:8080"
 
   server:
-    build:
-      context: ./server
-      dockerfile: ../docker/server/Dockerfile
-    image: itsgoingtobe/server
+    image: itsgoingtobe/server:latest
+    command: npm run start
     depends_on:
-      - mysql
-    links:
       - mysql
     volumes:
       - ./server:/server
-    ports:
-      - "8001:8001"
+      - /server/node_modules
+    expose:
+      - "8001"
     environment:
       - DATABASE_URL=mysql://user:password@mysql:3306/itsgoingtobe
       - PORT=8001
       - JWT_PASSPHRASE=secret
+      - NODE_ENV=development
 
   webserver:
     image: nginx:alpine
@@ -58,17 +51,16 @@ services:
       - app
       - server
     volumes:
-      - ./:/var/www/html
-      - ./docker/nginx/site.conf:/etc/nginx/conf.d/default.conf
+      - ./site.conf:/etc/nginx/conf.d/default.conf
     ports:
       - "8000:80"
 
   mysql:
     image: mysql:8.0
-    ports:
-      - "3306:3306"
+    expose:
+      - "3306"
     volumes:
-      - ./docker/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+      - ./my.cnf:/etc/mysql/conf.d/my.cnf
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=itsgoingtobe

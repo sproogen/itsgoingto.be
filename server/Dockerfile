@@ -1,6 +1,6 @@
-FROM itsgoingtobe/app-base:latest
+FROM node:14-alpine
 LABEL maintainer="James Grant <james@jwgmedia.co.uk> (http://jameswgrant.co.uk)"
 
-COPY ./ ./
-
-CMD [ "npm", "run", "storybook" ]
+WORKDIR /server
+COPY package*.json ./
+RUN npm i
