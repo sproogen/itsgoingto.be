@@ -58,6 +58,7 @@
       "files": [
         "*.config.js",
         "*.spec.js",
+        "*.stories.js",
         "test-utils.js"
       ],
       "rules": {

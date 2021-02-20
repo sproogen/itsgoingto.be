@@ -7,10 +7,11 @@ export default {
   component: WordRotate
 }
 
-const Template = (args) =>
-  <div className='header center-text'>
+const Template = (args) => (
+  <div className="header center-text">
     <h1><WordRotate {...args} /></h1>
   </div>
+)
 
 export const Default = Template.bind({})
 Default.args = {
