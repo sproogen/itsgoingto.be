@@ -11,23 +11,23 @@ services:
     environment:
       - PORT=3000
 
-  storybook:
-    image: itsgoingtobe/app:latest
-    command: npm run storybook
-    volumes:
-      - ./app:/app
-      - ./app/node_modules
-    ports:
-      - "6006:6006"
+  # storybook:
+  #   image: itsgoingtobe/app:latest
+  #   command: npm run storybook
+  #   volumes:
+  #     - ./app:/app
+  #     - ./app/node_modules
+  #   ports:
+  #     - "6006:6006"
 
-  swagger:
-    image: swaggerapi/swagger-ui
-    volumes:
-      - ./server/swagger.yml:/swagger.yml
-    environment:
-      SWAGGER_JSON: /swagger.yml
-    ports:
-      - "4000:8080"
+  # swagger:
+  #   image: swaggerapi/swagger-ui
+  #   volumes:
+  #     - ./server/swagger.yml:/swagger.yml
+  #   environment:
+  #     SWAGGER_JSON: /swagger.yml
+  #   ports:
+  #     - "4000:8080"
 
   server:
     image: itsgoingtobe/server:latest

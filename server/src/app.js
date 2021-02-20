@@ -1,6 +1,6 @@
 import express from 'express'
 import http from 'http'
-import cors from 'cors'
+// import cors from 'cors'
 import socketIO from 'socket.io'
 import cookieParser from 'cookie-parser'
 import morgan from 'morgan'
@@ -8,7 +8,7 @@ import api from './api'
 
 const app = express()
 
-app.use(cors())
+// app.use(cors())
 if (process.env.NODE_ENV !== 'test') {
   app.use(morgan('combined'))
 }

@@ -45,7 +45,8 @@ const Answer = ({
       // Also add local storage
       // https://blog.logrocket.com/the-complete-guide-to-using-localstorage-in-javascript-apps-ba44edb53a36/#:~:text=localStorage%20is%20a%20type%20of,browser%20window%20has%20been%20closed.
       if (!userID) {
-        userID = [...Array(20)].map(() => (Math.random() * 36 | 0).toString(36)).join`` // eslint-disable-line
+        const crypto = window.crypto || window.msCrypto
+        userID = [...crypto.getRandomValues(new Uint32Array(3))].map((value) => value.toString(32)).join('')
         cookies.set('USERID', userID, { path: '/' })
       }
 

@@ -12,17 +12,17 @@ exports[`(Layout) Footer (Render) matchs snapshot 1`] = `
         class="contact"
       >
         <a
-          href="mailto:itsgoingtobe@jwgmedia.co.uk"
+          href="mailto:itsgoingtobe@jameswgrant.co.uk"
           target="_top"
         >
-          itsgoingtobe@jwgmedia.co.uk
+          itsgoingtobe@jameswgrant.co.uk
         </a>
       </span>
       <span
         class="jwg_logo"
       >
         <a
-          href="http://jwgmedia.co.uk"
+          href="https://www.jameswgrant.co.uk"
           rel="noopener noreferrer"
           target="_blank"
         >
