@@ -1,10 +1,18 @@
 import React from 'react'
+import crypto from 'crypto' // eslint-disable-line
 import {
   render, screen, waitFor
 } from '@testing-library/react'
-import { APIError } from 'services/api'
 import { Cookies } from 'react-cookie'
+import { APIError } from 'services/api'
 import Answer from './answer'
+
+
+Object.defineProperty(global.self, 'crypto', {
+  value: {
+    getRandomValues: (arr) => crypto.randomBytes(arr.length)
+  }
+})
 
 const mockHistory = {
   push: jest.fn()
