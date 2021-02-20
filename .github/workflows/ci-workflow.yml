@@ -7,9 +7,24 @@ on:
     branches: [ master ]
 
 jobs:
+  ci-skip:
+    runs-on: ubuntu-latest
+    outputs:
+      skip: ${{ steps.ci-skip-step.outputs.ci-skip }}
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - id: ci-skip-step
+        uses: mstachniuk/ci-skip@v1
+        with:
+          commit-filter: '[skip ci]'
+
   build-test-app:
     name: Build and Test App
     runs-on: ubuntu-latest
+    needs: [ ci-skip ]
+    if: needs.ci-skip.outputs.skip == 'false'
     env:
       NODE_ENV: test
     defaults:
@@ -39,9 +54,12 @@ jobs:
       with:
         name: app-coverage-report
         path: app/build/coverage/lcov.info
+
   build-test-server:
     name: Build and Test Server
     runs-on: ubuntu-latest
+    needs: [ ci-skip ]
+    if: needs.ci-skip.outputs.skip == 'false'
     env:
       NODE_ENV: test
     defaults:
@@ -71,14 +89,61 @@ jobs:
       with:
         name: server-coverage-report
         path: server/build/coverage/lcov.info
-  sonar-scanner:
-    name: Run Sonar Scanner
+
+  bump-version-sonar-scanner:
+    name: Bump Version and Run Sonar Scanner
     runs-on: ubuntu-latest
-    needs: [ build-test-app, build-test-server ]
+    needs: [ ci-skip, build-test-app, build-test-server ]
+    if: needs.ci-skip.outputs.skip == 'false'
     steps:
     - uses: actions/checkout@v2
       with:
         fetch-depth: 0
+        # token: ${{ secrets.ADMIN_TOKEN }}
+    - name: Set git config
+      run: |
+        git config user.name github-actions
+        git config user.email github-actions@github.com
+    - name: Check current tag
+      id: tags
+      if: github.ref == 'refs/heads/master'
+      run: |
+        CURRENT_VERSION=$(cat package.json \
+        | grep version \
+        | head -1 \
+        | awk -F: '{ print $2 }' \
+        | sed 's/[",]//g' \
+        | tr -d '[[:space:]]')
+        unset HAS_TAG
+        if [ -n "$(git tag -l v$CURRENT_VERSION)" ]; then HAS_TAG='true'; fi
+        echo ::set-output name=HAS_TAG::${HAS_TAG}
+    - name: Bump version if not manually bumped
+      if: steps.tags.outputs.HAS_TAG && github.ref == 'refs/heads/master'
+      run: |
+        npm version patch --no-git-tag-version
+        git add package.json
+        git add package-lock.json
+        NEW_VERSION=$(cat package.json \
+        | grep version \
+        | head -1 \
+        | awk -F: '{ print $2 }' \
+        | sed 's/[",]//g' \
+        | tr -d '[[:space:]]')
+        git commit -m "Bump version to $NEW_VERSION [skip ci]"
+    - name: Tag latest version
+      if: github.ref == 'refs/heads/master'
+      run: |
+        VERSION=$(cat package.json \
+        | grep version \
+        | head -1 \
+        | awk -F: '{ print $2 }' \
+        | sed 's/[",]//g' \
+        | tr -d '[[:space:]]')
+        $VERSION > version.txt
+        git tag v$VERSION
+    - name: Push tags
+      if: github.ref == 'refs/heads/master'
+      run: git push origin HEAD:${{ github.ref }} --tags
     - name: Download app eslint report
       uses: actions/download-artifact@v2
       with:
@@ -99,20 +164,19 @@ jobs:
       with:
         name: server-coverage-report
         path: server/build/coverage
-    - run: ./scripts/update-sonar-version.sh
+    - name: Set app version in sonar
+      run: |
+        PACKAGE_VERSION=$(cat package.json \
+        | grep version \
+        | head -1 \
+        | awk -F: '{ print $2 }' \
+        | sed 's/[",]//g' \
+        | tr -d '[[:space:]]')
+        SONAR_FILE="sonar-project.properties"
+        REPLACE='^sonar.projectVersion=.*$'
+        WITH="sonar.projectVersion=${PACKAGE_VERSION}"
+        sed -i "s#${REPLACE}#${WITH}#g" ${SONAR_FILE}
     - uses: sonarsource/sonarcloud-github-action@master
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-  ci-skip:
-    runs-on: ubuntu-latest
-    outputs:
-      skip: ${{ steps.ci-skip-step.outputs.ci-skip }}
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-      - id: ci-skip-step
-        uses: mstachniuk/ci-skip@v1
-        with:
-          commit-filter: '[skip ci]'
