@@ -33,13 +33,12 @@ describe('(Route) Ask', () => {
       })
 
       describe('with answers as strings', () => {
-        const answers = [
-          'Answer 1',
-          'Answer 2',
-          'Answer 3'
-        ]
-
         it('matches snapshot', () => {
+          const answers = [
+            'Answer 1',
+            'Answer 2',
+            'Answer 3'
+          ]
           const { asFragment } = render(<Answers {...defaultProps} answers={answers} />)
 
           expect(asFragment()).toMatchSnapshot()
@@ -47,13 +46,12 @@ describe('(Route) Ask', () => {
       })
 
       describe('with answers as objects', () => {
-        const answers = [
-          { id: 4, answer: 'Answer 4' },
-          { id: 5, answer: 'Answer 5' },
-          { id: 6, answer: 'Answer 6' }
-        ]
-
         it('matches snapshot', () => {
+          const answers = [
+            { id: 4, answer: 'Answer 4' },
+            { id: 5, answer: 'Answer 5' },
+            { id: 6, answer: 'Answer 6' }
+          ]
           const { asFragment } = render(<Answers {...defaultProps} answers={answers} />)
 
           expect(asFragment()).toMatchSnapshot()

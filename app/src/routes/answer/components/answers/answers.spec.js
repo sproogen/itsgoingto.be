@@ -15,7 +15,7 @@ const defaultProps = {
   },
   userResponded: false,
   viewOnly: false,
-  onResponseSelected: () => {},
+  onResponseSelected: () => { /* Do nothing */ },
 }
 
 describe('(Route) answer', () => {

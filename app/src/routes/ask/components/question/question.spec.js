@@ -42,7 +42,7 @@ describe('(Route) Ask', () => {
           render(<Question {...props} />)
 
           const textarea = screen.getByTestId('question')
-          fireEvent.keyDown(textarea, { keyCode, preventDefault: () => { } })
+          fireEvent.keyDown(textarea, { keyCode, preventDefault: () => { /* Do nothing */ } })
 
           expect(eventBus.emit).toHaveBeenCalledWith('focus', 0)
         })

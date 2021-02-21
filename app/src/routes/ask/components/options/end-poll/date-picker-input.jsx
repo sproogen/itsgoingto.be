@@ -16,7 +16,7 @@ DatePickerInput.propTypes = {
 }
 
 DatePickerInput.defaultProps = {
-  onClick: () => {},
+  onClick: () => { /* Do nothing */ },
   value: ''
 }
 

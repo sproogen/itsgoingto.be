@@ -136,7 +136,9 @@ describe('(Route) Ask', () => {
     describe('(Render)', () => {
       describe('with default props', () => {
         it('matches snapshot', () => {
-          const { asFragment } = render(<Answer index={0} onAnswerChange={() => { }} onRemoveAnswer={() => { }} />)
+          const { asFragment } = render(
+            <Answer index={0} onAnswerChange={() => { /* Do nothing */ }} onRemoveAnswer={() => { /* Do nothing */ }} />
+          )
 
           expect(asFragment()).toMatchSnapshot()
         })

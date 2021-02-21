@@ -132,7 +132,7 @@ describe('(Route) dashboard', () => {
       describe('loading', () => {
         it('should match snapshot', () => {
           const { asFragment } = render(
-            <PollTable {...defaultProps} fetchPolls={jest.fn(() => new Promise(() => {}))} />
+            <PollTable {...defaultProps} fetchPolls={jest.fn(() => new Promise(() => { /* Do nothing */ }))} />
           )
 
           expect(asFragment()).toMatchSnapshot()

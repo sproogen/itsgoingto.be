@@ -2,7 +2,6 @@ import React from 'react'
 import {
   render, fireEvent, screen
 } from '@testing-library/react'
-// import moment from 'moment'
 import EndPoll from './end-poll'
 
 jest.mock('react-datepicker', () => () => (<div>Mocked DatePicker</div>))

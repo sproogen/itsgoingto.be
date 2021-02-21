@@ -31,7 +31,7 @@ describe('(Route) dashboard', () => {
     describe('(Render)', () => {
       describe('has onSort callback', () => {
         it('show fa-sort icon', () => {
-          render(<PollTableHeaderItem {...defaultProps} onSort={() => { }} />, { Wrapper: TableWrapper })
+          render(<PollTableHeaderItem {...defaultProps} onSort={() => { /* Do nothing */ }} />, { Wrapper: TableWrapper })
           expect(screen.getByRole('button', { name: /Column header/ }).childNodes[1]).toBeInTheDocument()
           expect(screen.getByRole('button', { name: /Column header/ }).childNodes[1]).toHaveClass('fa-sort')
         })
@@ -41,7 +41,7 @@ describe('(Route) dashboard', () => {
             render(
               <PollTableHeaderItem
                 {...defaultProps}
-                onSort={() => { }}
+                onSort={() => { /* Do nothing */ }}
                 sortDirection="asc"
               />, { Wrapper: TableWrapper }
             )
@@ -55,7 +55,7 @@ describe('(Route) dashboard', () => {
             render(
               <PollTableHeaderItem
                 {...defaultProps}
-                onSort={() => { }}
+                onSort={() => { /* Do nothing */ }}
                 sortDirection="desc"
               />, { Wrapper: TableWrapper }
             )
