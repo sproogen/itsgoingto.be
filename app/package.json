@@ -13,7 +13,7 @@
     "build": "cross-env NODE_ENV=production webpack --config webpack.prod.config.js --profile --json > build/stats.json",
     "build:dev": "webpack --config webpack.dev.config.js",
     "test": "jest",
-    "lint": "eslint src/.",
+    "lint": "eslint src/**/*.{js,jsx}",
     "eslint-output": "eslint-output",
     "analyze": "webpack-bundle-analyzer build/stats.json",
     "storybook": "start-storybook -p 6006 --quiet",

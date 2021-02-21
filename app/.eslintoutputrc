@@ -1,5 +1,5 @@
 {
-  "files": ["src/."],
+  "files": ["src/**/*.{js,jsx}"],
   "formats": [
     {
       "name": "stylish",
