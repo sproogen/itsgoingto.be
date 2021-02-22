@@ -11,9 +11,10 @@
   "author": "James Grant <james@jwgmedia.co.uk> (http://jameswgrant.co.uk)",
   "license": "GPLv3",
   "scripts": {
-    "heroku-prebuild": "npm run build-app && npm run build-server",
-    "build-app": "cd app && npm install && npm run build && mkdir server/public && mv app/dist/* server/public/",
-    "build-server": "cd server && npm install",
+    "heroku-prebuild": "(cd app && npm install) && (cd server && npm install)",
+    "heroku-postbuild": "npm run build-app",
+    "build-app": "cd app && npm run build && mkdir server/public && mv app/dist/* server/public/",
+    "heroku-cleanup": "rm -rf app",
     "start": "cd server && npm run serve-prod"
   },
   "cacheDirectories": [
