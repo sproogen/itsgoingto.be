@@ -2,7 +2,7 @@
   "name": "itsgoingtobe",
   "version": "2.7.0",
   "engines": {
-    "node": "12.16.x"
+    "node": "14.15.x"
   },
   "repository": {
     "type": "git",
@@ -12,7 +12,8 @@
   "license": "GPLv3",
   "scripts": {
     "heroku-prebuild": "(cd app && npm install) && (cd server && npm install)",
-    "heroku-postbuild": "rm -rf app"
+    "heroku-postbuild": "mkdir server/public && mv app/dist/* server/public/ && rm -rf app",
+    "start": "(cd server && npm run start-prod)"
   },
   "cacheDirectories": [
     "app/node_modules",

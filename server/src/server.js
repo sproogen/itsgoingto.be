@@ -12,6 +12,8 @@ if (process.env.NODE_ENV !== 'test') {
 }
 app.use(cookieParser())
 
+app.use(express.static('public'));
+
 const server = http.createServer(app)
 const io = socketIO(server)
 

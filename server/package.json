@@ -9,6 +9,7 @@
   "description": "It's Going To Be node backend",
   "main": "src/index.js",
   "scripts": {
+    "start-prod": "babel-node src/index.js",
     "start": "run-s sync serve",
     "sync": "babel-node src/db/sync.js",
     "serve": "nodemon --exec babel-node src/index.js",
