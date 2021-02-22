@@ -1,6 +1,6 @@
 import supertest from 'supertest'
 import { User, Poll, Response } from '../src/db'
-import app from '../src/app'
+import server from '../src/server'
 
 const validResponseFormat = (response) => {
   expect(Object.keys(response).sort()).toStrictEqual(['polls', 'responses'].sort())
@@ -10,14 +10,14 @@ const validResponseFormat = (response) => {
 
 describe('GET Stats API', () => {
   it('returns 401 unauthorised for no authentication', async () => {
-    const response = await supertest(app).get('/api/stats')
+    const response = await supertest(server).get('/api/stats')
     expect(response.statusCode).toEqual(401)
     expect(response.body).toHaveProperty('error')
     expect(response.body.error).toBe('unauthorised')
   })
 
   it('returns 401 forbidden for invalid authentication', async () => {
-    const response = await supertest(app).get('/api/stats').auth('Invalid JWT Token', { type: 'bearer' })
+    const response = await supertest(server).get('/api/stats').auth('Invalid JWT Token', { type: 'bearer' })
     expect(response.statusCode).toEqual(401)
     expect(response.body).toHaveProperty('error')
     expect(response.body.error).toBe('forbidden')
@@ -30,7 +30,7 @@ describe('GET Stats API', () => {
       }
     })
     const pollsCount = await Poll.count()
-    const response = await supertest(app)
+    const response = await supertest(server)
       .get('/api/stats')
       .auth(user.generateJWT(), { type: 'bearer' })
     expect(response.statusCode).toEqual(200)
@@ -45,7 +45,7 @@ describe('GET Stats API', () => {
       }
     })
     const responseCount = await Response.count()
-    const response = await supertest(app)
+    const response = await supertest(server)
       .get('/api/stats')
       .auth(user.generateJWT(), { type: 'bearer' })
     expect(response.statusCode).toEqual(200)

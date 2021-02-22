@@ -1,11 +1,11 @@
 import supertest from 'supertest'
 import { Poll } from '../src/db'
 import { matchesPollFormat } from './test-utils'
-import app from '../src/app'
+import server from '../src/server'
 
 describe('CREATE Poll API', () => {
   it('returns 400 for missing question', async () => {
-    const response = await supertest(app)
+    const response = await supertest(server)
       .post('/api/polls')
       .send({ answers: ['Answer A'] })
     expect(response.statusCode).toEqual(400)
@@ -15,7 +15,7 @@ describe('CREATE Poll API', () => {
   })
 
   it('returns 400 for missing answers', async () => {
-    const response = await supertest(app)
+    const response = await supertest(server)
       .post('/api/polls')
       .send({ question: 'Question?' })
     expect(response.statusCode).toEqual(400)
@@ -25,7 +25,7 @@ describe('CREATE Poll API', () => {
   })
 
   it('returns 400 for invalid end date format', async () => {
-    const response = await supertest(app)
+    const response = await supertest(server)
       .post('/api/polls')
       .send({ question: 'Question', answers: ['Answer A'], endDate: 'invalidDateString' })
     expect(response.statusCode).toEqual(400)
@@ -36,7 +36,7 @@ describe('CREATE Poll API', () => {
 
   it('creates and returns a poll with valid data', async () => {
     const date = new Date().toISOString()
-    const response = await supertest(app)
+    const response = await supertest(server)
       .post('/api/polls')
       .send({
         question: 'Question', answers: ['Answer A'], endDate: date, multipleChoice: true
@@ -51,7 +51,7 @@ describe('CREATE Poll API', () => {
   })
 
   it('create poll with passphrase', async () => {
-    const response = await supertest(app)
+    const response = await supertest(server)
       .post('/api/polls')
       .send({
         question: 'Question 2', answers: ['Answer B'], passphrase: 'pass'

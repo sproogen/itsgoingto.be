@@ -239,9 +239,9 @@ describe('(Store) Poll', () => {
     describe('(Action Creator) updateUserResponses', () => {
       const responses = {
         userResponses: [245],
-        responsesCount: 5,
+        responsesCount: 6,
         answers: [
-          { id: 245, responsesCount: 3 },
+          { id: 245, responsesCount: 4 },
           { id: 246, responsesCount: 2 }
         ]
       }
@@ -269,10 +269,10 @@ describe('(Store) Poll', () => {
             type: POLL_UPDATE,
             poll: {
               identifier: 'hf0sd8fhoas',
-              responsesCount: 5,
+              responsesCount: 6,
               userResponses: [245],
               answers: [
-                { id: 245, responsesCount: 3 },
+                { id: 245, responsesCount: 4 },
                 { id: 246, responsesCount: 2 }
               ]
             }
@@ -284,7 +284,7 @@ describe('(Store) Poll', () => {
       )(dispatch, getState)
         .then(() => {
           expect(dispatch).toHaveBeenCalledWith(updateAnswers([
-            { id: 245, responsesCount: 3 },
+            { id: 245, responsesCount: 4 },
             { id: 246, responsesCount: 2 }
           ]))
         }))

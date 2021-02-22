@@ -1,7 +1,5 @@
 import { map } from 'ramda'
 
-// TODO: Add responses to stub
-
 const formatAnswers = map((answer) => ({ answer }))
 
 const createStubData = (Poll, Response, User) => async () => {

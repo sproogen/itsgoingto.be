@@ -1,18 +1,18 @@
 import supertest from 'supertest'
 import { User, Poll } from '../src/db'
 import { matchesResponsesFormat } from './test-utils'
-import app from '../src/app'
+import server from '../src/server'
 
 describe('Submit Responses API', () => {
   it('returns 404 when poll not found', async () => {
-    const response = await supertest(app).post('/api/polls/hs8Hgsi/responses')
+    const response = await supertest(server).post('/api/polls/hs8Hgsi/responses')
     expect(response.statusCode).toEqual(404)
     expect(response.body).toHaveProperty('error')
     expect(response.body.error).toBe('poll-not-found')
   })
 
   it('returns 404 for deleted poll', async () => {
-    const response = await supertest(app).post('/api/polls/d/responses')
+    const response = await supertest(server).post('/api/polls/d/responses')
     expect(response.statusCode).toEqual(404)
     expect(response.body).toHaveProperty('error')
     expect(response.body.error).toBe('poll-not-found')
@@ -24,21 +24,21 @@ describe('Submit Responses API', () => {
         username: 'username'
       }
     })
-    const response = await supertest(app).post('/api/polls/d/responses').auth(user.generateJWT(), { type: 'bearer' })
+    const response = await supertest(server).post('/api/polls/d/responses').auth(user.generateJWT(), { type: 'bearer' })
     expect(response.statusCode).toEqual(404)
     expect(response.body).toHaveProperty('error')
     expect(response.body.error).toBe('poll-not-found')
   })
 
   it('returns 403 for protected poll with no passphrase', async () => {
-    const response = await supertest(app).post('/api/polls/b/responses')
+    const response = await supertest(server).post('/api/polls/b/responses')
     expect(response.statusCode).toEqual(403)
     expect(response.body).toHaveProperty('error')
     expect(response.body.error).toBe('incorrect-passphrase')
   })
 
   it('returns 403 for protected poll with incorrect passphrase', async () => {
-    const response = await supertest(app).post('/api/polls/b/responses').query({ passphrase: 'bad pass' })
+    const response = await supertest(server).post('/api/polls/b/responses').query({ passphrase: 'bad pass' })
     expect(response.statusCode).toEqual(403)
     expect(response.body).toHaveProperty('error')
     expect(response.body.error).toBe('incorrect-passphrase')
@@ -52,7 +52,7 @@ describe('Submit Responses API', () => {
       include: ['answers']
     })
 
-    const response = await supertest(app)
+    const response = await supertest(server)
       .post('/api/polls/b/responses')
       .set('Cookie', ['USERID=sdfsdfg43tdgfdfgdf'])
       .query({ passphrase: 'abc' })
@@ -75,7 +75,7 @@ describe('Submit Responses API', () => {
     })
     await poll.update({ ended: true })
 
-    const response = await supertest(app).post('/api/polls/c/responses')
+    const response = await supertest(server).post('/api/polls/c/responses')
     expect(response.statusCode).toEqual(400)
     expect(response.body).toHaveProperty('error')
     expect(response.body.error).toBe('poll-ended')
@@ -91,7 +91,7 @@ describe('Submit Responses API', () => {
   //   })
   //   await poll.update({ ended: false })
 
-  //   const response = await supertest(app)
+  //   const response = await supertest(server)
   //     .post('/api/polls/e/responses')
   //     .set('Cookie', ['USERID=456fghfdghdfgh'])
   //     .send({ answers: [poll.answers[0].id] })
@@ -104,7 +104,7 @@ describe('Submit Responses API', () => {
   // })
 
   it('returns 400 when no answers provided', async () => {
-    const response = await supertest(app)
+    const response = await supertest(server)
       .post('/api/polls/e/responses')
       .set('Cookie', ['USERID=sdfsdfg43tdgfdfgdf'])
     expect(response.statusCode).toEqual(400)
@@ -122,7 +122,7 @@ describe('Submit Responses API', () => {
       include: ['answers']
     })
 
-    const response = await supertest(app)
+    const response = await supertest(server)
       .post('/api/polls/e/responses')
       .send({ answers: [poll.answers[0].id] })
     expect(response.statusCode).toEqual(400)
@@ -140,7 +140,7 @@ describe('Submit Responses API', () => {
       include: ['answers']
     })
 
-    const response = await supertest(app)
+    const response = await supertest(server)
       .post('/api/polls/e/responses')
       .set('Cookie', ['USERID=sdfsdfg43tdgfdfgdf'])
       .send({ answers: [poll.answers[0].id] })
@@ -162,7 +162,7 @@ describe('Submit Responses API', () => {
       include: ['answers']
     })
 
-    const response = await supertest(app)
+    const response = await supertest(server)
       .post('/api/polls/e/responses')
       .set('Cookie', ['USERID=sdfsdfg43tdgfdfgdf'])
       .send({ answers: [poll.answers[1].id] })
@@ -184,7 +184,7 @@ describe('Submit Responses API', () => {
       include: ['answers']
     })
 
-    const response = await supertest(app)
+    const response = await supertest(server)
       .post('/api/polls/f/responses')
       .set('Cookie', ['USERID=sdfsdfg43tdgfdfgdf'])
       .send({ answers: [poll.answers[0].id, poll.answers[1].id] })
@@ -207,7 +207,7 @@ describe('Submit Responses API', () => {
       include: ['answers']
     })
 
-    const response = await supertest(app)
+    const response = await supertest(server)
       .post('/api/polls/f/responses')
       .set('Cookie', ['USERID=sdfsdfg43tdgfdfgdf'])
       .send({ answers: [poll.answers[0].id, poll.answers[2].id] })
@@ -224,7 +224,7 @@ describe('Submit Responses API', () => {
   })
 
   it('saves no multiple choice responses and returns poll object', async () => {
-    const response = await supertest(app)
+    const response = await supertest(server)
       .post('/api/polls/f/responses')
       .set('Cookie', ['USERID=sdfsdfg43tdgfdfgdf'])
       .send({ answers: [] })

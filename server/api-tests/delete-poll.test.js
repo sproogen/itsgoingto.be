@@ -1,18 +1,18 @@
 import supertest from 'supertest'
 import { User, Poll } from '../src/db'
 import { matchesPollFormat } from './test-utils'
-import app from '../src/app'
+import server from '../src/server'
 
 describe('DELETE Poll API', () => {
   it('returns 401 unauthorised for no authentication', async () => {
-    const response = await supertest(app).delete('/api/polls/hs8Hgsi')
+    const response = await supertest(server).delete('/api/polls/hs8Hgsi')
     expect(response.statusCode).toEqual(401)
     expect(response.body).toHaveProperty('error')
     expect(response.body.error).toBe('unauthorised')
   })
 
   it('returns 401 forbidden for invalid authentication', async () => {
-    const response = await supertest(app).delete('/api/polls/hs8Hgsi').auth('Invalid JWT Token', { type: 'bearer' })
+    const response = await supertest(server).delete('/api/polls/hs8Hgsi').auth('Invalid JWT Token', { type: 'bearer' })
     expect(response.statusCode).toEqual(401)
     expect(response.body).toHaveProperty('error')
     expect(response.body.error).toBe('forbidden')
@@ -24,7 +24,7 @@ describe('DELETE Poll API', () => {
         username: 'username'
       }
     })
-    const response = await supertest(app).delete('/api/polls/hs8Hgsi').auth(user.generateJWT(), { type: 'bearer' })
+    const response = await supertest(server).delete('/api/polls/hs8Hgsi').auth(user.generateJWT(), { type: 'bearer' })
     expect(response.statusCode).toEqual(404)
     expect(response.body).toHaveProperty('error')
     expect(response.body.error).toBe('poll-not-found')
@@ -36,7 +36,7 @@ describe('DELETE Poll API', () => {
         username: 'username'
       }
     })
-    const response = await supertest(app).delete('/api/polls/d').auth(user.generateJWT(), { type: 'bearer' })
+    const response = await supertest(server).delete('/api/polls/d').auth(user.generateJWT(), { type: 'bearer' })
     expect(response.statusCode).toEqual(400)
     expect(response.body).toHaveProperty('error')
     expect(response.body.error).toBe('poll-already-deleted')
@@ -55,7 +55,7 @@ describe('DELETE Poll API', () => {
     })
     await poll.update({ deleted: false })
 
-    const response = await supertest(app).delete('/api/polls/d').auth(user.generateJWT(), { type: 'bearer' })
+    const response = await supertest(server).delete('/api/polls/d').auth(user.generateJWT(), { type: 'bearer' })
     expect(response.statusCode).toEqual(200)
     matchesPollFormat(response.body, false, false)
     expect(response.body.identifier).toBe('d')

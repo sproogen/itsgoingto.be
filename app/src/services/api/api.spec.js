@@ -49,6 +49,16 @@ const jsonError = (status, body) => {
   return Promise.resolve(mockResponse)
 }
 
+const ERROR_404 = jsonError(404, {
+  message: 'There was an error'
+})
+
+const isErrorResponse = (response) => {
+  expect(response).toBeInstanceOf(APIError)
+  expect(response.name).toBe('APIError')
+  expect(response.details.status).toBe(404)
+}
+
 describe('(Store) API', () => {
   it('Should export a constant ROUTE_POLL.', () => {
     expect(ROUTE_POLL).toBe('/api/polls')
@@ -187,15 +197,10 @@ describe('(Store) API', () => {
         })
       })
 
+      // eslint-disable-next-line jest/expect-expect
       it('Should catch error.', () => {
-        window.fetch = jest.fn(() => jsonError(404, {
-          message: 'There was an error'
-        }))
-        return postPoll()(dispatch, getState).then((response) => {
-          expect(response).toBeInstanceOf(APIError)
-          expect(response.name).toBe('APIError')
-          expect(response.details.status).toBe(404)
-        })
+        window.fetch = jest.fn(() => ERROR_404)
+        return postPoll()(dispatch, getState).then(isErrorResponse)
       })
 
       it('Should dispatch updatePoll().', () => {
@@ -224,11 +229,11 @@ describe('(Store) API', () => {
         expect(typeof fetchPoll()).toBe('function')
       })
 
-      it('Should call fetch with the correct url.', () => fetchPoll('hf0sd8fhoas')(dispatch, getState)
+      it('Should call fetch with the correct url.', () => fetchPoll('dfh5r4yhgdfg')(dispatch, getState)
         .then(() => {
           expect(window.fetch).toHaveBeenCalledTimes(1)
           expect(window.fetch).toHaveBeenCalledWith(
-            `${ROUTE_POLL}/hf0sd8fhoas`,
+            `${ROUTE_POLL}/dfh5r4yhgdfg`,
             { credentials: 'same-origin', headers: { Authorization: 'Bearer USERTOKEN' } }
           )
         }))
@@ -236,15 +241,15 @@ describe('(Store) API', () => {
       it('Should call fetch with the passphrase.', () => {
         globalState.poll.polls = [{
           question: 'Question',
-          identifier: 'hf0sd8fhoas',
+          identifier: 'dfh5r4yhgdfg',
           multipleChoice: false,
           passphrase: '1234'
         }]
 
-        return fetchPoll('hf0sd8fhoas')(dispatch, getState).then(() => {
+        return fetchPoll('dfh5r4yhgdfg')(dispatch, getState).then(() => {
           expect(window.fetch).toHaveBeenCalledTimes(1)
           expect(window.fetch).toHaveBeenCalledWith(
-            `${ROUTE_POLL}/hf0sd8fhoas?passphrase=1234`,
+            `${ROUTE_POLL}/dfh5r4yhgdfg?passphrase=1234`,
             { credentials: 'same-origin', headers: { Authorization: 'Bearer USERTOKEN' } }
           )
         })
@@ -252,32 +257,27 @@ describe('(Store) API', () => {
 
       it('Should return a promise with the response.', () => {
         window.fetch = jest.fn(() => jsonOk({}))
-        updatePoll.mockImplementation(() => ({ question: 'Question', identifier: 'hf0sd8fhoas' }))
-        return fetchPoll('hf0sd8fhoas')(dispatch, getState).then((response) => {
-          expect(response).toEqual({ question: 'Question', identifier: 'hf0sd8fhoas' })
+        updatePoll.mockImplementation(() => ({ question: 'Question', identifier: 'dfh5r4yhgdfg' }))
+        return fetchPoll('dfh5r4yhgdfg')(dispatch, getState).then((response) => {
+          expect(response).toEqual({ question: 'Question', identifier: 'dfh5r4yhgdfg' })
         })
       })
 
+      // eslint-disable-next-line jest/expect-expect
       it('Should catch error.', () => {
-        window.fetch = jest.fn(() => jsonError(404, {
-          message: 'There was an error'
-        }))
-        return fetchPoll('hf0sd8fhoas')(dispatch, getState).then((response) => {
-          expect(response).toBeInstanceOf(APIError)
-          expect(response.name).toBe('APIError')
-          expect(response.details.status).toBe(404)
-        })
+        window.fetch = jest.fn(() => ERROR_404)
+        return fetchPoll('dfh5r4yhgdfg')(dispatch, getState).then(isErrorResponse)
       })
 
       it('Should dispatch updatePoll().', () => {
         window.fetch = jest.fn(() => jsonOk({
-          question: 'Question', identifier: 'hf0sd8fhoas'
+          question: 'Question', identifier: 'dfh5r4yhgdfg'
         }))
         updatePoll.mockImplementation(() => ({}))
 
-        return fetchPoll('hf0sd8fhoas')(dispatch, getState).then(() => {
+        return fetchPoll('dfh5r4yhgdfg')(dispatch, getState).then(() => {
           expect(updatePoll).toHaveBeenCalledTimes(1)
-          expect(updatePoll).toHaveBeenCalledWith({ question: 'Question', identifier: 'hf0sd8fhoas' })
+          expect(updatePoll).toHaveBeenCalledWith({ question: 'Question', identifier: 'dfh5r4yhgdfg' })
           expect(dispatch).toHaveBeenCalledTimes(1)
           expect(dispatch).toHaveBeenCalledWith({})
 
@@ -312,13 +312,10 @@ describe('(Store) API', () => {
         })
       })
 
+      // eslint-disable-next-line jest/expect-expect
       it('Should catch error.', () => {
         window.fetch = jest.fn(() => jsonError(404, { message: 'There was an error' }))
-        return deletePoll('hf0sd8fhoas')(dispatch, getState).then((response) => {
-          expect(response).toBeInstanceOf(APIError)
-          expect(response.name).toBe('APIError')
-          expect(response.details.status).toBe(404)
-        })
+        return deletePoll('hf0sd8fhoas')(dispatch, getState).then(isErrorResponse)
       })
 
       it('Should dispatch updatePoll().', () => {
@@ -416,13 +413,10 @@ describe('(Store) API', () => {
         })
       })
 
+      // eslint-disable-next-line jest/expect-expect
       it('Should catch error.', () => {
         window.fetch = jest.fn(() => jsonError(404, { message: 'There was an error' }))
-        return postResponse()(dispatch, getState).then((response) => {
-          expect(response).toBeInstanceOf(APIError)
-          expect(response.name).toBe('APIError')
-          expect(response.details.status).toBe(404)
-        })
+        return postResponse()(dispatch, getState).then(isErrorResponse)
       })
 
       it('Should call fetch with the correct url and data.', () => postResponse(434, 'hf0sd8fhoas')(dispatch, getState)
@@ -613,13 +607,10 @@ describe('(Store) API', () => {
         })
       })
 
+      // eslint-disable-next-line jest/expect-expect
       it('Should catch error.', () => {
         window.fetch = jest.fn(() => jsonError(404, { message: 'There was an error' }))
-        return fetchResponses()(dispatch, getState).then((response) => {
-          expect(response).toBeInstanceOf(APIError)
-          expect(response.name).toBe('APIError')
-          expect(response.details.status).toBe(404)
-        })
+        return fetchResponses()(dispatch, getState).then(isErrorResponse)
       })
 
       it('Should dispatch updateResponses().', () => {
@@ -720,15 +711,10 @@ describe('(Store) API', () => {
         })
       })
 
+      // eslint-disable-next-line jest/expect-expect
       it('Should catch error.', () => {
-        window.fetch = jest.fn(() => jsonError(404, {
-          message: 'There was an error'
-        }))
-        return fetchStats()(dispatch, getState).then((response) => {
-          expect(response).toBeInstanceOf(APIError)
-          expect(response.name).toBe('APIError')
-          expect(response.details.status).toBe(404)
-        })
+        window.fetch = jest.fn(() => ERROR_404)
+        return fetchStats()(dispatch, getState).then(isErrorResponse)
       })
 
       it('Should dispatch updateStats().', () => {

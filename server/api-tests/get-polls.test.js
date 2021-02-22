@@ -1,7 +1,7 @@
 import supertest from 'supertest'
 import { User } from '../src/db'
 import { matchesPollFormat } from './test-utils'
-import app from '../src/app'
+import server from '../src/server'
 
 const validResponseFormat = (response) => {
   expect(Object.keys(response).sort()).toStrictEqual(['count', 'total', 'entities'].sort())
@@ -13,14 +13,14 @@ const validResponseFormat = (response) => {
 
 describe('GET Polls API', () => {
   it('returns 401 unauthorised for no authentication', async () => {
-    const response = await supertest(app).get('/api/polls')
+    const response = await supertest(server).get('/api/polls')
     expect(response.statusCode).toEqual(401)
     expect(response.body).toHaveProperty('error')
     expect(response.body.error).toBe('unauthorised')
   })
 
   it('returns 401 forbidden for invalid authentication', async () => {
-    const response = await supertest(app).get('/api/polls').auth('Invalid JWT Token', { type: 'bearer' })
+    const response = await supertest(server).get('/api/polls').auth('Invalid JWT Token', { type: 'bearer' })
     expect(response.statusCode).toEqual(401)
     expect(response.body).toHaveProperty('error')
     expect(response.body.error).toBe('forbidden')
@@ -32,7 +32,7 @@ describe('GET Polls API', () => {
         username: 'username'
       }
     })
-    const response = await supertest(app)
+    const response = await supertest(server)
       .get('/api/polls')
       .auth(user.generateJWT(), { type: 'bearer' })
       .query({ sort: 'bad option' })
@@ -47,7 +47,7 @@ describe('GET Polls API', () => {
         username: 'username'
       }
     })
-    const response = await supertest(app)
+    const response = await supertest(server)
       .get('/api/polls')
       .auth(user.generateJWT(), { type: 'bearer' })
       .query({ sortDirection: 'bad direction' })
@@ -62,7 +62,7 @@ describe('GET Polls API', () => {
         username: 'username'
       }
     })
-    const response = await supertest(app)
+    const response = await supertest(server)
       .get('/api/polls')
       .auth(user.generateJWT(), { type: 'bearer' })
     expect(response.statusCode).toEqual(200)
@@ -76,7 +76,7 @@ describe('GET Polls API', () => {
   //       username: 'username'
   //     }
   //   })
-  //   const response = await supertest(app)
+  //   const response = await supertest(server)
   //     .get('/api/polls')
   //     .auth(user.generateJWT(), { type: 'bearer' })
   //     .query({ pageSize: '3' })
@@ -91,7 +91,7 @@ describe('GET Polls API', () => {
         username: 'username'
       }
     })
-    const response = await supertest(app)
+    const response = await supertest(server)
       .get('/api/polls')
       .auth(user.generateJWT(), { type: 'bearer' })
       .query({ pageSize: '3' })
@@ -106,7 +106,7 @@ describe('GET Polls API', () => {
         username: 'username'
       }
     })
-    const response = await supertest(app)
+    const response = await supertest(server)
       .get('/api/polls')
       .auth(user.generateJWT(), { type: 'bearer' })
       .query({
@@ -123,7 +123,7 @@ describe('GET Polls API', () => {
         username: 'username'
       }
     })
-    const response = await supertest(app)
+    const response = await supertest(server)
       .get('/api/polls')
       .auth(user.generateJWT(), { type: 'bearer' })
       .query({

@@ -1,10 +1,10 @@
 import supertest from 'supertest'
 import jwt from 'jsonwebtoken'
-import app from '../src/app'
+import server from '../src/server'
 
 describe('Login API', () => {
   it('returns 400 for missing details', async () => {
-    const response = await supertest(app).post('/api/login')
+    const response = await supertest(server).post('/api/login')
     expect(response.statusCode).toEqual(400)
     expect(response.body).toHaveProperty('errors')
     expect(Array.isArray(response.body.errors)).toBe(true)
@@ -13,7 +13,7 @@ describe('Login API', () => {
   })
 
   it('returns 400 for unknown user', async () => {
-    const response = await supertest(app).post('/api/login').send({ username: 'john', password: 'password' })
+    const response = await supertest(server).post('/api/login').send({ username: 'john', password: 'password' })
     expect(response.statusCode).toEqual(400)
     expect(response.body).toHaveProperty('errors')
     expect(Array.isArray(response.body.errors)).toBe(true)
@@ -21,7 +21,7 @@ describe('Login API', () => {
   })
 
   it('returns 400 for incorrect password', async () => {
-    const response = await supertest(app).post('/api/login').send({ username: 'username', password: 'invalid' })
+    const response = await supertest(server).post('/api/login').send({ username: 'username', password: 'invalid' })
     expect(response.statusCode).toEqual(400)
     expect(response.body).toHaveProperty('errors')
     expect(Array.isArray(response.body.errors)).toBe(true)
@@ -29,7 +29,7 @@ describe('Login API', () => {
   })
 
   it('returns JWT token for valid login details', async () => {
-    const response = await supertest(app).post('/api/login').send({ username: 'username', password: 'password' })
+    const response = await supertest(server).post('/api/login').send({ username: 'username', password: 'password' })
     expect(response.statusCode).toEqual(200)
     expect(response.body).toHaveProperty('token')
     const payload = jwt.verify(response.body.token, process.env.JWT_PASSPHRASE)
