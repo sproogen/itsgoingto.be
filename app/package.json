@@ -10,8 +10,9 @@
   "scripts": {
     "postinstall": "",
     "start": "webpack-dev-server --host 0.0.0.0 --config webpack.dev.config.js",
-    "build": "cross-env NODE_ENV=production webpack --config webpack.prod.config.js --profile --json > build/stats.json",
+    "build": "cross-env NODE_ENV=production webpack --config webpack.prod.config.js",
     "build:dev": "webpack --config webpack.dev.config.js",
+    "build:stats": "cross-env NODE_ENV=production npm run build -- --profile --json > build/stats.json",
     "test": "jest",
     "lint": "eslint src/**/*.{js,jsx}",
     "eslint-output": "eslint-output",
