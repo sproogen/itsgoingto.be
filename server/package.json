@@ -9,10 +9,10 @@
   "description": "It's Going To Be node backend",
   "main": "src/index.js",
   "scripts": {
+    "build": "babel src/index.js -d dist",
     "start": "run-s sync serve",
     "sync": "babel-node src/db/sync.js",
     "serve": "nodemon --exec babel-node src/index.js",
-    "serve-prod": "babel-node src/index.js",
     "lint": "eslint src/.",
     "eslint-output": "eslint-output",
     "test": "cross-env NODE_ENV=test jest"
