@@ -9,9 +9,9 @@
   "description": "It's Going To Be front-end with React, Redux, and React-Router!",
   "scripts": {
     "postinstall": "",
-    "start": "webpack-dev-server --host 0.0.0.0 --config webpack.dev.config.js",
-    "build": "webpack --config webpack.prod.config.js",
-    "build:dev": "webpack --config webpack.dev.config.js",
+    "start": "cross-env NODE_ENV=development webpack-dev-server --host 0.0.0.0 --config webpack.config.js",
+    "build": "webpack --config webpack.config.js",
+    "build:prod": "cross-env NODE_ENV=production npm run build",
     "build:stats": "cross-env NODE_ENV=production npm run build -- --profile --json > build/stats.json",
     "test": "jest",
     "lint": "eslint src/**/*.{js,jsx}",

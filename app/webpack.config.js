@@ -5,10 +5,18 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const InterpolateHtmlPlugin = require('interpolate-html-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
+const ManifestPlugin = require('webpack-manifest-plugin')
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
+const WatchMissingNodeModulesPlugin = require('react-dev-utils/WatchMissingNodeModulesPlugin')
 
 const publicURL = process.env.PUBLIC_URL || ''
+const PORT = parseInt(process.env.PORT, 10) || 3000
+const production = process.env.NODE_ENV === 'production'
+const development = process.env.NODE_ENV === 'development'
 
 module.exports = {
+  mode: production ? 'production' : 'development',
+  devtool: production ? 'source-map' : 'inline-source-map',
   resolve: {
     alias: {
       components: path.resolve(__dirname, 'src/components'),
@@ -30,7 +38,7 @@ module.exports = {
       }
     }),
     new MiniCssExtractPlugin({
-      filename: 'static/css/style.css'
+      filename: production ? 'static/css/style.[contenthash].css' : 'static/css/style.css'
     }),
     new InterpolateHtmlPlugin({
       PUBLIC_URL: publicURL,
@@ -42,12 +50,30 @@ module.exports = {
     new webpack.IgnorePlugin({
       resourceRegExp: /^\.\/locale$/,
       contextRegExp: /moment$/
-    })
+    }),
+    ...production ? [
+      new ManifestPlugin({ fileName: 'asset_manifest.json' }),
+      new BundleAnalyzerPlugin({
+        analyzerMode: 'disabled',
+        generateStatsFile: true,
+        logLevel: 'silent'
+      }),
+    ] : [],
+    ...development ? [
+      new WatchMissingNodeModulesPlugin(path.resolve('node_modules'))
+    ] : [],
   ],
   output: {
-    filename: 'static/js/[name].js',
+    filename: production ? 'static/js/[name].[contenthash].js' : 'static/js/[name].js',
     path: path.resolve(__dirname, 'dist'),
   },
+  ...development ? {
+    devServer: {
+      contentBase: './dist',
+      port: PORT,
+      historyApiFallback: true,
+    },
+  } : {},
   module: {
     rules: [
       {

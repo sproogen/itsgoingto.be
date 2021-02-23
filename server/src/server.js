@@ -1,3 +1,4 @@
+import path from 'path'
 import express from 'express'
 import http from 'http'
 import socketIO from 'socket.io'
@@ -11,8 +12,6 @@ if (process.env.NODE_ENV !== 'test') {
   app.use(morgan('combined'))
 }
 app.use(cookieParser())
-
-app.use(express.static('public'))
 
 const server = http.createServer(app)
 const io = socketIO(server)
@@ -41,5 +40,13 @@ io
       clearInterval(fetchResponses)
     })
   })
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, 'public')))
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public/index.html'))
+  })
+}
 
 export default server
