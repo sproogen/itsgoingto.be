@@ -12,7 +12,7 @@
   "license": "GPLv3",
   "scripts": {
     "heroku-prebuild": "(cd app && npm ci --also=dev) && (cd server && npm ci --also=dev)",
-    "heroku-postbuild": "npm run build-app",
+    "heroku-postbuild": "npm run build-server && npm run build-app",
     "build-server": "cd server && npm run build",
     "build-app": "cd app && npm run build && mkdir ../server/dist/public && mv dist/* ../server/dist/public/",
     "heroku-cleanup": "rm -rf app && (cd server && npm prune)",
