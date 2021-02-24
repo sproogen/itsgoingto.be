@@ -40,10 +40,10 @@ services:
     expose:
       - "8001"
     environment:
+      - NODE_ENV=development
       - DATABASE_URL=mysql://user:password@mysql:3306/itsgoingtobe
       - PORT=8001
       - JWT_PASSPHRASE=secret
-      - NODE_ENV=development
 
   webserver:
     image: nginx:alpine
@@ -57,10 +57,9 @@ services:
 
   mysql:
     image: mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password
     expose:
       - "3306"
-    volumes:
-      - ./my.cnf:/etc/mysql/conf.d/my.cnf
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=itsgoingtobe

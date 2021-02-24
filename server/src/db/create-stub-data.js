@@ -12,22 +12,19 @@ const createStubData = (Poll, Response, User) => async () => {
     include: ['answers']
   })
   const responseA1 = await Response.create({
-    customUserID: '98djhfdjs098321dsafhf2309',
-    userIP: '83.151.98.136'
+    customUserID: '98djhfdjs098321dsafhf2309'
   })
   await pollA.addResponse(responseA1)
   await pollA.answers[0].addResponse(responseA1)
 
   const responseA2 = await Response.create({
-    customUserID: '98djhfdjs098321dsafhf2309',
-    userIP: '83.151.98.136'
+    customUserID: '98djhfdjs098321dsafhf2309'
   })
   await pollA.addResponse(responseA2)
   await pollA.answers[1].addResponse(responseA2)
 
   const responseA3 = await Response.create({
-    customUserID: '89sdhfhjssodsifhfhfh8393',
-    userIP: '83.151.98.136'
+    customUserID: '89sdhfhjssodsifhfhfh8393'
   })
   await pollA.addResponse(responseA3)
   await pollA.answers[2].addResponse(responseA3)

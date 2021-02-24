@@ -8,12 +8,6 @@ const response = (sequelize) => {
       primaryKey: true,
       autoIncrement: true
     },
-    userIP: {
-      type: DataTypes.STRING,
-      field: 'user_ip',
-      length: 100,
-      allowNull: false
-    },
     customUserID: {
       type: DataTypes.STRING,
       field: 'custom_user_id',

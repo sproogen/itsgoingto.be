@@ -68,8 +68,6 @@ const submitResponses = (io) => async (req, res) => {
     return res.status(400).send({ errors })
   }
 
-  const userIP = req.headers['x-forwarded-for'] || req.connection.remoteAddress
-
   await Response.destroy({
     where: {
       poll_id: poll.id,
@@ -92,7 +90,6 @@ const submitResponses = (io) => async (req, res) => {
     if (isNil(response)) {
       response = await Response.create({
         customUserID,
-        userIP
       })
 
       await poll.addResponse(response)

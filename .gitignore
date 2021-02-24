@@ -1,58 +1,9 @@
-# Managed by Composer
-/bin/*
-!bin/console
-!bin/symfony_requirements
-/vendor/
-
-# Phplint
-.phplint-cache
-
-# Build data
-/build/
-
-#Codeception
-tests/_output/*
-
-# Composer PHAR
-/composer.phar
-
-# Logs
-logs
-*.log
-npm-debug.log*
-
-.idea/
-
-# Dependency directory
-# https://docs.npmjs.com/misc/faq#should-i-check-my-node-modules-folder-into-git
 node_modules
-
-#React Files
-/public/client/
-
-webpack-stats.json
-
-###> lexik/jwt-authentication-bundle ###
-/config/jwt/*.pem
-###< lexik/jwt-authentication-bundle ###
-
-###> phpunit/phpunit ###
-/phpunit.xml
-###< phpunit/phpunit ###
-
-###> symfony/phpunit-bridge ###
-.phpunit
-/phpunit.xml
-###< symfony/phpunit-bridge ###
-
-###> symfony/framework-bundle ###
-/.env
-/public/bundles/
-/var/
-/vendor/
-###< symfony/framework-bundle ###
-
-*.code-workspace
-.vscode/
-
+build
 dist
+npm-debug.log
+.env
+.DS_Store
+mysql
+*.code-workspace
+.vscode
