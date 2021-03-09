@@ -2,7 +2,7 @@ version: '3.8'
 services:
   app:
     image: itsgoingtobe/app:latest
-    command: npm run start
+    command: npm start
     volumes:
       - ./app:/app
       - /app/node_modules
@@ -16,22 +16,22 @@ services:
   #   command: npm run storybook
   #   volumes:
   #     - ./app:/app
-  #     - ./app/node_modules
+  #     - /app/node_modules
   #   ports:
   #     - "6006:6006"
 
-  # swagger:
-  #   image: swaggerapi/swagger-ui
-  #   volumes:
-  #     - ./server/swagger.yml:/swagger.yml
-  #   environment:
-  #     SWAGGER_JSON: /swagger.yml
-  #   ports:
-  #     - "4000:8080"
+  swagger:
+    image: swaggerapi/swagger-ui
+    volumes:
+      - ./server/swagger.yml:/swagger.yml
+    environment:
+      SWAGGER_JSON: /swagger.yml
+    ports:
+      - "4000:8080"
 
   server:
     image: itsgoingtobe/server:latest
-    command: npm run start
+    command: npm start
     depends_on:
       - mysql
     volumes:

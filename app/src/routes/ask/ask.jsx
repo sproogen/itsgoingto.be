@@ -13,7 +13,7 @@ const WORDS = 'What,Where,When,Who'
 
 const Ask = ({
   question, hasQuestion, canSubmitPoll, poll, answers, clearPoll,
-  postPoll, updateQuestion, onAnswerChange, onRemoveAnswer, updateOptions
+  postPoll, updateQuestion, onAnswerChange, onRemoveAnswer, updateOptions, setPassphrase
 }) => {
   useEffect(() => {
     clearPoll()
@@ -64,7 +64,13 @@ const Ask = ({
           onRemoveAnswer={onRemoveAnswer}
         />
         <Options hasQuestion={hasQuestion} poll={poll} updateOptions={updateOptions} />
-        <Actions hasQuestion={hasQuestion} canSubmitPoll={canSubmitPoll} postPoll={postPoll} />
+        <Actions
+          hasQuestion={hasQuestion}
+          canSubmitPoll={canSubmitPoll}
+          postPoll={postPoll}
+          setPassphrase={setPassphrase}
+          poll={poll}
+        />
       </div>
     </div>
   )
@@ -91,7 +97,8 @@ Ask.propTypes = {
   updateQuestion: PropTypes.func.isRequired,
   onAnswerChange: PropTypes.func.isRequired,
   onRemoveAnswer: PropTypes.func.isRequired,
-  updateOptions: PropTypes.func.isRequired
+  updateOptions: PropTypes.func.isRequired,
+  setPassphrase: PropTypes.func.isRequired,
 }
 
 export default Ask

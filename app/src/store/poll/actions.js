@@ -1,5 +1,5 @@
 import {
-  prop, compose, omit, map, ifElse, isNil, merge, __
+  prop, compose, omit, map, isNil, merge, __
 } from 'ramda'
 import { addAnswer, clearAnswers, updateAnswers } from 'store/answers/actions'
 import { hasQuestionSelector } from './selectors'
@@ -22,22 +22,16 @@ import {
  * @return {Function}      redux-thunk callable function
  */
 // TODO : Fix reusing poll variable name
-export const updatePoll = (poll) => (dispatch) => ifElse(
-  compose(isNil, (prop('answers'))),
-  (poll) => Promise.resolve( // eslint-disable-line
-    dispatch({
-      type: POLL_UPDATE,
-      poll: omit(['answers'])(poll)
-    })
-  ).then(() => poll),
-  (poll) => Promise.all([ // eslint-disable-line
-    dispatch({
-      type: POLL_UPDATE,
-      poll: omit(['answers'])(poll)
-    }),
+export const updatePoll = (poll) => (dispatch) => {
+  dispatch({
+    type: POLL_UPDATE,
+    poll: omit(['answers'])(poll)
+  })
+  if (!isNil(prop('answers', poll))) {
     dispatch(updateAnswers(prop('answers', poll)))
-  ]).then(() => poll)
-)(poll)
+  }
+  return poll
+}
 
 /**
  * Set the polls in the state

@@ -15,15 +15,18 @@ const Passphrase = ({
   const eventBus = EventBus.getEventBus()
 
 
-  const submit = () => setPassphrase(value)
-    .then(() => fetchPoll(identifier)
+  const submit = () => new Promise((resolve) => {
+    setPassphrase(value, identifier)
+    fetchPoll(identifier)
       .then((response) => {
         if (!(response instanceof APIError)) {
           setRequiresPassphrase(false)
         } else {
           setError(true)
         }
-      }))
+        resolve()
+      })
+  })
 
   const handleChange = (e) => setValue(e.target.value)
 

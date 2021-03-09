@@ -46,41 +46,45 @@ describe('(Store) Poll', () => {
         expect(typeof updatePoll(initialPoll)).toBe('function')
       })
 
-      it('Should call dispatch exactly twice', () => updatePoll(initialPoll)(dispatch, getState)
-        .then(() => {
-          expect(dispatch).toHaveBeenCalledTimes(2)
-        }))
+      it('Should call dispatch exactly twice', () => {
+        updatePoll(initialPoll)(dispatch, getState)
+        expect(dispatch).toHaveBeenCalledTimes(2)
+      })
 
-      it('Should dispatch POLL_UPDATE with data omitting answers', () => updatePoll({
-        question: '', identifier: '', answers: [], userResponses: [245]
-      })(dispatch, getState)
-        .then(() => {
-          expect(dispatch).toHaveBeenCalledWith({
-            type: POLL_UPDATE,
-            poll: { question: '', identifier: '', userResponses: [245] }
-          })
-        }))
+      it('Should dispatch POLL_UPDATE with data omitting answers', () => {
+        updatePoll({
+          question: '', identifier: '', answers: [], userResponses: [245]
+        })(dispatch, getState)
 
-      it('Should dispatch updateAnswers with answers', () => updatePoll({
-        question: '', identifier: '', answers: []
-      })(dispatch, getState)
-        .then(() => {
-          expect(dispatch).toHaveBeenCalledWith(updateAnswers([]))
-        }))
+        expect(dispatch).toHaveBeenCalledWith({
+          type: POLL_UPDATE,
+          poll: { question: '', identifier: '', userResponses: [245] }
+        })
+      })
 
-      it('Should call dispatch once with no answers', () => updatePoll({
-        question: '', identifier: ''
-      })(dispatch, getState)
-        .then(() => {
-          expect(dispatch).toHaveBeenCalledTimes(1)
-        }))
+      it('Should dispatch updateAnswers with answers', () => {
+        updatePoll({
+          question: '', identifier: '', answers: []
+        })(dispatch, getState)
 
-      it('Should not dispatch updateAnswers with no answers', () => updatePoll({
-        question: '', identifier: ''
-      })(dispatch, getState)
-        .then(() => {
-          expect(dispatch).not.toHaveBeenCalledWith(updateAnswers([]))
-        }))
+        expect(dispatch).toHaveBeenCalledWith(updateAnswers([]))
+      })
+
+      it('Should call dispatch once with no answers', () => {
+        updatePoll({
+          question: '', identifier: ''
+        })(dispatch, getState)
+
+        expect(dispatch).toHaveBeenCalledTimes(1)
+      })
+
+      it('Should not dispatch updateAnswers with no answers', () => {
+        updatePoll({
+          question: '', identifier: ''
+        })(dispatch, getState)
+
+        expect(dispatch).not.toHaveBeenCalledWith(updateAnswers([]))
+      })
     })
 
     describe('(Action Creator) setPolls', () => {

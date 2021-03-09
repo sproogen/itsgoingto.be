@@ -1,5 +1,5 @@
 import {
-  prop, compose, not, isEmpty, contains, without, append, ifElse, both, equals, length, when, path, omit, merge
+  prop, compose, not, isEmpty, contains, without, append, ifElse, both, equals, length, omit
 } from 'ramda'
 import moment from 'moment'
 import { pollSelector } from 'store/poll/selectors'
@@ -190,24 +190,23 @@ export const fetchPolls = (page, sort = 'id', direction = 'asc') => (dispatch, g
  */
 export const postResponse = (answer, identifier) => (dispatch, getState) => compose(
   (requestData) => fetch(
-    `${ROUTE_POLL}/${identifier}${ROUTE_RESPONSES}`,
+    ifElse(
+      compose(not, equals(0), length, prop('passphrase')),
+      (poll) => `${ROUTE_POLL}/${identifier}${ROUTE_RESPONSES}?passphrase=${prop('passphrase')(poll)}`,
+      () => `${ROUTE_POLL}/${identifier}${ROUTE_RESPONSES}`
+    )(requestData.poll),
     {
       credentials: 'same-origin',
       headers: {
         'Content-Type': 'application/json'
       },
       method: 'POST',
-      body: JSON.stringify(requestData)
+      body: JSON.stringify(omit(['poll'])(requestData))
     }
   )
     .then(extractResponse)
     .then((response) => dispatch(updateUserResponses(response, identifier)))
     .catch(onError),
-  omit(['poll']),
-  when(
-    compose(not, equals(0), length, path(['poll', 'passphrase'])),
-    (data) => merge(data, { passphrase: path(['poll', 'passphrase'])(data) })
-  ),
   (poll) => ({
     poll,
     answers: ifElse(

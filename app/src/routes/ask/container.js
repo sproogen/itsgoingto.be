@@ -22,7 +22,8 @@ const mapDispatchToProps = (dispatch) => ({
   updateQuestion: (question) => dispatch(updateQuestion(question)),
   onAnswerChange: (index, value) => dispatch(updateAnswer(index, value)),
   onRemoveAnswer: (index) => dispatch(removeAnswer(index)),
-  updateOptions: (value) => dispatch(updatePoll(value))
+  updateOptions: (value) => dispatch(updatePoll(value)),
+  setPassphrase: (value, identifier) => dispatch(updatePoll({ passphrase: value, identifier })),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Ask)

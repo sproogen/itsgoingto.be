@@ -1,3 +1,3 @@
-import Passphrase from './passphrase-container'
+import Passphrase from './container'
 
 export default Passphrase

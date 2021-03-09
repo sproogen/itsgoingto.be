@@ -139,7 +139,7 @@ const Answer = ({
           />
         </div>
       )}
-      { requiresPassphrase && <Passphrase /> }
+      { requiresPassphrase && <Passphrase identifier={identifier} /> }
     </div>
   )
 }
