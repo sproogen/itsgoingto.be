@@ -2,8 +2,8 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { CookiesProvider } from 'react-cookie'
-import LocaleProvider from 'antd/lib/locale-provider'
-import enGB from 'antd/lib/locale-provider/en_GB'
+import ConfigProvider from 'antd/lib/config-provider'
+import enGB from 'antd/lib/locale/en_GB'
 import RedBox from 'redbox-react'
 import createStore from 'store/create-store'
 import App from './container'
@@ -19,11 +19,11 @@ const MOUNT_NODE = document.getElementById('root')
 
 const withProviders = (app) => (
   <CookiesProvider>
-    <LocaleProvider locale={enGB}>
+    <ConfigProvider locale={enGB}>
       <Provider store={store}>
         {app}
       </Provider>
-    </LocaleProvider>
+    </ConfigProvider>
   </CookiesProvider>
 )
 

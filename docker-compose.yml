@@ -10,15 +10,16 @@ services:
       - "3000"
     environment:
       - PORT=3000
+      - SOCKET_PORT=8000
 
-  # storybook:
-  #   image: itsgoingtobe/app:latest
-  #   command: npm run storybook
-  #   volumes:
-  #     - ./app:/app
-  #     - /app/node_modules
-  #   ports:
-  #     - "6006:6006"
+  storybook:
+    image: itsgoingtobe/app:latest
+    command: npm run storybook
+    volumes:
+      - ./app:/app
+      - /app/node_modules
+    ports:
+      - "6006:6006"
 
   swagger:
     image: swaggerapi/swagger-ui

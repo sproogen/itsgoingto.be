@@ -11,6 +11,7 @@ const WatchMissingNodeModulesPlugin = require('react-dev-utils/WatchMissingNodeM
 
 const publicURL = process.env.PUBLIC_URL || ''
 const PORT = parseInt(process.env.PORT, 10) || 3000
+const SOCKET_PORT = parseInt(process.env.SOCKET_PORT, 10) || PORT
 const production = process.env.NODE_ENV === 'production'
 const development = process.env.NODE_ENV === 'development'
 
@@ -71,6 +72,7 @@ module.exports = {
     devServer: {
       contentBase: './dist',
       port: PORT,
+      sockPort: SOCKET_PORT,
       historyApiFallback: true,
     },
   } : {},

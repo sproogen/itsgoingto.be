@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
   BrowserRouter as Router,
   Route,
@@ -6,7 +6,7 @@ import {
   Switch
 } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { Cookies } from 'react-cookie'
+import { useCookies } from 'react-cookie'
 import Footer from 'components/footer'
 import Loader from 'components/loader'
 import AdminNavigation from 'components/admin-navigation'
@@ -17,11 +17,15 @@ import Dashboard from 'routes/dashboard'
 import NotFound from 'routes/not-found'
 import './app.scss'
 
-const App = ({ isLoading, cookies, updateUserWithToken }) => {
-  const token = cookies.get('itsgoingtobeUserToken')
-  if (token) {
-    updateUserWithToken(token)
-  }
+const App = ({ isLoading, updateUserWithToken }) => {
+  const [cookies] = useCookies(['itsgoingtobeUserToken'])
+
+  useEffect(() => {
+    const token = cookies.itsgoingtobeUserToken
+    if (token) {
+      updateUserWithToken(token)
+    }
+  }, [cookies])
 
   return (
     <Router>
@@ -48,7 +52,7 @@ const App = ({ isLoading, cookies, updateUserWithToken }) => {
 
 App.propTypes = {
   isLoading: PropTypes.bool.isRequired,
-  cookies: PropTypes.instanceOf(Cookies).isRequired,
+  // cookies: PropTypes.instanceOf(Cookies).isRequired,
   updateUserWithToken: PropTypes.func.isRequired,
 }
 

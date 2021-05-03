@@ -33,7 +33,7 @@
     "prop-types": "^15.7.2",
     "ramda": "^0.25.0",
     "react": "^16.13.1",
-    "react-cookie": "^2.2.0",
+    "react-cookie": "^4.0.3",
     "react-countdown-now": "^1.2.0",
     "react-datepicker": "^0.58.0",
     "react-dom": "^16.12.0",
