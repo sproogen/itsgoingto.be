@@ -2,7 +2,7 @@ import React from 'react'
 import JWGMediaImage from './assets/jwgmedia.png'
 import './footer.scss'
 
-const Footer = () => (
+const Footer = (): React.ReactElement => (
   <div className="footer-container">
     <div className="footer">
       <span className="contact">

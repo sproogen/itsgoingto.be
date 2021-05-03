@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import './back.scss'
 
-const Back = () => (
+const Back = (): React.ReactElement => (
   <div className="back-container">
     <div className="back-button">
       <Link to="/">

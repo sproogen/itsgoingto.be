@@ -1,9 +1,12 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import './loader.scss'
 
-const Loader = ({ isLoading }) => (
+type Props = {
+  isLoading: boolean,
+}
+
+const Loader = ({ isLoading }: Props): React.ReactElement | null => (
   isLoading ? (
     <div className={classNames('loader-container hideable', { gone: !isLoading })} data-testid="loader">
       <div className="loader">
@@ -13,10 +16,5 @@ const Loader = ({ isLoading }) => (
     </div>
   ) : null
 )
-
-
-Loader.propTypes = {
-  isLoading: PropTypes.bool.isRequired,
-}
 
 export default Loader

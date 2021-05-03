@@ -1,7 +1,17 @@
 {
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "sourceType": "module",
+    "project": "./tsconfig.json"
+  },
+  "plugins": [
+    "@typescript-eslint"
+  ],
   "extends": [
     "eslint:recommended",
-    "airbnb",
+    "airbnb-typescript",
+    "plugin:@typescript-eslint/recommended",
     "plugin:jest/recommended",
     "plugin:jest-dom/recommended",
     "plugin:testing-library/react"
@@ -12,20 +22,22 @@
     "node": true,
     "jest": true
   },
-  "parserOptions": {
-    "ecmaVersion": 2020,
-    "sourceType": "module"
-  },
   "settings": {
     "import/resolver": {
+      "typescript": {},
       "webpack": {
-        "config": "webpack.config.js"
+        "config": "webpack.config.ts"
       }
+    },
+    "react": {
+      "pragma": "React",
+      "version": "detect"
     }
   },
   "rules": {
     "strict": [2, "safe"],
     "semi": "off",
+    "@typescript-eslint/semi": "off",
     "no-empty-label": "off",
     "no-process-env": "off",
     "space-after-keywords": "off",
@@ -34,28 +46,29 @@
     "key-spacing": 0,
     "max-len": ["error", { "code": 120, "ignoreComments": true, "ignoreTrailingComments": true }],
     "object-curly-spacing": [2, "always"],
-    "comma-dangle": 0,
     "no-multi-spaces": [2, {"exceptions": {"VariableDeclarator": true}}],
     "no-extra-semi": 1,
     "no-unreachable": 1,
+    "react/jsx-filename-extension": [
+      1
+    ],
     "import/no-extraneous-dependencies": [
       "error",
       {
         "devDependencies": [
+          "**/*.config.ts",
           "**/*.config.js",
           "**/*.spec.js",
           "**/*.stories.js",
           "**/test-utils.js"
         ]
       }
-    ],
-    "react/jsx-filename-extension": [
-      1
     ]
   },
   "overrides": [
     {
       "files": [
+        "*.config.ts",
         "*.config.js",
         "*.spec.js",
         "*.stories.js",
@@ -65,6 +78,22 @@
         "react/jsx-props-no-spreading": "off",
         "react/jsx-filename-extension": "off",
         "react/prop-types": "off"
+      }
+    },
+    {
+      "files": [
+        "*.tsx"
+      ],
+      "rules": {
+        "react/prop-types": "off",
+        "react/require-default-props": "off"
+      }
+    },
+    {
+      "files": ["*.js", "*.jsx"],
+      "rules": {
+        "@typescript-eslint/explicit-function-return-type": "off",
+        "@typescript-eslint/explicit-module-boundary-types": "off"
       }
     }
   ]

@@ -1,18 +1,30 @@
 import React, { useState, useEffect } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
-import EventBus from 'services/event-bus'
-import Spinner from 'components/spinner'
+import { EventSubscription } from 'fbemitter'
+import EventBus from '@/services/event-bus'
+import Spinner from '@/components/spinner'
 import './button.scss'
 
+type Props = {
+  text?: string
+  className?: string
+  disabled?: boolean
+  callback?: () => Promise<boolean | void>
+  submitEvent?: string
+}
+
 const Button = ({
-  submitEvent, className, disabled, text, callback
-}) => {
+  text = '',
+  className = '',
+  disabled = false,
+  callback,
+  submitEvent,
+}: Props): React.ReactElement => {
   const [loading, setLoading] = useState(false)
 
   const isDisabled = () => disabled || loading
 
-  const handlePress = (event) => {
+  const handlePress = (event?: React.MouseEvent) => {
     if (event) {
       event.preventDefault()
     }
@@ -27,16 +39,16 @@ const Button = ({
   }
 
   useEffect(() => {
-    let subsctiption
+    let subscription: EventSubscription | null
     if (submitEvent) {
-      subsctiption = EventBus.getEventBus().addListener(
+      subscription = EventBus.getEventBus().addListener(
         submitEvent,
-        () => handlePress()
+        () => handlePress(),
       )
     }
     return () => {
-      if (subsctiption) {
-        subsctiption.remove()
+      if (subscription) {
+        subscription.remove()
       }
     }
   }, [handlePress])
@@ -53,22 +65,6 @@ const Button = ({
       {!loading && <span>{text}</span>}
     </button>
   )
-}
-
-Button.propTypes = {
-  text: PropTypes.string,
-  className: PropTypes.string,
-  disabled: PropTypes.bool,
-  callback: PropTypes.func,
-  submitEvent: PropTypes.string
-}
-
-Button.defaultProps = {
-  text: '',
-  className: '',
-  disabled: false,
-  callback: null,
-  submitEvent: null,
 }
 
 export default Button

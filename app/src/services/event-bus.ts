@@ -1,14 +1,14 @@
 import { EventEmitter } from 'fbemitter'
 
-let instance
+let instance: EventEmitter
 
 const EventBus = {
-  getEventBus() {
+  getEventBus(): EventEmitter {
     if (!instance) {
       instance = new EventEmitter()
     }
     return instance
-  }
+  },
 }
 
 export default EventBus

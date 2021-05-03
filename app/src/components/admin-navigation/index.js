@@ -1,3 +1,3 @@
-import AdminNavigation from './admin-navigation'
+import AdminNavigation from './container'
 
 export default AdminNavigation

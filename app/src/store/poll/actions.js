@@ -21,7 +21,6 @@ import {
  *
  * @return {Function}      redux-thunk callable function
  */
-// TODO : Fix reusing poll variable name
 export const updatePoll = (poll) => (dispatch) => {
   dispatch({
     type: POLL_UPDATE,

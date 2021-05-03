@@ -1,31 +1,35 @@
-const path = require('path')
-const webpack = require('webpack')
-const { CleanWebpackPlugin } = require('clean-webpack-plugin')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const InterpolateHtmlPlugin = require('interpolate-html-plugin')
-const CopyWebpackPlugin = require('copy-webpack-plugin')
-const ManifestPlugin = require('webpack-manifest-plugin')
-const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
-const WatchMissingNodeModulesPlugin = require('react-dev-utils/WatchMissingNodeModulesPlugin')
+import path from 'path'
+import webpack from 'webpack'
+import { CleanWebpackPlugin } from 'clean-webpack-plugin'
+import HtmlWebpackPlugin from 'html-webpack-plugin'
+import MiniCssExtractPlugin from 'mini-css-extract-plugin'
+import InterpolateHtmlPlugin from '@k88/interpolate-html-plugin'
+import CopyWebpackPlugin from 'copy-webpack-plugin'
+import { WebpackManifestPlugin } from 'webpack-manifest-plugin'
+import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
+import WatchMissingNodeModulesPlugin from 'react-dev-utils/WatchMissingNodeModulesPlugin'
+import postCSSFlexbugsFixes from 'postcss-flexbugs-fixes'
+import postCSSPresetEnv from 'postcss-preset-env'
+import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin'
 
 const publicURL = process.env.PUBLIC_URL || ''
-const PORT = parseInt(process.env.PORT, 10) || 3000
+const PORT = parseInt(process.env.PORT || '', 10) || 3000
 const production = process.env.NODE_ENV === 'production'
 const development = process.env.NODE_ENV === 'development'
 
-module.exports = {
+const config: webpack.Configuration = {
   mode: production ? 'production' : 'development',
   devtool: production ? 'source-map' : 'inline-source-map',
   resolve: {
     alias: {
+      '@': path.resolve(__dirname, 'src'),
       components: path.resolve(__dirname, 'src/components'),
       routes: path.resolve(__dirname, 'src/routes'),
       services: path.resolve(__dirname, 'src/services'),
       styles: path.resolve(__dirname, 'src/styles'),
-      store: path.resolve(__dirname, 'src/store')
+      store: path.resolve(__dirname, 'src/store'),
     },
-    extensions: ['.js', '.jsx', '.scss']
+    extensions: ['.js', '.jsx', '.ts', '.tsx', '.scss'],
   },
   plugins: [
     new CleanWebpackPlugin(),
@@ -34,33 +38,36 @@ module.exports = {
       inject: true,
       minify: {
         removeComments: true,
-        collapseWhitespace: false
-      }
+        collapseWhitespace: false,
+      },
     }),
     new MiniCssExtractPlugin({
-      filename: production ? 'static/css/style.[contenthash].css' : 'static/css/style.css'
+      filename: production ? 'static/css/style.[contenthash].css' : 'static/css/style.css',
+    }),
+    new ForkTsCheckerWebpackPlugin({
+      async: false,
     }),
     new InterpolateHtmlPlugin({
       PUBLIC_URL: publicURL,
     }),
     new CopyWebpackPlugin([{
       from: path.resolve(__dirname, 'public'),
-      to: path.resolve(__dirname, 'dist')
+      to: path.resolve(__dirname, 'dist'),
     }]),
     new webpack.IgnorePlugin({
       resourceRegExp: /^\.\/locale$/,
-      contextRegExp: /moment$/
+      contextRegExp: /moment$/,
     }),
     ...production ? [
-      new ManifestPlugin({ fileName: 'asset_manifest.json' }),
+      new WebpackManifestPlugin({ fileName: 'asset_manifest.json' }),
       new BundleAnalyzerPlugin({
         analyzerMode: 'disabled',
         generateStatsFile: true,
-        logLevel: 'silent'
+        logLevel: 'silent',
       }),
     ] : [],
     ...development ? [
-      new WatchMissingNodeModulesPlugin(path.resolve('node_modules'))
+      new WatchMissingNodeModulesPlugin(path.resolve('node_modules')),
     ] : [],
   ],
   output: {
@@ -83,16 +90,16 @@ module.exports = {
           options: {
             limit: 10000,
             name: '[name].[ext]',
-            outputPath: 'static/media'
-          }
-        }
+            outputPath: 'static/media',
+          },
+        },
       },
       {
-        test: /\.(js|jsx)$/,
+        test: /\.(ts|js)x?$/i,
         exclude: /node_modules/,
         use: {
-          loader: 'babel-loader'
-        }
+          loader: 'babel-loader',
+        },
       },
       {
         test: /\.(css|scss)$/,
@@ -103,20 +110,20 @@ module.exports = {
             loader: 'sass-loader',
             options: {
               sassOptions: {
-                includePaths: [path.resolve(__dirname, 'src/styles')]
-              }
-            }
+                includePaths: [path.resolve(__dirname, 'src/styles')],
+              },
+            },
           },
           {
             loader: 'postcss-loader',
             options: {
               plugins: () => [
-                require('postcss-flexbugs-fixes'),
-                require('postcss-preset-env')()
-              ]
-            }
-          }
-        ]
+                postCSSFlexbugsFixes,
+                postCSSPresetEnv(),
+              ],
+            },
+          },
+        ],
       },
       {
         test: /\.(jpg|gif|svg|woff|woff2|ttf|eot)$/,
@@ -125,11 +132,13 @@ module.exports = {
             loader: 'file-loader',
             options: {
               name: '[name].[ext]',
-              outputPath: 'static/media'
-            }
-          }
-        ]
-      }
+              outputPath: 'static/media',
+            },
+          },
+        ],
+      },
     ],
-  }
+  },
 }
+
+export default config

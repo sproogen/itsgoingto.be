@@ -3,7 +3,7 @@ import {
   BrowserRouter as Router,
   Route,
   Redirect,
-  Switch
+  Switch,
 } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { Cookies } from 'react-cookie'
