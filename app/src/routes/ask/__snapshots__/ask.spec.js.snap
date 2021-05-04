@@ -50,136 +50,6 @@ exports[`(Route) Ask (Render) when canSubmitPoll is true matches snapshot 1`] = 
           />
         </label>
       </div>
-      <div
-        class="answers hideable gone"
-        data-testid="answers"
-      >
-        <label
-          class="input-label input-label-answers"
-        >
-          Add some responses
-        </label>
-        <div
-          class="input input-answer input-disabled"
-        >
-          <label
-            class="input-label input-label-answer"
-            for="answer-0"
-          >
-            1
-          </label>
-          <input
-            class="input-field input-field-answer"
-            disabled=""
-            id="answer-0"
-            name="answer-0"
-            type="text"
-          />
-        </div>
-      </div>
-      <div>
-        <div
-          class="options hideable gone"
-          data-testid="options"
-        >
-          <div
-            class="input-option input-option-multipleChoice"
-          >
-            <label
-              class="input-label input-label-options input-label-multipleChoice"
-              for="multiple-choice"
-            >
-              <input
-                class="input-checkbox input-checkbox-multipleChoice"
-                id="multiple-choice"
-                name="multiple"
-                type="checkbox"
-              />
-              Multiple choice responses
-            </label>
-          </div>
-          <div
-            class="input-option input-option-passphrase"
-          >
-            <label
-              class="input-label input-label-passphrase"
-              for="passphrase"
-            >
-              Set a passphrase (optional)
-              <input
-                class="input-field input-field-passphrase"
-                id="passphrase"
-                name="passphrase"
-                type="text"
-                value=""
-              />
-            </label>
-          </div>
-          <div
-            class="input-option input-option-endPoll"
-          >
-            <div
-              class="input-option-radios"
-            >
-              <input
-                checked=""
-                class="input-radio input-checkbox-endType"
-                id="end-never"
-                name="endType"
-                type="checkbox"
-                value="endNever"
-              />
-              <label
-                class="input-label input-label-options input-label-endType"
-                for="end-never"
-              >
-                Don't End Poll
-              </label>
-              <input
-                class="input-radio input-checkbox-endType"
-                id="end-at"
-                name="endType"
-                type="checkbox"
-                value="endAt"
-              />
-              <label
-                class="input-label input-label-options input-label-endType"
-                for="end-at"
-              >
-                End Poll At
-              </label>
-              <input
-                class="input-radio input-checkbox-endType"
-                id="end-in"
-                name="endType"
-                type="radio"
-                value="endIn"
-              />
-              <label
-                class="input-label input-label-options input-label-endType"
-                for="end-in"
-              >
-                End Poll In
-              </label>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div>
-        <div
-          class="actions hideable gone"
-        >
-          <button
-            class="btn pull-right"
-            data-testid="button-Create-Poll"
-            type="button"
-          >
-            <span>
-              Create Poll
-            </span>
-          </button>
-        </div>
-      </div>
     </div>
   </div>
 </DocumentFragment>
@@ -236,7 +106,7 @@ exports[`(Route) Ask (Render) when hasQuestion is true matches snapshot 1`] = `
         </label>
       </div>
       <div
-        class="answers hideable"
+        class="answers"
         data-testid="answers"
       >
         <label
@@ -262,109 +132,105 @@ exports[`(Route) Ask (Render) when hasQuestion is true matches snapshot 1`] = `
           />
         </div>
       </div>
-      <div>
+      <div
+        class="options"
+        data-testid="options"
+      >
         <div
-          class="options hideable"
-          data-testid="options"
+          class="input-option input-option-multipleChoice"
+        >
+          <label
+            class="input-label input-label-options input-label-multipleChoice"
+            for="multiple-choice"
+          >
+            <input
+              class="input-checkbox input-checkbox-multipleChoice"
+              id="multiple-choice"
+              name="multiple"
+              type="checkbox"
+            />
+            Multiple choice responses
+          </label>
+        </div>
+        <div
+          class="input-option input-option-passphrase"
+        >
+          <label
+            class="input-label input-label-passphrase"
+            for="passphrase"
+          >
+            Set a passphrase (optional)
+            <input
+              class="input-field input-field-passphrase"
+              id="passphrase"
+              name="passphrase"
+              type="text"
+              value=""
+            />
+          </label>
+        </div>
+        <div
+          class="input-option input-option-endPoll"
         >
           <div
-            class="input-option input-option-multipleChoice"
+            class="input-option-radios"
           >
+            <input
+              checked=""
+              class="input-radio input-checkbox-endType"
+              id="end-never"
+              name="endType"
+              type="checkbox"
+              value="endNever"
+            />
             <label
-              class="input-label input-label-options input-label-multipleChoice"
-              for="multiple-choice"
+              class="input-label input-label-options input-label-endType"
+              for="end-never"
             >
-              <input
-                class="input-checkbox input-checkbox-multipleChoice"
-                id="multiple-choice"
-                name="multiple"
-                type="checkbox"
-              />
-              Multiple choice responses
+              Don't End Poll
             </label>
-          </div>
-          <div
-            class="input-option input-option-passphrase"
-          >
+            <input
+              class="input-radio input-checkbox-endType"
+              id="end-at"
+              name="endType"
+              type="checkbox"
+              value="endAt"
+            />
             <label
-              class="input-label input-label-passphrase"
-              for="passphrase"
+              class="input-label input-label-options input-label-endType"
+              for="end-at"
             >
-              Set a passphrase (optional)
-              <input
-                class="input-field input-field-passphrase"
-                id="passphrase"
-                name="passphrase"
-                type="text"
-                value=""
-              />
+              End Poll At
             </label>
-          </div>
-          <div
-            class="input-option input-option-endPoll"
-          >
-            <div
-              class="input-option-radios"
+            <input
+              class="input-radio input-checkbox-endType"
+              id="end-in"
+              name="endType"
+              type="radio"
+              value="endIn"
+            />
+            <label
+              class="input-label input-label-options input-label-endType"
+              for="end-in"
             >
-              <input
-                checked=""
-                class="input-radio input-checkbox-endType"
-                id="end-never"
-                name="endType"
-                type="checkbox"
-                value="endNever"
-              />
-              <label
-                class="input-label input-label-options input-label-endType"
-                for="end-never"
-              >
-                Don't End Poll
-              </label>
-              <input
-                class="input-radio input-checkbox-endType"
-                id="end-at"
-                name="endType"
-                type="checkbox"
-                value="endAt"
-              />
-              <label
-                class="input-label input-label-options input-label-endType"
-                for="end-at"
-              >
-                End Poll At
-              </label>
-              <input
-                class="input-radio input-checkbox-endType"
-                id="end-in"
-                name="endType"
-                type="radio"
-                value="endIn"
-              />
-              <label
-                class="input-label input-label-options input-label-endType"
-                for="end-in"
-              >
-                End Poll In
-              </label>
-            </div>
+              End Poll In
+            </label>
           </div>
         </div>
       </div>
-      <div>
-        <div
-          class="actions hideable"
+      <div
+        class="actions"
+      >
+        <button
+          class="btn pull-right disabled"
+          data-testid="button-Create-Poll"
+          disabled=""
+          type="button"
         >
-          <button
-            class="btn pull-right disabled"
-            data-testid="button-Create-Poll"
-            disabled=""
-            type="button"
-          >
-            <span>
-              Create Poll
-            </span>
-          </button>
-        </div>
+          <span>
+            Create Poll
+          </span>
+        </button>
       </div>
     </div>
   </div>
@@ -421,171 +287,6 @@ exports[`(Route) Ask (Render) with answers matches snapshot 1`] = `
           />
         </label>
       </div>
-      <div
-        class="answers hideable gone"
-        data-testid="answers"
-      >
-        <label
-          class="input-label input-label-answers"
-        >
-          Add some responses
-        </label>
-        <div
-          class="input input-answer"
-        >
-          <label
-            class="input-label input-label-answer"
-            for="answer-0"
-          >
-            1
-          </label>
-          <input
-            class="input-field input-field-answer"
-            id="answer-0"
-            name="answer-0"
-            type="text"
-            value="Answer 1"
-          />
-        </div>
-        <div
-          class="input input-answer"
-        >
-          <label
-            class="input-label input-label-answer"
-            for="answer-1"
-          >
-            2
-          </label>
-          <input
-            class="input-field input-field-answer"
-            id="answer-1"
-            name="answer-1"
-            type="text"
-            value="Answer 2"
-          />
-        </div>
-        <div
-          class="input input-answer input-disabled"
-        >
-          <label
-            class="input-label input-label-answer"
-            for="answer-2"
-          >
-            3
-          </label>
-          <input
-            class="input-field input-field-answer"
-            disabled=""
-            id="answer-2"
-            name="answer-2"
-            type="text"
-          />
-        </div>
-      </div>
-      <div>
-        <div
-          class="options hideable gone"
-          data-testid="options"
-        >
-          <div
-            class="input-option input-option-multipleChoice"
-          >
-            <label
-              class="input-label input-label-options input-label-multipleChoice"
-              for="multiple-choice"
-            >
-              <input
-                class="input-checkbox input-checkbox-multipleChoice"
-                id="multiple-choice"
-                name="multiple"
-                type="checkbox"
-              />
-              Multiple choice responses
-            </label>
-          </div>
-          <div
-            class="input-option input-option-passphrase"
-          >
-            <label
-              class="input-label input-label-passphrase"
-              for="passphrase"
-            >
-              Set a passphrase (optional)
-              <input
-                class="input-field input-field-passphrase"
-                id="passphrase"
-                name="passphrase"
-                type="text"
-                value=""
-              />
-            </label>
-          </div>
-          <div
-            class="input-option input-option-endPoll"
-          >
-            <div
-              class="input-option-radios"
-            >
-              <input
-                checked=""
-                class="input-radio input-checkbox-endType"
-                id="end-never"
-                name="endType"
-                type="checkbox"
-                value="endNever"
-              />
-              <label
-                class="input-label input-label-options input-label-endType"
-                for="end-never"
-              >
-                Don't End Poll
-              </label>
-              <input
-                class="input-radio input-checkbox-endType"
-                id="end-at"
-                name="endType"
-                type="checkbox"
-                value="endAt"
-              />
-              <label
-                class="input-label input-label-options input-label-endType"
-                for="end-at"
-              >
-                End Poll At
-              </label>
-              <input
-                class="input-radio input-checkbox-endType"
-                id="end-in"
-                name="endType"
-                type="radio"
-                value="endIn"
-              />
-              <label
-                class="input-label input-label-options input-label-endType"
-                for="end-in"
-              >
-                End Poll In
-              </label>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div>
-        <div
-          class="actions hideable gone"
-        >
-          <button
-            class="btn pull-right disabled"
-            data-testid="button-Create-Poll"
-            disabled=""
-            type="button"
-          >
-            <span>
-              Create Poll
-            </span>
-          </button>
-        </div>
-      </div>
     </div>
   </div>
 </DocumentFragment>
@@ -640,137 +341,6 @@ exports[`(Route) Ask (Render) with poll matches snapshot 1`] = `
             style="overflow-x: hidden; word-wrap: break-word; overflow-y: hidden;"
           />
         </label>
-      </div>
-      <div
-        class="answers hideable gone"
-        data-testid="answers"
-      >
-        <label
-          class="input-label input-label-answers"
-        >
-          Add some responses
-        </label>
-        <div
-          class="input input-answer input-disabled"
-        >
-          <label
-            class="input-label input-label-answer"
-            for="answer-0"
-          >
-            1
-          </label>
-          <input
-            class="input-field input-field-answer"
-            disabled=""
-            id="answer-0"
-            name="answer-0"
-            type="text"
-          />
-        </div>
-      </div>
-      <div>
-        <div
-          class="options hideable gone"
-          data-testid="options"
-        >
-          <div
-            class="input-option input-option-multipleChoice"
-          >
-            <label
-              class="input-label input-label-options input-label-multipleChoice"
-              for="multiple-choice"
-            >
-              <input
-                class="input-checkbox input-checkbox-multipleChoice"
-                id="multiple-choice"
-                name="multiple"
-                type="checkbox"
-              />
-              Multiple choice responses
-            </label>
-          </div>
-          <div
-            class="input-option input-option-passphrase"
-          >
-            <label
-              class="input-label input-label-passphrase"
-              for="passphrase"
-            >
-              Set a passphrase (optional)
-              <input
-                class="input-field input-field-passphrase"
-                id="passphrase"
-                name="passphrase"
-                type="text"
-                value=""
-              />
-            </label>
-          </div>
-          <div
-            class="input-option input-option-endPoll"
-          >
-            <div
-              class="input-option-radios"
-            >
-              <input
-                checked=""
-                class="input-radio input-checkbox-endType"
-                id="end-never"
-                name="endType"
-                type="checkbox"
-                value="endNever"
-              />
-              <label
-                class="input-label input-label-options input-label-endType"
-                for="end-never"
-              >
-                Don't End Poll
-              </label>
-              <input
-                class="input-radio input-checkbox-endType"
-                id="end-at"
-                name="endType"
-                type="checkbox"
-                value="endAt"
-              />
-              <label
-                class="input-label input-label-options input-label-endType"
-                for="end-at"
-              >
-                End Poll At
-              </label>
-              <input
-                class="input-radio input-checkbox-endType"
-                id="end-in"
-                name="endType"
-                type="radio"
-                value="endIn"
-              />
-              <label
-                class="input-label input-label-options input-label-endType"
-                for="end-in"
-              >
-                End Poll In
-              </label>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div>
-        <div
-          class="actions hideable gone"
-        >
-          <button
-            class="btn pull-right disabled"
-            data-testid="button-Create-Poll"
-            disabled=""
-            type="button"
-          >
-            <span>
-              Create Poll
-            </span>
-          </button>
-        </div>
       </div>
     </div>
   </div>
@@ -828,137 +398,6 @@ exports[`(Route) Ask (Render) with question matches snapshot 1`] = `
             Some question
           </textarea>
         </label>
-      </div>
-      <div
-        class="answers hideable gone"
-        data-testid="answers"
-      >
-        <label
-          class="input-label input-label-answers"
-        >
-          Add some responses
-        </label>
-        <div
-          class="input input-answer input-disabled"
-        >
-          <label
-            class="input-label input-label-answer"
-            for="answer-0"
-          >
-            1
-          </label>
-          <input
-            class="input-field input-field-answer"
-            disabled=""
-            id="answer-0"
-            name="answer-0"
-            type="text"
-          />
-        </div>
-      </div>
-      <div>
-        <div
-          class="options hideable gone"
-          data-testid="options"
-        >
-          <div
-            class="input-option input-option-multipleChoice"
-          >
-            <label
-              class="input-label input-label-options input-label-multipleChoice"
-              for="multiple-choice"
-            >
-              <input
-                class="input-checkbox input-checkbox-multipleChoice"
-                id="multiple-choice"
-                name="multiple"
-                type="checkbox"
-              />
-              Multiple choice responses
-            </label>
-          </div>
-          <div
-            class="input-option input-option-passphrase"
-          >
-            <label
-              class="input-label input-label-passphrase"
-              for="passphrase"
-            >
-              Set a passphrase (optional)
-              <input
-                class="input-field input-field-passphrase"
-                id="passphrase"
-                name="passphrase"
-                type="text"
-                value=""
-              />
-            </label>
-          </div>
-          <div
-            class="input-option input-option-endPoll"
-          >
-            <div
-              class="input-option-radios"
-            >
-              <input
-                checked=""
-                class="input-radio input-checkbox-endType"
-                id="end-never"
-                name="endType"
-                type="checkbox"
-                value="endNever"
-              />
-              <label
-                class="input-label input-label-options input-label-endType"
-                for="end-never"
-              >
-                Don't End Poll
-              </label>
-              <input
-                class="input-radio input-checkbox-endType"
-                id="end-at"
-                name="endType"
-                type="checkbox"
-                value="endAt"
-              />
-              <label
-                class="input-label input-label-options input-label-endType"
-                for="end-at"
-              >
-                End Poll At
-              </label>
-              <input
-                class="input-radio input-checkbox-endType"
-                id="end-in"
-                name="endType"
-                type="radio"
-                value="endIn"
-              />
-              <label
-                class="input-label input-label-options input-label-endType"
-                for="end-in"
-              >
-                End Poll In
-              </label>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div>
-        <div
-          class="actions hideable gone"
-        >
-          <button
-            class="btn pull-right disabled"
-            data-testid="button-Create-Poll"
-            disabled=""
-            type="button"
-          >
-            <span>
-              Create Poll
-            </span>
-          </button>
-        </div>
       </div>
     </div>
   </div>

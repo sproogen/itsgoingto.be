@@ -2,6 +2,8 @@ import React, { useEffect } from 'react'
 import { Helmet } from 'react-helmet'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
+import { isEmpty, isNil } from 'ramda'
+import { useHistory } from 'react-router-dom'
 import WordRotate from 'components/word-rotate'
 import Question from './components/question'
 import Answers from './components/answers'
@@ -15,12 +17,25 @@ const Ask = ({
   question, hasQuestion, canSubmitPoll, poll, answers, clearPoll,
   postPoll, updateQuestion, onAnswerChange, onRemoveAnswer, updateOptions, setPassphrase
 }) => {
+  const history = useHistory()
   useEffect(() => {
     clearPoll()
   }, [])
 
   const description = 'Wondering where to go or what to see?'
                       + ' Start a poll and share it with your friends or colleagues.'
+
+  const submit = () => postPoll()
+    .then((response) => {
+      if (response !== false) {
+        if (!isNil(poll.passphrase) && !isEmpty(poll.passphrase)) {
+          setPassphrase(poll.passphrase, response.identifier)
+        }
+        history.push(`/${response.identifier}`)
+        return false
+      }
+      return true
+    })
 
   return (
     <div>
@@ -57,20 +72,20 @@ const Ask = ({
         )}
       >
         <Question question={question} onQuestionChange={updateQuestion} />
-        <Answers
-          hasQuestion={hasQuestion}
-          answers={answers}
-          onAnswerChange={onAnswerChange}
-          onRemoveAnswer={onRemoveAnswer}
-        />
-        <Options hasQuestion={hasQuestion} poll={poll} updateOptions={updateOptions} />
-        <Actions
-          hasQuestion={hasQuestion}
-          canSubmitPoll={canSubmitPoll}
-          postPoll={postPoll}
-          setPassphrase={setPassphrase}
-          poll={poll}
-        />
+        {hasQuestion ? (
+          <>
+            <Answers
+              answers={answers}
+              onAnswerChange={onAnswerChange}
+              onRemoveAnswer={onRemoveAnswer}
+            />
+            <Options poll={poll} updateOptions={updateOptions} />
+            <Actions
+              canSubmitPoll={canSubmitPoll}
+              submitPoll={submit}
+            />
+          </>
+        ) : null}
       </div>
     </div>
   )

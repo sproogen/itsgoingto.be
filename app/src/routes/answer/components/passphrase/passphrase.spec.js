@@ -49,7 +49,7 @@ describe('(Route) answer', () => {
           fireEvent.click(screen.getByTestId('button-Enter'))
         })
 
-        expect(defaultProps.setPassphrase).toHaveBeenCalledWith('passphrase')
+        expect(defaultProps.setPassphrase).toHaveBeenCalledWith('Hd2eJ9Jk', 'passphrase')
       })
 
       it('should call fetchPoll with the identifier', async () => {

@@ -16,7 +16,7 @@ const Passphrase = ({
 
 
   const submit = () => new Promise((resolve) => {
-    setPassphrase(value, identifier)
+    setPassphrase(identifier, value)
     fetchPoll(identifier)
       .then((response) => {
         if (!(response instanceof APIError)) {
