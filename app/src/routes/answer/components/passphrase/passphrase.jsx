@@ -30,7 +30,7 @@ const Passphrase = ({
 
   const handleChange = (e) => setValue(e.target.value)
 
-  const handleKeyPress = (event = window.event) => {
+  const handleKeyPress = (event) => {
     const key = event.keyCode || event.charCode
 
     if (key === KEY_ENTER) {
