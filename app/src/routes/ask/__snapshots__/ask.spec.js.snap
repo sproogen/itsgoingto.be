@@ -102,7 +102,9 @@ exports[`(Route) Ask (Render) when hasQuestion is true matches snapshot 1`] = `
             placeholder=""
             rows="1"
             style="overflow-x: hidden; word-wrap: break-word; overflow-y: hidden;"
-          />
+          >
+            Some question
+          </textarea>
         </label>
       </div>
       <div

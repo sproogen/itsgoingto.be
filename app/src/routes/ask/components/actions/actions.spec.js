@@ -1,6 +1,5 @@
 import React from 'react'
 import { render, fireEvent, screen } from '@testing-library/react'
-import WithRouter from '../../../../../test-utils/with-router'
 import Actions from './actions'
 
 const props = {
@@ -16,9 +15,7 @@ describe('(Route) Ask', () => {
   describe('(Component) Actions', () => {
     describe('(Action) Create Poll click', () => {
       it('should call submitPoll', () => {
-        render(<Actions {...props} />, {
-          wrapper: WithRouter
-        })
+        render(<Actions {...props} />)
 
         const button = screen.getByTestId('button-Create-Poll')
         fireEvent.click(button)
