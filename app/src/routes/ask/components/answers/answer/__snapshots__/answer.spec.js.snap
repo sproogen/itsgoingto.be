@@ -1,47 +1,68 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`(Route) Ask (Component) Answer (Render) matches snapshot 1`] = `
-<div
-  className="input input-answer"
->
-  <label
-    className="input-label input-label-answer"
-    htmlFor="answer-0"
+<DocumentFragment>
+  <div
+    class="input input-answer"
   >
-    1
-  </label>
-  <input
-    className="input-field input-field-answer"
-    disabled={false}
-    id="answer-0"
-    name="answer-0"
-    onChange={[Function]}
-    onKeyDown={[Function]}
-    type="text"
-    value="Answer 1"
-  />
-</div>
+    <label
+      class="input-label input-label-answer"
+      for="answer-0"
+    >
+      1
+    </label>
+    <input
+      class="input-field input-field-answer"
+      id="answer-0"
+      name="answer-0"
+      type="text"
+      value="Answer 1"
+    />
+  </div>
+</DocumentFragment>
+`;
+
+exports[`(Route) Ask (Component) Answer (Render) with default props matches snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="input input-answer"
+  >
+    <label
+      class="input-label input-label-answer"
+      for="answer-0"
+    >
+      1
+    </label>
+    <input
+      class="input-field input-field-answer"
+      id="answer-0"
+      name="answer-0"
+      type="text"
+      value=""
+    />
+  </div>
+</DocumentFragment>
 `;
 
 exports[`(Route) Ask (Component) Answer (Render) with disabled is true matches snapshot 1`] = `
-<div
-  className="input input-answer input-disabled"
->
-  <label
-    className="input-label input-label-answer"
-    htmlFor="answer-0"
+<DocumentFragment>
+  <div
+    class="input input-answer input-disabled"
   >
-    1
-  </label>
-  <input
-    className="input-field input-field-answer"
-    disabled={true}
-    id="answer-0"
-    name="answer-0"
-    onChange={[Function]}
-    onKeyDown={[Function]}
-    type="text"
-    value="Answer 1"
-  />
-</div>
+    <label
+      class="input-label input-label-answer"
+      for="answer-0"
+    >
+      1
+    </label>
+    <input
+      class="input-field input-field-answer"
+      disabled=""
+      id="answer-0"
+      name="answer-0"
+      type="text"
+      value="Answer 1"
+    />
+  </div>
+</DocumentFragment>
 `;

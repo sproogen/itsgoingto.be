@@ -1,18 +1,14 @@
-// ------------------------------------
-// Constants
-// ------------------------------------
-export const LOADING_UPDATE    = 'LOADING_UPDATE'
-export const PASSPHRASE_UPDATE = 'PASSPHRASE_UPDATE'
+import { LOADING_UPDATE, PASSPHRASE_UPDATE } from './constants'
 
 // ------------------------------------
 // Actions
 // ------------------------------------
 export const setLoading = (loading = false) => ({
-  type : LOADING_UPDATE,
+  type: LOADING_UPDATE,
   loading
 })
 
 export const setRequiresPassphrase = (requiresPassphrase = false) => ({
-  type : PASSPHRASE_UPDATE,
+  type: PASSPHRASE_UPDATE,
   requiresPassphrase
 })

@@ -1,7 +1,4 @@
-// ------------------------------------
-// Constants
-// ------------------------------------
-export const USER_UPDATE = 'USER_UPDATE'
+import { USER_UPDATE } from './constants'
 
 // ------------------------------------
 // Actions

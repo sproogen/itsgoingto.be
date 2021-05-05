@@ -1,21 +1,16 @@
 import React from 'react'
-import { browserHistory } from 'react-router'
+import { Link } from 'react-router-dom'
 import './back.scss'
 
-export function Back () {
-  const submit = () => {
-    browserHistory.push('/')
-  }
-
-  return (
-    <div className='container back-container'>
-      <div className='back-button'>
-        <a onClick={submit}>
-          <i className='fa fa-arrow-left' /> New Poll
-        </a>
-      </div>
+const Back = () => (
+  <div className="back-container">
+    <div className="back-button">
+      <Link to="/">
+        <i className="fa fa-arrow-left" />
+        New Poll
+      </Link>
     </div>
-  )
-}
+  </div>
+)
 
 export default Back

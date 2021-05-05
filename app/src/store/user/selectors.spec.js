@@ -1,20 +1,17 @@
-/* global expect */
-import {
-  default as userReducer
-} from 'store/user'
+import userReducer from 'store/user'
 import {
   hasUserSelector,
   userTokenSelector,
 } from 'store/user/selectors'
 
 describe('(Store) User', () => {
-  let _globalState = {
+  let globalState = {
     user: userReducer(undefined, {})
   }
 
   describe('(Selectors)', () => {
     beforeEach(() => {
-      _globalState = {
+      globalState = {
         user: {
           id: 1,
           username: 'admin',
@@ -29,12 +26,12 @@ describe('(Store) User', () => {
       })
 
       it('Should return true for a user with token in the global state.', () => {
-        expect(hasUserSelector(_globalState)).toEqual(true)
+        expect(hasUserSelector(globalState)).toEqual(true)
       })
 
       it('Should return false for no user with a token in the global state.', () => {
-        _globalState.user = {}
-        expect(hasUserSelector(_globalState)).toEqual(false)
+        globalState.user = {}
+        expect(hasUserSelector(globalState)).toEqual(false)
       })
     })
 
@@ -44,12 +41,12 @@ describe('(Store) User', () => {
       })
 
       it('Should return the token for a user in the global state.', () => {
-        expect(userTokenSelector(_globalState)).toEqual('fd987%%^0|Zas2')
+        expect(userTokenSelector(globalState)).toEqual('fd987%%^0|Zas2')
       })
 
       it('Should return undefined for no user with a token in the global state.', () => {
-        _globalState.user = {}
-        expect(userTokenSelector(_globalState)).toEqual(undefined)
+        globalState.user = {}
+        expect(userTokenSelector(globalState)).toEqual(undefined)
       })
     })
   })

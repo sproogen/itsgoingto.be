@@ -1,0 +1,534 @@
+openapi: 3.0.1
+info:
+  title: Its Going To Be API
+  description: ""
+  license:
+    name: GPLv3
+    url: https://www.gnu.org/licenses/gpl-3.0.en.html
+  version: 0.0.1
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+servers:
+- url: https://itsgoingto.be/api
+- url: http://itsgoingto.be/api
+tags:
+- name: Polls
+  description: ""
+- name: Responses
+  description: ""
+- name: Admin
+  description: ""
+paths:
+  /polls:
+    get:
+      tags:
+      - Polls
+      summary: Retrieve all polls, only accessible when authorised
+      security:
+        - bearerAuth: []
+      operationId: ""
+      parameters:
+      - name: page
+        in: query
+        description: The page to return.
+        schema:
+          type: integer
+          default: 1
+      - name: pageSize
+        in: query
+        description: The ammount of results to return per page.
+        schema:
+          type: integer
+          default: 20
+      - name: sort
+        in: query
+        description: The field to sort on.
+        schema:
+          type: string
+          default: id
+          enum:
+          - id
+          - identifier
+          - question
+          - responsesCount
+      - name: sortDirection
+        in: query
+        description: The direction to sort.
+        schema:
+          type: string
+          default: asc
+          enum:
+          - asc
+          - desc
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    example: 20
+                  total:
+                    type: integer
+                    example: 100
+                  entities:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Poll'
+        400:
+          description: Bad request. Invalid **sort** option or **sortDirection** provided.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: invalid-sort-option
+        401:
+          description: Authorization information is missing or invalid.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: unauthorised
+    post:
+      tags:
+      - Polls
+      summary: Create a new poll
+      operationId: ""
+      requestBody:
+        description: The poll to create.
+        content:
+          application/json:
+            schema:
+              required:
+              - answers
+              - question
+              type: object
+              properties:
+                question:
+                  type: string
+                answers:
+                  type: array
+                  items:
+                    type: string
+                multipleChoice:
+                  type: boolean
+                endDate:
+                  type: string
+                  format: datetime
+                passphrase:
+                  type: string
+        required: false
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Poll'
+        400:
+          description: Bad request. Invalid question params.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    example:
+                    - No question has been provided
+                    items:
+                      type: string
+      x-codegen-request-body-name: poll
+  /polls/{identifier}:
+    get:
+      tags:
+      - Polls
+      summary: Retrieve poll
+      security:
+        - {}
+        - bearerAuth: []
+      operationId: ""
+      parameters:
+      - name: identifier
+        in: path
+        description: The poll identifier
+        required: true
+        schema:
+          type: string
+      - name: passphrase
+        in: query
+        description: Passphrase to access the poll
+        schema:
+          type: string
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Poll'
+        403:
+          description: Forbidden. Poll has a passcode which is not provided or invallid.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: incorrect-passphrase
+        404:
+          description: Not found. Poll could not be found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: poll-not-found
+    delete:
+      tags:
+      - Polls
+      summary: Delete poll, only accessible when authorised
+      security:
+        - bearerAuth: []
+      operationId: ""
+      parameters:
+      - name: identifier
+        in: path
+        description: The poll identifier
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Poll'
+        400:
+          description: Bad request. Poll has already been deleted.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: poll-already-deleted
+        404:
+          description: Not found. Poll could not be found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: poll-not-found
+  /polls/{identifier}/responses:
+    get:
+      tags:
+      - Responses
+      summary: Retrieve responses for poll
+      security:
+        - {}
+        - bearerAuth: []
+      operationId: ""
+      parameters:
+      - name: identifier
+        in: path
+        description: The poll identifier
+        required: true
+        schema:
+          type: string
+      - name: passphrase
+        in: query
+        description: Passphrase to access the poll
+        schema:
+          type: string
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PollResponses'
+        403:
+          description: Forbidden. Poll has a passcode which is not provided or invallid.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: incorrect-passphrase
+        404:
+          description: Not found. Poll could not be found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: poll-not-found
+    post:
+      tags:
+      - Responses
+      summary: Submit responses for poll
+      operationId: ""
+      parameters:
+      - name: identifier
+        in: path
+        description: The poll identifier
+        required: true
+        schema:
+          type: string
+      - name: passphrase
+        in: query
+        description: Passphrase to access the poll
+        schema:
+          type: string
+      requestBody:
+        description: The poll to create.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                answers:
+                  type: array
+                  items:
+                    type: integer
+                    example: 1
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PollResponses'
+        400:
+          description: Bad request. Poll has ended, or invalid answers provided.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: poll-ended
+        403:
+          description: Forbidden. Poll has a passcode which is not provided or invallid.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: incorrect-passphrase
+        404:
+          description: Not found. Poll could not be found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: poll-not-found
+  /login:
+    post:
+      tags:
+      - Admin
+      summary: ""
+      operationId: ""
+      requestBody:
+        description: The poll to create.
+        content:
+          application/json:
+            schema:
+              required:
+              - username
+              - password
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+        400:
+          description: Bad request. Invalid Username or Password.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: integer
+                    example: [Username is required, Password is required, Invalid Username or Password.]
+  /stats:
+    get:
+      tags:
+      - Admin
+      summary: Get stats on polls
+      security:
+        - bearerAuth: []
+      operationId: ""
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  polls:
+                    type: integer
+                    example: 156
+                  responses:
+                    type: integer
+                    example: 454
+        401:
+          description: Authorization information is missing or invalid.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: unauthorised
+components:
+  schemas:
+    Poll:
+      required:
+      - question
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Unique server generated ID
+          example: 1
+        identifier:
+          type: string
+          description: Unique generate poll identifier
+          example: v90034d6
+        question:
+          type: string
+          description: The question asked
+          example: Is this a question?
+        multipleChoice:
+          type: boolean
+          description: Does the poll allow multiple choice responses
+          example: false
+          default: false
+        endDate:
+          type: string
+          description: The end date for the poll, can be empty if no end date
+          format: date-time
+          example: 2020-10-09T19:56:35Z
+        ended:
+          type: boolean
+          description: Has the poll ended
+          example: false
+        deleted:
+          type: boolean
+          description: Has the poll been deleted
+          example: false
+        created:
+          type: string
+          description: When the poll was created
+          format: date-time
+          example: 2020-10-09T19:56:35Z
+        updated:
+          type: string
+          description: When the poll was last updated
+          format: date-time
+          example: 2020-10-09T19:56:35Z
+        answers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Answer'
+        responsesCount:
+          type: integer
+          description: Total number of responses for all answers
+          example: 5
+        userResponses:
+          type: array
+          description: Total number of responses for all answers
+          example:
+          - 1
+          items:
+            type: integer
+    Answer:
+      required:
+      - answer
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Unique server generated ID
+          example: 1
+        answer:
+          type: string
+          description: The answer
+          example: Answer Text
+        responsesCount:
+          type: integer
+          description: Total number of responses for the answer
+          example: 5
+    PollResponses:
+      type: object
+      properties:
+        ended:
+          type: boolean
+          description: Has the poll ended
+          example: false
+        answers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Answer'
+        responsesCount:
+          type: integer
+          description: Total number of responses for all answers
+          example: 5
+        userResponses:
+          type: array
+          description: Total number of responses for all answers
+          example:
+          - 1
+          items:
+            type: integer
+  securitySchemes:
+    bearerAuth:            # arbitrary name for the security scheme
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

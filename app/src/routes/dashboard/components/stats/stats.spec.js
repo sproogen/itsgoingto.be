@@ -1,41 +1,39 @@
-/* global expect, jest */
 import React from 'react'
-import { shallow } from 'enzyme'
-import { Stats } from './stats'
+import { render } from '@testing-library/react'
+import Stats from './stats'
 
-const props = {
+const defaultProps = {
   fetchStats: jest.fn(),
 }
 
 describe('(Route) dashoard', () => {
   describe('(Component) stats', () => {
-    let wrapper
-
-    beforeEach(() => {
-      wrapper = shallow(<Stats {...props} />)
-    })
-
     afterEach(() => {
       jest.clearAllMocks()
     })
 
     describe('(Lifecycle) componentDidMount', () => {
       it('should call fetchStats', () => {
-        expect(props.fetchStats).toHaveBeenCalledTimes(1)
+        render(<Stats {...defaultProps} />)
+
+        expect(defaultProps.fetchStats).toHaveBeenCalledTimes(1)
       })
     })
 
     describe('(Render)', () => {
       describe('with no stats', () => {
         it('matches snapshot', () => {
-          expect(wrapper).toMatchSnapshot()
+          const { asFragment } = render(<Stats {...defaultProps} />)
+
+          expect(asFragment()).toMatchSnapshot()
         })
       })
 
       describe('with stats', () => {
         it('matches snapshot', () => {
-          wrapper.setProps({ polls: 15, responses: 39 })
-          expect(wrapper).toMatchSnapshot()
+          const { asFragment } = render(<Stats {...defaultProps} polls={15} responses={39} />)
+
+          expect(asFragment()).toMatchSnapshot()
         })
       })
     })

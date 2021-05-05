@@ -1,99 +1,167 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`(Route) Ask (Component) Answers (Render) when hasQuestion is false matches snapshot 1`] = `
-<div
-  className="answers hideable gone"
->
-  <label
-    className="input-label input-label-answers"
-  >
-    Add some responses
-  </label>
-  <Connect(Answer)
-    disabled={true}
-    index={0}
-    key="0"
-  />
-</div>
-`;
-
-exports[`(Route) Ask (Component) Answers (Render) when hasQuestion is true matches snapshot 1`] = `
-<div
-  className="answers hideable"
->
-  <label
-    className="input-label input-label-answers"
-  >
-    Add some responses
-  </label>
-  <Connect(Answer)
-    disabled={true}
-    index={0}
-    key="0"
-  />
-</div>
-`;
-
 exports[`(Route) Ask (Component) Answers (Render) with answers as objects matches snapshot 1`] = `
-<div
-  className="answers hideable"
->
-  <label
-    className="input-label input-label-answers"
+<DocumentFragment>
+  <div
+    class="answers"
+    data-testid="answers"
   >
-    Add some responses
-  </label>
-  <Connect(Answer)
-    index={0}
-    key="0"
-    text="Answer 4"
-  />
-  <Connect(Answer)
-    index={1}
-    key="1"
-    text="Answer 5"
-  />
-  <Connect(Answer)
-    index={2}
-    key="2"
-    text="Answer 6"
-  />
-  <Connect(Answer)
-    disabled={true}
-    index={3}
-    key="3"
-  />
-</div>
+    <label
+      class="input-label input-label-answers"
+    >
+      Add some responses
+    </label>
+    <div
+      class="input input-answer"
+    >
+      <label
+        class="input-label input-label-answer"
+        for="answer-0"
+      >
+        1
+      </label>
+      <input
+        class="input-field input-field-answer"
+        id="answer-0"
+        name="answer-0"
+        type="text"
+        value="Answer 4"
+      />
+    </div>
+    <div
+      class="input input-answer"
+    >
+      <label
+        class="input-label input-label-answer"
+        for="answer-1"
+      >
+        2
+      </label>
+      <input
+        class="input-field input-field-answer"
+        id="answer-1"
+        name="answer-1"
+        type="text"
+        value="Answer 5"
+      />
+    </div>
+    <div
+      class="input input-answer"
+    >
+      <label
+        class="input-label input-label-answer"
+        for="answer-2"
+      >
+        3
+      </label>
+      <input
+        class="input-field input-field-answer"
+        id="answer-2"
+        name="answer-2"
+        type="text"
+        value="Answer 6"
+      />
+    </div>
+    <div
+      class="input input-answer input-disabled"
+    >
+      <label
+        class="input-label input-label-answer"
+        for="answer-3"
+      >
+        4
+      </label>
+      <input
+        class="input-field input-field-answer"
+        disabled=""
+        id="answer-3"
+        name="answer-3"
+        type="text"
+      />
+    </div>
+  </div>
+</DocumentFragment>
 `;
 
 exports[`(Route) Ask (Component) Answers (Render) with answers as strings matches snapshot 1`] = `
-<div
-  className="answers hideable"
->
-  <label
-    className="input-label input-label-answers"
+<DocumentFragment>
+  <div
+    class="answers"
+    data-testid="answers"
   >
-    Add some responses
-  </label>
-  <Connect(Answer)
-    index={0}
-    key="0"
-    text="Answer 1"
-  />
-  <Connect(Answer)
-    index={1}
-    key="1"
-    text="Answer 2"
-  />
-  <Connect(Answer)
-    index={2}
-    key="2"
-    text="Answer 3"
-  />
-  <Connect(Answer)
-    disabled={true}
-    index={3}
-    key="3"
-  />
-</div>
+    <label
+      class="input-label input-label-answers"
+    >
+      Add some responses
+    </label>
+    <div
+      class="input input-answer"
+    >
+      <label
+        class="input-label input-label-answer"
+        for="answer-0"
+      >
+        1
+      </label>
+      <input
+        class="input-field input-field-answer"
+        id="answer-0"
+        name="answer-0"
+        type="text"
+        value="Answer 1"
+      />
+    </div>
+    <div
+      class="input input-answer"
+    >
+      <label
+        class="input-label input-label-answer"
+        for="answer-1"
+      >
+        2
+      </label>
+      <input
+        class="input-field input-field-answer"
+        id="answer-1"
+        name="answer-1"
+        type="text"
+        value="Answer 2"
+      />
+    </div>
+    <div
+      class="input input-answer"
+    >
+      <label
+        class="input-label input-label-answer"
+        for="answer-2"
+      >
+        3
+      </label>
+      <input
+        class="input-field input-field-answer"
+        id="answer-2"
+        name="answer-2"
+        type="text"
+        value="Answer 3"
+      />
+    </div>
+    <div
+      class="input input-answer input-disabled"
+    >
+      <label
+        class="input-label input-label-answer"
+        for="answer-3"
+      >
+        4
+      </label>
+      <input
+        class="input-field input-field-answer"
+        disabled=""
+        id="answer-3"
+        name="answer-3"
+        type="text"
+      />
+    </div>
+  </div>
+</DocumentFragment>
 `;

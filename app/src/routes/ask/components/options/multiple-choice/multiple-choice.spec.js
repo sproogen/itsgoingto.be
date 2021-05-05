@@ -1,9 +1,10 @@
-/* global expect, jest */
 import React from 'react'
-import { shallow } from 'enzyme'
-import { MultipleChoice } from './multiple-choice'
+import {
+  render, fireEvent, screen
+} from '@testing-library/react'
+import MultipleChoice from './multiple-choice'
 
-const props = {
+const defaultProps = {
   poll: { multipleChoice: false },
   updateOptions: jest.fn(),
 }
@@ -12,14 +13,12 @@ describe('(Route) Ask', () => {
   describe('(Component) Multiple Choice', () => {
     describe('(Action) onChange', () => {
       it('should call prop onAnswerChange', () => {
-        const wrapper = shallow(<MultipleChoice {...props} />)
-        const event = {
-          preventDefault() { },
-          target: { checked: true }
-        }
+        render(<MultipleChoice {...defaultProps} />)
 
-        wrapper.find('input').simulate('change', event)
-        expect(props.updateOptions).toHaveBeenCalledWith({
+        const input = screen.getByLabelText('Multiple choice responses')
+
+        fireEvent.click(input)
+        expect(defaultProps.updateOptions).toHaveBeenCalledWith({
           identifier: '',
           multipleChoice: true,
         })
@@ -28,9 +27,9 @@ describe('(Route) Ask', () => {
 
     describe('(Render)', () => {
       it('matches snapshot', () => {
-        const wrapper = shallow(<MultipleChoice {...props} />)
+        const { asFragment } = render(<MultipleChoice {...defaultProps} />)
 
-        expect(wrapper).toMatchSnapshot()
+        expect(asFragment()).toMatchSnapshot()
       })
     })
   })

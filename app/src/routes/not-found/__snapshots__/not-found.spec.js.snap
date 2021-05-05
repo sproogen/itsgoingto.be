@@ -1,24 +1,41 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`(Route) NotFound (Render) matches snapshot 1`] = `
-<div>
-  <Back />
-  <div
-    className="container header-container answer-header-container"
-  >
+<DocumentFragment>
+  <div>
     <div
-      className="header center-text"
+      class="back-container"
     >
-      <h1
-        className="not-found"
+      <div
+        class="back-button"
       >
-        Oh no!
-        <br />
-        <span>
-          It looks like we couldn't find that poll.
-        </span>
-      </h1>
+        <a
+          href="/"
+        >
+          <i
+            class="fa fa-arrow-left"
+          />
+          New Poll
+        </a>
+      </div>
+    </div>
+    <div
+      class="container header-container answer-header-container"
+    >
+      <div
+        class="header center-text"
+      >
+        <h1
+          class="not-found"
+        >
+          Oh no!
+          <br />
+          <span>
+            It looks like we couldn't find that poll.
+          </span>
+        </h1>
+      </div>
     </div>
   </div>
-</div>
+</DocumentFragment>
 `;

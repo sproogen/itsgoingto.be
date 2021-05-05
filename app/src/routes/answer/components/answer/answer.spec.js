@@ -1,9 +1,11 @@
-/* global expect */
 import React from 'react'
-import { shallow } from 'enzyme'
-import { Answer } from './answer'
+import {
+  fireEvent,
+  render, screen
+} from '@testing-library/react'
+import Answer from './answer'
 
-const props = {
+const defaultProps = {
   index: 1,
   type: 'radio',
   answer: {
@@ -19,14 +21,9 @@ const props = {
   viewOnly: false,
   onResponseSelected: jest.fn(),
 }
-let wrapper
 
 describe('(Route) answer', () => {
   describe('(Component) answer', () => {
-    beforeEach(() => {
-      wrapper = shallow(<Answer {...props} />)
-    })
-
     afterEach(() => {
       jest.clearAllMocks()
     })
@@ -34,77 +31,74 @@ describe('(Route) answer', () => {
     describe('(Action) onClick', () => {
       describe('poll not ended and not viewOnly', () => {
         beforeEach(() => {
-          wrapper = shallow(<Answer {...props} poll={{ ended: false }} viewOnly={false} />)
+          render(<Answer {...defaultProps} poll={{ ended: false }} viewOnly={false} />)
         })
 
         it('calls onResponseSelected with answer id', () => {
-          wrapper.find('label').simulate('click')
-          expect(props.onResponseSelected).toHaveBeenCalledWith(1)
+          fireEvent.click(screen.getByText('A'))
+          expect(defaultProps.onResponseSelected).toHaveBeenCalledWith(1)
         })
 
-        it('set state animating true', () => {
-          wrapper.find('label').simulate('click')
-          expect(wrapper.state().animating).toBe(true)
+        it('set label click class', () => {
+          fireEvent.click(screen.getByText('A'))
+          expect(screen.getByText('A').parentNode).toHaveClass('input-label-options--click')
         })
       })
 
       describe('poll ended', () => {
         it('should not call onResponseSelected', () => {
-          wrapper = shallow(<Answer {...props} poll={{ ended: true }} viewOnly={false} />)
-          wrapper.find('label').simulate('click')
-          expect(props.onResponseSelected).not.toHaveBeenCalled()
+          render(<Answer {...defaultProps} poll={{ ended: true }} viewOnly={false} />)
+
+          fireEvent.click(screen.getByText('A'))
+          expect(defaultProps.onResponseSelected).not.toHaveBeenCalled()
         })
       })
 
       describe('view only', () => {
         it('should not call onResponseSelected', () => {
-          wrapper = shallow(<Answer {...props} poll={{ ended: false }} viewOnly={true} />)
-          wrapper.find('label').simulate('click')
-          expect(props.onResponseSelected).not.toHaveBeenCalled()
+          render(<Answer {...defaultProps} poll={{ ended: false }} viewOnly />)
+
+          fireEvent.click(screen.getByText('A'))
+          expect(defaultProps.onResponseSelected).not.toHaveBeenCalled()
         })
       })
     })
 
     describe('(Render)', () => {
       describe('is type radio', () => {
-        it('matches snapshot', () => {
-          wrapper = shallow(<Answer {...props} type={'radio'} />)
-          expect(wrapper).toMatchSnapshot()
+        it('input is type radio', () => {
+          render(<Answer {...defaultProps} type="radio" />)
+          expect(screen.getByLabelText('A')).toHaveProperty('type', 'radio')
         })
       })
 
       describe('is type checkbox', () => {
-        it('matches snapshot', () => {
-          wrapper = shallow(<Answer {...props} type={'checkbox'} />)
-          expect(wrapper).toMatchSnapshot()
+        it('input is type checkbox', () => {
+          render(<Answer {...defaultProps} type="checkbox" />)
+          expect(screen.getByLabelText('A')).toHaveProperty('type', 'checkbox')
         })
       })
 
-      describe('is checked', () => {
-        it('matches snapshot', () => {
-          wrapper = shallow(<Answer {...props} checked={true} />)
-          expect(wrapper).toMatchSnapshot()
+      describe('answer is checked', () => {
+        it('input is checked', () => {
+          render(<Answer {...defaultProps} checked />)
+          expect(screen.getByLabelText('A')).toBeChecked()
         })
       })
 
-      describe('is view only', () => {
-        it('matches snapshot', () => {
-          wrapper = shallow(<Answer {...props} viewOnly={true} />)
-          expect(wrapper).toMatchSnapshot()
+      describe('view only', () => {
+        it('set label hidden class', () => {
+          render(<Answer {...defaultProps} poll={{ ended: false }} viewOnly />)
+
+          expect(screen.getByText('A').parentNode).toHaveClass('input-label-options--hidden')
         })
       })
 
       describe('Poll is ended', () => {
-        it('matches snapshot', () => {
-          wrapper = shallow(<Answer {...props} poll={{ ended: true }} />)
-          expect(wrapper).toMatchSnapshot()
-        })
-      })
+        it('set label hidden class', () => {
+          render(<Answer {...defaultProps} poll={{ ended: true }} viewOnly={false} />)
 
-      describe('is animating', () => {
-        it('matches snapshot', () => {
-          wrapper.setState({ animating: true })
-          expect(wrapper).toMatchSnapshot()
+          expect(screen.getByText('A').parentNode).toHaveClass('input-label-options--hidden')
         })
       })
     })

@@ -1,19 +1,13 @@
-/* global expect */
 import {
   LOADING_UPDATE,
-  PASSPHRASE_UPDATE,
+  PASSPHRASE_UPDATE
+} from 'store/loader/constants'
+import {
   setLoading,
   setRequiresPassphrase,
 } from 'store/loader/actions'
 
 describe('(Store) Loader', () => {
-  it('Should export a constant LOADING_UPDATE.', () => {
-    expect(LOADING_UPDATE).toBe('LOADING_UPDATE')
-  })
-  it('Should export a constant PASSPHRASE_UPDATE.', () => {
-    expect(PASSPHRASE_UPDATE).toBe('PASSPHRASE_UPDATE')
-  })
-
   describe('(Action Creators)', () => {
     describe('(Action Creator) setLoading', () => {
       it('Should be exported as a function.', () => {

@@ -5,19 +5,26 @@ import Passphrase from './passphrase'
 import EndPoll from './end-poll'
 import './options.scss'
 
-const Options = ({ hasQuestion, poll }) => (
-  <div>
-    <div className={'options hideable' + (hasQuestion ? '' : ' gone')}>
-      <MultipleChoice poll={poll}/>
-      <Passphrase poll={poll}/>
-      <EndPoll poll={poll}/>
-    </div>
+const Options = ({ poll, updateOptions }) => (
+  <div
+    data-testid="options"
+    className="options"
+  >
+    <MultipleChoice poll={poll} updateOptions={updateOptions} />
+    <Passphrase poll={poll} updateOptions={updateOptions} />
+    <EndPoll poll={poll} updateOptions={updateOptions} />
   </div>
 )
 
 Options.propTypes = {
-  hasQuestion : PropTypes.bool.isRequired,
-  poll        : PropTypes.object.isRequired,
+  poll: PropTypes.shape({
+    endType: PropTypes.string,
+    endIn: PropTypes.number,
+    endAt: PropTypes.object,
+    passphrase: PropTypes.string,
+    multipleChoice: PropTypes.bool
+  }).isRequired,
+  updateOptions: PropTypes.func.isRequired
 }
 
 export default Options

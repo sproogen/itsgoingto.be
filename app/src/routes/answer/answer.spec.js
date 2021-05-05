@@ -1,10 +1,31 @@
-/* global expect */
 import React from 'react'
-import { shallow } from 'enzyme'
+import crypto from 'crypto' // eslint-disable-line
+import {
+  render, screen, waitFor
+} from '@testing-library/react'
 import { Cookies } from 'react-cookie'
-import { Answer } from './answer'
+import { APIError } from 'services/api'
+import Answer from './answer'
 
-const props = {
+
+Object.defineProperty(global.self, 'crypto', {
+  value: {
+    getRandomValues: (arr) => crypto.randomBytes(arr.length)
+  }
+})
+
+const mockHistory = {
+  push: jest.fn()
+}
+jest.mock('react-router-dom', () => ({
+  useHistory: () => mockHistory,
+}))
+jest.mock('react-countdown-now', () => () => <div>Mocked CountdownComponent</div>)
+jest.mock('components/back', () => () => <div>Mocked BackComponent</div>)
+jest.mock('./components/passphrase', () => () => <div>Mocked PassphraseComponent</div>)
+jest.mock('./components/answers', () => () => <div>Mocked AnswersComponent</div>)
+
+const defaultProps = {
   identifier: 'Hd2eJ9Jk',
   poll: {
     question: 'Question?',
@@ -26,95 +47,134 @@ const props = {
   updateUserResponses: jest.fn(),
   cookies: new Cookies(),
 }
-let wrapper
 
 describe('(Route) answer', () => {
-  beforeEach(() => {
-    wrapper = shallow(<Answer {...props} />)
-  })
-
   afterEach(() => {
     jest.clearAllMocks()
   })
 
-  describe('(Lifecycle) componentDidMount', () => {
-    describe('!hasPoll', () => {
+  describe('(Lifecycle) component loaded', () => {
+    describe('does not have poll', () => {
       it('should set loading', () => {
-        wrapper = shallow(<Answer {...props} hasPoll={false} />)
-        expect(props.setLoading).toHaveBeenCalledWith(true)
+        render(<Answer {...defaultProps} hasPoll={false} />)
+        expect(defaultProps.setLoading).toHaveBeenCalledWith(true)
       })
     })
 
     it('should clear answers', () => {
-      expect(props.clearAnswers).toHaveBeenCalled()
+      render(<Answer {...defaultProps} />)
+      expect(defaultProps.clearAnswers).toHaveBeenCalled()
     })
 
     it('should fetchPoll', () => {
-      expect(props.fetchPoll).toHaveBeenCalled()
+      render(<Answer {...defaultProps} />)
+      expect(defaultProps.fetchPoll).toHaveBeenCalled()
     })
 
     describe('poll succesfully fetched', () => {
-      it('should set loading false', () => {
-        expect(props.setLoading).toHaveBeenCalledWith(false)
+      it('should set loading false', async () => {
+        render(<Answer {...defaultProps} />)
+        await waitFor(() => expect(defaultProps.setLoading).toHaveBeenCalledWith(false))
       })
     })
 
-    // TODO : Find a way to get these tests to work.
-    // describe('fetch poll returns poll not found', () => {
-    //   it('should redirect to 404', () => {
-    //     browserHistory.push = jest.fn()
-    //     const fetchPoll = jest.fn(() => Promise.resolve(new APIError()))
-    //     wrapper = shallow(<Answer {...props} fetchPoll={fetchPoll} />)
-    //     expect(browserHistory.push).toBeCalledWith('/404')
-    //   })
-    // })
+    describe('fetch poll returns poll not found', () => {
+      it('should redirect to 404', async () => {
+        const fetchPoll = jest.fn(() => Promise.resolve(new APIError({
+          status: 404,
+          error: { error: 'poll-not-found' },
+        })))
+        render(<Answer {...defaultProps} fetchPoll={fetchPoll} />)
+        await waitFor(() => expect(mockHistory.push).toBeCalledWith('/404'))
+      })
+    })
 
-    // describe('fetch poll returns incorrect passphrase', () => {
-    //   it('should call setRequiresPassphrase', () => {
-    //     browserHistory.push = jest.fn()
-    //     const fetchPoll = jest.fn(() => Promise.resolve(new APIError({
-    //       status: 403,
-    //       error: { error: 'incorrect-passphrase' },
-    //     })))
-    //     wrapper = shallow(<Answer {...props} fetchPoll={fetchPoll} />)
-    //     expect(props.setRequiresPassphrase).toBeCalledWith(true)
-    //   })
-    // })
+    describe('fetch poll returns incorrect passphrase', () => {
+      it('should call setRequiresPassphrase', async () => {
+        const fetchPoll = jest.fn(() => Promise.resolve(new APIError({
+          status: 403,
+          error: { error: 'incorrect-passphrase' },
+        })))
+        render(<Answer {...defaultProps} fetchPoll={fetchPoll} />)
+        await waitFor(() => expect(defaultProps.setRequiresPassphrase).toBeCalledWith(true))
+      })
+    })
   })
+
+  // TODO: Test userID creation
+  // TODO: Test sockets
 
   describe('(Render)', () => {
     describe('!hasPoll and requiresPassphrase', () => {
-      it('matches snapshot', () => {
-        wrapper = shallow(<Answer {...props} hasPoll={false} requiresPassphrase={true} />)
-        expect(wrapper).toMatchSnapshot()
+      beforeEach(() => {
+        render(<Answer {...defaultProps} hasPoll={false} requiresPassphrase />)
+      })
+
+      it('shows the passphrase component', () => {
+        expect(screen.getByText('Mocked PassphraseComponent')).toBeInTheDocument()
+      })
+
+      it('does not render the poll', () => {
+        expect(screen.queryByTestId('answer-container')).not.toBeInTheDocument()
       })
     })
 
     describe('hasPoll', () => {
-      it('matches snapshot', () => {
-        wrapper = shallow(<Answer {...props} hasPoll={true} />)
-        expect(wrapper).toMatchSnapshot()
+      beforeEach(() => {
+        render(<Answer {...defaultProps} hasPoll />)
+      })
+
+      it('does not show the passphrase component', () => {
+        expect(screen.queryByText('Mocked PassphraseComponent')).not.toBeInTheDocument()
+      })
+
+      it('renders the poll', () => {
+        expect(screen.getByTestId('answer-container')).toBeInTheDocument()
+        expect(screen.getByText('Question?')).toBeInTheDocument()
+        expect(screen.getByText('Mocked AnswersComponent')).toBeInTheDocument()
       })
     })
 
-    describe('Poll is ended', () => {
-      it('matches snapshot', () => {
-        wrapper = shallow(<Answer {...props} poll={{
-          question: 'Question?',
-          ended: true,
-        }} />)
-        expect(wrapper).toMatchSnapshot()
+    describe('Poll ended', () => {
+      it('poll is ended', () => {
+        render(
+          <Answer
+            {...defaultProps}
+            poll={{
+              ...defaultProps.poll,
+              ended: true,
+            }}
+          />
+        )
+        expect(screen.getByText('This poll has now ended')).toBeInTheDocument()
+      })
+      it('poll is not ended', () => {
+        render(
+          <Answer
+            {...defaultProps}
+            poll={{
+              ...defaultProps.poll,
+              ended: false,
+            }}
+          />
+        )
+        expect(screen.queryByText('This poll has now ended')).not.toBeInTheDocument()
       })
     })
 
     describe('Poll has end date', () => {
-      it('matches snapshot', () => {
-        wrapper = shallow(<Answer {...props} poll={{
-          question: 'Question?',
-          ended: false,
-          endDate: { date: '22/11/2018' },
-        }} />)
-        expect(wrapper).toMatchSnapshot()
+      it('renders countdown component', () => {
+        render(
+          <Answer
+            {...defaultProps}
+            poll={{
+              question: 'Question?',
+              ended: false,
+              endDate: { date: '22/11/2018' },
+            }}
+          />
+        )
+        expect(screen.getByText('Mocked CountdownComponent')).toBeInTheDocument()
       })
     })
   })

@@ -1,0 +1,77 @@
+{
+  "name": "itsgoingtobe-server",
+  "version": "0.0.1",
+  "engines": {
+    "node": "14.15.x"
+  },
+  "author": "James Grant <james@jwgmedia.co.uk> (http://jameswgrant.co.uk)",
+  "license": "GPLv3",
+  "description": "It's Going To Be node backend",
+  "main": "src/index.js",
+  "scripts": {
+    "build": "babel src -d dist",
+    "start": "run-s sync serve",
+    "sync": "babel-node src/db/sync.js",
+    "serve": "nodemon --exec babel-node src/index.js",
+    "lint": "eslint src/.",
+    "eslint-output": "eslint-output",
+    "test": "cross-env NODE_ENV=test jest"
+  },
+  "dependencies": {
+    "cookie-parser": "^1.4.5",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "morgan": "^1.9.1",
+    "mysql2": "^2.1.0",
+    "ramda": "^0.26.1",
+    "sequelize": "^5.21.5",
+    "socket.io": "2.1.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.8.4",
+    "@babel/node": "^7.8.4",
+    "@babel/preset-env": "^7.8.4",
+    "@databases/mysql-test": "^3.1.0",
+    "cross-env": "^7.0.3",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-output": "^2.0.3",
+    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-jest": "^24.1.3",
+    "jest": "^26.6.3",
+    "nodemon": "^2.0.2",
+    "npm-run-all": "^4.1.5",
+    "supertest": "^6.1.3"
+  },
+  "jest": {
+    "globalSetup": "<rootDir>/node_modules/@databases/mysql-test/jest/globalSetup.js",
+    "globalTeardown": "<rootDir>/node_modules/@databases/mysql-test/jest/globalTeardown.js",
+    "testEnvironment": "node",
+    "testMatch": [
+      "<rootDir>/api-tests/**/*?(*.)(spec|test).js"
+    ],
+    "moduleDirectories": [
+      "node_modules"
+    ],
+    "setupFiles": [
+      "<rootDir>/api-tests/setup-tests.js"
+    ],
+    "coverageDirectory": "build/coverage",
+    "collectCoverageFrom": [
+      "src/**/*.js"
+    ],
+    "coveragePathIgnorePatterns": [
+      "<rootDir>/node_modules/"
+    ],
+    "coverageReporters": [
+      "lcov"
+    ]
+  },
+  "mysql": {
+    "test": {
+      "migrationsScript": "npm run sync"
+    }
+  }
+}

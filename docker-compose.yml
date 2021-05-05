@@ -1,87 +1,66 @@
-version: '2'
+version: '3.8'
 services:
   app:
-    build:
-      context: ./app
-      dockerfile: ../docker/app/Dockerfile
-    image: itsgoingtobe/app
+    image: itsgoingtobe/app:latest
+    command: npm start
     volumes:
-      - ./app/src:/app/src
-    ports:
-      - "3000:3000"
+      - ./app:/app
+      - /app/node_modules
+    expose:
+      - "3000"
+    environment:
+      - PORT=3000
+      - SOCKET_PORT=8000
 
   storybook:
-    build:
-      context: ./app
-      dockerfile: ../docker/storybook/Dockerfile
-    image: itsgoingtobe/storybook
+    image: itsgoingtobe/app:latest
+    command: npm run storybook
     volumes:
-      - ./app/src:/app/src
-      - ./app/stories:/app/stories
+      - ./app:/app
+      - /app/node_modules
     ports:
       - "6006:6006"
 
-  socket-server:
-    build:
-      context: ./socket-server
-      dockerfile: ../docker/socket-server/Dockerfile
-    image: itsgoingtobe/socket-server
+  swagger:
+    image: swaggerapi/swagger-ui
     volumes:
-      - ./socket-server:/socket-server
+      - ./server/swagger.yml:/swagger.yml
+    environment:
+      SWAGGER_JSON: /swagger.yml
     ports:
-      - "8001:8001"
+      - "4000:8080"
+
+  server:
+    image: itsgoingtobe/server:latest
+    command: npm start
+    depends_on:
+      - mysql
+    volumes:
+      - ./server:/server
+      - /server/node_modules
+    expose:
+      - "8001"
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=mysql://user:password@mysql:3306/itsgoingtobe
+      - PORT=8001
+      - JWT_PASSPHRASE=secret
 
   webserver:
     image: nginx:alpine
     depends_on:
-      - php-fpm
-    links:
-      - mysql
+      - app
+      - server
     volumes:
-      - ./:/var/www/html
-      - ./docker/nginx/site.conf:/etc/nginx/conf.d/default.conf
+      - ./site.conf:/etc/nginx/conf.d/default.conf
     ports:
       - "8000:80"
-    environment:
-      - DATABASE_URL=mysql://user:password@mysql:3306/itsgoingtobe
-
-  php-fpm:
-    build: docker/php-fpm
-    image: itsgoingtobe/php-fpm
-    working_dir: /var/www/html
-    depends_on:
-      - mysql
-      - mysql_test
-      - socket-server
-    links:
-      - mysql
-      - mysql_test
-      - socket-server
-    volumes:
-      - ./:/var/www/html
-      - ./docker/php-fpm/php-ini-overrides.ini:/etc/php/7.0/fpm/conf.d/99-overrides.ini
-    environment:
-      - DATABASE_URL=mysql://user:password@mysql:3306/itsgoingtobe
-      - DATABASE_TEST_URL=mysql://user:password@mysql_test:3306/itsgoingtobe
 
   mysql:
     image: mysql:8.0
-    ports:
-      - "3306:3306"
-    volumes:
-      - ./docker/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
-    environment:
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=itsgoingtobe
-      - MYSQL_USER=user
-      - MYSQL_PASSWORD=password
-
-  mysql_test:
-    image: mysql:8.0
-    ports:
-      - "3307:3306"
-    volumes:
-      - ./docker/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+    command: --default-authentication-plugin=mysql_native_password
+    expose:
+      - "3306"
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=itsgoingtobe

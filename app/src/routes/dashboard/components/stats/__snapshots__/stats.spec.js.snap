@@ -1,87 +1,91 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`(Route) dashoard (Component) stats (Render) with no stats matches snapshot 1`] = `
-<div
-  className="info"
->
+<DocumentFragment>
   <div
-    className="info-block-column"
+    class="info"
   >
     <div
-      className="info-block"
+      class="info-block-column"
     >
       <div
-        className="info-header"
+        class="info-block"
       >
-        Total Polls
+        <div
+          class="info-header"
+        >
+          Total Polls
+        </div>
+        <div
+          class="info-body"
+        >
+          -
+        </div>
       </div>
+    </div>
+    <div
+      class="info-block-column"
+    >
       <div
-        className="info-body"
+        class="info-block"
       >
-        -
+        <div
+          class="info-header"
+        >
+          Total Responses
+        </div>
+        <div
+          class="info-body"
+        >
+          -
+        </div>
       </div>
     </div>
   </div>
-  <div
-    className="info-block-column"
-  >
-    <div
-      className="info-block"
-    >
-      <div
-        className="info-header"
-      >
-        Total Responses
-      </div>
-      <div
-        className="info-body"
-      >
-        -
-      </div>
-    </div>
-  </div>
-</div>
+</DocumentFragment>
 `;
 
 exports[`(Route) dashoard (Component) stats (Render) with stats matches snapshot 1`] = `
-<div
-  className="info"
->
+<DocumentFragment>
   <div
-    className="info-block-column"
+    class="info"
   >
     <div
-      className="info-block"
+      class="info-block-column"
     >
       <div
-        className="info-header"
+        class="info-block"
       >
-        Total Polls
+        <div
+          class="info-header"
+        >
+          Total Polls
+        </div>
+        <div
+          class="info-body"
+        >
+          15
+        </div>
       </div>
+    </div>
+    <div
+      class="info-block-column"
+    >
       <div
-        className="info-body"
+        class="info-block"
       >
-        15
+        <div
+          class="info-header"
+        >
+          Total Responses
+        </div>
+        <div
+          class="info-body"
+        >
+          39
+        </div>
       </div>
     </div>
   </div>
-  <div
-    className="info-block-column"
-  >
-    <div
-      className="info-block"
-    >
-      <div
-        className="info-header"
-      >
-        Total Responses
-      </div>
-      <div
-        className="info-body"
-      >
-        39
-      </div>
-    </div>
-  </div>
-</div>
+</DocumentFragment>
 `;

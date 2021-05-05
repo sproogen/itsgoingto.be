@@ -1,14 +1,25 @@
 {
-  "name": "itsgoingtobe-heroku",
+  "name": "itsgoingtobe",
   "version": "2.7.0",
+  "engines": {
+    "node": "14.16.x"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sproogen/itsgoingto.be"
+  },
   "author": "James Grant <james@jwgmedia.co.uk> (http://jameswgrant.co.uk)",
   "license": "GPLv3",
   "scripts": {
-    "postinstall": "(cd app && npm install) && (cd socket-server && npm install)",
-    "heroku-postbuild": "rm -rf app"
+    "heroku-prebuild": "(cd app && npm ci --also=dev) && (cd server && npm ci --also=dev)",
+    "heroku-postbuild": "npm run build-server && npm run build-app",
+    "build-server": "cd server && npm run build",
+    "build-app": "cd app && npm run build && mkdir ../server/dist/public && mv dist/* ../server/dist/public/",
+    "heroku-cleanup": "rm -rf app && (cd server && npm prune)",
+    "start": "node server/dist/index.js"
   },
   "cacheDirectories": [
     "app/node_modules",
-    "socket-server/node_modules"
+    "server/node_modules"
   ]
 }

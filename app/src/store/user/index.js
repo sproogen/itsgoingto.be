@@ -1,4 +1,4 @@
-import { USER_UPDATE } from 'store/user/actions'
+import { USER_UPDATE } from 'store/user/constants'
 
 // ------------------------------------
 // Reducer

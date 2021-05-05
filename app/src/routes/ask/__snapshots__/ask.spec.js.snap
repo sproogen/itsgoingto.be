@@ -1,361 +1,407 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`(Route) Ask (Render) when canSubmitPoll is true matches snapshot 1`] = `
-<div>
-  <HelmetWrapper
-    defer={true}
-    encodeSpecialCharacters={true}
-  >
-    <meta
-      charSet="utf-8"
-    />
-    <title>
-      It's Going To Be
-    </title>
-    <meta
-      content="Wondering where to go or what to see? Start a poll and share it with your friends or colleagues."
-      name="description"
-    />
-    <meta
-      content="question vote poll result"
-      name="keywords"
-    />
-  </HelmetWrapper>
-  <div
-    className="container header-container hideable"
-  >
+<DocumentFragment>
+  <div>
     <div
-      className="header center-text"
+      class="container header-container hideable"
     >
-      <h1>
-        <WordRotate
-          words="What,Where,When,Who"
-        />
-         is it going to be?
-      </h1>
+      <div
+        class="header center-text"
+      >
+        <h1>
+          <span
+            class="word-rotate"
+          >
+            <span
+              class="word-rotate_word"
+            >
+              What
+            </span>
+            <span
+              class="word-rotate_word word-rotate_word--previous"
+            >
+              Who
+            </span>
+          </span>
+          is it going to be?
+        </h1>
+      </div>
+    </div>
+    <div
+      class="container question-container"
+    >
+      <div
+        class="input input-question"
+      >
+        <label
+          class="input-label input-label-question"
+          for="question"
+        >
+          Ask a question
+          <textarea
+            class="input-field input-field-question js-auto-size"
+            data-testid="question"
+            id="question"
+            name="question"
+            placeholder=""
+            rows="1"
+            style="overflow-x: hidden; word-wrap: break-word; overflow-y: hidden;"
+          />
+        </label>
+      </div>
     </div>
   </div>
-  <div
-    className="container question-container"
-  >
-    <Connect(Question)
-      canSubmitPoll={true}
-      placeholderText={
-        Array [
-          "What film should we watch?",
-          "Who is going to win the league?",
-          "Where should we go for drinks?",
-          "You talking to me?",
-          "What should we do this weekend?",
-          "When should we go to Paris?",
-          "Who ya gonna call?",
-          "When will you start a poll?",
-        ]
-      }
-      question=""
-    />
-    <Component
-      answers={Array []}
-      hasQuestion={false}
-    />
-    <Options
-      hasQuestion={false}
-      poll={Object {}}
-    />
-    <Connect(Actions)
-      canSubmitPoll={true}
-      hasQuestion={false}
-    />
-  </div>
-</div>
+</DocumentFragment>
 `;
 
 exports[`(Route) Ask (Render) when hasQuestion is true matches snapshot 1`] = `
-<div>
-  <HelmetWrapper
-    defer={true}
-    encodeSpecialCharacters={true}
-  >
-    <meta
-      charSet="utf-8"
-    />
-    <title>
-      It's Going To Be
-    </title>
-    <meta
-      content="Wondering where to go or what to see? Start a poll and share it with your friends or colleagues."
-      name="description"
-    />
-    <meta
-      content="question vote poll result"
-      name="keywords"
-    />
-  </HelmetWrapper>
-  <div
-    className="container header-container hideable gone"
-  >
+<DocumentFragment>
+  <div>
     <div
-      className="header center-text"
+      class="container header-container hideable gone"
     >
-      <h1>
-        <WordRotate
-          words="What,Where,When,Who"
-        />
-         is it going to be?
-      </h1>
+      <div
+        class="header center-text"
+      >
+        <h1>
+          <span
+            class="word-rotate"
+          >
+            <span
+              class="word-rotate_word"
+            >
+              What
+            </span>
+            <span
+              class="word-rotate_word word-rotate_word--previous"
+            >
+              Who
+            </span>
+          </span>
+          is it going to be?
+        </h1>
+      </div>
+    </div>
+    <div
+      class="container question-container move-up"
+    >
+      <div
+        class="input input-question"
+      >
+        <label
+          class="input-label input-label-question"
+          for="question"
+        >
+          Ask a question
+          <textarea
+            class="input-field input-field-question js-auto-size"
+            data-testid="question"
+            id="question"
+            name="question"
+            placeholder=""
+            rows="1"
+            style="overflow-x: hidden; word-wrap: break-word; overflow-y: hidden;"
+          >
+            Some question
+          </textarea>
+        </label>
+      </div>
+      <div
+        class="answers"
+        data-testid="answers"
+      >
+        <label
+          class="input-label input-label-answers"
+        >
+          Add some responses
+        </label>
+        <div
+          class="input input-answer input-disabled"
+        >
+          <label
+            class="input-label input-label-answer"
+            for="answer-0"
+          >
+            1
+          </label>
+          <input
+            class="input-field input-field-answer"
+            disabled=""
+            id="answer-0"
+            name="answer-0"
+            type="text"
+          />
+        </div>
+      </div>
+      <div
+        class="options"
+        data-testid="options"
+      >
+        <div
+          class="input-option input-option-multipleChoice"
+        >
+          <input
+            class="input-checkbox input-checkbox-multipleChoice"
+            id="multiple-choice"
+            name="multiple"
+            type="checkbox"
+          />
+          <label
+            class="input-label input-label-options input-label-multipleChoice"
+            for="multiple-choice"
+          >
+            Multiple choice responses
+          </label>
+        </div>
+        <div
+          class="input-option input-option-passphrase"
+        >
+          <label
+            class="input-label input-label-passphrase"
+            for="passphrase"
+          >
+            Set a passphrase (optional)
+            <input
+              class="input-field input-field-passphrase"
+              id="passphrase"
+              name="passphrase"
+              type="text"
+              value=""
+            />
+          </label>
+        </div>
+        <div
+          class="input-option input-option-endPoll"
+        >
+          <div
+            class="input-option-radios"
+          >
+            <input
+              checked=""
+              class="input-radio input-checkbox-endType"
+              id="end-never"
+              name="endType"
+              type="checkbox"
+              value="endNever"
+            />
+            <label
+              class="input-label input-label-options input-label-endType"
+              for="end-never"
+            >
+              Don't End Poll
+            </label>
+            <input
+              class="input-radio input-checkbox-endType"
+              id="end-at"
+              name="endType"
+              type="checkbox"
+              value="endAt"
+            />
+            <label
+              class="input-label input-label-options input-label-endType"
+              for="end-at"
+            >
+              End Poll At
+            </label>
+            <input
+              class="input-radio input-checkbox-endType"
+              id="end-in"
+              name="endType"
+              type="radio"
+              value="endIn"
+            />
+            <label
+              class="input-label input-label-options input-label-endType"
+              for="end-in"
+            >
+              End Poll In
+            </label>
+          </div>
+        </div>
+      </div>
+      <div
+        class="actions"
+      >
+        <button
+          class="btn pull-right disabled"
+          data-testid="button-Create-Poll"
+          disabled=""
+          type="button"
+        >
+          <span>
+            Create Poll
+          </span>
+        </button>
+      </div>
     </div>
   </div>
-  <div
-    className="container question-container move-up"
-  >
-    <Connect(Question)
-      canSubmitPoll={false}
-      placeholderText={
-        Array [
-          "What film should we watch?",
-          "Who is going to win the league?",
-          "Where should we go for drinks?",
-          "You talking to me?",
-          "What should we do this weekend?",
-          "When should we go to Paris?",
-          "Who ya gonna call?",
-          "When will you start a poll?",
-        ]
-      }
-      question=""
-    />
-    <Component
-      answers={Array []}
-      hasQuestion={true}
-    />
-    <Options
-      hasQuestion={true}
-      poll={Object {}}
-    />
-    <Connect(Actions)
-      canSubmitPoll={false}
-      hasQuestion={true}
-    />
-  </div>
-</div>
+</DocumentFragment>
 `;
 
 exports[`(Route) Ask (Render) with answers matches snapshot 1`] = `
-<div>
-  <HelmetWrapper
-    defer={true}
-    encodeSpecialCharacters={true}
-  >
-    <meta
-      charSet="utf-8"
-    />
-    <title>
-      It's Going To Be
-    </title>
-    <meta
-      content="Wondering where to go or what to see? Start a poll and share it with your friends or colleagues."
-      name="description"
-    />
-    <meta
-      content="question vote poll result"
-      name="keywords"
-    />
-  </HelmetWrapper>
-  <div
-    className="container header-container hideable"
-  >
+<DocumentFragment>
+  <div>
     <div
-      className="header center-text"
+      class="container header-container hideable"
     >
-      <h1>
-        <WordRotate
-          words="What,Where,When,Who"
-        />
-         is it going to be?
-      </h1>
+      <div
+        class="header center-text"
+      >
+        <h1>
+          <span
+            class="word-rotate"
+          >
+            <span
+              class="word-rotate_word"
+            >
+              What
+            </span>
+            <span
+              class="word-rotate_word word-rotate_word--previous"
+            >
+              Who
+            </span>
+          </span>
+          is it going to be?
+        </h1>
+      </div>
+    </div>
+    <div
+      class="container question-container"
+    >
+      <div
+        class="input input-question"
+      >
+        <label
+          class="input-label input-label-question"
+          for="question"
+        >
+          Ask a question
+          <textarea
+            class="input-field input-field-question js-auto-size"
+            data-testid="question"
+            id="question"
+            name="question"
+            placeholder=""
+            rows="1"
+            style="overflow-x: hidden; word-wrap: break-word; overflow-y: hidden;"
+          />
+        </label>
+      </div>
     </div>
   </div>
-  <div
-    className="container question-container"
-  >
-    <Connect(Question)
-      canSubmitPoll={false}
-      placeholderText={
-        Array [
-          "What film should we watch?",
-          "Who is going to win the league?",
-          "Where should we go for drinks?",
-          "You talking to me?",
-          "What should we do this weekend?",
-          "When should we go to Paris?",
-          "Who ya gonna call?",
-          "When will you start a poll?",
-        ]
-      }
-      question=""
-    />
-    <Component
-      answers={
-        Array [
-          "Answer 1",
-          "Answer 2",
-        ]
-      }
-      hasQuestion={false}
-    />
-    <Options
-      hasQuestion={false}
-      poll={Object {}}
-    />
-    <Connect(Actions)
-      canSubmitPoll={false}
-      hasQuestion={false}
-    />
-  </div>
-</div>
+</DocumentFragment>
 `;
 
 exports[`(Route) Ask (Render) with poll matches snapshot 1`] = `
-<div>
-  <HelmetWrapper
-    defer={true}
-    encodeSpecialCharacters={true}
-  >
-    <meta
-      charSet="utf-8"
-    />
-    <title>
-      It's Going To Be
-    </title>
-    <meta
-      content="Wondering where to go or what to see? Start a poll and share it with your friends or colleagues."
-      name="description"
-    />
-    <meta
-      content="question vote poll result"
-      name="keywords"
-    />
-  </HelmetWrapper>
-  <div
-    className="container header-container hideable"
-  >
+<DocumentFragment>
+  <div>
     <div
-      className="header center-text"
+      class="container header-container hideable"
     >
-      <h1>
-        <WordRotate
-          words="What,Where,When,Who"
-        />
-         is it going to be?
-      </h1>
+      <div
+        class="header center-text"
+      >
+        <h1>
+          <span
+            class="word-rotate"
+          >
+            <span
+              class="word-rotate_word"
+            >
+              What
+            </span>
+            <span
+              class="word-rotate_word word-rotate_word--previous"
+            >
+              Who
+            </span>
+          </span>
+          is it going to be?
+        </h1>
+      </div>
+    </div>
+    <div
+      class="container question-container"
+    >
+      <div
+        class="input input-question"
+      >
+        <label
+          class="input-label input-label-question"
+          for="question"
+        >
+          Ask a question
+          <textarea
+            class="input-field input-field-question js-auto-size"
+            data-testid="question"
+            id="question"
+            name="question"
+            placeholder=""
+            rows="1"
+            style="overflow-x: hidden; word-wrap: break-word; overflow-y: hidden;"
+          />
+        </label>
+      </div>
     </div>
   </div>
-  <div
-    className="container question-container"
-  >
-    <Connect(Question)
-      canSubmitPoll={false}
-      placeholderText={
-        Array [
-          "What film should we watch?",
-          "Who is going to win the league?",
-          "Where should we go for drinks?",
-          "You talking to me?",
-          "What should we do this weekend?",
-          "When should we go to Paris?",
-          "Who ya gonna call?",
-          "When will you start a poll?",
-        ]
-      }
-      question=""
-    />
-    <Component
-      answers={Array []}
-      hasQuestion={false}
-    />
-    <Options
-      hasQuestion={false}
-      poll={
-        Object {
-          "identifier": "kdH98eJ",
-          "question": "Question",
-        }
-      }
-    />
-    <Connect(Actions)
-      canSubmitPoll={false}
-      hasQuestion={false}
-    />
-  </div>
-</div>
+</DocumentFragment>
 `;
 
 exports[`(Route) Ask (Render) with question matches snapshot 1`] = `
-<div>
-  <HelmetWrapper
-    defer={true}
-    encodeSpecialCharacters={true}
-  >
-    <meta
-      charSet="utf-8"
-    />
-    <title>
-      It's Going To Be
-    </title>
-    <meta
-      content="Wondering where to go or what to see? Start a poll and share it with your friends or colleagues."
-      name="description"
-    />
-    <meta
-      content="question vote poll result"
-      name="keywords"
-    />
-  </HelmetWrapper>
-  <div
-    className="container header-container hideable"
-  >
+<DocumentFragment>
+  <div>
     <div
-      className="header center-text"
+      class="container header-container hideable"
     >
-      <h1>
-        <WordRotate
-          words="What,Where,When,Who"
-        />
-         is it going to be?
-      </h1>
+      <div
+        class="header center-text"
+      >
+        <h1>
+          <span
+            class="word-rotate"
+          >
+            <span
+              class="word-rotate_word"
+            >
+              What
+            </span>
+            <span
+              class="word-rotate_word word-rotate_word--previous"
+            >
+              Who
+            </span>
+          </span>
+          is it going to be?
+        </h1>
+      </div>
+    </div>
+    <div
+      class="container question-container"
+    >
+      <div
+        class="input input-question"
+      >
+        <label
+          class="input-label input-label-question"
+          for="question"
+        >
+          Ask a question
+          <textarea
+            class="input-field input-field-question js-auto-size"
+            data-testid="question"
+            id="question"
+            name="question"
+            placeholder=""
+            rows="1"
+            style="overflow-x: hidden; word-wrap: break-word; overflow-y: hidden;"
+          >
+            Some question
+          </textarea>
+        </label>
+      </div>
     </div>
   </div>
-  <div
-    className="container question-container"
-  >
-    <Connect(Question)
-      canSubmitPoll={false}
-      placeholderText={
-        Array [
-          "What film should we watch?",
-          "Who is going to win the league?",
-          "Where should we go for drinks?",
-          "You talking to me?",
-          "What should we do this weekend?",
-          "When should we go to Paris?",
-          "Who ya gonna call?",
-          "When will you start a poll?",
-        ]
-      }
-      question="Some question"
-    />
-    <Component
-      answers={Array []}
-      hasQuestion={false}
-    />
-    <Options
-      hasQuestion={false}
-      poll={Object {}}
-    />
-    <Connect(Actions)
-      canSubmitPoll={false}
-      hasQuestion={false}
-    />
-  </div>
-</div>
+</DocumentFragment>
 `;

@@ -1,24 +1,19 @@
-/* global expect */
-import {
-  statSelector,
-} from 'store/stats/selectors'
-import {
-  default as statsReducer
-} from 'store/stats'
+import { statSelector } from 'store/stats/selectors'
+import statsReducer from 'store/stats'
 
 const initialState = {
-  polls     : null,
-  responses : null,
+  polls: null,
+  responses: null,
 }
 
 describe('(Store) Stats', () => {
-  let _globalState = {
+  let globalState = {
     stats: statsReducer(undefined, {})
   }
 
   describe('(Selectors)', () => {
     beforeEach(() => {
-      _globalState = {
+      globalState = {
         stats: { polls: 5, responses: 13 }
       }
     })
@@ -29,18 +24,18 @@ describe('(Store) Stats', () => {
       })
 
       it('Should return null for initial stats.', () => {
-        _globalState.stats = initialState
-        expect(statSelector(_globalState, 'polls')).toEqual(null)
-        expect(statSelector(_globalState, 'responses')).toEqual(null)
+        globalState.stats = initialState
+        expect(statSelector(globalState, 'polls')).toEqual(null)
+        expect(statSelector(globalState, 'responses')).toEqual(null)
       })
 
       it('Should return the stat in the global state.', () => {
-        expect(statSelector(_globalState, 'polls')).toEqual(5)
-        expect(statSelector(_globalState, 'responses')).toEqual(13)
+        expect(statSelector(globalState, 'polls')).toEqual(5)
+        expect(statSelector(globalState, 'responses')).toEqual(13)
       })
 
       it('Should return undefined for no stat in the global state.', () => {
-        expect(statSelector(_globalState, 'no-stat')).toEqual(undefined)
+        expect(statSelector(globalState, 'no-stat')).toEqual(undefined)
       })
     })
   })

@@ -5,10 +5,7 @@
     "DATABASE_URL": {
       "required": true
     },
-    "APP_ENV": {
-      "required": true
-    },
-    "APP_SECRET": {
+    "NODE_ENV": {
       "required": true
     },
     "JWT_PASSPHRASE": {
@@ -17,9 +14,5 @@
   },
   "formation": {},
   "addons": [],
-  "buildpacks": [
-    {
-      "url": "https://github.com/heroku/heroku-buildpack-multi.git"
-    }
-  ]
+  "buildpacks": []
 }

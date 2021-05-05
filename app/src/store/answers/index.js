@@ -4,7 +4,7 @@ import {
 } from 'ramda'
 import {
   ANSWER_ADD, ANSWER_UPDATE, ANSWERS_UPDATE, ANSWER_REMOVE, ANSWERS_REMOVE_AFTER, ANSWERS_CLEAR
-} from 'store/answers/actions'
+} from './constants'
 
 // TODO : Update answers to reference by identifier and index
 
@@ -24,7 +24,7 @@ const initialState = []
  *
  * @return {State}         The modified state
  */
-export default function answersReducer (state = initialState, action = null) {
+export default function answersReducer(state = initialState, action = null) {
   switch (action.type) {
     case ANSWER_ADD:
       // Add a new answer to the state

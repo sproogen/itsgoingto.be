@@ -1,9 +1,4 @@
-import { initialState } from 'store/stats'
-
-// ------------------------------------
-// Constants
-// ------------------------------------
-export const STATS_UPDATE = 'STATS_UPDATE'
+import { STATS_UPDATE } from './constants'
 
 // ------------------------------------
 // Actions
@@ -25,4 +20,7 @@ export const updateStats = (stats) => ({
  *
  * @return {Function}    redux-thunk callable function
  */
-export const clearStats = () => updateStats(initialState)
+export const clearStats = () => updateStats({
+  polls: null,
+  responses: null,
+})

@@ -1,42 +1,22 @@
-/* global expect, jest */
-import {
-  default as answersReducer
-} from 'store/answers'
+import answersReducer from 'store/answers'
 import {
   ANSWER_ADD,
   ANSWER_UPDATE,
   ANSWERS_UPDATE,
   ANSWER_REMOVE,
   ANSWERS_REMOVE_AFTER,
-  ANSWERS_CLEAR,
+  ANSWERS_CLEAR
+} from 'store/answers/constants'
+import {
   addAnswer,
   updateAnswer,
   updateAnswers,
   removeAnswer,
   removeAfterAnswer,
-  clearAnswers,
+  clearAnswers
 } from 'store/answers/actions'
 
 describe('(Store) Answers', () => {
-  it('Should export a constant ANSWER_ADD.', () => {
-    expect(ANSWER_ADD).toBe('ANSWER_ADD')
-  })
-  it('Should export a constant ANSWER_UPDATE.', () => {
-    expect(ANSWER_UPDATE).toBe('ANSWER_UPDATE')
-  })
-  it('Should export a constant ANSWERS_UPDATE.', () => {
-    expect(ANSWERS_UPDATE).toBe('ANSWERS_UPDATE')
-  })
-  it('Should export a constant ANSWER_REMOVE.', () => {
-    expect(ANSWER_REMOVE).toBe('ANSWER_REMOVE')
-  })
-  it('Should export a constant ANSWERS_REMOVE_AFTER.', () => {
-    expect(ANSWERS_REMOVE_AFTER).toBe('ANSWERS_REMOVE_AFTER')
-  })
-  it('Should export a constant ANSWERS_CLEAR.', () => {
-    expect(ANSWERS_CLEAR).toBe('ANSWERS_CLEAR')
-  })
-
   describe('(Action Creators)', () => {
     describe('(Action Creator) addAnswer', () => {
       it('Should be exported as a function.', () => {
@@ -49,23 +29,21 @@ describe('(Store) Answers', () => {
     })
 
     describe('(Action Creator) updateAnswer', () => {
-      let _globalState
-      let _dispatch
-      let _getState
+      let globalState
+      let dispatch
+      let getState
 
       beforeEach(() => {
-        _globalState = {
-          answers : ['']
+        globalState = {
+          answers: ['']
         }
-        _dispatch = jest.fn((action) => {
-          _globalState = {
-            ..._globalState,
-            answers : answersReducer(_globalState.answers, action)
+        dispatch = jest.fn((action) => {
+          globalState = {
+            ...globalState,
+            answers: answersReducer(globalState.answers, action)
           }
         })
-        _getState = jest.fn(() => {
-          return _globalState
-        })
+        getState = jest.fn(() => globalState)
       })
 
       it('Should be exported as a function.', () => {
@@ -76,31 +54,25 @@ describe('(Store) Answers', () => {
         expect(typeof updateAnswer()).toBe('function')
       })
 
-      it('Should return a promise from that thunk that gets fulfilled.', () => {
-        const index = 0
-
-        return updateAnswer(index)(_dispatch, _getState).should.eventually.be.fulfilled
-      })
-
       it('Should call dispatch exactly once and get state twice.', () => {
         const index = 0
 
-        return updateAnswer(index)(_dispatch, _getState)
+        return updateAnswer(index)(dispatch, getState)
           .then(() => {
-            expect(_dispatch).toHaveBeenCalledTimes(1)
-            expect(_getState).toHaveBeenCalledTimes(3)
+            expect(dispatch).toHaveBeenCalledTimes(1)
+            expect(getState).toHaveBeenCalledTimes(3)
           })
       })
 
       it('Should call dispatch with ANSWER_UPDATE, index and text.', () => {
         const index = 0
 
-        return updateAnswer(index, 'Answer Text')(_dispatch, _getState)
+        return updateAnswer(index, 'Answer Text')(dispatch, getState)
           .then(() => {
-            expect(_dispatch).toHaveBeenCalledWith({
-              type  : ANSWER_UPDATE,
+            expect(dispatch).toHaveBeenCalledWith({
+              type : ANSWER_UPDATE,
               index,
-              text  : 'Answer Text'
+              text: 'Answer Text'
             })
           })
       })
@@ -108,23 +80,23 @@ describe('(Store) Answers', () => {
       it('Should dispatch addAnswer() if the last answer is updated and was empty.', () => {
         const index = 0
 
-        return updateAnswer(index, 'Answer Text')(_dispatch, _getState)
+        return updateAnswer(index, 'Answer Text')(dispatch, getState)
           .then(() => {
-            expect(_dispatch).toHaveBeenCalledTimes(2)
-            expect(_dispatch).toHaveBeenCalledWith(addAnswer())
+            expect(dispatch).toHaveBeenCalledTimes(2)
+            expect(dispatch).toHaveBeenCalledWith(addAnswer())
           })
       })
 
       it('Should dispatch removeAfterAnswer() if answer is updated to be empty.', () => {
         const index = 0
 
-        _globalState = {
-          answers : ['Answer 1', 'Answer 2']
+        globalState = {
+          answers: ['Answer 1', 'Answer 2']
         }
-        return updateAnswer(index, '')(_dispatch, _getState)
+        return updateAnswer(index, '')(dispatch, getState)
           .then(() => {
-            expect(_dispatch).toHaveBeenCalledTimes(2)
-            expect(_dispatch).toHaveBeenCalledWith(removeAfterAnswer(2))
+            expect(dispatch).toHaveBeenCalledTimes(2)
+            expect(dispatch).toHaveBeenCalledWith(removeAfterAnswer(2))
           })
       })
     })
@@ -132,6 +104,10 @@ describe('(Store) Answers', () => {
     describe('(Action Creator) updateAnswers', () => {
       it('Should be exported as a function.', () => {
         expect(typeof updateAnswers).toBe('function')
+      })
+
+      it('Should return an action with type "ANSWERS_UPDATE".', () => {
+        expect(updateAnswers()).toHaveProperty('type', ANSWERS_UPDATE)
       })
 
       it('Should assign the argument to the "answers" property.', () => {

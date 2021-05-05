@@ -1,50 +1,50 @@
-/* global expect */
 import React from 'react'
-import { shallow } from 'enzyme'
+import { render } from '@testing-library/react'
+import { act } from 'react-dom/test-utils'
 import WordRotate from './word-rotate'
 
 describe('(Component) WordRotate', () => {
-  let wrapper
-  let instance
-
-  beforeEach(() => {
-    wrapper = shallow(<WordRotate words='word1,word2' />)
-    instance = wrapper.instance()
-  })
-
-  describe('(State)', () => {
-    it('should have initial state', () => {
-      expect(wrapper.state()).toEqual({ currentWord : 0 })
-    })
-  })
-
-  describe('(Props)', () => {
-    it('should be set', () => {
-      expect(instance.props.words).toBe('word1,word2')
-    })
-  })
-
-  describe('(Method) updateWord', () => {
-    it('should update the state', () => {
-      instance.updateWord()
-      expect(wrapper.state('currentWord')).toEqual(1)
-
-      instance.updateWord()
-      expect(wrapper.state('currentWord')).toEqual(0)
-    })
-  })
-
   describe('(Render)', () => {
-    describe('with words', () => {
+    jest.useFakeTimers()
+    let renderResult
+
+    beforeEach(() => {
+      renderResult = render(<WordRotate words="word1,word2" />)
+    })
+
+    afterEach(() => {
+      jest.clearAllTimers()
+    })
+
+    describe('initial word (first word)', () => {
       it('matches snapshot', () => {
-        expect(wrapper).toMatchSnapshot()
+        const { asFragment } = renderResult
+
+        expect(asFragment()).toMatchSnapshot()
       })
     })
 
-    describe('with word updated', () => {
+    describe('after interval passed (second word)', () => {
       it('matches snapshot', () => {
-        wrapper.setState({ currentWord: 1 })
-        expect(wrapper).toMatchSnapshot()
+        const { asFragment } = renderResult
+
+        act(() => {
+          jest.advanceTimersByTime(5000)
+        })
+
+        expect(asFragment()).toMatchSnapshot()
+      })
+    })
+
+    describe('after interval passed (back to first word)', () => {
+      it('matches snapshot', () => {
+        const { asFragment } = renderResult
+
+        act(() => {
+          jest.advanceTimersByTime(10000)
+        })
+
+        expect(asFragment()).toMatchSnapshot()
       })
     })
   })

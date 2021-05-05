@@ -1,22 +1,22 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`(Route) Ask (Component) Multiple Choice (Render) matches snapshot 1`] = `
-<div
-  className="input-option input-option-multipleChoice"
->
-  <input
-    checked={false}
-    className="input-checkbox input-checkbox-multipleChoice"
-    id="multiple-choice"
-    name="multiple"
-    onChange={[Function]}
-    type="checkbox"
-  />
-  <label
-    className="input-label input-label-options input-label-multipleChoice"
-    htmlFor="multiple-choice"
+<DocumentFragment>
+  <div
+    class="input-option input-option-multipleChoice"
   >
-    Multiple choice responses
-  </label>
-</div>
+    <input
+      class="input-checkbox input-checkbox-multipleChoice"
+      id="multiple-choice"
+      name="multiple"
+      type="checkbox"
+    />
+    <label
+      class="input-label input-label-options input-label-multipleChoice"
+      for="multiple-choice"
+    >
+      Multiple choice responses
+    </label>
+  </div>
+</DocumentFragment>
 `;

@@ -1,23 +1,34 @@
-/* global expect, jest */
 import React from 'react'
-import { shallow } from 'enzyme'
-import EventBus from 'components/event-bus'
-import { Answer } from './answer'
+import {
+  render, screen, fireEvent, act
+} from '@testing-library/react'
+import EventBus from 'services/event-bus'
+import Answer from './answer'
+
+const eventListener = {
+  remove: jest.fn()
+}
 
 const eventBus = {
-  emit        : jest.fn(),
-  addListener : jest.fn(),
+  emit: jest.fn(),
+  addListener: jest.fn(() => eventListener),
 }
 
 EventBus.getEventBus = jest.fn(() => eventBus)
 
-const props = {
-  index          : 0,
-  text           : 'Answer 1',
-  disabled       : false,
-  onAnswerChange : jest.fn(),
-  onRemoveAnswer : jest.fn(),
+const defaultProps = {
+  index: 0,
+  text: 'Answer 1',
+  disabled: false,
+  onAnswerChange: jest.fn(),
+  onRemoveAnswer: jest.fn(),
 }
+
+const KEY_UP_ARROW = { key: 'ArrowUp', keyCode: 38, charCode: 38 }
+const KEY_DOWN_ARROW = { key: 'ArrowDown', keyCode: 40, charCode: 40 }
+const KEY_ENTER = { key: 'Enter', keyCode: 13, charCode: 13 }
+const KEY_BACKSPACE = { key: 'Backspace', keyCode: 8, charCode: 8 }
+const KEY_DELETE = { key: 'Delete', keyCode: 46, charCode: 46 }
 
 describe('(Route) Ask', () => {
   afterEach(() => {
@@ -25,67 +36,67 @@ describe('(Route) Ask', () => {
   })
 
   describe('(Component) Answer', () => {
-    describe('(Props)', () => {
-      it('should have default props', () => {
-        const wrapper = shallow(<Answer index={0} onAnswerChange={() => { }} onRemoveAnswer={() => { }} />)
-        const instance = wrapper.instance()
-
-        expect(instance.props.text).toBe('')
-        expect(instance.props.disabled).toBe(false)
-      })
-    })
-
     describe('(Action) onChange', () => {
-      it('should call prop onAnswerChange', () => {
-        const wrapper = shallow(<Answer {...props} />)
-        const event = {
-          preventDefault() { },
-          target: { value: 'Answer 2' }
-        }
+      it('should call prop onAnswerChange', async () => {
+        render(<Answer {...defaultProps} />)
 
-        wrapper.find('input').simulate('change', event)
-        expect(props.onAnswerChange).toHaveBeenCalledWith(0, 'Answer 2')
+        const input = screen.getByLabelText('1')
+        await act(async () => {
+          fireEvent.change(input, { target: { value: 'Answer 2' } })
+        })
+
+        expect(defaultProps.onAnswerChange).toHaveBeenCalledWith(0, 'Answer 2')
       })
     })
 
     describe('(Action) onKeyDown', () => {
       describe('key is KEY_UP_ARROW', () => {
-        it('emits focus request with index - 1', () => {
-          const wrapper = shallow(<Answer {...props} />)
+        it('emits focus request with index - 1', async () => {
+          render(<Answer {...defaultProps} />)
 
-          wrapper.find('input').simulate('keyDown', { keyCode: 38 })
+          const input = screen.getByLabelText('1')
+          await act(async () => {
+            fireEvent.keyDown(input, KEY_UP_ARROW)
+          })
+
           expect(eventBus.emit).toHaveBeenCalledWith('focus', -1)
         })
       })
 
       const emitFocusPlusOne = (keyCode) => {
-        it('emits focus request on index + 1', () => {
-          const wrapper = shallow(<Answer {...props} />)
+        it('emits focus request on index + 1', async () => {
+          render(<Answer {...defaultProps} />)
 
-          wrapper.find('input').simulate('keyDown', { keyCode })
+          const input = screen.getByLabelText('1')
+          await act(async () => {
+            fireEvent.keyDown(input, keyCode)
+          })
+
           expect(eventBus.emit).toHaveBeenCalledWith('focus', 1)
         })
       }
 
       describe('key is KEY_DOWN_ARROW', () => {
-        emitFocusPlusOne(40)
+        emitFocusPlusOne(KEY_DOWN_ARROW)
       })
 
       describe('key is KEY_ENTER', () => {
-        emitFocusPlusOne(13)
+        emitFocusPlusOne(KEY_ENTER)
       })
 
       const removeAnswerEmitFocusMinusOne = (keyCode) => {
         describe(('has text'), () => {
-          let wrapper
+          beforeEach(async () => {
+            render(<Answer {...defaultProps} />)
 
-          beforeEach(() => {
-            wrapper = shallow(<Answer {...props} />)
-            wrapper.find('input').simulate('keyDown', { keyCode })
+            const input = screen.getByLabelText('1')
+            await act(async () => {
+              fireEvent.keyDown(input, keyCode)
+            })
           })
 
           it('should not remove answer', () => {
-            expect(props.onRemoveAnswer).not.toHaveBeenCalled()
+            expect(defaultProps.onRemoveAnswer).not.toHaveBeenCalled()
           })
 
           it('should not emit focus change', () => {
@@ -94,15 +105,17 @@ describe('(Route) Ask', () => {
         })
 
         describe(('doesn\'t have text'), () => {
-          let wrapper
+          beforeEach(async () => {
+            render(<Answer {...defaultProps} text="" />)
 
-          beforeEach(() => {
-            wrapper = shallow(<Answer {...props} text={''} />)
-            wrapper.find('input').simulate('keyDown', { keyCode, preventDefault: () => { } })
+            const input = screen.getByLabelText('1')
+            await act(async () => {
+              fireEvent.keyDown(input, keyCode)
+            })
           })
 
           it('should call prop remove answer', () => {
-            expect(props.onRemoveAnswer).toHaveBeenCalledWith(0)
+            expect(defaultProps.onRemoveAnswer).toHaveBeenCalledWith(0)
           })
 
           it('should not emit focus change', () => {
@@ -112,26 +125,36 @@ describe('(Route) Ask', () => {
       }
 
       describe('key is KEY_BACKSPACE', () => {
-        removeAnswerEmitFocusMinusOne(8)
+        removeAnswerEmitFocusMinusOne(KEY_BACKSPACE)
       })
 
       describe('key is KEY_DELETE', () => {
-        removeAnswerEmitFocusMinusOne(46)
+        removeAnswerEmitFocusMinusOne(KEY_DELETE)
       })
     })
 
     describe('(Render)', () => {
-      it('matches snapshot', () => {
-        const wrapper = shallow(<Answer {...props} />)
+      describe('with default props', () => {
+        it('matches snapshot', () => {
+          const { asFragment } = render(
+            <Answer index={0} onAnswerChange={() => { /* Do nothing */ }} onRemoveAnswer={() => { /* Do nothing */ }} />
+          )
 
-        expect(wrapper).toMatchSnapshot()
+          expect(asFragment()).toMatchSnapshot()
+        })
+      })
+
+      it('matches snapshot', () => {
+        const { asFragment } = render(<Answer {...defaultProps} />)
+
+        expect(asFragment()).toMatchSnapshot()
       })
 
       describe('with disabled is true', () => {
         it('matches snapshot', () => {
-          const wrapper = shallow(<Answer {...props} disabled={true} />)
+          const { asFragment } = render(<Answer {...defaultProps} disabled />)
 
-          expect(wrapper).toMatchSnapshot()
+          expect(asFragment()).toMatchSnapshot()
         })
       })
     })

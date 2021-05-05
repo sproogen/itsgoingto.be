@@ -1,14 +1,9 @@
-/* global expect */
-import {
-  STATS_UPDATE,
-} from 'store/stats/actions'
-import {
-  default as statsReducer
-} from 'store/stats'
+import { STATS_UPDATE } from 'store/stats/constants'
+import statsReducer from 'store/stats'
 
 const initialState = {
-  polls     : null,
-  responses : null,
+  polls: null,
+  responses: null,
 }
 
 describe('(Store) Stats', () => {

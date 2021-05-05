@@ -1,16 +1,10 @@
-import { compose, not, length, omit, is, when, map, isNil } from 'ramda'
-
-import { hasAnswerSelector, answersSelector, maxAnswerSelector } from 'store/answers/selectors'
-
-// ------------------------------------
-// Constants
-// ------------------------------------
-export const ANSWER_ADD = 'ANSWER_ADD'
-export const ANSWER_UPDATE = 'ANSWER_UPDATE'
-export const ANSWERS_UPDATE = 'ANSWERS_UPDATE'
-export const ANSWER_REMOVE = 'ANSWER_REMOVE'
-export const ANSWERS_REMOVE_AFTER = 'ANSWERS_REMOVE_AFTER'
-export const ANSWERS_CLEAR = 'ANSWERS_CLEAR'
+import {
+  compose, not, length, omit, is, when, map, isNil
+} from 'ramda'
+import {
+  ANSWER_ADD, ANSWER_UPDATE, ANSWERS_UPDATE, ANSWER_REMOVE, ANSWERS_REMOVE_AFTER, ANSWERS_CLEAR
+} from './constants'
+import { hasAnswerSelector, answersSelector, maxAnswerSelector } from './selectors'
 
 // ------------------------------------
 // Actions
@@ -22,6 +16,30 @@ export const ANSWERS_CLEAR = 'ANSWERS_CLEAR'
  */
 export const addAnswer = () => ({
   type: ANSWER_ADD
+})
+
+/**
+ * Remove an answer at the index
+ *
+ * @param  {integer} index Index of the answer
+ *
+ * @return {object}         dispatchable object
+ */
+export const removeAnswer = (index) => ({
+  type: ANSWER_REMOVE,
+  index
+})
+
+/**
+ * Remove answers after the index
+ *
+ * @param  {integer} index Index after which to remove answers
+ *
+ * @return {object}         dispatchable object
+ */
+export const removeAfterAnswer = (index) => ({
+  type: ANSWERS_REMOVE_AFTER,
+  index
 })
 
 /**
@@ -70,30 +88,6 @@ export const updateAnswers = (answers = []) => ({
       ),
     )
   )(answers)
-})
-
-/**
- * Remove an answer at the index
- *
- * @param  {integer} index Index of the answer
- *
- * @return {object}         dispatchable object
- */
-export const removeAnswer = (index) => ({
-  type: ANSWER_REMOVE,
-  index
-})
-
-/**
- * Remove answers after the index
- *
- * @param  {integer} index Index after which to remove answers
- *
- * @return {object}         dispatchable object
- */
-export const removeAfterAnswer = (index) => ({
-  type: ANSWERS_REMOVE_AFTER,
-  index
 })
 
 /**

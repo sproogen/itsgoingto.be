@@ -1,7 +1,4 @@
-/* global expect */
-import {
-  default as createStore
-} from 'store/create-store'
+import createStore from 'store/create-store'
 
 describe('(Store) createStore', () => {
   let store
@@ -15,23 +12,9 @@ describe('(Store) createStore', () => {
     expect(store.asyncReducers).toEqual({})
   })
 
-  describe('(Location)', () => {
-    it('store should be initialized with Location state', () => {
-      const location = {
-        pathname : '/echo'
-      }
-
-      store.dispatch({
-        type    : 'LOCATION_CHANGE',
-        payload : location
-      })
-      expect(store.getState().location).toEqual(location)
-    })
-  })
-
   describe('(Loader)', () => {
     it('store should be initialized with Loader state', () => {
-      const loader = { loading : false, passphrase : false }
+      const loader = { loading: false, passphrase: false }
 
       expect(store.getState().loader).toEqual(loader)
     })
@@ -40,9 +23,9 @@ describe('(Store) createStore', () => {
   describe('(Poll)', () => {
     it('store should be initialized with Poll state', () => {
       const poll = {
-        polls : [],
-        page  : 0,
-        count : 0
+        polls: [],
+        page: 0,
+        count: 0
       }
 
       expect(store.getState().poll).toEqual(poll)

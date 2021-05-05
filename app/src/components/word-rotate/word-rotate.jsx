@@ -1,66 +1,66 @@
-import React from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
-import { __, compose, nth, split, ifElse, add, subtract, equals, length } from 'ramda'
+import {
+  __, compose, nth, split, ifElse, add, subtract, equals, length
+} from 'ramda'
 import './word-rotate.scss'
 
-class WordRotate extends React.Component {
-  constructor (props) {
-    super(props)
-    this.state = { currentWord : 0 }
+const WordRotate = ({ words }) => {
+  const [currentWord, setCurrentWord] = useState(0)
+  const currentWordRef = useRef(0)
+  const current = useRef(null)
+  const previous = useRef(null)
+
+  const updateWord = () => {
+    currentWordRef.current = ifElse(
+      equals(compose(subtract(__, 1), length, split(','))(words)),
+      () => 0,
+      add(1)
+    )(currentWordRef.current)
+    setCurrentWord(currentWordRef.current)
   }
 
-  componentDidMount = () => {
-    this.wordUpdater = setInterval(
-      this.updateWord,
+  useEffect(() => {
+    const wordUpdater = setInterval(
+      updateWord,
       5000
     )
-  }
+    return () => clearInterval(wordUpdater)
+  }, [])
 
-  componentDidUpdate = () => {
-    if (this._current) {
-      this._current.animate([
+  useEffect(() => {
+    if (current.current && typeof current.current.animate === 'function') {
+      current.current.animate([
         { transform: 'translate(0, -0.8em)', opacity: 0 },
         { transform: 'translate(0)', opacity: 1 }
       ], 500, 'easeInOutQuart')
     }
-    if (this._previous) {
-      this._previous.animate([
+    if (previous.current && typeof previous.current.animate === 'function') {
+      previous.current.animate([
         { transform: 'translate(0)', opacity: 1 },
         { transform: 'translate(0, 0.6em)', opacity: 0 }
       ], 350, 'easeInOutQuart')
     }
-  }
+  }, [currentWord])
 
-  componentWillUnmount = () => {
-    clearInterval(this.wordUpdater)
-  }
+  const getWord = (index) => compose(nth(index), split(','))(words)
 
-  getWord = (index) => compose(nth(index), split(','))(this.props.words)
-
-  updateWord = () => {
-    this.setState((prevState, props) => ({
-      currentWord : ifElse(
-        equals(compose(subtract(__, 1), length, split(','))(props.words)),
-        () => 0,
-        add(1)
-      )(prevState.currentWord)
-    }))
-  }
-
-  render () {
-    const { currentWord } = this.state
-
-    return (
-      <span className='word-rotate'>
-        <span className='word-rotate_word' ref={(c) => { this._current = c }}>
-          { this.getWord(currentWord) }
-        </span>
-        <span className='word-rotate_word word-rotate_word--previous' ref={(c) => { this._previous = c }}>
-          { this.getWord(subtract(currentWord, 1)) }
-        </span>
+  return (
+    <span className="word-rotate">
+      <span
+        className="word-rotate_word"
+        ref={current}
+      >
+        { getWord(currentWord) }
       </span>
-    )
-  }
+      <span
+        className="word-rotate_word word-rotate_word--previous"
+        ref={previous}
+      >
+        { getWord(subtract(currentWord, 1)) }
+      </span>
+    </span>
+  )
 }
 
 WordRotate.propTypes = {

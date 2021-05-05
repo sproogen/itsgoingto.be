@@ -1,13 +1,12 @@
-/* global expect */
+import { STATS_UPDATE } from 'store/stats/constants'
 import {
-  STATS_UPDATE,
   updateStats,
   clearStats,
 } from 'store/stats/actions'
 
 const initialState = {
-  polls     : null,
-  responses : null,
+  polls: null,
+  responses: null,
 }
 
 describe('(Store) Stats', () => {

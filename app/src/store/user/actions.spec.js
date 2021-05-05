@@ -1,13 +1,11 @@
-/* global expect */
-import {
-  USER_UPDATE,
-  updateUser,
-  clearUser,
-} from 'store/user/actions'
+import { USER_UPDATE } from 'store/user/constants'
+import { updateUser, clearUser } from 'store/user/actions'
 
 describe('(Store) User', () => {
-  it('Should export a constant USER_UPDATE.', () => {
-    expect(USER_UPDATE).toBe('USER_UPDATE')
+  describe('(Constants)', () => {
+    it('Should export a constant USER_UPDATE.', () => {
+      expect(USER_UPDATE).toBe('USER_UPDATE')
+    })
   })
 
   describe('(Action Creators)', () => {

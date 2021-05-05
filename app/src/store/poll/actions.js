@@ -1,15 +1,15 @@
-import { prop, compose, omit, map, ifElse, isNil, merge, __ } from 'ramda'
-import { hasQuestionSelector } from 'store/poll/selectors'
+import {
+  prop, compose, omit, map, isNil, merge, __
+} from 'ramda'
 import { addAnswer, clearAnswers, updateAnswers } from 'store/answers/actions'
-
-// ------------------------------------
-// Constants
-// ------------------------------------
-export const POLL_UPDATE     = 'POLL_UPDATE'
-export const POLLS_SET       = 'POLLS_SET'
-export const POLL_PAGE_SET   = 'POLL_PAGE_SET'
-export const POLL_COUNT_SET  = 'POLL_COUNT_SET'
-export const QUESTION_UPDATE = 'QUESTION_UPDATE'
+import { hasQuestionSelector } from './selectors'
+import {
+  POLL_UPDATE,
+  POLLS_SET,
+  POLL_PAGE_SET,
+  POLL_COUNT_SET,
+  QUESTION_UPDATE
+} from './constants'
 
 // ------------------------------------
 // Actions
@@ -21,23 +21,17 @@ export const QUESTION_UPDATE = 'QUESTION_UPDATE'
  *
  * @return {Function}      redux-thunk callable function
  */
-export const updatePoll = (poll) => (dispatch) =>
-  ifElse(
-    compose(isNil, (prop('answers'))),
-    (poll) => Promise.resolve(
-      dispatch({
-        type : POLL_UPDATE,
-        poll : omit(['answers'])(poll)
-      })
-    ).then(() => poll),
-    (poll) => Promise.all([
-      dispatch({
-        type : POLL_UPDATE,
-        poll : omit(['answers'])(poll)
-      }),
-      dispatch(updateAnswers(prop('answers', poll)))
-    ]).then(() => poll)
-  )(poll)
+// TODO : Fix reusing poll variable name
+export const updatePoll = (poll) => (dispatch) => {
+  dispatch({
+    type: POLL_UPDATE,
+    poll: omit(['answers'])(poll)
+  })
+  if (!isNil(prop('answers', poll))) {
+    dispatch(updateAnswers(prop('answers', poll)))
+  }
+  return poll
+}
 
 /**
  * Set the polls in the state
@@ -47,8 +41,8 @@ export const updatePoll = (poll) => (dispatch) =>
  * @return {Function}       dispatchable object
  */
 export const setPolls = (polls = []) => ({
-  type  : POLLS_SET,
-  polls : map(omit(['answers']))(polls),
+  type: POLLS_SET,
+  polls: map(omit(['answers']))(polls),
 })
 
 /**
@@ -59,7 +53,7 @@ export const setPolls = (polls = []) => ({
  * @return {Function}       dispatchable object
  */
 export const setPollPage = (page) => ({
-  type  : POLL_PAGE_SET,
+  type: POLL_PAGE_SET,
   page,
 })
 
@@ -71,7 +65,7 @@ export const setPollPage = (page) => ({
  * @return {Function}       dispatchable object
  */
 export const setPollCount = (count) => ({
-  type  : POLL_COUNT_SET,
+  type: POLL_COUNT_SET,
   count,
 })
 
@@ -88,8 +82,8 @@ export const updateQuestion = (text = '', identifier = '') => (dispatch, getStat
   const hadQuestion = hasQuestionSelector(getState(), identifier)
 
   dispatch({
-    type       : QUESTION_UPDATE,
-    question   : text,
+    type: QUESTION_UPDATE,
+    question: text,
     identifier
   })
   const hasQuestion = hasQuestionSelector(getState(), identifier)
@@ -113,7 +107,7 @@ export const updateQuestion = (text = '', identifier = '') => (dispatch, getStat
  */
 export const updateResponses = (responses, identifier) => (dispatch) => Promise.all([
   dispatch({
-    type : POLL_UPDATE,
+    type: POLL_UPDATE,
     poll: compose(omit(['answers', 'userResponses']), merge(__, { identifier }))(responses)
   }),
   dispatch(updateAnswers(prop('answers', responses)))
@@ -127,7 +121,10 @@ export const updateResponses = (responses, identifier) => (dispatch) => Promise.
  *
  * @return {Function}            redux-thunk callable function
  */
-export const updateUserResponses = (responses, identifier) => ({
-  type: POLL_UPDATE,
-  poll: compose(omit(['answers', 'responsesCount']), merge(__, { identifier }))(responses)
-})
+export const updateUserResponses = (responses, identifier) => (dispatch) => Promise.all([
+  dispatch({
+    type: POLL_UPDATE,
+    poll: merge(__, { identifier })(responses)
+  }),
+  dispatch(updateAnswers(prop('answers', responses)))
+]).then(() => responses)

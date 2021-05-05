@@ -1,4 +1,0 @@
-lexik_jwt_authentication:
-    private_key_path: '%kernel.project_dir%/config/jwt/private.pem'
-    public_key_path: '%kernel.project_dir%/config/jwt/public.pem'
-    pass_phrase: '%env(JWT_PASSPHRASE)%'

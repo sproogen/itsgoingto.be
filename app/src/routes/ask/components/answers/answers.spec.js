@@ -1,57 +1,39 @@
-/* global expect, jest */
 import React from 'react'
-import { shallow } from 'enzyme'
-import { Answers } from './answers'
+import { render } from '@testing-library/react'
+import Answers from './answers'
 
-const props = {
-  hasQuestion : true,
-  answers     : [],
+const defaultProps = {
+  answers: [],
+  onAnswerChange: jest.fn(),
+  onRemoveAnswer: jest.fn()
 }
 
 describe('(Route) Ask', () => {
   describe('(Component) Answers', () => {
     describe('(Render)', () => {
-      describe('when hasQuestion is true', () => {
-        it('matches snapshot', () => {
-          const wrapper = shallow(<Answers {...props} hasQuestion={true} />)
-
-          expect(wrapper).toMatchSnapshot()
-        })
-      })
-
-      describe('when hasQuestion is false', () => {
-        it('matches snapshot', () => {
-          const wrapper = shallow(<Answers {...props} hasQuestion={false} />)
-
-          expect(wrapper).toMatchSnapshot()
-        })
-      })
-
       describe('with answers as strings', () => {
-        const answers = [
-          'Answer 1',
-          'Answer 2',
-          'Answer 3'
-        ]
-
         it('matches snapshot', () => {
-          const wrapper = shallow(<Answers {...props} answers={answers} />)
+          const answers = [
+            'Answer 1',
+            'Answer 2',
+            'Answer 3'
+          ]
+          const { asFragment } = render(<Answers {...defaultProps} answers={answers} />)
 
-          expect(wrapper).toMatchSnapshot()
+          expect(asFragment()).toMatchSnapshot()
         })
       })
 
       describe('with answers as objects', () => {
-        const answers = [
-          { answer: 'Answer 4' },
-          { answer: 'Answer 5' },
-          { answer: 'Answer 6' }
-        ]
-
         it('matches snapshot', () => {
-          const wrapper = shallow(<Answers {...props} answers={answers} />)
+          const answers = [
+            { id: 4, answer: 'Answer 4' },
+            { id: 5, answer: 'Answer 5' },
+            { id: 6, answer: 'Answer 6' }
+          ]
+          const { asFragment } = render(<Answers {...defaultProps} answers={answers} />)
 
-          expect(wrapper).toMatchSnapshot()
+          expect(asFragment()).toMatchSnapshot()
         })
       })
     })

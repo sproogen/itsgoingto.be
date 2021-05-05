@@ -1,84 +1,112 @@
-/* global expect */
 import React from 'react'
-import { shallow } from 'enzyme'
-import { browserHistory } from 'react-router'
-import { PollTableRow } from './poll-table-row'
+import {
+  render, fireEvent, screen
+} from '@testing-library/react'
+import PollTableRow from './poll-table-row'
 
-browserHistory.push = jest.fn()
+const mockHistory = {
+  push: jest.fn()
+}
+jest.mock('react-router-dom', () => ({
+  useHistory: () => mockHistory
+}))
 
-const props = {
+const defaultProps = {
   poll: {
-    id: '1',
+    id: 1,
     identifier: 'sk93jn28d',
     question: 'This is a question',
     responsesCount: 5,
     deleted: false,
     ended: false,
-    created: {
-      date: '2019-02-23 13:45:37.000000',
-    },
+    created: '2021-02-17T17:02:36.839Z',
   },
   deletePoll: jest.fn(),
 }
-let wrapper
+
+const TableWrapper = ({ children }) => <table><tbody>{children}</tbody></table> // eslint-disable-line
 
 describe('(Route) dashboard', () => {
   describe('(Component) poll table row', () => {
-    beforeEach(() => {
-      wrapper = shallow(<PollTableRow {...props} />)
-    })
-
     afterEach(() => {
       jest.clearAllMocks()
     })
 
     describe('(Action) identifier onClick', () => {
       it('should route to identifier', () => {
-        wrapper.find('#identifier-1').simulate('click')
-        expect(browserHistory.push).toHaveBeenCalledTimes(1)
-        expect(browserHistory.push).toHaveBeenCalledWith('/sk93jn28d')
+        render(<PollTableRow {...defaultProps} />, { wrapper: TableWrapper })
+
+        fireEvent.click(screen.getByRole('button', { name: /sk93jn28d/ }))
+
+        expect(mockHistory.push).toHaveBeenCalledTimes(1)
+        expect(mockHistory.push).toHaveBeenCalledWith('/sk93jn28d')
       })
     })
 
     describe('(Action) delete onClick', () => {
-      it('should set state deleting true', () => {
-        wrapper.find('#delete-1').simulate('click')
-        expect(wrapper.state().deleting).toBe(true)
+      it('should change to delete state', async () => {
+        render(<PollTableRow {...defaultProps} />, { wrapper: TableWrapper })
+
+        fireEvent.click(screen.getByTestId('delete-1'))
+
+        expect(screen.queryByTestId('delete-1')).not.toBeInTheDocument()
+        expect(screen.getByTestId('delete-1-spinner')).toBeInTheDocument()
       })
 
       it('should call deletePoll with poll identifier', () => {
-        wrapper.find('#delete-1').simulate('click')
-        expect(props.deletePoll).toHaveBeenCalledTimes(1)
-        expect(props.deletePoll).toHaveBeenCalledWith('sk93jn28d')
+        render(<PollTableRow {...defaultProps} />, { wrapper: TableWrapper })
+
+        fireEvent.click(screen.getByTestId('delete-1'))
+
+        expect(defaultProps.deletePoll).toHaveBeenCalledTimes(1)
+        expect(defaultProps.deletePoll).toHaveBeenCalledWith('sk93jn28d')
       })
     })
 
     describe('(Render)', () => {
-      describe('poll is active', () => {
+      describe('default props', () => {
         it('matches snapshot', () => {
-          wrapper = shallow(<PollTableRow {...props} />)
-          expect(wrapper).toMatchSnapshot()
+          const { asFragment } = render(<PollTableRow {...defaultProps} />, { wrapper: TableWrapper })
+          expect(asFragment()).toMatchSnapshot()
+        })
+      })
+
+      describe('poll is active', () => {
+        it('shows active status', () => {
+          render(
+            <PollTableRow
+              {...defaultProps}
+              poll={{ ...defaultProps.poll, ended: false, deleted: false }}
+            />, { wrapper: TableWrapper }
+          )
+
+          expect(screen.getByTestId('status-1')).toHaveTextContent('Active')
         })
       })
 
       describe('poll is ended', () => {
-        it('matches snapshot', () => {
-          wrapper = shallow(<PollTableRow {...props} poll={{ ...props.poll, ended: true }} />)
-          expect(wrapper).toMatchSnapshot()
+        it('shows ended status', () => {
+          render(
+            <PollTableRow
+              {...defaultProps}
+              poll={{ ...defaultProps.poll, ended: true }}
+            />, { wrapper: TableWrapper }
+          )
+
+          expect(screen.getByTestId('status-1')).toHaveTextContent('Ended')
         })
       })
 
       describe('poll is deleted', () => {
-        it('matches snapshot', () => {
-          wrapper = shallow(<PollTableRow {...props} poll={{ ...props.poll, deleted: true }} />)
-          expect(wrapper).toMatchSnapshot()
-        })
-      })
+        it('shows deleted status', () => {
+          render(
+            <PollTableRow
+              {...defaultProps}
+              poll={{ ...defaultProps.poll, deleted: true }}
+            />, { wrapper: TableWrapper }
+          )
 
-      describe('poll is deleting', () => {
-        it('matches snapshot', () => {
-          wrapper.setState({ deleting: true })
-          expect(wrapper).toMatchSnapshot()
+          expect(screen.getByTestId('status-1')).toHaveTextContent('Deleted')
         })
       })
     })

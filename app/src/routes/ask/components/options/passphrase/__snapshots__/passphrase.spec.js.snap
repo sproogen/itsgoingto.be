@@ -1,22 +1,23 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`(Route) Ask (Component) Passphrase (Render) matches snapshot 1`] = `
-<div
-  className="input-option input-option-passphrase"
->
-  <label
-    className="input-label input-label-passphrase"
-    htmlFor="passphrase"
+<DocumentFragment>
+  <div
+    class="input-option input-option-passphrase"
   >
-    Set a passphrase (optional)
-  </label>
-  <input
-    className="input-field input-field-passphrase"
-    id="passphrase"
-    name="passphrase"
-    onChange={[Function]}
-    type="text"
-    value="Password"
-  />
-</div>
+    <label
+      class="input-label input-label-passphrase"
+      for="passphrase"
+    >
+      Set a passphrase (optional)
+      <input
+        class="input-field input-field-passphrase"
+        id="passphrase"
+        name="passphrase"
+        type="text"
+        value="Password"
+      />
+    </label>
+  </div>
+</DocumentFragment>
 `;

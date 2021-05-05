@@ -1,41 +1,71 @@
 {
-  "parser": "babel-eslint",
   "extends": [
     "eslint:recommended",
-    "plugin:react/recommended"
-  ],
-  "plugins": [
-    "babel",
-    "react",
-    "promise"
+    "airbnb",
+    "plugin:jest/recommended",
+    "plugin:jest-dom/recommended",
+    "plugin:testing-library/react"
   ],
   "env": {
-    "browser" : true,
-    "jest"    : true,
-    "node"    : true,
-    "es6"     : true
+    "browser": true,
+    "es6": true,
+    "node": true,
+    "jest": true
   },
-  "globals": {
-    "__DEV__"      : false,
-    "__TEST__"     : false,
-    "__PROD__"     : false,
-    "__COVERAGE__" : false
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "sourceType": "module"
+  },
+  "settings": {
+    "import/resolver": {
+      "webpack": {
+        "config": "webpack.config.js"
+      }
+    }
   },
   "rules": {
-    "strict"                  : [2, "safe"],
-    "no-empty-label"          : "off",
-    "no-process-env"          : "off",
-    "space-after-keywords"    : "off",
-    "space-before-keywords"   : "off",
-    "space-return-throw-case" : "off",
-    "key-spacing"             : 0,
-    "jsx-quotes"              : [2, "prefer-single"],
-    "max-len"                 : [2, 120, 2],
-    "object-curly-spacing"    : [2, "always"],
-    "comma-dangle"            : 0,
-    "no-multi-spaces"         : [2, {"exceptions": {"VariableDeclarator": true}}],
-    "react/prefer-es6-class"  : 1,
-    "no-extra-semi"           : 1,
-    "no-unreachable"          : 1
-  }
+    "strict": [2, "safe"],
+    "semi": "off",
+    "no-empty-label": "off",
+    "no-process-env": "off",
+    "space-after-keywords": "off",
+    "space-before-keywords": "off",
+    "space-return-throw-case": "off",
+    "key-spacing": 0,
+    "max-len": ["error", { "code": 120, "ignoreComments": true, "ignoreTrailingComments": true }],
+    "object-curly-spacing": [2, "always"],
+    "comma-dangle": 0,
+    "no-multi-spaces": [2, {"exceptions": {"VariableDeclarator": true}}],
+    "no-extra-semi": 1,
+    "no-unreachable": 1,
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": [
+          "**/*.config.js",
+          "**/*.spec.js",
+          "**/*.stories.js",
+          "**/test-utils.js"
+        ]
+      }
+    ],
+    "react/jsx-filename-extension": [
+      1
+    ]
+  },
+  "overrides": [
+    {
+      "files": [
+        "*.config.js",
+        "*.spec.js",
+        "*.stories.js",
+        "test-utils.js"
+      ],
+      "rules": {
+        "react/jsx-props-no-spreading": "off",
+        "react/jsx-filename-extension": "off",
+        "react/prop-types": "off"
+      }
+    }
+  ]
 }

@@ -1,19 +1,26 @@
-import React from 'react'
+import React, { forwardRef } from 'react'
 import PropTypes from 'prop-types'
 
-export class DatePickerInput extends React.Component {
-  render = () => (
-    <span
-      className='input-option-datepicker-label'
-      onClick={this.props.onClick}>
-      {this.props.value}
+const DatePickerInput = forwardRef(
+  ({ value, onClick }, ref) => (
+    <span // eslint-disable-line
+      className="input-option-datepicker-label"
+      onClick={onClick}
+      ref={ref}
+    >
+      {value}
     </span>
   )
-}
+)
 
 DatePickerInput.propTypes = {
-  onClick : PropTypes.func,
-  value   : PropTypes.string
+  onClick: PropTypes.func,
+  value: PropTypes.string
+}
+
+DatePickerInput.defaultProps = {
+  onClick: () => { /* Do nothing */ },
+  value: ''
 }
 
 export default DatePickerInput

@@ -1,66 +1,48 @@
-import React, { Component } from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
 import { isNil } from 'ramda'
-import { fetchStats } from 'services/api'
-import { statSelector } from 'store/stats/selectors'
 import './stats.scss'
 
-export class Stats extends Component {
-  componentDidMount = () => {
-    const { fetchStats } = this.props
-
+const Stats = ({ polls, responses, fetchStats }) => {
+  useEffect(() => {
     fetchStats()
-  }
+  }, [])
 
-  render() {
-    const { polls, responses } = this.props
-
-    return (
-      <div className='info'>
-        <div className='info-block-column'>
-          <div className='info-block'>
-            <div className='info-header'>
-              Total Polls
-            </div>
-            <div className='info-body'>
-              {!isNil(polls) ? polls : '-'}
-            </div>
+  return (
+    <div className="info">
+      <div className="info-block-column">
+        <div className="info-block">
+          <div className="info-header">
+            Total Polls
           </div>
-        </div>
-        <div className='info-block-column'>
-          <div className='info-block'>
-            <div className='info-header'>
-              Total Responses
-            </div>
-            <div className='info-body'>
-              {!isNil(responses) ? responses : '-'}
-            </div>
+          <div className="info-body">
+            {!isNil(polls) ? polls : '-'}
           </div>
         </div>
       </div>
-    )
-  }
+      <div className="info-block-column">
+        <div className="info-block">
+          <div className="info-header">
+            Total Responses
+          </div>
+          <div className="info-body">
+            {!isNil(responses) ? responses : '-'}
+          </div>
+        </div>
+      </div>
+    </div>
+  )
 }
 
 Stats.propTypes = {
-  polls      : PropTypes.number,
-  responses  : PropTypes.number,
-  fetchStats : PropTypes.func.isRequired,
+  polls: PropTypes.number,
+  responses: PropTypes.number,
+  fetchStats: PropTypes.func.isRequired,
 }
 
 Stats.defaultProps = {
-  polls     : undefined,
-  responses : undefined,
+  polls: null,
+  responses: null,
 }
 
-const mapStateToProps = (state) => ({
-  polls     : statSelector(state, 'polls'),
-  responses : statSelector(state, 'responses'),
-})
-
-const mapDispatchToProps = (dispatch) => ({
-  fetchStats : () => dispatch(fetchStats()),
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(Stats)
+export default Stats
