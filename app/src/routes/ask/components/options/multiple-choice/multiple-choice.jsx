@@ -10,18 +10,18 @@ const MultipleChoice = ({ poll, updateOptions }) => {
 
   return (
     <div className="input-option input-option-multipleChoice">
-      <label
+      <input
+        id="multiple-choice"
+        className="input-checkbox input-checkbox-multipleChoice"
+        name="multiple"
+        type="checkbox"
+        checked={poll.multipleChoice}
+        onChange={handleMultipleChoiceChange}
+      />
+      <label // eslint-disable-line
         htmlFor="multiple-choice"
         className="input-label input-label-options input-label-multipleChoice"
       >
-        <input
-          id="multiple-choice"
-          className="input-checkbox input-checkbox-multipleChoice"
-          name="multiple"
-          type="checkbox"
-          checked={poll.multipleChoice}
-          onChange={handleMultipleChoiceChange}
-        />
         Multiple choice responses
       </label>
     </div>

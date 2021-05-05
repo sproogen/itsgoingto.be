@@ -58,13 +58,6 @@ $loader-animation-duration: 1.15s;
   }
 }
 
-.gone {
-  .loader__label,
-  .loader__figure {
-    animation: none;
-  }
-}
-
 @keyframes loader-figure {
   0% {
     width: 0;

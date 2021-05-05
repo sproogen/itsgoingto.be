@@ -2,81 +2,37 @@
 
 exports[`(Route) Ask (Component) Actions (Render) when canSubmitPoll is false matches snapshot 1`] = `
 <DocumentFragment>
-  <div>
-    <div
-      class="actions hideable"
+  <div
+    class="actions"
+  >
+    <button
+      class="btn pull-right disabled"
+      data-testid="button-Create-Poll"
+      disabled=""
+      type="button"
     >
-      <button
-        class="btn pull-right disabled"
-        data-testid="button-Create-Poll"
-        disabled=""
-        type="button"
-      >
-        <span>
-          Create Poll
-        </span>
-      </button>
-    </div>
+      <span>
+        Create Poll
+      </span>
+    </button>
   </div>
 </DocumentFragment>
 `;
 
 exports[`(Route) Ask (Component) Actions (Render) when canSubmitPoll is true matches snapshot 1`] = `
 <DocumentFragment>
-  <div>
-    <div
-      class="actions hideable"
+  <div
+    class="actions"
+  >
+    <button
+      class="btn pull-right"
+      data-testid="button-Create-Poll"
+      type="button"
     >
-      <button
-        class="btn pull-right"
-        data-testid="button-Create-Poll"
-        type="button"
-      >
-        <span>
-          Create Poll
-        </span>
-      </button>
-    </div>
-  </div>
-</DocumentFragment>
-`;
-
-exports[`(Route) Ask (Component) Actions (Render) when hasQuestion is false matches snapshot 1`] = `
-<DocumentFragment>
-  <div>
-    <div
-      class="actions hideable gone"
-    >
-      <button
-        class="btn pull-right"
-        data-testid="button-Create-Poll"
-        type="button"
-      >
-        <span>
-          Create Poll
-        </span>
-      </button>
-    </div>
-  </div>
-</DocumentFragment>
-`;
-
-exports[`(Route) Ask (Component) Actions (Render) when hasQuestion is true matches snapshot 1`] = `
-<DocumentFragment>
-  <div>
-    <div
-      class="actions hideable"
-    >
-      <button
-        class="btn pull-right"
-        data-testid="button-Create-Poll"
-        type="button"
-      >
-        <span>
-          Create Poll
-        </span>
-      </button>
-    </div>
+      <span>
+        Create Poll
+      </span>
+    </button>
   </div>
 </DocumentFragment>
 `;

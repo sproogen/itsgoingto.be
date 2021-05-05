@@ -8,7 +8,7 @@ import TimePicker from 'antd/lib/time-picker'
 import DatePickerInput from './date-picker-input'
 
 import 'react-rangeslider/lib/index.css'
-import 'react-datepicker/dist/react-datepicker-cssmodules.css'
+import 'react-datepicker/dist/react-datepicker.css'
 import 'antd/lib/time-picker/style/index.css'
 import './end-poll.scss'
 
@@ -89,7 +89,7 @@ const EndPoll = ({ poll, updateOptions }) => {
           value="endNever"
           onChange={handleEndTypeChange}
         />
-        <label
+        <label // eslint-disable-line
           htmlFor="end-never"
           className="input-label input-label-options input-label-endType"
         >

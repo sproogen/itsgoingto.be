@@ -16,7 +16,7 @@ const Passphrase = ({
 
 
   const submit = () => new Promise((resolve) => {
-    setPassphrase(value, identifier)
+    setPassphrase(identifier, value)
     fetchPoll(identifier)
       .then((response) => {
         if (!(response instanceof APIError)) {
@@ -30,7 +30,7 @@ const Passphrase = ({
 
   const handleChange = (e) => setValue(e.target.value)
 
-  const handleKeyPress = (event = window.event) => {
+  const handleKeyPress = (event) => {
     const key = event.keyCode || event.charCode
 
     if (key === KEY_ENTER) {

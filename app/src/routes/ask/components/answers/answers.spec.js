@@ -1,11 +1,8 @@
 import React from 'react'
-import {
-  render, screen
-} from '@testing-library/react'
+import { render } from '@testing-library/react'
 import Answers from './answers'
 
 const defaultProps = {
-  hasQuestion: true,
   answers: [],
   onAnswerChange: jest.fn(),
   onRemoveAnswer: jest.fn()
@@ -14,24 +11,6 @@ const defaultProps = {
 describe('(Route) Ask', () => {
   describe('(Component) Answers', () => {
     describe('(Render)', () => {
-      describe('when hasQuestion is true', () => {
-        it('answers does not have class gone', () => {
-          render(<Answers {...defaultProps} hasQuestion />)
-
-          const options = screen.getByTestId('answers')
-          expect(options).not.toHaveClass('gone')
-        })
-      })
-
-      describe('when hasQuestion is false', () => {
-        it('answers has class gone', () => {
-          render(<Answers {...defaultProps} hasQuestion={false} />)
-
-          const options = screen.getByTestId('answers')
-          expect(options).toHaveClass('gone')
-        })
-      })
-
       describe('with answers as strings', () => {
         it('matches snapshot', () => {
           const answers = [

@@ -2,91 +2,89 @@
 
 exports[`(Route) Ask (Component) Options (Render) matches snapshot 1`] = `
 <DocumentFragment>
-  <div>
+  <div
+    class="options"
+    data-testid="options"
+  >
     <div
-      class="options hideable"
-      data-testid="options"
+      class="input-option input-option-multipleChoice"
+    >
+      <input
+        class="input-checkbox input-checkbox-multipleChoice"
+        id="multiple-choice"
+        name="multiple"
+        type="checkbox"
+      />
+      <label
+        class="input-label input-label-options input-label-multipleChoice"
+        for="multiple-choice"
+      >
+        Multiple choice responses
+      </label>
+    </div>
+    <div
+      class="input-option input-option-passphrase"
+    >
+      <label
+        class="input-label input-label-passphrase"
+        for="passphrase"
+      >
+        Set a passphrase (optional)
+        <input
+          class="input-field input-field-passphrase"
+          id="passphrase"
+          name="passphrase"
+          type="text"
+          value=""
+        />
+      </label>
+    </div>
+    <div
+      class="input-option input-option-endPoll"
     >
       <div
-        class="input-option input-option-multipleChoice"
+        class="input-option-radios"
       >
+        <input
+          checked=""
+          class="input-radio input-checkbox-endType"
+          id="end-never"
+          name="endType"
+          type="checkbox"
+          value="endNever"
+        />
         <label
-          class="input-label input-label-options input-label-multipleChoice"
-          for="multiple-choice"
+          class="input-label input-label-options input-label-endType"
+          for="end-never"
         >
-          <input
-            class="input-checkbox input-checkbox-multipleChoice"
-            id="multiple-choice"
-            name="multiple"
-            type="checkbox"
-          />
-          Multiple choice responses
+          Don't End Poll
         </label>
-      </div>
-      <div
-        class="input-option input-option-passphrase"
-      >
+        <input
+          class="input-radio input-checkbox-endType"
+          id="end-at"
+          name="endType"
+          type="checkbox"
+          value="endAt"
+        />
         <label
-          class="input-label input-label-passphrase"
-          for="passphrase"
+          class="input-label input-label-options input-label-endType"
+          for="end-at"
         >
-          Set a passphrase (optional)
-          <input
-            class="input-field input-field-passphrase"
-            id="passphrase"
-            name="passphrase"
-            type="text"
-            value=""
-          />
+          End Poll At
         </label>
-      </div>
-      <div
-        class="input-option input-option-endPoll"
-      >
-        <div
-          class="input-option-radios"
+        <input
+          class="input-radio input-checkbox-endType"
+          id="end-in"
+          name="endType"
+          type="radio"
+          value="endIn"
+        />
+        <label
+          class="input-label input-label-options input-label-endType"
+          for="end-in"
         >
-          <input
-            checked=""
-            class="input-radio input-checkbox-endType"
-            id="end-never"
-            name="endType"
-            type="checkbox"
-            value="endNever"
-          />
-          <label
-            class="input-label input-label-options input-label-endType"
-            for="end-never"
-          >
-            Don't End Poll
-          </label>
-          <input
-            class="input-radio input-checkbox-endType"
-            id="end-at"
-            name="endType"
-            type="checkbox"
-            value="endAt"
-          />
-          <label
-            class="input-label input-label-options input-label-endType"
-            for="end-at"
-          >
-            End Poll At
-          </label>
-          <input
-            class="input-radio input-checkbox-endType"
-            id="end-in"
-            name="endType"
-            type="radio"
-            value="endIn"
-          />
-          <label
-            class="input-label input-label-options input-label-endType"
-            for="end-in"
-          >
-            End Poll In
-          </label>
-        </div>
+          End Poll In
+        </label>
       </div>
     </div>
   </div>

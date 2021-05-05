@@ -446,14 +446,14 @@ describe('(Store) API', () => {
         return postResponse(434, 'hf0sd8fhoas')(dispatch, getState).then(() => {
           expect(window.fetch).toHaveBeenCalledTimes(1)
           expect(window.fetch).toHaveBeenCalledWith(
-            `${ROUTE_POLL}/hf0sd8fhoas${ROUTE_RESPONSES}`,
+            `${ROUTE_POLL}/hf0sd8fhoas${ROUTE_RESPONSES}?passphrase=1234`,
             {
               method: 'POST',
               credentials: 'same-origin',
               headers: {
                 'Content-Type': 'application/json',
               },
-              body: '{"answers":[434],"passphrase":"1234"}'
+              body: '{"answers":[434]}'
             }
           )
         })

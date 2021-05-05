@@ -6,7 +6,7 @@ import { setRequiresPassphrase } from 'store/loader/actions'
 import Passphrase from './passphrase'
 
 const mapDispatchToProps = (dispatch) => ({
-  setPassphrase: (value, identifier) => dispatch(updatePoll({ passphrase: value, identifier })),
+  setPassphrase: (identifier, value) => dispatch(updatePoll({ identifier, passphrase: value })),
   fetchPoll: (identifier) => dispatch(fetchPoll(identifier)),
   setRequiresPassphrase: (value) => dispatch(setRequiresPassphrase(value))
 })

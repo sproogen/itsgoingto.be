@@ -3,7 +3,7 @@
 exports[`(Route) Ask (Component) Answers (Render) with answers as objects matches snapshot 1`] = `
 <DocumentFragment>
   <div
-    class="answers hideable"
+    class="answers"
     data-testid="answers"
   >
     <label
@@ -86,7 +86,7 @@ exports[`(Route) Ask (Component) Answers (Render) with answers as objects matche
 exports[`(Route) Ask (Component) Answers (Render) with answers as strings matches snapshot 1`] = `
 <DocumentFragment>
   <div
-    class="answers hideable"
+    class="answers"
     data-testid="answers"
   >
     <label

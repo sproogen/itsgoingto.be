@@ -14,6 +14,7 @@ import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin'
 
 const publicURL = process.env.PUBLIC_URL || ''
 const PORT = parseInt(process.env.PORT || '', 10) || 3000
+const SOCKET_PORT = parseInt(process.env.SOCKET_PORT || '', 10) || PORT
 const production = process.env.NODE_ENV === 'production'
 const development = process.env.NODE_ENV === 'development'
 
@@ -78,22 +79,12 @@ const config: webpack.Configuration = {
     devServer: {
       contentBase: './dist',
       port: PORT,
+      sockPort: SOCKET_PORT,
       historyApiFallback: true,
     },
   } : {},
   module: {
     rules: [
-      {
-        test: /\.(bmp|gif|jpe?g|png)$/,
-        use: {
-          loader: 'url-loader',
-          options: {
-            limit: 10000,
-            name: '[name].[ext]',
-            outputPath: 'static/media',
-          },
-        },
-      },
       {
         test: /\.(ts|js)x?$/i,
         exclude: /node_modules/,
@@ -126,13 +117,13 @@ const config: webpack.Configuration = {
         ],
       },
       {
-        test: /\.(jpg|gif|svg|woff|woff2|ttf|eot)$/,
+        test: /\.(jpe?g|gif|png|svg|woff|woff2|ttf|eot)$/,
         use: [
           {
             loader: 'file-loader',
             options: {
               name: '[name].[ext]',
-              outputPath: 'static/media',
+              outputPath: '/static/media',
             },
           },
         ],

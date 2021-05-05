@@ -6,16 +6,11 @@ import Answer from './answer'
 import './answers.scss'
 
 const Answers = ({
-  hasQuestion, answers, onAnswerChange, onRemoveAnswer
+  answers, onAnswerChange, onRemoveAnswer
 }) => (
   <div
     data-testid="answers"
-    className={classNames(
-      'answers hideable',
-      {
-        gone: !hasQuestion
-      }
-    )}
+    className="answers"
   >
     <label // eslint-disable-line jsx-a11y/label-has-associated-control
       className="input-label input-label-answers"
@@ -52,7 +47,6 @@ const Answers = ({
 )
 
 Answers.propTypes = {
-  hasQuestion: PropTypes.bool.isRequired,
   answers: PropTypes.oneOfType([
     PropTypes.arrayOf(
       PropTypes.shape({

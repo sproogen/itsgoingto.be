@@ -1,5 +1,5 @@
 import {
-  prop, compose, not, isEmpty, contains, without, append, ifElse, both, equals, length, omit
+  prop, propOr, compose, not, isEmpty, contains, without, append, ifElse, both, equals, length, omit
 } from 'ramda'
 import moment from 'moment'
 import { pollSelector } from 'store/poll/selectors'
@@ -129,7 +129,7 @@ export const fetchPoll = (identifier) => (dispatch, getState) => compose(
     .then((response) => dispatch(updatePoll(response)))
     .catch(onError),
   ifElse(
-    compose(not, equals(0), length, prop('passphrase')),
+    compose(not, equals(0), length, propOr('', 'passphrase')),
     (poll) => `${ROUTE_POLL}/${identifier}?passphrase=${prop('passphrase')(poll)}`,
     () => `${ROUTE_POLL}/${identifier}`
   ),
@@ -191,7 +191,7 @@ export const fetchPolls = (page, sort = 'id', direction = 'asc') => (dispatch, g
 export const postResponse = (answer, identifier) => (dispatch, getState) => compose(
   (requestData) => fetch(
     ifElse(
-      compose(not, equals(0), length, prop('passphrase')),
+      compose(not, equals(0), length, propOr('', 'passphrase')),
       (poll) => `${ROUTE_POLL}/${identifier}${ROUTE_RESPONSES}?passphrase=${prop('passphrase')(poll)}`,
       () => `${ROUTE_POLL}/${identifier}${ROUTE_RESPONSES}`
     )(requestData.poll),
@@ -240,7 +240,7 @@ export const fetchResponses = (identifier) => (dispatch, getState) => compose(
     .then((response) => dispatch(updateResponses(response, identifier)))
     .catch(onError),
   ifElse(
-    compose(not, equals(0), length, prop('passphrase')),
+    compose(not, equals(0), length, propOr('', 'passphrase')),
     (poll) => `${ROUTE_POLL}/${identifier}${ROUTE_RESPONSES}?passphrase=${prop('passphrase')(poll)}`,
     () => `${ROUTE_POLL}/${identifier}${ROUTE_RESPONSES}`
   ),
