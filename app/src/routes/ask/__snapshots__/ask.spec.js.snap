@@ -141,16 +141,16 @@ exports[`(Route) Ask (Render) when hasQuestion is true matches snapshot 1`] = `
         <div
           class="input-option input-option-multipleChoice"
         >
+          <input
+            class="input-checkbox input-checkbox-multipleChoice"
+            id="multiple-choice"
+            name="multiple"
+            type="checkbox"
+          />
           <label
             class="input-label input-label-options input-label-multipleChoice"
             for="multiple-choice"
           >
-            <input
-              class="input-checkbox input-checkbox-multipleChoice"
-              id="multiple-choice"
-              name="multiple"
-              type="checkbox"
-            />
             Multiple choice responses
           </label>
         </div>
