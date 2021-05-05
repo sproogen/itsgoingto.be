@@ -79,17 +79,6 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(bmp|gif|jpe?g|png)$/,
-        use: {
-          loader: 'url-loader',
-          options: {
-            limit: 10000,
-            name: '[name].[ext]',
-            outputPath: 'static/media'
-          }
-        }
-      },
-      {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: {
@@ -121,13 +110,13 @@ module.exports = {
         ]
       },
       {
-        test: /\.(jpg|gif|svg|woff|woff2|ttf|eot)$/,
+        test: /\.(jpe?g|gif|png|svg|woff|woff2|ttf|eot)$/,
         use: [
           {
             loader: 'file-loader',
             options: {
               name: '[name].[ext]',
-              outputPath: 'static/media'
+              outputPath: '/static/media'
             }
           }
         ]
