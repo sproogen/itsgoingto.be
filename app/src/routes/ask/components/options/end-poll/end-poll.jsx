@@ -89,7 +89,7 @@ const EndPoll = ({ poll, updateOptions }) => {
           value="endNever"
           onChange={handleEndTypeChange}
         />
-        <label
+        <label // eslint-disable-line
           htmlFor="end-never"
           className="input-label input-label-options input-label-endType"
         >

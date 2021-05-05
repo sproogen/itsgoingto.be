@@ -6,10 +6,10 @@
   top: 0px;
   left: 0px;
   z-index: 200;
+
   .back-button {
     a {
-      line-height: 50px;
-      margin-left: 10px;
+      line-height: 3rem;
       color: $dark-grey;
       cursor: pointer;
       font-size: 1rem;
@@ -17,6 +17,10 @@
 
       &:hover {
         color: $base-font-color;
+      }
+
+      i {
+        margin-right: 0.5rem;
       }
     }
   }
