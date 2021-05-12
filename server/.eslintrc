@@ -1,7 +1,17 @@
 {
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "sourceType": "module",
+    "project": "./tsconfig.json"
+  },
+  "plugins": [
+    "@typescript-eslint"
+  ],
   "extends": [
     "eslint:recommended",
-    "airbnb-base",
+    "airbnb-typescript/base",
+    "plugin:@typescript-eslint/recommended",
     "plugin:import/errors",
     "plugin:import/warnings",
     "plugin:jest/recommended"
@@ -11,24 +21,21 @@
     "node": true,
     "jest": true
   },
-  "parserOptions": {
-    "ecmaVersion": 2020,
-    "sourceType": "module"
-  },
   "rules": {
-    "strict"                  : [2, "safe"],
-    "semi"                    : "off",
-    "no-empty-label"          : "off",
-    "no-process-env"          : "off",
-    "space-after-keywords"    : "off",
-    "space-before-keywords"   : "off",
-    "space-return-throw-case" : "off",
-    "key-spacing"             : 0,
-    "max-len"                 : [2, 120, 2],
-    "object-curly-spacing"    : [2, "always"],
-    "comma-dangle"            : 0,
-    "no-multi-spaces"         : [2, {"exceptions": {"VariableDeclarator": true}}],
-    "no-extra-semi"           : 1,
-    "no-unreachable"          : 1
+    "strict": [2, "safe"],
+    "semi" : "off",
+    "@typescript-eslint/semi": "off",
+    "no-empty-label": "off",
+    "no-process-env": "off",
+    "space-after-keywords": "off",
+    "space-before-keywords": "off",
+    "space-return-throw-case": "off",
+    "key-spacing": 0,
+    "max-len": [2, 120, 2],
+    "object-curly-spacing": [2, "always"],
+    "comma-dangle": 0,
+    "no-multi-spaces": [2, {"exceptions": {"VariableDeclarator": true}}],
+    "no-extra-semi": 1,
+    "no-unreachable": 1
   }
 }

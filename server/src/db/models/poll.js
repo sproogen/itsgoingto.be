@@ -1,9 +1,9 @@
 import {
-  isNil, compose, omit, assoc
+  isNil, compose, omit, assoc,
 } from 'ramda'
 import { Model, DataTypes } from 'sequelize'
 
-const poll = (sequelize) => {
+const PollFactory = (sequelize) => {
   class Poll extends Model {
     get isProtected() {
       return !isNil(this.passphrase) && this.passphrase !== ''
@@ -37,12 +37,12 @@ const poll = (sequelize) => {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
-      autoIncrement: true
+      autoIncrement: true,
     },
     identifier: {
       type: DataTypes.STRING,
       unique: true,
-      allowNull: false
+      allowNull: false,
     },
     question: {
       type: DataTypes.TEXT,
@@ -52,35 +52,36 @@ const poll = (sequelize) => {
       type: DataTypes.BOOLEAN,
       field: 'multiple_choice',
       allowNull: false,
-      defaultValue: false
+      defaultValue: false,
     },
     passphrase: DataTypes.STRING,
     endDate: {
       type: DataTypes.DATE,
       field: 'end_date',
-      allowNull: true
+      allowNull: true,
     },
     ended: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
-      defaultValue: false
+      defaultValue: false,
     },
     deleted: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
-      defaultValue: false
-    }
+      defaultValue: false,
+    },
   }, {
     timestamps: true,
     createdAt: 'created',
     updatedAt: 'updated',
     freezeTableName: true,
-    sequelize
+    modelName: 'poll',
+    sequelize,
   })
   Poll.addScope('excludeDeleted', {
     where: {
-      deleted: false
-    }
+      deleted: false,
+    },
   })
   Poll.addHook('beforeValidate', async (model) => {
     while (isNil(model.identifier)) {
@@ -104,7 +105,7 @@ const poll = (sequelize) => {
   })
   Poll.prototype.toJSON = function () { // eslint-disable-line func-names
     const {
-      responsesCount, userResponses, fullAnswers
+      responsesCount, userResponses, fullAnswers,
     } = this
 
     return compose(
@@ -117,4 +118,4 @@ const poll = (sequelize) => {
   return Poll
 }
 
-export default poll
+export default PollFactory

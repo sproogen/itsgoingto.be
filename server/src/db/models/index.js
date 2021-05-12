@@ -1,11 +1,11 @@
-import poll from './poll'
-import answer from './answer'
-import response from './response'
-import user from './user'
+import PollFactory from './poll'
+import AnswerFactory from './answer'
+import ResponseFactory from './response'
+import UserFactory from './user'
 
 export {
-  poll as PollModel,
-  answer as AnswerModel,
-  response as ResponseModel,
-  user as UserModel
+  PollFactory,
+  AnswerFactory,
+  ResponseFactory,
+  UserFactory,
 }

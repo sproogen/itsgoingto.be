@@ -1,14 +1,14 @@
 import Sequelize from 'sequelize'
 import {
-  PollModel,
-  AnswerModel,
-  ResponseModel,
-  UserModel
+  PollFactory,
+  AnswerFactory,
+  ResponseFactory,
+  UserFactory,
 } from './models'
 import {
   getResponsesCountForPoll,
   getUserResponsesForPoll,
-  getAnswersWithResponses
+  getAnswersWithResponses,
 } from './selectors'
 
 const sequelize = new Sequelize(process.env.DATABASE_URL, {
@@ -18,7 +18,7 @@ const sequelize = new Sequelize(process.env.DATABASE_URL, {
     max: 10,
     min: 0,
     acquire: 30000,
-    idle: 10000
+    idle: 10000,
   },
   logging: false,
 })
@@ -29,10 +29,10 @@ sequelize
     console.error('Unable to connect to the database:', err)
   })
 
-const Poll = sequelize.import('poll', PollModel)
-const Answer = sequelize.import('answer', AnswerModel)
-const Response = sequelize.import('response', ResponseModel)
-const User = sequelize.import('user', UserModel)
+const Poll = PollFactory(sequelize)
+const Answer = AnswerFactory(sequelize)
+const Response = ResponseFactory(sequelize)
+const User = UserFactory(sequelize)
 
 Poll.hasMany(Answer, { foreignKey: 'poll_id', as: 'answers' })
 Answer.belongsTo(Poll, { foreignKey: 'poll_id', as: 'poll' })
@@ -66,5 +66,5 @@ export {
   User,
   getUserResponsesForPollSelector,
   getResponsesCountForPollSelector,
-  getAnswersWithResponsesSelector
+  getAnswersWithResponsesSelector,
 }

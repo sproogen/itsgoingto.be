@@ -5,5 +5,5 @@ import getAnswersWithResponses from './get-answers-with-responses'
 export {
   getResponsesCountForPoll,
   getUserResponsesForPoll,
-  getAnswersWithResponses
+  getAnswersWithResponses,
 }

@@ -14,12 +14,12 @@ const getAnswersWithResponses = (Answer, Response) => async (poll) => (
       exclude: ['poll_id'],
       include: [[
         Sequelize.literal(
-          '(SELECT COUNT(*) FROM `Response` AS `responses` WHERE `responses`.`answer_id` = `Answer`.`id`)'
+          '(SELECT COUNT(*) FROM `response` AS `responses` WHERE `responses`.`answer_id` = `answer`.`id`)'
         ),
         'responsesCount'
       ]]
     },
-    group: ['Answer.id']
+    group: ['answer.id']
   })
 )
 
