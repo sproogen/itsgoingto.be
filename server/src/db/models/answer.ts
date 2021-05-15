@@ -1,4 +1,6 @@
-import { Model, Optional, DataTypes, Sequelize, ModelCtor } from 'sequelize'
+import {
+  Model, Optional, DataTypes, Sequelize, ModelCtor,
+} from 'sequelize'
 
 interface AnswerAttributes {
   id: string
@@ -9,26 +11,23 @@ interface AnswerCreationAttributes extends Optional<AnswerAttributes, 'id'> {} /
 
 interface AnswerInstance extends Model<AnswerAttributes, AnswerCreationAttributes>, AnswerAttributes {}
 
-const AnswerFactory = (sequelize: Sequelize): ModelCtor<AnswerInstance> => {
-  const Answer = sequelize.define<AnswerInstance>(
-    'answer',
-    {
-      id: {
-        primaryKey: true,
-        type: DataTypes.INTEGER,
-        autoIncrement: true,
-      },
-      answer: {
-        allowNull: false,
-        type: DataTypes.TEXT,
-      },
+const AnswerFactory = (sequelize: Sequelize): ModelCtor<AnswerInstance> => sequelize.define<AnswerInstance>(
+  'answer',
+  {
+    id: {
+      primaryKey: true,
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
     },
-    {
-      timestamps: false,
-      freezeTableName: true,
+    answer: {
+      allowNull: false,
+      type: DataTypes.TEXT,
     },
-  )
-  return Answer
-}
+  },
+  {
+    timestamps: false,
+    freezeTableName: true,
+  },
+)
 
 export default AnswerFactory
