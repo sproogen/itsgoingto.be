@@ -1,7 +1,7 @@
 import supertest from 'supertest'
-import { User } from '../src/db'
+import { User, generateJWT } from '../db'
 import { matchesPollFormat } from './test-utils'
-import server from '../src/server'
+import server from '../server'
 
 const validResponseFormat = (response) => {
   expect(Object.keys(response).sort()).toStrictEqual(['count', 'total', 'entities'].sort())
@@ -29,12 +29,12 @@ describe('GET Polls API', () => {
   it('returns 400 for invalid sort option', async () => {
     const user = await User.findOne({
       where: {
-        username: 'username'
-      }
+        username: 'username',
+      },
     })
     const response = await supertest(server)
       .get('/api/polls')
-      .auth(user.generateJWT(), { type: 'bearer' })
+      .auth(generateJWT(user), { type: 'bearer' })
       .query({ sort: 'bad option' })
     expect(response.statusCode).toEqual(400)
     expect(response.body).toHaveProperty('error')
@@ -44,12 +44,12 @@ describe('GET Polls API', () => {
   it('returns 400 for invalid sort direction', async () => {
     const user = await User.findOne({
       where: {
-        username: 'username'
-      }
+        username: 'username',
+      },
     })
     const response = await supertest(server)
       .get('/api/polls')
-      .auth(user.generateJWT(), { type: 'bearer' })
+      .auth(generateJWT(user), { type: 'bearer' })
       .query({ sortDirection: 'bad direction' })
     expect(response.statusCode).toEqual(400)
     expect(response.body).toHaveProperty('error')
@@ -59,12 +59,12 @@ describe('GET Polls API', () => {
   it('returns valid polls response', async () => {
     const user = await User.findOne({
       where: {
-        username: 'username'
-      }
+        username: 'username',
+      },
     })
     const response = await supertest(server)
       .get('/api/polls')
-      .auth(user.generateJWT(), { type: 'bearer' })
+      .auth(generateJWT(user), { type: 'bearer' })
     expect(response.statusCode).toEqual(200)
     validResponseFormat(response.body)
   })
@@ -78,7 +78,7 @@ describe('GET Polls API', () => {
   //   })
   //   const response = await supertest(server)
   //     .get('/api/polls')
-  //     .auth(user.generateJWT(), { type: 'bearer' })
+  //     .auth(generateJWT(user), { type: 'bearer' })
   //     .query({ pageSize: '3' })
   //   expect(response.statusCode).toEqual(200)
   //   validResponseFormat(response.body)
@@ -88,12 +88,12 @@ describe('GET Polls API', () => {
   it('returns page size number of polls', async () => {
     const user = await User.findOne({
       where: {
-        username: 'username'
-      }
+        username: 'username',
+      },
     })
     const response = await supertest(server)
       .get('/api/polls')
-      .auth(user.generateJWT(), { type: 'bearer' })
+      .auth(generateJWT(user), { type: 'bearer' })
       .query({ pageSize: '3' })
     expect(response.statusCode).toEqual(200)
     validResponseFormat(response.body)
@@ -103,14 +103,14 @@ describe('GET Polls API', () => {
   it('returns polls using default page', async () => {
     const user = await User.findOne({
       where: {
-        username: 'username'
-      }
+        username: 'username',
+      },
     })
     const response = await supertest(server)
       .get('/api/polls')
-      .auth(user.generateJWT(), { type: 'bearer' })
+      .auth(generateJWT(user), { type: 'bearer' })
       .query({
-        pageSize: '3', sort: 'id', sortDirection: 'asc'
+        pageSize: '3', sort: 'id', sortDirection: 'asc',
       })
     expect(response.statusCode).toEqual(200)
     validResponseFormat(response.body)
@@ -120,14 +120,14 @@ describe('GET Polls API', () => {
   it('returns polls for correct page', async () => {
     const user = await User.findOne({
       where: {
-        username: 'username'
-      }
+        username: 'username',
+      },
     })
     const response = await supertest(server)
       .get('/api/polls')
-      .auth(user.generateJWT(), { type: 'bearer' })
+      .auth(generateJWT(user), { type: 'bearer' })
       .query({
-        pageSize: '3', page: 2, sort: 'id', sortDirection: 'asc'
+        pageSize: '3', page: 2, sort: 'id', sortDirection: 'asc',
       })
     expect(response.statusCode).toEqual(200)
     validResponseFormat(response.body)

@@ -1,6 +1,8 @@
 import supertest from 'supertest'
-import { User, Poll, Response } from '../src/db'
-import server from '../src/server'
+import {
+  User, Poll, Response, generateJWT,
+} from '../db'
+import server from '../server'
 
 const validResponseFormat = (response) => {
   expect(Object.keys(response).sort()).toStrictEqual(['polls', 'responses'].sort())
@@ -26,13 +28,13 @@ describe('GET Stats API', () => {
   it('returns total number of polls', async () => {
     const user = await User.findOne({
       where: {
-        username: 'username'
-      }
+        username: 'username',
+      },
     })
     const pollsCount = await Poll.count()
     const response = await supertest(server)
       .get('/api/stats')
-      .auth(user.generateJWT(), { type: 'bearer' })
+      .auth(generateJWT(user), { type: 'bearer' })
     expect(response.statusCode).toEqual(200)
     validResponseFormat(response.body)
     expect(response.body.polls).toBe(pollsCount)
@@ -41,13 +43,13 @@ describe('GET Stats API', () => {
   it('returns total number of responses', async () => {
     const user = await User.findOne({
       where: {
-        username: 'username'
-      }
+        username: 'username',
+      },
     })
     const responseCount = await Response.count()
     const response = await supertest(server)
       .get('/api/stats')
-      .auth(user.generateJWT(), { type: 'bearer' })
+      .auth(generateJWT(user), { type: 'bearer' })
     expect(response.statusCode).toEqual(200)
     validResponseFormat(response.body)
     expect(response.body.responses).toBe(responseCount)

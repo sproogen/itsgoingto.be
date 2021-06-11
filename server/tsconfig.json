@@ -21,11 +21,15 @@
     "emitDecoratorMetadata": true,
   },
   "include": [ // The files TypeScript should type check
-    "src/**/*",
+    "**/*",
   ],
   "exclude": [ // The files to not type check
     "node_modules",
-    "build",
+    "api-tests",
     "dist"
+  ],
+  "typeRoots": [
+    "@types",
+    "node_modules/@types"
   ]
 }

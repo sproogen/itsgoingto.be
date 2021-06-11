@@ -15,5 +15,5 @@ export {
   getResponses,
   submitResponses,
   getStats,
-  login
+  login,
 }

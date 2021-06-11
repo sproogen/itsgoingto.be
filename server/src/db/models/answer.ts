@@ -1,15 +1,19 @@
 import {
-  Model, Optional, DataTypes, Sequelize, ModelCtor,
+  Model, Optional, DataTypes, Sequelize, ModelCtor, HasManyCountAssociationsMixin, HasManyAddAssociationMixin,
 } from 'sequelize'
+import { ResponseInstance } from './response'
 
 interface AnswerAttributes {
   id: string
   answer: string
 }
 
-interface AnswerCreationAttributes extends Optional<AnswerAttributes, 'id'> {} // eslint-disable-line
+export interface AnswerCreationAttributes extends Optional<AnswerAttributes, 'id'> {} // eslint-disable-line
 
-interface AnswerInstance extends Model<AnswerAttributes, AnswerCreationAttributes>, AnswerAttributes {}
+export interface AnswerInstance extends Model<AnswerAttributes, AnswerCreationAttributes>, AnswerAttributes {
+  countResponses: HasManyCountAssociationsMixin
+  addResponse: HasManyAddAssociationMixin<ResponseInstance, number>
+}
 
 const AnswerFactory = (sequelize: Sequelize): ModelCtor<AnswerInstance> => sequelize.define<AnswerInstance>(
   'answer',

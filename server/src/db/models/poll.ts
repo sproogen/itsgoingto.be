@@ -1,28 +1,33 @@
 import {
-  isNil, compose, omit,
+  isNil,
 } from 'ramda'
 import {
-  Model, DataTypes, Sequelize, Optional, ModelCtor,
+  Model, DataTypes, Sequelize, Optional, ModelCtor, HasManyCountAssociationsMixin, HasManyAddAssociationMixin,
 } from 'sequelize'
+import { AnswerInstance, AnswerCreationAttributes } from './answer'
+import { ResponseInstance } from './response'
 
 interface PollAttributes {
-  id: string
+  id: number
   identifier: string
   question: string
   multipleChoice: boolean
-  passphrase: string
+  passphrase?: string
   isProtected: boolean
-  responsesCount: number
-  userResponses: number
-  fullAnswers: number
-  endDate: Date
+  endDate?: Date | string
   ended: boolean
   deleted: boolean
 }
 
-interface PollCreationAttributes extends Optional<PollAttributes, 'id' | 'identifier' | 'passphrase' | 'isProtected' | 'responsesCount' | 'userResponses' | 'fullAnswers' | 'endDate'> { } // eslint-disable-line
+interface PollCreationAttributes extends Optional<PollAttributes, 'id' | 'identifier' | 'isProtected' | 'ended' | 'deleted'> { // eslint-disable-line
+  answers: AnswerCreationAttributes[]
+}
 
-interface PollInstance extends Model<PollAttributes, PollCreationAttributes>, PollAttributes {
+export interface PollInstance extends Model<PollAttributes, PollCreationAttributes>, PollAttributes {
+  answers: AnswerInstance[]
+  countResponses: HasManyCountAssociationsMixin
+  addResponse: HasManyAddAssociationMixin<ResponseInstance, number>
+
   createdAt?: Date
   updatedAt?: Date
 }
@@ -64,37 +69,13 @@ const PollFactory = (sequelize: Sequelize): ModelCtor<PollInstance> => {
           throw new Error('isProtected is read only')
         },
       },
-      responsesCount: {
-        type: DataTypes.VIRTUAL,
-        get() {
-          return this.responsesCount
-        },
-        set(responsesCount: number) {
-          this.setDataValue('responsesCount', responsesCount)
-        },
-      },
-      userResponses: {
-        type: DataTypes.VIRTUAL,
-        get() {
-          return this.userResponses
-        },
-        set(userResponses: number) {
-          this.setDataValue('userResponses', userResponses)
-        },
-      },
-      fullAnswers: {
-        type: DataTypes.VIRTUAL,
-        get() {
-          return this.fullAnswers
-        },
-        set(fullAnswers: number) {
-          this.setDataValue('fullAnswers', fullAnswers)
-        },
-      },
       endDate: {
         type: DataTypes.DATE,
         field: 'end_date',
         allowNull: true,
+        get() {
+          return !isNil(this.getDataValue('endDate')) ? this.getDataValue('endDate') : null
+        },
       },
       ended: {
         type: DataTypes.BOOLEAN,
@@ -143,18 +124,6 @@ const PollFactory = (sequelize: Sequelize): ModelCtor<PollInstance> => {
     },
   )
 
-  Poll.prototype.toJSON = function () { // eslint-disable-line func-names
-    // const {
-    //   responsesCount, userResponses, fullAnswers,
-    // } = this
-
-    return compose(
-      omit(['passphrase']),
-      // assoc('responsesCount', responsesCount),
-      // assoc('userResponses', userResponses),
-      // assoc('answers', fullAnswers),
-    )(this.get({ plain: true }))
-  }
   return Poll
 }
 

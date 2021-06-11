@@ -9,7 +9,9 @@ interface ResponseAttributes {
 
 interface ResponseCreationAttributes extends Optional<ResponseAttributes, 'id'> { } // eslint-disable-line
 
-interface ResponseInstance extends Model<ResponseAttributes, ResponseCreationAttributes>, ResponseAttributes {
+export interface ResponseInstance extends Model<ResponseAttributes, ResponseCreationAttributes>, ResponseAttributes {
+  answer_id: number
+
   createdAt?: Date
   updatedAt?: Date
 }

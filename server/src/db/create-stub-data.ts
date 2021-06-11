@@ -1,13 +1,21 @@
+import { ModelCtor } from 'sequelize'
 import { map } from 'ramda'
+import { PollInstance } from './models/poll'
+import { ResponseInstance } from './models/response'
+import { UserInstance } from './models/user'
 
-const formatAnswers = map((answer) => ({ answer }))
+const formatAnswers = map<string, { answer: string }>((answer) => ({ answer }))
 
-const createStubData = (Poll, Response, User) => async () => {
+const createStubData = (
+  Poll: ModelCtor<PollInstance>,
+  Response: ModelCtor<ResponseInstance>,
+  User: ModelCtor<UserInstance>,
+) => async (): Promise<void> => {
   const pollA = await Poll.create({
     identifier: 'a',
     question: 'This is a question?',
-    multipleChoice: true,
     answers: formatAnswers(['Answer a1', 'Answer a2', 'Answer a3']),
+    multipleChoice: true,
   }, {
     include: ['answers'],
   })
@@ -32,30 +40,34 @@ const createStubData = (Poll, Response, User) => async () => {
   await Poll.create({
     question: 'This is another question?',
     answers: formatAnswers(['Answer 1', 'Answer 2', 'Answer 3']),
+    multipleChoice: false,
   }, {
     include: ['answers'],
   })
   await Poll.create({
     identifier: 'b',
     question: 'This a protected poll?',
-    passphrase: 'abc',
     answers: formatAnswers(['Answer b1', 'Answer b2', 'Answer b3']),
+    multipleChoice: false,
+    passphrase: 'abc',
   }, {
     include: ['answers'],
   })
   await Poll.create({
     identifier: 'c',
     question: 'This an ended poll?',
-    endDate: new Date(),
     answers: formatAnswers(['Answer c1', 'Answer c2', 'Answer c3']),
+    multipleChoice: false,
+    endDate: new Date(),
   }, {
     include: ['answers'],
   })
   await Poll.create({
     identifier: 'd',
     question: 'This a deleted poll?',
-    deleted: true,
     answers: formatAnswers(['Answer d1', 'Answer d2', 'Answer d3']),
+    multipleChoice: false,
+    deleted: true,
   }, {
     include: ['answers'],
   })
@@ -63,6 +75,7 @@ const createStubData = (Poll, Response, User) => async () => {
     identifier: 'e',
     question: 'This another poll?',
     answers: formatAnswers(['Answer e1', 'Answer e2', 'Answer e3']),
+    multipleChoice: false,
   }, {
     include: ['answers'],
   })

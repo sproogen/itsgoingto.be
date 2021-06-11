@@ -1,7 +1,7 @@
 import supertest from 'supertest'
-import { User, Poll } from '../src/db'
+import { User, Poll, generateJWT } from '../db'
 import { matchesPollFormat } from './test-utils'
-import server from '../src/server'
+import server from '../server'
 
 describe('DELETE Poll API', () => {
   it('returns 401 unauthorised for no authentication', async () => {
@@ -21,10 +21,10 @@ describe('DELETE Poll API', () => {
   it('returns 404 when poll not found', async () => {
     const user = await User.findOne({
       where: {
-        username: 'username'
-      }
+        username: 'username',
+      },
     })
-    const response = await supertest(server).delete('/api/polls/hs8Hgsi').auth(user.generateJWT(), { type: 'bearer' })
+    const response = await supertest(server).delete('/api/polls/hs8Hgsi').auth(generateJWT(user), { type: 'bearer' })
     expect(response.statusCode).toEqual(404)
     expect(response.body).toHaveProperty('error')
     expect(response.body.error).toBe('poll-not-found')
@@ -33,10 +33,10 @@ describe('DELETE Poll API', () => {
   it('returns 400 when poll already deleted', async () => {
     const user = await User.findOne({
       where: {
-        username: 'username'
-      }
+        username: 'username',
+      },
     })
-    const response = await supertest(server).delete('/api/polls/d').auth(user.generateJWT(), { type: 'bearer' })
+    const response = await supertest(server).delete('/api/polls/d').auth(generateJWT(user), { type: 'bearer' })
     expect(response.statusCode).toEqual(400)
     expect(response.body).toHaveProperty('error')
     expect(response.body.error).toBe('poll-already-deleted')
@@ -45,17 +45,17 @@ describe('DELETE Poll API', () => {
   it('deleted and returns poll', async () => {
     const user = await User.findOne({
       where: {
-        username: 'username'
-      }
+        username: 'username',
+      },
     })
     const poll = await Poll.findOne({
       where: {
         identifier: 'd',
-      }
+      },
     })
     await poll.update({ deleted: false })
 
-    const response = await supertest(server).delete('/api/polls/d').auth(user.generateJWT(), { type: 'bearer' })
+    const response = await supertest(server).delete('/api/polls/d').auth(generateJWT(user), { type: 'bearer' })
     expect(response.statusCode).toEqual(200)
     matchesPollFormat(response.body, false, false)
     expect(response.body.identifier).toBe('d')

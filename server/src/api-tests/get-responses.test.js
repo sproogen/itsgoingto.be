@@ -1,7 +1,7 @@
 import supertest from 'supertest'
-import { User, Poll } from '../src/db'
+import { User, Poll, generateJWT } from '../db'
 import { matchesResponsesFormat } from './test-utils'
-import server from '../src/server'
+import server from '../server'
 
 describe('GET Responses API', () => {
   it('returns responses for poll', async () => {
@@ -18,7 +18,7 @@ describe('GET Responses API', () => {
       where: {
         identifier: 'a',
       },
-      include: ['answers']
+      include: ['answers'],
     })
     const response = await supertest(server)
       .get('/api/polls/a/responses')
@@ -74,10 +74,10 @@ describe('GET Responses API', () => {
   it('returns responses for protected poll for authenticated user', async () => {
     const user = await User.findOne({
       where: {
-        username: 'username'
-      }
+        username: 'username',
+      },
     })
-    const response = await supertest(server).get('/api/polls/b/responses').auth(user.generateJWT(), { type: 'bearer' })
+    const response = await supertest(server).get('/api/polls/b/responses').auth(generateJWT(user), { type: 'bearer' })
     expect(response.statusCode).toEqual(200)
     matchesResponsesFormat(response.body)
     expect(response.body.answers).toHaveLength(3)
@@ -93,10 +93,10 @@ describe('GET Responses API', () => {
   it('returns responses for deleted poll for authenticated user', async () => {
     const user = await User.findOne({
       where: {
-        username: 'username'
-      }
+        username: 'username',
+      },
     })
-    const response = await supertest(server).get('/api/polls/d/responses').auth(user.generateJWT(), { type: 'bearer' })
+    const response = await supertest(server).get('/api/polls/d/responses').auth(generateJWT(user), { type: 'bearer' })
     expect(response.statusCode).toEqual(200)
     matchesResponsesFormat(response.body)
     expect(response.body.answers).toHaveLength(3)

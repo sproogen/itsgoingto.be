@@ -1,17 +1,18 @@
-import express from 'express'
+import express, { Express } from 'express'
+import { Server } from 'socket.io'
 import { authRequired, authOptional } from './auth'
 import {
-  getPolls, createPoll, getPoll, deletePoll, getResponses, submitResponses, getStats, login
+  getPolls, createPoll, getPoll, deletePoll, getResponses, submitResponses, getStats, login,
 } from './controllers'
 
-export default (io) => {
+export default (io: Server): Express => {
   const api = express()
 
   // middleware
   api.use(express.json())
   api.use(express.urlencoded({ extended: false }))
 
-  api.get('/', (req, res) => {
+  api.get('/', (_req, res) => {
     res.send({
       message: 'Hello from the API',
     })

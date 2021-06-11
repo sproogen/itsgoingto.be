@@ -1,17 +1,19 @@
-import Sequelize from 'sequelize'
+import { Sequelize } from 'sequelize'
 import {
   PollFactory,
   AnswerFactory,
   ResponseFactory,
   UserFactory,
+  generateJWT,
+  validatePassword,
 } from './models'
 import {
-  getResponsesCountForPoll,
   getUserResponsesForPoll,
-  getAnswersWithResponses,
 } from './selectors'
 
-const sequelize = new Sequelize(process.env.DATABASE_URL, {
+const DATABASE_URL = process.env.DATABASE_URL || ''
+
+const sequelize = new Sequelize(DATABASE_URL, {
   host: 'localhost',
   dialect: 'mysql',
   pool: {
@@ -43,20 +45,7 @@ Response.belongsTo(Poll, { foreignKey: 'poll_id', as: 'poll' })
 Answer.hasMany(Response, { foreignKey: 'answer_id', as: 'responses' })
 Response.belongsTo(Answer, { foreignKey: 'answer_id', as: 'answer' })
 
-const getResponsesCountForPollSelector = getResponsesCountForPoll(Response)
-const getUserResponsesForPollSelector = getUserResponsesForPoll(Response)
-const getAnswersWithResponsesSelector = getAnswersWithResponses(Answer, Response)
-
-Poll.addHook('afterFind', async (model) => {
-  if (model !== null) {
-    if (Array.isArray(model)) {
-      for await (const poll of model) { // eslint-disable-line no-restricted-syntax
-        const responsesCount = await getResponsesCountForPollSelector(poll)
-        poll.responsesCount = responsesCount
-      }
-    }
-  }
-})
+const getUserResponsesForPollSelector = getUserResponsesForPoll(Response, Poll)
 
 export {
   sequelize as default,
@@ -64,7 +53,7 @@ export {
   Answer,
   Response,
   User,
+  generateJWT,
+  validatePassword,
   getUserResponsesForPollSelector,
-  getResponsesCountForPollSelector,
-  getAnswersWithResponsesSelector,
 }

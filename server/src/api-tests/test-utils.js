@@ -7,44 +7,44 @@ expect.extend({
     if (received !== null && DATE_REGEX.test(received)) {
       return {
         message: () => `expected ${received} not to be an ISO 8601 date time formatted string`,
-        pass: true
+        pass: true,
       }
     }
     return {
       message: () => `expected ${received} to be an ISO 8601 date time formatted string`,
-      pass: false
+      pass: false,
     }
   },
   toBeISODateStringOrNull(received) {
     if (received === null || DATE_REGEX.test(received)) {
       return {
         message: () => `expected ${received} not to be an ISO 8601 date time formatted string`,
-        pass: true
+        pass: true,
       }
     }
     return {
       message: () => `expected ${received} to be an ISO 8601 date time formatted string`,
-      pass: false
+      pass: false,
     }
   },
   toBeArrayContainingNumbers(received) {
     if (Array.isArray(received) && all(is(Number), received)) {
       return {
         message: () => `expected ${received} not to be an array containing only numbers`,
-        pass: true
+        pass: true,
       }
     }
     return {
       message: () => `expected ${received} to be an array containing only numbers`,
-      pass: false
+      pass: false,
     }
-  }
+  },
 })
 
 export const matchesPollFormat = (poll, expectAnswers = true, expectUserResponses = true) => {
   expect(Object.keys(poll).sort()).toStrictEqual([
     'id', 'identifier', 'question', 'multipleChoice', 'endDate', 'ended', 'deleted', 'created', 'updated',
-    ...(expectAnswers ? ['answers'] : []), ...(expectUserResponses ? ['userResponses'] : []), 'responsesCount'
+    ...(expectAnswers ? ['answers'] : []), ...(expectUserResponses ? ['userResponses'] : []), 'responsesCount',
   ].sort())
   expect(poll.id).toEqual(expect.any(Number))
   expect(poll.identifier).toEqual(expect.any(String))
@@ -72,7 +72,7 @@ export const matchesPollFormat = (poll, expectAnswers = true, expectUserResponse
 
 export const matchesResponsesFormat = (responses) => {
   expect(Object.keys(responses).sort()).toStrictEqual([
-    'id', 'ended', 'answers', 'userResponses', 'responsesCount'
+    'id', 'ended', 'answers', 'userResponses', 'responsesCount',
   ].sort())
   expect(responses.ended).toEqual(expect.any(Boolean))
   expect(Array.isArray(responses.answers)).toBe(true)

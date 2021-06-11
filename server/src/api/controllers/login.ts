@@ -1,9 +1,15 @@
+import { Request, Response } from 'express'
 import {
-  defaultTo, trim, isEmpty
+  defaultTo, trim, isEmpty,
 } from 'ramda'
-import { User } from '../../db'
+import { User, validatePassword, generateJWT } from '../../db'
 
-const login = async (req, res) => {
+interface Body {
+  username?: string
+  password?: string
+}
+
+const login = async (req: Request<never, never, Body, never>, res: Response): Promise<Response> => {
   const username = trim(defaultTo('', req.body.username))
   const password = trim(defaultTo('', req.body.password))
 
@@ -22,12 +28,12 @@ const login = async (req, res) => {
 
   return User.findOne({ where: { username } })
     .then((user) => {
-      if (!user || !user.validatePassword(password)) {
+      if (!user || !validatePassword(user, password)) {
         return res.status(400).send({ errors: ['Invalid Username or Password'] })
       }
 
       return res.json({
-        token: user.generateJWT()
+        token: generateJWT(user),
       })
     })
 }

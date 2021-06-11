@@ -1,7 +1,7 @@
 import supertest from 'supertest'
-import { User, Poll } from '../src/db'
+import { User, Poll, generateJWT } from '../db'
 import { matchesPollFormat } from './test-utils'
-import server from '../src/server'
+import server from '../server'
 
 describe('GET Poll API', () => {
   it('returns poll object', async () => {
@@ -19,7 +19,7 @@ describe('GET Poll API', () => {
       where: {
         identifier: 'a',
       },
-      include: ['answers']
+      include: ['answers'],
     })
     const response = await supertest(server).get('/api/polls/a').set('Cookie', ['USERID=98djhfdjs098321dsafhf2309'])
     expect(response.statusCode).toEqual(200)
@@ -31,7 +31,7 @@ describe('GET Poll API', () => {
     const poll = await Poll.findOne({
       where: {
         identifier: 'c',
-      }
+      },
     })
     await poll.update({ ended: false })
 
@@ -77,10 +77,10 @@ describe('GET Poll API', () => {
   it('returns protected poll for authenticated user', async () => {
     const user = await User.findOne({
       where: {
-        username: 'username'
-      }
+        username: 'username',
+      },
     })
-    const response = await supertest(server).get('/api/polls/b').auth(user.generateJWT(), { type: 'bearer' })
+    const response = await supertest(server).get('/api/polls/b').auth(generateJWT(user), { type: 'bearer' })
     expect(response.statusCode).toEqual(200)
     matchesPollFormat(response.body)
     expect(response.body.identifier).toBe('b')
@@ -97,10 +97,10 @@ describe('GET Poll API', () => {
   it('returns deleted poll for authenticated user', async () => {
     const user = await User.findOne({
       where: {
-        username: 'username'
-      }
+        username: 'username',
+      },
     })
-    const response = await supertest(server).get('/api/polls/d').auth(user.generateJWT(), { type: 'bearer' })
+    const response = await supertest(server).get('/api/polls/d').auth(generateJWT(user), { type: 'bearer' })
     expect(response.statusCode).toEqual(200)
     matchesPollFormat(response.body)
     expect(response.body.identifier).toBe('d')

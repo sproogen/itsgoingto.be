@@ -1,4 +1,4 @@
-import server from './server' // eslint-disable-line
+import server from './server'
 
 const port = process.env.PORT || 8001
 

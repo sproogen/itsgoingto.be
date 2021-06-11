@@ -1,7 +1,7 @@
 import supertest from 'supertest'
-import { User, Poll } from '../src/db'
+import { User, Poll, generateJWT } from '../db'
 import { matchesResponsesFormat } from './test-utils'
-import server from '../src/server'
+import server from '../server'
 
 describe('Submit Responses API', () => {
   it('returns 404 when poll not found', async () => {
@@ -21,10 +21,10 @@ describe('Submit Responses API', () => {
   it('returns 404 for deleted poll for authenticated user', async () => {
     const user = await User.findOne({
       where: {
-        username: 'username'
-      }
+        username: 'username',
+      },
     })
-    const response = await supertest(server).post('/api/polls/d/responses').auth(user.generateJWT(), { type: 'bearer' })
+    const response = await supertest(server).post('/api/polls/d/responses').auth(generateJWT(user), { type: 'bearer' })
     expect(response.statusCode).toEqual(404)
     expect(response.body).toHaveProperty('error')
     expect(response.body.error).toBe('poll-not-found')
@@ -49,7 +49,7 @@ describe('Submit Responses API', () => {
       where: {
         identifier: 'b',
       },
-      include: ['answers']
+      include: ['answers'],
     })
 
     const response = await supertest(server)
@@ -71,7 +71,7 @@ describe('Submit Responses API', () => {
     const poll = await Poll.findOne({
       where: {
         identifier: 'c',
-      }
+      },
     })
     await poll.update({ ended: true })
 
@@ -119,7 +119,7 @@ describe('Submit Responses API', () => {
       where: {
         identifier: 'e',
       },
-      include: ['answers']
+      include: ['answers'],
     })
 
     const response = await supertest(server)
@@ -137,7 +137,7 @@ describe('Submit Responses API', () => {
       where: {
         identifier: 'e',
       },
-      include: ['answers']
+      include: ['answers'],
     })
 
     const response = await supertest(server)
@@ -159,7 +159,7 @@ describe('Submit Responses API', () => {
       where: {
         identifier: 'e',
       },
-      include: ['answers']
+      include: ['answers'],
     })
 
     const response = await supertest(server)
@@ -181,7 +181,7 @@ describe('Submit Responses API', () => {
       where: {
         identifier: 'f',
       },
-      include: ['answers']
+      include: ['answers'],
     })
 
     const response = await supertest(server)
@@ -204,7 +204,7 @@ describe('Submit Responses API', () => {
       where: {
         identifier: 'f',
       },
-      include: ['answers']
+      include: ['answers'],
     })
 
     const response = await supertest(server)

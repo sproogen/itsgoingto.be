@@ -1,7 +1,7 @@
 import supertest from 'supertest'
-import { Poll } from '../src/db'
+import { Poll } from '../db'
 import { matchesPollFormat } from './test-utils'
-import server from '../src/server'
+import server from '../server'
 
 describe('CREATE Poll API', () => {
   it('returns 400 for missing question', async () => {
@@ -39,7 +39,7 @@ describe('CREATE Poll API', () => {
     const response = await supertest(server)
       .post('/api/polls')
       .send({
-        question: 'Question', answers: ['Answer A'], endDate: date, multipleChoice: true
+        question: 'Question', answers: ['Answer A'], endDate: date, multipleChoice: true,
       })
     expect(response.statusCode).toEqual(200)
     matchesPollFormat(response.body)
@@ -54,7 +54,7 @@ describe('CREATE Poll API', () => {
     const response = await supertest(server)
       .post('/api/polls')
       .send({
-        question: 'Question 2', answers: ['Answer B'], passphrase: 'pass'
+        question: 'Question 2', answers: ['Answer B'], passphrase: 'pass',
       })
     expect(response.statusCode).toEqual(200)
     matchesPollFormat(response.body)
@@ -65,7 +65,7 @@ describe('CREATE Poll API', () => {
     const poll = await Poll.findOne({
       where: {
         id: response.body.id,
-      }
+      },
     })
     expect(poll.passphrase).toBe('pass')
   })

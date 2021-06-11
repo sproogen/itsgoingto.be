@@ -1,6 +1,6 @@
 import supertest from 'supertest'
 import jwt from 'jsonwebtoken'
-import server from '../src/server'
+import server from '../server'
 
 describe('Login API', () => {
   it('returns 400 for missing details', async () => {
