@@ -1,21 +1,20 @@
 import React from 'react'
 import crypto from 'crypto' // eslint-disable-line
 import {
-  render, screen, waitFor
+  render, screen, waitFor,
 } from '@testing-library/react'
 import { Cookies } from 'react-cookie'
 import { APIError } from 'services/api'
 import Answer from './answer'
 
-
 Object.defineProperty(global.self, 'crypto', {
   value: {
-    getRandomValues: (arr) => crypto.randomBytes(arr.length)
-  }
+    getRandomValues: (arr) => crypto.randomBytes(arr.length),
+  },
 })
 
 const mockHistory = {
-  push: jest.fn()
+  push: jest.fn(),
 }
 jest.mock('react-router-dom', () => ({
   useHistory: () => mockHistory,
@@ -144,7 +143,7 @@ describe('(Route) answer', () => {
               ...defaultProps.poll,
               ended: true,
             }}
-          />
+          />,
         )
         expect(screen.getByText('This poll has now ended')).toBeInTheDocument()
       })
@@ -156,7 +155,7 @@ describe('(Route) answer', () => {
               ...defaultProps.poll,
               ended: false,
             }}
-          />
+          />,
         )
         expect(screen.queryByText('This poll has now ended')).not.toBeInTheDocument()
       })
@@ -172,7 +171,7 @@ describe('(Route) answer', () => {
               ended: false,
               endDate: { date: '22/11/2018' },
             }}
-          />
+          />,
         )
         expect(screen.getByText('Mocked CountdownComponent')).toBeInTheDocument()
       })

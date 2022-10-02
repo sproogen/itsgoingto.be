@@ -1,6 +1,6 @@
 import React from 'react'
 import {
-  render
+  render,
 } from '@testing-library/react'
 import Sharing from './sharing'
 

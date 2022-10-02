@@ -20,11 +20,11 @@ Options.propTypes = {
   poll: PropTypes.shape({
     endType: PropTypes.string,
     endIn: PropTypes.number,
-    endAt: PropTypes.object,
+    endAt: PropTypes.instanceOf(Date),
     passphrase: PropTypes.string,
-    multipleChoice: PropTypes.bool
+    multipleChoice: PropTypes.bool,
   }).isRequired,
-  updateOptions: PropTypes.func.isRequired
+  updateOptions: PropTypes.func.isRequired,
 }
 
 export default Options

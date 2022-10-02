@@ -1,5 +1,5 @@
 import {
-  prop, compose, equals, omit, propEq, adjust, set, lensProp, findIndex, ifElse, path, merge, __
+  prop, compose, equals, omit, propEq, adjust, set, lensProp, findIndex, ifElse, path, merge, __,
 } from 'ramda'
 import {
   POLL_UPDATE,
@@ -7,7 +7,7 @@ import {
   POLL_PAGE_SET,
   POLL_COUNT_SET,
   QUESTION_UPDATE,
-  initialPoll
+  initialPoll,
 } from './constants'
 
 // ------------------------------------
@@ -19,7 +19,7 @@ import {
 const initialState = {
   polls: [],
   page: 0,
-  count: 0
+  count: 0,
 }
 
 /**
@@ -38,14 +38,14 @@ export default function pollReducer(state = initialState, action = null) {
         polls: ifElse(
           compose(
             equals(-1),
-            findIndex(propEq('identifier', path(['poll', 'identifier'])(action)))
+            findIndex(propEq('identifier', path(['poll', 'identifier'])(action))),
           ),
           () => [...prop('polls')(state), action.poll],
           adjust(
             merge(__, action.poll),
-            findIndex(propEq('identifier', path(['poll', 'identifier'])(action)))(prop('polls')(state))
-          )
-        )(prop('polls')(state))
+            findIndex(propEq('identifier', path(['poll', 'identifier'])(action)))(prop('polls')(state)),
+          ),
+        )(prop('polls')(state)),
       })
     case POLLS_SET:
     // Update the state and override the polls with the given polls
@@ -62,17 +62,17 @@ export default function pollReducer(state = initialState, action = null) {
         polls: ifElse(
           compose(
             equals(-1),
-            findIndex(propEq('identifier', action.identifier))
+            findIndex(propEq('identifier', action.identifier)),
           ),
           () => [...prop('polls')(state), compose(
             omit(['answers']),
-            set(lensProp('question'), action.question)
+            set(lensProp('question'), action.question),
           )(initialPoll)],
           adjust(
             set(lensProp('question'), action.question),
-            findIndex(propEq('identifier', action.identifier))(prop('polls')(state))
-          )
-        )(prop('polls')(state))
+            findIndex(propEq('identifier', action.identifier))(prop('polls')(state)),
+          ),
+        )(prop('polls')(state)),
       })
     default:
       return state

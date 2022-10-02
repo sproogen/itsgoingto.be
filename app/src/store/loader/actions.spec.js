@@ -1,6 +1,6 @@
 import {
   LOADING_UPDATE,
-  PASSPHRASE_UPDATE
+  PASSPHRASE_UPDATE,
 } from 'store/loader/constants'
 import {
   setLoading,

@@ -1,6 +1,6 @@
 import React from 'react'
 import {
-  render, fireEvent, screen
+  render, fireEvent, screen,
 } from '@testing-library/react'
 import PollTableHeaderItem from './poll-table-header-item';
 
@@ -32,7 +32,7 @@ describe('(Route) dashboard', () => {
       describe('has onSort callback', () => {
         it('show fa-sort icon', () => {
           render(
-            <PollTableHeaderItem {...defaultProps} onSort={() => { /* Do nothing */ }} />, { Wrapper: TableWrapper }
+            <PollTableHeaderItem {...defaultProps} onSort={() => { /* Do nothing */ }} />, { Wrapper: TableWrapper },
           )
           expect(screen.getByRole('button', { name: /Column header/ }).childNodes[1]).toBeInTheDocument()
           expect(screen.getByRole('button', { name: /Column header/ }).childNodes[1]).toHaveClass('fa-sort')
@@ -45,7 +45,7 @@ describe('(Route) dashboard', () => {
                 {...defaultProps}
                 onSort={() => { /* Do nothing */ }}
                 sortDirection="asc"
-              />, { Wrapper: TableWrapper }
+              />, { Wrapper: TableWrapper },
             )
             expect(screen.getByRole('button', { name: /Column header/ }).childNodes[1]).toBeInTheDocument()
             expect(screen.getByRole('button', { name: /Column header/ }).childNodes[1]).toHaveClass('fa-sort-up')
@@ -59,7 +59,7 @@ describe('(Route) dashboard', () => {
                 {...defaultProps}
                 onSort={() => { /* Do nothing */ }}
                 sortDirection="desc"
-              />, { Wrapper: TableWrapper }
+              />, { Wrapper: TableWrapper },
             )
             expect(screen.getByRole('button', { name: /Column header/ }).childNodes[1]).toBeInTheDocument()
             expect(screen.getByRole('button', { name: /Column header/ }).childNodes[1]).toHaveClass('fa-sort-down')

@@ -13,5 +13,5 @@ export const initialPoll = {
   multipleChoice: false,
   passphrase: '',
   answers: [],
-  userResponses: []
+  userResponses: [],
 }

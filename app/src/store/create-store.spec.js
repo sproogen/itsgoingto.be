@@ -25,7 +25,7 @@ describe('(Store) createStore', () => {
       const poll = {
         polls: [],
         page: 0,
-        count: 0
+        count: 0,
       }
 
       expect(store.getState().poll).toEqual(poll)

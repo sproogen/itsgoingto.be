@@ -78,7 +78,7 @@ const Sharing = ({ poll }) => {
 
 Sharing.propTypes = {
   poll: PropTypes.shape({
-    question: PropTypes.string
+    question: PropTypes.string,
   }).isRequired,
 }
 

@@ -7,7 +7,7 @@ describe('(Route) NotFound', () => {
   describe('(Render)', () => {
     it('matches snapshot', () => {
       const { asFragment } = render(<NotFound />, {
-        wrapper: WithRouter
+        wrapper: WithRouter,
       })
       expect(asFragment()).toMatchSnapshot()
     })

@@ -8,7 +8,7 @@ import Passphrase from './passphrase'
 const mapDispatchToProps = (dispatch) => ({
   setPassphrase: (identifier, value) => dispatch(updatePoll({ identifier, passphrase: value })),
   fetchPoll: (identifier) => dispatch(fetchPoll(identifier)),
-  setRequiresPassphrase: (value) => dispatch(setRequiresPassphrase(value))
+  setRequiresPassphrase: (value) => dispatch(setRequiresPassphrase(value)),
 })
 
 export default connect(null, mapDispatchToProps)(Passphrase)

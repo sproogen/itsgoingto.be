@@ -1,6 +1,6 @@
 import React from 'react'
 import {
-  render, fireEvent, screen, act
+  render, fireEvent, screen, act,
 } from '@testing-library/react'
 import { Cookies } from 'react-cookie'
 import EventBus from 'services/event-bus'
@@ -10,13 +10,13 @@ import Login from './login'
 const cookies = new Cookies()
 const eventBus = {
   emit: jest.fn(),
-  addListener: jest.fn()
+  addListener: jest.fn(),
 }
 const mockHistory = {
-  push: jest.fn()
+  push: jest.fn(),
 }
 jest.mock('react-router-dom', () => ({
-  useHistory: () => mockHistory
+  useHistory: () => mockHistory,
 }))
 jest.mock('components/back', () => () => <div>Mocked BackComponent</div>)
 
@@ -212,7 +212,7 @@ describe('(Route) Login', () => {
     describe('postLogin failure', () => {
       it('should set state with api errors', async () => {
         const postLogin = jest.fn(() => Promise.resolve(new APIError({
-          error: { errors: ['There was an error 1', 'There was an error 2'] }
+          error: { errors: ['There was an error 1', 'There was an error 2'] },
         })))
 
         render(<Login {...defaultProps} postLogin={postLogin} />)

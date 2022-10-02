@@ -9,7 +9,7 @@ import { LOADING_UPDATE, PASSPHRASE_UPDATE } from './constants'
  */
 const initialState = {
   loading: false,
-  passphrase: false
+  passphrase: false,
 }
 
 /**

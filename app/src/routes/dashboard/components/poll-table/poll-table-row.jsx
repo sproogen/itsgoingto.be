@@ -2,13 +2,13 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { useHistory } from 'react-router-dom'
 import {
-  cond, propEq, always, T
+  cond, propEq, always, T,
 } from 'ramda'
 import moment from 'moment'
 
 const PollTableRow = ({ poll, deletePoll }) => {
   const {
-    id, identifier, question, responsesCount, deleted, created
+    id, identifier, question, responsesCount, deleted, created,
   } = poll
   const history = useHistory()
   const [deleting, setDeleting] = useState(false)
@@ -26,7 +26,7 @@ const PollTableRow = ({ poll, deletePoll }) => {
   const status = cond([
     [propEq('deleted', true), always('Deleted')],
     [propEq('ended', true), always('Ended')],
-    [T, always('Active')]
+    [T, always('Active')],
   ])(poll)
 
   return (

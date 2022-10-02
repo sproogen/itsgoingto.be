@@ -6,7 +6,7 @@ import Answer from './answer'
 import './answers.scss'
 
 const Answers = ({
-  answers, onAnswerChange, onRemoveAnswer
+  answers, onAnswerChange, onRemoveAnswer,
 }) => (
   <div
     data-testid="answers"
@@ -51,13 +51,13 @@ Answers.propTypes = {
     PropTypes.arrayOf(
       PropTypes.shape({
         id: PropTypes.number,
-        answer: PropTypes.string
-      })
+        answer: PropTypes.string,
+      }),
     ),
-    PropTypes.arrayOf(PropTypes.string)
+    PropTypes.arrayOf(PropTypes.string),
   ]).isRequired,
   onAnswerChange: PropTypes.func.isRequired,
-  onRemoveAnswer: PropTypes.func.isRequired
+  onRemoveAnswer: PropTypes.func.isRequired,
 }
 
 export default Answers

@@ -7,7 +7,7 @@ describe('(Component) Back', () => {
   describe('(Render)', () => {
     it('matches snapshot', () => {
       const { asFragment } = render(<Back />, {
-        wrapper: WithRouter
+        wrapper: WithRouter,
       })
       expect(asFragment()).toMatchSnapshot()
     })

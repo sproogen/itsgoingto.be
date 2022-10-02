@@ -6,7 +6,7 @@ import {
 
 describe('(Store) User', () => {
   let globalState = {
-    user: userReducer(undefined, {})
+    user: userReducer(undefined, {}),
   }
 
   describe('(Selectors)', () => {
@@ -16,7 +16,7 @@ describe('(Store) User', () => {
           id: 1,
           username: 'admin',
           token: 'fd987%%^0|Zas2',
-        }
+        },
       }
     })
 

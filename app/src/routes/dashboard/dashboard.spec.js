@@ -1,6 +1,6 @@
 import React from 'react'
 import {
-  render, screen
+  render, screen,
 } from '@testing-library/react'
 import Dashboard from './dashboard'
 
@@ -8,10 +8,10 @@ jest.mock('./components/stats', () => () => <div>Mocked Stats</div>)
 jest.mock('./components/poll-table', () => () => <div>Mocked PollTable</div>)
 
 const mockHistory = {
-  push: jest.fn()
+  push: jest.fn(),
 }
 jest.mock('react-router-dom', () => ({
-  useHistory: () => mockHistory
+  useHistory: () => mockHistory,
 }))
 
 const defaultProps = {

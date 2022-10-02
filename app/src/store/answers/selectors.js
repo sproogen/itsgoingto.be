@@ -23,7 +23,7 @@ export const answersSelector = (state) => prop('answers')(state)
  */
 export const maxAnswerSelector = createSelector(
   answersSelector,
-  (answers) => findLastIndex(compose(not, isEmpty, trim))(answers)
+  (answers) => findLastIndex(compose(not, isEmpty, trim))(answers),
 )
 
 /**

@@ -5,7 +5,7 @@ import {
   POLL_PAGE_SET,
   POLL_COUNT_SET,
   QUESTION_UPDATE,
-  initialPoll
+  initialPoll,
 } from 'store/poll/constants'
 import {
   updatePoll,
@@ -26,12 +26,12 @@ describe('(Store) Poll', () => {
 
     beforeEach(() => {
       globalState = {
-        poll: pollReducer(undefined, {})
+        poll: pollReducer(undefined, {}),
       }
       dispatch = jest.fn((action) => {
         globalState = {
           ...globalState,
-          poll: pollReducer(globalState.poll, action)
+          poll: pollReducer(globalState.poll, action),
         }
       })
       getState = jest.fn(() => globalState)
@@ -53,18 +53,18 @@ describe('(Store) Poll', () => {
 
       it('Should dispatch POLL_UPDATE with data omitting answers', () => {
         updatePoll({
-          question: '', identifier: '', answers: [], userResponses: [245]
+          question: '', identifier: '', answers: [], userResponses: [245],
         })(dispatch, getState)
 
         expect(dispatch).toHaveBeenCalledWith({
           type: POLL_UPDATE,
-          poll: { question: '', identifier: '', userResponses: [245] }
+          poll: { question: '', identifier: '', userResponses: [245] },
         })
       })
 
       it('Should dispatch updateAnswers with answers', () => {
         updatePoll({
-          question: '', identifier: '', answers: []
+          question: '', identifier: '', answers: [],
         })(dispatch, getState)
 
         expect(dispatch).toHaveBeenCalledWith(updateAnswers([]))
@@ -72,7 +72,7 @@ describe('(Store) Poll', () => {
 
       it('Should call dispatch once with no answers', () => {
         updatePoll({
-          question: '', identifier: ''
+          question: '', identifier: '',
         })(dispatch, getState)
 
         expect(dispatch).toHaveBeenCalledTimes(1)
@@ -80,7 +80,7 @@ describe('(Store) Poll', () => {
 
       it('Should not dispatch updateAnswers with no answers', () => {
         updatePoll({
-          question: '', identifier: ''
+          question: '', identifier: '',
         })(dispatch, getState)
 
         expect(dispatch).not.toHaveBeenCalledWith(updateAnswers([]))
@@ -99,17 +99,17 @@ describe('(Store) Poll', () => {
       it('Should assign the argument to the "polls" property with answers omitted.', () => {
         const polls = [
           {
-            question: 'Question 1', identifier: 'asdfaw4esd', answers: [], userResponses: [5]
+            question: 'Question 1', identifier: 'asdfaw4esd', answers: [], userResponses: [5],
           },
           {
-            question: 'Question 2', identifier: 'awthscvg34', answers: [], userResponses: [8, 5]
-          }
+            question: 'Question 2', identifier: 'awthscvg34', answers: [], userResponses: [8, 5],
+          },
         ]
 
         expect(setPolls(polls)).toHaveProperty('polls')
         expect(setPolls(polls).polls).toEqual([
           { question: 'Question 1', identifier: 'asdfaw4esd', userResponses: [5] },
-          { question: 'Question 2', identifier: 'awthscvg34', userResponses: [8, 5] }
+          { question: 'Question 2', identifier: 'awthscvg34', userResponses: [8, 5] },
         ])
       })
     })
@@ -162,18 +162,18 @@ describe('(Store) Poll', () => {
         }))
 
       it('Should call dispatch with QUESTION_UPDATE.', () => updateQuestion(
-        'Question Text', 'hf0sd8fhoas'
+        'Question Text', 'hf0sd8fhoas',
       )(dispatch, getState)
         .then(() => {
           expect(dispatch).toHaveBeenCalledWith({
             type: QUESTION_UPDATE,
             question: 'Question Text',
-            identifier: 'hf0sd8fhoas'
+            identifier: 'hf0sd8fhoas',
           })
         }))
 
       it('Should dispatch addAnswer() if now has question.', () => updateQuestion(
-        'Question Text', ''
+        'Question Text', '',
       )(dispatch, getState)
         .then(() => {
           expect(dispatch).toHaveBeenCalledWith(addAnswer())
@@ -184,8 +184,8 @@ describe('(Store) Poll', () => {
           poll: {
             polls: [{ question: 'Question Text', identifier: 'hf0sd8fhoas' }],
             page: null,
-            count: 0
-          }
+            count: 0,
+          },
         }
         return updateQuestion('', 'hf0sd8fhoas')(dispatch, getState)
           .then(() => {
@@ -200,8 +200,8 @@ describe('(Store) Poll', () => {
         responsesCount: 5,
         answers: [
           { id: 245, responsesCount: 3 },
-          { id: 246, responsesCount: 2 }
-        ]
+          { id: 246, responsesCount: 2 },
+        ],
       }
 
       it('Should be exported as a function.', () => {
@@ -213,29 +213,29 @@ describe('(Store) Poll', () => {
       })
 
       it('Should call dispatch exactly twice.', () => updateResponses(
-        responses, 'hf0sd8fhoas'
+        responses, 'hf0sd8fhoas',
       )(dispatch, getState)
         .then(() => {
           expect(dispatch).toHaveBeenCalledTimes(2)
         }))
 
       it('Should dispatch POLL_UPDATE with data omitting answers and users responses.', () => updateResponses(
-        responses, 'hf0sd8fhoas'
+        responses, 'hf0sd8fhoas',
       )(dispatch, getState)
         .then(() => {
           expect(dispatch).toHaveBeenCalledWith({
             type: POLL_UPDATE,
-            poll: { identifier: 'hf0sd8fhoas', responsesCount: 5 }
+            poll: { identifier: 'hf0sd8fhoas', responsesCount: 5 },
           })
         }))
 
       it('Should dispatch updateAnswers with answers.', () => updateResponses(
-        responses, 'hf0sd8fhoas'
+        responses, 'hf0sd8fhoas',
       )(dispatch, getState)
         .then(() => {
           expect(dispatch).toHaveBeenCalledWith(updateAnswers([
             { id: 245, responsesCount: 3 },
-            { id: 246, responsesCount: 2 }
+            { id: 246, responsesCount: 2 },
           ]))
         }))
     })
@@ -246,8 +246,8 @@ describe('(Store) Poll', () => {
         responsesCount: 6,
         answers: [
           { id: 245, responsesCount: 4 },
-          { id: 246, responsesCount: 2 }
-        ]
+          { id: 246, responsesCount: 2 },
+        ],
       }
 
       it('Should be exported as a function.', () => {
@@ -259,14 +259,14 @@ describe('(Store) Poll', () => {
       })
 
       it('Should call dispatch exactly twice.', () => updateUserResponses(
-        responses, 'hf0sd8fhoas'
+        responses, 'hf0sd8fhoas',
       )(dispatch, getState)
         .then(() => {
           expect(dispatch).toHaveBeenCalledTimes(2)
         }))
 
       it('Should dispatch POLL_UPDATE.', () => updateUserResponses(
-        responses, 'hf0sd8fhoas'
+        responses, 'hf0sd8fhoas',
       )(dispatch, getState)
         .then(() => {
           expect(dispatch).toHaveBeenCalledWith({
@@ -277,19 +277,19 @@ describe('(Store) Poll', () => {
               userResponses: [245],
               answers: [
                 { id: 245, responsesCount: 4 },
-                { id: 246, responsesCount: 2 }
-              ]
-            }
+                { id: 246, responsesCount: 2 },
+              ],
+            },
           })
         }))
 
       it('Should dispatch updateAnswers with answers.', () => updateUserResponses(
-        responses, 'hf0sd8fhoas'
+        responses, 'hf0sd8fhoas',
       )(dispatch, getState)
         .then(() => {
           expect(dispatch).toHaveBeenCalledWith(updateAnswers([
             { id: 245, responsesCount: 4 },
-            { id: 246, responsesCount: 2 }
+            { id: 246, responsesCount: 2 },
           ]))
         }))
     })

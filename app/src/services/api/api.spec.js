@@ -21,7 +21,7 @@ import { userTokenSelector } from 'store/user/selectors' // eslint-disable-line
 import { updateUser } from 'store/user/actions'
 import { updateStats } from 'store/stats/actions'
 import {
-  updatePoll, updateResponses, updateUserResponses, setPolls, setPollCount
+  updatePoll, updateResponses, updateUserResponses, setPolls, setPollCount,
 } from 'store/poll/actions'
 import { POLLS_PER_PAGE } from 'store/poll/constants'
 
@@ -33,7 +33,7 @@ jest.mock('store/poll/actions')
 const jsonOk = (body) => {
   const mockResponse = {
     status: 200,
-    json: () => Promise.resolve(body)
+    json: () => Promise.resolve(body),
   }
 
   return Promise.resolve(mockResponse)
@@ -43,14 +43,14 @@ const jsonError = (status, body) => {
   const mockResponse = {
     status,
     statusText: 'Error',
-    json: () => Promise.resolve(body)
+    json: () => Promise.resolve(body),
   }
 
   return Promise.resolve(mockResponse)
 }
 
 const ERROR_404 = jsonError(404, {
-  message: 'There was an error'
+  message: 'There was an error',
 })
 
 const isErrorResponse = (response) => {
@@ -123,7 +123,7 @@ describe('(Store) API', () => {
             .add(poll.endIn, 'hours')
             .seconds(0)
             .milliseconds(0)
-            .toISOString()
+            .toISOString(),
         )
       })
     })
@@ -140,10 +140,10 @@ describe('(Store) API', () => {
       globalState = {
         poll: {
           polls: [{
-            question: 'Question', identifier: '', multipleChoice: false, passphrase: ''
+            question: 'Question', identifier: '', multipleChoice: false, passphrase: '',
           }],
           page: null,
-          count: 0
+          count: 0,
         },
         answers: ['Answer'],
         user: {},
@@ -184,8 +184,8 @@ describe('(Store) API', () => {
               headers: {
                 'Content-Type': 'application/json',
               },
-              body: '{"question":"Question","answers":["Answer"],"multipleChoice":false,"passphrase":"","endDate":null}'
-            }
+              body: '{"question":"Question","answers":["Answer"],"multipleChoice":false,"passphrase":"","endDate":null}', // eslint-disable-line max-len
+            },
           )
         }))
 
@@ -205,7 +205,7 @@ describe('(Store) API', () => {
 
       it('Should dispatch updatePoll().', () => {
         window.fetch = jest.fn(() => jsonOk({
-          question: 'Question', identifier: 'hf0sd8fhoas'
+          question: 'Question', identifier: 'hf0sd8fhoas',
         }))
         updatePoll.mockImplementation(() => ({}))
 
@@ -234,7 +234,7 @@ describe('(Store) API', () => {
           expect(window.fetch).toHaveBeenCalledTimes(1)
           expect(window.fetch).toHaveBeenCalledWith(
             `${ROUTE_POLL}/dfh5r4yhgdfg`,
-            { credentials: 'same-origin', headers: { Authorization: 'Bearer USERTOKEN' } }
+            { credentials: 'same-origin', headers: { Authorization: 'Bearer USERTOKEN' } },
           )
         }))
 
@@ -243,14 +243,14 @@ describe('(Store) API', () => {
           question: 'Question',
           identifier: 'dfh5r4yhgdfg',
           multipleChoice: false,
-          passphrase: '1234'
+          passphrase: '1234',
         }]
 
         return fetchPoll('dfh5r4yhgdfg')(dispatch, getState).then(() => {
           expect(window.fetch).toHaveBeenCalledTimes(1)
           expect(window.fetch).toHaveBeenCalledWith(
             `${ROUTE_POLL}/dfh5r4yhgdfg?passphrase=1234`,
-            { credentials: 'same-origin', headers: { Authorization: 'Bearer USERTOKEN' } }
+            { credentials: 'same-origin', headers: { Authorization: 'Bearer USERTOKEN' } },
           )
         })
       })
@@ -271,7 +271,7 @@ describe('(Store) API', () => {
 
       it('Should dispatch updatePoll().', () => {
         window.fetch = jest.fn(() => jsonOk({
-          question: 'Question', identifier: 'dfh5r4yhgdfg'
+          question: 'Question', identifier: 'dfh5r4yhgdfg',
         }))
         updatePoll.mockImplementation(() => ({}))
 
@@ -300,7 +300,7 @@ describe('(Store) API', () => {
           expect(window.fetch).toHaveBeenCalledTimes(1)
           expect(window.fetch).toHaveBeenCalledWith(
             `${ROUTE_POLL}/hf0sd8fhoas`,
-            { method: 'DELETE', credentials: 'same-origin', headers: { Authorization: 'Bearer USERTOKEN' } }
+            { method: 'DELETE', credentials: 'same-origin', headers: { Authorization: 'Bearer USERTOKEN' } },
           )
         }))
 
@@ -320,14 +320,14 @@ describe('(Store) API', () => {
 
       it('Should dispatch updatePoll().', () => {
         window.fetch = jest.fn(() => jsonOk({
-          question: 'Question', identifier: 'hf0sd8fhoas', deleted: true
+          question: 'Question', identifier: 'hf0sd8fhoas', deleted: true,
         }))
         updatePoll.mockImplementation(() => ({}))
 
         return deletePoll('hf0sd8fhoas')(dispatch, getState).then(() => {
           expect(updatePoll).toHaveBeenCalledTimes(1)
           expect(updatePoll).toHaveBeenCalledWith(
-            { question: 'Question', identifier: 'hf0sd8fhoas', deleted: true }
+            { question: 'Question', identifier: 'hf0sd8fhoas', deleted: true },
           )
           expect(dispatch).toHaveBeenCalledTimes(1)
           expect(dispatch).toHaveBeenCalledWith({})
@@ -351,7 +351,7 @@ describe('(Store) API', () => {
           expect(window.fetch).toHaveBeenCalledTimes(1)
           expect(window.fetch).toHaveBeenCalledWith(
             `${ROUTE_POLL}?page=1&pageSize=${POLLS_PER_PAGE}&sort=id&sortDirection=asc`,
-            { credentials: 'same-origin', headers: { Authorization: 'Bearer USERTOKEN' } }
+            { credentials: 'same-origin', headers: { Authorization: 'Bearer USERTOKEN' } },
           )
         }))
 
@@ -361,13 +361,13 @@ describe('(Store) API', () => {
             expect(window.fetch).toHaveBeenCalledTimes(1)
             expect(window.fetch).toHaveBeenCalledWith(
               `${ROUTE_POLL}?page=1&pageSize=${POLLS_PER_PAGE}&sort=identifier&sortDirection=desc`,
-              { credentials: 'same-origin', headers: { Authorization: 'Bearer USERTOKEN' } }
+              { credentials: 'same-origin', headers: { Authorization: 'Bearer USERTOKEN' } },
             )
           }))
 
       it('Should dispatch setPolls().', () => {
         window.fetch = jest.fn(() => jsonOk({
-          entities: [{ question: 'Question', identifier: 'hf0sd8fhoas' }]
+          entities: [{ question: 'Question', identifier: 'hf0sd8fhoas' }],
         }))
         setPolls.mockImplementation(() => ({}))
 
@@ -382,7 +382,7 @@ describe('(Store) API', () => {
 
       it('Should dispatch setPollCount().', () => {
         window.fetch = jest.fn(() => jsonOk({
-          total: 5
+          total: 5,
         }))
         setPollCount.mockImplementation(() => ({}))
 
@@ -430,8 +430,8 @@ describe('(Store) API', () => {
               headers: {
                 'Content-Type': 'application/json',
               },
-              body: '{"answers":[434]}'
-            }
+              body: '{"answers":[434]}',
+            },
           )
         }))
 
@@ -440,7 +440,7 @@ describe('(Store) API', () => {
           question: 'Question',
           identifier: 'hf0sd8fhoas',
           multipleChoice: false,
-          passphrase: '1234'
+          passphrase: '1234',
         }]
 
         return postResponse(434, 'hf0sd8fhoas')(dispatch, getState).then(() => {
@@ -453,8 +453,8 @@ describe('(Store) API', () => {
               headers: {
                 'Content-Type': 'application/json',
               },
-              body: '{"answers":[434]}'
-            }
+              body: '{"answers":[434]}',
+            },
           )
         })
       })
@@ -466,12 +466,12 @@ describe('(Store) API', () => {
               question: 'Question',
               identifier: 'hf0sd8fhoas',
               multipleChoice: true,
-              userResponses: []
+              userResponses: [],
             }],
             page: null,
-            count: 0
+            count: 0,
           },
-          answers: ['Answer']
+          answers: ['Answer'],
         }
         return postResponse(434, 'hf0sd8fhoas')(dispatch, getState).then(() => {
           expect(window.fetch).toHaveBeenCalledTimes(1)
@@ -483,8 +483,8 @@ describe('(Store) API', () => {
               headers: {
                 'Content-Type': 'application/json',
               },
-              body: '{"answers":[434]}'
-            }
+              body: '{"answers":[434]}',
+            },
           )
         })
       })
@@ -496,12 +496,12 @@ describe('(Store) API', () => {
               question: 'Question',
               identifier: 'hf0sd8fhoas',
               multipleChoice: true,
-              userResponses: [433]
+              userResponses: [433],
             }],
             page: null,
-            count: 0
+            count: 0,
           },
-          answers: ['Answer']
+          answers: ['Answer'],
         }
         return postResponse(434, 'hf0sd8fhoas')(dispatch, getState).then(() => {
           expect(window.fetch).toHaveBeenCalledTimes(1)
@@ -513,8 +513,8 @@ describe('(Store) API', () => {
               headers: {
                 'Content-Type': 'application/json',
               },
-              body: '{"answers":[433,434]}'
-            }
+              body: '{"answers":[433,434]}',
+            },
           )
         })
       })
@@ -526,12 +526,12 @@ describe('(Store) API', () => {
               question: 'Question',
               identifier: 'hf0sd8fhoas',
               multipleChoice: true,
-              userResponses: [433]
+              userResponses: [433],
             }],
             page: null,
-            count: 0
+            count: 0,
           },
-          answers: ['Answer']
+          answers: ['Answer'],
         }
         return postResponse(433, 'hf0sd8fhoas')(dispatch, getState).then(() => {
           expect(window.fetch).toHaveBeenCalledTimes(1)
@@ -543,8 +543,8 @@ describe('(Store) API', () => {
               headers: {
                 'Content-Type': 'application/json',
               },
-              body: '{"answers":[]}'
-            }
+              body: '{"answers":[]}',
+            },
           )
         })
       })
@@ -578,7 +578,7 @@ describe('(Store) API', () => {
           expect(window.fetch).toHaveBeenCalledTimes(1)
           expect(window.fetch).toHaveBeenCalledWith(
             `${ROUTE_POLL}/hf0sd8fhoas${ROUTE_RESPONSES}`,
-            { credentials: 'same-origin' }
+            { credentials: 'same-origin' },
           )
         }))
 
@@ -587,14 +587,14 @@ describe('(Store) API', () => {
           question: 'Question',
           identifier: 'hf0sd8fhoas',
           multipleChoice: false,
-          passphrase: '1234'
+          passphrase: '1234',
         }]
 
         return fetchResponses('hf0sd8fhoas')(dispatch, getState).then(() => {
           expect(window.fetch).toHaveBeenCalledTimes(1)
           expect(window.fetch).toHaveBeenCalledWith(
             `${ROUTE_POLL}/hf0sd8fhoas${ROUTE_RESPONSES}?passphrase=1234`,
-            { credentials: 'same-origin' }
+            { credentials: 'same-origin' },
           )
         })
       })
@@ -648,8 +648,8 @@ describe('(Store) API', () => {
               headers: {
                 'Content-Type': 'application/json',
               },
-              body: '{"username":"username","password":"password"}'
-            }
+              body: '{"username":"username","password":"password"}',
+            },
           )
         }))
 
@@ -700,7 +700,7 @@ describe('(Store) API', () => {
           expect(window.fetch).toHaveBeenCalledTimes(1)
           expect(window.fetch).toHaveBeenCalledWith(
             ROUTE_STATS,
-            { credentials: 'same-origin', headers: { Authorization: 'Bearer USERTOKEN' } }
+            { credentials: 'same-origin', headers: { Authorization: 'Bearer USERTOKEN' } },
           )
         }))
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import {
-  render, fireEvent, screen
+  render, fireEvent, screen,
 } from '@testing-library/react'
 import { act } from 'react-dom/test-utils'
 import EventBus from 'services/event-bus'
@@ -92,7 +92,6 @@ describe('(Component) Button', () => {
         expect(asFragment()).toMatchSnapshot()
       })
     })
-
 
     describe('with className', () => {
       it('should match snapshot', () => {

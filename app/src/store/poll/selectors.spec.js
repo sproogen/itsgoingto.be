@@ -19,11 +19,11 @@ describe('(Store) Poll', () => {
           polls: [{
             question: 'Question',
             identifier: 'hf0sd8fhoas',
-            responsesCount: 5
+            responsesCount: 5,
           }],
           page: 0,
-          count: 0
-        }
+          count: 0,
+        },
       }
     })
 
@@ -36,7 +36,7 @@ describe('(Store) Poll', () => {
         expect(pollSelector(globalState, 'hf0sd8fhoas')).toEqual({
           question: 'Question',
           identifier: 'hf0sd8fhoas',
-          responsesCount: 5
+          responsesCount: 5,
         })
       })
 
@@ -46,14 +46,14 @@ describe('(Store) Poll', () => {
           identifier: '',
           multipleChoice: false,
           passphrase: '',
-          userResponses: []
+          userResponses: [],
         })
         expect(pollSelector(globalState)).toEqual({
           question: '',
           identifier: '',
           multipleChoice: false,
           passphrase: '',
-          userResponses: []
+          userResponses: [],
         })
       })
     })
@@ -75,12 +75,12 @@ describe('(Store) Poll', () => {
           {
             question: 'Question',
             identifier: 'hf0sd8fhoas',
-            responsesCount: 5
+            responsesCount: 5,
           },
           {
             question: 'Question 2',
             identifier: '',
-          }
+          },
         ])
       })
 
@@ -89,8 +89,8 @@ describe('(Store) Poll', () => {
           {
             question: 'Question',
             identifier: 'hf0sd8fhoas',
-            responsesCount: 5
-          }
+            responsesCount: 5,
+          },
         ])
       })
     })

@@ -1,6 +1,6 @@
 import React from 'react'
 import {
-  render, fireEvent, screen, waitForElementToBeRemoved, act
+  render, fireEvent, screen, waitForElementToBeRemoved, act,
 } from '@testing-library/react'
 import { map } from 'ramda'
 import PollTable from './poll-table'
@@ -132,7 +132,7 @@ describe('(Route) dashboard', () => {
       describe('loading', () => {
         it('should match snapshot', () => {
           const { asFragment } = render(
-            <PollTable {...defaultProps} fetchPolls={jest.fn(() => new Promise(() => { /* Do nothing */ }))} />
+            <PollTable {...defaultProps} fetchPolls={jest.fn(() => new Promise(() => { /* Do nothing */ }))} />,
           )
 
           expect(asFragment()).toMatchSnapshot()
@@ -242,7 +242,7 @@ describe('(Route) dashboard', () => {
       describe('with less than 1 page polls', () => {
         it('should match snapshot', () => {
           const { asFragment } = render(
-            <PollTable {...defaultProps} polls={map((id) => ({ id }), [...Array(5).keys()])} pollCount={5} />
+            <PollTable {...defaultProps} polls={map((id) => ({ id }), [...Array(5).keys()])} pollCount={5} />,
           )
 
           expect(asFragment()).toMatchSnapshot()
@@ -252,7 +252,7 @@ describe('(Route) dashboard', () => {
       describe('with no polls', () => {
         it('should match snapshot', () => {
           const { asFragment } = render(
-            <PollTable {...defaultProps} polls={[]} pollCount={0} />
+            <PollTable {...defaultProps} polls={[]} pollCount={0} />,
           )
 
           expect(asFragment()).toMatchSnapshot()

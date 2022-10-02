@@ -9,7 +9,7 @@ import { prop, compose, has } from 'ramda'
  */
 export const hasUserSelector = (state) => compose(
   has('token'),
-  prop('user')
+  prop('user'),
 )(state)
 
 /**
@@ -21,5 +21,5 @@ export const hasUserSelector = (state) => compose(
 */
 export const userTokenSelector = (state) => compose(
   prop('token'),
-  prop('user')
+  prop('user'),
 )(state)

@@ -4,12 +4,12 @@ import Loader from 'components/loader'
 
 export default {
   title: 'Components/Loader',
-  component: Loader
+  component: Loader,
 }
 
 const Template = (args) => <Loader {...args} />
 
 export const Default = Template.bind({})
 Default.args = {
-  isLoading: true
+  isLoading: true,
 }

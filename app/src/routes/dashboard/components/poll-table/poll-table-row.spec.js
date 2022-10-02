@@ -1,14 +1,14 @@
 import React from 'react'
 import {
-  render, fireEvent, screen
+  render, fireEvent, screen,
 } from '@testing-library/react'
 import PollTableRow from './poll-table-row'
 
 const mockHistory = {
-  push: jest.fn()
+  push: jest.fn(),
 }
 jest.mock('react-router-dom', () => ({
-  useHistory: () => mockHistory
+  useHistory: () => mockHistory,
 }))
 
 const defaultProps = {
@@ -77,7 +77,7 @@ describe('(Route) dashboard', () => {
             <PollTableRow
               {...defaultProps}
               poll={{ ...defaultProps.poll, ended: false, deleted: false }}
-            />, { wrapper: TableWrapper }
+            />, { wrapper: TableWrapper },
           )
 
           expect(screen.getByTestId('status-1')).toHaveTextContent('Active')
@@ -90,7 +90,7 @@ describe('(Route) dashboard', () => {
             <PollTableRow
               {...defaultProps}
               poll={{ ...defaultProps.poll, ended: true }}
-            />, { wrapper: TableWrapper }
+            />, { wrapper: TableWrapper },
           )
 
           expect(screen.getByTestId('status-1')).toHaveTextContent('Ended')
@@ -103,7 +103,7 @@ describe('(Route) dashboard', () => {
             <PollTableRow
               {...defaultProps}
               poll={{ ...defaultProps.poll, deleted: true }}
-            />, { wrapper: TableWrapper }
+            />, { wrapper: TableWrapper },
           )
 
           expect(screen.getByTestId('status-1')).toHaveTextContent('Deleted')

@@ -8,12 +8,11 @@ import './passphrase.scss'
 const KEY_ENTER = 13
 
 const Passphrase = ({
-  identifier, setPassphrase, fetchPoll, setRequiresPassphrase
+  identifier, setPassphrase, fetchPoll, setRequiresPassphrase,
 }) => {
   const [error, setError] = useState(false)
   const [value, setValue] = useState('')
   const eventBus = EventBus.getEventBus()
-
 
   const submit = () => new Promise((resolve) => {
     setPassphrase(identifier, value)
@@ -71,7 +70,7 @@ Passphrase.propTypes = {
   identifier: PropTypes.string.isRequired,
   setPassphrase: PropTypes.func.isRequired,
   fetchPoll: PropTypes.func.isRequired,
-  setRequiresPassphrase: PropTypes.func.isRequired
+  setRequiresPassphrase: PropTypes.func.isRequired,
 }
 
 export default Passphrase

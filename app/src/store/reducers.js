@@ -11,7 +11,7 @@ const makeRootReducer = (asyncReducers) => combineReducers({
   answers: answersReducer,
   user: userReducer,
   stats: statsReducer,
-  ...asyncReducers
+  ...asyncReducers,
 })
 
 export const injectReducer = (store, { key, reducer }) => {

@@ -1,7 +1,7 @@
 import React from 'react'
 import {
   fireEvent,
-  render, screen
+  render, screen,
 } from '@testing-library/react'
 import Answer from './answer'
 

@@ -19,7 +19,7 @@ const EndPoll = ({ poll, updateOptions }) => {
     if (typeof poll.endIn === 'undefined') {
       updateOptions({
         identifier: '',
-        endIn: 1
+        endIn: 1,
       })
     }
     if (typeof poll.endAt === 'undefined') {
@@ -30,19 +30,19 @@ const EndPoll = ({ poll, updateOptions }) => {
             .add(1, 'days')
             .seconds(0)
             .milliseconds(0)
-        )
+        ),
       })
     }
   }, [poll])
 
   const handleEndTypeChange = (event) => updateOptions({
     identifier: '',
-    endType: event.target.value
+    endType: event.target.value,
   })
 
   const handleEndInChange = (value) => updateOptions({
     identifier: '',
-    endIn: value
+    endIn: value,
   })
 
   const handleEndAtChange = (value) => {
@@ -51,12 +51,12 @@ const EndPoll = ({ poll, updateOptions }) => {
     if (value.isBefore(minDate)) {
       updateOptions({
         identifier: '',
-        endAt: minDate
+        endAt: minDate,
       })
     } else {
       updateOptions({
         identifier: '',
-        endAt: value
+        endAt: value,
       })
     }
   }
@@ -167,9 +167,9 @@ EndPoll.propTypes = {
   poll: PropTypes.shape({
     endType: PropTypes.string,
     endIn: PropTypes.number,
-    endAt: PropTypes.object
+    endAt: PropTypes.instanceOf(Date),
   }).isRequired,
-  updateOptions: PropTypes.func.isRequired
+  updateOptions: PropTypes.func.isRequired,
 }
 
 export default EndPoll

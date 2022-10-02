@@ -4,7 +4,7 @@ import WithRouter from '../../../test-utils/with-router'
 import Ask from './ask'
 
 const mockHistory = {
-  push: jest.fn()
+  push: jest.fn(),
 }
 
 jest.mock('react-router-dom', () => ({
@@ -35,7 +35,7 @@ describe('(Route) Ask', () => {
   describe('(Action) component mounted', () => {
     it('should call prop clearPoll', () => {
       render(<Ask {...props} />, {
-        wrapper: WithRouter
+        wrapper: WithRouter,
       })
 
       expect(props.clearPoll).toHaveBeenCalled()
@@ -47,7 +47,7 @@ describe('(Route) Ask', () => {
     describe('on successful postPoll', () => {
       it('should redirect with poll identifier', async () => {
         render(<Ask {...props} hasQuestion question="question" canSubmitPoll />, {
-          wrapper: WithRouter
+          wrapper: WithRouter,
         })
 
         const button = screen.getByTestId('button-Create-Poll')
@@ -57,7 +57,7 @@ describe('(Route) Ask', () => {
 
       it('should call setPassphrase', async () => {
         render(<Ask {...props} poll={{ passphrase: 'pass123' }} hasQuestion question="question" canSubmitPoll />, {
-          wrapper: WithRouter
+          wrapper: WithRouter,
         })
 
         const button = screen.getByTestId('button-Create-Poll')
@@ -75,7 +75,7 @@ describe('(Route) Ask', () => {
           question="question"
           canSubmitPoll
         />), {
-          wrapper: WithRouter
+          wrapper: WithRouter,
         })
 
         const button = screen.getByTestId('button-Create-Poll')
@@ -89,7 +89,7 @@ describe('(Route) Ask', () => {
     describe('with question', () => {
       it('matches snapshot', () => {
         const { asFragment } = render(<Ask {...props} question="Some question" />, {
-          wrapper: WithRouter
+          wrapper: WithRouter,
         })
 
         expect(asFragment()).toMatchSnapshot()
@@ -99,7 +99,7 @@ describe('(Route) Ask', () => {
     describe('when hasQuestion is true', () => {
       it('matches snapshot', () => {
         const { asFragment } = render(<Ask {...props} question="Some question" hasQuestion />, {
-          wrapper: WithRouter
+          wrapper: WithRouter,
         })
 
         expect(asFragment()).toMatchSnapshot()
@@ -109,7 +109,7 @@ describe('(Route) Ask', () => {
     describe('when canSubmitPoll is true', () => {
       it('matches snapshot', () => {
         const { asFragment } = render(<Ask {...props} canSubmitPoll />, {
-          wrapper: WithRouter
+          wrapper: WithRouter,
         })
 
         expect(asFragment()).toMatchSnapshot()
@@ -119,7 +119,7 @@ describe('(Route) Ask', () => {
     describe('with poll', () => {
       it('matches snapshot', () => {
         const { asFragment } = render(<Ask {...props} poll={{ question: 'Question', identifier: 'kdH98eJ' }} />, {
-          wrapper: WithRouter
+          wrapper: WithRouter,
         })
 
         expect(asFragment()).toMatchSnapshot()
@@ -129,7 +129,7 @@ describe('(Route) Ask', () => {
     describe('with answers', () => {
       it('matches snapshot', () => {
         const { asFragment } = render(<Ask {...props} answers={['Answer 1', 'Answer 2']} />, {
-          wrapper: WithRouter
+          wrapper: WithRouter,
         })
 
         expect(asFragment()).toMatchSnapshot()

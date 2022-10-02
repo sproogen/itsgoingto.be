@@ -5,7 +5,7 @@ import './passphrase.scss'
 const Passphrase = ({ poll, updateOptions }) => {
   const handlePassphraseChange = (event) => updateOptions({
     identifier: '',
-    passphrase: event.target.value
+    passphrase: event.target.value,
   })
 
   return (
@@ -30,10 +30,9 @@ const Passphrase = ({ poll, updateOptions }) => {
 
 Passphrase.propTypes = {
   poll: PropTypes.shape({
-    passphrase: PropTypes.string
+    passphrase: PropTypes.string,
   }).isRequired,
-  updateOptions: PropTypes.func.isRequired
+  updateOptions: PropTypes.func.isRequired,
 }
-
 
 export default Passphrase

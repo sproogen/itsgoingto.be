@@ -1,5 +1,5 @@
 import {
-  prop, compose, omit, map, isNil, merge, __
+  prop, compose, omit, map, isNil, merge, __,
 } from 'ramda'
 import { addAnswer, clearAnswers, updateAnswers } from 'store/answers/actions'
 import { hasQuestionSelector } from './selectors'
@@ -8,7 +8,7 @@ import {
   POLLS_SET,
   POLL_PAGE_SET,
   POLL_COUNT_SET,
-  QUESTION_UPDATE
+  QUESTION_UPDATE,
 } from './constants'
 
 // ------------------------------------
@@ -21,11 +21,10 @@ import {
  *
  * @return {Function}      redux-thunk callable function
  */
-// TODO : Fix reusing poll variable name
 export const updatePoll = (poll) => (dispatch) => {
   dispatch({
     type: POLL_UPDATE,
-    poll: omit(['answers'])(poll)
+    poll: omit(['answers'])(poll),
   })
   if (!isNil(prop('answers', poll))) {
     dispatch(updateAnswers(prop('answers', poll)))
@@ -84,7 +83,7 @@ export const updateQuestion = (text = '', identifier = '') => (dispatch, getStat
   dispatch({
     type: QUESTION_UPDATE,
     question: text,
-    identifier
+    identifier,
   })
   const hasQuestion = hasQuestionSelector(getState(), identifier)
 
@@ -108,9 +107,9 @@ export const updateQuestion = (text = '', identifier = '') => (dispatch, getStat
 export const updateResponses = (responses, identifier) => (dispatch) => Promise.all([
   dispatch({
     type: POLL_UPDATE,
-    poll: compose(omit(['answers', 'userResponses']), merge(__, { identifier }))(responses)
+    poll: compose(omit(['answers', 'userResponses']), merge(__, { identifier }))(responses),
   }),
-  dispatch(updateAnswers(prop('answers', responses)))
+  dispatch(updateAnswers(prop('answers', responses))),
 ]).then(() => responses)
 
 /**
@@ -124,7 +123,7 @@ export const updateResponses = (responses, identifier) => (dispatch) => Promise.
 export const updateUserResponses = (responses, identifier) => (dispatch) => Promise.all([
   dispatch({
     type: POLL_UPDATE,
-    poll: merge(__, { identifier })(responses)
+    poll: merge(__, { identifier })(responses),
   }),
-  dispatch(updateAnswers(prop('answers', responses)))
+  dispatch(updateAnswers(prop('answers', responses))),
 ]).then(() => responses)

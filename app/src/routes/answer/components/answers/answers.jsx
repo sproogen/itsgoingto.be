@@ -1,14 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {
-  prop, compose, contains, when, isNil
+  prop, compose, contains, when, isNil,
 } from 'ramda'
 import Spinner from 'components/spinner'
 import Answer from '../answer'
 import './answers.scss'
 
 const Answers = ({
-  poll, answers, userResponded, onResponseSelected, totalResponses, viewOnly
+  poll, answers, userResponded, onResponseSelected, totalResponses, viewOnly,
 }) => {
   const answerChecked = (answer) => compose(contains(answer.id), when(isNil, () => []), prop('userResponses'))(poll)
 
@@ -43,12 +43,12 @@ Answers.propTypes = {
     PropTypes.shape({
       id: PropTypes.number,
       answer: PropTypes.string,
-      responsesCount: PropTypes.number
-    })
+      responsesCount: PropTypes.number,
+    }),
   ).isRequired,
   poll: PropTypes.shape({
     ended: PropTypes.bool,
-    multipleChoice: PropTypes.bool
+    multipleChoice: PropTypes.bool,
   }).isRequired,
   totalResponses: PropTypes.number,
   userResponded: PropTypes.bool.isRequired,
@@ -57,7 +57,7 @@ Answers.propTypes = {
 }
 
 Answers.defaultProps = {
-  totalResponses: 0
+  totalResponses: 0,
 }
 
 export default Answers

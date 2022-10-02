@@ -5,7 +5,7 @@ import Linkify from 'react-linkify'
 import './answer.scss'
 
 const Answer = ({
-  index, type, checked, answer, poll, viewOnly, totalResponses, onResponseSelected
+  index, type, checked, answer, poll, viewOnly, totalResponses, onResponseSelected,
 }) => {
   const [animating, setAnimating] = useState(false)
   const linkClicked = useRef(false)
@@ -30,7 +30,7 @@ const Answer = ({
   }
 
   const calculateWidth = () => ({
-    width: `${(answer.responsesCount / totalResponses) * 100}%`
+    width: `${(answer.responsesCount / totalResponses) * 100}%`,
   })
 
   return (
@@ -43,7 +43,7 @@ const Answer = ({
         name="answer"
         className={classNames({
           'input-radio input-radio-options': type === 'radio',
-          'input-checkbox input-checkbox-options': type !== 'radio'
+          'input-checkbox input-checkbox-options': type !== 'radio',
         })}
         type={type}
         value={index}
@@ -56,8 +56,8 @@ const Answer = ({
           'input-label input-label-options',
           {
             'input-label-options--click': animating,
-            'input-label-options--hidden': poll.ended || viewOnly
-          }
+            'input-label-options--hidden': poll.ended || viewOnly,
+          },
         )}
         onClick={handleClick}
       >
@@ -76,15 +76,15 @@ Answer.propTypes = {
   answer: PropTypes.shape({
     id: PropTypes.number,
     answer: PropTypes.string,
-    responsesCount: PropTypes.number
+    responsesCount: PropTypes.number,
   }).isRequired,
   poll: PropTypes.shape({
-    ended: PropTypes.bool
+    ended: PropTypes.bool,
   }).isRequired,
   totalResponses: PropTypes.number.isRequired,
   checked: PropTypes.bool.isRequired,
   viewOnly: PropTypes.bool.isRequired,
-  onResponseSelected: PropTypes.func.isRequired
+  onResponseSelected: PropTypes.func.isRequired,
 }
 
 export default Answer

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { isNil, equals } from 'ramda'
 
 const PollTableHeaderItem = ({
-  label, style, onSort, sortDirection
+  label, style, onSort, sortDirection,
 }) => {
   let sortIcon = 'fa fa-sort'
 

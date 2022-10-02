@@ -12,7 +12,7 @@ import './poll-table.scss'
 let fetchPollsPromise
 
 const PollTable = ({
-  polls, pollCount, page, fetchPolls, setPollPage, deletePoll
+  polls, pollCount, page, fetchPolls, setPollPage, deletePoll,
 }) => {
   const [loading, setLoading] = useState(pollCount === 0)
   const [sort, setSort] = useState('id')
@@ -25,7 +25,7 @@ const PollTable = ({
       fetchPollsPromise.cancel()
     }
     fetchPollsPromise = new CancelablePromise(
-      (resolve) => fetchPolls(page + 1, sort, sortDirection).then(resolve)
+      (resolve) => fetchPolls(page + 1, sort, sortDirection).then(resolve),
     )
     fetchPollsPromise.then(() => {
       setLoading(false)
@@ -134,7 +134,7 @@ PollTable.propTypes = {
       deleted: PropTypes.bool,
       ended: PropTypes.bool,
       created: PropTypes.string,
-    })
+    }),
   ).isRequired,
   pollCount: PropTypes.number.isRequired,
   page: PropTypes.number.isRequired,

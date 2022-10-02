@@ -1,12 +1,12 @@
 import React from 'react'
 import {
-  render, screen, fireEvent, act
+  render, screen, fireEvent, act,
 } from '@testing-library/react'
 import EventBus from 'services/event-bus'
 import Answer from './answer'
 
 const eventListener = {
-  remove: jest.fn()
+  remove: jest.fn(),
 }
 
 const eventBus = {
@@ -137,7 +137,11 @@ describe('(Route) Ask', () => {
       describe('with default props', () => {
         it('matches snapshot', () => {
           const { asFragment } = render(
-            <Answer index={0} onAnswerChange={() => { /* Do nothing */ }} onRemoveAnswer={() => { /* Do nothing */ }} />
+            <Answer
+              index={0}
+              onAnswerChange={() => { /* Do nothing */ }}
+              onRemoveAnswer={() => { /* Do nothing */ }}
+            />,
           )
 
           expect(asFragment()).toMatchSnapshot()

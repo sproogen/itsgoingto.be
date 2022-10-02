@@ -32,7 +32,7 @@ const render = () => {
     try {
       ReactDOM.render(
         withProviders(<App />),
-        MOUNT_NODE
+        MOUNT_NODE,
       )
     } catch (e) {
       ReactDOM.render(<RedBox error={e} />, MOUNT_NODE)
@@ -40,7 +40,7 @@ const render = () => {
   } else {
     ReactDOM.render(
       withProviders(<App />),
-      MOUNT_NODE
+      MOUNT_NODE,
     )
   }
 }
