@@ -9,10 +9,10 @@ updates:
   - package-ecosystem: "npm"
     directory: "/app"
     schedule:
-      interval: "daily"
-      
+      interval: "monthly"
+
   # Maintain dependencies for server
   - package-ecosystem: "npm"
     directory: "/server"
     schedule:
-      interval: "daily"
+      interval: "monthly"

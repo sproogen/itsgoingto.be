@@ -149,7 +149,7 @@ Answer.propTypes = {
   poll: PropTypes.shape({
     question: PropTypes.string,
     ended: PropTypes.bool,
-    endDate: PropTypes.instaceOf(Date),
+    endDate: PropTypes.instanceOf(Date),
   }).isRequired,
   hasPoll: PropTypes.bool.isRequired,
   requiresPassphrase: PropTypes.bool.isRequired,
