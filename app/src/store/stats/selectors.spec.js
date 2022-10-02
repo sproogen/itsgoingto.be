@@ -8,13 +8,13 @@ const initialState = {
 
 describe('(Store) Stats', () => {
   let globalState = {
-    stats: statsReducer(undefined, {})
+    stats: statsReducer(undefined, {}),
   }
 
   describe('(Selectors)', () => {
     beforeEach(() => {
       globalState = {
-        stats: { polls: 5, responses: 13 }
+        stats: { polls: 5, responses: 13 },
       }
     })
 

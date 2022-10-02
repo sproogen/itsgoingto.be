@@ -1,6 +1,7 @@
 import { Request, Response } from 'express'
-import { isNil, omit } from 'ramda'
+import { isNil } from 'ramda'
 import { Poll } from '../../db'
+import generatePollResponse from '../utils/generate-poll-response'
 
 type Params = {
   identifier: string
@@ -23,13 +24,7 @@ const deletePoll = async (req: Request<Params, never, never, never>, res: Respon
 
   await poll.update({ deleted: true })
 
-  return res.json({
-    ...omit(
-      ['passphrase', 'isProtected'],
-      poll.get({ plain: true }),
-    ),
-    responsesCount: await poll.countResponses(),
-  })
+  return res.json(await generatePollResponse(poll, false, false))
 }
 
 export default deletePoll

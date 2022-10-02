@@ -1,12 +1,7 @@
 import { Request, Response } from 'express'
-import {
-  defaultTo, isNil, map, prop, omit,
-} from 'ramda'
-import {
-  Poll,
-  Answer,
-  getUserResponsesForPollSelector,
-} from '../../db'
+import { defaultTo, isNil } from 'ramda'
+import { Poll, Answer } from '../../db'
+import generatePollResponse from '../utils/generate-poll-response'
 
 type Params = {
   identifier: string
@@ -25,7 +20,6 @@ const getResponses = async (req: Request<Params, never, never, Query>, res: Resp
     include: [{
       model: Answer,
       as: 'answers',
-      attributes: { exclude: ['poll_id'] },
     }],
   })
 
@@ -41,32 +35,7 @@ const getResponses = async (req: Request<Params, never, never, Query>, res: Resp
     return res.status(403).send({ error: 'incorrect-passphrase' })
   }
 
-  const customUserID = req.cookies.USERID
-  let userResponses: number[] = []
-  if (customUserID) {
-    userResponses = map(
-      prop('answer_id'),
-      await getUserResponsesForPollSelector(poll, customUserID),
-    )
-  }
-
-  return res.json({
-    ...omit(
-      ['passphrase', 'isProtected'],
-      poll.get({ plain: true }),
-    ),
-    responsesCount: await poll.countResponses(),
-    answers: await Promise.all(
-      map(
-        async (answer) => ({
-          ...answer.get({ plain: true }),
-          responsesCount: await answer.countResponses(),
-        }),
-        poll.answers,
-      ),
-    ),
-    userResponses,
-  })
+  return res.json(await generatePollResponse(poll, req.cookies.USERID))
 }
 
 export default getResponses

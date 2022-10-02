@@ -12,7 +12,7 @@ import './login.scss'
 const KEY_ENTER = 13
 
 const Login = ({
-  setLoading, hasUser, clearUser, cookies, postLogin
+  setLoading, hasUser, clearUser, cookies, postLogin,
 }) => {
   const history = useHistory()
   const [username, setUsername] = useState('')

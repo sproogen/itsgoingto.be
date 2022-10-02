@@ -1,6 +1,6 @@
 import React from 'react'
 import {
-  render, screen
+  render, screen,
 } from '@testing-library/react'
 import Answers from './answers'
 
@@ -45,7 +45,7 @@ describe('(Route) answer', () => {
                 ended: false,
                 multipleChoice: true,
               }}
-            />
+            />,
           )
           expect(screen.getAllByText(/Mocked AnswerComponent/)).toHaveLength(2)
           expect(screen.getAllByText(/checkbox/)).toHaveLength(2)
@@ -63,7 +63,7 @@ describe('(Route) answer', () => {
                 multipleChoice: false,
                 userResponses: [1],
               }}
-            />
+            />,
           )
           expect(screen.getAllByText(/Mocked AnswerComponent/)).toHaveLength(2)
           expect(screen.getAllByText(/checked/)).toHaveLength(1) // eslint-disable-line

@@ -5,7 +5,7 @@ import './multiple-choice.scss'
 const MultipleChoice = ({ poll, updateOptions }) => {
   const handleMultipleChoiceChange = (event) => updateOptions({
     identifier: '',
-    multipleChoice: event.target.checked
+    multipleChoice: event.target.checked,
   })
 
   return (
@@ -30,9 +30,9 @@ const MultipleChoice = ({ poll, updateOptions }) => {
 
 MultipleChoice.propTypes = {
   poll: PropTypes.shape({
-    multipleChoice: PropTypes.bool
+    multipleChoice: PropTypes.bool,
   }).isRequired,
-  updateOptions: PropTypes.func.isRequired
+  updateOptions: PropTypes.func.isRequired,
 }
 
 export default MultipleChoice

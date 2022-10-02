@@ -1,8 +1,9 @@
 import { Request, Response } from 'express'
 import {
-  trim, forEach, isEmpty, defaultTo, map, isNil, omit,
+  trim, forEach, isEmpty, defaultTo, map, isNil,
 } from 'ramda'
 import { Poll, Answer } from '../../db'
+import generatePollResponse from '../utils/generate-poll-response'
 
 const ISO_8601_FULL = /^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d(\.\d+)?(([+-]\d\d:\d\d)|Z)?$/i
 
@@ -58,26 +59,7 @@ const createPoll = async (req: Request<never, never, Body, never>, res: Response
     }],
   })
 
-  return res.json({
-    ...omit(
-      ['passphrase', 'isProtected'],
-      poll.get({ plain: true }),
-    ),
-    responsesCount: 0,
-    answers: await Promise.all(
-      map(
-        async (answer) => ({
-          ...omit(
-            ['poll_id'],
-            answer.get({ plain: true }),
-          ),
-          responsesCount: await answer.countResponses(),
-        }),
-        poll.answers,
-      ),
-    ),
-    userResponses: [],
-  })
+  return res.json(await generatePollResponse(poll))
 }
 
 export default createPoll

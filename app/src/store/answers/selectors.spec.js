@@ -3,11 +3,11 @@ import {
   maxAnswerSelector,
   answerSelector,
   hasAnswerSelector,
-  canSubmitPollSelector
+  canSubmitPollSelector,
 } from 'store/answers/selectors'
 
 let globalState = {
-  answers: ['Answer 1', '', 'Answer 2', ' ']
+  answers: ['Answer 1', '', 'Answer 2', ' '],
 }
 
 describe('(Selectors) Answers', () => {
@@ -70,7 +70,7 @@ describe('(Selectors) Answers', () => {
 
     it('Should return false if there are 2 or less answers in the global state.', () => {
       globalState = {
-        answers: ['Answer 1', '']
+        answers: ['Answer 1', ''],
       }
 
       expect(canSubmitPollSelector(globalState)).toBe(false)

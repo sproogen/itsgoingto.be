@@ -1,6 +1,6 @@
 import {
   prop, compose, not, equals, length, omit, when, find, propEq, both, filter,
-  path, isNil, isEmpty
+  path, isNil, isEmpty,
 } from 'ramda'
 import { initialPoll } from './constants'
 
@@ -17,9 +17,9 @@ export const pollsSelector = (state, populated = false) => compose(
     when(
       () => populated,
       compose(not, isEmpty, prop('identifier')),
-    )
+    ),
   ),
-  path(['poll', 'polls'])
+  path(['poll', 'polls']),
 )(state)
 
 /**
@@ -32,7 +32,7 @@ export const pollsSelector = (state, populated = false) => compose(
  */
 export const pollSelector = (state, identifier = '') => when(
   equals(undefined),
-  () => omit(['answers'])(initialPoll)
+  () => omit(['answers'])(initialPoll),
 )(find(propEq('identifier', identifier))(pollsSelector(state)))
 
 /**
@@ -74,9 +74,9 @@ export const questionSelector = (state, identifier = '') => compose(prop('questi
 export const hasQuestionSelector = (state, identifier = '') => compose(
   both(
     compose(not, equals(0), length),
-    compose(not, isNil)
+    compose(not, isNil),
   ),
-  questionSelector
+  questionSelector,
 )(state, identifier)
 
 /**
@@ -90,7 +90,7 @@ export const hasQuestionSelector = (state, identifier = '') => compose(
 export const totalResponsesSelector = (state, identifier = '') => compose(
   when(isNil, () => 0),
   prop('responsesCount'),
-  pollSelector
+  pollSelector,
 )(state, identifier)
 
 /**
@@ -105,5 +105,5 @@ export const userRespondedSelector = (state, identifier = '') => compose(
   not,
   isEmpty,
   prop('userResponses'),
-  pollSelector
+  pollSelector,
 )(state, identifier)

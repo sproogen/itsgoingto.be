@@ -21,7 +21,7 @@ describe('(Store) User', () => {
       it('Should return an action with user.', () => {
         expect(updateUser({ username: 'admin', token: 'sdf32"£$FD' })).toHaveProperty('user')
         expect(
-          updateUser({ username: 'admin', token: 'sdf32"£$FD' }).user
+          updateUser({ username: 'admin', token: 'sdf32"£$FD' }).user,
         ).toEqual({ username: 'admin', token: 'sdf32"£$FD' })
       })
     })

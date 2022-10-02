@@ -1,6 +1,6 @@
 import React from 'react'
 import {
-  render, fireEvent, screen
+  render, fireEvent, screen,
 } from '@testing-library/react'
 import MultipleChoice from './multiple-choice'
 

@@ -1,10 +1,10 @@
 import {
-  prop, propOr, compose, not, isEmpty, contains, without, append, ifElse, both, equals, length, omit
+  prop, propOr, compose, not, isEmpty, contains, without, append, ifElse, both, equals, length, omit,
 } from 'ramda'
 import moment from 'moment'
 import { pollSelector } from 'store/poll/selectors'
 import {
-  updatePoll, setPolls, setPollCount, updateResponses, updateUserResponses
+  updatePoll, setPolls, setPollCount, updateResponses, updateUserResponses,
 } from 'store/poll/actions'
 import { POLLS_PER_PAGE } from 'store/poll/constants'
 import { answersSelector } from 'store/answers/selectors'
@@ -38,8 +38,8 @@ export const extractResponse = (response) => {
         new APIError({
           status: response.status,
           statusText: response.statusText,
-          error
-        })
+          error,
+        }),
       ))
   }
 
@@ -53,7 +53,7 @@ export const onError = (error) => {
     return new APIError({
       status: error.status,
       statusText: error.statusText,
-      error
+      error,
     })
   }
 
@@ -94,7 +94,7 @@ export const postPoll = () => (dispatch, getState) => compose(
   (poll) => fetch(ROUTE_POLL, {
     credentials: 'same-origin',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     },
     method: 'POST',
     body: JSON.stringify({
@@ -102,13 +102,13 @@ export const postPoll = () => (dispatch, getState) => compose(
       answers: answersSelector(getState()),
       multipleChoice: poll.multipleChoice,
       passphrase: poll.passphrase,
-      endDate: getEndDateFromPoll(poll)
-    })
+      endDate: getEndDateFromPoll(poll),
+    }),
   })
     .then(extractResponse)
     .then((response) => dispatch(updatePoll(response)))
     .catch(onError),
-  pollSelector
+  pollSelector,
 )(getState())
 
 /**
@@ -131,9 +131,9 @@ export const fetchPoll = (identifier) => (dispatch, getState) => compose(
   ifElse(
     compose(not, equals(0), length, propOr('', 'passphrase')),
     (poll) => `${ROUTE_POLL}/${identifier}?passphrase=${prop('passphrase')(poll)}`,
-    () => `${ROUTE_POLL}/${identifier}`
+    () => `${ROUTE_POLL}/${identifier}`,
   ),
-  pollSelector
+  pollSelector,
 )(getState(), identifier)
 
 /**
@@ -150,8 +150,8 @@ export const deletePoll = (identifier) => (dispatch, getState) => fetch(
     method: 'DELETE',
     headers: {
       Authorization: `Bearer ${userTokenSelector(getState())}`,
-    }
-  }
+    },
+  },
 )
   .then(extractResponse)
   .then((response) => dispatch(updatePoll(response)))
@@ -170,13 +170,13 @@ export const fetchPolls = (page, sort = 'id', direction = 'asc') => (dispatch, g
     credentials: 'same-origin',
     headers: {
       Authorization: `Bearer ${userTokenSelector(getState())}`,
-    }
-  }
+    },
+  },
 )
   .then(extractResponse)
   .then((response) => Promise.all([
     dispatch(setPolls(prop('entities', response))),
-    dispatch(setPollCount(prop('total', response)))
+    dispatch(setPollCount(prop('total', response))),
   ]))
   .catch(onError)
 
@@ -193,16 +193,16 @@ export const postResponse = (answer, identifier) => (dispatch, getState) => comp
     ifElse(
       compose(not, equals(0), length, propOr('', 'passphrase')),
       (poll) => `${ROUTE_POLL}/${identifier}${ROUTE_RESPONSES}?passphrase=${prop('passphrase')(poll)}`,
-      () => `${ROUTE_POLL}/${identifier}${ROUTE_RESPONSES}`
+      () => `${ROUTE_POLL}/${identifier}${ROUTE_RESPONSES}`,
     )(requestData.poll),
     {
       credentials: 'same-origin',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       method: 'POST',
-      body: JSON.stringify(omit(['poll'])(requestData))
-    }
+      body: JSON.stringify(omit(['poll'])(requestData)),
+    },
   )
     .then(extractResponse)
     .then((response) => dispatch(updateUserResponses(response, identifier)))
@@ -215,14 +215,14 @@ export const postResponse = (answer, identifier) => (dispatch, getState) => comp
         ifElse(
           contains(answer),
           without([answer]),
-          append(answer)
+          append(answer),
         ),
-        prop('userResponses')
+        prop('userResponses'),
       ),
-      () => [answer]
-    )(poll)
+      () => [answer],
+    )(poll),
   }),
-  pollSelector
+  pollSelector,
 )(getState(), identifier)
 
 /**
@@ -234,7 +234,7 @@ export const postResponse = (answer, identifier) => (dispatch, getState) => comp
  */
 export const fetchResponses = (identifier) => (dispatch, getState) => compose(
   (url) => fetch(url, {
-    credentials: 'same-origin'
+    credentials: 'same-origin',
   })
     .then(extractResponse)
     .then((response) => dispatch(updateResponses(response, identifier)))
@@ -242,9 +242,9 @@ export const fetchResponses = (identifier) => (dispatch, getState) => compose(
   ifElse(
     compose(not, equals(0), length, propOr('', 'passphrase')),
     (poll) => `${ROUTE_POLL}/${identifier}${ROUTE_RESPONSES}?passphrase=${prop('passphrase')(poll)}`,
-    () => `${ROUTE_POLL}/${identifier}${ROUTE_RESPONSES}`
+    () => `${ROUTE_POLL}/${identifier}${ROUTE_RESPONSES}`,
   ),
-  pollSelector
+  pollSelector,
 )(getState(), identifier)
 
 /**
@@ -260,14 +260,14 @@ export const postLogin = (username, password) => (dispatch) => fetch(
   {
     credentials: 'same-origin',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     },
     method: 'POST',
     body: JSON.stringify({
       username,
       password,
-    })
-  }
+    }),
+  },
 )
   .then(extractResponse)
   .then((response) => dispatch(updateUser(response)))
@@ -285,8 +285,8 @@ export const fetchStats = () => (dispatch, getState) => fetch(
     credentials: 'same-origin',
     headers: {
       Authorization: `Bearer ${userTokenSelector(getState())}`,
-    }
-  }
+    },
+  },
 )
   .then(extractResponse)
   .then((response) => dispatch(updateStats(response)))

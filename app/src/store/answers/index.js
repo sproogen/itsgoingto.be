@@ -1,9 +1,9 @@
 import {
   adjust, compose, not, equals, length, remove, is, merge, find,
-  slice, when, subtract, __, map, propEq
+  slice, when, subtract, __, map, propEq,
 } from 'ramda'
 import {
-  ANSWER_ADD, ANSWER_UPDATE, ANSWERS_UPDATE, ANSWER_REMOVE, ANSWERS_REMOVE_AFTER, ANSWERS_CLEAR
+  ANSWER_ADD, ANSWER_UPDATE, ANSWERS_UPDATE, ANSWER_REMOVE, ANSWERS_REMOVE_AFTER, ANSWERS_CLEAR,
 } from './constants'
 
 // TODO : Update answers to reference by identifier and index
@@ -37,14 +37,14 @@ export default function answersReducer(state = initialState, action = null) {
       return map(
         (answer) => when(
           is(Object),
-          merge(find(propEq('id', answer.id), state))
-        )(answer)
+          merge(find(propEq('id', answer.id), state)),
+        )(answer),
       )(action.answers)
     case ANSWER_REMOVE:
       // Remove an answer in the state
       return when(
         compose(not, equals(action.index), subtract(__, 1), length),
-        remove(action.index, 1)
+        remove(action.index, 1),
       )(state)
     case ANSWERS_REMOVE_AFTER:
       // Remove the answers after the index in the state

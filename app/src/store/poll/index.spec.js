@@ -5,14 +5,14 @@ import {
   POLL_COUNT_SET,
   QUESTION_UPDATE,
   POLLS_PER_PAGE,
-  initialPoll
+  initialPoll,
 } from 'store/poll/constants'
 import pollReducer from 'store/poll'
 
 const initialState = {
   polls: [],
   page: 0,
-  count: 0
+  count: 0,
 }
 
 describe('(Store) Poll', () => {
@@ -42,7 +42,7 @@ describe('(Store) Poll', () => {
         multipleChoice: false,
         passphrase: '',
         answers: [],
-        userResponses: []
+        userResponses: [],
       })
     })
   })
@@ -75,7 +75,7 @@ describe('(Store) Poll', () => {
         let state = {
           polls: [{ question: 'Question', identifier: 'hf0sd8fhoas' }],
           page: null,
-          count: 0
+          count: 0,
         }
 
         state = pollReducer(state, {
@@ -84,18 +84,18 @@ describe('(Store) Poll', () => {
             question: 'Question Text',
             identifier: 'hf0sd8fhoas',
             deleted: false,
-            created: 'Some Date or other'
-          }
+            created: 'Some Date or other',
+          },
         })
         expect(state).toEqual({
           polls: [{
             question: 'Question Text',
             identifier: 'hf0sd8fhoas',
             deleted: false,
-            created: 'Some Date or other'
+            created: 'Some Date or other',
           }],
           page: null,
-          count: 0
+          count: 0,
         })
 
         state = pollReducer(state, {
@@ -104,18 +104,18 @@ describe('(Store) Poll', () => {
             question: 'Different Question Text',
             identifier: 'hf0sd8fhoas',
             deleted: true,
-            created: 'Some Date or other'
-          }
+            created: 'Some Date or other',
+          },
         })
         expect(state).toEqual({
           polls: [{
             question: 'Different Question Text',
             identifier: 'hf0sd8fhoas',
             deleted: true,
-            created: 'Some Date or other'
+            created: 'Some Date or other',
           }],
           page: null,
-          count: 0
+          count: 0,
         })
       })
 
@@ -123,7 +123,7 @@ describe('(Store) Poll', () => {
         let state = {
           polls: [{ question: 'Question', identifier: 'hf0sd8fhoas', responsesCount: 5 }],
           page: null,
-          count: 0
+          count: 0,
         }
 
         state = pollReducer(state, {
@@ -131,18 +131,18 @@ describe('(Store) Poll', () => {
           poll: {
             identifier: 'hf0sd8fhoas',
             userResponses: [245],
-            responsesCount: 6
-          }
+            responsesCount: 6,
+          },
         })
         expect(state).toEqual({
           polls: [{
             question: 'Question',
             identifier: 'hf0sd8fhoas',
             userResponses: [245],
-            responsesCount: 6
+            responsesCount: 6,
           }],
           page: null,
-          count: 0
+          count: 0,
         })
 
         state = pollReducer(state, {
@@ -150,18 +150,18 @@ describe('(Store) Poll', () => {
           poll: {
             identifier: 'hf0sd8fhoas',
             userResponses: [245, 246],
-            responsesCount: 7
-          }
+            responsesCount: 7,
+          },
         })
         expect(state).toEqual({
           polls: [{
             question: 'Question',
             identifier: 'hf0sd8fhoas',
             userResponses: [245, 246],
-            responsesCount: 7
+            responsesCount: 7,
           }],
           page: null,
-          count: 0
+          count: 0,
         })
       })
 
@@ -169,7 +169,7 @@ describe('(Store) Poll', () => {
         let state = {
           polls: [{ question: 'Question', identifier: 'hf0sd8fhoas' }, { question: 'Question', identifier: '' }],
           page: null,
-          count: 0
+          count: 0,
         }
 
         state = pollReducer(state, {
@@ -178,8 +178,8 @@ describe('(Store) Poll', () => {
             question: 'Question Text',
             identifier: 'sf34rsdfsf',
             deleted: false,
-            created: 'Some Date or other'
-          }
+            created: 'Some Date or other',
+          },
         })
         expect(state).toEqual({
           polls: [
@@ -189,11 +189,11 @@ describe('(Store) Poll', () => {
               question: 'Question Text',
               identifier: 'sf34rsdfsf',
               deleted: false,
-              created: 'Some Date or other'
-            }
+              created: 'Some Date or other',
+            },
           ],
           page: null,
-          count: 0
+          count: 0,
         })
       })
     })
@@ -203,23 +203,23 @@ describe('(Store) Poll', () => {
         let state = {
           polls: [{ question: 'Question', identifier: 'hf0sd8fhoas' }],
           page: null,
-          count: 0
+          count: 0,
         }
 
         state = pollReducer(state, {
           type: POLLS_SET,
           polls: [
             { question: 'Question 1', identifier: 'gf43wfasdfds' },
-            { question: 'Question 2', identifier: 'dfgbr5tfgdaf' }
-          ]
+            { question: 'Question 2', identifier: 'dfgbr5tfgdaf' },
+          ],
         })
         expect(state).toEqual({
           polls: [
             { question: 'Question 1', identifier: 'gf43wfasdfds' },
-            { question: 'Question 2', identifier: 'dfgbr5tfgdaf' }
+            { question: 'Question 2', identifier: 'dfgbr5tfgdaf' },
           ],
           page: null,
-          count: 0
+          count: 0,
         })
       })
     })
@@ -229,21 +229,21 @@ describe('(Store) Poll', () => {
         let state = {
           polls: [{ question: 'Question', identifier: 'hf0sd8fhoas' }],
           page: null,
-          count: 0
+          count: 0,
         }
 
         state = pollReducer(state, { type : POLL_PAGE_SET, page : 5 })
         expect(state).toEqual({
           polls: [{ question: 'Question', identifier: 'hf0sd8fhoas' }],
           page: 5,
-          count: 0
+          count: 0,
         })
 
         state = pollReducer(state, { type : POLL_PAGE_SET, page : 4 })
         expect(state).toEqual({
           polls: [{ question: 'Question', identifier: 'hf0sd8fhoas' }],
           page: 4,
-          count: 0
+          count: 0,
         })
       })
     })
@@ -253,21 +253,21 @@ describe('(Store) Poll', () => {
         let state = {
           polls: [{ question: 'Question', identifier: 'hf0sd8fhoas' }],
           page: null,
-          count: 0
+          count: 0,
         }
 
         state = pollReducer(state, { type : POLL_COUNT_SET, count : 56 })
         expect(state).toEqual({
           polls: [{ question: 'Question', identifier: 'hf0sd8fhoas' }],
           page: null,
-          count: 56
+          count: 56,
         })
 
         state = pollReducer(state, { type : POLL_COUNT_SET, count : 102 })
         expect(state).toEqual({
           polls: [{ question: 'Question', identifier: 'hf0sd8fhoas' }],
           page: null,
-          count: 102
+          count: 102,
         })
       })
     })
@@ -277,24 +277,24 @@ describe('(Store) Poll', () => {
         let state = {
           polls: [{ question: 'Question', identifier: 'hf0sd8fhoas' }],
           page: null,
-          count: 0
+          count: 0,
         }
 
         state = pollReducer(state, { type: QUESTION_UPDATE, question: 'Question Text', identifier: 'hf0sd8fhoas' })
         expect(state).toEqual({
           polls: [{ question: 'Question Text', identifier: 'hf0sd8fhoas' }],
           page: null,
-          count: 0
+          count: 0,
         })
 
         state = pollReducer(
           state,
-          { type: QUESTION_UPDATE, question: 'Different Question Text', identifier: 'hf0sd8fhoas' }
+          { type: QUESTION_UPDATE, question: 'Different Question Text', identifier: 'hf0sd8fhoas' },
         )
         expect(state).toEqual({
           polls: [{ question: 'Different Question Text', identifier: 'hf0sd8fhoas' }],
           page: null,
-          count: 0
+          count: 0,
         })
       })
 
@@ -302,7 +302,7 @@ describe('(Store) Poll', () => {
         let state = {
           polls: [{ question: 'Question', identifier: 'hf0sd8fhoas' }],
           page: null,
-          count: 0
+          count: 0,
         }
 
         state = pollReducer(state, { type: QUESTION_UPDATE, question: 'Question Text', identifier: '' })
@@ -314,11 +314,11 @@ describe('(Store) Poll', () => {
               identifier: '',
               multipleChoice: false,
               passphrase: '',
-              userResponses: []
-            }
+              userResponses: [],
+            },
           ],
           page: null,
-          count: 0
+          count: 0,
         })
       })
 
@@ -326,20 +326,20 @@ describe('(Store) Poll', () => {
         let state = {
           polls: [
             { question: 'Question', identifier: 'hf0sd8fhoas' },
-            { question: 'Question Text', identifier: '' }
+            { question: 'Question Text', identifier: '' },
           ],
           page: null,
-          count: 0
+          count: 0,
         }
 
         state = pollReducer(state, { type: QUESTION_UPDATE, question: 'Different Question Text', identifier: '' })
         expect(state).toEqual({
           polls: [
             { question: 'Question', identifier: 'hf0sd8fhoas' },
-            { question: 'Different Question Text', identifier: '' }
+            { question: 'Different Question Text', identifier: '' },
           ],
           page: null,
-          count: 0
+          count: 0,
         })
       })
     })

@@ -10,5 +10,5 @@ import { prop, compose } from 'ramda'
  */
 export const statSelector = (state, stat) => compose( // eslint-disable-line
   prop(stat),
-  prop('stats')
+  prop('stats'),
 )(state)

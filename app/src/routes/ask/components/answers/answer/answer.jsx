@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 import {
-  compose, equals, length, trim
+  compose, equals, length, trim,
 } from 'ramda'
 import classNames from 'classnames'
 import EventBus from 'services/event-bus'
@@ -14,7 +14,7 @@ const KEY_DELETE = 46
 const KEY_ENTER = 13
 
 const Answer = ({
-  index, text, disabled, onAnswerChange, onRemoveAnswer
+  index, text, disabled, onAnswerChange, onRemoveAnswer,
 }) => {
   const answer = useRef(null)
   const eventBus = EventBus.getEventBus()
@@ -59,8 +59,8 @@ const Answer = ({
       className={classNames(
         'input input-answer',
         {
-          'input-disabled': disabled
-        }
+          'input-disabled': disabled,
+        },
       )}
     >
       <label
@@ -89,7 +89,7 @@ Answer.propTypes = {
   text: PropTypes.string,
   disabled: PropTypes.bool,
   onAnswerChange: PropTypes.func.isRequired,
-  onRemoveAnswer: PropTypes.func.isRequired
+  onRemoveAnswer: PropTypes.func.isRequired,
 }
 
 Answer.defaultProps = {

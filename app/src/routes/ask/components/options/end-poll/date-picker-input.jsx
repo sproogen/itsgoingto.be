@@ -10,17 +10,17 @@ const DatePickerInput = forwardRef(
     >
       {value}
     </span>
-  )
+  ),
 )
 
 DatePickerInput.propTypes = {
   onClick: PropTypes.func,
-  value: PropTypes.string
+  value: PropTypes.string,
 }
 
 DatePickerInput.defaultProps = {
   onClick: () => { /* Do nothing */ },
-  value: ''
+  value: '',
 }
 
 export default DatePickerInput

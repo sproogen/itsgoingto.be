@@ -80,13 +80,13 @@ describe('(Store) Answers', () => {
       it('Should update the state to be the given answers.', () => {
         state = answersReducer(
           state,
-          { type: ANSWERS_UPDATE, answers: [{ id: 3, answer: 'Answer 3' }, { id: 4, answer: 'Answer 4' }] }
+          { type: ANSWERS_UPDATE, answers: [{ id: 3, answer: 'Answer 3' }, { id: 4, answer: 'Answer 4' }] },
         )
         expect(state).toEqual([{ id: 3, answer: 'Answer 3' }, { id: 4, answer: 'Answer 4' }])
 
         state = answersReducer(
           state,
-          { type: ANSWERS_UPDATE, answers: [{ id: 5, answer: 'Answer 5' }, { id: 6, answer: 'Answer 6' }] }
+          { type: ANSWERS_UPDATE, answers: [{ id: 5, answer: 'Answer 5' }, { id: 6, answer: 'Answer 6' }] },
         )
         expect(state).toEqual([{ id: 5, answer: 'Answer 5' }, { id: 6, answer: 'Answer 6' }])
       })
@@ -94,16 +94,16 @@ describe('(Store) Answers', () => {
       it('Should update the state to be the given answers updating exisitng answers.', () => {
         state = answersReducer(
           state,
-          { type: ANSWERS_UPDATE, answers: [{ id: 3, answer: 'Answer 3' }, { id: 4, answer: 'Answer 4' }] }
+          { type: ANSWERS_UPDATE, answers: [{ id: 3, answer: 'Answer 3' }, { id: 4, answer: 'Answer 4' }] },
         )
         expect(state).toEqual([{ id: 3, answer: 'Answer 3' }, { id: 4, answer: 'Answer 4' }])
 
         state = answersReducer(
           state,
-          { type: ANSWERS_UPDATE, answers: [{ id: 3, responseCount: 2 }, { id: 4, responseCount: 1 }] }
+          { type: ANSWERS_UPDATE, answers: [{ id: 3, responseCount: 2 }, { id: 4, responseCount: 1 }] },
         )
         expect(state).toEqual(
-          [{ id: 3, answer: 'Answer 3', responseCount: 2 }, { id: 4, answer: 'Answer 4', responseCount: 1 }]
+          [{ id: 3, answer: 'Answer 3', responseCount: 2 }, { id: 4, answer: 'Answer 4', responseCount: 1 }],
         )
       })
     })

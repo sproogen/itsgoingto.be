@@ -3,7 +3,7 @@ import { mergeAll } from 'ramda'
 import { withCookies } from 'react-cookie'
 import { fetchPoll, postResponse } from 'services/api'
 import {
-  pollSelector, hasQuestionSelector, totalResponsesSelector, userRespondedSelector
+  pollSelector, hasQuestionSelector, totalResponsesSelector, userRespondedSelector,
 } from 'store/poll/selectors'
 import { updateResponses, updateUserResponses } from 'store/poll/actions'
 import { answersSelector } from 'store/answers/selectors'
@@ -31,7 +31,7 @@ const mapDispatchToProps = (dispatch, { match: { params: { identifier } } }) => 
   setRequiresPassphrase: (value) => dispatch(setRequiresPassphrase(value)),
   postResponse: (id) => dispatch(postResponse(id, identifier)),
   updateResponses: (responses) => dispatch(updateResponses(responses, identifier)),
-  updateUserResponses: (responses) => dispatch(updateUserResponses(responses, identifier))
+  updateUserResponses: (responses) => dispatch(updateUserResponses(responses, identifier)),
 })
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => mergeAll([stateProps, dispatchProps, ownProps.match.params])

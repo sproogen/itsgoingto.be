@@ -4,7 +4,7 @@ import WordRotate from 'components/word-rotate'
 
 export default {
   title: 'Components/WordRotate',
-  component: WordRotate
+  component: WordRotate,
 }
 
 const Template = (args) => (
@@ -15,5 +15,5 @@ const Template = (args) => (
 
 export const Default = Template.bind({})
 Default.args = {
-  words: 'What,Where,When,Who'
+  words: 'What,Where,When,Who',
 }

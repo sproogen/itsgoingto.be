@@ -27,7 +27,7 @@ describe('(Store) Stats', () => {
       it('Should return an action with stats.', () => {
         expect(updateStats({ polls: 5, responses: 13 })).toHaveProperty('stats')
         expect(
-          updateStats({ polls: 5, responses: 13 }).stats
+          updateStats({ polls: 5, responses: 13 }).stats,
         ).toEqual({ polls: 5, responses: 13 })
       })
     })

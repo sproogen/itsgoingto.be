@@ -4,7 +4,7 @@ import EventBus from 'services/event-bus'
 import Question from './question'
 
 const eventListener = {
-  remove: jest.fn()
+  remove: jest.fn(),
 }
 
 const eventBus = {

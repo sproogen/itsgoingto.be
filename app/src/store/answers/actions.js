@@ -1,8 +1,8 @@
 import {
-  compose, not, length, omit, is, when, map, isNil
+  compose, not, length, omit, is, when, map, isNil,
 } from 'ramda'
 import {
-  ANSWER_ADD, ANSWER_UPDATE, ANSWERS_UPDATE, ANSWER_REMOVE, ANSWERS_REMOVE_AFTER, ANSWERS_CLEAR
+  ANSWER_ADD, ANSWER_UPDATE, ANSWERS_UPDATE, ANSWER_REMOVE, ANSWERS_REMOVE_AFTER, ANSWERS_CLEAR,
 } from './constants'
 import { hasAnswerSelector, answersSelector, maxAnswerSelector } from './selectors'
 
@@ -15,7 +15,7 @@ import { hasAnswerSelector, answersSelector, maxAnswerSelector } from './selecto
  * @return {object} dispatchable object
  */
 export const addAnswer = () => ({
-  type: ANSWER_ADD
+  type: ANSWER_ADD,
 })
 
 /**
@@ -27,7 +27,7 @@ export const addAnswer = () => ({
  */
 export const removeAnswer = (index) => ({
   type: ANSWER_REMOVE,
-  index
+  index,
 })
 
 /**
@@ -39,7 +39,7 @@ export const removeAnswer = (index) => ({
  */
 export const removeAfterAnswer = (index) => ({
   type: ANSWERS_REMOVE_AFTER,
-  index
+  index,
 })
 
 /**
@@ -56,7 +56,7 @@ export const updateAnswer = (index, value = '') => (dispatch, getState) => {
   dispatch({
     type: ANSWER_UPDATE,
     index,
-    text: value
+    text: value,
   })
   const hasAnswer = hasAnswerSelector(getState(), index)
   const countAnswers = length(answersSelector(getState()))
@@ -84,10 +84,10 @@ export const updateAnswers = (answers = []) => ({
     map(
       when(
         is(Object),
-        omit(['poll'])
+        omit(['poll']),
       ),
-    )
-  )(answers)
+    ),
+  )(answers),
 })
 
 /**
@@ -96,5 +96,5 @@ export const updateAnswers = (answers = []) => ({
  * @return {object}         dispatchable object
  */
 export const clearAnswers = () => ({
-  type: ANSWERS_CLEAR
+  type: ANSWERS_CLEAR,
 })

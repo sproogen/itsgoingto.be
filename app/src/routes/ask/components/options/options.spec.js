@@ -4,7 +4,7 @@ import Options from './options'
 
 const defaultProps = {
   poll: { question: 'Question', answers: [] },
-  updateOptions: () => { /* Do nothing */ }
+  updateOptions: () => { /* Do nothing */ },
 }
 
 describe('(Route) Ask', () => {

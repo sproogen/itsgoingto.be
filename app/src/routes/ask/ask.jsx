@@ -15,7 +15,7 @@ const WORDS = 'What,Where,When,Who'
 
 const Ask = ({
   question, hasQuestion, canSubmitPoll, poll, answers, clearPoll,
-  postPoll, updateQuestion, onAnswerChange, onRemoveAnswer, updateOptions, setPassphrase
+  postPoll, updateQuestion, onAnswerChange, onRemoveAnswer, updateOptions, setPassphrase,
 }) => {
   const history = useHistory()
   useEffect(() => {
@@ -52,8 +52,8 @@ const Ask = ({
         className={classNames(
           'container header-container hideable',
           {
-            gone: hasQuestion
-          }
+            gone: hasQuestion,
+          },
         )}
       >
         <div className="header center-text">
@@ -67,8 +67,8 @@ const Ask = ({
         className={classNames(
           'container question-container',
           {
-            'move-up': hasQuestion
-          }
+            'move-up': hasQuestion,
+          },
         )}
       >
         <Question question={question} onQuestionChange={updateQuestion} />
@@ -103,9 +103,9 @@ Ask.propTypes = {
   answers: PropTypes.oneOfType([
     PropTypes.arrayOf({
       id: PropTypes.number,
-      answer: PropTypes.string
+      answer: PropTypes.string,
     }),
-    PropTypes.arrayOf(PropTypes.string)
+    PropTypes.arrayOf(PropTypes.string),
   ]).isRequired,
   clearPoll: PropTypes.func.isRequired,
   postPoll: PropTypes.func.isRequired,

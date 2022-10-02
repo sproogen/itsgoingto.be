@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 import {
-  compose, nth, slice, concat, __, when, ifElse, add, equals, subtract, length
+  compose, nth, slice, concat, __, when, ifElse, add, equals, subtract, length,
 } from 'ramda'
 import autosize from 'autosize'
 import EventBus from 'services/event-bus'
@@ -17,7 +17,7 @@ const PLACEHOLDER_TEXT = [
   'What should we do this weekend?',
   'When should we go to Paris?',
   'Who ya gonna call?',
-  'When will you start a poll?'
+  'When will you start a poll?',
 ]
 
 const Question = ({ question, onQuestionChange }) => {
@@ -60,7 +60,7 @@ const Question = ({ question, onQuestionChange }) => {
     setCharacter(characterRef.current)
     characterUpdater.current = setTimeout(
       type,
-      humanize()
+      humanize(),
     )
     if (characterRef.current <= PLACEHOLDER_TEXT[placeholder].length) {
       clearInterval(cursorUpdater.current)
@@ -68,7 +68,7 @@ const Question = ({ question, onQuestionChange }) => {
       setCursor(cursorRef.current)
       cursorUpdater.current = setInterval(
         toggleCursor,
-        500
+        500,
       )
     }
   }
@@ -80,18 +80,18 @@ const Question = ({ question, onQuestionChange }) => {
       ifElse(
         equals(compose(subtract(__, 1), length)(PLACEHOLDER_TEXT)),
         () => 0,
-        add(1)
-      )(placeholder)
+        add(1),
+      )(placeholder),
     )
   }
 
   const placeholderSelector = () => compose(
     when(
       () => cursor,
-      concat(__, '|')
+      concat(__, '|'),
     ),
     slice(0, character),
-    nth(placeholder)
+    nth(placeholder),
   )(PLACEHOLDER_TEXT)
 
   useEffect(() => {
@@ -103,15 +103,15 @@ const Question = ({ question, onQuestionChange }) => {
     autosize(textarea.current)
     cursorUpdater.current = setInterval(
       toggleCursor,
-      500
+      500,
     )
     characterUpdater.current = setTimeout(
       type,
-      humanize()
+      humanize(),
     )
     const placeholderUpdater = setInterval(
       updatePlaceholder,
-      5000
+      5000,
     )
 
     return () => {
@@ -122,7 +122,6 @@ const Question = ({ question, onQuestionChange }) => {
       clearInterval(placeholderUpdater)
     }
   }, [])
-
 
   return (
     <div className="input input-question">
@@ -147,7 +146,7 @@ const Question = ({ question, onQuestionChange }) => {
 
 Question.propTypes = {
   question: PropTypes.string.isRequired,
-  onQuestionChange: PropTypes.func.isRequired
+  onQuestionChange: PropTypes.func.isRequired,
 }
 
 export default Question

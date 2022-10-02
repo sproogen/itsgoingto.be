@@ -28,15 +28,15 @@ const createStore = (initialState = {}) => {
     initialState,
     composeEnhancers(
       applyMiddleware(...middleware),
-      ...enhancers
-    )
+      ...enhancers,
+    ),
   )
 
   store.asyncReducers = {}
 
   if (module.hot) {
     module.hot.accept('./reducers', () => {
-      const reducers = require('./reducers').default // eslint-disable-line global-require
+      const reducers = require('./reducers').default // eslint-disable-line global-require, @typescript-eslint/no-var-requires
 
       store.replaceReducer(reducers(store.asyncReducers))
     })

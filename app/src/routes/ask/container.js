@@ -13,7 +13,7 @@ const mapStateToProps = (state) => ({
   hasQuestion: hasQuestionSelector(state),
   canSubmitPoll: canSubmitPollSelector(state),
   poll: pollSelector(state),
-  answers: answersSelector(state)
+  answers: answersSelector(state),
 })
 
 const mapDispatchToProps = (dispatch) => ({

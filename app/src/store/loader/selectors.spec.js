@@ -1,6 +1,6 @@
 import {
   isLoadingSelector,
-  requiresPassphraseSelector
+  requiresPassphraseSelector,
 } from 'store/loader/selectors'
 
 describe('(Store) Loader', () => {

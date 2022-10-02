@@ -1,8 +1,7 @@
 import { Request, Response } from 'express'
-import {
-  includes, toUpper, map, omit,
-} from 'ramda'
+import { includes, toUpper, map } from 'ramda'
 import { Poll } from '../../db'
+import generatePollResponse from '../utils/generate-poll-response'
 
 interface Query {
   pageSize?: string
@@ -46,13 +45,7 @@ const getPolls = async (req: Request<never, never, never, Query>, res: Response)
     total: polls.count,
     entities: await Promise.all(
       map(
-        async (poll) => ({
-          ...omit(
-            ['passphrase', 'isProtected'],
-            poll.get({ plain: true }),
-          ),
-          responsesCount: await poll.countResponses(),
-        }),
+        async (poll) => generatePollResponse(poll, false, false),
         polls.rows,
       ),
     ),

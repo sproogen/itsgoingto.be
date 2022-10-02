@@ -5,7 +5,7 @@ import {
   ANSWERS_UPDATE,
   ANSWER_REMOVE,
   ANSWERS_REMOVE_AFTER,
-  ANSWERS_CLEAR
+  ANSWERS_CLEAR,
 } from 'store/answers/constants'
 import {
   addAnswer,
@@ -13,7 +13,7 @@ import {
   updateAnswers,
   removeAnswer,
   removeAfterAnswer,
-  clearAnswers
+  clearAnswers,
 } from 'store/answers/actions'
 
 describe('(Store) Answers', () => {
@@ -35,12 +35,12 @@ describe('(Store) Answers', () => {
 
       beforeEach(() => {
         globalState = {
-          answers: ['']
+          answers: [''],
         }
         dispatch = jest.fn((action) => {
           globalState = {
             ...globalState,
-            answers: answersReducer(globalState.answers, action)
+            answers: answersReducer(globalState.answers, action),
           }
         })
         getState = jest.fn(() => globalState)
@@ -72,7 +72,7 @@ describe('(Store) Answers', () => {
             expect(dispatch).toHaveBeenCalledWith({
               type : ANSWER_UPDATE,
               index,
-              text: 'Answer Text'
+              text: 'Answer Text',
             })
           })
       })
@@ -91,7 +91,7 @@ describe('(Store) Answers', () => {
         const index = 0
 
         globalState = {
-          answers: ['Answer 1', 'Answer 2']
+          answers: ['Answer 1', 'Answer 2'],
         }
         return updateAnswer(index, '')(dispatch, getState)
           .then(() => {

@@ -5,10 +5,10 @@ import { LOADING_UPDATE, PASSPHRASE_UPDATE } from './constants'
 // ------------------------------------
 export const setLoading = (loading = false) => ({
   type: LOADING_UPDATE,
-  loading
+  loading,
 })
 
 export const setRequiresPassphrase = (requiresPassphrase = false) => ({
   type: PASSPHRASE_UPDATE,
-  requiresPassphrase
+  requiresPassphrase,
 })

@@ -1,6 +1,6 @@
 import React from 'react'
 import {
-  fireEvent, render, screen, act
+  fireEvent, render, screen, act,
 } from '@testing-library/react'
 import EventBus from 'services/event-bus'
 import { APIError } from 'services/api'

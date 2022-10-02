@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import { Server } from 'socket.io'
 import {
-  isEmpty, defaultTo, isNil, pipe, append, reduceWhile, pathEq, find, map, prop, omit,
+  isEmpty, defaultTo, isNil, pipe, append, reduceWhile, pathEq, find, map, prop,
 } from 'ramda'
 import { Op } from 'sequelize'
 import {
@@ -10,6 +10,7 @@ import {
   Answer,
 } from '../../db'
 import { AnswerInstance } from '../../db/models/answer'
+import generatePollResponse from '../utils/generate-poll-response'
 
 type Params = {
   identifier: string
@@ -158,31 +159,13 @@ const submitResponses = (io: Server) => (
       ),
     )
 
-    const userResponses = map(prop('id'), answers)
-
     const responseAsJson = JSON.parse(JSON.stringify(poll))
     io.of('/responses').to(`${req.params.identifier}/${customUserID}`).emit('own-responses-updated', responseAsJson)
     io.of('/responses').to(req.params.identifier).emit('responses-updated', responseAsJson)
 
     return res.json({
-      ...omit(
-        ['multipleChoice', 'passphrase'],
-        poll.get({ plain: true }),
-      ),
-      responsesCount: await poll.countResponses(),
-      answers: await Promise.all(
-        map(
-          async (answer) => ({
-            ...omit(
-              ['poll_id'],
-              answer.get({ plain: true }),
-            ),
-            responsesCount: await answer.countResponses(),
-          }),
-          poll.answers,
-        ),
-      ),
-      userResponses,
+      ...await generatePollResponse(poll, false, true, ['multipleChoice']),
+      userResponses: map(prop('id'), answers),
     })
   }
 )

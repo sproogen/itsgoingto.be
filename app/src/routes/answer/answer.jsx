@@ -15,7 +15,7 @@ import './answer.scss'
 
 const Answer = ({
   hasPoll, poll, identifier, totalResponses, answers, userResponded, hasUser, cookies, requiresPassphrase,
-  setLoading, fetchPoll, clearAnswers, setRequiresPassphrase, postResponse, updateResponses, updateUserResponses
+  setLoading, fetchPoll, clearAnswers, setRequiresPassphrase, postResponse, updateResponses, updateUserResponses,
 }) => {
   const history = useHistory()
 
@@ -149,7 +149,7 @@ Answer.propTypes = {
   poll: PropTypes.shape({
     question: PropTypes.string,
     ended: PropTypes.bool,
-    endDate: PropTypes.object,
+    endDate: PropTypes.instaceOf(Date),
   }).isRequired,
   hasPoll: PropTypes.bool.isRequired,
   requiresPassphrase: PropTypes.bool.isRequired,
@@ -157,8 +157,8 @@ Answer.propTypes = {
     PropTypes.shape({
       id: PropTypes.number,
       answer: PropTypes.string,
-      responsesCount: PropTypes.number
-    })
+      responsesCount: PropTypes.number,
+    }),
   ).isRequired,
   totalResponses: PropTypes.number,
   userResponded: PropTypes.bool.isRequired,
@@ -174,7 +174,7 @@ Answer.propTypes = {
 }
 
 Answer.defaultProps = {
-  totalResponses: 0
+  totalResponses: 0,
 }
 
 export default Answer
